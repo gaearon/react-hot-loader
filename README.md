@@ -20,7 +20,7 @@ $ gem install jekyll
 
 **Windows users:** Windows users have a bit more work to do, but luckily [@juthilo](https://github.com/juthilo) has your back with his [Run Jekyll on Windows](https://github.com/juthilo/run-jekyll-on-windows) guide.
 
-You may also need to install Pygments, the Python syntax highlighter for code snippets that places nicely with Jekyll. Read more about this [in the Jekyll docs](http://jekyllrb.com/docs/templates/#code_snippet_highlighting).
+You may also need to install Pygments, the Python syntax highlighter for code snippets that plays nicely with Jekyll. Read more about this [in the Jekyll docs](http://jekyllrb.com/docs/templates/#code_snippet_highlighting).
 
 ### 2a. Quick start
 
@@ -43,12 +43,12 @@ Open <http://localhost:4000> in your browser, and voilà. You're done.
 
 ## Options
 
-Poole includes a some customizable options, typically applied via classes on the `<body>` element.
+Poole includes some customizable options, typically applied via classes on the `<body>` element.
 
 
 ### Rems, `font-size`, and scaling
 
-Poole is built with almost entirely with `rem`s (instead of pixels like Hyde 1.1.x). `rem`s are like `em`s, but instead of building on the immediate parent's `font-size`, they build on the root element, `<html>`.
+Poole is built almost entirely with `rem`s (instead of pixels like Hyde 1.1.x). `rem`s are like `em`s, but instead of building on the immediate parent's `font-size`, they build on the root element, `<html>`.
 
 By default, we use the following:
 
