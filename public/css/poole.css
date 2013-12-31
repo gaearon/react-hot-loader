@@ -9,13 +9,8 @@
  *    \ \_\
  *     \/_/
  *
- * In the novel, *The Strange Case of Dr. Jeykll and Mr. Hyde*, Mr. Poole is Dr.
- * Jekyll's virtuous and loyal butler. Similarly, Poole is an upstanding and
- * effective foundation for Jekyll themes.
- *
- * Designed, built, and released under MIT license by @mdo.
- *
- * Learn more at https://github.com/poole/poole.
+ * Designed, built, and released under MIT license by @mdo. Learn more at
+ * https://github.com/poole/poole.
  */
 
 
@@ -53,7 +48,7 @@ body {
 }
 
 html {
-  font-family: "PT Sans", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
 }
