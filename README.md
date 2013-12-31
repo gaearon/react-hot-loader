@@ -4,6 +4,8 @@ In the novel, *The Strange Case of Dr. Jeykll and Mr. Hyde*, Mr. Poole is Dr. Je
 
 ![Poole](https://f.cloud.github.com/assets/98681/1825252/f61f1fec-71af-11e3-8e90-fdd031b64308.png)
 
+See Poole in action with [the demo site](http://demo.getpoole.com).
+
 There are currently two official themes built on Poole:
 
 * [Hyde](http://hyde.getpoole.com)
