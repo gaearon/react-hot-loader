@@ -71,8 +71,8 @@ To easily scale your site's typography and components, simply customize the base
 ## Author
 
 **Mark Otto**
-<https://github.com/mdo>
-<https://twitter.com/mdo>
+- <https://github.com/mdo>
+- <https://twitter.com/mdo>
 
 
 ## License
