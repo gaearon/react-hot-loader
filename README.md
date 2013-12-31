@@ -2,12 +2,14 @@
 
 In the novel, *The Strange Case of Dr. Jeykll and Mr. Hyde*, Mr. Poole is Dr. Jekyll's virtuous and loyal butler. Similarly, Poole is the Butler for Jekyll themes by [@mdo](https://twitter.com/mdo), providing a clear and concise foundational setup for any Jekyll site.
 
-There are currently two themes built on Poole:
+![Poole](https://f.cloud.github.com/assets/98681/1825252/f61f1fec-71af-11e3-8e90-fdd031b64308.png)
+
+There are currently two official themes built on Poole:
 
 * [Hyde](http://hyde.getpoole.com)
 * [Lanyon](http://lanyon.getpoole.com)
 
-![Poole](https://f.cloud.github.com/assets/98681/1825252/f61f1fec-71af-11e3-8e90-fdd031b64308.png)
+Individual theme feedback and bug reports should be submitted to the theme's individual repository.
 
 
 ## Usage
