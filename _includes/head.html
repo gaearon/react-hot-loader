@@ -7,17 +7,15 @@
 
   <title>
     {% if page.title %}
-      {{ page.title }}
+      {{ page.title }} &middot; {{ site.title }}
     {% else %}
-      {{ site.title }}
+      {{ site.title }} &middot; {{ site.tagline }}
     {% endif %}
-    &middot; {{ site.tagline }}
   </title>
 
   <!-- CSS -->
   <link rel="stylesheet" href="/public/css/poole.css">
   <link rel="stylesheet" href="/public/css/syntax.css">
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700">
 
   <!-- Icons -->
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
