@@ -7,6 +7,8 @@ There are currently two themes built on Poole:
 * [Hyde](http://hyde.getpoole.com)
 * [Lanyon](http://lanyon.getpoole.com)
 
+![Poole](https://f.cloud.github.com/assets/98681/1825252/f61f1fec-71af-11e3-8e90-fdd031b64308.png)
+
 
 ## Usage
 
@@ -48,7 +50,7 @@ Poole includes some customizable options, typically applied via classes on the `
 
 ### Rems, `font-size`, and scaling
 
-Poole is built almost entirely with `rem`s (instead of pixels like Hyde 1.1.x). `rem`s are like `em`s, but instead of building on the immediate parent's `font-size`, they build on the root element, `<html>`.
+Poole is built almost entirely with `rem`s (instead of pixels). `rem`s are like `em`s, but instead of building on the immediate parent's `font-size`, they build on the root element, `<html>`.
 
 By default, we use the following:
 
@@ -57,7 +59,7 @@ html {
   font-size: 16px;
   line-height: 1.5;
 }
-@media (min-width: 48rem) { /* ~768px */
+@media (min-width: 38rem) {
   html {
     font-size: 20px;
   }

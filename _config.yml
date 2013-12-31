@@ -7,7 +7,7 @@ permalink:        pretty
 
 # Setup
 title:            Poole
-tagline:          'The Jekyll butler'
+tagline:          'The Jekyll Butler'
 description:      'Base theme for Jekyll themes by @mdo.'
 url:              http://getpoole.com
 
@@ -21,4 +21,4 @@ paginate:         5
 version:          1.0.0
 
 github:
-  repo:           https://github.com/poole
+  repo:           https://github.com/poole/poole
