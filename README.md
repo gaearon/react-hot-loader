@@ -1,6 +1,10 @@
 # Poole
 
-In the novel, *The Strange Case of Dr. Jeykll and Mr. Hyde*, Mr. Poole is Dr. Jekyll's virtuous and loyal butler. Similarly, Poole is the Butler for Jekyll themes by [@mdo](https://twitter.com/mdo), providing a clear and concise foundational setup for any Jekyll site.
+*The Strange Case of Dr. Jeykll and Mr. Hyde* tells the story of a lawyer investigating the connection of two persons, Dr. Henry Jekyll and Mr. Edward Hyde. Chief among the novel's supporting cast is a man by the name of Mr. Poole, Dr. Jekyll's loyal butler.
+
+-----
+
+Poole is the butler for [Jekyll](http://jekyllrb.com), the static site generator. It's designed and developed by [@mdo](https://twitter.com/mdo) to provide a clear and concise foundational setup for any Jekyll site. It does so by furnishing a full vanilla Jekyll install with example templates, pages, posts, and styles.
 
 ![Poole](https://f.cloud.github.com/assets/98681/1825252/f61f1fec-71af-11e3-8e90-fdd031b64308.png)
 
