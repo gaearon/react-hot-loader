@@ -18,6 +18,16 @@ There are currently two official themes built on Poole:
 Individual theme feedback and bug reports should be submitted to the theme's individual repository.
 
 
+## Contents
+
+- [Usage](#usage)
+- [Options](#options)
+  - [Rems, `font-size`, and scaling](#rems-font-size-and-scaling)
+- [Development](#development)
+- [Author](#author)
+- [License](#license)
+
+
 ## Usage
 
 ### 1. Install Jekyll
@@ -76,6 +86,14 @@ html {
 ```
 
 To easily scale your site's typography and components, simply customize the base `font-size`s here.
+
+
+## Development
+
+Poole has two branches, but only one is used for active development.
+
+- `master` for development.  **All pull requests should be to submitted against `master`.**
+- `gh-pages` for our hosted site, which includes our analytics tracking code. **Please avoid using this branch.**
 
 
 ## Author
