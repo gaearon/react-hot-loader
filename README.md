@@ -6,7 +6,7 @@
 
 Poole is the butler for [Jekyll](http://jekyllrb.com), the static site generator. It's designed and developed by [@mdo](https://twitter.com/mdo) to provide a clear and concise foundational setup for any Jekyll site. It does so by furnishing a full vanilla Jekyll install with example templates, pages, posts, and styles.
 
-![Poole](https://f.cloud.github.com/assets/98681/1825252/f61f1fec-71af-11e3-8e90-fdd031b64308.png)
+![Poole](https://f.cloud.github.com/assets/98681/1834359/71ae4048-73db-11e3-9a3c-df38eb170537.png)
 
 See Poole in action with [the demo site](http://demo.getpoole.com).
 
