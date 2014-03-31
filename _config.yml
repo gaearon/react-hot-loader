@@ -7,13 +7,13 @@ permalink:        pretty
 
 # Setup
 title:            Poole
-tagline:          'The Jekyll Butler'
-description:      'Base theme for Jekyll themes by @mdo.'
+tagline:          The Jekyll Butler
+description:      Base theme for Jekyll themes by @mdo.
 url:              http://getpoole.com
 
 author:
-  name:           'Mark Otto'
-  url:            https://twitter.com/mdo
+  name:           Mark Otto
+   url:           https://twitter.com/mdo
 
 paginate:         1
 
