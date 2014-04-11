@@ -77,7 +77,7 @@ html {
   font-size: 16px;
   line-height: 1.5;
 }
-@media (min-width: 38rem) {
+@media (min-width: 38em) {
   html {
     font-size: 20px;
   }
