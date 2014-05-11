@@ -8,17 +8,14 @@ permalink:        pretty
 # Setup
 title:            Poole
 tagline:          The Jekyll Butler
-description:      Base theme for Jekyll themes by @mdo.
 url:              http://getpoole.com
-
+paginate:         1
 author:
   name:           Mark Otto
   url:            https://twitter.com/mdo
-
-paginate:         1
+  email:          markdotto@gmail.com
 
 # Custom vars
 version:          1.0.0
-
 github:
   repo:           https://github.com/poole/poole
