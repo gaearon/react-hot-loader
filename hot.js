@@ -19,16 +19,20 @@ module.exports = function (React) {
     }
   };
 
+  var OriginalComponent;
+
   return {
     createClass: function (spec) {
       spec.mixins = spec.mixins || [];
       spec.mixins.push(Mixin);
-      return React.createClass(spec);
+      OriginalComponent = React.createClass(spec);
+      return OriginalComponent;
     },
 
     updateClass: function (spec) {
-      var Component = React.createClass(spec);
-      var newProto = Component.componentConstructor.prototype;
+      var FreshComponent = React.createClass(spec),
+          oldProto = OriginalComponent.componentConstructor.prototype,
+          newProto = FreshComponent.componentConstructor.prototype;
 
       mounted.forEach(function (instance) {
         setPrototypeOf(instance, newProto);
@@ -37,7 +41,17 @@ module.exports = function (React) {
         instance.forceUpdate();
       });
 
-      return Component;
+      var key;
+      for (key in oldProto) {
+        if (!newProto.hasOwnProperty(key)) {
+          delete oldProto[key];
+        }
+      }
+      for (key in newProto) {
+        oldProto[key] = newProto[key];
+      }
+
+      return OriginalComponent;
     }
   };
 };
