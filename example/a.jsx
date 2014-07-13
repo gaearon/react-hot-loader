@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react'),
-    B = require('react-hot?B!./b');
+    B = require('react-hot!./b');
 
 var A = React.createClass({
   getInitialState: function () {
@@ -13,7 +13,7 @@ var A = React.createClass({
   render: function() {
     return (
       <div>
-        <p>Open this editor, edit and save <code>example/a.jsx</code>.</p>
+        <p>Open an editor, edit and save <code>example/a.jsx</code>.</p>
         <p><b>The number should not change.</b></p>
 
         {this.renderStuff()}

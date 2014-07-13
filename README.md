@@ -17,10 +17,6 @@ open http://localhost:8080/webpack-dev-server/bundle
 Then edit `example/a.jsx` and `example/b.jsx`.  
 Your changes should be displayed live, without unmounting components or destroying their state.
 
-### Limitations
-
-* You have to include component's displayName in `require` call
-
 ### Implementation Notes
 
 Currently, it keeps a list of mounted instances and updates their prototypes when an update comes in.  
@@ -35,8 +31,7 @@ A better approach may be to make monkeypatch `createClass` to return a proxy obj
 [Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
 
 ```javascript
-// Currently you have to pass displayName to require call:
-var Button = require('react-hot?Button!./button');
+var Button = require('react-hot!./button');
 ```
 
 When a component is imported that way, changes to its code should be applied **without unmounting it or losing its state**.
