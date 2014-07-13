@@ -1,27 +1,10 @@
 'use strict';
 
-var _ = require('underscore');
 var setPrototypeOf = Object.setPrototypeOf || function (obj, proto) {
   /* jshint proto:true */
   obj.__proto__ = proto;
   return obj;
 };
-
-var coalesce = (function () {
-  var queue = [],
-      processQueue;
-
-  processQueue = _.debounce(function () {
-    while (queue.length) {
-      queue.pop().call();
-    }
-  }, 0);
-
-  return function(f) {
-    queue.push(f);
-    processQueue();
-  };
-})();
 
 module.exports = function (React) {
   var mounted = [];
@@ -42,15 +25,19 @@ module.exports = function (React) {
       spec.mixins.push(Mixin);
       return React.createClass(spec);
     },
+
     updateClass: function (spec) {
-      var freshProto = React.createClass(spec).componentConstructor.prototype;
+      var Component = React.createClass(spec);
+      var newProto = Component.componentConstructor.prototype;
 
       mounted.forEach(function (instance) {
-        setPrototypeOf(instance, freshProto);
-        instance.constructor.prototype = freshProto;
+        setPrototypeOf(instance, newProto);
+        instance.constructor.prototype = newProto;
         instance._bindAutoBindMethods();
-        coalesce(instance.forceUpdate);
+        instance.forceUpdate();
       });
+
+      return Component;
     }
   };
 };

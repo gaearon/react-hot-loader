@@ -9,7 +9,7 @@ module.exports.pitch = function (remainingRequest) {
     'module.exports = require(' + JSON.stringify(patchedModuleRequest) + ')(hot.createClass);',
     'if (module.hot) {',
     '  module.hot.accept(' + JSON.stringify(patchedModuleRequest) + ', function () {',
-    '    require(' + JSON.stringify(patchedModuleRequest) + ')(hot.updateClass);',
+    '    module.exports = require(' + JSON.stringify(patchedModuleRequest) + ')(hot.updateClass);',
     '  });',
     '}',
   ].join('\n');
