@@ -39,6 +39,18 @@ var Button = require('react-hot!./button');
 
 When a component is imported that way, changes to its code should be applied **without unmounting it or losing its state**.
 
+You can also specify loader in config before `jsx-loader`:
+
+```javascript
+    module: {
+        loaders: [
+            { test: /\.jsx$/, loaders: ['react-hot', 'jsx-loader'] }
+        ]
+    }
+```
+
+This will enable hot reload for all JSX files.
+
 # License
 
 MIT (http://www.opensource.org/licenses/mit-license.php)

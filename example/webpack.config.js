@@ -15,7 +15,7 @@ module.exports = {
 	},
 	module: {
 		loaders: [
-			{ test: /\.jsx$/, loader: 'jsx-loader' }
+			{ test: /\.jsx$/, loaders: ['react-hot', 'jsx-loader'] }
 		]
 	}
 };

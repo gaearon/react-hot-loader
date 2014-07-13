@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react'),
-    B = require('react-hot!./b');
+    B = require('./b');
 
 var A = React.createClass({
   getInitialState: function () {

@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
 var React = require('react'),
-    A = require('react-hot!./a');
+    A = require('./a');
 
 React.renderComponent(<A />, document.body);

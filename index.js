@@ -12,11 +12,11 @@ module.exports.pitch = function (remainingRequest) {
     '  return require("react").createClass(spec);',
     '};',
     'if (module.hot) {',
-    '  module.hot.accept(' + JSON.stringify('replaceCreateClass!' + moduleRequest) + ', function() {',
-    '    module.exports = require(' + JSON.stringify('replaceCreateClass!' + moduleRequest) + ')(createHotClass);',
+    '  module.hot.accept(' + JSON.stringify('!!replaceCreateClass!' + moduleRequest) + ', function() {',
+    '    module.exports = require(' + JSON.stringify('!!replaceCreateClass!' + moduleRequest) + ')(createHotClass);',
     '    HotUpdateMixin.acceptUpdate(module.exports);',
     '  });',
     '}',
-    'module.exports = require(' + JSON.stringify('replaceCreateClass!' + moduleRequest) + ')(createHotClass);'
+    'module.exports = require(' + JSON.stringify('!!replaceCreateClass!' + moduleRequest) + ')(createHotClass);'
   ].join('\n');
 };
