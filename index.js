@@ -1,8 +1,7 @@
 module.exports = function () {};
 module.exports.pitch = function (remainingRequest) {
   this.cacheable && this.cacheable();
-  var displayName = this.query.substring(1);
-  var moduleRequest = "!!" + remainingRequest;
+  var patchedModuleRequest = '!!' + require.resolve('./replaceCreateClass') + '!' + remainingRequest;
 
   return [
     'var HotUpdateMixin = require(' + JSON.stringify(require.resolve('./makeHotUpdateMixin')) + ')();',
@@ -12,11 +11,11 @@ module.exports.pitch = function (remainingRequest) {
     '  return require("react").createClass(spec);',
     '};',
     'if (module.hot) {',
-    '  module.hot.accept(' + JSON.stringify('!!replaceCreateClass!' + moduleRequest) + ', function() {',
-    '    module.exports = require(' + JSON.stringify('!!replaceCreateClass!' + moduleRequest) + ')(createHotClass);',
+    '  module.hot.accept(' + JSON.stringify(patchedModuleRequest) + ', function() {',
+    '    module.exports = require(' + JSON.stringify(patchedModuleRequest) + ')(createHotClass);',
     '    HotUpdateMixin.acceptUpdate(module.exports);',
     '  });',
     '}',
-    'module.exports = require(' + JSON.stringify('!!replaceCreateClass!' + moduleRequest) + ')(createHotClass);'
+    'module.exports = require(' + JSON.stringify(patchedModuleRequest) + ')(createHotClass);'
   ].join('\n');
 };
