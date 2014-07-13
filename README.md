@@ -26,6 +26,9 @@ Your changes should be displayed live, without unmounting components or destroyi
 Currently, it keeps a list of mounted instances and updates their prototypes when an update comes in.  
 A better approach may be to make monkeypatch `createClass` to return a proxy object [as suggested by Pete Hunt](https://github.com/webpack/webpack/issues/341#issuecomment-48372300):
 
+>The problem is that references to component descriptors could be stored in any number of places. What we could do is wrap all components in "proxy" components which look up the "real" component in some mapping
+
+
 ## Installation
 
 `npm install react-hot-loader`
