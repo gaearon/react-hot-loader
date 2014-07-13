@@ -1,4 +1,5 @@
 module.exports = function (source) {
+  this.cacheable && this.cacheable();
   return [
     'module.exports = function makeWithHotClass(createHotClass) {',
       source.replace('React.createClass', 'createHotClass'),
