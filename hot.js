@@ -1,11 +1,5 @@
 'use strict';
 
-var setPrototypeOf = Object.setPrototypeOf || function (obj, proto) {
-  /* jshint proto:true */
-  obj.__proto__ = proto;
-  return obj;
-};
-
 module.exports = function (React) {
   var mounted = [];
   var Mixin = {
@@ -19,63 +13,75 @@ module.exports = function (React) {
   };
 
   var assimilatePrototype = (function () {
-    var storedPrototype;
+    var storedPrototype,
+        knownPrototypes = [];
 
-    function assimilateProperty(freshPrototype, key) {
-      function get() {
-        if (typeof storedPrototype[key] !== 'function' ||
-          key === 'type' ||
-          key === 'constructor') {
-
-          return storedPrototype[key];
+    function wrapFunction(key) {
+      return function () {
+        if (storedPrototype[key]) {
+          return storedPrototype[key].apply(this, arguments);
         }
+      };
+    }
 
-        return function () {
-          var value = storedPrototype[key];
-          if (typeof value === 'function') {
-            return value.apply(this, arguments);
-          } else {
-            console.warn('A call to ' + key + ' was made after it was deleted. Acting as no-op.');
-          }
-        };
+    function patchProperty(proto, key) {
+      proto[key] = storedPrototype[key];
+
+      if (typeof proto[key] !== 'function' ||
+        key === 'type' ||
+        key === 'constructor') {
+        return;
       }
 
-      function set(value) {
-        storedPrototype[key] = value;
-      }
+      proto[key] = wrapFunction(key);
 
-      storedPrototype[key] = freshPrototype[key];
-      Object.defineProperty(freshPrototype, key, {
-        configurable: false,
-        enumerable: true,
-        get: get,
-        set: set
+      if (proto.__reactAutoBindMap[key]) {
+        proto.__reactAutoBindMap[key] = proto[key];
+      }
+    }
+
+    function updateStoredPrototype(freshPrototype) {
+      storedPrototype = {};
+
+      for (var key in freshPrototype) {
+        if (freshPrototype.hasOwnProperty(key)) {
+          storedPrototype[key] = freshPrototype[key];
+        }
+      }
+    }
+
+    function reconcileWithStoredPrototypes(freshPrototype) {
+      knownPrototypes.push(freshPrototype);
+      knownPrototypes.forEach(function (proto) {
+        for (var key in storedPrototype) {
+          patchProperty(proto, key);
+        }
       });
     }
 
-    return function assimilatePrototype(freshPrototype) {
-      storedPrototype = {};
-      for (var key in freshPrototype) {
-        assimilateProperty(freshPrototype, key);
-      }
+    return function (freshPrototype) {
+      updateStoredPrototype(freshPrototype);
+      reconcileWithStoredPrototypes(freshPrototype);
     };
   })();
+
+  function injectMixinAndAssimilatePrototype(spec) {
+    spec.mixins = spec.mixins || [];
+    spec.mixins.push(Mixin);
+    var Component = React.createClass(spec);
+    assimilatePrototype(Component.type.prototype);
+    return Component;
+  }
 
   var Component;
   return {
     createClass: function (spec) {
-      spec.mixins = spec.mixins || [];
-      spec.mixins.push(Mixin);
-
-      Component = React.createClass(spec);
-      assimilatePrototype(Component.componentConstructor.prototype);
-
+      Component = injectMixinAndAssimilatePrototype(spec);
       return Component;
     },
 
     updateClass: function (spec) {
-      var UpdatedComponent = React.createClass(spec);
-      assimilatePrototype(UpdatedComponent.componentConstructor.prototype);
+      injectMixinAndAssimilatePrototype(spec);
 
       mounted.forEach(function (instance) {
         instance._bindAutoBindMethods();
