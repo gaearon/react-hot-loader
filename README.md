@@ -1,7 +1,7 @@
 # react-hot-loader
 
 This is a **highly experimental** proof of concept of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).  
-It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/docs/hot-module-replacement.html) by monkeypatching `React.createClass`.  
+It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/docs/hot-module-replacement.html) by wrapping `React.createClass` calls in a custom function that updates components' prototypes when the changes come in.  
 
 Inspired by [react-proxy-loader](https://github.com/webpack/react-proxy-loader).
 
@@ -50,6 +50,7 @@ Your changes should be displayed live, without unmounting components or destroyi
 ## Implementation Notes
 
 Currently, it keeps a list of mounted instances and updates their prototypes when an update comes in.  
+
 A better approach may be to make monkeypatch `createClass` to return a proxy object [as suggested by Pete Hunt](https://github.com/webpack/webpack/issues/341#issuecomment-48372300):
 
 >The problem is that references to component descriptors could be stored in any number of places. What we could do is wrap all components in "proxy" components which look up the "real" component in some mapping
