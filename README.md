@@ -5,6 +5,10 @@ It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/
 
 Inspired by [react-proxy-loader](https://github.com/webpack/react-proxy-loader).
 
+![](http://f.cl.ly/items/0d0P3u2T0f2O163K3m1B/2014-07-14%2014_09_02.gif)
+
+![](http://f.cl.ly/items/3T3u3N1d2U30380Z2k2D/2014-07-14%2014_05_49.gif)
+
 ## Installation
 
 `npm install react-hot-loader`
