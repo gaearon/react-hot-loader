@@ -73,6 +73,20 @@ module.exports = function (React) {
     return Component;
   }
 
+  function forceUpdateTree(instance) {
+    if (instance.forceUpdate) {
+      instance.forceUpdate();
+    }
+
+    if (instance._renderedComponent) {
+      forceUpdateTree(instance._renderedComponent);
+    }
+
+    for (var key in instance._renderedChildren) {
+      forceUpdateTree(instance._renderedChildren[key]);
+    }
+  }
+
   var Component;
   return {
     createClass: function (spec) {
@@ -85,7 +99,7 @@ module.exports = function (React) {
 
       mounted.forEach(function (instance) {
         instance._bindAutoBindMethods();
-        instance.forceUpdate();
+        forceUpdateTree(instance);
       });
 
       return Component;
