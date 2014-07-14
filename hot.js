@@ -8,7 +8,6 @@ var setPrototypeOf = Object.setPrototypeOf || function (obj, proto) {
 
 module.exports = function (React) {
   var mounted = [];
-
   var Mixin = {
     componentDidMount: function () {
       mounted.push(this);
@@ -19,39 +18,71 @@ module.exports = function (React) {
     }
   };
 
-  var OriginalComponent;
+  var assimilatePrototype = (function () {
+    var storedPrototype;
 
+    function assimilateProperty(freshPrototype, key) {
+      function get() {
+        if (typeof storedPrototype[key] !== 'function' ||
+          key === 'type' ||
+          key === 'constructor') {
+
+          return storedPrototype[key];
+        }
+
+        return function () {
+          var value = storedPrototype[key];
+          if (typeof value === 'function') {
+            return value.apply(this, arguments);
+          } else {
+            console.warn('A call to ' + key + ' was made after it was deleted. Acting as no-op.');
+          }
+        };
+      }
+
+      function set(value) {
+        storedPrototype[key] = value;
+      }
+
+      storedPrototype[key] = freshPrototype[key];
+      Object.defineProperty(freshPrototype, key, {
+        configurable: false,
+        enumerable: true,
+        get: get,
+        set: set
+      });
+    }
+
+    return function assimilatePrototype(freshPrototype) {
+      storedPrototype = {};
+      for (var key in freshPrototype) {
+        assimilateProperty(freshPrototype, key);
+      }
+    };
+  })();
+
+  var Component;
   return {
     createClass: function (spec) {
       spec.mixins = spec.mixins || [];
       spec.mixins.push(Mixin);
-      OriginalComponent = React.createClass(spec);
-      return OriginalComponent;
+
+      Component = React.createClass(spec);
+      assimilatePrototype(Component.componentConstructor.prototype);
+
+      return Component;
     },
 
     updateClass: function (spec) {
-      var FreshComponent = React.createClass(spec),
-          oldProto = OriginalComponent.componentConstructor.prototype,
-          newProto = FreshComponent.componentConstructor.prototype;
+      var UpdatedComponent = React.createClass(spec);
+      assimilatePrototype(UpdatedComponent.componentConstructor.prototype);
 
       mounted.forEach(function (instance) {
-        setPrototypeOf(instance, newProto);
-        instance.constructor.prototype = newProto;
         instance._bindAutoBindMethods();
         instance.forceUpdate();
       });
 
-      var key;
-      for (key in oldProto) {
-        if (!newProto.hasOwnProperty(key)) {
-          delete oldProto[key];
-        }
-      }
-      for (key in newProto) {
-        oldProto[key] = newProto[key];
-      }
-
-      return OriginalComponent;
+      return Component;
     }
   };
 };

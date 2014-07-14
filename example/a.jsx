@@ -10,11 +10,26 @@ var A = React.createClass({
     };
   },
 
+  componentWillMount: function () {
+    window.setInterval(this.incrementNumber, 1000);
+  },
+
+  componentWillUnmount: function () {
+    window.clearInterval(this.incrementNumber);
+    window.alert('Unmounting parent');
+  },
+
+  incrementNumber: function () {
+    this.setState({
+      number: this.state.number + 1
+    });
+  },
+
   render: function() {
     return (
       <div>
         <p>Open an editor, edit and save <code>example/a.jsx</code>.</p>
-        <p><b>The number should not change.</b></p>
+        <p><b>The number should keep incrementing one by one.</b></p>
 
         {this.renderStuff()}
 
@@ -31,16 +46,6 @@ var A = React.createClass({
         <button onClick={this.incrementNumber}>Increment by one</button>
       </div>
     );
-  },
-
-  incrementNumber: function () {
-    this.setState({
-      number: this.state.number + 1
-    });
-  },
-
-  componentWillUnmount: function () {
-    window.alert('Unmounting parent');
   }
 });
 
