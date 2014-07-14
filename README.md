@@ -36,6 +36,10 @@ You can also specify loader in config before `jsx-loader`:
 
 This will enable hot reload for all JSX files.
 
+### Options
+
+* `notify`: Loader can use desktop Notification API to show notifications when a module has been reloaded, or if it loads with an error. By default, this feature is disabled because it doesn't work well with `webpack-dev-server` iframe mode used in the example. If you don't use `webpack-dev-server`'s iframe mode, you might want to enable notifications. Valid values are `none` (default), `errors` and `all`. If `notify` is `errors` or `all`, module load errors won't cause page refresh.
+
 ## Running Example
 
 ```
