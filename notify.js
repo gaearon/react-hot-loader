@@ -3,20 +3,22 @@
 var SUCCESS_LEVELS = ['all'],
     FAILURE_LEVELS = ['errors', 'all'];
 
+function requestPermission() {
+  window.addEventListener('click', function () {
+    Notification.requestPermission(function () { });
+  });
+}
+
 function showNotification(message, options, timeout) {
   if (!Notification) {
     return;
   }
 
-  Notification.requestPermission(function (status) {
-    if (status === 'granted') {
-      var n = new Notification(message, options),
-          close = n.close.bind(n);
+  var n = new Notification(message, options),
+      close = n.close.bind(n);
 
-      n.onclick = close;
-      window.setTimeout(close, timeout);
-    }
-  });
+  n.onclick = close;
+  window.setTimeout(close, timeout);
 }
 
 function format(message, color) {
@@ -26,6 +28,10 @@ function format(message, color) {
 module.exports = function (level) {
   var reportSuccess = SUCCESS_LEVELS.indexOf(level) !== -1,
       reportFailure = FAILURE_LEVELS.indexOf(level) !== -1;
+
+  if (reportFailure || reportSuccess) {
+    requestPermission();
+  }
 
   return {
     success: function (file) {
@@ -44,6 +50,7 @@ module.exports = function (level) {
     failure: function (file, err) {
       var message = 'Failed to load ' + file;
       console.error.apply(console, format(message, 'red'));
+      console.error(err.message, err.stack);
 
       if (reportFailure) {
         showNotification('Reload Failed', {
