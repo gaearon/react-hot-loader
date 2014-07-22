@@ -90,19 +90,19 @@ module.exports = function (React) {
   var Component;
   return {
     createClass: function (spec) {
-      Component = injectMixinAndAssimilatePrototype(spec);
+      var FreshComponent = injectMixinAndAssimilatePrototype(spec);
+      if (!Component) {
+        Component = FreshComponent;
+      }
+
       return Component;
     },
 
-    updateClass: function (spec) {
-      injectMixinAndAssimilatePrototype(spec);
-
+    updateMountedInstances: function () {
       mounted.forEach(function (instance) {
         instance._bindAutoBindMethods();
         forceUpdateTree(instance);
       });
-
-      return Component;
     }
   };
 };
