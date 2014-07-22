@@ -1,8 +1,16 @@
 'use strict';
 
+/**
+ * Provides `createClass` and `updateClass` which can be used to create and
+ * later patch a single component with a new version of itself.
+ */
 module.exports = function (React) {
   var mounted = [];
-  var Mixin = {
+
+  /**
+   * Keeps track of mounted instances.
+   */
+  var TrackInstancesMixin = {
     componentDidMount: function () {
       mounted.push(this);
     },
@@ -12,6 +20,11 @@ module.exports = function (React) {
     }
   };
 
+
+  /**
+   * Establishes a prototype as the "source of truth" and updates its methods on
+   * subsequent invocations, also patching fresh prototypes to pass calls to it.
+   */
   var assimilatePrototype = (function () {
     var storedPrototype,
         knownPrototypes = [];
@@ -65,14 +78,24 @@ module.exports = function (React) {
     };
   })();
 
+
+  /**
+   * Mixes instance tracking into the spec, lets React produce a fresh version
+   * of the component and assimilates its changes into the old version.
+   */
   function injectMixinAndAssimilatePrototype(spec) {
     spec.mixins = spec.mixins || [];
-    spec.mixins.push(Mixin);
+    spec.mixins.push(TrackInstancesMixin);
     var Component = React.createClass(spec);
     assimilatePrototype(Component.type.prototype);
     return Component;
   }
 
+
+  /**
+   * Updates a React component recursively, so even if children define funky
+   * `shouldComponentUpdate`, they are forced to re-render.
+   */
   function forceUpdateTree(instance) {
     if (instance.forceUpdate) {
       instance.forceUpdate();
@@ -87,22 +110,46 @@ module.exports = function (React) {
     }
   }
 
+
   var Component;
-  return {
-    createClass: function (spec) {
-      var FreshComponent = injectMixinAndAssimilatePrototype(spec);
-      if (!Component) {
-        Component = FreshComponent;
-      }
 
-      return Component;
-    },
-
-    updateMountedInstances: function () {
-      mounted.forEach(function (instance) {
-        instance._bindAutoBindMethods();
-        forceUpdateTree(instance);
-      });
+  /**
+   * Proxies React.createClass to enable hot updates.
+   */
+  function createClass(spec) {
+    if (Component) {
+      throw new Error('createClass may only be called once for a given updater.');
     }
+
+    Component = injectMixinAndAssimilatePrototype(spec);
+    return Component;
+  }
+
+  /**
+   * Proxies React.createClass to apply hot update.
+   */
+  function updateClass(spec) {
+    if (!Component) {
+      throw new Error('updateClass may only be called after createClass.');
+    }
+
+    injectMixinAndAssimilatePrototype(spec);
+    return Component;
+  }
+
+  /**
+   * Re-binds methods of mounted instances and re-renders them.
+   */
+  function updateMountedInstances() {
+    mounted.forEach(function (instance) {
+      instance._bindAutoBindMethods();
+      forceUpdateTree(instance);
+    });
+  }
+
+  return {
+    createClass: createClass,
+    updateClass: updateClass,
+    updateMountedInstances: updateMountedInstances
   };
 };
