@@ -44,8 +44,7 @@ This will enable hot reload for all JSX files.
 
 ### Exceptions
 
-Hot reload is disabled for modules that contain no `React.createClass` calls and/or don't export a valid React class.  
-For example, in the sample project, `app.jsx` doesn't get live updates because it is assumed to have side-effects.
+Hot reload is disabled for modules that contain no `React.createClass` calls and/or don't export a valid React class. For example, in the sample project, `app.jsx` doesn't get live updates because it is assumed to have side-effects.
 
 Several components in one file will work as long as their `displayName`s are different.
 
