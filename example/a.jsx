@@ -11,11 +11,11 @@ var A = React.createClass({
   },
 
   componentWillMount: function () {
-    this._intervalTimerHandle = window.setInterval(this.incrementNumber.bind(this), 1000);
+    this._intervalHandle = window.setInterval(this.incrementNumber, 1000);
   },
 
   componentWillUnmount: function () {
-    window.clearInterval(this._intervalTimerHandle);
+    window.clearInterval(this._intervalHandle);
     window.alert('Unmounting parent');
   },
 
