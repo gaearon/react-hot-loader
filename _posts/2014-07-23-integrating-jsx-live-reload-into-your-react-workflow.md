@@ -34,8 +34,6 @@ A few weeks ago, while porting Stampsy from RequireJS to Webpack, I discovered t
 
 Basically, it is an opt-in feature of Webpack that allows each module to specify custom behavior (by default Webpack reloads the page) when a newer version of itself or its dependencies is available (i.e. when you save a file in the editor). It works together with a dev server, such as [webpack-dev-server](http://webpack.github.io/docs/webpack-dev-server.html).
 
-Right now it only makes sense for development setup so weʼll disable this feature in production builds. Theoretically in the future we can use HMR to implement continous deployment, but this is crazy and we wonʼt get into this today.
-
 When a source file changes, webpack-dev-server tells the Webpack runtime (which is small and included in the generated bundle) that an update to some module is available. Webpack runtime then asks the updated module whether it can accept updates, going up the dependency chain. **If any of modules in chain declare that they *know* how to handle an update by registering a handler, Webpack will invoke it instead of reloading the page.**
 
 ### Hot Module Replacement by Example
@@ -79,9 +77,9 @@ if (module.hot) {
 }
 {% endhighlight %}
 
-If you run Webpack server with HMR enabled and edit `a.js`, instead of reloading the page, Webpack will invoke your callback. Doing `require('./a')` inside this callback will give you an updated version of `a.js`, and itʼs up to you to do something with it. However, if you edit `b.js`, Webpack wonʼt find any HMR handler and will fallback to reloading the page.
+If you run Webpack server with HMR enabled and edit `a.js`, instead of reloading the page, Webpack will invoke your callback. Doing `require('./a')` inside this callback will give you an updated version of `a.js`, and itʼs up to you to do something with it. However, if you edit `b.js`, Webpack wonʼt find any HMR handler and will fall back to reloading the page.
 
-Finally, updates bubble up the dependency hierarchy so if somebody `accept`s `parentModule` itself, editing `a` or `b` will not cause a reload. We can say that module updates bubble similarly to browser events, and `module.hot.accept` acts like `stopPropagation` and `preventDefault`, preventing the “default action” of refreshing.
+Finally, updates bubble *up the dependency hierarchy* so if somebody `accept`s `parentModule` itself, editing `a` or `b` will not cause a reload. We can say that module updates bubble similarly to browser events, and `module.hot.accept` acts like `stopPropagation` and `preventDefault`, preventing the “default action” of refreshing.
 
 Thatʼs the gist of how HMR works. Of all HMR API I only ever used [`accept`](http://webpack.github.io/docs/hot-module-replacement.html#accept). [This article](http://webpack.github.io/docs/hot-module-replacement-with-webpack.html) gives you a broader look at what HMR is from the point of view of the app, compiler, HMR runtime and modules.
 
@@ -91,7 +89,7 @@ This is useful to an extent, but you still need to write `accept` handlers, and 
 
 We *could* make this work but only if the UI framework we used offered a deterministic view lifecycle and could re-render certain parts of the app without throwing the DOM or the state away. Oh wait… Here comes React, right?
 
-When an update for a module with a React component comes in, we can patch the prototype of the existing component with new prototype (that has fresh `render` and other methods), and then call `forceUpdate` on all mounted instances. This will keep componentʼs state and, thanks to Reactʼs reconciliation algorithm, apply the minimal set of updates from what previous version of `render` returned.
+When an update for a module with a React component comes in, we can patch the prototype of the existing component with new prototype (that has fresh `render` and other methods), and then call `forceUpdate` on all mounted instances. This will keep componentʼs state and, thanks to Reactʼs reconciliation algorithm, apply the minimal set of updates from whatever the previous version of `render` returned.
 
 It would be a chore if we had to do this for every component manually, but thatʼs what [react-hot-loader](https://github.com/gaearon/react-hot-loader) is for! **It handles HMR business for your React components.**
 
@@ -108,7 +106,8 @@ This part explains how to integrate React live reload into your project.
 
 ## Credits
 
-This wouldnʼt be possible without help of these people:
+This wouldnʼt be possible without help of several people.
+Iʼd like to thank:
 
 * [Pete Hunt](http://github.com/petehunt) for React and dropping by every now and then;
 * [Tobias Koppers](http://github.com/sokra) for Webpack, [react-proxy-loader](http://github.com/sokra/react-proxy-loader) and explanations;
