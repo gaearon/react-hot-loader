@@ -24,7 +24,7 @@ module JB
       :theme_packages => "_theme_packages",
       :posts => "_posts"
     }
-    
+
     def self.base
       SOURCE
     end
@@ -36,7 +36,7 @@ module JB
       path.compact!
       File.__send__ :join, path
     end
-  
+
   end #Path
 end #JB
 
@@ -59,16 +59,12 @@ task :post do
   if File.exist?(filename)
     abort("rake aborted!") if ask("#{filename} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
   end
-  
+
   puts "Creating new post: #{filename}"
   open(filename, 'w') do |post|
     post.puts "---"
     post.puts "layout: post"
     post.puts "title: \"#{title.gsub(/-/,' ')}\""
-    post.puts 'description: ""'
-    post.puts "category: #{category}"
-    post.puts "tags: #{tags}"
     post.puts "---"
-    post.puts "{% include JB/setup %}"
   end
 end # task :post

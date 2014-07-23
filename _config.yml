@@ -6,9 +6,8 @@ pygments:         true
 permalink:        pretty
 
 # Setup
-title:            React Hot Loader
-tagline:          Live-reloading your React components since 2014
-url:              http://github.com/gaearon/react-hot-loader
+title:            react-hot-loader
+url:              http://github.com/gaearon/react-hot-loader/
 paginate:         1
 baseurl:          http://gaearon.github.io/react-hot-loader/
 author:
