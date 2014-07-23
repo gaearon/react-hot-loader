@@ -6,17 +6,17 @@ pygments:         true
 permalink:        pretty
 
 # Setup
-title:            Poole
-tagline:          The Jekyll Butler
-url:              http://getpoole.com
+title:            React Hot Loader
+tagline:          Live-reloading your React components since 2014
+url:              http://github.com/gaearon/react-hot-loader
 paginate:         1
-baseurl:          /
+baseurl:          http://gaearon.github.io/react-hot-loader/
 author:
-  name:           Mark Otto
-  url:            https://twitter.com/mdo
-  email:          markdotto@gmail.com
+  name:           Dan Abramov
+  url:            https://twitter.com/dan_abramov
+  email:          dan.abramov@me.com
 
 # Custom vars
-version:          1.0.0
+version:          0.2.0
 github:
-  repo:           https://github.com/poole/poole
+  repo:           http://github.com/gaearon/react-hot-loader
