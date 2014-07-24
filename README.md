@@ -7,6 +7,8 @@ It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/
 
 Inspired by [react-proxy-loader](https://github.com/webpack/react-proxy-loader).
 
+**New:** I wrote a **[blog post](http://gaearon.github.io/react-hot-loader/)** covering **how it works and how to integrate this into your project.**
+
 ## Demo
 
 * Get inspired by a **[real project video demo](https://vimeo.com/100010922)**
@@ -25,25 +27,13 @@ Inspired by [react-proxy-loader](https://github.com/webpack/react-proxy-loader).
 
 ## Usage
 
-[Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
+**[Read the walkthrough!](http://gaearon.github.io/react-hot-loader/#integration)**
 
-```javascript
-var Button = require('react-hot!./button');
-```
+It covers:
 
-When a component is imported that way, changes to its code should be applied **without unmounting it or losing its state**.
-
-You can also specify loader in config before `jsx-loader`:
-
-```javascript
-    module: {
-        loaders: [
-            { test: /\.jsx$/, loaders: ['react-hot', 'jsx-loader'] }
-        ]
-    }
-```
-
-This will enable hot reload for all JSX files.
+* porting a project to use Webpack;
+* enabling Hot Module Replacement;
+* integrating react-hot-loader.
 
 ### Exceptions
 
