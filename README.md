@@ -1,6 +1,7 @@
 # react-hot-loader
 
 This is a **highly experimental** proof of concept of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).  
+Despite being experimental, it is stable enough for daily use in development.
 
 It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/docs/hot-module-replacement.html) by wrapping `React.createClass` calls in a custom function that updates components' prototypes when the changes come in.  
 
@@ -8,9 +9,11 @@ Inspired by [react-proxy-loader](https://github.com/webpack/react-proxy-loader).
 
 ## Demo
 
-### [Real Project Video Demo](https://vimeo.com/100010922)
+* Get inspired by a **[real project video demo](https://vimeo.com/100010922)**
 
-### Bundled Example
+* Run and edit React **[tutorial](http://facebook.github.io/react/docs/tutorial.html)** app **[forked to use Webpack and react-hot-loader](https://github.com/gaearon/react-tutorial-hot)**
+
+* Run and edit bundled example:
 
 ![](http://f.cl.ly/items/0d0P3u2T0f2O163K3m1B/2014-07-14%2014_09_02.gif)
 
