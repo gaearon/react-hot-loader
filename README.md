@@ -1,9 +1,9 @@
 # react-hot-loader
 
-This is a **highly experimental** proof of concept of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).  
+This is a **highly experimental** proof of concept of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
 Despite being experimental, it is stable enough for daily use in development.
 
-It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/docs/hot-module-replacement.html) by wrapping `React.createClass` calls in a custom function that updates components' prototypes when the changes come in.  
+It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/docs/hot-module-replacement.html) by wrapping `React.createClass` calls in a custom function that updates components' prototypes when the changes come in.
 
 Inspired by [react-proxy-loader](https://github.com/webpack/react-proxy-loader).
 
@@ -49,17 +49,16 @@ Several components in one file will work as long as their `displayName`s are dif
 
 ```
 npm install
-cd example
-webpack-dev-server --hot
+npm start
 open http://localhost:8080/webpack-dev-server/bundle
 ```
 
-Then edit `example/a.jsx` and `example/b.jsx`.  
+Then edit `example/a.jsx` and `example/b.jsx`.
 Your changes should be displayed live, without unmounting components or destroying their state.
 
 ## Implementation Notes
 
-Currently, it keeps a list of mounted instances and updates their prototypes when an update comes in.  
+Currently, it keeps a list of mounted instances and updates their prototypes when an update comes in.
 
 A better approach may be to make monkeypatch `createClass` to return a proxy object [as suggested by Pete Hunt](https://github.com/webpack/webpack/issues/341#issuecomment-48372300):
 
