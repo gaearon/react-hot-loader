@@ -9,7 +9,7 @@ permalink:        pretty
 title:            react-hot-loader
 url:              //gaearon.github.io
 paginate:         1
-baseurl:          /react-hot-loader/
+baseurl:          /react-hot-loader
 author:
   name:           Dan Abramov
   url:            https://twitter.com/dan_abramov
