@@ -85,7 +85,7 @@ Thatʼs the gist of how HMR works. Of all HMR API I only ever used [`accept`](ht
 
 ### Why It Is Perfect for React
 
-This is useful to an extent, but you still need to write `accept` handlers, and you wouldnʼt want this kind of code bloat in every module. Moreover, it may be very hard to write correct `accept` code, since youʼd need to write update each moduleʼs dependencies and somehow selectively re-render the app with the new code.
+This is useful to an extent, but you still need to write `accept` handlers, and you wouldnʼt want this kind of code bloat in every module. Moreover, it may be very hard to write correct `accept` code, since youʼd need to update each moduleʼs dependencies and somehow selectively re-render the app with the new code.
 
 We *could* make this work but only if the UI framework we used offered a deterministic view lifecycle and could re-render certain parts of the app without throwing the DOM or the state away. Oh wait… Here comes React, right?
 
@@ -258,9 +258,12 @@ This comes in four parts:
 To reiterate, here is what happens:
 
 <pre>
-[file changed] ->
+Server:
+[file changed]
 [HotModuleReplacementPlugin] rebuild and prepare updated modules
-[webpack-dev-server:3000] tell by socket that update is available
+
+Client:
+[webpack-dev-server] tell by socket that update is available
 [webpack-dev-server/client] learn by socket that update is available
 [webpack/hot/dev-server] apply the update to modules
 </pre>
