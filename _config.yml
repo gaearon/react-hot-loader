@@ -7,9 +7,9 @@ permalink:        pretty
 
 # Setup
 title:            react-hot-loader
-url:              http://github.com/gaearon/react-hot-loader/
+url:              //gaearon.github.io
 paginate:         1
-baseurl:          http://gaearon.github.io/react-hot-loader/
+baseurl:          /react-hot-loader/
 author:
   name:           Dan Abramov
   url:            https://twitter.com/dan_abramov
