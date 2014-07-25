@@ -364,6 +364,16 @@ And this is it! We can now live-edit `CommentBox.jsx` without unmounting compone
 
 * **[react-hot-loader on Github](https://github.com/gaearon/react-hot-loader)**
 
+Something not quite clear? Having issues integrating this?  
+Iʼm happy to help. [File an issue](http://github.com/gaearon/react-hot-loader/issues) or [drop me an email](mailto:dan.abramov@me.com).
+
+Are you, too, excited by live-editing?  
+Help spread the word:
+
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://gaearon.github.io/react-hot-loader/" data-text="Integrating JSX live reload into your React workflow" data-via="dan_abramov" data-dnt="true">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<a href="https://news.ycombinator.com/submit" class="hn-button" data-title="Integrating JSX live reload into your React workflow" data-url="http://gaearon.github.io/react-hot-loader/" data-count="horizontal" data-style="twitter">Vote on Hacker News</a>
+<script type="text/javascript">var HN=[];HN.factory=function(e){return function(){HN.push([e].concat(Array.prototype.slice.call(arguments,0)))};},HN.on=HN.factory("on"),HN.once=HN.factory("once"),HN.off=HN.factory("off"),HN.emit=HN.factory("emit"),HN.load=function(){var e="hn-button.js";if(document.getElementById(e))return;var t=document.createElement("script");t.id=e,t.src="//hn-button.herokuapp.com/hn-button.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)},HN.load();</script>
+
 ---------
 
 ## Credits
