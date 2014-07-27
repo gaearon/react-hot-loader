@@ -22,13 +22,15 @@ This is a **stable for daily use in development** implementation of [React live 
 
 ## Usage
 
-**[Read the walkthrough!](http://gaearon.github.io/react-hot-loader/#integration)**
+#### **[Read the walkthrough!](http://gaearon.github.io/react-hot-loader/#integration)**
 
-It covers:
+Seriously! It covers:
 
 * porting a project to use Webpack;
 * enabling Hot Module Replacement;
 * integrating react-hot-loader.
+
+Also check out **[coffee-react-quickstart](https://github.com/KyleAMathews/coffee-react-quickstart)** for an integration example with Gulp and CoffeeScript.
 
 ### Exceptions
 
