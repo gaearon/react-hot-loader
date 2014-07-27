@@ -1,9 +1,6 @@
 # react-hot-loader
 
-This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).  
-It works on top of [webpack-dev-server](https://github.com/webpack/webpack-dev-server) and can be run directly or through a Grunt or Gulp task.
-
-It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/docs/hot-module-replacement.html) by wrapping `React.createClass` calls in a custom function that updates components' prototypes when the changes come in. Inspired by [react-proxy-loader](https://github.com/webpack/react-proxy-loader).
+This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8). It works on top of [webpack-dev-server](https://github.com/webpack/webpack-dev-server) and can be run directly or through a Grunt or Gulp task. It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/docs/hot-module-replacement.html) by wrapping `React.createClass` calls in a custom function that updates components' prototypes when the changes come in. Inspired by [react-proxy-loader](https://github.com/webpack/react-proxy-loader).
 
 * Get inspired by a **[real project video demo](https://vimeo.com/100010922).**
 
