@@ -1,20 +1,19 @@
 # react-hot-loader
 
-This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
+This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).  
+It works on top of [webpack-dev-server](https://github.com/webpack/webpack-dev-server) and can be run directly or through a Grunt or Gulp task.
 
-It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/docs/hot-module-replacement.html) by wrapping `React.createClass` calls in a custom function that updates components' prototypes when the changes come in.
+It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/docs/hot-module-replacement.html) by wrapping `React.createClass` calls in a custom function that updates components' prototypes when the changes come in. Inspired by [react-proxy-loader](https://github.com/webpack/react-proxy-loader).
 
-Inspired by [react-proxy-loader](https://github.com/webpack/react-proxy-loader).
+* Get inspired by a **[real project video demo](https://vimeo.com/100010922).**
 
-**New:** I wrote a **[blog post](http://gaearon.github.io/react-hot-loader/)** covering **how it works and how to integrate this into your project.**
+* Read **[how it works](http://gaearon.github.io/react-hot-loader/).**
 
-## Demo
+* For barebone example, check out **[React tutorial app](http://facebook.github.io/react/docs/tutorial.html)** **[forked to use Webpack and react-hot-loader](https://github.com/gaearon/react-tutorial-hot)** and **[integration walkthrough](http://gaearon.github.io/react-hot-loader/#integration).**
 
-* Get inspired by a **[real project video demo](https://vimeo.com/100010922)**
+* If you're into CoffeeScript, check out **[coffee-react-quickstart](https://github.com/KyleAMathews/coffee-react-quickstart)** that uses react-hot-loader with Gulp.
 
-* Run and edit React **[tutorial](http://facebook.github.io/react/docs/tutorial.html)** app **[forked to use Webpack and react-hot-loader](https://github.com/gaearon/react-tutorial-hot)**
-
-* Run and edit bundled example:
+* Run `npm install && npm start` to have fun with the bundled example:
 
 ![](http://f.cl.ly/items/0d0P3u2T0f2O163K3m1B/2014-07-14%2014_09_02.gif)
 
