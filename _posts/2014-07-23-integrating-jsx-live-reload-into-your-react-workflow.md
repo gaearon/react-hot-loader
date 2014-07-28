@@ -261,9 +261,9 @@ To reiterate, here is what happens:
 Server:
 [file changed]
 [HotModuleReplacementPlugin] rebuild and prepare updated modules
+[webpack-dev-server] tell by socket that update is available
 
 Client:
-[webpack-dev-server] tell by socket that update is available
 [webpack-dev-server/client] learn by socket that update is available
 [webpack/hot/dev-server] apply the update to modules
 </pre>
