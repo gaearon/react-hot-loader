@@ -61,8 +61,8 @@ A better approach may be to make monkeypatch `createClass` to return a proxy obj
 
 #### 0.4.0
 
-* Ignore files that contain no `createClass` calls (fixes #17)
-* Remove the need for pitch loader (fixes #19)
+* Ignore files that contain no `createClass` calls (fixes **[#17](https://github.com/gaearon/react-hot-loader/issues/17)**)
+* Remove the need for pitch loader (fixes **[#19](https://github.com/gaearon/react-hot-loader/issues/19)**)
 * Improve performance by only using one loader instead of two
 * Now that performance is acceptable, remove desktop notifications and `notify` option
 * It is now recommended that you use `devtool: 'eval'` because it's much faster and has no downsides anymore
