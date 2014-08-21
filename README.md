@@ -40,7 +40,7 @@ Several components in one file will work as long as their `displayName`s are dif
 
 ### Options
 
-* `notify`: Loader can use desktop Notification API to show notifications when a module has been reloaded, or if it loads with an error. By default, this feature is disabled because it doesn't work well with `webpack-dev-server` iframe mode used in the example. If you don't use `webpack-dev-server`'s iframe mode, you might want to enable notifications. Valid values are `none` (default), `errors` and `all`. If `notify` is `errors` or `all`, module load errors won't cause page refresh.
+* `notify`: Loader can use desktop Notification API to show notifications when a module has been reloaded, or if it loads with an error. By default, this feature is disabled because it doesn't work well with `webpack-dev-server` iframe mode used in the example. If you don't use `webpack-dev-server`'s iframe mode, you might want to enable notifications. Valid values are `none` (default), `errors` and `all`.
 
 ## Running Example
 
