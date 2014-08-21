@@ -61,6 +61,17 @@ A better approach may be to make monkeypatch `createClass` to return a proxy obj
 
 >The problem is that references to component descriptors could be stored in any number of places. What we could do is wrap all components in "proxy" components which look up the "real" component in some mapping
 
-# License
+## Changelog
+
+#### 0.3.1
+
+* Avoid warnings on old browsers with missing `Notification` API
+* Errors don't cause page reload anymore
+
+#### 0.3.0
+
+* Use React 0.11
+
+## License
 
 MIT (http://www.opensource.org/licenses/mit-license.php)
