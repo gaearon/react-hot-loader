@@ -1,32 +1,34 @@
-var path = require('path'),
-    loaderUtils = require('loader-utils');
+var path = require('path');
 
-module.exports = function () {};
-module.exports.pitch = function (remainingRequest) {
-  this.cacheable && this.cacheable();
+module.exports = function (source) {
+  if (this.cacheable) {
+    this.cacheable();
+  }
 
-  var patchedModuleRequest = '!!' + require.resolve('./replaceCreateClass') + '!' + remainingRequest,
-      originalFilename = path.basename(remainingRequest),
-      query = loaderUtils.parseQuery(this.query);
+  var matches = 0,
+      processedSource;
 
-  query.notify = query.notify || 'none';
+  processedSource = source.replace(/React\.createClass/g, function (match) {
+    matches++;
+    return '__hotUpdateAPI.createClass';
+  });
+
+  if (!matches) {
+    return source;
+  }
 
   return [
-    'var React = require("react");',
-    'var notifier = require(' + JSON.stringify(require.resolve('./makeNotifier')) + ')(' + JSON.stringify(originalFilename) + ', ' + JSON.stringify(query.notify) + ');',
-    'var moduleUpdater = require(' + JSON.stringify(require.resolve('./makeModuleUpdater')) + ')(' + JSON.stringify(originalFilename) + ', React);',
-
-    'module.exports = require(' + JSON.stringify(patchedModuleRequest) + ')(moduleUpdater.createClass);',
-
-    'if (module.hot && moduleUpdater.canUpdateModule() && React.isValidClass(module.exports)) {',
-    '  module.hot.accept(' + JSON.stringify(patchedModuleRequest) + ', function () {',
-    '    try {',
-    '      require(' + JSON.stringify(patchedModuleRequest) + ')(moduleUpdater.updateClass);',
-    '      moduleUpdater.updateMountedInstances();',
-    '      notifier.handleSuccess()',
-    '    } catch (err) {',
-    '      notifier.handleFailure(err)',
-    '    }',
+    'var __hotUpdateAPI = (function () {',
+    '  var React = require("react");',
+    '  var getHotUpdateAPI = require(' + JSON.stringify(require.resolve('./getHotUpdateAPI')) + ');',
+    '  return getHotUpdateAPI(React, ' + JSON.stringify(path.basename(this.resourcePath)) + ', module.id);',
+    '})();',
+    processedSource,
+    'if (module.hot) {',
+    '  module.hot.accept();',
+    '  module.hot.dispose(function () {',
+    '    var nextTick = require(' + JSON.stringify(require.resolve('next-tick')) + ');',
+    '    nextTick(__hotUpdateAPI.updateMountedInstances);',
     '  });',
     '}'
   ].join('\n');

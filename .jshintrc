@@ -1,7 +1,6 @@
 {
   "node": true,
   "globals": {
-    "window": true,
-    "Notification": true
+    "window": true
   }
 }

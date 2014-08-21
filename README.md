@@ -38,10 +38,6 @@ Hot reload is disabled for modules that contain no `React.createClass` calls and
 
 Several components in one file will work as long as their `displayName`s are different.
 
-### Options
-
-* `notify`: Loader can use desktop Notification API to show notifications when a module has been reloaded, or if it loads with an error. By default, this feature is disabled because it doesn't work well with `webpack-dev-server` iframe mode used in the example. If you don't use `webpack-dev-server`'s iframe mode, you might want to enable notifications. Valid values are `none` (default), `errors` and `all`.
-
 ## Running Example
 
 ```
@@ -62,6 +58,14 @@ A better approach may be to make monkeypatch `createClass` to return a proxy obj
 >The problem is that references to component descriptors could be stored in any number of places. What we could do is wrap all components in "proxy" components which look up the "real" component in some mapping
 
 ## Changelog
+
+#### 0.4.0
+
+* Ignore files that contain no `createClass` calls (fixes **[#17]**(https://github.com/gaearon/react-hot-loader/issues/17))
+* Remove the need for pitch loader (fixes **[#19](https://github.com/gaearon/react-hot-loader/issues/19)**)
+* Improve performance by only using one loader instead of two
+* Now that performance is acceptable, remove desktop notifications and `notify` option
+* It is now recommended that you use `devtool: 'eval'` because it's much faster and has no downsides anymore
 
 #### 0.3.1
 

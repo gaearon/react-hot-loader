@@ -5,7 +5,7 @@
  * replacement for `React.createClass` in a module. If multiple components
  * are defined in the same module, assumes their `displayName`s are different.
  */
-module.exports = function (filename, React) {
+module.exports = function (React, filename) {
   var componentUpdaters = {};
 
   function createClass(spec) {
@@ -40,14 +40,9 @@ module.exports = function (filename, React) {
     });
   }
 
-  function canUpdateModule() {
-    return Object.keys(componentUpdaters).length > 0;
-  }
-
   return {
     createClass: createClass,
     updateClass: updateClass,
-    updateMountedInstances: updateMountedInstances,
-    canUpdateModule: canUpdateModule
+    updateMountedInstances: updateMountedInstances
   };
 };

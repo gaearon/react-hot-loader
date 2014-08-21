@@ -1,6 +1,6 @@
 {
   "name": "react-hot-loader",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Webpack loader that enables live-editing React components without unmounting or losing their state",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "example": "example"
   },
   "dependencies": {
-    "loader-utils": "^0.2.3"
+    "next-tick": "0.2.2"
   },
   "devDependencies": {
     "jsx-loader": "0.11.0",
