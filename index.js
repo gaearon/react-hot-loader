@@ -8,9 +8,9 @@ module.exports = function (source) {
   var matches = 0,
       processedSource;
 
-  processedSource = source.replace(/React\.createClass/g, function (match) {
+  processedSource = source.replace(/React\.createClass\s*\(\s*\{/g, function (match) {
     matches++;
-    return '__hotUpdateAPI.createClass';
+    return '__hotUpdateAPI.createClass({';
   });
 
   if (!matches) {
