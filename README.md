@@ -1,20 +1,15 @@
 # react-hot-loader
 
-This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8). It works on top of [webpack-dev-server](https://github.com/webpack/webpack-dev-server) and can be run directly or through a Grunt or Gulp task. It marries React with Webpack [Hot Module Replacement](http://webpack.github.io/docs/hot-module-replacement.html) by wrapping `React.createClass` calls in a custom function that updates components' prototypes when the changes come in. Inspired by [react-proxy-loader](https://github.com/webpack/react-proxy-loader).
+This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
 
-* Get inspired by a **[real project video demo](https://vimeo.com/100010922).**
+>Hate reading? Use **[react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate)** for your next ReactJS project.
 
-* Read **[how it works](http://gaearon.github.io/react-hot-loader/).**
+* Get inspired by a **[demo video](https://vimeo.com/100010922).**
 
-* For barebone example, check out **[React tutorial app](http://facebook.github.io/react/docs/tutorial.html)** **[forked to use Webpack and react-hot-loader](https://github.com/gaearon/react-tutorial-hot)** and **[integration walkthrough](http://gaearon.github.io/react-hot-loader/#integration).**
+* Read **[technical explanation and integration walkthrough](http://gaearon.github.io/react-hot-loader/).**
 
-* If you're into CoffeeScript, check out **[coffee-react-quickstart](https://github.com/KyleAMathews/coffee-react-quickstart)** that uses react-hot-loader with Gulp.
+* For CoffeeScript, check out **[coffee-react-quickstart](https://github.com/KyleAMathews/coffee-react-quickstart)**.
 
-* Run `npm install && npm start` to have fun with the bundled example:
-
-![](http://f.cl.ly/items/0d0P3u2T0f2O163K3m1B/2014-07-14%2014_09_02.gif)
-
-![](http://f.cl.ly/items/3T3u3N1d2U30380Z2k2D/2014-07-14%2014_05_49.gif)
 
 ## Installation
 
@@ -48,6 +43,10 @@ open http://localhost:8080/webpack-dev-server/bundle
 
 Then edit `example/a.jsx` and `example/b.jsx`.
 Your changes should be displayed live, without unmounting components or destroying their state.
+
+![](http://f.cl.ly/items/0d0P3u2T0f2O163K3m1B/2014-07-14%2014_09_02.gif)
+
+![](http://f.cl.ly/items/3T3u3N1d2U30380Z2k2D/2014-07-14%2014_05_49.gif)
 
 ## Implementation Notes
 
