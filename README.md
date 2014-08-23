@@ -59,6 +59,10 @@ A better approach may be to make monkeypatch `createClass` to return a proxy obj
 
 ## Changelog
 
+#### 0.4.1
+
+* Use more precise [`React.createClass` regex](https://github.com/gaearon/react-hot-loader/commit/f71c6785131adcc85b91789da0d0a0b9f1a9713f) to avoid matching own code when hot loader is applied to all JS files.
+
 #### 0.4.0
 
 * Ignore files that contain no `createClass` calls (fixes **[#17](https://github.com/gaearon/react-hot-loader/issues/17)**)
