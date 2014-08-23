@@ -2,14 +2,13 @@
 
 This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
 
->Hate reading? Use **[react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate)** for your next ReactJS project.
-
 * Get inspired by a **[demo video](https://vimeo.com/100010922).**
 
 * Read **[technical explanation and integration walkthrough](http://gaearon.github.io/react-hot-loader/).**
 
 * For CoffeeScript, check out **[coffee-react-quickstart](https://github.com/KyleAMathews/coffee-react-quickstart)**.
 
+>Hate reading? Use **[react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate)** for your next ReactJS project.
 
 ## Installation
 
