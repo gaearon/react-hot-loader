@@ -5,7 +5,8 @@ module.exports = function (source) {
     this.cacheable();
   }
 
-  var matches = 0,
+  var filename = path.basename(this.resourcePath),
+      matches = 0,
       processedSource;
 
   processedSource = source.replace(/React\.createClass\s*\(\s*\{/g, function (match) {
@@ -21,11 +22,15 @@ module.exports = function (source) {
     'var __hotUpdateAPI = (function () {',
     '  var React = require("react");',
     '  var getHotUpdateAPI = require(' + JSON.stringify(require.resolve('./getHotUpdateAPI')) + ');',
-    '  return getHotUpdateAPI(React, ' + JSON.stringify(path.basename(this.resourcePath)) + ', module.id);',
+    '  return getHotUpdateAPI(React, ' + JSON.stringify(filename) + ', module.id);',
     '})();',
     processedSource,
     'if (module.hot) {',
-    '  module.hot.accept();',
+    '  module.hot.accept(function (err) {',
+    '    if (err) {',
+    '      console.error("Cannot not apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
+    '    }',
+    '  });',
     '  module.hot.dispose(function () {',
     '    var nextTick = require(' + JSON.stringify(require.resolve('next-tick')) + ');',
     '    nextTick(__hotUpdateAPI.updateMountedInstances);',
