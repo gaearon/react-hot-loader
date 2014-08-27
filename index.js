@@ -44,13 +44,13 @@ module.exports = function (source, map) {
 
   // No sourcemaps
   if (!map) {
-    return this.callback(null, [prependText, source, appendText].join('\n'));
+    return this.callback(null, [prependText, processedSource, appendText].join('\n'));
   }
 
   // Handle sourcemaps
   node = new SourceNode(null, null, null, [
     new SourceNode(null, null, null, prependText),
-    SourceNode.fromStringWithSourceMap(source, new SourceMapConsumer(map)),
+    SourceNode.fromStringWithSourceMap(processedSource, new SourceMapConsumer(map)),
     new SourceNode(null, null, null, appendText)
   ]).join('\n');
 
