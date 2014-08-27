@@ -10,7 +10,8 @@
     "example": "example"
   },
   "dependencies": {
-    "next-tick": "0.2.2"
+    "next-tick": "0.2.2",
+    "source-map": "^0.1.38"
   },
   "devDependencies": {
     "jsx-loader": "0.11.0",
