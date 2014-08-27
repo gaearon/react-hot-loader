@@ -3,12 +3,13 @@ var SourceNode = require('source-map').SourceNode;
 var SourceMapConsumer = require('source-map').SourceMapConsumer;
 var SourceMapGenerator = require('source-map').SourceMapGenerator;
 
-var CREATE_CLASS_REGEX = /React\.createClass\s*\(\s*\{/g;
-var REPLACEMENT_TEXT = '__HUA.createClass({';
-
 module.exports = function (source, map) {
   if (this.cacheable) {
     this.cacheable();
+  }
+
+  if (!/React\.createClass\s*\(\s*\{/.test(source)) {
+    return this.callback(null, source, map);
   }
 
   var filename = path.basename(this.resourcePath),
@@ -40,7 +41,7 @@ module.exports = function (source, map) {
     '}'
   ].join('\n');
 
-  processedSource = source.replace(CREATE_CLASS_REGEX, REPLACEMENT_TEXT);
+  processedSource = source.replace(/React\.createClass\s*\(\s*\{/g, '__HUA.createClass({');
 
   // No sourcemaps
   if (!map) {
