@@ -1,30 +1,33 @@
 var path = require('path');
+var SourceNode = require('source-map').SourceNode;
+var SourceMapConsumer = require('source-map').SourceMapConsumer;
+var SourceMapGenerator = require('source-map').SourceMapGenerator;
 
-module.exports = function (source) {
+module.exports = function (source, map) {
   if (this.cacheable) {
     this.cacheable();
   }
 
-  var filename = path.basename(this.resourcePath),
-      matches = 0,
-      processedSource;
-
-  processedSource = source.replace(/React\.createClass\s*\(\s*\{/g, function (match) {
-    matches++;
-    return '__hotUpdateAPI.createClass({';
-  });
-
-  if (!matches) {
-    return source;
+  if (!/React\.createClass\s*\(\s*\{/.test(source)) {
+    return this.callback(null, source, map);
   }
 
-  return [
-    'var __hotUpdateAPI = (function () {',
+  var filename = path.basename(this.resourcePath),
+      prependText,
+      appendText,
+      processedSource,
+      node,
+      strWithMap;
+
+  prependText = [
+    'var __HUA = (function () {',
     '  var React = require("react");',
     '  var getHotUpdateAPI = require(' + JSON.stringify(require.resolve('./getHotUpdateAPI')) + ');',
     '  return getHotUpdateAPI(React, ' + JSON.stringify(filename) + ', module.id);',
-    '})();',
-    processedSource,
+    '})();'
+  ].join('\n');
+
+  appendText = [
     'if (module.hot) {',
     '  module.hot.accept(function (err) {',
     '    if (err) {',
@@ -33,8 +36,25 @@ module.exports = function (source) {
     '  });',
     '  module.hot.dispose(function () {',
     '    var nextTick = require(' + JSON.stringify(require.resolve('next-tick')) + ');',
-    '    nextTick(__hotUpdateAPI.updateMountedInstances);',
+    '    nextTick(__HUA.updateMountedInstances);',
     '  });',
     '}'
   ].join('\n');
+
+  processedSource = source.replace(/React\.createClass\s*\(\s*\{/g, '__HUA.createClass({');
+
+  // No sourcemaps
+  if (!map || this.sourceMap === false) {
+    return this.callback(null, [prependText, processedSource, appendText].join('\n'));
+  }
+
+  // Handle sourcemaps
+  node = new SourceNode(null, null, null, [
+    new SourceNode(null, null, null, prependText),
+    SourceNode.fromStringWithSourceMap(processedSource, new SourceMapConsumer(map)),
+    new SourceNode(null, null, null, appendText)
+  ]).join('\n');
+
+  strWithMap = node.toStringWithSourceMap();
+  this.callback(null, strWithMap.code, strWithMap.map.toString());
 };
