@@ -44,7 +44,7 @@ module.exports = function (source, map) {
   processedSource = source.replace(/React\.createClass\s*\(\s*\{/g, '__HUA.createClass({');
 
   // No sourcemaps
-  if (!map) {
+  if (!map || this.sourceMap === false) {
     return this.callback(null, [prependText, processedSource, appendText].join('\n'));
   }
 
