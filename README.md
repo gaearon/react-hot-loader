@@ -57,6 +57,10 @@ A better approach may be to make monkeypatch `createClass` to return a proxy obj
 
 ## Changelog
 
+#### 0.4.3
+
+* Support lowercase `react` reference name and usage with ES6 classes (`createClass(MyComponent.prototype)`) via **[#27](https://github.com/gaearon/react-hot-loader/issues/27)**
+
 #### 0.4.2
 
 * Catch errors in modules and log them instead of reloading (fixes **[#21](https://github.com/gaearon/react-hot-loader/issues/21)**)
