@@ -86,7 +86,7 @@ module.exports = function (React) {
   function injectMixinAndAssimilatePrototype(spec) {
     spec.mixins = spec.mixins || [];
     spec.mixins.push(TrackInstancesMixin);
-    var Component = React.createClass(spec);
+    var Component = (React.createClass)(spec);
     assimilatePrototype(Component.type.prototype);
     return Component;
   }
