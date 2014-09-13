@@ -5,6 +5,10 @@
   "scripts": {
     "start": "node server.js"
   },
+  "config": {
+    "port": 3000,
+    "subdomain": null
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/gaearon/react-hot-boilerplate.git"

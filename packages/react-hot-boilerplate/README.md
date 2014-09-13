@@ -11,8 +11,28 @@ npm start
 open http://localhost:3000
 ```
 
+you can specify other port:
+
+```
+npm config set react-hot-boilerplate:port 8080
+npm start
+open http://localhost:8080
+```
+
 Now edit `scripts/App.js`.  
 Your changes will appear without reloading the browser like in [this video](http://vimeo.com/100010922).
+
+### Using with localtunnel
+
+To open this page on other machine, you can use [localtunnel](https://github.com/defunctzombie/localtunnel) service
+
+```
+npm config set react-hot-boilerplate:port 8080
+npm config set react-hot-boilerplate:subdomain reacthotboilerplate123
+npm start
+lt --port 8080 --subdomain reacthotboilerplate123
+open https://reacthotboilerplate123.localtunnel.me
+```
 
 ### Dependencies
 

@@ -1,9 +1,15 @@
 var webpack = require('webpack');
 
+var port = process.env.npm_package_config_port || 3000,
+    subdomain = process.env.npm_package_config_subdomain,
+    url = subdomain ?
+          'https://' + subdomain + '.localtunnel.me' :
+          'http://localhost:' + port;
+
 module.exports = {
   devtool: 'eval',
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
+    'webpack-dev-server/client?' + url,
     'webpack/hot/dev-server',
     './scripts/index'
   ],
