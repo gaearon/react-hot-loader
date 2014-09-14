@@ -1,10 +1,10 @@
 var webpack = require('webpack');
 
-var port = process.env.npm_package_config_port || 3000,
-    subdomain = process.env.npm_package_config_subdomain,
+var port = JSON.parse(process.env.npm_package_config_port || 3000),
+    subdomain = JSON.parse(process.env.npm_package_config_subdomain),
     url = subdomain ?
-          'https://' + subdomain + '.localtunnel.me' :
-          'http://localhost:' + port;
+      'https://' + subdomain + '.localtunnel.me' :
+      'http://localhost:' + port;
 
 module.exports = {
   devtool: 'eval',
