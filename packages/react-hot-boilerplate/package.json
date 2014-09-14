@@ -1,6 +1,6 @@
 {
   "name": "react-hot-boilerplate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Boilerplate for ReactJS project with hot code reloading",
   "scripts": {
     "start": "node server.js"
@@ -33,7 +33,7 @@
   "homepage": "https://github.com/gaearon/react-hot-boilerplate",
   "devDependencies": {
     "jsx-loader": "^0.11.0",
-    "react-hot-loader": "^0.4.2",
+    "react-hot-loader": "^0.4.3",
     "webpack": "^1.4.0-beta3",
     "webpack-dev-server": "^1.4.10"
   },
