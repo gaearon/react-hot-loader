@@ -10,7 +10,7 @@ module.exports = {
   devtool: 'eval',
   entry: [
     'webpack-dev-server/client?' + url,
-    'webpack/hot/dev-server',
+    'webpack/hot/only-dev-server',
     './scripts/index'
   ],
   output: {
@@ -19,7 +19,8 @@ module.exports = {
     publicPath: '/scripts/'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
   ],
   resolve: {
     extensions: ['', '.js']
