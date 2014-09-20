@@ -57,6 +57,10 @@ A better approach may be to make monkeypatch `createClass` to return a proxy obj
 
 ## Changelog
 
+#### 0.4.5
+
+* Collapse all hot loader code in one line so it doesn't obscure beginning of file.
+
 #### 0.4.4
 
 * Errors occuring in module definition (such as `ReferenceError`) should not disable further reloading (fixes **[#29](https://github.com/gaearon/react-hot-loader/issues/29)**)
