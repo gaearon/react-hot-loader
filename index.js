@@ -20,21 +20,20 @@ module.exports = function (source) {
 
   return [
     'var __hotUpdateAPI = (function () {',
-    '  var React = require("react");',
-    '  var getHotUpdateAPI = require(' + JSON.stringify(require.resolve('./getHotUpdateAPI')) + ');',
-    '  return getHotUpdateAPI(React, ' + JSON.stringify(filename) + ', module.id);',
+      'var React = require("react");',
+      'var getHotUpdateAPI = require(' + JSON.stringify(require.resolve('./getHotUpdateAPI')) + ');',
+      'return getHotUpdateAPI(React, ' + JSON.stringify(filename) + ', module.id);',
     '})();',
     'if (module.hot) {',
-    '  module.hot.accept(function (err) {',
-    '    if (err) {',
-    '      console.error("Cannot not apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
-    '    }',
-    '  });',
-    '  module.hot.dispose(function () {',
-    '    var nextTick = require(' + JSON.stringify(require.resolve('next-tick')) + ');',
-    '    nextTick(__hotUpdateAPI.updateMountedInstances);',
-    '  });',
-    '}',
-    processedSource
-  ].join('\n');
+      'module.hot.accept(function (err) {',
+        'if (err) {',
+          'console.error("Cannot not apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
+        '}',
+      '});',
+      'module.hot.dispose(function () {',
+        'var nextTick = require(' + JSON.stringify(require.resolve('next-tick')) + ');',
+        'nextTick(__hotUpdateAPI.updateMountedInstances);',
+      '});',
+    '}'
+  ].join(' ') + '\n\n' + processedSource;
 };
