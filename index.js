@@ -24,7 +24,6 @@ module.exports = function (source) {
     '  var getHotUpdateAPI = require(' + JSON.stringify(require.resolve('./getHotUpdateAPI')) + ');',
     '  return getHotUpdateAPI(React, ' + JSON.stringify(filename) + ', module.id);',
     '})();',
-    processedSource,
     'if (module.hot) {',
     '  module.hot.accept(function (err) {',
     '    if (err) {',
@@ -35,6 +34,7 @@ module.exports = function (source) {
     '    var nextTick = require(' + JSON.stringify(require.resolve('next-tick')) + ');',
     '    nextTick(__hotUpdateAPI.updateMountedInstances);',
     '  });',
-    '}'
+    '}',
+    processedSource
   ].join('\n');
 };
