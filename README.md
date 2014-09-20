@@ -57,6 +57,10 @@ A better approach may be to make monkeypatch `createClass` to return a proxy obj
 
 ## Changelog
 
+#### 0.4.4
+
+* Errors occuring in module definition (such as `ReferenceError`) should not disable further reloading (fixes **[#29](https://github.com/gaearon/react-hot-loader/issues/29)**)
+
 #### 0.4.3
 
 * Support lowercase `react` reference name and usage with ES6 classes (`createClass(MyComponent.prototype)`) via **[#27](https://github.com/gaearon/react-hot-loader/issues/27)**
