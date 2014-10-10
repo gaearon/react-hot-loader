@@ -7,7 +7,8 @@ var port = JSON.parse(process.env.npm_package_config_port || 3000),
       'http://localhost:' + port;
 
 module.exports = {
-  devtool: 'eval',
+  // If it gets slow on your project, change to 'eval':
+  devtool: 'source-map',
   entry: [
     'webpack-dev-server/client?' + url,
     'webpack/hot/only-dev-server',
