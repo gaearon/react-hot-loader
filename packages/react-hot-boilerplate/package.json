@@ -1,6 +1,6 @@
 {
   "name": "react-hot-boilerplate",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Boilerplate for ReactJS project with hot code reloading",
   "scripts": {
     "start": "node server.js"
