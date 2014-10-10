@@ -1,25 +1,31 @@
-var path = require('path');
+'use strict';
 
-module.exports = function (source) {
+var path = require('path'),
+    SourceNode = require('source-map').SourceNode,
+    SourceMapConsumer = require('source-map').SourceMapConsumer,
+    makeIdentitySourceMap = require('./makeIdentitySourceMap');
+
+var REACT_CLASS_RE = /[Rr]eact\.createClass\s*\(/g;
+
+module.exports = function (source, map) {
   if (this.cacheable) {
     this.cacheable();
   }
 
-  var filename = path.basename(this.resourcePath),
-      matches = 0,
-      processedSource;
-
-  processedSource = source.replace(/[Rr]eact\.createClass\s*\(/g, function (match) {
-    matches++;
-    return '__hotUpdateAPI.createClass(';
-  });
-
-  if (!matches) {
-    return source;
+  if (!source.match(REACT_CLASS_RE)) {
+    return this.callback(null, source, map);
   }
 
-  return [
-    'var __hotUpdateAPI = (function () {',
+  var resourcePath = this.resourcePath,
+      filename = path.basename(resourcePath),
+      separator = '\n\n',
+      prependText,
+      processedSource,
+      node,
+      result;
+
+  prependText = [
+    'var __HUA = (function () {',
       'var React = require("react");',
       'var getHotUpdateAPI = require(' + JSON.stringify(require.resolve('./getHotUpdateAPI')) + ');',
       'return getHotUpdateAPI(React, ' + JSON.stringify(filename) + ', module.id);',
@@ -32,8 +38,30 @@ module.exports = function (source) {
       '});',
       'module.hot.dispose(function () {',
         'var nextTick = require(' + JSON.stringify(require.resolve('next-tick')) + ');',
-        'nextTick(__hotUpdateAPI.updateMountedInstances);',
+        'nextTick(__HUA.updateMountedInstances);',
       '});',
     '}'
-  ].join(' ') + '\n\n' + processedSource;
+  ].join(' ');
+
+  processedSource = source.replace(REACT_CLASS_RE, '__HUA.createClass(');
+
+  if (this.sourceMap === false) {
+    return this.callback(null, [
+      prependText,
+      processedSource
+    ].join(separator));
+  }
+
+  if (!map) {
+    map = makeIdentitySourceMap(source, this.resourcePath);
+  }
+
+  node = new SourceNode(null, null, null, [
+    new SourceNode(null, null, this.resourcePath, prependText),
+    SourceNode.fromStringWithSourceMap(processedSource, new SourceMapConsumer(map))
+  ]).join(separator);
+
+  result = node.toStringWithSourceMap();
+
+  this.callback(null, result.code, result.map.toString());
 };

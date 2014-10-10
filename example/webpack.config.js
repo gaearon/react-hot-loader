@@ -3,6 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
 	entry: ['webpack/hot/dev-server', './app'],
+	devtool: 'source-map',
 	output: {
 		path: path.join(__dirname, 'output'),
 		filename: 'bundle.js'
