@@ -32,6 +32,12 @@ Hot reload is disabled for modules that contain no `React.createClass` calls and
 
 Several components in one file will work as long as their `displayName`s are different.
 
+### Source Maps
+
+If you use `devtool: 'source-map'` (or its equivalent), source maps will be emitted to hide hot reloading code.
+
+This also works when previous loader emits its own source maps.
+
 ## Running Example
 
 ```
@@ -56,6 +62,10 @@ A better approach may be to make monkeypatch `createClass` to return a proxy obj
 >The problem is that references to component descriptors could be stored in any number of places. What we could do is wrap all components in "proxy" components which look up the "real" component in some mapping
 
 ## Changelog
+
+#### 0.5.0
+
+* Adds source map support, contributed by [Jake Riesterer](https://github.com/jRiest)
 
 #### 0.4.5
 
