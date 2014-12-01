@@ -1,6 +1,6 @@
 'use strict';
 
 var React = require('react'),
-    App = require('./App');
+    App = require('./app');
 
 React.render(<App />, document.body);
