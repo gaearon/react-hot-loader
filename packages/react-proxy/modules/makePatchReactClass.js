@@ -1,8 +1,7 @@
 'use strict';
 
 var makeAssimilatePrototype = require('./makeAssimilatePrototype'),
-    requestForceUpdateAll = require('./requestForceUpdateAll'),
-    React = require('react');
+    requestForceUpdateAll = require('./requestForceUpdateAll');
 
 /**
  * Returns a function that will patch React class with new versions of itself
