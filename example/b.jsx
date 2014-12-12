@@ -38,6 +38,8 @@ var C = React.createClass({
 // By default, only module.exports is hot, and changes in C
 // will cause unmounting. However, you can opt it in explicitly:
 
-C = module.makeHot(C);
+if (module.makeHot) {
+  C = module.makeHot(C);
+}
 
 module.exports = B;
