@@ -17,7 +17,8 @@ module.exports = function (source, map) {
     return this.callback(null, source, map);
   }
 
-  var filename = path.basename(resourcePath),
+  var acceptUpdates = this.query !== '?manual',
+      filename = path.basename(resourcePath),
       separator = '\n\n',
       prependText,
       appendText,
@@ -43,11 +44,13 @@ module.exports = function (source, map) {
   appendText = [
     '/* REACT HOT LOADER */',
     'if (module.hot) {',
-      'module.hot.accept(function (err) {',
-        'if (err) {',
-          'console.error("Cannot not apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
-        '}',
-      '});',
+      acceptUpdates ? [
+        'module.hot.accept(function (err) {',
+          'if (err) {',
+            'console.error("Cannot not apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
+          '}',
+        '});'
+      ].join(' ') : '',
       'module.hot.dispose(function (data) {',
       '  data.makeHot = module.makeHot;',
       '});',
