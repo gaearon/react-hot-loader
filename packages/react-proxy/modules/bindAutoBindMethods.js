@@ -46,11 +46,17 @@ function bindAutoBindMethod(component, method) {
  * Based on https://github.com/facebook/react/blob/master/src/class/ReactClass.js#L679.
  */
 module.exports = function bindAutoBindMethods(component) {
+  if (!component.__reactAutoBindMap && component._instance) {
+    // React 0.13 wraps component instances
+    component = component._instance;
+  }
+
   for (var autoBindKey in component.__reactAutoBindMap) {
     if (!component.__reactAutoBindMap.hasOwnProperty(autoBindKey)) {
       continue;
     }
 
+    // Skip already bound methods
     if (component.hasOwnProperty(autoBindKey) &&
         component[autoBindKey].__reactBoundContext === component) {
       continue;
