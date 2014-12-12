@@ -1,15 +1,14 @@
 'use strict';
 
+var bindAutoBindMethods = require('./bindAutoBindMethods');
+
 /**
  * Updates a React component recursively, so even if children define funky
  * `shouldComponentUpdate`, they are forced to re-render.
  * Makes sure that any newly added methods are properly auto-bound.
  */
 function deepForceUpdate(component) {
-  // ES6 classes won't have this
-  if (component._bindAutoBindMethods) {
-    component._bindAutoBindMethods();
-  }
+  bindAutoBindMethods(component);
 
   if (component.forceUpdate) {
     component.forceUpdate();
