@@ -15,10 +15,12 @@ This library drives React hot-reload magic of **[react-hot-loader](https://githu
 
 Registers a hot-reloadable React class. If you don't pass `persistentId`, it is inferred from `ReactClass.displayName` or `ReactClass.name` (for ES6 classes). When called for the first time, it will merely return the passed class. When called the next time with the same `persistentId`, will patch original class with the prototype of the new class, and return the original class.
 
-#### `require('react-hot-api'): () => makeHot`
+#### `require('react-hot-api'): (ReactMount) => makeHot`
 
 Invoke this once within each hot-reloadable module to obtain the function described above.  
 You must pass the result between *all emitted versions of the same module* for hot reload to work.
+
+`ReactMount` corresponds to `react/lib/ReactMount` and needs to be passed by the caller.
 
 ### Usage
 
@@ -55,7 +57,7 @@ module.exports = SomeComponent;
 var makeHot = SOME_STORAGE_SHARED_BETWEEN_VERSIONS_OF_SAME_MODULE.makeHot;
 if (!makeHot) {
   // On the first run, we will get here
-  makeHot = SOME_STORAGE_SHARED_BETWEEN_VERSIONS_OF_SAME_MODULE.makeHot = require('react-hot-api')();
+  makeHot = SOME_STORAGE_SHARED_BETWEEN_VERSIONS_OF_SAME_MODULE.makeHot = require('react-hot-api')(require('react/lib/ReactMount'));
 }
 
 // Will merely register SomeComponent so it can later be patched
@@ -83,7 +85,7 @@ module.exports = SomeComponent;
 var makeHot = SOME_STORAGE_SHARED_BETWEEN_VERSIONS_OF_SAME_MODULE.makeHot;
 if (!makeHot) {
   // On the second run, we will *NOT* get here
-  makeHot = SOME_STORAGE_SHARED_BETWEEN_VERSIONS_OF_SAME_MODULE.makeHot = require('react-hot-api')();
+  makeHot = SOME_STORAGE_SHARED_BETWEEN_VERSIONS_OF_SAME_MODULE.makeHot = require('react-hot-api')(require('react/lib/ReactMount'));
 }
 
 // Will patch existing SomeComponent with updated methods, force re-rendering and return patched first version
@@ -98,7 +100,7 @@ You may also give user some way to access `makeHot` in case they want to allow h
 var module.makeHot = SOME_STORAGE_SHARED_BETWEEN_VERSIONS_OF_SAME_MODULE.makeHot;
 if (!module.makeHot) {
   // put the function into some sane place (e.g. module.makeHot) without relying on hidden variables
-  module.makeHot = SOME_STORAGE_SHARED_BETWEEN_VERSIONS_OF_SAME_MODULE.makeHot = require('react-hot-api')();
+  module.makeHot = SOME_STORAGE_SHARED_BETWEEN_VERSIONS_OF_SAME_MODULE.makeHot = require('react-hot-api')(require('react/lib/ReactMount'));
 }
 // You might generate the code above with your build tool
 // to hide hot reloading mechanics from user.

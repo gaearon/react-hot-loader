@@ -1,5 +1,4 @@
-var ReactMount = require('react/lib/ReactMount'),
-    deepForceUpdate = require('./deepForceUpdate');
+var deepForceUpdate = require('./deepForceUpdate');
 
 var isRequestPending = false;
 
@@ -8,7 +7,7 @@ var isRequestPending = false;
  * Hat's off to Omar Skalli (@Chetane) for suggesting this approach:
  * https://gist.github.com/Chetane/9a230a9fdcdca21a4e29
  */
-function forceUpdateAll() {
+function forceUpdateAll(ReactMount) {
   isRequestPending = false;
 
   var rootInstances = ReactMount._instancesByReactRootID || ReactMount._instancesByContainerID,
