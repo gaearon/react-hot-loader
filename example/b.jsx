@@ -21,8 +21,23 @@ var B = React.createClass({
 
 var C = React.createClass({
   render: function () {
-    return <span>This should also work for multiple components in the same file.</span>;
+    return (
+      <p>
+        This will also work for multiple components in the same file
+        if you explicitly opt them in by calling `module.makeHot`.
+      </p>
+    );
+  },
+
+  componentWillUnmount: function () {
+    window.alert('Unmounting child');
   }
 });
+
+
+// By default, only module.exports is hot, and changes in C
+// will cause unmounting. However, you can opt it in explicitly:
+
+C = module.makeHot(C);
 
 module.exports = B;
