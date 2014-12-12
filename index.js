@@ -5,50 +5,63 @@ var path = require('path'),
     SourceMapConsumer = require('source-map').SourceMapConsumer,
     makeIdentitySourceMap = require('./makeIdentitySourceMap');
 
-var REACT_CLASS_RE = /[Rr]eact\.createClass\s*\(/g;
+var REACT_MARKER_RE = /render\s*[=:\(]/g;
 
 module.exports = function (source, map) {
   if (this.cacheable) {
     this.cacheable();
   }
 
-  if (!source.match(REACT_CLASS_RE)) {
+  var resourcePath = this.resourcePath;
+  if (!source.match(REACT_MARKER_RE)) {
     return this.callback(null, source, map);
   }
 
-  var resourcePath = this.resourcePath,
-      filename = path.basename(resourcePath),
+  var filename = path.basename(resourcePath),
       separator = '\n\n',
       prependText,
-      processedSource,
+      appendText,
       node,
       result;
 
   prependText = [
-    'var __HUA = (function () {',
-      'var React = require("react");',
-      'var getHotUpdateAPI = require(' + JSON.stringify(require.resolve('./getHotUpdateAPI')) + ');',
-      'return getHotUpdateAPI(React, ' + JSON.stringify(filename) + ', module.id);',
-    '})();',
+    '/* REACT HOT LOADER */',
+    'if (module.hot) {',
+      '(function () {',
+        'var reactHotApi = require(' + JSON.stringify(require.resolve('react-hot-api')) + ');',
+        'if (typeof reactHotApi !== "function") {',
+        '  return;',
+        '}',
+        '',
+        'module.makeHot = module.hot.data ?',
+          'module.hot.data.makeHot :',
+          'reactHotApi(require("react/lib/ReactMount"));',
+      '})();',
+    '}'
+  ].join(' ');
+
+  appendText = [
+    '/* REACT HOT LOADER */',
     'if (module.hot) {',
       'module.hot.accept(function (err) {',
         'if (err) {',
           'console.error("Cannot not apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
         '}',
       '});',
-      'module.hot.dispose(function () {',
-        'var nextTick = require(' + JSON.stringify(require.resolve('next-tick')) + ');',
-        'nextTick(__HUA.updateMountedInstances);',
+      'module.hot.dispose(function (data) {',
+      '  data.makeHot = module.makeHot;',
       '});',
+      'if (module.exports && module.makeHot) {',
+      '  module.exports = module.makeHot(module.exports, "__MODULE_EXPORTS")',
+      '}',
     '}'
   ].join(' ');
-
-  processedSource = source.replace(REACT_CLASS_RE, '__HUA.createClass(');
 
   if (this.sourceMap === false) {
     return this.callback(null, [
       prependText,
-      processedSource
+      source,
+      appendText
     ].join(separator));
   }
 
@@ -58,7 +71,8 @@ module.exports = function (source, map) {
 
   node = new SourceNode(null, null, null, [
     new SourceNode(null, null, this.resourcePath, prependText),
-    SourceNode.fromStringWithSourceMap(processedSource, new SourceMapConsumer(map))
+    SourceNode.fromStringWithSourceMap(source, new SourceMapConsumer(map)),
+    new SourceNode(null, null, this.resourcePath, appendText)
   ]).join(separator);
 
   result = node.toStringWithSourceMap();
