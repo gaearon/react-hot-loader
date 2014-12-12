@@ -17,7 +17,7 @@ Registers a hot-reloadable React class. If you don't pass `persistentId`, it is 
 
 #### `require('react-hot'): () => makeHot`
 
-Invoke this once within each hot-reload capable module to get the function described above.  
+Invoke this once within each hot-reloadable module to obtain the function described above.  
 You must pass the result between *all emitted versions of the same module* for hot reload to work.
 
 ### Usage
@@ -47,6 +47,7 @@ var SomeComponent = React.createClass({
 module.exports = SomeComponent;
 
 
+
 // ================================================
 // The code you might generate with your build tool
 // to hide hot reloading mechanics from user:
@@ -74,6 +75,7 @@ var SomeComponent = React.createClass({
 module.exports = SomeComponent;
 
 
+
 // ================================================
 // The code you might generate with your build tool
 // to hide hot reloading mechanics from user:
@@ -97,7 +99,10 @@ if (!module.makeHot) {
   // put the function into some sane place (e.g. module.makeHot) without relying on hidden variables
   module.makeHot = SOME_STORAGE_SHARED_BETWEEN_VERSIONS_OF_SAME_MODULE.makeHot = require('react-hot')();
 }
+// You might generate the code above with your build tool
+// to hide hot reloading mechanics from user.
 // ================================================
+
 
 
 var React = require('react');
@@ -121,3 +126,12 @@ function createLabelComponent(str) {
 var Foo = createLabelComponent('Foo');
 var Bar = createLabelComponent('Bar');
 ```
+
+### Thanks
+
+* [Tobias Koppers](https://github.com/sokra) for Webpack and HMR;
+* [Johannes Lumpe](https://github.com/johanneslumpe) and [Ben Alpert](https://github.com/spicyj) for helping me come up with the original hot reloading approach I'm still using here;
+* [Omar Skalli](https://github.com/Chetane) for coming up with an approach for forcing tree update that is compatible with ES6 classes [just the moment I needed it most](https://twitter.com/dan_abramov/status/543174410493239297);
+* [Kyle Mathews](http://github.com/KyleAMathews) for being the first person to actually use hot loader and helping spread the word when it was in initial stages;
+* [Christopher Chedeau](https://github.com/vjeux) for retweeting my horrendously hacked together proof of concept video, overwhelming response from which gave me the incentive to actually finish this thing;
+* Bret Victor for making me think live editing should be the norm, although he probably hates what people do after watching his videos.
