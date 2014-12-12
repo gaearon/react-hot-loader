@@ -33,7 +33,7 @@ I am only aware of [Webpack Hot Module Replacement](http://webpack.github.io/doc
 
 In which case, here's how you can tranform the source to use it:
 
-#### A.js, first run
+##### SomeComponent.js, first run
 
 ```javascript
 var React = require('react');
@@ -62,7 +62,7 @@ if (!makeHot) {
 module.exports = makeHot(module.exports);
 ```
 
-#### A.js, subsequent runs (emitted after user edits the source)
+##### SomeComponent.js, subsequent runs (emitted after user edits the source)
 ```javascript
 var React = require('react');
 
@@ -92,6 +92,7 @@ module.exports = makeHot(module.exports);
 
 You may also give user some way to access `makeHot` in case they want to allow hot-reloading for arbitrary classes inside the module:
 
+##### AnonComponents.js
 ```javascript
 // The user still doesn't need to know these lines are being inserted by the tool:
 var module.makeHot = SOME_STORAGE_SHARED_BETWEEN_VERSIONS_OF_SAME_MODULE.makeHot;
