@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.0.2
+
+* Don't try to hot-replace `module.export`ed `ReactElement`s
+
 ### 1.0.1
 
 * Delay `require`ing `ReactMount` to avoid circular dependencies
