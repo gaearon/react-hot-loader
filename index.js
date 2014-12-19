@@ -5,15 +5,15 @@ var path = require('path'),
     SourceMapConsumer = require('source-map').SourceMapConsumer,
     makeIdentitySourceMap = require('./makeIdentitySourceMap');
 
-var REACT_MARKER_RE = /render\s*[=:\(]/g;
-
 module.exports = function (source, map) {
   if (this.cacheable) {
     this.cacheable();
   }
 
   var resourcePath = this.resourcePath;
-  if (!source.match(REACT_MARKER_RE)) {
+  if (resourcePath.indexOf('/node_modules/react/') > -1 ||
+      resourcePath.indexOf('/node_modules/webpack/') > -1) {
+    // Skip internals
     return this.callback(null, source, map);
   }
 
