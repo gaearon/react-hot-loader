@@ -288,8 +288,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return NextClass;
 	    }
 
-	    var nextPrototype = (NextClass.type || NextClass).prototype;
-	    if (!nextPrototype || !nextPrototype.render) {
+	    var nextPrototype = (NextClass.type || NextClass).prototype,
+	        typeHasReactClassPrototype = nextPrototype && typeof nextPrototype.render === 'function',
+	        isReactElement = typeHasReactClassPrototype && NextClass.props;
+
+	    if (!typeHasReactClassPrototype || isReactElement) {
 	      return NextClass;
 	    }
 
