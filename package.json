@@ -1,14 +1,8 @@
 {
   "name": "react-hot-loader",
   "version": "1.0.0",
-  "description": "Webpack loader that enables live-editing React components without unmounting or losing their state",
+  "description": "Live edit React components without unmounting or losing their state (a Webpack loader)",
   "main": "index.js",
-  "scripts": {
-    "start": "cd example && node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot"
-  },
-  "directories": {
-    "example": "example"
-  },
   "dependencies": {
     "react-hot-api": "^0.1.6",
     "source-map": "0.1.40"
@@ -16,21 +10,21 @@
   "peerDependencies": {
     "react": ">=0.11.0"
   },
-  "devDependencies": {
-    "jsx-loader": "0.12.0",
-    "react": "0.12.0",
-    "webpack": "~1.4.5",
-    "webpack-dev-server": "~1.4.7"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/gaearon/react-hot-loader.git"
   },
   "keywords": [
     "react",
+    "javascript",
     "webpack",
     "hmr",
-    "livereload"
+    "livereload",
+    "live",
+    "edit",
+    "hot",
+    "loader",
+    "reload"
   ],
   "author": "Dan Abramov",
   "license": "MIT",
