@@ -14,30 +14,25 @@ This is a **stable for daily use in development** implementation of [React live 
 
 ## Usage
 
-#### **[Read the walkthrough!](http://gaearon.github.io/react-hot-loader/#integration)**
+If you want to try hot reloading in a new project, try [one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits), [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate) being the most minimal one.
 
-Seriously! It covers:
+To use hot loader in an existing project, you need to
 
-* porting a project to use Webpack;
-* enabling Hot Module Replacement;
-* integrating react-hot-loader.
+* switch to Webpack for builds (instead of RequireJS or Browserify);
+* enable Hot Module Replacement, which is a Webpack feature;
+* configure Webpack to use React Hot Loader for JS or JSX files.
 
-### Source Maps
+These steps are covered by **[the walkthrough](http://gaearon.github.io/react-hot-loader/#integration)**.
 
-If you use `devtool: 'source-map'` (or its equivalent), source maps will be emitted to hide hot reloading code.
+## Documentation
 
-Source maps slow down your project. Use `devtool: 'eval'` for best build performance.
+Docs are in a bit of a flux right now because I'm in the process of updating everything to document the major 1.0 release.
 
-## Running Example
+If you just learned about React Hot Loader and want to find out more, [check out the introductory post](http://gaearon.github.io/react-hot-loader/) and then try one of the [starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits).
 
-```
-npm install
-npm start
-open http://localhost:8080/webpack-dev-server/bundle
-```
+If you've been with us for a while, keep your eye on [`docs/README.md`](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md) as it will be updated for what's changed in 1.0.
 
-Then edit `example/a.jsx` and `example/b.jsx`.
-Your changes should be displayed live, without unmounting components or destroying their state.
+New landing page is in the works, and once it's released, I'll figure out how to split the documentation.
 
 ## License
 
