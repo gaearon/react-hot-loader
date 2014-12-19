@@ -8,3 +8,9 @@
 
 Don't be shy, add your own.
 
+### Migrating to 1.0
+
+React Hot Loader has reached 1.0, and it's a breaking change.  
+Here's what changed:
+
+TODO
