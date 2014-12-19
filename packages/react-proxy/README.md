@@ -1,4 +1,4 @@
-react-hot-api
+React Hot API
 =========
 
 This is a generic library implementing hot reload for React components without unmounting or losing their state.  
