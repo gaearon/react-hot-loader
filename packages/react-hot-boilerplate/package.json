@@ -29,7 +29,7 @@
   "homepage": "https://github.com/gaearon/react-hot-boilerplate",
   "devDependencies": {
     "jsx-loader": "^0.12.2",
-    "react-hot-loader": "^1.0.0",
+    "react-hot-loader": "^1.0.1",
     "webpack": "^1.4.5",
     "webpack-dev-server": "1.6.4"
   },
