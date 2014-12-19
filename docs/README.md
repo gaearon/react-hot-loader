@@ -14,3 +14,14 @@ React Hot Loader has reached 1.0, and it's a breaking change.
 Here's what changed:
 
 TODO
+
+
+### Miscellaneous
+
+#### Source Maps
+
+If you use `devtool: 'source-map'` (or its equivalent), source maps will be emitted to hide hot reloading code.
+
+Source maps slow down your project. Use `devtool: 'eval'` for best build performance.
+
+Hot reloading code is just one line in the beginning and one line in the end of each module so you might not need source maps at all.
