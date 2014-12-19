@@ -1,3 +1,6 @@
+[![npm package](https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader) [![dependency status](https://img.shields.io/david/gaearon/react-hot-loader.svg?style=flat-square)](https://david-dm.org/gaearon/react-hot-loader) [![peer dependency status](https://img.shields.io/david/peer/gaearon/react-hot-loader.svg?style=flat-square)](https://david-dm.org/gaearon/react-hot-loader) [![npm package](https://img.shields.io/npm/dm/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader) [![gratipay](https://img.shields.io/gratipay/gaearon.svg?style=flat-square)](https://gratipay.com/gaearon/) 
+
+
 # React Hot Loader  
 
 This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
