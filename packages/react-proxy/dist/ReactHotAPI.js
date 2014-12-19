@@ -238,7 +238,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Returns a function that, when invoked, patches a React class with a new
 	 * version of itself. To patch different classes, pass different IDs.
 	 */
-	module.exports = function makeMakeHot(ReactMount) {
+	module.exports = function makeMakeHot(getRootInstances) {
+	  if (typeof getRootInstances !== 'function') {
+	    throw new Error('Expected getRootInstances to be a function.');
+	  }
+
 	  var patchers = {};
 
 	  return function makeHot(NextClass, persistentId) {
@@ -254,7 +258,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    if (!patchers[persistentId]) {
-	      patchers[persistentId] = makePatchReactClass(ReactMount);
+	      patchers[persistentId] = makePatchReactClass(getRootInstances);
 	    }
 
 	    var patchReactClass = patchers[persistentId];
@@ -275,7 +279,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Returns a function that will patch React class with new versions of itself
 	 * on subsequent invocations. Both legacy and ES6 style classes are supported.
 	 */
-	module.exports = function makePatchReactClass(ReactMount) {
+	module.exports = function makePatchReactClass(getRootInstances) {
 	  var assimilatePrototype = makeAssimilatePrototype(),
 	      FirstClass = null;
 
@@ -292,7 +296,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    assimilatePrototype(nextPrototype);
 
 	    if (FirstClass) {
-	      requestForceUpdateAll(ReactMount);
+	      requestForceUpdateAll(getRootInstances);
 	    }
 
 	    return FirstClass || (FirstClass = NextClass);
@@ -307,7 +311,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var isRequestPending = false;
 
-	module.exports = function requestForceUpdateAll(ReactMount) {
+	module.exports = function requestForceUpdateAll(getRootInstances) {
 	  if (isRequestPending) {
 	    return;
 	  }
@@ -320,7 +324,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function forceUpdateAll() {
 	    isRequestPending = false;
 
-	    var rootInstances = ReactMount._instancesByReactRootID || ReactMount._instancesByContainerID,
+	    var rootInstances = getRootInstances(),
 	        rootInstance;
 
 	    for (var key in rootInstances) {
