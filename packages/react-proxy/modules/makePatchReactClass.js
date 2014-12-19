@@ -7,7 +7,7 @@ var makeAssimilatePrototype = require('./makeAssimilatePrototype'),
  * Returns a function that will patch React class with new versions of itself
  * on subsequent invocations. Both legacy and ES6 style classes are supported.
  */
-module.exports = function makePatchReactClass(ReactMount) {
+module.exports = function makePatchReactClass(getRootInstances) {
   var assimilatePrototype = makeAssimilatePrototype(),
       FirstClass = null;
 
@@ -24,7 +24,7 @@ module.exports = function makePatchReactClass(ReactMount) {
     assimilatePrototype(nextPrototype);
 
     if (FirstClass) {
-      requestForceUpdateAll(ReactMount);
+      requestForceUpdateAll(getRootInstances);
     }
 
     return FirstClass || (FirstClass = NextClass);

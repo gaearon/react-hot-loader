@@ -15,16 +15,17 @@ This library drives React hot-reload magic of **[react-hot-loader](https://githu
 
 Registers a hot-reloadable React class. If you don't pass `persistentId`, it is inferred from `ReactClass.displayName` or `ReactClass.name` (for ES6 classes). When called for the first time, it will merely return the passed class. When called the next time with the same `persistentId`, will patch original class with the prototype of the new class, and return the original class.
 
-#### `require('react-hot-api'): (ReactMount) => makeHot`
+#### `require('react-hot-api'): (getRootInstances) => makeHot`
 
 Invoke this once within each hot-reloadable module to obtain the function described above.  
 You must pass the result between *all emitted versions of the same module* for hot reload to work.
 
-`ReactMount` corresponds to `react/lib/ReactMount` and needs to be passed by the caller.
+`getRootInstances` is a method you as a caller should provide. It should return all root components on the page.
+You can implement it by returning `require('react/lib/ReactMount')._instancesByReactRootID` but you may also want to return some known root instance, for example, if you host React Hot API on a webpage for a live editor playground.
 
 ### Usage
 
-This library is not meant to be used directly, unless you're authoring a build tool like [react-hot-loader](https://github.com/gaearon/react-hot-loader).
+This library is not meant to be used directly, unless you're authoring a build tool like [React Hot Loader](https://github.com/gaearon/react-hot-loader).
 
 It only makes sense if your build tool of choice is capable of two things:
 
