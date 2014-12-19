@@ -21,7 +21,7 @@ Here's how we're solving these problems in 1.0:
 
 #### Only `module.exports` is hot by default
 
-With 1.0, we no longer parse your sources. Instead, we only now make `module.exports` hot by default, and only if it has a prototype declaring `render` method. **If you've been splitting each component in a separate file, that means no change for you here!**
+With 1.0, we no longer parse your sources. Instead, we only now make `module.exports` hot by default, and only if it has a prototype declaring `render` method. **If you've been splitting each component in a separate file, that means no change for you here!** This allows us to support exotic wrappers and ES6 classes when they come out.
 
 #### You can make hot anything else via opt-in `module.makeHot` API
 
