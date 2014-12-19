@@ -60,6 +60,9 @@ Note the second parameter: `makeHot` needs some way to distinguish components of
 
 You can now use `react-hot?manual` instead of `react-hot` in Webpack config to turn on manual mode. In manual mode, “accepting” hot updates is up to you; modules won't accept themselves automatically. This can be used, for example, to put reloading logic on very top of the application and [hot-reload routes as well as components](https://github.com/rackt/react-router/pull/606#issuecomment-66936975). It will also work better when you have a lot of modules that export component-generating functions because updates will propagate to the top. (Don't worry if you don't understand this; it's just something experimental you might want to try to integrate hot reloading deeper into your app.)
 
+### React Hot API
+
+If you're authoring a build tool, you might be interested to hear that React Hot Loader brains have been extracted into runtime-agnostic [React Hot API](https://github.com/gaearon/react-hot-api). React Hot Loader just binds that API to Webpack runtime, but you can implement yours too.
 
 ### Miscellaneous
 
