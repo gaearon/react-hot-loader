@@ -14,8 +14,10 @@ React Hot Loader has reached 1.0, and it's a breaking change. When React Hot Loa
 
 * Doesn't work when components are created through wrappers (e.g. [OmniscientJS](http://omniscientjs.github.io));
 * Doesn't work when author calls React differently;
-* Causes false positives in React source code comments;
+* Causes false positives in React source code comments and elsewhere;
 * Most importantly, won't work with ES6 classes that will be future of React.
+
+Here's how we're solving these problems in 1.0:
 
 #### Only `module.exports` is hot by default
 
