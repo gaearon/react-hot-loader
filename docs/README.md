@@ -32,7 +32,7 @@ var Something = React.createClass({
   ...
 };
 
-if (module.makeHot) {
+if (module.makeHot) { // Won't be true in production
   Something = module.makeHot(Something);
 }
 ```
