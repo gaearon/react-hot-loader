@@ -10,10 +10,53 @@ Don't be shy, add your own.
 
 ### Migrating to 1.0
 
-React Hot Loader has reached 1.0, and it's a breaking change.  
-Here's what changed:
+React Hot Loader has reached 1.0, and it's a breaking change. When React Hot Loader just started, it used a regex to find `createClass` calls and replace them with its own implementation. This turned out to be a bad idea for a number of reasons:
 
-TODO
+* Doesn't work when components are created through wrappers (e.g. [OmniscientJS](http://omniscientjs.github.io));
+* Doesn't work when author calls React differently;
+* Causes false positives in React source code comments;
+* Most importantly, won't work with ES6 classes that will be future of React.
+
+#### Only `module.exports` is hot by default
+
+With 1.0, we no longer parse your sources. Instead, **now by default we only make `module.exports` hot**, and only if it has a prototype declaring `render` method. **If you've been splitting each component in a separate file, that means no change for you here!**
+
+#### You can make hot anything else via opt-in `module.makeHot` API
+
+But what if you *want* to have several hot-reloadable components in one file? Or what if you want to export a function creating components, or an object with several components as properties? For that, 1.0 **adds first public API to hot loader: `module.makeHot`**. This method will be present on `module` object if hot loader is enabled, and allows you to make any component hot:
+
+```js
+var Something = React.createClass({
+  ...
+};
+
+if (module.makeHot) {
+  Something = module.makeHot(Something);
+}
+```
+
+Explicit API can also be used inside functions:
+
+```js
+function generateClass(param) {
+  var Class = return React.createClass({
+    ...
+  };
+
+  if (module.makeHot) {
+    Class = module.makeHot(Class, param);
+  }
+
+  return Class;
+}
+
+```
+
+Note the second parameter: `makeHot` needs some way to distinguish components of same type inside on module. By default, it uses `displayName` of given component class, but in case of dynamically generated classes (or if you're not using JSX), you have to provide it yourself.
+
+#### Manual mode (experimental)
+
+You can now use `react-hot?manual` instead of `react-hot` in Webpack config to turn on manual mode. In manual mode, “accepting” hot updates is up to you; modules won't accept themselves automatically. This can be used, for example, to put reloading logic on very top of the application and [hot-reload routes as well as components](https://github.com/rackt/react-router/pull/606#issuecomment-66936975). It will also work better when you have a lot of modules that export component-generating functions because updates will propagate to the top. (Don't worry if you don't understand this; it's just something experimental you might want to try to integrate hot reloading deeper into your app.)
 
 
 ### Miscellaneous
