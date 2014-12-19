@@ -30,7 +30,7 @@ Docs are in a bit of a flux right now because I'm in the process of updating eve
 
 If you just learned about React Hot Loader and want to find out more, **[check out the introductory post](http://gaearon.github.io/react-hot-loader/)** and then try one of the **[starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**.
 
-If you've been with us for a while, keep your eye on **[`docs/README.md`](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md)** as it will be updated for what's changed in 1.0.
+If you've been with us for a while, read **[1.0 release notes and migration guide](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#migrating-to-10)**.
 
 New landing page is in the works, and once it's released, I'll figure out how to split the documentation.
 
