@@ -4,7 +4,7 @@
   "description": "Live edit React components without unmounting or losing their state (a Webpack loader)",
   "main": "index.js",
   "dependencies": {
-    "react-hot-api": "^0.1.6",
+    "react-hot-api": "^0.2.0",
     "source-map": "0.1.40"
   },
   "peerDependencies": {
