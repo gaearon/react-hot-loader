@@ -6,7 +6,7 @@ This is a **stable for daily use in development** implementation of [React live 
 
 * Read **[technical explanation and integration walkthrough](http://gaearon.github.io/react-hot-loader/).**
 
-* Use **one of the [starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)** for your next React project.
+* Use **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)** for your next React project.
 
 ## Installation
 
