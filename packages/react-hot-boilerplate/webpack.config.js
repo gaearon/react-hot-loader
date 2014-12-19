@@ -4,7 +4,7 @@ module.exports = {
   // If it gets slow on your project, change to 'eval':
   devtool: 'source-map',
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
+    'webpack-dev-server/client?http://0.0.0.0:3000',
     'webpack/hot/only-dev-server',
     './scripts/index'
   ],
