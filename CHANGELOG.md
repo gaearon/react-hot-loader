@@ -1,6 +1,11 @@
 ## Changelog
 
-### 1.0
+### 1.0.1
+
+* Delay `require`ing `ReactMount` to avoid circular dependencies
+* Don't process React or Webpack internals to avoid potential issues
+
+### 1.0.0
 
 * Don't rely on `createClass` regex or any other regex
 * Only `module.exports` is hot by default
