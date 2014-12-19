@@ -1,4 +1,4 @@
-# react-hot-loader
+# React Hot Loader  
 
 This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
 
