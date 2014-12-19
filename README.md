@@ -14,7 +14,7 @@ This is a **stable for daily use in development** implementation of [React live 
 
 ## Usage
 
-If you want to try hot reloading in a new project, try [one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits), [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate) being the most minimal one.
+If you want to try hot reloading in a new project, try **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**, **[react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate)** being the most minimal one.
 
 To use hot loader in an existing project, you need to
 
@@ -28,9 +28,9 @@ These steps are covered by **[the walkthrough](http://gaearon.github.io/react-ho
 
 Docs are in a bit of a flux right now because I'm in the process of updating everything to document the major 1.0 release.
 
-If you just learned about React Hot Loader and want to find out more, [check out the introductory post](http://gaearon.github.io/react-hot-loader/) and then try one of the [starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits).
+If you just learned about React Hot Loader and want to find out more, **[check out the introductory post](http://gaearon.github.io/react-hot-loader/)** and then try one of the **[starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**.
 
-If you've been with us for a while, keep your eye on [`docs/README.md`](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md) as it will be updated for what's changed in 1.0.
+If you've been with us for a while, keep your eye on **[`docs/README.md`](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md)** as it will be updated for what's changed in 1.0.
 
 New landing page is in the works, and once it's released, I'll figure out how to split the documentation.
 
