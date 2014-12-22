@@ -42,19 +42,26 @@ module.exports = function (source, map) {
   appendText = [
     '/* REACT HOT LOADER */',
     'if (module.hot) {',
-      acceptUpdates ? [
-        'module.hot.accept(function (err) {',
-          'if (err) {',
-            'console.error("Cannot not apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
+      '(function () {',
+        acceptUpdates ? [
+          'module.hot.accept(function (err) {',
+            'if (err) {',
+              'console.error("Cannot not apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
+            '}',
+          '});'
+        ].join(' ') : '',
+        'module.hot.dispose(function (data) {',
+        '  data.makeHot = module.makeHot;',
+        '});',
+        'if (module.exports && module.makeHot) {',
+          'module.exports = module.makeHot(module.exports, "__MODULE_EXPORTS");',
+          'for (var key in module.exports) {',
+            'if (module.exports[key] && module.exports.hasOwnProperty(key)) {',
+              'module.exports[key] = module.makeHot(module.exports[key], "__MODULE_EXPORTS_" + key);',
+            '}',
           '}',
-        '});'
-      ].join(' ') : '',
-      'module.hot.dispose(function (data) {',
-      '  data.makeHot = module.makeHot;',
-      '});',
-      'if (module.exports && module.makeHot) {',
-      '  module.exports = module.makeHot(module.exports, "__MODULE_EXPORTS")',
-      '}',
+        '}',
+      '})();',
     '}'
   ].join(' ');
 
