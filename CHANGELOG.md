@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.0.4
+
+* Allow both `module.exports` and its properties be components (Fixes [#50](https://github.com/gaearon/react-hot-loader/issues/50))
+
 ### 1.0.3
 
 * In addition to hotifying `module.exports` by default, also hotify all its own properties
