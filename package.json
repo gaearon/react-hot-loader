@@ -1,6 +1,6 @@
 {
   "name": "react-hot-loader",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Live edit React components without unmounting or losing their state (a Webpack loader)",
   "main": "index.js",
   "dependencies": {

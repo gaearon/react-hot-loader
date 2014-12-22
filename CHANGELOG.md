@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.0.3
+
+* In addition to hotifying `module.exports` by default, also hotify all its own properties
+
 ### 1.0.2
 
 * Don't try to hot-replace `module.export`ed `ReactElement`s
