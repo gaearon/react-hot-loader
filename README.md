@@ -3,6 +3,8 @@
 
 # React Hot Loader  
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gaearon/react-hot-loader?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
 
 * Get inspired by a **[demo video](https://vimeo.com/100010922).**
