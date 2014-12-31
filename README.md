@@ -3,8 +3,6 @@
 
 # React Hot Loader  
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gaearon/react-hot-loader?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
 
 * Get inspired by a **[demo video](https://vimeo.com/100010922).**
@@ -38,6 +36,11 @@ If you just learned about React Hot Loader and want to find out more, **[check o
 If you've been with us for a while, read **[1.0 release notes and migration guide](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#migrating-to-10)**.
 
 New landing page is in the works, and once it's released, I'll figure out how to split the documentation.
+
+## Got Questions?
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gaearon/react-hot-loader?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 ## License
 
