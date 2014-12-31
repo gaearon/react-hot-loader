@@ -53,7 +53,12 @@ module.exports = function makeAssimilatePrototype() {
   }
 
   return function assimilatePrototype(freshPrototype) {
+    if (freshPrototype.__isAssimilatedByReactHotAPI) {
+      return;
+    }
+
     updateStoredPrototype(freshPrototype);
     reconcileWithStoredPrototypes(freshPrototype);
+    freshPrototype.__isAssimilatedByReactHotAPI = true;
   };
 };
