@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.0.5
+
+* Fix stack overflow when hotifying same class twice ([#52](https://github.com/gaearon/react-hot-loader/issues/52))
+
 ### 1.0.4
 
 * Allow both `module.exports` and its properties be components (Fixes [#50](https://github.com/gaearon/react-hot-loader/issues/50))
