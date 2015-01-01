@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.0.6
+
+* Add `require('react-hot-loader/Injection')` to override Hot Loader behavior. Now you can supply your own way of getting root component instances, so Hot Loader can also work in environment where `require('react/lib/ReactMount')` is not available (for example, [when React is used as standalone bundle and not NPM package](https://github.com/gaearon/react-hot-loader/issues/53)).
+
 ### 1.0.5
 
 * Fix stack overflow when hotifying same class twice ([#52](https://github.com/gaearon/react-hot-loader/issues/52))
