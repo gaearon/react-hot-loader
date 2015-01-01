@@ -56,20 +56,46 @@ function generateClass(param) {
 
 Note the second parameter: `makeHot` needs some way to distinguish components of same type inside on module. By default, it uses `displayName` of given component class, but in case of dynamically generated classes (or if you're not using JSX), you have to provide it yourself.
 
-#### Manual mode (experimental)
+### Manual mode (experimental)
 
 You can now use `react-hot?manual` instead of `react-hot` in Webpack config to turn on manual mode. In manual mode, “accepting” hot updates is up to you; modules won't accept themselves automatically. This can be used, for example, to put reloading logic on very top of the application and [hot-reload routes as well as components](https://github.com/rackt/react-router/pull/606#issuecomment-66936975). It will also work better when you have a lot of modules that export component-generating functions because updates will propagate to the top. (Don't worry if you don't understand this; it's just something experimental you might want to try to integrate hot reloading deeper into your app.)
 
-### React Hot API
+### Usage with external React
 
-If you're authoring a build tool, you might be interested to hear that React Hot Loader brains have been extracted into runtime-agnostic [React Hot API](https://github.com/gaearon/react-hot-api). React Hot Loader just binds that API to Webpack runtime, but you can implement yours too.
+If you're using external standalone React bundle instead of NPM package, Hot Loader will fail because it relies on `react/lib/ReactMount` which is not exposed in precompiled React. It needs `ReactMount` to keep track of mounted React component instances on the page. However, you can supply your own root instance provider:
 
-### Miscellaneous
+```js
+// Your app's index.js
 
-#### Source Maps
+var React = require('react'),
+    router = require('./router');
+
+var rootInstance = null;
+
+router.run(function (Handler, state) {
+  rootInstance = React.render(<Handler />, document.body);
+});
+
+if (module.hot) {
+  require('react-hot-loader/Injection').RootInstanceProvider.injectProvider({
+    getRootInstances: function () {
+      // Help React Hot Loader figure out the root component instances on the page:
+      return [rootInstance];
+    }
+  });
+}
+```
+
+You'll only need this if you [use a precompiled version of React](https://github.com/gaearon/react-hot-loader/issues/53). If you use React NPM package, this is not necessary. You should generally use React NPM package unless you have good reason not to.
+
+### Source Maps
 
 If you use `devtool: 'source-map'` (or its equivalent), source maps will be emitted to hide hot reloading code.
 
 Source maps slow down your project. Use `devtool: 'eval'` for best build performance.
 
 Hot reloading code is just one line in the beginning and one line in the end of each module so you might not need source maps at all.
+
+### React Hot API
+
+If you're authoring a build tool, you might be interested to hear that React Hot Loader brains have been extracted into runtime-agnostic [React Hot API](https://github.com/gaearon/react-hot-api). React Hot Loader just binds that API to Webpack runtime, but you can implement yours too.
