@@ -11,9 +11,8 @@ module.exports = function (source, map) {
   }
 
   var resourcePath = this.resourcePath;
-  if (resourcePath.indexOf('/node_modules/react/') > -1 ||
-      resourcePath.indexOf('/node_modules/webpack/') > -1) {
-    // Skip internals
+  if (/node_modules/.test(resourcePath)) {
+    // Skip non-user code, including React and Webpack internals
     return this.callback(null, source, map);
   }
 
