@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.1.0
+
+* Skipping `node_modules` entirely [wasn't](https://github.com/gaearon/react-hot-loader/issues/58) [the best idea](https://github.com/gaearon/react-hot-loader/issues/55). Instead, we now specifically skip `node_modules/react/`, `node_modules/webpack/` and `node_modules/react-hot-loader/`. However you are still **encouraged** to [add `exclude: /node_modules/` to your loader config](https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js#L24) for best performance.
+* Now modules that don't export any valid React classes in `module.exports` or any its properties will not be auto-accepted. This prevents hot loader from trying to handle non-React updates and allows changes in plain JS files to propagate to components that can handle them. For example, this allows [react-jss](https://github.com/jsstyles/react-jss) mixin to apply hot updates to JSS styles.
+
 ### 1.0.7
 
 * Skip `node_modules` entirely. Fixes [#54](https://github.com/gaearon/react-hot-loader/issues/54) on Windows.
