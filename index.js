@@ -11,8 +11,8 @@ module.exports = function (source, map) {
   }
 
   var resourcePath = this.resourcePath;
-  if (/node_modules/.test(resourcePath)) {
-    // Skip non-user code, including React and Webpack internals
+  if (/node_modules[\\/](react|react-hot-loader|webpack)[\\/]/.test(resourcePath)) {
+    // Skip React, Webpack and own internals
     return this.callback(null, source, map);
   }
 
@@ -31,9 +31,7 @@ module.exports = function (source, map) {
         'var ReactHotAPI = require(' + JSON.stringify(require.resolve('react-hot-api')) + '),',
         '    RootInstanceProvider = require(' + JSON.stringify(require.resolve('./RootInstanceProvider')) + ');',
 
-        'if (typeof ReactHotAPI === "function" && typeof RootInstanceProvider === "object") {',
-          'module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(RootInstanceProvider.getRootInstances);',
-        '}',
+        'module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(RootInstanceProvider.getRootInstances);',
       '})();',
     '}'
   ].join(' ');
@@ -50,7 +48,7 @@ module.exports = function (source, map) {
           'var makeExportsHot = require(' + JSON.stringify(require.resolve('./makeExportsHot')) + '),',
               'foundReactClasses = false;',
 
-          'if (makeExportsHot && makeExportsHot(module)) {',
+          'if (makeExportsHot(module)) {',
             'foundReactClasses = true;',
           '}',
 
