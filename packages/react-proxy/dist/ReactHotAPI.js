@@ -289,18 +289,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      FirstClass = null;
 
 	  return function patchReactClass(NextClass) {
-	    if (!NextClass) {
-	      return NextClass;
-	    }
-
-	    var nextPrototype = (NextClass.type || NextClass).prototype,
-	        typeHasReactClassPrototype = nextPrototype && typeof nextPrototype.render === 'function',
-	        isReactElement = typeHasReactClassPrototype && NextClass.props;
-
-	    if (!typeHasReactClassPrototype || isReactElement) {
-	      return NextClass;
-	    }
-
+	    var nextPrototype = (NextClass.type || NextClass).prototype;
 	    assimilatePrototype(nextPrototype);
 
 	    if (FirstClass) {
