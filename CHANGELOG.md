@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.1.1
+
+* Fix edge cases by requiring `react/lib/ReactMount` in transformed source files
+* Add a warning if `ReactMount` doesn't return anything useful (e.g. when using external React)
+
 ### 1.1.0
 
 * Skipping `node_modules` entirely [wasn't](https://github.com/gaearon/react-hot-loader/issues/58) [the best idea](https://github.com/gaearon/react-hot-loader/issues/55). Instead, we now specifically skip `node_modules/react/`, `node_modules/webpack/` and `node_modules/react-hot-loader/`. However you are still **encouraged** to [add `exclude: /node_modules/` to your loader config](https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js#L24) for best performance.
