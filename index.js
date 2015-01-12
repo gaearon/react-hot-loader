@@ -11,8 +11,7 @@ module.exports = function (source, map) {
   }
 
   var resourcePath = this.resourcePath;
-  if (/node_modules[\\/](react|react-hot-loader|webpack)[\\/]/.test(resourcePath)) {
-    // Skip React, Webpack and own internals
+  if (/[\\/]webpack[\\/]buildin[\\/]module\.js|[\\/]react-hot-loader[\\/]/.test(resourcePath)) {
     return this.callback(null, source, map);
   }
 
@@ -29,9 +28,12 @@ module.exports = function (source, map) {
     'if (module.hot) {',
       '(function () {',
         'var ReactHotAPI = require(' + JSON.stringify(require.resolve('react-hot-api')) + '),',
-        '    RootInstanceProvider = require(' + JSON.stringify(require.resolve('./RootInstanceProvider')) + ');',
+            'RootInstanceProvider = require(' + JSON.stringify(require.resolve('./RootInstanceProvider')) + '),',
+            'ReactMount = require("react/lib/ReactMount");',
 
-        'module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(RootInstanceProvider.getRootInstances);',
+        'module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () {',
+          'return RootInstanceProvider.getRootInstances(ReactMount);',
+        '});',
       '})();',
     '}'
   ].join(' ');
