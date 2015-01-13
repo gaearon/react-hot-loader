@@ -21,6 +21,22 @@ If you're using React Hot Loader together with [Babel](https://babeljs.io/) (ex 
 
 Webpack applies `loaders` right to left, and we need to feed Babel's *output* to React Hot Loader, not vice versa.
 
+#### Error: Invalid path './' (or similar)
+
+If you're using a relative output path in your Webpack config, wrap it in a call to `path.resolve()`:
+
+```js
+var path = require('path');
+
+module.exports = {
+  ...,
+  output: {
+    path: path.resolve('./my-relative-path'),
+    ...
+  }
+};
+```
+
 ---------
 
 ### Can't Hot Reload
