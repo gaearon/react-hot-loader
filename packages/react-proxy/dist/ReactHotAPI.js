@@ -110,11 +110,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Based on https://github.com/facebook/react/blob/master/src/class/ReactClass.js#L679.
 	 */
 	module.exports = function bindAutoBindMethods(component) {
-	  if (!component.__reactAutoBindMap && component._instance) {
-	    // React 0.13 wraps component instances
-	    component = component._instance;
-	  }
-
 	  for (var autoBindKey in component.__reactAutoBindMap) {
 	    if (!component.__reactAutoBindMap.hasOwnProperty(autoBindKey)) {
 	      continue;
@@ -145,6 +140,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Makes sure that any newly added methods are properly auto-bound.
 	 */
 	function deepForceUpdate(component) {
+	  if (component._instance) {
+	    // React 0.13
+	    component = component._instance;
+	  }
+
 	  bindAutoBindMethods(component);
 
 	  if (component.forceUpdate) {
