@@ -28,6 +28,10 @@ module.exports = function makeAssimilatePrototype() {
 
     proto[key] = wrapMethod(key);
 
+    if (storedPrototype[key].isReactClassApproved) {
+      proto[key].isReactClassApproved = storedPrototype[key].isReactClassApproved;
+    }
+
     if (proto.__reactAutoBindMap && proto.__reactAutoBindMap[key]) {
       proto.__reactAutoBindMap[key] = proto[key];
     }
