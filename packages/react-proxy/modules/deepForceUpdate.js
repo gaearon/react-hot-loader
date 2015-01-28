@@ -8,6 +8,11 @@ var bindAutoBindMethods = require('./bindAutoBindMethods');
  * Makes sure that any newly added methods are properly auto-bound.
  */
 function deepForceUpdate(component) {
+  if (component._instance) {
+    // React 0.13
+    component = component._instance;
+  }
+
   bindAutoBindMethods(component);
 
   if (component.forceUpdate) {
