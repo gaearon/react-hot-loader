@@ -1,6 +1,6 @@
 {
   "name": "react-hot-loader",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Live edit React components without unmounting or losing their state (a Webpack loader)",
   "main": "index.js",
   "dependencies": {
@@ -8,7 +8,7 @@
     "source-map": "0.1.40"
   },
   "peerDependencies": {
-    "react": ">=0.11.0"
+    "react": ">=0.11.0 || >=0.13.0-beta.1"
   },
   "repository": {
     "type": "git",
