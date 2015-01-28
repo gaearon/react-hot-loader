@@ -5,8 +5,8 @@ function isReactElementish(obj) {
     return false;
   }
 
-  return isReactClassish(obj.type) &&
-         Object.prototype.toString.call(obj.props) === '[object Object]';
+  return Object.prototype.toString.call(obj.props) === '[object Object]' &&
+         isReactClassish(obj.type);
 }
 
 module.exports = isReactElementish;

@@ -3,8 +3,17 @@ function isReactClassish(obj) {
     return false;
   }
 
-  var prototype = (obj.type || obj).prototype;
-  return prototype && typeof prototype.render === 'function' || false;
+  if (obj.prototype && typeof obj.prototype.render === 'function') {
+    // React 0.13
+    return true;
+  }
+
+  if (obj.type && obj.type.prototype && typeof obj.type.prototype.render === 'function') {
+    // React 0.12 and earlier
+    return true;
+  }
+
+  return false;
 }
 
 module.exports = isReactClassish;
