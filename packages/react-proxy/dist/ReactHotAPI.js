@@ -196,6 +196,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    proto[key] = wrapMethod(key);
 
+	    if (storedPrototype[key].isReactClassApproved) {
+	      proto[key].isReactClassApproved = storedPrototype[key].isReactClassApproved;
+	    }
+
 	    if (proto.__reactAutoBindMap && proto.__reactAutoBindMap[key]) {
 	      proto.__reactAutoBindMap[key] = proto[key];
 	    }
@@ -280,6 +284,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	var makeAssimilatePrototype = __webpack_require__(3),
 	    requestForceUpdateAll = __webpack_require__(6);
 
+	function hasLegacyTypeProperty(ReactClass) {
+	  if (!ReactClass.hasOwnProperty('type')) {
+	    return false;
+	  }
+
+	  var descriptor = Object.getOwnPropertyDescriptor(ReactClass, 'type');
+	  if (typeof descriptor.get === 'function') {
+	    return false;
+	  }
+
+	  return true;
+	}
+
+	function getPrototype(ReactClass) {
+	  var prototype = ReactClass.prototype;
+
+	  if (typeof prototype.render !== 'function' && hasLegacyTypeProperty(ReactClass)) {
+	    prototype = ReactClass.type.prototype;
+	  }
+
+	  return prototype;
+	}
+
 	/**
 	 * Returns a function that will patch React class with new versions of itself
 	 * on subsequent invocations. Both legacy and ES6 style classes are supported.
@@ -289,7 +316,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      FirstClass = null;
 
 	  return function patchReactClass(NextClass) {
-	    var nextPrototype = (NextClass.type || NextClass).prototype;
+	    var nextPrototype = getPrototype(NextClass);
 	    assimilatePrototype(nextPrototype);
 
 	    if (FirstClass) {
