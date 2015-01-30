@@ -3,7 +3,7 @@
 var makeAssimilatePrototype = require('./makeAssimilatePrototype'),
     requestForceUpdateAll = require('./requestForceUpdateAll');
 
-function hasLegacyTypeProperty(ReactClass) {
+function hasNonStubTypeProperty(ReactClass) {
   if (!ReactClass.hasOwnProperty('type')) {
     return false;
   }
@@ -17,9 +17,10 @@ function hasLegacyTypeProperty(ReactClass) {
 }
 
 function getPrototype(ReactClass) {
-  var prototype = ReactClass.prototype;
+  var prototype = ReactClass.prototype,
+      seemsLegit = prototype && typeof prototype.render === 'function';
 
-  if (typeof prototype.render !== 'function' && hasLegacyTypeProperty(ReactClass)) {
+  if (!seemsLegit && hasNonStubTypeProperty(ReactClass)) {
     prototype = ReactClass.type.prototype;
   }
 
