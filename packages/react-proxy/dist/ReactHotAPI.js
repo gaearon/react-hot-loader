@@ -284,7 +284,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var makeAssimilatePrototype = __webpack_require__(3),
 	    requestForceUpdateAll = __webpack_require__(6);
 
-	function hasLegacyTypeProperty(ReactClass) {
+	function hasNonStubTypeProperty(ReactClass) {
 	  if (!ReactClass.hasOwnProperty('type')) {
 	    return false;
 	  }
@@ -298,9 +298,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function getPrototype(ReactClass) {
-	  var prototype = ReactClass.prototype;
+	  var prototype = ReactClass.prototype,
+	      seemsLegit = prototype && typeof prototype.render === 'function';
 
-	  if (typeof prototype.render !== 'function' && hasLegacyTypeProperty(ReactClass)) {
+	  if (!seemsLegit && hasNonStubTypeProperty(ReactClass)) {
 	    prototype = ReactClass.type.prototype;
 	  }
 
