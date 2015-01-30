@@ -41,6 +41,12 @@ New landing page is in the works, and once it's released, I'll figure out how to
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gaearon/react-hot-loader?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+## Coming Soon
+
+* Hot Reloading [React Router](https://github.com/rackt/react-router) routes
+* Hot Reloading [Flux Stores](https://github.com/gaearon/flux-hot-loader)
+
+Watch the repo to stay tuned!
 
 ## License
 
