@@ -40,19 +40,17 @@ module.exports = function makeAssimilatePrototype() {
   function updateStoredPrototype(freshPrototype) {
     storedPrototype = {};
 
-    for (var key in freshPrototype) {
-      if (freshPrototype.hasOwnProperty(key)) {
-        storedPrototype[key] = freshPrototype[key];
-      }
-    }
+    Object.getOwnPropertyNames(freshPrototype).forEach(function (key) {
+      storedPrototype[key] = freshPrototype[key];
+    });
   }
 
   function reconcileWithStoredPrototypes(freshPrototype) {
     knownPrototypes.push(freshPrototype);
     knownPrototypes.forEach(function (proto) {
-      for (var key in storedPrototype) {
+      Object.getOwnPropertyNames(storedPrototype).forEach(function (key) {
         patchProperty(proto, key);
-      }
+      });
     });
   }
 
