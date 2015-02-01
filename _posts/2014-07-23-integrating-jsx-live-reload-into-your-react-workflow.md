@@ -3,8 +3,7 @@ layout: post
 title: "Integrating JSX live reload into your React workflow"
 ---
 
->Note: this post is long and somewhat outdated.  
->Don't be intimidated by it, read [short intro by Joseph Furlott](http://jmfurlott.com/setting-up-react-hot-loader/) instead!
+>Note: this post is long and slightly outdated. If youʼre only here for an integration walkthrough, read [short intro by Joseph Furlott](http://jmfurlott.com/setting-up-react-hot-loader/)!
 
 Do you want [Bret Victoresque](http://vimeo.com/36579366) live reload for your React app as you edit it?
 
@@ -139,7 +138,7 @@ Happy hot reloading!
 
 ## Links
 
-* **[Tutorial fork with live reload on Github](https://github.com/gaearon/react-tutorial-hot)**
+* **[Starter Kits with React Hot Loader included](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**
 
 * **[react-hot-loader on Github](https://github.com/gaearon/react-hot-loader)**
 
