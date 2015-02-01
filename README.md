@@ -31,7 +31,7 @@ These steps are covered by **[the walkthrough](http://gaearon.github.io/react-ho
 
 Docs are in a bit of a flux right now because I'm in the process of updating everything to document the major 1.0 release.
 
-If you just learned about React Hot Loader and want to find out more, **[check out the introductory post](http://gaearon.github.io/react-hot-loader/)** and then try one of the **[starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**.
+If you just learned about React Hot Loader and want to find out more, **[check out the introductory post by Joseph Furlott](http://jmfurlott.com/setting-up-react-hot-loader/)** and then try one of the **[starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**.
 
 If you've been with us for a while, read **[1.0 release notes and migration guide](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#migrating-to-10)**.
 
