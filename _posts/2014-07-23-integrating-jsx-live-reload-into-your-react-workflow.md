@@ -3,6 +3,9 @@ layout: post
 title: "Integrating JSX live reload into your React workflow"
 ---
 
+>Note: this post is long and somewhat outdated.  
+>Don't be intimidated by it, read [short intro by Joseph Furlott](http://jmfurlott.com/setting-up-react-hot-loader/) instead!
+
 Do you want [Bret Victoresque](http://vimeo.com/36579366) live reload for your React app as you edit it?
 
 <iframe src="//player.vimeo.com/video/100010922" width="800" height="461" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
@@ -102,147 +105,7 @@ This part explains how to integrate React live reload into your project.
 
 ### Porting Your Project to Webpack
 
-Weʼll start by forking [ReactJS Tutorial](https://github.com/reactjs/react-tutorial) app and porting it to use Webpack.  
-You may skip this part if your project already uses Webpack.
-
-The [original project](https://github.com/reactjs/react-tutorial) loads a couple of scripts in `index.html`:
-
-{% highlight html %}
-<script src="http://fb.me/react-0.10.0.js"></script>
-<script src="http://fb.me/JSXTransformer-0.10.0.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
-{% endhighlight %}
-
-Although it is not strictly required, we will use NPM versions of React and jQuery instead:
-
-{% highlight sh %}
-npm install --save react
-npm install --save jquery
-{% endhighlight %}
-
-Weʼll leave `Showdown` as a `<script>` tag because its source contains weird `require`s that [choke static tools like Webpack and Browserify](https://github.com/coreyti/showdown/issues/50). This is not a problem for us, because we can still configure Webpack to read this module from a global variable.
-
-As for `JSXTransformer`, we can drop it and let Webpack transform our JSX instead during the compilation.
-
-We need to install Webpack, [dev server](http://webpack.github.io/docs/webpack-dev-server.html) and [JSX loader](https://github.com/petehunt/jsx-loader):
-
-{% highlight sh %}
-npm install --save-dev webpack
-npm install --save-dev webpack-dev-server
-npm install --save-dev jsx-loader
-{% endhighlight %}
-
-Next, letʼs create a basic `webpack.config.js` (itʼs just code):
-
-{% highlight js %}
-module.exports = {
-  // Entry point for static analyzer:
-  entry: './scripts/example',
-
-  output: {
-    // Where to put build results when doing production builds:
-    // (Server doesn't write to the disk, but this is required.)
-    path: __dirname,
-
-    // JS filename you're going to use in HTML
-    filename: 'bundle.js',
-
-    // Path you're going to use in HTML
-    publicPath: '/scripts/'
-  },
-
-  resolve: {
-    // Allow to omit extensions when requiring these files
-    extensions: ['', '.js', '.jsx']
-  },
-
-  module: {
-    loaders: [
-      // Pass *.jsx files through jsx-loader transform
-      { test: /\.jsx$/, loader: 'jsx' },
-    ]
-  },
-
-  externals: {
-    // Showdown is not is node_modules,
-    // so we tell Webpack to resolve it to a global
-    'showdown': 'window.Showdown'
-  }
-};
-{% endhighlight %}
-
-See [Webpack configuration](http://webpack.github.io/docs/configuration.html) for more options.
-
-We told Webpack to run all JSX files through `jsx-loader` so we will now rename `scripts/example.js` to `scripts/example.jsx`. We will also change main `<script>` tag path to match our config `output` settings:
-
-{% highlight html %}
-<script src="/scripts/bundle.js"></script>
-{% endhighlight %}
-
-There are two things left to do before we can run React tutorial using Webpack.
-
-Firstly, we need to add a few `require`s to `example.jsx`. Previously these libraries were loaded from the global scope, but now Webpack manages them:
-
-{% highlight js %}
-var Showdown = require('showdown');
-var $ = require('jquery');
-var React = require('react');
-{% endhighlight %}
-
-Finally, we need to update `server.js` to run `webpack-dev-server`. The tutorial used Express app for mocking an API and serving static files. Since we will use `webpack-dev-server` for serving application files, it would be reasonable to run API on a different port. We will change API to run on port 3001, and use port 3000 for `webpack-dev-server`.
-
-Here are the changes we need to make to `server.js`:
-
-{% highlight diff %}
-@@ -1,13 +1,21 @@
- var express = require('express');
- var bodyParser = require('body-parser');
- var app = express();
-+var webpack = require('webpack');
-+var WebpackDevServer = require('webpack-dev-server');
-+var config = require('./webpack.config');
-
- var comments = [{author: 'Pete Hunt', text: 'Hey there!'}];
-
--app.use('/', express.static(__dirname));
- app.use(bodyParser.json());
- app.use(bodyParser.urlencoded({extended: true}));
-
-+app.all('/*', function(req, res, next) {
-+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-+  next();
-+});
-+
- app.get('/comments.json', function(req, res) {
-   res.setHeader('Content-Type', 'application/json');
-   res.send(JSON.stringify(comments));
-@@ -19,6 +27,14 @@ app.post('/comments.json', function(req, res) {
-   res.send(JSON.stringify(comments));
- });
-
--app.listen(3000);
-+app.listen(3001);
-
--console.log('Server started: http://localhost:3000/');
-+new WebpackDevServer(webpack(config), {
-+  publicPath: config.output.publicPath
-+}).listen(3000, 'localhost', function (err, result) {
-+  if (err) {
-+    console.log(err);
-+  }
-+
-+  console.log('Listening at localhost:3000');
-+});
-{% endhighlight %}
-
-Done! Now run `node server.js` and open `localhost:3000`—the scripts will be watched and assembled by Webpack.
-Webpack dev server watches files for changes so you can edit the files and hit Refresh, and changes will appear.
-
-![Webpack dev server running React tutorial](http://cl.ly/image/3w421Q162K13/Screen%20Shot%202014-07-24%20at%2021.10.22%20.png)
-
-Now that our code is served by Webpack, letʼs enable Hot Module Replacement.
+First, you will need to port your project from Browserify/RequireJS/whatever to Webpack. Webpack docs are not always clear, but itʼs awesome once you configure it, so I suggest you take time to do this. See **[webpack-howto](https://github.com/petehunt/webpack-howto)** for start. You will need to serve your project using `webpack-dev-server` in development.
 
 ### Enabling Hot Module Replacement
 
@@ -251,7 +114,7 @@ Hot Module Replacement is opt-in, we need to change a few configuration options 
 This comes in four parts:
 
 * We need to instruct Webpack to generate HMR partial builds by specifying `HotModuleReplacementPlugin` Webpack plugin;
-* We need our bundle to include HMR runtime (`webpack/hot/dev-server`) that knows how to apply hot updates (part of Webpack);
+* We need our bundle to include HMR runtime (`webpack/hot/only-dev-server`) that knows how to apply hot updates (part of Webpack);
 * We need to specify `hot: true` in dev server options so it emits HMR events when files change;
 * Because HMR runtime is server-agnostic and doesnʼt know anything about `webpack-dev-server`, we need to also bundle a small script (`webpack-dev-server/client?http://localhost:3000`) that listens to `webpack-dev-server` messages and passes them to HMR runtime.
 
@@ -265,96 +128,12 @@ Server:
 
 Client:
 [webpack-dev-server/client] learn by socket that update is available
-[webpack/hot/dev-server] apply the update to modules
+[webpack/hot/only-dev-server] apply the update to modules
 </pre>
 
-In `server.js`, we need to change `WebpackDevServer` constructor call:
+When you get dev server running, to configure React Hot Loader I refer you to **[a blog post by Joseph Furlott](http://jmfurlott.com/setting-up-react-hot-loader/)** which explains the setup very well. If you have any difficulties, you can always compare your setup against **[react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate)** and ask for help in the **[Gitter room](https://gitter.im/gaearon/react-hot-loader)**.
 
-{% highlight diff %}
- new WebpackDevServer(webpack(config), {
--  publicPath: config.output.publicPath
-+  publicPath: config.output.publicPath,
-+  hot: true
- }).listen(3000, 'localhost', function (err, result) {
-{% endhighlight %}
-
-In `webpack.config.js`, we will include HMR runtime and `webpack-dev-server` client code as additional entry points:
-
-{% highlight diff %}
-@@ -1,10 +1,18 @@
-+var webpack = require('webpack');
-+
- module.exports = {
--  entry: './scripts/example',
-+  entry: [
-+    'webpack-dev-server/client?http://localhost:3000',
-+    'webpack/hot/dev-server',
-+    './scripts/example'
-+  ],
-   output: {
-     path: __dirname,
-     filename: 'example.js',
-     publicPath: '/scripts/'
-   },
-+  plugins: [
-+    new webpack.HotModuleReplacementPlugin()
-+  ],
-   resolve: {
-     extensions: ['', '.js', '.jsx']
-   },
-{% endhighlight %}
-
-Now if you run `node server.js` and edit a file, the app will refresh automatically without having to press F5.  
-The reload happens because we donʼt have any HMR handlers in our code yet.
-
-### Using react-hot-loader to live-edit React components
-
-Finally, **[react-hot-loader](https://github.com/gaearon/react-hot-loader)** comes to the rescue. It handles HMR udpates for any JSX file automatically as long as your JSX files export a valid component.
-
-Letʼs install `react-hot-loader` first:
-
-{% highlight sh %}
-npm install --save-dev react-hot-loader
-{% endhighlight %}
-
-One tiny thing we need to do to our source code is to split components from code that has side-effects (such as rendering the root component).
-
-We will change `example.jsx` to include code with side-effects:
-
-{% highlight js %}
-/** @jsx React.DOM */
-
-var CommentBox = require('./CommentBox'),
-    React = require('react');
-
-React.renderComponent(
-  <CommentBox
-    url="http://localhost:3001/comments.json"
-    pollInterval={2000} />,
-  document.getElementById('content')
-);
-{% endhighlight %}
-
-and move everything else to `CommentBox.jsx`, with
-
-{% highlight js %}
-module.exports = CommentBox;
-{% endhighlight %}
-
-at the end of file.
-
-Finally, we will instruct Webpack to use `react-hot-loader` for any JSX file by changing `webpack.config.js`:
-
-{% highlight diff %}
-   module: {
-     loaders: [
--      { test: /\.jsx$/, loader: 'jsx' },
-+      { test: /\.jsx$/, loaders: ['react-hot', 'jsx'] },
-     ]
-   },
-{% endhighlight %}
-
-And this is it! We can now live-edit `CommentBox.jsx` without unmounting components or losing their state.  
+Happy hot reloading!
 
 ---------
 
