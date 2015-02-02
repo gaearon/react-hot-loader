@@ -183,6 +183,14 @@ a:hover:after {
   opacity: .25;
 }
 
+@media (max-width: 20.75rem) {
+  .nav-list-succint .nav-list-item:first-child,
+  .nav-list-succint .nav-list-item:nth-child(2):before {
+    display: none;
+  }
+}
+
+
 @media (min-width: 32em) {
   .nav-list-normal {
     display: block;
