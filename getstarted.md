@@ -83,5 +83,5 @@ Happy hot reloading!
 <small>
 This guide was originally written as a blog post by [Joseph Furlott](http://jmfurlott.com/setting-up-react-hot-loader/).
 <br>
-You can find a more technical explanation in an [older introductory post](http://localhost:4000/react-hot-loader/2014/07/23/integrating-jsx-live-reload-into-your-react-workflow/).
+You can find a more technical explanation in an [older introductory post](/react-hot-loader/2014/07/23/integrating-jsx-live-reload-into-your-react-workflow/).
 </small>
