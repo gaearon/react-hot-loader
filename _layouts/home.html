@@ -4,16 +4,16 @@
   {% include head.html %}
 
   <body>
-
     {% include masthead.html %}
+    {% include header.html %}
 
-    <div class="container content">
+    <div class="container content utils--hideOnMobile">
 
       {{ content }}
 
       {% include footer.html %}
     </div>
-    
+
     {% include ga.html %}
   </body>
 </html>

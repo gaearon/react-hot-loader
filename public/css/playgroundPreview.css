@@ -1,0 +1,42 @@
+.playgroundPreview {
+  border: none;
+  padding: 0;
+}
+
+.playgroundPreview ul {
+  margin: 0;
+  list-style: none;
+  border: 1px solid rgba(16,16,16,0.1);
+  border-radius: 3px;
+}
+.playgroundPreview ul:empty {
+  border-width: 0;
+}
+
+.playgroundPreview li {
+  border-top: 1px solid #f2f2f2;
+}
+.playgroundPreview li:first-child {
+  border-top: none;
+}
+.playgroundPreview li a {
+  margin: 0;
+  padding: .25rem .625rem;
+  font-size: .75rem;
+  font-weight: 400;
+  display: block;
+  width: 100%;
+}
+.playgroundPreview li a:after {
+  display: none;
+}
+.playgroundPreview input {
+  margin-bottom: .75rem;
+  /*height: 2rem;*/
+  padding: .5rem .625rem;
+  border: 1px solid rgba(16,16,16,0.1);
+  border-radius: 3px;
+  width: 100%;
+  font-size: .875rem;
+  font-weight: 400;
+}

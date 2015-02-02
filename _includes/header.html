@@ -1,0 +1,26 @@
+<header class="header">
+  {% include logo.html %}
+
+  <h1 class="header-title">{{ site.title }}</h1>
+  <p class="header-tagline lead">{{ site.tagline }}</p>
+  <!-- <p class="header-description">{{ site.description }}</p> -->
+
+  <div class="header-buttons">
+    <iframe src="https://ghbtns.com/github-btn.html?user=gaearon&repo=react-hot-loader&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
+
+    <a class="twitter-share-button" href="https://twitter.com/share"
+        data-related="dan_abramov"
+        data-count="none">
+    Tweet
+    </a>
+  </div>
+
+  <div class="header-nav">
+    {% include nav.html %}
+  </div>
+
+  <script type="text/javascript">
+  window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+  </script>
+
+</header>

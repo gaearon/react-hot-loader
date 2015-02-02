@@ -1,0 +1,285 @@
+/*
+ * Contents
+ *
+ * Global resets
+ * Masthead
+ * Custom type
+ * Messages
+ * Container
+ * Masthead
+ * Posts and pages
+ * Pagination
+ * Reverse layout
+ * Themes
+ */
+
+
+/*
+ * Global resets
+ *
+ * Update the foundational and global aspects of the page.
+ */
+
+html {
+  font-family: 'Helvetica Neue', helvetica, sans-serif;
+  font-weight: 300;
+  text-rendering: optimizeLegibility;
+}
+@media (min-width: 38em) {
+  html {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 48em) {
+  .utils--hideOnMobile {
+    display: none !important;
+  }
+}
+
+
+/* Type */
+h1, h2, h3, h4, h5, h6 {
+  /*font-weight: 300;*/
+}
+
+strong {
+  font-weight: 500;
+}
+
+
+/*
+ * Custom type
+ *
+ * Extend paragraphs with `.lead` for larger introductory text.
+ */
+
+.lead {
+  margin-bottom: 2.5rem;
+  text-align: center;
+  color: #9a9a9a;
+}
+
+
+/* Misc */
+hr {
+  margin: 2.5rem 0;
+}
+
+
+/* Links */
+a {
+  color: inherit;
+  position: relative;
+  display: inline-block;
+}
+
+a:after {
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.15;
+}
+
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: #1D945E;
+}
+a:hover:after {
+  opacity: .25;
+}
+
+
+/*
+ * Container
+ *
+ * Center the page content.
+ */
+
+.container {
+  padding-top: 6rem;
+}
+
+
+/*
+* Masthead
+*
+* Super small header above the content for site name and short description.
+*/
+
+.masthead {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  margin: 0 auto;
+  padding: .5rem 0;
+  width: 100%;
+  height: 2.5rem;
+  color: #fff;
+  text-align: center;
+  background-color: #232C39;
+  background-image: -webkit-linear-gradient(45deg, rgba(0, 216, 255, .5), rgba(0, 255, 127,.5));
+  background-image: linear-gradient(45deg, rgba(0, 216, 255, .5), rgba(0, 255, 127,.5));
+  z-index: 100;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+}
+.masthead .container {
+  overflow: hidden;
+}
+
+.masthead-title {
+  float: left;
+  margin: 0;
+}
+.masthead-title a {
+  font-size: .875rem;
+  font-weight: bold;
+  color: #fff;
+}
+.masthead-title a:after {
+  display: none;
+}
+
+
+
+.masthead-nav {
+  float: right;
+}
+
+.masthead .container {
+  padding-top: 0;
+}
+
+
+/* Nav */
+.nav-list {
+  margin: 0;
+  list-style: none;
+}
+
+.nav-list-item {
+  display: inline-block;
+}
+.nav-list-item ~ .nav-list-item:before {
+  content: '・';
+  margin: 0 .125rem;
+  opacity: .25;
+}
+.nav-list-item a {
+  color: #fff;
+  opacity: .75;
+}
+.nav-list-item a:after {
+  opacity: 0.1;
+}
+.nav-list-item a:hover {
+  opacity: 1;
+}
+.nav-list-item a:hover:after {
+  opacity: .25;
+}
+
+
+/*
+* Header
+*
+* A big thing on the home page with title, description and other stuff.
+*/
+
+.header {
+  position: relative;
+  z-index: 200;
+  padding: 4rem 0 5rem;
+  text-align: center;
+  color: #fff;
+  background-color: #232C39;
+  background-image: -webkit-linear-gradient(45deg, rgba(0, 216, 255, .5), rgba(0, 255, 127,.5));
+  background-image: linear-gradient(45deg, rgba(0, 216, 255, .5), rgba(0, 255, 127,.5));
+}
+@media (max-width: 48em) {
+  .header {
+    height: 100vh;
+  }
+}
+
+.header-title {
+  margin: 0;
+  font-size: 2.25rem;
+  font-weight: bold;
+  letter-spacing: -.025em;
+  color: #fff;
+}
+.header-tagline {
+  opacity: .5;
+  color: #fff;
+}
+
+@-webkit-keyframes rotateLogo {
+  0%   { -webkit-transform: rotateZ(0deg); transform: rotateZ(0deg) }
+  100% { -webkit-transform: rotateZ(360deg); transform: rotateZ(360deg) }
+}
+
+@keyframes rotateLogo {
+  0%   { -webkit-transform: rotateZ(0deg); transform: rotateZ(0deg) }
+  100% { -webkit-transform: rotateZ(360deg); transform: rotateZ(360deg) }
+}
+
+.header-logo {
+  width: 10rem;
+  height: 10rem;
+  margin: 0 auto;
+  -webkit-animation-name: rotateLogo;
+          animation-name: rotateLogo;
+  -webkit-animation-duration: 30s;
+          animation-duration: 30s;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+}
+.header-buttons {
+  position: absolute;
+  top: 1rem; left: 1rem;
+}
+.header-nav {
+  font-size: 1.25rem;
+}
+@media (min-width: 48em) {
+  .header-nav {
+    position: absolute;
+    bottom: 1rem; left: 0; right: 0;
+  }
+}
+
+
+/*
+* Header
+*
+* A big thing on the home page with title, description and other stuff.
+*/
+
+.footer {
+  padding: 1rem 0;
+  border-top: 1px solid rgba(0,0,0,.1);
+  font-size: .875rem;
+  text-align: center;
+}
+
+.footer small {
+  display: block;
+  margin: .125rem 0;
+}
+
+
+
+/*
+* Page
+*/
+
+.page-title {
+  text-align: center;
+}

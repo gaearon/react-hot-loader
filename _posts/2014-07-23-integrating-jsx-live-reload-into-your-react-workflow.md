@@ -3,7 +3,8 @@ layout: post
 title: "Integrating JSX live reload into your React workflow"
 ---
 
->Note: this post is long and slightly outdated. If youʼre only here for an integration walkthrough, read [short intro by Joseph Furlott](http://jmfurlott.com/setting-up-react-hot-loader/)!
+>Note: this post is long and technical.  
+>For easy-to-follow integration instructions, check out **[Get Started](/react-hot-loader/getstarted/)**.
 
 Do you want [Bret Victoresque](http://vimeo.com/36579366) live reload for your React app as you edit it?
 
@@ -16,17 +17,10 @@ It marries Webpack Hot Module Replacement (HMR) with React.
 You can use this if:
 
 * Your React components donʼt have nasty side-effects;
-* Youʼre willing to switch to [Webpack](https://github.com/webpack/webpack) for modules[^2] ([see an example](#integration));
+* Youʼre willing to switch to [Webpack](https://github.com/webpack/webpack) for modules[^2];
 * You have a spare couple of hours (minutes if you use Webpack).
 
-Donʼt worry if you donʼt know what Webpack is. In **[Integration](#integration)** section, Iʼll guide you through integrating this into the [official React tutorial](http://facebook.github.io/react/docs/tutorial.html) app. The steps to get this goodness into your project should roughly be the same.
-
 ------
-
-<h2 id="not-magic">What It Is and Hot It Works</h2>
-
-This part explains how react-hot-loader works.  
-**If you donʼt care and want to start using it now, [skip this part](#integration).**
 
 ### What Is Hot Module Replacement?
 
@@ -93,18 +87,7 @@ We *could* make this work but only if the UI framework we used offered a determi
 
 When an update for a module with a React component comes in, we can patch the prototype of the existing component with new prototype (that has fresh `render` and other methods), and then call `forceUpdate` on all mounted instances. This will keep componentʼs state and, thanks to Reactʼs reconciliation algorithm, apply the minimal set of updates from whatever the previous version of `render` returned.
 
-It would be a chore if we had to do this for every component manually, but thatʼs what [react-hot-loader](https://github.com/gaearon/react-hot-loader) is for! **It handles HMR business for your React components.**
-
----------
-
-<h2 id="integration">How to Integrate Hot Loading in Your Project</h2>
-
-This part explains how to integrate React live reload into your project.  
-**If you donʼt like magic, [read how it works](#not-magic) and [look at the source](https://github.com/gaearon/react-hot-loader).**  
-
-### Porting Your Project to Webpack
-
-First, you will need to port your project from Browserify/RequireJS/whatever to Webpack. Webpack docs are not always clear, but itʼs awesome once you configure it, so I suggest you take time to do this. See **[webpack-howto](https://github.com/petehunt/webpack-howto)** for start. You will need to serve your project using `webpack-dev-server` in development.
+It would be a chore if we had to do this for every component manually, but thatʼs what [React Hot Loader](https://github.com/gaearon/react-hot-loader) is for! **It handles HMR business for your React components.**
 
 ### Enabling Hot Module Replacement
 
@@ -117,7 +100,7 @@ This comes in four parts:
 * We need to specify `hot: true` in dev server options so it emits HMR events when files change;
 * Because HMR runtime is server-agnostic and doesnʼt know anything about `webpack-dev-server`, we need to also bundle a small script (`webpack-dev-server/client?http://localhost:3000`) that listens to `webpack-dev-server` messages and passes them to HMR runtime.
 
-To reiterate, here is what happens:
+Here is what happens when you save a file with React Hot Loader:
 
 <pre>
 Server:
@@ -128,19 +111,20 @@ Server:
 Client:
 [webpack-dev-server/client] learn by socket that update is available
 [webpack/hot/only-dev-server] apply the update to modules
+[react-hot-loader] patch React components with new methods and force redraw
 </pre>
 
-When you get dev server running, to configure React Hot Loader I refer you to **[a blog post by Joseph Furlott](http://jmfurlott.com/setting-up-react-hot-loader/)** which explains the setup very well. If you have any difficulties, you can always compare your setup against **[react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate)** and ask for help in the **[Gitter room](https://gitter.im/gaearon/react-hot-loader)**.
-
-Happy hot reloading!
+For configuration instructions, see **[Get Started](/react-hot-loader/getstarted/)**.
 
 ---------
 
 ## Links
 
-* **[Starter Kits with React Hot Loader included](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**
+* **[Get Started](http://localhost:4000/react-hot-loader/getstarted/)**
 
-* **[react-hot-loader on Github](https://github.com/gaearon/react-hot-loader)**
+* **[Starter Kits with React Hot Loader](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**
+
+* **[React Hot Loader on Github](https://github.com/gaearon/react-hot-loader)**
 
 Something not quite clear? Having issues integrating this?  
 Iʼm happy to help. [File an issue](http://github.com/gaearon/react-hot-loader/issues) or [drop me an email](mailto:dan.abramov@me.com).
@@ -154,7 +138,7 @@ Help spread the word:
 
 ---------
 
-## Credits
+## Thanks
 
 This wouldnʼt be possible without help of several people.
 Iʼd like to thank:

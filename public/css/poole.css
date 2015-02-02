@@ -263,6 +263,9 @@ tbody tr:nth-child(odd) th {
   font-weight: 300;
 }
 
+.note {
+  margin-top: 1rem;
+}
 
 /*
  * Messages
@@ -286,7 +289,8 @@ tbody tr:nth-child(odd) th {
  */
 
 .container {
-  max-width: 38rem;
+  max-width: 48rem;
+  padding-top: 4rem;
   padding-left:  1rem;
   padding-right: 1rem;
   margin-left:  auto;
@@ -342,6 +346,7 @@ tbody tr:nth-child(odd) th {
 .page-title,
 .post-title {
   margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 /* Meta data line below post title */

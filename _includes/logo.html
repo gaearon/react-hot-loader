@@ -1,0 +1,77 @@
+<div class='header-logo' id='logo'>
+</div>
+<script>
+  var Logo = React.createClass({
+    mixins: [tweenState.Mixin],
+
+    getInitialState: function () {
+      return {
+        length: 0
+      };
+    },
+
+    componentDidMount: function () {
+      this.beginTween();
+    },
+
+    beginTween: function () {
+      this.tweenState('length', {
+        easing: tweenState.easingTypes.linear,
+        duration: 3500,
+        endValue: this.refs.path1.getDOMNode().getTotalLength(),
+        onEnd: this.handleTweenEnd
+      });
+    },
+
+    handleTweenEnd: function () {
+      this.setState({
+        length: 0
+      }, this.beginTween);
+    },
+
+    render: function () {
+      var length, refs = this.refs, transforms = [];
+
+      if (refs.path1) {
+        length = this.getTweeningValue('length');
+        transforms = ['path1', 'path2', 'path3'].map(function (ref) {
+          var point = refs[ref].getDOMNode().getPointAtLength(length);
+          return 'translate3d(' + point.x + 'px,' + point.y + 'px, 0)';
+        });
+      }
+
+      return (
+        React.createElement("div", {class: "svg-container"},
+          React.createElement("svg", {version: "1.1", x: "0px", y: "0px",
+             viewBox: "0 0 400 400", 'enable-background': "new 0 0 400 400"},
+            React.createElement("circle", {fill: "rgba(255,255,255,0.1)", cx: "200", cy: "200", r: "139"}),
+            React.createElement("path", {ref: "path1", fill: "none", stroke: "#FFFFFF", strokeWidth: "4", d: "M231.7,200c0,17.4-1.7,88-31.7,88s-31.7-70.6-31.7-88s1.7-88,31.7-88S231.7,182.6,231.7,200z"}),
+            React.createElement("path", {ref: "path2", fill: "none", stroke: "#FFFFFF", strokeWidth: "4", d: "M216.1,227.7c-15,8.9-76.6,43.4-91.9,17.6s44.6-63.2,59.6-72.1s76.6-43.4,91.9-17.6S231.1,218.8,216.1,227.7z"}),
+            React.createElement("path", {ref: "path3", fill: "none", stroke: "#FFFFFF", strokeWidth: "4", d: "M183.9,227.7c15,8.9,76.6,43.4,91.9,17.6s-44.6-63.2-59.6-72.1s-76.6-43.4-91.9-17.6S168.9,218.8,183.9,227.7z"}),
+            React.createElement("circle", {fill: "#FFFFFF", cx: "200", cy: "200", r: "16"}),
+            React.createElement("circle", {ref: "circle1", fill: "#00FF7F", cx: "0", cy: "0", r: "6",
+              style: {
+                transform: transforms[0],
+                WebkitTransform: transforms[0]
+              }
+            }),
+            React.createElement("circle", {ref: "circle2", fill: "#00FF7F", cx: "0", cy: "0", r: "6",
+              style: {
+                transform: transforms[1],
+                WebkitTransform: transforms[1]
+              }
+            }),
+            React.createElement("circle", {ref: "circle3", fill: "#00FF7F", cx: "0", cy: "0", r: "6",
+              style: {
+                transform: transforms[2],
+                WebkitTransform: transforms[2]
+              }
+            })
+          )
+        )
+      );
+    }
+  });
+
+  React.render(React.createElement(Logo), document.getElementById('logo'));
+</script>

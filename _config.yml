@@ -1,14 +1,16 @@
 # Dependencies
 markdown:         kramdown
-pygments:         true
+highlighter:      pygments
+# pygments:         true
 
 # Permalinks
 permalink:        pretty
 
 # Setup
-title:            react-hot-loader
-tagline:          Pure JS live-editing for React
-url:              //gaearon.github.io
+title:            'React Hot Loader'
+tagline:          'Tweak React components in real time.'
+description:      'Tweak React components in real time.'
+url:              http://localhost:4000
 paginate:         1
 baseurl:          /react-hot-loader
 author:
