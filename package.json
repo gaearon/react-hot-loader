@@ -1,7 +1,7 @@
 {
   "name": "react-hot-loader",
   "version": "1.1.4",
-  "description": "Live edit React components without unmounting or losing their state (a Webpack loader)",
+  "description": "Tweak React components in real time.",
   "main": "index.js",
   "dependencies": {
     "react-hot-api": "^0.3.3",
