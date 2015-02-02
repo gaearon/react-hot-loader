@@ -5,9 +5,9 @@
 
 This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
 
-* Get inspired by a **[demo video](https://vimeo.com/100010922).**
+* Get inspired by a **[demo video](https://vimeo.com/100010922)** and **[try the live demo](http://gaearon.github.io/react-hot-loader/)**.
 
-* Read **[technical explanation and integration walkthrough](http://gaearon.github.io/react-hot-loader/).**
+* Read **[the integration walkthrough](http://gaearon.github.io/react-hot-loader/getstarted/).**
 
 * Use **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)** for your next React project.
 
@@ -25,17 +25,15 @@ To use hot loader in an existing project, you need to
 * enable Hot Module Replacement, which is a Webpack feature;
 * configure Webpack to use React Hot Loader for JS or JSX files.
 
-These steps are covered by **[the walkthrough](http://gaearon.github.io/react-hot-loader/#integration)**.
+These steps are covered by **[the walkthrough](http://gaearon.github.io/react-hot-loader/getstarted/)**.
 
 ## Documentation
 
 Docs are in a bit of a flux right now because I'm in the process of updating everything to document the major 1.0 release.
 
-If you just learned about React Hot Loader and want to find out more, **[check out the introductory post by Joseph Furlott](http://jmfurlott.com/setting-up-react-hot-loader/)** and then try one of the **[starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**.
+If you just learned about React Hot Loader and want to find out more, **[check out the walkthrough](http://gaearon.github.io/react-hot-loader/getstarted/)** and then try one of the **[starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**.
 
 If you've been with us for a while, read **[1.0 release notes and migration guide](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#migrating-to-10)**.
-
-New landing page is in the works, and once it's released, I'll figure out how to split the documentation.
 
 ## Got Questions?
 
