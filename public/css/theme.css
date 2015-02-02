@@ -183,6 +183,26 @@ a:hover:after {
   opacity: .25;
 }
 
+@media (min-width: 32em) {
+  .nav-list-normal {
+    display: block;
+  }
+
+  .nav-list-succint {
+    display: none;
+  }
+}
+
+@media (max-width: 32em) {
+  .nav-list-normal {
+    display: none;
+  }
+
+  .nav-list-succint {
+    display: block;
+  }
+}
+
 
 /*
 * Header
