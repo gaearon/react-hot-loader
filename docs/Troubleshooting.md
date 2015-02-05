@@ -1,0 +1,26 @@
+This file serves as a repository of common problems setting up React Hot Loader, and solutions to them.
+
+Know a problem? Edit this file and send a PR?
+
+### My bundle is so large!
+
+Make sure you have separate configs for development and production. You don't need `react-hot` in `loaders` or `webpack-dev-server/client` or `webpack/hot/only-dev-server` in production config. They are only for development. For easier maintenance, you can set an environment variable before invoking Webpack and read it in config.
+
+Also make sure you have these plugins in production config:
+
+```js
+// removes a lot of debugging code in React
+new webpack.DefinePlugin({
+  'process.env': {
+    'NODE_ENV': JSON.stringify('production')
+  }
+}),
+// keeps hashes consistent between compilations
+new webpack.optimize.OccurenceOrderPlugin(),
+// minifies your code
+new webpack.optimize.UglifyJsPlugin({
+  compressor: {
+    warnings: false
+  }
+})
+```
