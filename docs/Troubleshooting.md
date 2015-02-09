@@ -2,7 +2,7 @@ This file serves as a repository of common problems setting up React Hot Loader,
 
 Know a problem? Edit this file and send a PR?
 
-### `Cannot resolve 'file' or 'directory' react.js/lib/ReactMount`
+### Cannot resolve 'file' or 'directory' `react.js/lib/ReactMount`
 
 If you're using a precompiled React instead of `react` npm package, React Hot Loader configuration will need a few tweaks. See [Usage with External React](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#usage-with-external-react).
 
