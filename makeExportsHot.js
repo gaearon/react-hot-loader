@@ -19,9 +19,12 @@ function makeExportsHot(m) {
   for (var key in m.exports) {
     if (freshExports.hasOwnProperty(key) &&
         isReactClassish(freshExports[key])) {
-
-      m.exports[key] = m.makeHot(freshExports[key], '__MODULE_EXPORTS_' + key);
-      foundReactClasses = true;
+      if (Object.getOwnPropertyDescriptor(m.exports, key).writable) {
+        m.exports[key] = m.makeHot(freshExports[key], '__MODULE_EXPORTS_' + key);
+        foundReactClasses = true;
+      } else {
+        console.warn("Can't make class " + key + " hot reloadable due to being read-only. You can exclude files or directories (such as /node_modules`) with 'exclude' option in loader configuration.");
+      }
     }
   }
 
