@@ -23,7 +23,7 @@ function makeExportsHot(m) {
         m.exports[key] = m.makeHot(freshExports[key], '__MODULE_EXPORTS_' + key);
         foundReactClasses = true;
       } else {
-        console.warn("Can't make class " + key + " hot reloadable due to being read-only. You can exclude files or directories (such as /node_modules`) with 'exclude' option in loader configuration.");
+        console.warn("Can't make class " + key + " hot reloadable due to being read-only. You can exclude files or directories (for example, /node_modules/) using 'exclude' option in loader configuration.");
       }
     }
   }
