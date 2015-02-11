@@ -1,10 +1,10 @@
 {
   "name": "react-hot-loader",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Tweak React components in real time.",
   "main": "index.js",
   "dependencies": {
-    "react-hot-api": "^0.3.3",
+    "react-hot-api": "^0.3.4",
     "source-map": "0.1.40"
   },
   "peerDependencies": {

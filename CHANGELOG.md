@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.5
+
+* Wrap user code in IEFF to prevent losing `"use strict"`. Fixes #75
+
 ### 1.1.4
 
 * Fix crash when hot-reloading element factory. (Note: React discourages exporting factories.)
