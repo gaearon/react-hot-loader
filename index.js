@@ -35,11 +35,13 @@ module.exports = function (source, map) {
           'return RootInstanceProvider.getRootInstances(ReactMount);',
         '});',
       '})();',
-    '}'
+    '}',
+    '(function () {',
   ].join(' ');
 
   appendText = [
     '/* REACT HOT LOADER */',
+    '})();',
     'if (module.hot) {',
       '(function () {',
         'module.hot.dispose(function (data) {',
