@@ -1,5 +1,17 @@
 ## Changelog
 
+### 1.1.4
+
+* Fix crash when hot-reloading element factory. (Note: React discourages exporting factories.)
+
+### 1.1.3
+
+* Avoid warnings on React 0.13
+
+### 1.1.2
+
+* Compatibility with React 0.13.0-beta.1
+
 ### 1.1.1
 
 * Fix edge cases by requiring `react/lib/ReactMount` in transformed source files
