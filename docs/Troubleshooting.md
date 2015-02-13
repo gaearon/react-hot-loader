@@ -8,7 +8,7 @@ Know a problem? Edit this file and send a PR?
 
 If you're using a precompiled React instead of `react` npm package, React Hot Loader configuration will need a few tweaks. See [Usage with External React](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#usage-with-external-react).
 
-Make sure you have `'.js'` in `resolve.extensions` section of Webpack config, of Webpack won't be able to find any JS files without explicitly specifying extension in `require`.
+Make sure you have `'.js'` in `resolve.extensions` section of Webpack config, or Webpack won't be able to find any JS files without explicitly specifying extension in `require`.
 
 ### Hot Reload Doesn't Work
 
