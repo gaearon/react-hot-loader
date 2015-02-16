@@ -17,7 +17,7 @@ function makeExportsHot(m) {
   }
 
   for (var key in m.exports) {
-    if (freshExports.hasOwnProperty(key) &&
+    if (Object.prototype.hasOwnProperty.call(freshExports, key) &&
         isReactClassish(freshExports[key])) {
       if (Object.getOwnPropertyDescriptor(m.exports, key).writable) {
         m.exports[key] = m.makeHot(freshExports[key], '__MODULE_EXPORTS_' + key);
