@@ -14,6 +14,13 @@ Make sure you have `'.js'` in `resolve.extensions` section of Webpack config, or
 
 Generally, the best way to fix this class of errors is to compare your setup to [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) very carefully and see what's different.
 
+Also verify the amount of watchers available. If this value is too low the file watcher in webpack will not work and nothing will trigger on file events.
+`cat /proc/sys/fs/inotify/max_user_watches`
+
+For Arch users add `fs.inotify.max_user_watches=524288` to `/etc/sysctl.d/99-sysctl.conf` and then execute `sysctl --system`
+
+For Ubuntu users (and possibly others) `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`
+
 #### The following modules couldn't be hot updated: (They would need a full reload!)
 
 If you get this warning when editing a root component, this may be because you don't export anything from it, and call `React.render` from there. Put your root component in a separate file (e.g. `App.jsx`) and `require` it from `index.js` where you call `React.render`.
