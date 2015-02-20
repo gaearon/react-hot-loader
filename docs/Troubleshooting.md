@@ -1,7 +1,9 @@
 This file serves as a repository of common problems setting up React Hot Loader, and solutions to them.
 Know a problem? Feel free to send a PR with edits.
 
-### Build Doesn't Work
+---------
+
+### Can't Build
 
 #### Cannot resolve 'file' or 'directory' `react/lib/ReactMount`
 
@@ -9,7 +11,9 @@ If you're using a precompiled React instead of `react` npm package, React Hot Lo
 
 Make sure you have `'.js'` in `resolve.extensions` section of Webpack config, or Webpack won't be able to find any JS files without explicitly specifying extension in `require`.
 
-### Hot Reload Doesn't Work
+---------
+
+### Can't Hot Reload
 
 Generally, the best way to fix this class of errors is to compare your setup to [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) very carefully and see what's different.
 
@@ -41,7 +45,9 @@ cat /proc/sys/fs/inotify/max_user_watches
 
 Arch users, add `fs.inotify.max_user_watches=524288` to `/etc/sysctl.d/99-sysctl.conf` and then execute `sysctl --system`. Ubuntu users (and possibly others): `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
-### Other Problems
+---------------
+
+### Misc
 
 #### My bundle is so large!
 
