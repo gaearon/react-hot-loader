@@ -1,6 +1,5 @@
-This file serves as a repository of common problems setting up React Hot Loader, and solutions to them.
-
-Know a problem? Edit this file and send a PR?
+This file serves as a repository of common problems setting up React Hot Loader, and solutions to them.  
+Know a problem? Feel free to send a PR with edits.
 
 ### Build Doesn't Work
 
