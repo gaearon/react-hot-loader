@@ -1,7 +1,4 @@
-[![npm package](https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader) [![dependency status](https://img.shields.io/david/gaearon/react-hot-loader.svg?style=flat-square)](https://david-dm.org/gaearon/react-hot-loader) [![peer dependency status](https://img.shields.io/david/peer/gaearon/react-hot-loader.svg?style=flat-square)](https://david-dm.org/gaearon/react-hot-loader) [![npm package](https://img.shields.io/npm/dm/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader) [![gratipay](https://img.shields.io/gratipay/gaearon.svg?style=flat-square)](https://gratipay.com/gaearon/) 
-
-
-# React Hot Loader  
+# React Hot Loader [![npm package](https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader)
 
 This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
 
@@ -38,6 +35,10 @@ If you've been with us for a while, read **[1.0 release notes and migration guid
 ## Got Questions?
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gaearon/react-hot-loader?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+## Troubleshooting
+
+If something doesn't work, in 99% cases it's a configuration issue. A missing option, a wrong path or port. Webpack is very strict about configuration, and the best way to find out what's wrong is to compare your project to an already working setup, such as **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)**, bit by bit. We're also gathering **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)** so send a PR if you have a lesson to share!
 
 ## Coming Soon
 
