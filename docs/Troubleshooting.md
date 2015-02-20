@@ -1,5 +1,6 @@
-This file serves as a repository of common problems setting up React Hot Loader, and solutions to them.  
-Know a problem? Feel free to send a PR with edits.
+This file serves as a repository of common problems setting up React Hot Loader, and solutions to them.
+
+Know a problem? Edit this file and send a PR?
 
 ### Build Doesn't Work
 
@@ -53,3 +54,30 @@ new webpack.optimize.UglifyJsPlugin({
   }
 })
 ```
+
+#### I can access my Single Page App (SPA) only via `/` on refresh
+
+The problem is that by default **WebpackDevServer** doesn't deal with HTML5 History correctly and the server won't route the url as it should. You can fix this issue by setting `historyApiFallback: true`. Here's a full example:
+
+```js
+var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
+
+var config = require('./webpack.config');
+
+
+var port = 4000;
+var ip = '0.0.0.0';
+new WebpackDevServer(webpack(config), {
+    publicPath: config.output.publicPath,
+    historyApiFallback: true,
+}).listen(port, ip, function (err) {
+    if(err) {
+        return console.log(err);
+    }
+
+    console.log('Listening at ' + ip + ':' + port);
+});
+```
+
+After this you should be able to access your SPA via any url that has been defined in it.
