@@ -13,12 +13,15 @@ Make sure you have `'.js'` in `resolve.extensions` section of Webpack config, or
 
 Generally, the best way to fix this class of errors is to compare your setup to [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) very carefully and see what's different.
 
-Also verify the amount of watchers available. If this value is too low the file watcher in webpack will not work and nothing will trigger on file events.
-`cat /proc/sys/fs/inotify/max_user_watches`
+#### Not enough watchers
 
-For Arch users add `fs.inotify.max_user_watches=524288` to `/etc/sysctl.d/99-sysctl.conf` and then execute `sysctl --system`
+Verify that if you have enough available watchers in your system. If this value is too low, the file watcher in Webpack won't recognize the changes:
 
-For Ubuntu users (and possibly others) `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`
+```
+cat /proc/sys/fs/inotify/max_user_watches
+```
+
+Arch users, add `fs.inotify.max_user_watches=524288` to `/etc/sysctl.d/99-sysctl.conf` and then execute `sysctl --system`. Ubuntu users (and possibly others): `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
 #### The following modules couldn't be hot updated: (They would need a full reload!)
 
