@@ -14,7 +14,7 @@ This is a **stable for daily use in development** implementation of [React live 
 
 ## Usage
 
-If you want to try hot reloading in a new project, try **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**, **[react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate)** being the most minimal one.
+If you want to try hot reloading in a new project, try **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**, **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)** being the most minimal one.
 
 To use hot loader in an existing project, you need to
 
