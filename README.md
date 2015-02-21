@@ -24,6 +24,10 @@ To use hot loader in an existing project, you need to
 
 These steps are covered by **[the walkthrough](http://gaearon.github.io/react-hot-loader/getstarted/)**.
 
+## Troubleshooting
+
+If something doesn't work, in 99% cases it's a configuration issue. A missing option, a wrong path or port. Webpack is very strict about configuration, and the best way to find out what's wrong is to compare your project to an already working setup, such as **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)**, bit by bit. We're also gathering **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)** so send a PR if you have a lesson to share!
+
 ## Documentation
 
 Docs are in a bit of a flux right now because I'm in the process of updating everything to document the major 1.0 release.
@@ -35,10 +39,6 @@ If you've been with us for a while, read **[1.0 release notes and migration guid
 ## Got Questions?
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gaearon/react-hot-loader?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-## Troubleshooting
-
-If something doesn't work, in 99% cases it's a configuration issue. A missing option, a wrong path or port. Webpack is very strict about configuration, and the best way to find out what's wrong is to compare your project to an already working setup, such as **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)**, bit by bit. We're also gathering **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)** so send a PR if you have a lesson to share!
 
 ## Coming Soon
 
