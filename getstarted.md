@@ -36,7 +36,7 @@ In your <a href="https://github.com/gaearon/react-hot-boilerplate/blob/master/we
 
 {% highlight js %}
 entry: [
-  'webpack-dev-server/client?http://0.0.0.0:8080', // WebpackDevServer host and port
+  'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
   'webpack/hot/only-dev-server',
   './scripts/index' // Your appʼs entry point
 ]
