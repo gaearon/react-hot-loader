@@ -11,6 +11,16 @@ If you're using a precompiled React instead of `react` npm package, React Hot Lo
 
 Make sure you have `'.js'` in `resolve.extensions` section of Webpack config, or Webpack won't be able to find any JS files without explicitly specifying extension in `require`.
 
+#### SyntaxError: 'import' and 'export' may only appear at the top level
+
+If you're using React Hot Loader together with [Babel](https://babeljs.io/) (ex 6to5), make sure React Hot stays **to the left** of React Hot Loader in `loaders` array in Webpack config:
+
+```js
+  { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ }
+```
+
+Webpack applies `loaders` right to left, and we need to feed Babel's *output* to React Hot Loader, not vice versa.
+
 ---------
 
 ### Can't Hot Reload
