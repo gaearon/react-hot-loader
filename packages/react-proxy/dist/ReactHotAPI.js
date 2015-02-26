@@ -133,34 +133,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	var bindAutoBindMethods = __webpack_require__(1);
+	var traverseRenderedChildren = __webpack_require__(7);
+
+	function setPendingForceUpdate(internalInstance) {
+	  if (internalInstance._pendingForceUpdate === false) {
+	    internalInstance._pendingForceUpdate = true;
+	  }
+	}
+
+	function forceUpdateIfPending(internalInstance) {
+	  if (internalInstance._pendingForceUpdate === true) {
+	    // `|| internalInstance` for React 0.12 and earlier
+	    (internalInstance._instance || internalInstance).forceUpdate();
+	  }
+	}
 
 	/**
 	 * Updates a React component recursively, so even if children define funky
 	 * `shouldComponentUpdate`, they are forced to re-render.
 	 * Makes sure that any newly added methods are properly auto-bound.
 	 */
-	function deepForceUpdate(component) {
-	  if (component._instance) {
-	    // React 0.13
-	    component = component._instance;
-	  }
-
-	  bindAutoBindMethods(component);
-
-	  if (component.forceUpdate) {
-	    component.forceUpdate();
-	  }
-
-	  if (component._renderedComponent) {
-	    deepForceUpdate(component._renderedComponent);
-	  }
-
-	  for (var key in component._renderedChildren) {
-	    deepForceUpdate(component._renderedChildren[key]);
-	  }
+	function deepForceUpdate(internalInstance) {
+	  traverseRenderedChildren(internalInstance, bindAutoBindMethods);
+	  traverseRenderedChildren(internalInstance, setPendingForceUpdate);
+	  traverseRenderedChildren(internalInstance, forceUpdateIfPending);
 	}
 
 	module.exports = deepForceUpdate;
+
 
 /***/ },
 /* 3 */
@@ -359,6 +359,33 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  setTimeout(forceUpdateAll);
 	};
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	function traverseRenderedChildren(internalInstance, callback) {
+	  callback(internalInstance);
+
+	  if (internalInstance._renderedComponent) {
+	    traverseRenderedChildren(
+	      internalInstance._renderedComponent,
+	      callback
+	    );
+	  } else {
+	    for (var key in internalInstance._renderedChildren) {
+	      traverseRenderedChildren(
+	        internalInstance._renderedChildren[key],
+	        callback
+	      );
+	    }
+	  }
+	}
+
+	module.exports = traverseRenderedChildren;
+
 
 /***/ }
 /******/ ])
