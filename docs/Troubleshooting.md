@@ -29,7 +29,7 @@ Generally, the best way to fix this class of errors is to compare your setup to 
 
 #### Try WebpackDevServer Node Interface Instead of CLI!
 
-WebpackDevServer CLI mode [behaves slightly differently](https://github.com/webpack/webpack-dev-server/issues/106) from its Node API. When in doubt, I suggest you use Node API like [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js).
+WebpackDevServer CLI mode [behaves slightly differently](https://github.com/webpack/webpack-dev-server/issues/106) from its Node API. When in doubt, I suggest you use Node API like [React Hot Boilerplate does](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js).
 
 #### No 'Access-Control-Allow-Origin' header is present on the requested resource. 
 
