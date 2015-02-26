@@ -27,6 +27,10 @@ Webpack applies `loaders` right to left, and we need to feed Babel's *output* to
 
 Generally, the best way to fix this class of errors is to compare your setup to [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) very carefully and see what's different.
 
+#### Try WebpackDevServer Node Interface Instead of CLI!
+
+WebpackDevServer CLI mode [behaves slightly differently](https://github.com/webpack/webpack-dev-server/issues/106) from its Node API. When in doubt, I suggest you use Node API like [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js).
+
 #### No 'Access-Control-Allow-Origin' header is present on the requested resource. 
 
 If you're trying to access Webpack Dev Server from a URL served on another port, you'd need to change `WebpackDevServer` options to include CORS header:
