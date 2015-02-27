@@ -55,7 +55,7 @@ module.exports = function makeAssimilatePrototype() {
   }
 
   return function assimilatePrototype(freshPrototype) {
-    if (freshPrototype.__isAssimilatedByReactHotAPI) {
+    if (Object.prototype.hasOwnProperty.call(freshPrototype, '__isAssimilatedByReactHotAPI')) {
       return;
     }
 
