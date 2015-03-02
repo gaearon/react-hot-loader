@@ -1,6 +1,6 @@
 {
   "name": "react-hot-api",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "A generic library implementing hot reload for React components without unmounting or losing their state.",
   "main": "modules/index.js",
   "scripts": {
