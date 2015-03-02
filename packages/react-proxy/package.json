@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/gaearon/react-hot-api",
   "peerDependencies": {
-    "react": ">=0.11.0 || >=0.13.0-beta.1"
+    "react": ">=0.11.0 || >=0.13.0-beta.1 || >=0.13.0-rc1"
   },
   "devDependencies": {
     "webpack": "1.4.8"
