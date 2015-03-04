@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.7
+
+* Add React 0.13 RC2 to peerDeps
+
 ### 1.1.6
 
 * Allow React 0.13 RC1
