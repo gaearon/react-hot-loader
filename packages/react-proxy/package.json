@@ -1,6 +1,6 @@
 {
   "name": "react-hot-api",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "A generic library implementing hot reload for React components without unmounting or losing their state.",
   "main": "modules/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/gaearon/react-hot-api",
   "peerDependencies": {
-    "react": ">=0.11.0 || >=0.13.0-beta.1 || >=0.13.0-rc1"
+    "react": ">=0.11.0 || 0.13.0-beta.1 || 0.13.0-rc1 || 0.13.0-rc2"
   },
   "devDependencies": {
     "webpack": "1.4.8"
