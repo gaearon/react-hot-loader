@@ -1,5 +1,11 @@
 ## Changelog
 
+### 1.1.6
+
+* Allow React 0.13 RC1
+* Better support for ES6 inheritance
+* Fix reloading for modules with null prototype chain (**#82**)
+
 ### 1.1.5
 
 * Wrap user code in IEFF to prevent losing `"use strict"`. Fixes #75
