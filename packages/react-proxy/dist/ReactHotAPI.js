@@ -362,7 +362,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    for (var key in rootInstances) {
 	      if (rootInstances.hasOwnProperty(key)) {
-	        deepForceUpdate(rootInstances[key], React);
+	        rootInstance = rootInstances[key];
+
+	        // `|| rootInstance` for React 0.12 and earlier
+	        rootInstance = rootInstance._reactInternalInstance || rootInstance;
+	        deepForceUpdate(rootInstance, React);
 	      }
 	    }
 	  }
