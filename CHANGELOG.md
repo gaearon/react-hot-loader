@@ -1,5 +1,11 @@
 ## Changelog
 
+### 1.2.0
+
+* Support hot-reloading components without a base class (**[react-hot-api#5](https://github.com/gaearon/react-hot-api/issues/5)**)
+* Support hot-reloading inheritance chains (**[react-hot-api#10](https://github.com/gaearon/react-hot-api/issues/10)**)
+* Support using React 0.13 as an external
+
 ### 1.1.7
 
 * Add React 0.13 RC2 to peerDeps
