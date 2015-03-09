@@ -141,10 +141,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}
 
-	function forceUpdateIfPending(internalInstance) {
+	function forceUpdateIfPending(internalInstance, React) {
 	  if (internalInstance._pendingForceUpdate === true) {
 	    // `|| internalInstance` for React 0.12 and earlier
-	    (internalInstance._instance || internalInstance).forceUpdate();
+	    var instance = internalInstance._instance || internalInstance;
+
+	    if (instance.forceUpdate) {
+	      instance.forceUpdate();
+	    } else if (React && React.Component) {
+	      React.Component.prototype.forceUpdate.call(instance);
+	    }
 	  }
 	}
 
@@ -153,10 +159,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * `shouldComponentUpdate`, they are forced to re-render.
 	 * Makes sure that any newly added methods are properly auto-bound.
 	 */
-	function deepForceUpdate(internalInstance) {
+	function deepForceUpdate(internalInstance, React) {
 	  traverseRenderedChildren(internalInstance, bindAutoBindMethods);
 	  traverseRenderedChildren(internalInstance, setPendingForceUpdate);
-	  traverseRenderedChildren(internalInstance, forceUpdateIfPending);
+	  traverseRenderedChildren(internalInstance, forceUpdateIfPending, React);
 	}
 
 	module.exports = deepForceUpdate;
@@ -208,9 +214,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function updateStoredPrototype(freshPrototype) {
 	    storedPrototype = {};
 
-	    Object.getOwnPropertyNames(freshPrototype).forEach(function (key) {
-	      storedPrototype[key] = freshPrototype[key];
-	    });
+	    do {
+	      Object.getOwnPropertyNames(freshPrototype).forEach(function (key) {
+	        storedPrototype[key] = freshPrototype[key];
+	      });
+
+	      freshPrototype = Object.getPrototypeOf(freshPrototype);
+	    } while (freshPrototype && !freshPrototype.hasOwnProperty('setState'));
 	  }
 
 	  function reconcileWithStoredPrototypes(freshPrototype) {
@@ -245,7 +255,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Returns a function that, when invoked, patches a React class with a new
 	 * version of itself. To patch different classes, pass different IDs.
 	 */
-	module.exports = function makeMakeHot(getRootInstances) {
+	module.exports = function makeMakeHot(getRootInstances, React) {
 	  if (typeof getRootInstances !== 'function') {
 	    throw new Error('Expected getRootInstances to be a function.');
 	  }
@@ -265,7 +275,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    if (!patchers[persistentId]) {
-	      patchers[persistentId] = makePatchReactClass(getRootInstances);
+	      patchers[persistentId] = makePatchReactClass(getRootInstances, React);
 	    }
 
 	    var patchReactClass = patchers[persistentId];
@@ -310,7 +320,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Returns a function that will patch React class with new versions of itself
 	 * on subsequent invocations. Both legacy and ES6 style classes are supported.
 	 */
-	module.exports = function makePatchReactClass(getRootInstances) {
+	module.exports = function makePatchReactClass(getRootInstances, React) {
 	  var assimilatePrototype = makeAssimilatePrototype(),
 	      FirstClass = null;
 
@@ -319,7 +329,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    assimilatePrototype(nextPrototype);
 
 	    if (FirstClass) {
-	      requestForceUpdateAll(getRootInstances);
+	      requestForceUpdateAll(getRootInstances, React);
 	    }
 
 	    return FirstClass || (FirstClass = NextClass);
@@ -334,7 +344,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var isRequestPending = false;
 
-	module.exports = function requestForceUpdateAll(getRootInstances) {
+	module.exports = function requestForceUpdateAll(getRootInstances, React) {
 	  if (isRequestPending) {
 	    return;
 	  }
@@ -352,7 +362,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    for (var key in rootInstances) {
 	      if (rootInstances.hasOwnProperty(key)) {
-	        deepForceUpdate(rootInstances[key]);
+	        deepForceUpdate(rootInstances[key], React);
 	      }
 	    }
 	  }
@@ -366,19 +376,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	function traverseRenderedChildren(internalInstance, callback) {
-	  callback(internalInstance);
+	function traverseRenderedChildren(internalInstance, callback, argument) {
+	  callback(internalInstance, argument);
 
 	  if (internalInstance._renderedComponent) {
 	    traverseRenderedChildren(
 	      internalInstance._renderedComponent,
-	      callback
+	      callback,
+	      argument
 	    );
 	  } else {
 	    for (var key in internalInstance._renderedChildren) {
 	      traverseRenderedChildren(
 	        internalInstance._renderedChildren[key],
-	        callback
+	        callback,
+	        argument
 	      );
 	    }
 	  }
