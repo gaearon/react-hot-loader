@@ -5,7 +5,7 @@ This is a generic library implementing hot reload for React components without u
 
 **It is intended for build tool authors or adventurous folk and *not* for website development. For a reference implementation *that you can actually use*, check out [react-hot-loader](https://github.com/gaearon/react-hot-loader) for Webpack.**
 
-This library drives React hot-reload magic of **[react-hot-loader](https://github.com/gaearon/react-hot-loader)** but is not tied to Webpack itself, so alternative build systems that support hot-reloading individual modules can use it to implement **[live-editing for React components](http://gaearon.github.io/react-hot-loader/)**.
+This library drives React hot-reload magic of **[react-hot-loader](https://github.com/gaearon/react-hot-loader)** but is not tied to Webpack itself, so alternative build systems that support hot-reloading individual modules can use it to implement **[live-editing for React components](http://gaearon.github.io/react-hot-loader/)**. For example, you can use this to **[integrate hot reloading into an atom-shell application](https://github.com/BenoitZugmeyer/chwitt-react/blob/2d62184986c7c183955dcb607dba5ceda70a2221/bootstrap-jsx.js#L33)**. 
 
 **[See the video.](https://vimeo.com/100010922)**
 
