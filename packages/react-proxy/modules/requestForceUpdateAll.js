@@ -2,7 +2,7 @@ var deepForceUpdate = require('./deepForceUpdate');
 
 var isRequestPending = false;
 
-module.exports = function requestForceUpdateAll(getRootInstances) {
+module.exports = function requestForceUpdateAll(getRootInstances, React) {
   if (isRequestPending) {
     return;
   }
@@ -20,7 +20,7 @@ module.exports = function requestForceUpdateAll(getRootInstances) {
 
     for (var key in rootInstances) {
       if (rootInstances.hasOwnProperty(key)) {
-        deepForceUpdate(rootInstances[key]);
+        deepForceUpdate(rootInstances[key], React);
       }
     }
   }

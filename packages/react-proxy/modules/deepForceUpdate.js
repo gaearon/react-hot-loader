@@ -9,10 +9,16 @@ function setPendingForceUpdate(internalInstance) {
   }
 }
 
-function forceUpdateIfPending(internalInstance) {
+function forceUpdateIfPending(internalInstance, React) {
   if (internalInstance._pendingForceUpdate === true) {
     // `|| internalInstance` for React 0.12 and earlier
-    (internalInstance._instance || internalInstance).forceUpdate();
+    var instance = internalInstance._instance || internalInstance;
+
+    if (instance.forceUpdate) {
+      instance.forceUpdate();
+    } else if (React && React.Component) {
+      React.Component.prototype.forceUpdate.call(instance);
+    }
   }
 }
 
@@ -21,10 +27,10 @@ function forceUpdateIfPending(internalInstance) {
  * `shouldComponentUpdate`, they are forced to re-render.
  * Makes sure that any newly added methods are properly auto-bound.
  */
-function deepForceUpdate(internalInstance) {
+function deepForceUpdate(internalInstance, React) {
   traverseRenderedChildren(internalInstance, bindAutoBindMethods);
   traverseRenderedChildren(internalInstance, setPendingForceUpdate);
-  traverseRenderedChildren(internalInstance, forceUpdateIfPending);
+  traverseRenderedChildren(internalInstance, forceUpdateIfPending, React);
 }
 
 module.exports = deepForceUpdate;

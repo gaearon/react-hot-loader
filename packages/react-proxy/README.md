@@ -15,7 +15,7 @@ This library drives React hot-reload magic of **[react-hot-loader](https://githu
 
 Registers a hot-reloadable React class. If you don't pass `persistentId`, it is inferred from `ReactClass.displayName` or `ReactClass.name` (for ES6 classes). When called for the first time, it will merely return the passed class. When called the next time with the same `persistentId`, will patch original class with the prototype of the new class, and return the original class.
 
-#### `require('react-hot-api'): (getRootInstances) => makeHot`
+#### `require('react-hot-api'): (getRootInstances, React) => makeHot`
 
 Invoke this once within each hot-reloadable module to obtain the function described above.  
 You must pass the result between *all emitted versions of the same module* for hot reload to work.
