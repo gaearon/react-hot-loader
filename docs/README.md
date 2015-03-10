@@ -23,7 +23,9 @@ Here's how we're solving these problems in 1.0:
 
 #### Only `module.exports` and its own properties are hot by default
 
-With 1.0, we no longer parse your sources. Instead, we only now make `module.exports` and its [own properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty) hot by default, and only if their prototype declares `render` method. **If you've been splitting each component in a separate file, that means no change for you here!** This allows us to support exotic wrappers and ES6 classes when they come out.
+With 1.0, we no longer parse your sources. Instead, we only now make `module.exports` and its [own properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty) hot by default, and only if their prototype declares `render` method or descends from `React.Component`. **If you've been splitting each component in a separate file, that means no change for you here!** This allows us to support exotic wrappers.
+
+If you use inheritance in React 0.13, base classes will only be opted into hot reloading if they descend from `React.Component` or define `render` method. Otherwise you need to explicitly call `module.makeHot` as described below.
 
 #### You can make hot anything else via opt-in `module.makeHot` API
 
