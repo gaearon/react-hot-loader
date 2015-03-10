@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.2.1
+
+* Don't try to flatten inheritance chains, as it causes problems with `super`
+* Instead, automatically opt custom base classes into hot reloading as long as they descend from `React.Component` (in React 0.13). If your custom base class doesn't do that but you'd still want to have hot reloading, you need to manually opt it in via `module.makeHot` API.
+
 ### 1.2.0
 
 * Support hot-reloading components without a base class (**[react-hot-api#5](https://github.com/gaearon/react-hot-api/issues/5)**)
