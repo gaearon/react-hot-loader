@@ -102,6 +102,10 @@ new webpack.optimize.UglifyJsPlugin({
 })
 ```
 
+#### Uncaught RangeError: Maximum call stack size exceeded
+
+When using WebpackDevServer CLI flag `--hot`, the plugin `new HotModuleReplacementPlugin()` should not be used and vice ersa, they are mutually exclusive but the desired effect will work with any of them.
+
 #### I can access my Single Page App (SPA) only via `/` on refresh
 
 The problem is that by default **WebpackDevServer** doesn't deal with HTML5 History correctly and the server won't route the url as it should. You can fix this issue by setting `historyApiFallback: true`. Here's a full example:
