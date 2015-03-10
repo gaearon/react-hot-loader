@@ -27,7 +27,7 @@ This boilerplate is purposefully simple to show the minimal configuration for Re
 * React
 * Webpack
 * [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
-* [jsx-loader](https://github.com/petehunt/jsx-loader)
+* [babel-loader](https://github.com/babel/babel-loader)
 * [react-hot-loader](https://github.com/gaearon/react-hot-loader)
 
 ### Resources
