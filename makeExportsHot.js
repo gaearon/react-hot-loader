@@ -3,7 +3,7 @@
 var isReactClassish = require('./isReactClassish'),
     isReactElementish = require('./isReactElementish');
 
-function makeExportsHot(m) {
+function makeExportsHot(m, React) {
   if (isReactElementish(m.exports)) {
     return false;
   }
@@ -11,14 +11,14 @@ function makeExportsHot(m) {
   var freshExports = m.exports,
       foundReactClasses = false;
 
-  if (isReactClassish(m.exports)) {
+  if (isReactClassish(m.exports, React)) {
     m.exports = m.makeHot(m.exports, '__MODULE_EXPORTS');
     foundReactClasses = true;
   }
 
   for (var key in m.exports) {
     if (Object.prototype.hasOwnProperty.call(freshExports, key) &&
-        isReactClassish(freshExports[key])) {
+        isReactClassish(freshExports[key], React)) {
       if (Object.getOwnPropertyDescriptor(m.exports, key).writable) {
         m.exports[key] = m.makeHot(freshExports[key], '__MODULE_EXPORTS_' + key);
         foundReactClasses = true;

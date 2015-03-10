@@ -1,15 +1,42 @@
-function isReactClassish(obj) {
-  if (!obj) {
+function hasRender(Class) {
+  var prototype = Class.prototype;
+  if (!prototype) {
     return false;
   }
 
-  if (obj.prototype && typeof obj.prototype.render === 'function') {
-    // React 0.13
+  return typeof prototype.render === 'function';
+}
+
+function descendsFromReactComponent(Class, React) {
+  if (!React.Component) {
+    return false;
+  }
+
+  var Base = Object.getPrototypeOf(Class);
+
+  while (Base) {
+    if (Base === React.Component) {
+      return true;
+    }
+
+    Base = Object.getPrototypeOf(Base);
+  }
+
+  return false;
+}
+
+function isReactClassish(Class, React) {
+  if (!Class) {
+    return false;
+  }
+
+  // React 0.13
+  if (hasRender(Class) || descendsFromReactComponent(Class, React)) {
     return true;
   }
 
-  if (obj.type && obj.type.prototype && typeof obj.type.prototype.render === 'function') {
-    // React 0.12 and earlier
+  // React 0.12 and earlier
+  if (Class.type && hasRender(Class.type)) {
     return true;
   }
 

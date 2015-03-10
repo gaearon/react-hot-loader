@@ -53,7 +53,7 @@ module.exports = function (source, map) {
           'var makeExportsHot = require(' + JSON.stringify(require.resolve('./makeExportsHot')) + '),',
               'foundReactClasses = false;',
 
-          'if (makeExportsHot(module)) {',
+          'if (makeExportsHot(module, require("react"))) {',
             'foundReactClasses = true;',
           '}',
 
