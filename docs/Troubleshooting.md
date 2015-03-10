@@ -47,6 +47,10 @@ Generally, the best way to fix this class of errors is to compare your setup to 
 
 WebpackDevServer CLI mode [behaves slightly differently](https://github.com/webpack/webpack-dev-server/issues/106) from its Node API. When in doubt, I suggest you use Node API like [React Hot Boilerplate does](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js).
 
+#### Uncaught RangeError: Maximum call stack size exceeded
+
+When using WebpackDevServer CLI flag `--hot`, the plugin `new HotModuleReplacementPlugin()` should not be used and vice versa, they are mutually exclusive but the desired effect will work with any of them.
+
 #### No 'Access-Control-Allow-Origin' header is present on the requested resource. 
 
 If you're trying to access Webpack Dev Server from a URL served on another port, you'd need to change `WebpackDevServer` options to include CORS header:
@@ -101,10 +105,6 @@ new webpack.optimize.UglifyJsPlugin({
   }
 })
 ```
-
-#### Uncaught RangeError: Maximum call stack size exceeded
-
-When using WebpackDevServer CLI flag `--hot`, the plugin `new HotModuleReplacementPlugin()` should not be used and vice versa, they are mutually exclusive but the desired effect will work with any of them.
 
 #### I can access my Single Page App (SPA) only via `/` on refresh
 
