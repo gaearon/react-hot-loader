@@ -104,7 +104,7 @@ new webpack.optimize.UglifyJsPlugin({
 
 #### Uncaught RangeError: Maximum call stack size exceeded
 
-When using WebpackDevServer CLI flag `--hot`, the plugin `new HotModuleReplacementPlugin()` should not be used and vice ersa, they are mutually exclusive but the desired effect will work with any of them.
+When using WebpackDevServer CLI flag `--hot`, the plugin `new HotModuleReplacementPlugin()` should not be used and vice versa, they are mutually exclusive but the desired effect will work with any of them.
 
 #### I can access my Single Page App (SPA) only via `/` on refresh
 
