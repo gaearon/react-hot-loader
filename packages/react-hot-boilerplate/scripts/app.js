@@ -1,8 +1,6 @@
-'use strict';
+import React from 'react';
 
-var React = require('react');
-
-var App = React.createClass({
+const App = React.createClass({
   render() {
     return (
       <h1>Hello, world.</h1>
@@ -10,4 +8,4 @@ var App = React.createClass({
   }
 });
 
-module.exports = App;
+export default App;
