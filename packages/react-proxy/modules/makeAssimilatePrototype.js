@@ -40,13 +40,9 @@ module.exports = function makeAssimilatePrototype() {
   function updateStoredPrototype(freshPrototype) {
     storedPrototype = {};
 
-    do {
-      Object.getOwnPropertyNames(freshPrototype).forEach(function (key) {
-        storedPrototype[key] = freshPrototype[key];
-      });
-
-      freshPrototype = Object.getPrototypeOf(freshPrototype);
-    } while (freshPrototype && !freshPrototype.hasOwnProperty('setState'));
+    Object.getOwnPropertyNames(freshPrototype).forEach(function (key) {
+      storedPrototype[key] = freshPrototype[key];
+    });
   }
 
   function reconcileWithStoredPrototypes(freshPrototype) {
