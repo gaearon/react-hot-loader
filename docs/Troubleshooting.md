@@ -37,6 +37,8 @@ module.exports = {
 };
 ```
 
+If you used WebpackDevServer CLI mode and after switching to Node it crashes with `Error: Invalid path ''`, you probably didn't have `path` specified in `output` at all. You can just put `path: __dirname` there, as it won't matter for development config.
+
 ---------
 
 ### Can't Hot Reload
