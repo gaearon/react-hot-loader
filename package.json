@@ -1,6 +1,6 @@
 {
   "name": "react-hot-loader",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Tweak React components in real time.",
   "main": "index.js",
   "dependencies": {
@@ -8,7 +8,7 @@
     "source-map": "0.1.40"
   },
   "peerDependencies": {
-    "react": ">=0.11.0 || 0.13.0-beta.1 || 0.13.0-rc1 || 0.13.0-rc2"
+    "react": ">=0.11.0"
   },
   "repository": {
     "type": "git",
