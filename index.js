@@ -11,7 +11,7 @@ module.exports = function (source, map) {
   }
 
   var resourcePath = this.resourcePath;
-  if (/[\\/]webpack[\\/]buildin[\\/]module\.js|[\\/]react-hot-loader[\\/]/.test(resourcePath)) {
+  if (/[\\/]webpack[\\/]buildin[\\/]module\.js|[\\/]react-hot-loader[\\/]|[\\/]react[\\/]lib[\\/]/.test(resourcePath)) {
     return this.callback(null, source, map);
   }
 
