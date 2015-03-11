@@ -85,6 +85,10 @@ Arch users, add `fs.inotify.max_user_watches=524288` to `/etc/sysctl.d/99-sysctl
 
 ### Misc
 
+#### It's slowing down my build!
+
+Make sure you have `exclude: /node_modules/` in loader configuration section. You never need to process `node_modules` with React Hot Loader.
+
 #### My bundle is so large!
 
 Make sure you have separate configs for development and production. You don't need `react-hot` in `loaders` or `webpack-dev-server/client` or `webpack/hot/only-dev-server` in production config. They are only for development. For easier maintenance, you can set an environment variable before invoking Webpack and read it in config.
