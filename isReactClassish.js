@@ -13,7 +13,6 @@ function descendsFromReactComponent(Class, React) {
   }
 
   var Base = Object.getPrototypeOf(Class);
-
   while (Base) {
     if (Base === React.Component) {
       return true;
@@ -26,7 +25,7 @@ function descendsFromReactComponent(Class, React) {
 }
 
 function isReactClassish(Class, React) {
-  if (!Class) {
+  if (typeof Class !== 'function') {
     return false;
   }
 
