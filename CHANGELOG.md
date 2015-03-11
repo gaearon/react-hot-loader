@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.2.3
+
+* Explicitly exclude `react/lib` files from processing. You **should** use `exclude: /node_modules/` in configuration, but at least this doesn't blow up for those who don't.
+
 ### 1.2.2
 
 * Fix crash on React 0.13. Now compatible!
