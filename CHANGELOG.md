@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.2.2
+
+* Fix crash on React 0.13. Now compatible!
+
 ### 1.2.1
 
 * Don't try to flatten inheritance chains, as it causes problems with `super`
