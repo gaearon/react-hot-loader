@@ -49,6 +49,10 @@ Generally, the best way to fix this class of errors is to compare your setup to 
 
 WebpackDevServer CLI mode [behaves slightly differently](https://github.com/webpack/webpack-dev-server/issues/106) from its Node API. When in doubt, I suggest you use Node API like [React Hot Boilerplate does](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js).
 
+#### Uncaught TypeError: Cannot read property 'NODE_ENV' of undefined
+
+Make sure you have `exclude: /node_modules/` in loader configuration [just like on this line](https://github.com/gaearon/react-hot-boilerplate/blob/ab01016fc623be5401b480874cc2d71764cdfef0/webpack.config.js#L24). You never need to process `node_modules` with React Hot Loader.
+
 #### Uncaught RangeError: Maximum call stack size exceeded
 
 When using WebpackDevServer CLI flag `--hot`, the plugin `new HotModuleReplacementPlugin()` should not be used and vice versa, they are mutually exclusive but the desired effect will work with any of them.
@@ -87,7 +91,7 @@ Arch users, add `fs.inotify.max_user_watches=524288` to `/etc/sysctl.d/99-sysctl
 
 #### It's slowing down my build!
 
-Make sure you have `exclude: /node_modules/` in loader configuration section. You never need to process `node_modules` with React Hot Loader.
+Make sure you have `exclude: /node_modules/` in loader configuration [just like on this line](https://github.com/gaearon/react-hot-boilerplate/blob/ab01016fc623be5401b480874cc2d71764cdfef0/webpack.config.js#L24). You never need to process `node_modules` with React Hot Loader.
 
 #### My bundle is so large!
 
