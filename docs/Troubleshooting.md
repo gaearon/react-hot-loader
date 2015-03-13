@@ -41,6 +41,15 @@ If you used WebpackDevServer CLI mode and after switching to Node it crashes wit
 
 ---------
 
+### Page Throws an Error
+
+#### Uncaught TypeError: Cannot read property 'NODE_ENV' of undefined
+#### [socket.io] Cannot use 'in' operator to search for 'document' in undefined
+
+Make sure you have `exclude: /node_modules/` in loader configuration [just like on this line](https://github.com/gaearon/react-hot-boilerplate/blob/ab01016fc623be5401b480874cc2d71764cdfef0/webpack.config.js#L24). You never need to process `node_modules` with React Hot Loader. If you use other loaders such as `jsx?harmony` or `babel`, most likely they **also** need to have `exclude: /node_modules/` specified.
+
+---------
+
 ### Can't Hot Reload
 
 Generally, the best way to fix this class of errors is to compare your setup to [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) very carefully and see what's different.
@@ -48,10 +57,6 @@ Generally, the best way to fix this class of errors is to compare your setup to 
 #### Try WebpackDevServer Node Interface Instead of CLI!
 
 WebpackDevServer CLI mode [behaves slightly differently](https://github.com/webpack/webpack-dev-server/issues/106) from its Node API. When in doubt, I suggest you use Node API like [React Hot Boilerplate does](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js).
-
-#### Uncaught TypeError: Cannot read property 'NODE_ENV' of undefined
-
-Make sure you have `exclude: /node_modules/` in loader configuration [just like on this line](https://github.com/gaearon/react-hot-boilerplate/blob/ab01016fc623be5401b480874cc2d71764cdfef0/webpack.config.js#L24). You never need to process `node_modules` with React Hot Loader.
 
 #### Uncaught RangeError: Maximum call stack size exceeded
 
