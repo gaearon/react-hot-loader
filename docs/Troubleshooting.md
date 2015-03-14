@@ -90,6 +90,10 @@ cat /proc/sys/fs/inotify/max_user_watches
 
 Arch users, add `fs.inotify.max_user_watches=524288` to `/etc/sysctl.d/99-sysctl.conf` and then execute `sysctl --system`. Ubuntu users (and possibly others): `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
+#### I see “[WDS] Hot Module Replacement enabled” but nothing happens when I edit `App.js`
+
+If you're running Node 0.11.13, you might want to try updating to 0.12. Some people reported this helped solve this problem.
+
 ---------------
 
 ### Misc
