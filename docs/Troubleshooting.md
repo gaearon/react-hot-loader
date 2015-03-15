@@ -127,6 +127,8 @@ new webpack.optimize.UglifyJsPlugin({
 })
 ```
 
+Oh, and don't forget to remove `devtool: 'eval'` from a production config. Otherwise Uglify won't uglify anything at all.
+
 #### I can access my Single Page App (SPA) only via `/` on refresh
 
 The problem is that by default **WebpackDevServer** doesn't deal with HTML5 History correctly and the server won't route the url as it should. You can fix this issue by setting `historyApiFallback: true`. Here's a full example:
