@@ -94,7 +94,7 @@ Arch users, add `fs.inotify.max_user_watches=524288` to `/etc/sysctl.d/99-sysctl
 
 #### I see “[WDS] Hot Module Replacement enabled” but nothing happens when I edit `App.js`
 
-If you're running Node 0.11.13, you might want to try updating to 0.12. Some people reported this helped solve this problem.
+If you're running Node 0.11.13, you might want to try updating to 0.12. Some people reported this helped solve this problem. Also make sure that your `require`s have the same filename casing as the files. Having `App.js` and doing `require('app')` might trip the watcher on some systems.
 
 ---------------
 
