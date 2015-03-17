@@ -165,7 +165,7 @@ a:hover:after {
   display: inline-block;
 }
 .nav-list-item ~ .nav-list-item:before {
-  content: '・';
+  content: '\00B7';
   margin: 0 .125rem;
   opacity: .25;
 }
