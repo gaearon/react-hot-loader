@@ -7,6 +7,7 @@
 * [coffee-react-quickstart](https://github.com/KyleAMathews/coffee-react-quickstart) (react-router, CoffeeScript, Gulp)
 * [boilerplate-webpack-react](https://github.com/tcoopman/boilerplate-webpack-react) (react-router, isomorphic)
 * [este](http://github.com/steida/este) (react-router, isomorphic, Flux, Babel)
+* [react-isomorphic-starterkit](https://github.com/RickWong/react-isomorphic-starterkit) (react-router, react-async, isomorphic)
 
 Don't be shy, add your own.
 
