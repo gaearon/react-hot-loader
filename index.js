@@ -3,9 +3,14 @@
 var path = require('path'),
     SourceNode = require('source-map').SourceNode,
     SourceMapConsumer = require('source-map').SourceMapConsumer,
-    makeIdentitySourceMap = require('./makeIdentitySourceMap');
+    makeIdentitySourceMap = require('./makeIdentitySourceMap'),
+    loaderUtils = require("loader-utils");
+
 
 module.exports = function (source, map) {
+  var query = loaderUtils.parseQuery(this.query);
+  var disposer = query.disposer || (function() {}).toString();
+
   if (this.cacheable) {
     this.cacheable();
   }
@@ -47,6 +52,7 @@ module.exports = function (source, map) {
       '(function () {',
         'module.hot.dispose(function (data) {',
           'data.makeHot = module.makeHot;',
+          'module.forceReload && (' + disposer + ')()',
         '});',
 
         'if (module.exports && module.makeHot) {',
