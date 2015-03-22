@@ -7,17 +7,19 @@ function makeExportsHot(m, React) {
   if (isReactElementish(m.exports)) {
     return false;
   }
-
+  
   var freshExports = m.exports,
+      exportsIsReactClass = isReactClassish(m.exports, React),
       foundReactClasses = false;
 
-  if (isReactClassish(m.exports, React)) {
+  if (exportsIsReactClass) {
     m.exports = m.makeHot(m.exports, '__MODULE_EXPORTS');
     foundReactClasses = true;
   }
 
   for (var key in m.exports) {
-    if (Object.prototype.hasOwnProperty.call(freshExports, key) &&
+    if ((!exportsIsReactClass || key !== "type") &&
+        Object.prototype.hasOwnProperty.call(freshExports, key) &&
         isReactClassish(freshExports[key], React)) {
       if (Object.getOwnPropertyDescriptor(m.exports, key).writable) {
         m.exports[key] = m.makeHot(freshExports[key], '__MODULE_EXPORTS_' + key);
