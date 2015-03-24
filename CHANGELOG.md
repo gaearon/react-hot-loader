@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.2.4
+
+* Avoid updating each class twice in React 0.12
+
 ### 1.2.3
 
 * Explicitly exclude `react/lib` files from processing. You **should** use `exclude: /node_modules/` in configuration, but at least this doesn't blow up for those who don't.
