@@ -13,7 +13,7 @@ Make sure you have `'.js'` in `resolve.extensions` section of Webpack config, or
 
 #### SyntaxError: 'import' and 'export' may only appear at the top level
 
-If you're using React Hot Loader together with [Babel](https://babeljs.io/) (ex 6to5), make sure React Hot stays **to the left** of React Hot Loader in `loaders` array in Webpack config:
+If you're using React Hot Loader together with [Babel](https://babeljs.io/) (ex 6to5), make sure React Hot Loader stays **to the left** of Babel in `loaders` array in Webpack config:
 
 ```js
   { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], include: path.join(__dirname, 'src') }
