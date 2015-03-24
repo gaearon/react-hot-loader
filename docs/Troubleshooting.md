@@ -16,7 +16,7 @@ Make sure you have `'.js'` in `resolve.extensions` section of Webpack config, or
 If you're using React Hot Loader together with [Babel](https://babeljs.io/) (ex 6to5), make sure React Hot stays **to the left** of React Hot Loader in `loaders` array in Webpack config:
 
 ```js
-  { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ }
+  { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], include: path.join(__dirname, 'src') }
 ```
 
 Webpack applies `loaders` right to left, and we need to feed Babel's *output* to React Hot Loader, not vice versa.
@@ -39,6 +39,10 @@ module.exports = {
 
 If you used WebpackDevServer CLI mode and after switching to Node it crashes with `Error: Invalid path ''`, you probably didn't have `path` specified in `output` at all. You can just put `path: __dirname` there, as it won't matter for development config.
 
+### Module not found: Error: Cannot resolve module 'react-hot' 
+
+Most likely you used `npm link` to use a development version of a package in a different folder, and React Hot Loader processed it by mistake. You should use [`include` in loader configuration](https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js#L27) to only opt-in your app's files to processing.
+
 ---------
 
 ### Page Throws an Error
@@ -46,7 +50,7 @@ If you used WebpackDevServer CLI mode and after switching to Node it crashes wit
 #### Uncaught TypeError: Cannot read property 'NODE_ENV' of undefined
 #### [socket.io] Cannot use 'in' operator to search for 'document' in undefined
 
-Make sure you have `exclude: /node_modules/` in loader configuration [just like on this line](https://github.com/gaearon/react-hot-boilerplate/blob/ab01016fc623be5401b480874cc2d71764cdfef0/webpack.config.js#L24). You never need to process `node_modules` with React Hot Loader. If you use other loaders such as `jsx?harmony` or `babel`, most likely they **also** need to have `exclude: /node_modules/` specified.
+Make sure you have `exclude: /node_modules/` or, better, `include: path.join(__dirname, 'src')` (path depends on your application) in loader configuration [just like on this line](https://github.com/gaearon/react-hot-boilerplate/blob/fbdbd93956241320bc3960d350c4dd0030cc6e84/webpack.config.js#L27). You never need to process `node_modules` with React Hot Loader. If you use other loaders such as `jsx?harmony` or `babel`, most likely they **also** need to have `include` specified.
 
 ---------
 
@@ -106,7 +110,7 @@ Arch users, add `fs.inotify.max_user_watches=524288` to `/etc/sysctl.d/99-sysctl
 
 #### It's slowing down my build!
 
-Make sure you have `exclude: /node_modules/` in loader configuration [just like on this line](https://github.com/gaearon/react-hot-boilerplate/blob/ab01016fc623be5401b480874cc2d71764cdfef0/webpack.config.js#L24). You never need to process `node_modules` with React Hot Loader.
+Make sure you have `include` limited to your app's modules in loader configuration [just like on this line](https://github.com/gaearon/react-hot-boilerplate/blob/fbdbd93956241320bc3960d350c4dd0030cc6e84/webpack.config.js#L27). You never need to process `node_modules` with React Hot Loader.
 
 #### My bundle is so large!
 
