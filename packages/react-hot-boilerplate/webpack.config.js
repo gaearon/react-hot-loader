@@ -1,3 +1,4 @@
+var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
@@ -8,7 +9,7 @@ module.exports = {
     './scripts/index'
   ],
   output: {
-    path: __dirname + '/scripts/',
+    path: path.join(__dirname, 'build'),
     filename: 'bundle.js',
     publicPath: '/scripts/'
   },
@@ -20,8 +21,10 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   module: {
-    loaders: [
-      { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ }
-    ]
+    loaders: [{
+      test: /\.jsx?$/,
+      loaders: ['react-hot', 'babel'],
+      include: path.join(__dirname, 'scripts')
+    }]
   }
 };
