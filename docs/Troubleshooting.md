@@ -82,6 +82,14 @@ This warning may also appear **if you edit some non-component file** which is `r
 
 If you get this warning **together with a 404 for `hot-update.json` file**, you're probably using an ancient version of `webpack-dev-server` (just update it).
 
+#### I see “[WDS] Hot Module Replacement enabled” but nothing happens when I edit `App.js`
+
+If you're running Node 0.11.13, you might want to try updating to 0.12. Some people reported this helped solve this problem. Also **make sure that your `require`s have the same filename casing as the files.** Having `App.js` and doing `require('app')` might trip the watcher on some systems.
+
+#### Syntax error: Unexpected token <
+
+If you combine WebpackDevServer with an existing server like Express and get this error message on hot updates, it is because Webpack is configured to request hot updates *from the current hostname*. So if your Express server is on `8000` and `publicPath` in Webpack config is `/build/`, it will request hot updates from `http://localhost:8000/build/`, which in your case is served by Express. Instead, you need to set `publicPath` to point to the port where WebpackDevServer is running. For example, it could be `http://localhost:9000/build/`.
+
 #### Not enough watchers
 
 Verify that if you have enough available watchers in your system. If this value is too low, the file watcher in Webpack won't recognize the changes:
@@ -91,10 +99,6 @@ cat /proc/sys/fs/inotify/max_user_watches
 ```
 
 Arch users, add `fs.inotify.max_user_watches=524288` to `/etc/sysctl.d/99-sysctl.conf` and then execute `sysctl --system`. Ubuntu users (and possibly others): `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
-
-#### I see “[WDS] Hot Module Replacement enabled” but nothing happens when I edit `App.js`
-
-If you're running Node 0.11.13, you might want to try updating to 0.12. Some people reported this helped solve this problem. Also make sure that your `require`s have the same filename casing as the files. Having `App.js` and doing `require('app')` might trip the watcher on some systems.
 
 ---------------
 
