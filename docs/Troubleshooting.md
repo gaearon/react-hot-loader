@@ -104,6 +104,14 @@ cat /proc/sys/fs/inotify/max_user_watches
 
 Arch users, add `fs.inotify.max_user_watches=524288` to `/etc/sysctl.d/99-sysctl.conf` and then execute `sysctl --system`. Ubuntu users (and possibly others): `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
+#### 404 errors for `hot-update.json` files
+
+First, make sure you have recent versions of Webpack and Webpack Dev Server (>= 1.7 is fine). Earlier versions use 404 code when no updates were available, so it wasn't technically an error.
+
+Now, take a look at the path where they are requested. Webpack uses `output.publicPath` from Webpack config to determine this path. If you forget to specify it, Webpack will request updates from a relative path to the current one, so any client-side routing will break it.
+
+Normally you want it to be `'/'` if you're serving scripts from root, something like `'/scripts/'` if you have a virtual path for scripts, and something like `'http://localhost:port/scripts/` if you're using Webpack only for scripts but have another primary server like Express. **This config variable must also match `publicPath` option specified when creating `WebpackDevServer` instance.** [Take a look at React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js#L6) to get an idea.
+
 ---------------
 
 ### Misc
