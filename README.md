@@ -16,13 +16,15 @@ This is a **stable for daily use in development** implementation of [React live 
 
 If you want to try hot reloading in a new project, try **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**, **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)** being the most minimal one.
 
-To use hot loader in an existing project, you need to
+To use React Hot Loader in an existing project, you need to
 
 * switch to Webpack for builds (instead of RequireJS or Browserify);
 * enable Hot Module Replacement, which is a Webpack feature;
 * configure Webpack to use React Hot Loader for JS or JSX files.
 
 These steps are covered by **[the walkthrough](http://gaearon.github.io/react-hot-loader/getstarted/)**.
+
+If you'd rather stay with **Browserify**, check out **[LiveReactload](https://github.com/milankinen/livereactload)** by Matti Lankinen.
 
 ## Troubleshooting
 
