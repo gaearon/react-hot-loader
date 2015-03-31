@@ -49,7 +49,7 @@ If you only had one loader before, be sure to change `loader` to `loaders` so it
 {% highlight js %}
 module: {
   loaders: [
-    { test: /\.jsx?$/, loaders: ['react-hot', 'jsx?harmony'], exclude: /node_modules/ }
+    { test: /\.jsx?$/, loaders: ['react-hot', 'jsx?harmony'], include: path.join(__dirname, 'src') }
   ]
 }
 {% endhighlight %}
