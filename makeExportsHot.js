@@ -29,9 +29,14 @@ function makeExportsHot(m, React) {
       continue;
     }
 
-    if (!isReactClassish(freshExports[key], React)) {
+    try {
+      if (!isReactClassish(freshExports[key], React)) {
+        continue;
+      }
+    } catch (e) {
       continue;
     }
+
 
     if (Object.getOwnPropertyDescriptor(m.exports, key).writable) {
       m.exports[key] = m.makeHot(freshExports[key], '__MODULE_EXPORTS_' + key);
