@@ -4,7 +4,7 @@ var isReactClassish = require('./isReactClassish'),
     isReactElementish = require('./isReactElementish');
 
 function makeExportsHot(m, React) {
-  if (isReactElementish(m.exports)) {
+  if (isReactElementish(m.exports, React)) {
     // React elements are never valid React classes
     return false;
   }
