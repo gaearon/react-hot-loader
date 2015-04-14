@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.2.5
+
+* Fix “React is not defined” error
+
 ### 1.2.4
 
 * Avoid updating each class twice in React 0.12
