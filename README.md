@@ -26,6 +26,10 @@ These steps are covered by **[the walkthrough](http://gaearon.github.io/react-ho
 
 If you'd rather stay with **Browserify**, check out **[LiveReactload](https://github.com/milankinen/livereactload)** by Matti Lankinen.
 
+## React Native
+
+You can use React Hot Loader to tweak a React Native application. Check out **[react-native-webpack-server](https://github.com/mjohnston/react-native-webpack-server)** by Michael Johnston.
+
 ## Troubleshooting
 
 If something doesn't work, in 99% cases it's a configuration issue. A missing option, a wrong path or port. Webpack is very strict about configuration, and the best way to find out what's wrong is to compare your project to an already working setup, such as **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)**, bit by bit. We're also gathering **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)** so send a PR if you have a lesson to share!
