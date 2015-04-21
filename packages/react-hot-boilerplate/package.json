@@ -28,8 +28,8 @@
   },
   "homepage": "https://github.com/gaearon/react-hot-boilerplate",
   "devDependencies": {
-    "babel-core": "^4.7.4",
-    "babel-loader": "^4.1.0",
+    "babel-core": "^5.1.11",
+    "babel-loader": "^5.0.0",
     "react-hot-loader": "^1.2.2",
     "webpack": "^1.7.2",
     "webpack-dev-server": "^1.7.0"
