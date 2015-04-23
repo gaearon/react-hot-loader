@@ -120,7 +120,7 @@ For configuration instructions, see **[Get Started](/react-hot-loader/getstarted
 
 ## Links
 
-* **[Get Started](http://localhost:4000/react-hot-loader/getstarted/)**
+* **[Get Started](/react-hot-loader/getstarted/)**
 
 * **[Starter Kits with React Hot Loader](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**
 
