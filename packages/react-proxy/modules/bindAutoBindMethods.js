@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Based on https://github.com/facebook/react/blob/master/src/class/ReactClass.js#L637
+ * Based on https://github.com/facebook/react/blob/master/src/classic/class/ReactClass.js#L639-L685
  */
 function bindAutoBindMethod(component, method) {
   var boundMethod = method.bind(component);
