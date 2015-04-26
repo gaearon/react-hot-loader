@@ -43,7 +43,7 @@ function bindAutoBindMethod(component, method) {
 /**
  * Performs auto-binding similar to how React does it.
  * Skips already auto-bound methods.
- * Based on https://github.com/facebook/react/blob/master/src/class/ReactClass.js#L679.
+ * Based on https://github.com/facebook/react/blob/master/src/classic/class/ReactClass.js#L639-L685.
  */
 module.exports = function bindAutoBindMethods(component) {
   for (var autoBindKey in component.__reactAutoBindMap) {
