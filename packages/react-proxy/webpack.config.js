@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 
 module.exports = {
-  entry: './modules/index',
+  entry: './src/index',
   output: {
     filename: 'dist/ReactHotAPI.js',
     libraryTarget: 'umd',

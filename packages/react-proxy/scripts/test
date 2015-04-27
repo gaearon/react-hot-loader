@@ -1,0 +1,2 @@
+#!/bin/sh
+./node_modules/.bin/mocha --compilers js:babel/register ./src/__tests__
