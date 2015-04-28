@@ -12,7 +12,7 @@ Read [The Death of React Hot Loader](https://medium.com/@dan_abramov/the-death-o
 
 ### Can I Play With This?
 
-[Absolutely.](https://github.com/gaearon/react-hotify-boilerplate)
+**[Absolutely.](https://github.com/gaearon/react-hotify-boilerplate)** See also this **[Babel plugin](https://github.com/gaearon/babel-plugin-react-hotify).**
 
 ### Limitations
 
