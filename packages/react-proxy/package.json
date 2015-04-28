@@ -1,6 +1,6 @@
 {
   "name": "react-hot-api",
-  "version": "0.4.3",
+  "version": "1.0.0-alpha",
   "description": "A generic library implementing hot reload for React components without unmounting or losing their state.",
   "main": "modules/index.js",
   "scripts": {
@@ -26,6 +26,7 @@
     "babel-loader": "^5.0.0",
     "expect.js": "^0.3.1",
     "mocha": "^2.2.4",
+    "react": "^0.13.2",
     "webpack": "1.4.8"
   }
 }

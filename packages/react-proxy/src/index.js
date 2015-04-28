@@ -1,3 +1,1 @@
-'use strict';
-
-module.exports = require('./makeMakeHot');
+export { makeHotify as default } from './makeHotify';
