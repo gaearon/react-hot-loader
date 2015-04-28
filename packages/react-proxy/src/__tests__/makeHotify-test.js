@@ -14,12 +14,20 @@ class Bar {
 }
 
 class Baz {
+  componentWillUnmount() {
+    this.didUnmount = true;
+  }
+
   render() {
     return <div>Baz</div>;
   }
 }
 
 class Foo {
+  componentWillUnmount() {
+    this.didUnmount = true;
+  }
+
   render() {
     return <div>Foo</div>;
   }
@@ -139,6 +147,18 @@ describe('makeHotify', () => {
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
     expect(barInstance).to.equal(fooInstance);
     expect(barInstance.didUnmount).to.equal(undefined);
+  });
+
+  it('does not overwrite the hotified class', () => {
+    const HotBar = hotify(Bar);
+    const barInstance = renderer.render(<HotBar />);
+    expect(renderer.getRenderOutput().props.children).to.equal('Bar');
+
+    hotify(Baz);
+    const realBarInstance = renderer.render(<Bar />);
+    expect(renderer.getRenderOutput().props.children).to.equal('Bar');
+    expect(barInstance).to.not.equal(realBarInstance);
+    expect(barInstance.didUnmount).to.equal(true);
   });
 
   describe('instance methods', () => {
