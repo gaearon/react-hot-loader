@@ -391,7 +391,7 @@ describe('makeHotify', () => {
      * of a side effect. We also don't want to overwrite them
      * in case they changed.
      */
-    it('is left unchanged when not reassigned', () => {
+    it('is left unchanged when not reassigned (meh)', () => {
       const HotInstanceProperty = hotify(InstanceProperty);
       const instance = renderer.render(<HotInstanceProperty />);
       expect(renderer.getRenderOutput().props.children).to.eql(42);
@@ -432,7 +432,7 @@ describe('makeHotify', () => {
      * Known limitation.
      * If you find a way around it without breaking other tests, let me know!
      */
-    it('does not get replaced if bound', () => {
+    it('does not get replaced if bound (meh)', () => {
       const HotStaticMethod = hotify(StaticMethod);
       const getAnswer = HotStaticMethod.getAnswer = HotStaticMethod.getAnswer.bind(HotStaticMethod);
 
