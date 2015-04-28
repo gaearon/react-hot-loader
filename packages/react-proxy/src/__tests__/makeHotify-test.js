@@ -33,6 +33,54 @@ class Foo {
   }
 }
 
+class BarComponent extends Component {
+  render() {
+    return <div>Bar</div>;
+  }
+}
+
+class BazComponent extends Component {
+  render() {
+    return <div>Baz</div>;
+  }
+}
+
+class FooComponent extends Component {
+  render() {
+    return <div>Foo</div>;
+  }
+}
+
+class BarStatic {
+  shouldComponentUpdate() {
+    return false;
+  }
+
+  render() {
+    return <div>Bar</div>;
+  }
+}
+
+class BazStatic {
+  shouldComponentUpdate() {
+    return false;
+  }
+
+  render() {
+    return <div>Baz</div>;
+  }
+}
+
+class FooStatic {
+  shouldComponentUpdate() {
+    return false;
+  }
+
+  render() {
+    return <div>Foo</div>;
+  }
+}
+
 class Counter1x extends Component {
   constructor(props) {
     super(props);
@@ -283,6 +331,44 @@ describe('makeHotify', () => {
     expect(barInstance instanceof HotBaz).to.equal(true);
   });
 
+  describe('force update', () => {
+    it('gets triggered on a plain class', () => {
+      const HotBar = hotify(Bar);
+      renderer.render(<HotBar />);
+      expect(renderer.getRenderOutput().props.children).to.equal('Bar');
+
+      hotify(Baz);
+      expect(renderer.getRenderOutput().props.children).to.equal('Baz');
+
+      hotify(Foo);
+      expect(renderer.getRenderOutput().props.children).to.equal('Foo');
+    });
+
+    it('gets triggered on a Component descendant', () => {
+      const HotBarComponent = hotify(BarComponent);
+      renderer.render(<HotBarComponent />);
+      expect(renderer.getRenderOutput().props.children).to.equal('Bar');
+
+      hotify(BazComponent);
+      expect(renderer.getRenderOutput().props.children).to.equal('Baz');
+
+      hotify(FooComponent);
+      expect(renderer.getRenderOutput().props.children).to.equal('Foo');
+    });
+
+    it('gets triggered on a class with strict shouldComponentUpdate', () => {
+      const HotBarStatic = hotify(BarStatic);
+      renderer.render(<HotBarStatic />);
+      expect(renderer.getRenderOutput().props.children).to.equal('Bar');
+
+      hotify(BazStatic);
+      expect(renderer.getRenderOutput().props.children).to.equal('Baz');
+
+      hotify(FooStatic);
+      expect(renderer.getRenderOutput().props.children).to.equal('Foo');
+    });
+  });
+
   describe('instance method', () => {
     it('gets replaced', () => {
       const HotCounter = hotify(Counter1x);
@@ -452,7 +538,7 @@ describe('makeHotify', () => {
       expect(renderer.getRenderOutput().props.children).to.equal(42);
       expect(HotStaticMethod.getAnswer()).to.equal(42);
 
-      hotify(StaticMethodRemoval);
+      expect(() => hotify(StaticMethodRemoval)).to.throwError();
       expect(() => renderer.render(<HotStaticMethod />)).to.throwError();
       expect(HotStaticMethod.getAnswer).to.equal(undefined);
     });
