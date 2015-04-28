@@ -1,1 +1,1 @@
-export default from './makeHotify';
+export default from './getHotify';

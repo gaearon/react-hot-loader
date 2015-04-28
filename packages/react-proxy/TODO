@@ -2,7 +2,6 @@
 * shouldComponentUpdate
 * getters and setters
 * inheritance
-* umd
 * alternative: object literal, Omniscient
 * no-op in prod
 * error handling
