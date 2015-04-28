@@ -1,6 +1,9 @@
 React Hotify
 =========
 
+>Note: this project is **unstable** and is a **work-in-progress evolution** of **[React Hot Loader](http://gaearon.github.io/react-hot-loader)**.  
+>**Don't use it for real projects yet, use [React Hot Loader](http://gaearon.github.io/react-hot-loader) instead.**
+
 This project is a successor of [React Hot API](https://github.com/gaearon/react-hot-api).  
 It has less features and is much less mature.
 
