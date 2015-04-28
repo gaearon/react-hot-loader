@@ -95,6 +95,88 @@ class CounterWithoutIncrementMethod extends Component {
   }
 }
 
+class InstanceProperty {
+  answer = 42;
+
+  render() {
+    return <div>{this.answer}</div>;
+  }
+}
+
+class InstancePropertyUpdate {
+  answer = 43;
+
+  render() {
+    return <div>{this.answer}</div>;
+  }
+}
+
+class InstancePropertyRemoval {
+  render() {
+    return <div>{this.answer}</div>;
+  }
+}
+
+class StaticProperty {
+  static answer = 42;
+
+  render() {
+    return (
+      <div>{this.constructor.answer}</div>
+    );
+  }
+}
+
+class StaticPropertyUpdate {
+  static answer = 43;
+
+  render() {
+    return (
+      <div>{this.constructor.answer}</div>
+    );
+  }
+}
+
+class StaticPropertyRemoval {
+  render() {
+    return (
+      <div>{this.constructor.answer}</div>
+    );
+  }
+}
+
+class StaticMethod {
+  static getAnswer() {
+    return 42;
+  };
+
+  render() {
+    return (
+      <div>{this.constructor.getAnswer()}</div>
+    );
+  }
+}
+
+class StaticMethodUpdate {
+  static getAnswer() {
+    return 43;
+  };
+
+  render() {
+    return (
+      <div>{this.constructor.getAnswer()}</div>
+    );
+  }
+}
+
+class StaticMethodRemoval {
+  render() {
+    return (
+      <div>{this.constructor.getAnswer()}</div>
+    );
+  }
+}
+
 describe('makeHotify', () => {
   let renderer;
   let hotify;
@@ -161,8 +243,20 @@ describe('makeHotify', () => {
     expect(barInstance.didUnmount).to.equal(true);
   });
 
-  describe('instance methods', () => {
-    it('replaces an instance method', () => {
+  it('sets up constructor to match the type', () => {
+    const HotBar = hotify(Bar);
+    const barInstance = renderer.render(<HotBar />);
+    expect(barInstance.constructor).to.equal(HotBar);
+    expect(barInstance instanceof HotBar).to.equal(true);
+
+    const HotBaz = hotify(Baz);
+    expect(HotBar).to.equal(HotBaz);
+    expect(barInstance.constructor).to.equal(HotBaz);
+    expect(barInstance instanceof HotBaz).to.equal(true);
+  });
+
+  describe('instance method', () => {
+    it('gets replaced', () => {
       const HotCounter = hotify(Counter1x);
       const instance = renderer.render(<HotCounter />);
       expect(renderer.getRenderOutput().props.children).to.equal(0);
@@ -180,7 +274,7 @@ describe('makeHotify', () => {
       expect(renderer.getRenderOutput().props.children).to.equal(111);
     });
 
-    it('replaces a bound instance method', () => {
+    it('gets replaced if bound', () => {
       const HotCounter = hotify(Counter1x);
       const instance = renderer.render(<HotCounter />);
 
@@ -201,7 +295,11 @@ describe('makeHotify', () => {
       expect(renderer.getRenderOutput().props.children).to.equal(111);
     });
 
-    it('turns a deleted instance method into a no-op and removes it', () => {
+    /**
+     * It is important to make deleted methods no-ops
+     * so they don't crash if setTimeout-d or setInterval-d.
+     */
+    it('is detached and acts as a no-op if deleted', () => {
       const HotCounter = hotify(Counter1x);
       const instance = renderer.render(<HotCounter />);
       expect(renderer.getRenderOutput().props.children).to.equal(0);
@@ -216,7 +314,7 @@ describe('makeHotify', () => {
       expect(renderer.getRenderOutput().props.children).to.equal(1);
     });
 
-    it('turns a deleted bound instance method into a no-op and keeps it', () => {
+    it('is attached and acts as a no-op if deleted but set on instance directly', () => {
       const HotCounter = hotify(Counter1x);
       const instance = renderer.render(<HotCounter />);
 
@@ -230,6 +328,102 @@ describe('makeHotify', () => {
       instance.increment();
       renderer.render(<HotCounter />);
       expect(renderer.getRenderOutput().props.children).to.equal(1);
+    });
+  });
+
+  describe('instance property', () => {
+    it('is available on hotified class instance', () => {
+      const HotInstanceProperty = hotify(InstanceProperty);
+      const instance = renderer.render(<HotInstanceProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(42);
+      expect(instance.answer).to.equal(42);
+    });
+
+    /**
+     * I'm not aware of any way of retrieving their new values
+     * without calling the constructor, which seems like too much
+     * of a side effect. We also don't want to overwrite them
+     * in case they changed.
+     */
+    it('is left unchanged when hotified', () => {
+      const HotInstanceProperty = hotify(InstanceProperty);
+      const instance = renderer.render(<HotInstanceProperty />);
+      expect(renderer.getRenderOutput().props.children).to.eql(42);
+
+      instance.answer = 100;
+
+      hotify(InstancePropertyUpdate);
+      renderer.render(<HotInstanceProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(100);
+      expect(instance.answer).to.equal(100);
+
+      hotify(InstancePropertyRemoval);
+      renderer.render(<HotInstanceProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(100);
+      expect(instance.answer).to.equal(100);
+    });
+  });
+
+  describe('static method', () => {
+    it('is available on hotified class instance', () => {
+      const HotStaticMethod = hotify(StaticMethod);
+      const instance = renderer.render(<HotStaticMethod />);
+      expect(renderer.getRenderOutput().props.children).to.equal(42);
+      expect(HotStaticMethod.getAnswer()).to.equal(42);
+    });
+
+    it('gets replaced', () => {
+      const HotStaticMethod = hotify(StaticMethod);
+      const instance = renderer.render(<HotStaticMethod />);
+      expect(renderer.getRenderOutput().props.children).to.equal(42);
+      expect(HotStaticMethod.getAnswer()).to.equal(42);
+
+      hotify(StaticMethodUpdate);
+      renderer.render(<HotStaticMethod />);
+      expect(renderer.getRenderOutput().props.children).to.equal(43);
+      expect(HotStaticMethod.getAnswer()).to.equal(43);
+    });
+
+    it('is detached if deleted', () => {
+      const HotStaticMethod = hotify(StaticMethod);
+      const instance = renderer.render(<HotStaticMethod />);
+      expect(renderer.getRenderOutput().props.children).to.equal(42);
+      expect(HotStaticMethod.getAnswer()).to.equal(42);
+
+      hotify(StaticMethodRemoval);
+      expect(() => renderer.render(<HotStaticMethod />)).to.throwError();
+      expect(HotStaticMethod.getAnswer).to.equal(undefined);
+    });
+  });
+
+  describe('static property', () => {
+    it('is available on hotified class instance', () => {
+      const HotStaticProperty = hotify(StaticProperty);
+      const instance = renderer.render(<HotStaticProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(42);
+      expect(HotStaticProperty.answer).to.equal(42);
+    });
+
+    /**
+     * Sometimes people dynamically store stuff on statics.
+     * For now, avoid ever replacing them.
+     */
+    it('is not changed when hotified', () => {
+      const HotStaticProperty = hotify(StaticProperty);
+      const instance = renderer.render(<HotStaticProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(42);
+
+      HotStaticProperty.answer = 100;
+
+      hotify(StaticPropertyUpdate);
+      renderer.render(<HotStaticProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(100);
+      expect(HotStaticProperty.answer).to.equal(100);
+
+      hotify(StaticPropertyRemoval);
+      renderer.render(<HotStaticProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(100);
+      expect(HotStaticProperty.answer).to.equal(100);
     });
   });
 });

@@ -1,7 +1,8 @@
 import difference from 'lodash/array/difference';
 
-export default function makeAssimilatePrototype() {
-  const proxy = {};
+const SPECIAL_KEYS = ['constructor'];
+
+export default function makeProxy(proxy) {
   let current = null;
 
   function createProxyMethod(key) {
@@ -12,14 +13,14 @@ export default function makeAssimilatePrototype() {
     };
   }
 
-  return function assimilatePrototype(fresh) {
-    // Save current prototype
+  return function proxyTo(fresh) {
+    // Save current source of truth
     current = fresh;
 
     const freshKeys = Object.getOwnPropertyNames(fresh);
     const currentKeys = Object.getOwnPropertyNames(proxy);
-    const addedKeys = difference(freshKeys, currentKeys);
-    const removedKeys = difference(currentKeys, freshKeys);
+    const addedKeys = difference(freshKeys, currentKeys, SPECIAL_KEYS);
+    const removedKeys = difference(currentKeys, freshKeys, SPECIAL_KEYS);
 
     // Update proxy method list
     addedKeys.forEach(key => {
@@ -28,9 +29,6 @@ export default function makeAssimilatePrototype() {
     removedKeys.forEach(key => {
       delete proxy[key];
     })
-
-    // Put fresh prototype into the proxy's chain so instanceof works
-    proxy.__proto__ = fresh;
 
     // The caller will use the proxy from now on
     return proxy;
