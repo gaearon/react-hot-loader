@@ -18,12 +18,16 @@ export default function makeAssimilatePrototype() {
 
     const freshKeys = Object.getOwnPropertyNames(fresh);
     const currentKeys = Object.getOwnPropertyNames(proxy);
-    const unproxiedKeys = difference(freshKeys, currentKeys);
+    const addedKeys = difference(freshKeys, currentKeys);
+    const removedKeys = difference(currentKeys, freshKeys);
 
-    // Add all new methods to the proxy
-    unproxiedKeys.forEach(key => {
+    // Update proxy method list
+    addedKeys.forEach(key => {
       proxy[key] = createProxyMethod(key);
     });
+    removedKeys.forEach(key => {
+      delete proxy[key];
+    })
 
     // Put fresh prototype into the proxy's chain so instanceof works
     proxy.__proto__ = fresh;
