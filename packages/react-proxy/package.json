@@ -5,7 +5,8 @@
   "main": "modules/index.js",
   "scripts": {
     "build": "./scripts/build",
-    "test": "./scripts/test"
+    "test": "./scripts/test",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
