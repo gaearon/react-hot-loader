@@ -1,4 +1,4 @@
-React Hotify
+React Hotify *(warning: alpha quality)*
 =========
 
 >Note: this project is **unstable** and is a **work-in-progress evolution** of **[React Hot Loader](http://gaearon.github.io/react-hot-loader)**.  
