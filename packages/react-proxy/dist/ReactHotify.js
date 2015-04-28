@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["react"], factory);
 	else if(typeof exports === 'object')
-		exports["ReactHotAPI"] = factory(require("react"));
+		exports["ReactHotify"] = factory(require("react"));
 	else
-		root["ReactHotAPI"] = factory(root["React"]);
+		root["ReactHotify"] = factory(root["React"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_23__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
