@@ -7,6 +7,10 @@ It has less features and is much less mature.
 For now, use at your own risk.  
 Read [The Death of React Hot Loader](https://medium.com/@dan_abramov/the-death-of-react-hot-loader-765fa791d7c4) for some context.
 
+### Limitations
+
+Alpha quality. 0.13+. Only ES6 React classes are supported at the moment. No error handling. No production (disabled) mode. [TODO might give some idea.](https://github.com/gaearon/react-hotify/blob/master/TODO)
+
 ### Usage
 
 Annotate component classes with the [decorator](https://github.com/wycats/javascript-decorators) this library exports.
@@ -16,7 +20,7 @@ You should generate these decorator calls (e.g. with a [Babel plugin](https://ba
 
 ### Examples
 
-#### Webpack
+#### Webpack (without [Babel plugin](https://github.com/gaearon/babel-plugin-react-hotify))
 
 ```js
 import React from 'react';
@@ -43,6 +47,32 @@ export default class App extends React.Component {
 // Opt-in to Webpack hot module replacement for the module
 module.hot.accept(); // Your tool should generate this
 ```
+
+#### Webpack (with [Babel plugin](https://github.com/gaearon/babel-plugin-react-hotify))
+
+```js
+import React from 'react';
+
+class Other {
+  render() {
+    return (
+      <h1>hmm.</h1>
+    );
+  }
+}
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <Other />
+    );
+  }
+}
+
+// Opt-in to Webpack hot module replacement for the module
+module.hot.accept(); // Maybe write another plugin to generate this one line?
+```
+
 
 #### Browserify
 
