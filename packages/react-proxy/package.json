@@ -1,6 +1,6 @@
 {
-  "name": "react-hot-api",
-  "version": "1.0.0-alpha",
+  "name": "react-hotify",
+  "version": "0.1.0",
   "description": "A generic library implementing hot reload for React components without unmounting or losing their state.",
   "main": "modules/index.js",
   "scripts": {
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gaearon/react-hot-api.git"
+    "url": "https://github.com/gaearon/react-hotify.git"
   },
   "author": "Dan Abramov <dan.abramov@me.com> (http://github.com/gaearon)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gaearon/react-hot-api/issues"
+    "url": "https://github.com/gaearon/react-hotify/issues"
   },
-  "homepage": "https://github.com/gaearon/react-hot-api",
+  "homepage": "https://github.com/gaearon/react-hotify",
   "peerDependencies": {
     "react": ">=0.11.0"
   },
