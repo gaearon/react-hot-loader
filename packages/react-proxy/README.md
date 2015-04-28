@@ -32,6 +32,7 @@ You should generate these decorator calls (e.g. with a [Babel plugin](https://ba
 ```js
 import React from 'react';
 
+// This class is hot-reloadable!
 class Other {
   render() {
     return (
@@ -40,6 +41,7 @@ class Other {
   }
 }
 
+// This class is hot-reloadable!
 export default class App extends React.Component {
   render() {
     return (
@@ -56,9 +58,9 @@ module.hot.accept(); // Maybe write another plugin to generate this one line?
 
 ```js
 import React from 'react';
-import hotify from 'react-hotify'; // Your tool should generate this
+import hotify from 'react-hotify'; // Your tool should generate this to make this class hot-reloadable
 
-@hotify(`${module.id}-Other`) // Your tool should generate this
+@hotify(`${module.id}-Other`) // Your tool should generate this to make this class hot-reloadable
 class Other {
   render() {
     return (
@@ -67,7 +69,7 @@ class Other {
   }
 }
 
-@hotify(`${module.id}-App`) // Your tool should generate this
+@hotify(`${module.id}-App`) // Your tool should generate this to make this class hot-reloadable
 export default class App extends React.Component {
   render() {
     return (
@@ -77,13 +79,15 @@ export default class App extends React.Component {
 }
 
 // Opt-in to Webpack hot module replacement for the module
-module.hot.accept(); // Your tool should generate this
+module.hot.accept(); // Your tool should generate this to make this class hot-reloadable
 ```
 
 
 #### Browserify
 
 ???
+
+(Not now, but I want to bring it there!)
 
 ### Tests
 
