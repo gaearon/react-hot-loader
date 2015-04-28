@@ -5,3 +5,4 @@
 * umd
 * alternative: object literal, Omniscient
 * no-op in prod
+* error handling
