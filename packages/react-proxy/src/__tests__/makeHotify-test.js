@@ -141,73 +141,75 @@ describe('makeHotify', () => {
     expect(barInstance.didUnmount).to.equal(undefined);
   });
 
-  it('replaces an instance method', () => {
-    const HotCounter = hotify(Counter1x);
-    const instance = renderer.render(<HotCounter />);
-    expect(renderer.getRenderOutput().props.children).to.equal(0);
-    instance.increment();
-    expect(renderer.getRenderOutput().props.children).to.equal(1);
+  describe('instance methods', () => {
+    it('replaces an instance method', () => {
+      const HotCounter = hotify(Counter1x);
+      const instance = renderer.render(<HotCounter />);
+      expect(renderer.getRenderOutput().props.children).to.equal(0);
+      instance.increment();
+      expect(renderer.getRenderOutput().props.children).to.equal(1);
 
-    hotify(Counter10x);
-    instance.increment();
-    renderer.render(<HotCounter />);
-    expect(renderer.getRenderOutput().props.children).to.equal(11);
+      hotify(Counter10x);
+      instance.increment();
+      renderer.render(<HotCounter />);
+      expect(renderer.getRenderOutput().props.children).to.equal(11);
 
-    hotify(Counter100x);
-    instance.increment();
-    renderer.render(<HotCounter />);
-    expect(renderer.getRenderOutput().props.children).to.equal(111);
-  });
+      hotify(Counter100x);
+      instance.increment();
+      renderer.render(<HotCounter />);
+      expect(renderer.getRenderOutput().props.children).to.equal(111);
+    });
 
-  it('replaces a bound instance method', () => {
-    const HotCounter = hotify(Counter1x);
-    const instance = renderer.render(<HotCounter />);
+    it('replaces a bound instance method', () => {
+      const HotCounter = hotify(Counter1x);
+      const instance = renderer.render(<HotCounter />);
 
-    instance.increment = instance.increment.bind(instance);
+      instance.increment = instance.increment.bind(instance);
 
-    expect(renderer.getRenderOutput().props.children).to.equal(0);
-    instance.increment();
-    expect(renderer.getRenderOutput().props.children).to.equal(1);
+      expect(renderer.getRenderOutput().props.children).to.equal(0);
+      instance.increment();
+      expect(renderer.getRenderOutput().props.children).to.equal(1);
 
-    hotify(Counter10x);
-    instance.increment();
-    renderer.render(<HotCounter />);
-    expect(renderer.getRenderOutput().props.children).to.equal(11);
+      hotify(Counter10x);
+      instance.increment();
+      renderer.render(<HotCounter />);
+      expect(renderer.getRenderOutput().props.children).to.equal(11);
 
-    hotify(Counter100x);
-    instance.increment();
-    renderer.render(<HotCounter />);
-    expect(renderer.getRenderOutput().props.children).to.equal(111);
-  });
+      hotify(Counter100x);
+      instance.increment();
+      renderer.render(<HotCounter />);
+      expect(renderer.getRenderOutput().props.children).to.equal(111);
+    });
 
-  it('turns a deleted instance method into a no-op and removes it', () => {
-    const HotCounter = hotify(Counter1x);
-    const instance = renderer.render(<HotCounter />);
-    expect(renderer.getRenderOutput().props.children).to.equal(0);
-    instance.increment();
-    const savedIncrement = instance.increment;
-    expect(renderer.getRenderOutput().props.children).to.equal(1);
+    it('turns a deleted instance method into a no-op and removes it', () => {
+      const HotCounter = hotify(Counter1x);
+      const instance = renderer.render(<HotCounter />);
+      expect(renderer.getRenderOutput().props.children).to.equal(0);
+      instance.increment();
+      const savedIncrement = instance.increment;
+      expect(renderer.getRenderOutput().props.children).to.equal(1);
 
-    hotify(CounterWithoutIncrementMethod);
-    expect(instance.increment).to.equal(undefined);
-    savedIncrement.call(instance);
-    renderer.render(<HotCounter />);
-    expect(renderer.getRenderOutput().props.children).to.equal(1);
-  });
+      hotify(CounterWithoutIncrementMethod);
+      expect(instance.increment).to.equal(undefined);
+      savedIncrement.call(instance);
+      renderer.render(<HotCounter />);
+      expect(renderer.getRenderOutput().props.children).to.equal(1);
+    });
 
-  it('turns a deleted bound instance method into a no-op and keeps it', () => {
-    const HotCounter = hotify(Counter1x);
-    const instance = renderer.render(<HotCounter />);
+    it('turns a deleted bound instance method into a no-op and keeps it', () => {
+      const HotCounter = hotify(Counter1x);
+      const instance = renderer.render(<HotCounter />);
 
-    instance.increment = instance.increment.bind(instance);
+      instance.increment = instance.increment.bind(instance);
 
-    expect(renderer.getRenderOutput().props.children).to.equal(0);
-    instance.increment();
-    expect(renderer.getRenderOutput().props.children).to.equal(1);
+      expect(renderer.getRenderOutput().props.children).to.equal(0);
+      instance.increment();
+      expect(renderer.getRenderOutput().props.children).to.equal(1);
 
-    hotify(CounterWithoutIncrementMethod);
-    instance.increment();
-    renderer.render(<HotCounter />);
-    expect(renderer.getRenderOutput().props.children).to.equal(1);
+      hotify(CounterWithoutIncrementMethod);
+      instance.increment();
+      renderer.render(<HotCounter />);
+      expect(renderer.getRenderOutput().props.children).to.equal(1);
+    });
   });
 });
