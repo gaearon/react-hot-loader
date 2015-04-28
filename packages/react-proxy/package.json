@@ -28,5 +28,8 @@
     "mocha": "^2.2.4",
     "react": "^0.13.2",
     "webpack": "1.4.8"
+  },
+  "dependencies": {
+    "lodash": "^3.7.0"
   }
 }
