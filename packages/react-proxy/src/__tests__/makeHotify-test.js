@@ -177,6 +177,34 @@ class StaticMethodRemoval {
   }
 }
 
+class PropTypes {
+  static propTypes = {
+    something: React.PropTypes.number
+  };
+
+  static contextTypes = {
+    something: React.PropTypes.number
+  };
+
+  static childContextTypes = {
+    something: React.PropTypes.number
+  };
+}
+
+class PropTypesUpdate {
+  static propTypes = {
+    something: React.PropTypes.string
+  };
+
+  static contextTypes = {
+    something: React.PropTypes.string
+  };
+
+  static childContextTypes = {
+    something: React.PropTypes.string
+  };
+}
+
 describe('makeHotify', () => {
   let renderer;
   let hotify;
@@ -299,7 +327,7 @@ describe('makeHotify', () => {
      * It is important to make deleted methods no-ops
      * so they don't crash if setTimeout-d or setInterval-d.
      */
-    it('is detached and acts as a no-op if deleted', () => {
+    it('is detached and acts as a no-op if not reassigned and deleted', () => {
       const HotCounter = hotify(Counter1x);
       const instance = renderer.render(<HotCounter />);
       expect(renderer.getRenderOutput().props.children).to.equal(0);
@@ -314,7 +342,7 @@ describe('makeHotify', () => {
       expect(renderer.getRenderOutput().props.children).to.equal(1);
     });
 
-    it('is attached and acts as a no-op if deleted but set on instance directly', () => {
+    it('is attached and acts as a no-op if reassigned and deleted', () => {
       const HotCounter = hotify(Counter1x);
       const instance = renderer.render(<HotCounter />);
 
@@ -339,13 +367,7 @@ describe('makeHotify', () => {
       expect(instance.answer).to.equal(42);
     });
 
-    /**
-     * I'm not aware of any way of retrieving their new values
-     * without calling the constructor, which seems like too much
-     * of a side effect. We also don't want to overwrite them
-     * in case they changed.
-     */
-    it('is left unchanged when hotified', () => {
+    it('is left unchanged when reassigned', () => {
       const HotInstanceProperty = hotify(InstanceProperty);
       const instance = renderer.render(<HotInstanceProperty />);
       expect(renderer.getRenderOutput().props.children).to.eql(42);
@@ -361,6 +383,28 @@ describe('makeHotify', () => {
       renderer.render(<HotInstanceProperty />);
       expect(renderer.getRenderOutput().props.children).to.equal(100);
       expect(instance.answer).to.equal(100);
+    });
+
+    /**
+     * I'm not aware of any way of retrieving their new values
+     * without calling the constructor, which seems like too much
+     * of a side effect. We also don't want to overwrite them
+     * in case they changed.
+     */
+    it('is left unchanged when not reassigned', () => {
+      const HotInstanceProperty = hotify(InstanceProperty);
+      const instance = renderer.render(<HotInstanceProperty />);
+      expect(renderer.getRenderOutput().props.children).to.eql(42);
+
+      hotify(InstancePropertyUpdate);
+      renderer.render(<HotInstanceProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(42);
+      expect(instance.answer).to.equal(42);
+
+      hotify(InstancePropertyRemoval);
+      renderer.render(<HotInstanceProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(42);
+      expect(instance.answer).to.equal(42);
     });
   });
 
@@ -384,6 +428,24 @@ describe('makeHotify', () => {
       expect(HotStaticMethod.getAnswer()).to.equal(43);
     });
 
+    /**
+     * Known limitation.
+     * If you find a way around it without breaking other tests, let me know!
+     */
+    it('does not get replaced if bound', () => {
+      const HotStaticMethod = hotify(StaticMethod);
+      const getAnswer = HotStaticMethod.getAnswer = HotStaticMethod.getAnswer.bind(HotStaticMethod);
+
+      renderer.render(<HotStaticMethod />);
+      expect(renderer.getRenderOutput().props.children).to.equal(42);
+
+      hotify(StaticMethodUpdate);
+      renderer.render(<HotStaticMethod />);
+      expect(renderer.getRenderOutput().props.children).to.equal(42);
+      expect(HotStaticMethod.getAnswer()).to.equal(42);
+      expect(getAnswer()).to.equal(42);
+    });
+
     it('is detached if deleted', () => {
       const HotStaticMethod = hotify(StaticMethod);
       const instance = renderer.render(<HotStaticMethod />);
@@ -404,11 +466,38 @@ describe('makeHotify', () => {
       expect(HotStaticProperty.answer).to.equal(42);
     });
 
+    it('is changed when not reassigned', () => {
+      const HotStaticProperty = hotify(StaticProperty);
+      const instance = renderer.render(<HotStaticProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(42);
+
+      hotify(StaticPropertyUpdate);
+      renderer.render(<HotStaticProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(43);
+      expect(HotStaticProperty.answer).to.equal(43);
+
+      hotify(StaticPropertyRemoval);
+      renderer.render(<HotStaticProperty />);
+      expect(renderer.getRenderOutput().props.children).to.equal(undefined);
+      expect(HotStaticProperty.answer).to.equal(undefined);
+    });
+
+    it('is changed for propTypes, contextTypes, childContextTypes', () => {
+      const HotPropTypes = hotify(PropTypes);
+      expect(HotPropTypes.propTypes.something).to.equal(React.PropTypes.number);
+      expect(HotPropTypes.contextTypes.something).to.equal(React.PropTypes.number);
+      expect(HotPropTypes.childContextTypes.something).to.equal(React.PropTypes.number);
+
+      hotify(PropTypesUpdate);
+      expect(HotPropTypes.propTypes.something).to.equal(React.PropTypes.string);
+      expect(HotPropTypes.contextTypes.something).to.equal(React.PropTypes.string);
+      expect(HotPropTypes.childContextTypes.something).to.equal(React.PropTypes.string);
+    });
+
     /**
      * Sometimes people dynamically store stuff on statics.
-     * For now, avoid ever replacing them.
      */
-    it('is not changed when hotified', () => {
+    it('is not changed when reassigned', () => {
       const HotStaticProperty = hotify(StaticProperty);
       const instance = renderer.render(<HotStaticProperty />);
       expect(renderer.getRenderOutput().props.children).to.equal(42);
