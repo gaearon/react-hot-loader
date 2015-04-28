@@ -1,1 +1,1 @@
-export { makeHotify as default } from './makeHotify';
+export default from './makeHotify';
