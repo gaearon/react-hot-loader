@@ -10,6 +10,10 @@ It has less features and is much less mature.
 For now, use at your own risk.  
 Read [The Death of React Hot Loader](https://medium.com/@dan_abramov/the-death-of-react-hot-loader-765fa791d7c4) for some context.
 
+### Can I Play With This?
+
+[Absolutely.](https://github.com/gaearon/react-hotify-boilerplate)
+
 ### Limitations
 
 Alpha quality. 0.13+. Only ES6 React classes are supported at the moment. No error handling. No production (disabled) mode. [TODO might give some idea.](https://github.com/gaearon/react-hotify/blob/master/TODO)
