@@ -27,6 +27,31 @@ You should generate these decorator calls (e.g. with a [Babel plugin](https://ba
 
 ### Examples
 
+#### Webpack (with [Babel plugin](https://github.com/gaearon/babel-plugin-react-hotify))
+
+```js
+import React from 'react';
+
+class Other {
+  render() {
+    return (
+      <h1>hmm.</h1>
+    );
+  }
+}
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <Other />
+    );
+  }
+}
+
+// Opt-in to Webpack hot module replacement for the module
+module.hot.accept(); // Maybe write another plugin to generate this one line?
+```
+
 #### Webpack (without [Babel plugin](https://github.com/gaearon/babel-plugin-react-hotify))
 
 ```js
@@ -53,31 +78,6 @@ export default class App extends React.Component {
 
 // Opt-in to Webpack hot module replacement for the module
 module.hot.accept(); // Your tool should generate this
-```
-
-#### Webpack (with [Babel plugin](https://github.com/gaearon/babel-plugin-react-hotify))
-
-```js
-import React from 'react';
-
-class Other {
-  render() {
-    return (
-      <h1>hmm.</h1>
-    );
-  }
-}
-
-export default class App extends React.Component {
-  render() {
-    return (
-      <Other />
-    );
-  }
-}
-
-// Opt-in to Webpack hot module replacement for the module
-module.hot.accept(); // Maybe write another plugin to generate this one line?
 ```
 
 
