@@ -1,4 +1,5 @@
 * createClass
 * shouldComponentUpdate
-* statics
 * getters and setters
+* inheritance
+* umd
