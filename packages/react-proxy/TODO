@@ -1,7 +1,5 @@
 * createClass
-* shouldComponentUpdate
 * getters and setters
 * inheritance
 * alternative: object literal, Omniscient
-* no-op in prod
 * error handling

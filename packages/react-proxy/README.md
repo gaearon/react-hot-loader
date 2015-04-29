@@ -16,7 +16,7 @@ Read [The Death of React Hot Loader](https://medium.com/@dan_abramov/the-death-o
 
 ### Limitations
 
-Alpha quality. 0.13+. Only ES6 React classes are supported at the moment. No error handling. No production (disabled) mode. [TODO might give some idea.](https://github.com/gaearon/react-hotify/blob/master/TODO)
+Alpha quality. 0.13+. Only ES6 React classes are supported at the moment. No error handling. [TODO might give some idea.](https://github.com/gaearon/react-hotify/blob/master/TODO)
 
 ### Usage
 
