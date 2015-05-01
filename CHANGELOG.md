@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.2.6
+
+* Fix autobinding on newly added methods for `createClass`-style classes
+
 ### 1.2.5
 
 * Fix “React is not defined” error
