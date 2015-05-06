@@ -42,7 +42,7 @@ module.exports = function (source, map) {
 
   appendText = [
     '/* REACT HOT LOADER */',
-    '})();',
+    '}).call(this);',
     'if (module.hot) {',
       '(function () {',
         'module.hot.dispose(function (data) {',
