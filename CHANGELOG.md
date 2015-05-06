@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.2.7
+
+* Preserve CommonJS `exports` context in the wrapping closure. Fixes (**[#124](https://github.com/gaearon/react-hot-loader/issues/124)**)
+
 ### 1.2.6
 
 * Fix autobinding on newly added methods for `createClass`-style classes
