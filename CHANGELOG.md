@@ -2,7 +2,7 @@
 
 ### 1.2.7
 
-* Preserve CommonJS `exports` context in the wrapping closure. Fixes (**[#124](https://github.com/gaearon/react-hot-loader/issues/124)**)
+* Preserve CommonJS `exports` context in the wrapping closure (**[#124](https://github.com/gaearon/react-hot-loader/issues/124)**)
 
 ### 1.2.6
 
