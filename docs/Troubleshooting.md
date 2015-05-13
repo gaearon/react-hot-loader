@@ -1,6 +1,18 @@
 This file serves as a repository of common problems setting up React Hot Loader, and solutions to them.
 Know a problem? Feel free to send a PR with edits.
 
+### What Should It Look Like?
+
+#### When the page loads
+
+![](http://i.imgur.com/nuSa1i3.png)
+
+#### When you save a file
+
+![](http://i.imgur.com/oOc0ikV.png)
+
+If you don't see some of the messages, or some of the requests, or if some of the requests fail, this is a symptom of an incorrect configuration. Comparing your setup with [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) may help you find the mistake.
+
 ---------
 
 ### Can't Build
