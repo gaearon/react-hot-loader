@@ -115,7 +115,7 @@ If you have several entry points in `entry` configuration option, make sure `web
   }
 ```
 
-The entry points that don't have `webpack/hot/only-dev-server` (or `webpack/hot/dev-server` is you fancy occasional reloads) won't know how to apply hot updates.
+The entry points that don't have `webpack/hot/only-dev-server` (or `webpack/hot/dev-server` if you fancy occasional reloads) won't know how to apply hot updates.
 
 #### Syntax error: Unexpected token <
 
