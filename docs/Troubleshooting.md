@@ -102,6 +102,21 @@ If you get this warning **together with a 404 for `hot-update.json` file**, you'
 
 If you're running Node 0.11.13, you might want to try updating to 0.12. Some people reported this helped solve this problem. Also **make sure that your `require`s have the same filename casing as the files.** Having `App.js` and doing `require('app')` might trip the watcher on some systems.
 
+#### I see “[HMR] Nothing hot updated.” and nothing happens when I edit `App.js`
+
+If you have several entry points in `entry` configuration option, make sure `webpack/hot/only-dev-server` **is in each of them:**
+
+```js
+  entry: {
+    app: ['./src/app', 'webpack/hot/only-dev-server'],
+    editor: ['./src/editor', 'webpack/hot/only-dev-server'],
+    ...,
+    client: 'webpack-dev-server/client?http://localhost:3000'
+  }
+```
+
+The entry points that don't have `webpack/hot/only-dev-server` (or `webpack/hot/dev-server` is you fancy occasional reloads) won't know how to apply hot updates.
+
 #### Syntax error: Unexpected token <
 
 If you combine WebpackDevServer with an existing server like Express and get this error message on hot updates, it is because Webpack is configured to request hot updates *from the current hostname*. So if your Express server is on `8000` and `publicPath` in Webpack config is `/build/`, it will request hot updates from `http://localhost:8000/build/`, which in your case is served by Express. Instead, you need to set `publicPath` to point to the port where WebpackDevServer is running. For example, it could be `http://localhost:9000/build/`.
