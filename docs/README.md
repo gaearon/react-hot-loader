@@ -9,6 +9,7 @@
 * [este](http://github.com/steida/este) (react-router, isomorphic, Flux, Babel)
 * [react-isomorphic-starterkit](https://github.com/RickWong/react-isomorphic-starterkit) (react-router, react-async, isomorphic)
 * [yarsk](https://github.com/bradleyboy/yarsk) (Babel, Karma + Mocha, automated publishing to GitHub pages)
+* [react-web](https://github.com/darul75/web-react) (Babel, react-router, Alt flux)
 
 Don't be shy, add your own.
 
