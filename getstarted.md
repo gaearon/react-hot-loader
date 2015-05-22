@@ -37,7 +37,7 @@ In your <a href="https://github.com/gaearon/react-hot-boilerplate/blob/master/we
 {% highlight js %}
 entry: [
   'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
-  'webpack/hot/only-dev-server', // Use hot/only-dev-server to prevent reload on syntax errors
+  'webpack/hot/only-dev-server',
   './scripts/index' // Your appʼs entry point
 ]
 {% endhighlight %}
@@ -60,11 +60,12 @@ Finally, the Hot Replacement plugin from Webpack has to be included in the `plug
 
 {% highlight js %}
 plugins: [
-  new webpack.HotModuleReplacementPlugin()
+  new webpack.HotModuleReplacementPlugin(),
+  new webpack.NoErrorsPlugin()
 ]
 {% endhighlight %}
 
->Note: If you are using Webpack Dev Server command line interface instead of its Node API, and you specify `--hot` mode, *don't* add this plugin. It is mutually exclusive with the `--hot` option.
+`webpack.NoErrorsPlugin` is an optional plugin that tells the reloader to not reload if there is a syntax error in your code. The error is simply printed in the console, and the component will reload when you fix the error.
 
 ### Usage
 
