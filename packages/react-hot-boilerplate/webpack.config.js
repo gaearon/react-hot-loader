@@ -14,7 +14,8 @@ module.exports = {
     publicPath: '/scripts/'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
   ],
   resolve: {
     extensions: ['', '.js', '.jsx']
