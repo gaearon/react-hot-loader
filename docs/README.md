@@ -11,6 +11,8 @@
 * [yarsk](https://github.com/bradleyboy/yarsk) (Babel, Karma + Mocha, automated publishing to GitHub pages)
 * [react-web](https://github.com/darul75/web-react) (Babel, react-router, Alt flux)
 * [esnext-quickstart](https://github.com/nkbt/esnext-quickstart) (compile-time ESLint, ES6, Babel, Karma + Jasmine + Coverage)
+* [react-webpack-boilerplate](https://github.com/srn/react-webpack-boilerplate) (One-click Heroku deployable, Node.js server)
+* [flask-react-boilerplate](https://github.com/alexkuz/flask-react-boilerplate) (One-click Heroku deployable, Flask server + PostgreSQL, Babel, Flummox) 
 
 Don't be shy, add your own.
 
