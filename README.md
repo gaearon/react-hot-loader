@@ -26,6 +26,10 @@ These steps are covered by **[the walkthrough](http://gaearon.github.io/react-ho
 
 If you'd rather stay with **Browserify**, check out **[LiveReactload](https://github.com/milankinen/livereactload)** by Matti Lankinen.
 
+## Flux
+
+**[Redux](https://github.com/gaearon/redux)** is a Flux implementation that supports hot reloading of everything out of the box. Read **[The Evolution of Flux Frameworks](https://medium.com/@dan_abramov/the-evolution-of-flux-frameworks-6c16ad26bb31)** for some context around its creation.
+
 ## React Native
 
 You can use React Hot Loader to tweak a React Native application. Check out **[react-native-webpack-server](https://github.com/mjohnston/react-native-webpack-server)** by Michael Johnston.
@@ -45,11 +49,6 @@ If you've been with us for a while, read **[1.0 release notes and migration guid
 ## Got Questions?
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gaearon/react-hot-loader?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-## Coming Soon
-
-* Hot Reloading [React Router](https://github.com/rackt/react-router) routes
-* Hot Reloading [Flux Stores](https://github.com/gaearon/flux-hot-loader)
 
 Watch the repo to stay tuned!
 
