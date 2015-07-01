@@ -102,6 +102,8 @@ If you get this warning **together with a 404 for `hot-update.json` file**, you'
 
 If you're running Node 0.11.13, you might want to try updating to 0.12. Some people reported this helped solve this problem. Also **make sure that your `require`s have the same filename casing as the files.** Having `App.js` and doing `require('app')` might trip the watcher on some systems.
 
+OS X also has a rarely-occuring bug that causes some folders to get 'broken' with regards to file system change monitoring. Here are some suggested [fixes](http://feedback.livereload.com/knowledgebase/articles/86239).
+
 #### I see “[HMR] Nothing hot updated.” and nothing happens when I edit `App.js`
 
 If you have several entry points in `entry` configuration option, make sure `webpack/hot/only-dev-server` **is in each of them:**
