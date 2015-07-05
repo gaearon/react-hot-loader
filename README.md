@@ -8,6 +8,11 @@ This is a **stable for daily use in development** implementation of [React live 
 
 * Use **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)** for your next React project.
 
+## The Talk
+
+React Hot Loader was demoed together with **[Redux](https://github.com/gaearon/redux)** at React Europe.  
+Watch **[Dan Abramov's talk on Hot Reloading with Time Travel](https://www.youtube.com/watch?v=xsSnOQynTHs).**
+
 ## Installation
 
 `npm install --save-dev react-hot-loader`
