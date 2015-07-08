@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.2.8
+
+* Remove React from peerDependencies
+* Update React Hot API to support React 0.14 beta 1
+
 ### 1.2.7
 
 * Preserve CommonJS `exports` context in the wrapping closure (**[#124](https://github.com/gaearon/react-hot-loader/issues/124)**)
