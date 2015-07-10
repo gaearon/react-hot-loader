@@ -15,6 +15,7 @@
 * [flask-react-boilerplate](https://github.com/alexkuz/flask-react-boilerplate) (One-click Heroku deployable, Flask server + PostgreSQL, Babel, Flummox)
 * [react-kickstart](https://github.com/vesparny/react-kickstart) (react-router, mocha + chai + istanbul)
 * [react-redux-universal-hot-example](https://github.com/erikras/react-redux-universal-hot-example) (isomorphic, redux, client and server async data fetching, babel, react-router)
+* [go-starter-kit](https://github.com/olebedev/go-starter-kit) (hot reloadable golang/react/flummox/css-module isomorphic starter kit)
 
 Don't be shy, add your own.
 
