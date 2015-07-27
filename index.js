@@ -3,7 +3,8 @@
 var path = require('path'),
     SourceNode = require('source-map').SourceNode,
     SourceMapConsumer = require('source-map').SourceMapConsumer,
-    makeIdentitySourceMap = require('./makeIdentitySourceMap');
+    makeIdentitySourceMap = require('./makeIdentitySourceMap'),
+    loaderUtils = require('loader-utils');
 
 module.exports = function (source, map) {
   if (this.cacheable) {
@@ -15,13 +16,19 @@ module.exports = function (source, map) {
     return this.callback(null, source, map);
   }
 
-  var acceptUpdates = this.query !== '?manual',
-      filename = path.basename(resourcePath),
+  var filename = path.basename(resourcePath),
       separator = '\n\n',
+      params = loaderUtils.parseQuery(this.query),
+      acceptUpdates = !params.manual,
+      // passed to react-hot-api
       prependText,
       appendText,
       node,
       result;
+
+  if (typeof params.errorReporter === 'string') {
+    var errorReporter = params.errorReporter;
+  }
 
   prependText = [
     '/* REACT HOT LOADER */',
@@ -30,15 +37,17 @@ module.exports = function (source, map) {
         'var ReactHotAPI = require(' + JSON.stringify(require.resolve('react-hot-api')) + '),',
             'RootInstanceProvider = require(' + JSON.stringify(require.resolve('./RootInstanceProvider')) + '),',
             'ReactMount = require("react/lib/ReactMount"),',
-            'React = require("react");',
+            'React = require("react")' + (params.errorReporter ? ',' : ';'),
+            params.errorReporter ? 'ErrorReporter = require(' + JSON.stringify(errorReporter) + '),' : '',
+            params.errorReporter ? 'options = {ErrorReporter: ErrorReporter};': '',
 
         'module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () {',
           'return RootInstanceProvider.getRootInstances(ReactMount);',
-        '}, React);',
+        '}, React, options);',
       '})();',
     '}',
     '(function () {',
-  ].join(' ');
+  ].join('\n');
 
   appendText = [
     '/* REACT HOT LOADER */',
