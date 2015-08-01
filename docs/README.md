@@ -16,6 +16,7 @@
 * [react-kickstart](https://github.com/vesparny/react-kickstart) (react-router, mocha + chai + istanbul)
 * [react-redux-universal-hot-example](https://github.com/erikras/react-redux-universal-hot-example) (isomorphic, redux, client and server async data fetching, babel, react-router)
 * [go-starter-kit](https://github.com/olebedev/go-starter-kit) (hot reloadable golang/react/flummox/css-module isomorphic starter kit)
+* [react-fullstack-skeleton](https://github.com/fortruce/react-fullstack-skeleton) (react w/ backend api server)
 
 Don't be shy, add your own.
 
