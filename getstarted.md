@@ -42,7 +42,7 @@ entry: [
 ]
 {% endhighlight %}
 
-Next we need to tell Webpack to use React Hot Loader for the components. If you configured Webpack for React, you may already use `jsx-loader` or `6to5-loader` for JS(X) files. Find that line in <a href="https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js">`webpack.config.js`</a> and put `react-hot` before other loader(s).
+Next we need to tell Webpack to use React Hot Loader for the components. If you configured Webpack for React, you may already use `babel-loader` (ex `6to5-loader`) or `jsx-loader` for JS(X) files. Find that line in <a href="https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js">`webpack.config.js`</a> and put `react-hot` before other loader(s).
 
 If you only had one loader before, be sure to change `loader` to `loaders` so it takes array as an input:
 
