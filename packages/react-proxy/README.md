@@ -6,7 +6,7 @@ React Patch
 Generic React component patcher.  
 A future engine for React Hot Loader. 
 
-### Usage
+## Usage
 
 Intended to be used from hot reloading tools like React Hot Loader.  
 If you’re an application developer, it’s unlikely you’ll want to use it directly.
@@ -41,6 +41,6 @@ const PatchedComponentVersion2 = patch(ComponentVersion2);
 React.render(<PatchedComponentVersion2 />, rootEl); // will keep the state and DOM
 ```
 
-### License
+## License
 
 MIT
