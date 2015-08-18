@@ -25,20 +25,26 @@ class ComponentVersion2 extends Component {
     return <div>After hot update.</div>;
   }
 }
+```
 
+Without React Patch:
+
+```js
 const rootEl = document.getElementById('root');
-
-// Without react-patch:
 React.render(<ComponentVersion1 />, rootEl);
 React.render(<ComponentVersion2 />, rootEl); // will reset state and kill DOM :-(
+```
 
-// With react-patch:
+With React Patch:
+
+```js
 import { createPatch } from 'react-patch';
 const patch = createPatch();
+
 const PatchedComponentVersion1 = patch(ComponentVersion1);
 React.render(<PatchedComponentVersion1 />, rootEl);
-const PatchedComponentVersion2 = patch(ComponentVersion2);
-React.render(<PatchedComponentVersion2 />, rootEl); // will keep the state and DOM
+
+patch(ComponentVersion2); // will keep the state and DOM
 ```
 
 ## License
