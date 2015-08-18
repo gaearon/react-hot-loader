@@ -1,7 +1,7 @@
 {
-  "name": "react-hotify",
-  "version": "0.1.1",
-  "description": "A generic library implementing hot reload for React components without unmounting or losing their state.",
+  "name": "react-patch",
+  "version": "0.2.0",
+  "description": "Patches React components without unmounting or losing their state.",
   "main": "modules/index.js",
   "scripts": {
     "build": "webpack && babel src --out-dir modules",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gaearon/react-hotify.git"
+    "url": "https://github.com/gaearon/react-patch.git"
   },
   "author": "Dan Abramov <dan.abramov@me.com> (http://github.com/gaearon)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gaearon/react-hotify/issues"
+    "url": "https://github.com/gaearon/react-patch/issues"
   },
-  "homepage": "https://github.com/gaearon/react-hotify",
+  "homepage": "https://github.com/gaearon/react-patch",
   "peerDependencies": {
     "react": ">=0.11.0"
   },

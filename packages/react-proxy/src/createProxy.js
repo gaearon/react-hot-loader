@@ -2,7 +2,7 @@ import difference from 'lodash/array/difference';
 
 const SPECIAL_KEYS = ['constructor'];
 
-export default function makeProxy(proxy) {
+export default function createProxy(proxy) {
   let current = null;
 
   function createProxyMethod(key) {

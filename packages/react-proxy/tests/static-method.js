@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect.js';
-import makeHotify from '../src/makeHotify';
+import { createPatch } from '../src';
 
 class StaticMethod {
   static getAnswer() {
@@ -37,27 +37,27 @@ class StaticMethodRemoval {
 
 describe('static method', () => {
   let renderer;
-  let hotify;
+  let patch;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    hotify = makeHotify();
+    patch = createPatch();
   });
 
   it('is available on hotified class instance', () => {
-    const HotStaticMethod = hotify(StaticMethod);
+    const HotStaticMethod = patch(StaticMethod);
     const instance = renderer.render(<HotStaticMethod />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
     expect(HotStaticMethod.getAnswer()).to.equal(42);
   });
 
   it('gets replaced', () => {
-    const HotStaticMethod = hotify(StaticMethod);
+    const HotStaticMethod = patch(StaticMethod);
     const instance = renderer.render(<HotStaticMethod />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
     expect(HotStaticMethod.getAnswer()).to.equal(42);
 
-    hotify(StaticMethodUpdate);
+    patch(StaticMethodUpdate);
     renderer.render(<HotStaticMethod />);
     expect(renderer.getRenderOutput().props.children).to.equal(43);
     expect(HotStaticMethod.getAnswer()).to.equal(43);
@@ -68,13 +68,13 @@ describe('static method', () => {
    * If you find a way around it without breaking other tests, let me know!
    */
   it('does not get replaced if bound (meh)', () => {
-    const HotStaticMethod = hotify(StaticMethod);
+    const HotStaticMethod = patch(StaticMethod);
     const getAnswer = HotStaticMethod.getAnswer = HotStaticMethod.getAnswer.bind(HotStaticMethod);
 
     renderer.render(<HotStaticMethod />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
 
-    hotify(StaticMethodUpdate);
+    patch(StaticMethodUpdate);
     renderer.render(<HotStaticMethod />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
     expect(HotStaticMethod.getAnswer()).to.equal(42);
@@ -82,12 +82,12 @@ describe('static method', () => {
   });
 
   it('is detached if deleted', () => {
-    const HotStaticMethod = hotify(StaticMethod);
+    const HotStaticMethod = patch(StaticMethod);
     const instance = renderer.render(<HotStaticMethod />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
     expect(HotStaticMethod.getAnswer()).to.equal(42);
 
-    expect(() => hotify(StaticMethodRemoval)).to.throwError();
+    expect(() => patch(StaticMethodRemoval)).to.throwError();
     expect(() => renderer.render(<HotStaticMethod />)).to.throwError();
     expect(HotStaticMethod.getAnswer).to.equal(undefined);
   });

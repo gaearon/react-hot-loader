@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect.js';
-import makeHotify from '../src/makeHotify';
+import { createPatch } from '../src';
 
 class StaticProperty {
   static answer = 42;
@@ -61,43 +61,43 @@ class PropTypesUpdate {
 
 describe('static property', () => {
   let renderer;
-  let hotify;
+  let patch;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    hotify = makeHotify();
+    patch = createPatch();
   });
 
   it('is available on hotified class instance', () => {
-    const HotStaticProperty = hotify(StaticProperty);
+    const HotStaticProperty = patch(StaticProperty);
     const instance = renderer.render(<HotStaticProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
     expect(HotStaticProperty.answer).to.equal(42);
   });
 
   it('is changed when not reassigned', () => {
-    const HotStaticProperty = hotify(StaticProperty);
+    const HotStaticProperty = patch(StaticProperty);
     const instance = renderer.render(<HotStaticProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
 
-    hotify(StaticPropertyUpdate);
+    patch(StaticPropertyUpdate);
     renderer.render(<HotStaticProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(43);
     expect(HotStaticProperty.answer).to.equal(43);
 
-    hotify(StaticPropertyRemoval);
+    patch(StaticPropertyRemoval);
     renderer.render(<HotStaticProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(undefined);
     expect(HotStaticProperty.answer).to.equal(undefined);
   });
 
   it('is changed for propTypes, contextTypes, childContextTypes', () => {
-    const HotPropTypes = hotify(PropTypes);
+    const HotPropTypes = patch(PropTypes);
     expect(HotPropTypes.propTypes.something).to.equal(React.PropTypes.number);
     expect(HotPropTypes.contextTypes.something).to.equal(React.PropTypes.number);
     expect(HotPropTypes.childContextTypes.something).to.equal(React.PropTypes.number);
 
-    hotify(PropTypesUpdate);
+    patch(PropTypesUpdate);
     expect(HotPropTypes.propTypes.something).to.equal(React.PropTypes.string);
     expect(HotPropTypes.contextTypes.something).to.equal(React.PropTypes.string);
     expect(HotPropTypes.childContextTypes.something).to.equal(React.PropTypes.string);
@@ -107,18 +107,18 @@ describe('static property', () => {
    * Sometimes people dynamically store stuff on statics.
    */
   it('is not changed when reassigned', () => {
-    const HotStaticProperty = hotify(StaticProperty);
+    const HotStaticProperty = patch(StaticProperty);
     const instance = renderer.render(<HotStaticProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
 
     HotStaticProperty.answer = 100;
 
-    hotify(StaticPropertyUpdate);
+    patch(StaticPropertyUpdate);
     renderer.render(<HotStaticProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(100);
     expect(HotStaticProperty.answer).to.equal(100);
 
-    hotify(StaticPropertyRemoval);
+    patch(StaticPropertyRemoval);
     renderer.render(<HotStaticProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(100);
     expect(HotStaticProperty.answer).to.equal(100);

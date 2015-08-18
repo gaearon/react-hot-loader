@@ -1,5 +1,5 @@
 import React from 'react';
-import makeProxy from './makeProxy';
+import createProxy from './createProxy';
 
 /**
  * Force-updates an instance regardless of whether
@@ -39,8 +39,8 @@ function trackMount(prototype, mountedInstances) {
   return prototype;
 }
 
-export default function makeHotify() {
-  const proxyTo = makeProxy({});
+export default function createPatch() {
+  const proxyTo = createProxy({});
   const mountedInstances = [];
   let CurrentClass = null;
 

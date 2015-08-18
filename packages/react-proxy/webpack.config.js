@@ -4,9 +4,9 @@ var path = require('path');
 module.exports = {
   entry: './src/index',
   output: {
-    filename: 'dist/ReactHotify.js',
+    filename: 'dist/ReactPatch.js',
     libraryTarget: 'umd',
-    library: 'ReactHotify'
+    library: 'ReactPatch'
   },
   externals: [{
     react: {

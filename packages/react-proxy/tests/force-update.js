@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect.js';
-import makeHotify from '../src/makeHotify';
+import { createPatch } from '../src';
 
 class Bar {
   render() {
@@ -71,46 +71,46 @@ class FooShouldComponentUpdateFalse {
 
 describe('force update', () => {
   let renderer;
-  let hotify;
+  let patch;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    hotify = makeHotify();
+    patch = createPatch();
   });
 
   it('gets triggered on a plain class', () => {
-    const HotBar = hotify(Bar);
+    const HotBar = patch(Bar);
     renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
-    hotify(Baz);
+    patch(Baz);
     expect(renderer.getRenderOutput().props.children).to.equal('Baz');
 
-    hotify(Foo);
+    patch(Foo);
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
   });
 
   it('gets triggered on a Component descendant', () => {
-    const HotBarComponent = hotify(BarComponent);
+    const HotBarComponent = patch(BarComponent);
     renderer.render(<HotBarComponent />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
-    hotify(BazComponent);
+    patch(BazComponent);
     expect(renderer.getRenderOutput().props.children).to.equal('Baz');
 
-    hotify(FooComponent);
+    patch(FooComponent);
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
   });
 
   it('gets triggered on a class with strict shouldComponentUpdate', () => {
-    const HotBarShouldComponentUpdateFalse = hotify(BarShouldComponentUpdateFalse);
+    const HotBarShouldComponentUpdateFalse = patch(BarShouldComponentUpdateFalse);
     renderer.render(<HotBarShouldComponentUpdateFalse />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
-    hotify(BazShouldComponentUpdateFalse);
+    patch(BazShouldComponentUpdateFalse);
     expect(renderer.getRenderOutput().props.children).to.equal('Baz');
 
-    hotify(FooShouldComponentUpdateFalse);
+    patch(FooShouldComponentUpdateFalse);
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
   });
 });

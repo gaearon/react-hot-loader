@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect.js';
-import makeHotify from '../src/makeHotify';
+import { createPatch } from '../src';
 
 class Bar {
   componentWillUnmount() {
@@ -35,14 +35,14 @@ class Foo {
 
 describe('unmounting', () => {
   let renderer;
-  let hotify;
+  let patch;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    hotify = makeHotify();
+    patch = createPatch();
   });
 
-  it('happens without hotify', () => {
+  it('happens without patch', () => {
     const barInstance = renderer.render(<Bar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
     const bazInstance = renderer.render(<Baz />);
@@ -52,17 +52,17 @@ describe('unmounting', () => {
   });
 
   it('does not happen when rendering new hotified versions', () => {
-    const HotBar = hotify(Bar);
+    const HotBar = patch(Bar);
     const barInstance = renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
-    const HotBaz = hotify(Baz);
+    const HotBaz = patch(Baz);
     const bazInstance = renderer.render(<HotBaz />);
     expect(renderer.getRenderOutput().props.children).to.equal('Baz');
     expect(barInstance).to.equal(bazInstance);
     expect(barInstance.didUnmount).to.equal(undefined);
 
-    const HotFoo = hotify(Foo);
+    const HotFoo = patch(Foo);
     const fooInstance = renderer.render(<HotFoo />);
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
     expect(barInstance).to.equal(fooInstance);
@@ -70,17 +70,17 @@ describe('unmounting', () => {
   });
 
   it('does not happen when rendering old hotified versions', () => {
-    const HotBar = hotify(Bar);
+    const HotBar = patch(Bar);
     const barInstance = renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
-    hotify(Baz);
+    patch(Baz);
     const bazInstance = renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Baz');
     expect(barInstance).to.equal(bazInstance);
     expect(barInstance.didUnmount).to.equal(undefined);
 
-    hotify(Foo);
+    patch(Foo);
     const fooInstance = renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
     expect(barInstance).to.equal(fooInstance);
