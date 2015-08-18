@@ -4,8 +4,9 @@
   "description": "A generic library implementing hot reload for React components without unmounting or losing their state.",
   "main": "modules/index.js",
   "scripts": {
-    "build": "./scripts/build",
-    "test": "./scripts/test",
+    "build": "webpack && babel src --out-dir modules",
+    "test": "mocha --compilers js:babel/register ./tests",
+    "test:watch": "npm run test -- --watch",
     "prepublish": "npm run build"
   },
   "repository": {
