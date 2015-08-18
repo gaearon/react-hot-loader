@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import createShallowRenderer from './helpers/createShallowRenderer';
+import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { createPatch } from '../src';
+import { createPatch } from '../../src';
 
 class Bar {
   render() {

@@ -5,7 +5,7 @@
   "main": "modules/index.js",
   "scripts": {
     "build": "rimraf modules dist && webpack && babel src --out-dir modules",
-    "test": "mocha --compilers js:babel/register ./tests",
+    "test": "mocha --compilers js:babel/register --recursive ./tests",
     "test:watch": "npm run test -- --watch",
     "prepublish": "npm run build"
   },
