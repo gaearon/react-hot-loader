@@ -4,7 +4,7 @@
   "description": "Patches React components without unmounting or losing their state.",
   "main": "modules/index.js",
   "scripts": {
-    "build": "webpack && babel src --out-dir modules",
+    "build": "rimraf modules dist && webpack && babel src --out-dir modules",
     "test": "mocha --compilers js:babel/register ./tests",
     "test:watch": "npm run test -- --watch",
     "prepublish": "npm run build"
@@ -29,6 +29,7 @@
     "expect.js": "^0.3.1",
     "mocha": "^2.2.4",
     "react": "^0.13.2",
+    "rimraf": "^2.4.2",
     "webpack": "1.4.8"
   },
   "dependencies": {
