@@ -4,7 +4,8 @@
   "description": "Tweak React components in real time.",
   "main": "index.js",
   "dependencies": {
-    "react-hot-api": "^0.4.5",
+    "loader-utils": "^0.2.11",
+    "react-hot-api": "davidpfahler/react-hot-api#handle-render-errors",
     "source-map": "0.1.40"
   },
   "repository": {
