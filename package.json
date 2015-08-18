@@ -3,6 +3,9 @@
   "version": "1.2.8",
   "description": "Tweak React components in real time.",
   "main": "index.js",
+  "peerDependencies": {
+    "react": "~0.13.3"
+  },
   "dependencies": {
     "react-hot-api": "^0.4.5",
     "source-map": "0.1.40"
