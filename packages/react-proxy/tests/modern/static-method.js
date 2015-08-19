@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { proxyClass } from '../../src';
+import { createProxy } from '../../src';
 
 class StaticMethod {
   static getAnswer() {
@@ -43,7 +43,7 @@ describe('static method', () => {
   });
 
   it('is available on hotified class instance', () => {
-    const proxy = proxyClass(StaticMethod);
+    const proxy = createProxy(StaticMethod);
     const HotStaticMethod = proxy.get();
     const instance = renderer.render(<HotStaticMethod />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
@@ -51,7 +51,7 @@ describe('static method', () => {
   });
 
   it('gets replaced', () => {
-    const proxy = proxyClass(StaticMethod);
+    const proxy = createProxy(StaticMethod);
     const HotStaticMethod = proxy.get();
     const instance = renderer.render(<HotStaticMethod />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
@@ -68,7 +68,7 @@ describe('static method', () => {
    * If you find a way around it without breaking other tests, let me know!
    */
   it('does not get replaced if bound (meh)', () => {
-    const proxy = proxyClass(StaticMethod);
+    const proxy = createProxy(StaticMethod);
     const HotStaticMethod = proxy.get();
     const getAnswer = HotStaticMethod.getAnswer = HotStaticMethod.getAnswer.bind(HotStaticMethod);
 
@@ -83,7 +83,7 @@ describe('static method', () => {
   });
 
   it('is detached if deleted', () => {
-    const proxy = proxyClass(StaticMethod);
+    const proxy = createProxy(StaticMethod);
     const HotStaticMethod = proxy.get();
     const instance = renderer.render(<HotStaticMethod />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);

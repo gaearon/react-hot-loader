@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { proxyClass } from '../../src';
+import { createProxy } from '../../src';
 
 class InstanceProperty {
   answer = 42;
@@ -33,7 +33,7 @@ describe('instance property', () => {
   });
 
   it('is available on hotified class instance', () => {
-    const proxy = proxyClass(InstanceProperty);
+    const proxy = createProxy(InstanceProperty);
     const HotInstanceProperty = proxy.get();
     const instance = renderer.render(<HotInstanceProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
@@ -41,7 +41,7 @@ describe('instance property', () => {
   });
 
   it('is left unchanged when reassigned', () => {
-    const proxy = proxyClass(InstanceProperty);
+    const proxy = createProxy(InstanceProperty);
     const HotInstanceProperty = proxy.get();
     const instance = renderer.render(<HotInstanceProperty />);
     expect(renderer.getRenderOutput().props.children).to.eql(42);
@@ -66,7 +66,7 @@ describe('instance property', () => {
    * in case they changed.
    */
   it('is left unchanged when not reassigned (meh)', () => {
-    const proxy = proxyClass(InstanceProperty);
+    const proxy = createProxy(InstanceProperty);
     const HotInstanceProperty = proxy.get();
     const instance = renderer.render(<HotInstanceProperty />);
     expect(renderer.getRenderOutput().props.children).to.eql(42);

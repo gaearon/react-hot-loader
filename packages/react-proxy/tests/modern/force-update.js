@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { proxyClass } from '../../src';
+import { createProxy } from '../../src';
 
 class Bar {
   render() {
@@ -77,7 +77,7 @@ describe('force update', () => {
   });
 
   it('gets triggered on a plain class', () => {
-    const proxy = proxyClass(Bar);
+    const proxy = createProxy(Bar);
     const HotBar = proxy.get();
 
     renderer.render(<HotBar />);
@@ -91,7 +91,7 @@ describe('force update', () => {
   });
 
   it('gets triggered on a Component descendant', () => {
-    const proxy = proxyClass(BarComponent);
+    const proxy = createProxy(BarComponent);
     const HotBarComponent = proxy.get();
 
     renderer.render(<HotBarComponent />);
@@ -105,7 +105,7 @@ describe('force update', () => {
   });
 
   it('gets triggered on a class with strict shouldComponentUpdate', () => {
-    const proxy = proxyClass(BarShouldComponentUpdateFalse);
+    const proxy = createProxy(BarShouldComponentUpdateFalse);
     const HotBarShouldComponentUpdateFalse = proxy.get();
     renderer.render(<HotBarShouldComponentUpdateFalse />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { proxyClass } from '../../src';
+import { createProxy } from '../../src';
 
 class Counter1x extends Component {
   constructor(props) {
@@ -73,7 +73,7 @@ describe('instance method', () => {
   });
 
   it('gets replaced', () => {
-    const proxy = proxyClass(Counter1x);
+    const proxy = createProxy(Counter1x);
 
     const HotCounter = proxy.get();
     const instance = renderer.render(<HotCounter />);
@@ -93,7 +93,7 @@ describe('instance method', () => {
   });
 
   it('gets replaced if bound', () => {
-    const proxy = proxyClass(Counter1x);
+    const proxy = createProxy(Counter1x);
     const HotCounter = proxy.get();
     const instance = renderer.render(<HotCounter />);
 
@@ -119,7 +119,7 @@ describe('instance method', () => {
    * so they don't crash if setTimeout-d or setInterval-d.
    */
   it('is detached and acts as a no-op if not reassigned and deleted', () => {
-    const proxy = proxyClass(Counter1x);
+    const proxy = createProxy(Counter1x);
     const HotCounter = proxy.get();
     const instance = renderer.render(<HotCounter />);
     expect(renderer.getRenderOutput().props.children).to.equal(0);
@@ -135,7 +135,7 @@ describe('instance method', () => {
   });
 
   it('is attached and acts as a no-op if reassigned and deleted', () => {
-    const proxy = proxyClass(Counter1x);
+    const proxy = createProxy(Counter1x);
     const HotCounter = proxy.get();
     const instance = renderer.render(<HotCounter />);
 

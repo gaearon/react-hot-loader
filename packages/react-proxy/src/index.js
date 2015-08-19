@@ -1,1 +1,1 @@
-export { default as proxyClass } from './proxyClass';
+export { default as createProxy } from './createClassProxy';

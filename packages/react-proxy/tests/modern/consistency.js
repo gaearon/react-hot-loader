@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { proxyClass } from '../../src';
+import { createProxy } from '../../src';
 
 class Bar {
   componentWillUnmount() {
@@ -41,7 +41,7 @@ describe('consistency', () => {
   });
 
   it('does not overwrite the hotified class', () => {
-    const proxy = proxyClass(Bar);
+    const proxy = createProxy(Bar);
     const HotBar = proxy.get();
 
     const barInstance = renderer.render(<HotBar />);
@@ -55,7 +55,7 @@ describe('consistency', () => {
   });
 
   it('sets up constructor to match the type', () => {
-    let proxy = proxyClass(Bar);
+    let proxy = createProxy(Bar);
     const HotBar = proxy.get();
     const barInstance = renderer.render(<HotBar />);
     expect(barInstance.constructor).to.equal(HotBar);

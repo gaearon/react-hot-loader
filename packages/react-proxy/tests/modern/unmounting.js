@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { proxyClass } from '../../src';
+import { createProxy } from '../../src';
 
 class Bar {
   componentWillUnmount() {
@@ -50,7 +50,7 @@ describe('unmounting', () => {
   });
 
   it('does not happen when rendering new proxied versions', () => {
-    const proxy = proxyClass(Bar);
+    const proxy = createProxy(Bar);
     const HotBar = proxy.get();
     const barInstance = renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
@@ -71,7 +71,7 @@ describe('unmounting', () => {
   });
 
   it('does not happen when rendering old proxied versions', () => {
-    const proxy = proxyClass(Bar);
+    const proxy = createProxy(Bar);
     const HotBar = proxy.get();
     const barInstance = renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');

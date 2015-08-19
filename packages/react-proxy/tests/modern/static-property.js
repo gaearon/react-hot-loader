@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { proxyClass } from '../../src';
+import { createProxy } from '../../src';
 
 class StaticProperty {
   static answer = 42;
@@ -67,7 +67,7 @@ describe('static property', () => {
   });
 
   it('is available on hotified class instance', () => {
-    const proxy = proxyClass(StaticProperty);
+    const proxy = createProxy(StaticProperty);
     const HotStaticProperty = proxy.get();
     const instance = renderer.render(<HotStaticProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
@@ -75,7 +75,7 @@ describe('static property', () => {
   });
 
   it('is changed when not reassigned', () => {
-    const proxy = proxyClass(StaticProperty);
+    const proxy = createProxy(StaticProperty);
     const HotStaticProperty = proxy.get();
     const instance = renderer.render(<HotStaticProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
@@ -92,7 +92,7 @@ describe('static property', () => {
   });
 
   it('is changed for propTypes, contextTypes, childContextTypes', () => {
-    const proxy = proxyClass(PropTypes);
+    const proxy = createProxy(PropTypes);
     const HotPropTypes = proxy.get();
     expect(HotPropTypes.propTypes.something).to.equal(React.PropTypes.number);
     expect(HotPropTypes.contextTypes.something).to.equal(React.PropTypes.number);
@@ -108,7 +108,7 @@ describe('static property', () => {
    * Sometimes people dynamically store stuff on statics.
    */
   it('is not changed when reassigned', () => {
-    const proxy = proxyClass(StaticProperty);
+    const proxy = createProxy(StaticProperty);
     const HotStaticProperty = proxy.get();
     const instance = renderer.render(<HotStaticProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);

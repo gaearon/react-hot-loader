@@ -1,5 +1,5 @@
 import React from 'react';
-import proxyObject from './proxyObject';
+import createPrototypeProxy from './createPrototypeProxy';
 
 /**
  * Force-updates an instance regardless of whether
@@ -40,7 +40,7 @@ function trackMount(prototype, mountedInstances) {
 }
 
 export default function proxyClass(InitialClass) {
-  const prototypeProxy = proxyObject();
+  const prototypeProxy = createPrototypeProxy();
   const mountedInstances = [];
   let CurrentClass;
 
