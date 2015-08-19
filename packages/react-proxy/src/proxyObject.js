@@ -2,10 +2,11 @@ import difference from 'lodash/array/difference';
 
 const SPECIAL_KEYS = ['constructor'];
 
-export default function createProxy(proxy) {
+export default function proxyObject() {
+  let proxy = {};
   let current = null;
 
-  function createProxyMethod(key) {
+  function proxyMethod(key) {
     return function () {
       if (typeof current[key] === 'function') {
         return current[key].apply(this, arguments);
@@ -13,24 +14,30 @@ export default function createProxy(proxy) {
     };
   }
 
-  return function proxyTo(fresh) {
+  function update(next) {
     // Save current source of truth
-    current = fresh;
+    current = next;
 
-    const freshKeys = Object.getOwnPropertyNames(fresh);
+    const nextKeys = Object.getOwnPropertyNames(next);
     const currentKeys = Object.getOwnPropertyNames(proxy);
-    const addedKeys = difference(freshKeys, currentKeys, SPECIAL_KEYS);
-    const removedKeys = difference(currentKeys, freshKeys, SPECIAL_KEYS);
+    const addedKeys = difference(nextKeys, currentKeys, SPECIAL_KEYS);
+    const removedKeys = difference(currentKeys, nextKeys, SPECIAL_KEYS);
 
     // Update proxy method list
     addedKeys.forEach(key => {
-      proxy[key] = createProxyMethod(key);
+      proxy[key] = proxyMethod(key);
     });
     removedKeys.forEach(key => {
       delete proxy[key];
-    })
+    });
+  }
 
-    // The caller will use the proxy from now on
+  function get() {
     return proxy;
+  }
+
+  return {
+    update,
+    get
   };
 };

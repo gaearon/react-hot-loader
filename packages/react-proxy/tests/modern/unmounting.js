@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { createPatch } from '../../src';
+import { proxyClass } from '../../src';
 
 class Bar {
   componentWillUnmount() {
@@ -35,14 +35,12 @@ class Foo {
 
 describe('unmounting', () => {
   let renderer;
-  let patch;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    patch = createPatch();
   });
 
-  it('happens without patch', () => {
+  it('happens without proxy', () => {
     const barInstance = renderer.render(<Bar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
     const bazInstance = renderer.render(<Baz />);
@@ -51,36 +49,40 @@ describe('unmounting', () => {
     expect(barInstance.didUnmount).to.equal(true);
   });
 
-  it('does not happen when rendering new hotified versions', () => {
-    const HotBar = patch(Bar);
+  it('does not happen when rendering new proxied versions', () => {
+    const proxy = proxyClass(Bar);
+    const HotBar = proxy.get();
     const barInstance = renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
-    const HotBaz = patch(Baz);
+    proxy.update(Baz);
+    const HotBaz = proxy.get();
     const bazInstance = renderer.render(<HotBaz />);
     expect(renderer.getRenderOutput().props.children).to.equal('Baz');
     expect(barInstance).to.equal(bazInstance);
     expect(barInstance.didUnmount).to.equal(undefined);
 
-    const HotFoo = patch(Foo);
+    proxy.update(Foo);
+    const HotFoo = proxy.get();
     const fooInstance = renderer.render(<HotFoo />);
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
     expect(barInstance).to.equal(fooInstance);
     expect(barInstance.didUnmount).to.equal(undefined);
   });
 
-  it('does not happen when rendering old hotified versions', () => {
-    const HotBar = patch(Bar);
+  it('does not happen when rendering old proxied versions', () => {
+    const proxy = proxyClass(Bar);
+    const HotBar = proxy.get();
     const barInstance = renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
-    patch(Baz);
+    proxy.update(Baz);
     const bazInstance = renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Baz');
     expect(barInstance).to.equal(bazInstance);
     expect(barInstance.didUnmount).to.equal(undefined);
 
-    patch(Foo);
+    proxy.update(Foo);
     const fooInstance = renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
     expect(barInstance).to.equal(fooInstance);

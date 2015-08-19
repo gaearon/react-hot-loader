@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { createPatch } from '../../src';
+import { proxyClass } from '../../src';
 
 class Bar {
   componentWillUnmount() {
@@ -35,19 +35,19 @@ class Foo {
 
 describe('consistency', () => {
   let renderer;
-  let patch;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    patch = createPatch();
   });
 
   it('does not overwrite the hotified class', () => {
-    const HotBar = patch(Bar);
+    const proxy = proxyClass(Bar);
+    const HotBar = proxy.get();
+
     const barInstance = renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
-    patch(Baz);
+    proxy.update(Baz);
     const realBarInstance = renderer.render(<Bar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
     expect(barInstance).to.not.equal(realBarInstance);
@@ -55,12 +55,14 @@ describe('consistency', () => {
   });
 
   it('sets up constructor to match the type', () => {
-    const HotBar = patch(Bar);
+    let proxy = proxyClass(Bar);
+    const HotBar = proxy.get();
     const barInstance = renderer.render(<HotBar />);
     expect(barInstance.constructor).to.equal(HotBar);
     expect(barInstance instanceof HotBar).to.equal(true);
 
-    const HotBaz = patch(Baz);
+    proxy.update(Baz);
+    const HotBaz = proxy.get();
     expect(HotBar).to.equal(HotBaz);
     expect(barInstance.constructor).to.equal(HotBaz);
     expect(barInstance instanceof HotBaz).to.equal(true);

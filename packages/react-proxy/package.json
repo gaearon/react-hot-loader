@@ -1,7 +1,7 @@
 {
-  "name": "react-patch",
-  "version": "0.2.0",
-  "description": "Patches React components without unmounting or losing their state.",
+  "name": "react-proxy",
+  "version": "0.3.0",
+  "description": "Proxies React components without unmounting or losing their state.",
   "main": "modules/index.js",
   "scripts": {
     "build": "rimraf modules dist && webpack && babel src --out-dir modules",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gaearon/react-patch.git"
+    "url": "https://github.com/gaearon/react-proxy.git"
   },
   "author": "Dan Abramov <dan.abramov@me.com> (http://github.com/gaearon)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gaearon/react-patch/issues"
+    "url": "https://github.com/gaearon/react-proxy/issues"
   },
-  "homepage": "https://github.com/gaearon/react-patch",
+  "homepage": "https://github.com/gaearon/react-proxy",
   "peerDependencies": {
     "react": ">=0.11.0"
   },

@@ -1,9 +1,9 @@
-React Patch
+React Proxy
 =========
 
 **Work in progress.**
 
-Generic React component patcher.  
+Generic React component proxy.  
 A future engine for React Hot Loader. 
 
 ## Usage
@@ -27,7 +27,7 @@ class ComponentVersion2 extends Component {
 }
 ```
 
-Without React Patch:
+Without React Proxy:
 
 ```js
 const rootEl = document.getElementById('root');
@@ -35,16 +35,16 @@ React.render(<ComponentVersion1 />, rootEl);
 React.render(<ComponentVersion2 />, rootEl); // will reset state and kill DOM :-(
 ```
 
-With React Patch:
+With React Proxy:
 
 ```js
-import { createPatch } from 'react-patch';
-const patch = createPatch();
+import { proxyClass } from 'react-proxy';
 
-const PatchedComponentVersion1 = patch(ComponentVersion1);
-React.render(<PatchedComponentVersion1 />, rootEl);
+const proxy = proxyClass(ComponentVersion1);
+const Component = proxy.get();
 
-patch(ComponentVersion2); // will keep the state and DOM
+React.render(<Component />, rootEl);
+proxy.update(ComponentVersion2); // will keep the state and DOM
 ```
 
 ## License

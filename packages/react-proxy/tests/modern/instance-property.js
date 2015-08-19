@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { createPatch } from '../../src';
+import { proxyClass } from '../../src';
 
 class InstanceProperty {
   answer = 42;
@@ -27,33 +27,33 @@ class InstancePropertyRemoval {
 
 describe('instance property', () => {
   let renderer;
-  let patch;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    patch = createPatch();
   });
 
   it('is available on hotified class instance', () => {
-    const HotInstanceProperty = patch(InstanceProperty);
+    const proxy = proxyClass(InstanceProperty);
+    const HotInstanceProperty = proxy.get();
     const instance = renderer.render(<HotInstanceProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
     expect(instance.answer).to.equal(42);
   });
 
   it('is left unchanged when reassigned', () => {
-    const HotInstanceProperty = patch(InstanceProperty);
+    const proxy = proxyClass(InstanceProperty);
+    const HotInstanceProperty = proxy.get();
     const instance = renderer.render(<HotInstanceProperty />);
     expect(renderer.getRenderOutput().props.children).to.eql(42);
 
     instance.answer = 100;
 
-    patch(InstancePropertyUpdate);
+    proxy.update(InstancePropertyUpdate);
     renderer.render(<HotInstanceProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(100);
     expect(instance.answer).to.equal(100);
 
-    patch(InstancePropertyRemoval);
+    proxy.update(InstancePropertyRemoval);
     renderer.render(<HotInstanceProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(100);
     expect(instance.answer).to.equal(100);
@@ -66,16 +66,17 @@ describe('instance property', () => {
    * in case they changed.
    */
   it('is left unchanged when not reassigned (meh)', () => {
-    const HotInstanceProperty = patch(InstanceProperty);
+    const proxy = proxyClass(InstanceProperty);
+    const HotInstanceProperty = proxy.get();
     const instance = renderer.render(<HotInstanceProperty />);
     expect(renderer.getRenderOutput().props.children).to.eql(42);
 
-    patch(InstancePropertyUpdate);
+    proxy.update(InstancePropertyUpdate);
     renderer.render(<HotInstanceProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
     expect(instance.answer).to.equal(42);
 
-    patch(InstancePropertyRemoval);
+    proxy.update(InstancePropertyRemoval);
     renderer.render(<HotInstanceProperty />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
     expect(instance.answer).to.equal(42);

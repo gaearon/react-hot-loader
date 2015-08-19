@@ -1,1 +1,1 @@
-export { default as createPatch } from './createPatch';
+export { default as proxyClass } from './proxyClass';

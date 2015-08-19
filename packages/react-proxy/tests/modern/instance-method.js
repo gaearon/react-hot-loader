@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { createPatch } from '../../src';
+import { proxyClass } from '../../src';
 
 class Counter1x extends Component {
   constructor(props) {
@@ -67,33 +67,34 @@ class CounterWithoutIncrementMethod extends Component {
 
 describe('instance method', () => {
   let renderer;
-  let patch;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    patch = createPatch();
   });
 
   it('gets replaced', () => {
-    const HotCounter = patch(Counter1x);
+    const proxy = proxyClass(Counter1x);
+
+    const HotCounter = proxy.get();
     const instance = renderer.render(<HotCounter />);
     expect(renderer.getRenderOutput().props.children).to.equal(0);
     instance.increment();
     expect(renderer.getRenderOutput().props.children).to.equal(1);
 
-    patch(Counter10x);
+    proxy.update(Counter10x);
     instance.increment();
     renderer.render(<HotCounter />);
     expect(renderer.getRenderOutput().props.children).to.equal(11);
 
-    patch(Counter100x);
+    proxy.update(Counter100x);
     instance.increment();
     renderer.render(<HotCounter />);
     expect(renderer.getRenderOutput().props.children).to.equal(111);
   });
 
   it('gets replaced if bound', () => {
-    const HotCounter = patch(Counter1x);
+    const proxy = proxyClass(Counter1x);
+    const HotCounter = proxy.get();
     const instance = renderer.render(<HotCounter />);
 
     instance.increment = instance.increment.bind(instance);
@@ -102,12 +103,12 @@ describe('instance method', () => {
     instance.increment();
     expect(renderer.getRenderOutput().props.children).to.equal(1);
 
-    patch(Counter10x);
+    proxy.update(Counter10x);
     instance.increment();
     renderer.render(<HotCounter />);
     expect(renderer.getRenderOutput().props.children).to.equal(11);
 
-    patch(Counter100x);
+    proxy.update(Counter100x);
     instance.increment();
     renderer.render(<HotCounter />);
     expect(renderer.getRenderOutput().props.children).to.equal(111);
@@ -118,14 +119,15 @@ describe('instance method', () => {
    * so they don't crash if setTimeout-d or setInterval-d.
    */
   it('is detached and acts as a no-op if not reassigned and deleted', () => {
-    const HotCounter = patch(Counter1x);
+    const proxy = proxyClass(Counter1x);
+    const HotCounter = proxy.get();
     const instance = renderer.render(<HotCounter />);
     expect(renderer.getRenderOutput().props.children).to.equal(0);
     instance.increment();
     const savedIncrement = instance.increment;
     expect(renderer.getRenderOutput().props.children).to.equal(1);
 
-    patch(CounterWithoutIncrementMethod);
+    proxy.update(CounterWithoutIncrementMethod);
     expect(instance.increment).to.equal(undefined);
     savedIncrement.call(instance);
     renderer.render(<HotCounter />);
@@ -133,7 +135,8 @@ describe('instance method', () => {
   });
 
   it('is attached and acts as a no-op if reassigned and deleted', () => {
-    const HotCounter = patch(Counter1x);
+    const proxy = proxyClass(Counter1x);
+    const HotCounter = proxy.get();
     const instance = renderer.render(<HotCounter />);
 
     instance.increment = instance.increment.bind(instance);
@@ -142,7 +145,7 @@ describe('instance method', () => {
     instance.increment();
     expect(renderer.getRenderOutput().props.children).to.equal(1);
 
-    patch(CounterWithoutIncrementMethod);
+    proxy.update(CounterWithoutIncrementMethod);
     instance.increment();
     renderer.render(<HotCounter />);
     expect(renderer.getRenderOutput().props.children).to.equal(1);

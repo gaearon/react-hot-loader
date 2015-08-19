@@ -1,5 +1,5 @@
 import React from 'react';
-import createProxy from './createProxy';
+import proxyObject from './proxyObject';
 
 /**
  * Force-updates an instance regardless of whether
@@ -39,27 +39,45 @@ function trackMount(prototype, mountedInstances) {
   return prototype;
 }
 
-export default function createPatch() {
-  const proxyTo = createProxy({});
+export default function proxyClass(InitialClass) {
+  const prototypeProxy = proxyObject();
   const mountedInstances = [];
-  let CurrentClass = null;
+  let CurrentClass;
 
-  function HotClass() {
+  function ProxyClass() {
     CurrentClass.apply(this, arguments);
   }
 
-  return function hotify(NextClass) {
+  function update(NextClass) {
+    if (typeof NextClass !== 'function') {
+      throw new Error('Expected a constructor.');
+    }
+
     CurrentClass = NextClass;
+
+    prototypeProxy.update(NextClass.prototype);
+    ProxyClass.prototype = trackMount(
+      prototypeProxy.get(),
+      mountedInstances
+    );
 
     // Wow, this is dense!
     // I have no idea what's going on here, but it works.
-    HotClass.prototype = trackMount(proxyTo(NextClass.prototype), mountedInstances);
-    HotClass.prototype.__proto__ = NextClass.prototype;
-    HotClass.prototype.constructor = HotClass;
-    HotClass.prototype.constructor.__proto__ = NextClass;
+    ProxyClass.prototype.__proto__ = NextClass.prototype;
+    ProxyClass.prototype.constructor = ProxyClass;
+    ProxyClass.prototype.constructor.__proto__ = NextClass;
 
     mountedInstances.forEach(forceUpdate);
+  };
 
-    return HotClass;
+  function get() {
+    return ProxyClass;
+  }
+
+  update(InitialClass);
+
+  return {
+    get,
+    update
   };
 }

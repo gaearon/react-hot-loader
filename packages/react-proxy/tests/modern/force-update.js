@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from '../helpers/createShallowRenderer';
 import expect from 'expect.js';
-import { createPatch } from '../../src';
+import { proxyClass } from '../../src';
 
 class Bar {
   render() {
@@ -71,46 +71,49 @@ class FooShouldComponentUpdateFalse {
 
 describe('force update', () => {
   let renderer;
-  let patch;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    patch = createPatch();
   });
 
   it('gets triggered on a plain class', () => {
-    const HotBar = patch(Bar);
+    const proxy = proxyClass(Bar);
+    const HotBar = proxy.get();
+
     renderer.render(<HotBar />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
-    patch(Baz);
+    proxy.update(Baz);
     expect(renderer.getRenderOutput().props.children).to.equal('Baz');
 
-    patch(Foo);
+    proxy.update(Foo);
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
   });
 
   it('gets triggered on a Component descendant', () => {
-    const HotBarComponent = patch(BarComponent);
+    const proxy = proxyClass(BarComponent);
+    const HotBarComponent = proxy.get();
+
     renderer.render(<HotBarComponent />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
-    patch(BazComponent);
+    proxy.update(BazComponent);
     expect(renderer.getRenderOutput().props.children).to.equal('Baz');
 
-    patch(FooComponent);
+    proxy.update(FooComponent);
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
   });
 
   it('gets triggered on a class with strict shouldComponentUpdate', () => {
-    const HotBarShouldComponentUpdateFalse = patch(BarShouldComponentUpdateFalse);
+    const proxy = proxyClass(BarShouldComponentUpdateFalse);
+    const HotBarShouldComponentUpdateFalse = proxy.get();
     renderer.render(<HotBarShouldComponentUpdateFalse />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
-    patch(BazShouldComponentUpdateFalse);
+    proxy.update(BazShouldComponentUpdateFalse);
     expect(renderer.getRenderOutput().props.children).to.equal('Baz');
 
-    patch(FooShouldComponentUpdateFalse);
+    proxy.update(FooShouldComponentUpdateFalse);
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
   });
 });
