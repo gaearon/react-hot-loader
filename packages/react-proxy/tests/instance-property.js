@@ -39,6 +39,7 @@ describe('instance property', () => {
   });
 
   afterEach(() => {
+    warnSpy.destroy();
     expect(warnSpy.calls.length).toBe(0);
   });
 

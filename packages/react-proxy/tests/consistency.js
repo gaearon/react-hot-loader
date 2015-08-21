@@ -77,6 +77,7 @@ describe('consistency', () => {
   });
 
   afterEach(() => {
+    warnSpy.destroy();
     expect(warnSpy.calls.length).toBe(0);
   });
 

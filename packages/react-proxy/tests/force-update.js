@@ -139,6 +139,7 @@ describe('force update', () => {
   });
 
   afterEach(() => {
+    warnSpy.destroy();
     expect(warnSpy.calls.length).toBe(0);
   });
 

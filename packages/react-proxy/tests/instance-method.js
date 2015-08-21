@@ -139,6 +139,7 @@ describe('instance method', () => {
   });
 
   afterEach(() => {
+    warnSpy.destroy();
     expect(warnSpy.calls.length).toBe(0);
   });
 
