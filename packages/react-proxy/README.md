@@ -38,9 +38,9 @@ React.render(<ComponentVersion2 />, rootEl); // will reset state and kill DOM :-
 With React Proxy:
 
 ```js
-import { proxyClass } from 'react-proxy';
+import { createProxy } from 'react-proxy';
 
-const proxy = proxyClass(ComponentVersion1);
+const proxy = createProxy(ComponentVersion1);
 const Component = proxy.get();
 
 React.render(<Component />, rootEl);
