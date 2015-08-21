@@ -6,10 +6,10 @@ export default function createPrototypeProxy() {
   let current = null;
   let mountedInstances = [];
 
-  function proxyMethod(key) {
+  function proxyMethod(name) {
     return function () {
-      if (typeof current[key] === 'function') {
-        return current[key].apply(this, arguments);
+      if (typeof current[name] === 'function') {
+        return current[name].apply(this, arguments);
       }
     };
   }
@@ -32,21 +32,34 @@ export default function createPrototypeProxy() {
     // Save current source of truth
     current = next;
 
-    const nextKeys = Object.getOwnPropertyNames(next);
-    const currentKeys = Object.getOwnPropertyNames(proxy);
-    const addedKeys = difference(nextKeys, currentKeys);
-    const removedKeys = difference(currentKeys, nextKeys);
+    // Find changed property names
+    const nextNames = Object.getOwnPropertyNames(next);
+    const currentNames = Object.getOwnPropertyNames(proxy);
+    const addedNames = difference(nextNames, currentNames);
+    const removedNames = difference(currentNames, nextNames);
 
-    removedKeys.forEach(key => {
-      delete proxy[key];
+    // Remove properties and methods that are no longer there
+    removedNames.forEach(name => {
+      delete proxy[name];
     });
-    addedKeys.forEach(key => {
-      if (typeof next[key] === 'function') {
-        // Wrap the original function
-        proxy[key] = proxyMethod(key);
-        // Copy properties of the original function, if any
-        assign(proxy[key], next[key]);
+
+    // Copy every descriptor
+    nextNames.forEach(name => {
+      const descriptor = Object.getOwnPropertyDescriptor(next, name);
+      Object.defineProperty(proxy, name, descriptor);
+    });
+
+    // Proxy newly added methods
+    addedNames.forEach(name => {
+      const descriptor = Object.getOwnPropertyDescriptor(next, name);
+      if (typeof descriptor.value !== 'function') {
+        return;
       }
+
+      // Wrap the original function
+      proxy[name] = proxyMethod(name);
+      // Copy properties of the original function, if any
+      assign(proxy[name], descriptor.value);
     });
 
     // Track mounted instances so we can forceUpdate() them later
