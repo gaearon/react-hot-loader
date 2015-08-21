@@ -43,12 +43,6 @@ export default function createPrototypeProxy() {
       delete proxy[name];
     });
 
-    // Copy every descriptor
-    nextNames.forEach(name => {
-      const descriptor = Object.getOwnPropertyDescriptor(next, name);
-      Object.defineProperty(proxy, name, descriptor);
-    });
-
     // Proxy newly added methods
     addedNames.forEach(name => {
       const descriptor = Object.getOwnPropertyDescriptor(next, name);
@@ -66,8 +60,10 @@ export default function createPrototypeProxy() {
     proxy.componentWillMount = proxiedComponentWillMount;
     proxy.componentWillUnmount = proxiedComponentWillUnmount;
 
-    // Woodoo to appease Babel and React
+    // Redirect any other properties directly
     proxy.__proto__ = next;
+
+    // Reset autobinding cache
     proxy.__reactAutoBindMap = {};
   }
 
