@@ -44,6 +44,7 @@ const proxy = createProxy(ComponentVersion1);
 const Component = proxy.get();
 
 React.render(<Component />, rootEl);
+
 proxy.update(ComponentVersion2); // will keep the state and DOM
 ```
 
