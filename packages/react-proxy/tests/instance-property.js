@@ -75,7 +75,7 @@ describe('instance property', () => {
     describe(type, () => {
       const { InstanceProperty, InstancePropertyUpdate, InstancePropertyRemoval } = fixtures[type];
 
-      it('is available on hotified class instance', () => {
+      it('is available on proxy class instance', () => {
         const proxy = createProxy(InstanceProperty);
         const InstancePropertyProxy = proxy.get();
         const instance = renderer.render(<InstancePropertyProxy />);

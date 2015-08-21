@@ -150,7 +150,7 @@ describe('static property', () => {
         PropTypes, PropTypesUpdate
       } = fixtures[type];
 
-      it('is available on hotified class instance', () => {
+      it('is available on proxy class instance', () => {
         const proxy = createProxy(StaticProperty);
         const StaticPropertyProxy = proxy.get();
         const instance = renderer.render(<StaticPropertyProxy />);

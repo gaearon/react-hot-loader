@@ -95,7 +95,7 @@ describe('static method', () => {
     describe(type, () => {
       const { StaticMethod, StaticMethodUpdate, StaticMethodRemoval } = fixtures[type];
 
-      it('is available on hotified class instance', () => {
+      it('is available on proxy class instance', () => {
         const proxy = createProxy(StaticMethod);
         const StaticMethodProxy = proxy.get();
         const instance = renderer.render(<StaticMethodProxy />);
