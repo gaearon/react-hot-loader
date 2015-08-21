@@ -10,10 +10,14 @@ const fixtures = {
         this.didUnmount = true;
       }
 
+      doNothing() {
+      }
+
       render() {
         return <div>Bar</div>;
       }
     },
+
     Baz: class Baz {
       componentWillUnmount() {
         this.didUnmount = true;
@@ -23,6 +27,7 @@ const fixtures = {
         return <div>Baz</div>;
       }
     },
+
     Foo: class Foo {
       componentWillUnmount() {
         this.didUnmount = true;
@@ -38,6 +43,9 @@ const fixtures = {
     Bar: React.createClass({
       componentWillUnmount() {
         this.didUnmount = true;
+      },
+
+      doNothing() {
       },
 
       render() {
@@ -123,6 +131,32 @@ describe('consistency', () => {
         expect(BarProxy).toEqual(BazProxy);
         expect(barInstance.constructor.displayName).toEqual('Baz');
       });
+
+      it('keeps own methods on the prototype', () => {
+        let proxy = createProxy(Bar);
+        const BarProxy = proxy.get();
+
+        const propertyNames = Object.getOwnPropertyNames(BarProxy.prototype);
+        expect(propertyNames).toInclude('doNothing');
+      });
+
+      it('preserves enumerability and writability of methods', () => {
+        let proxy = createProxy(Bar);
+        const BarProxy = proxy.get();
+
+        ['doNothing', 'render', 'componentWillMount', 'componentWillUnmount'].forEach(name => {
+          const originalDescriptor = Object.getOwnPropertyDescriptor(Bar.prototype, name);
+          const proxyDescriptor = Object.getOwnPropertyDescriptor(BarProxy.prototype, name);
+
+          if (originalDescriptor) {
+            expect(proxyDescriptor.enumerable).toEqual(originalDescriptor.enumerable, name);
+            expect(proxyDescriptor.writable).toEqual(originalDescriptor.writable, name);
+          } else {
+            expect(proxyDescriptor.enumerable).toEqual(false, name);
+            expect(proxyDescriptor.writable).toEqual(true, name);
+          }
+        });
+      });
     });
   });
 
@@ -135,7 +169,6 @@ describe('consistency', () => {
       const barInstance = renderer.render(<BarProxy />);
 
       warnSpy.destroy();
-
       const localWarnSpy = expect.spyOn(console, 'warn');
       expect(barInstance.constructor.type).toEqual(BarProxy);
 
