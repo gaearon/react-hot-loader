@@ -4,9 +4,9 @@ var path = require('path');
 module.exports = {
   entry: './src/index',
   output: {
-    filename: 'dist/ReactPatch.js',
+    filename: 'dist/ReactProxy.js',
     libraryTarget: 'umd',
-    library: 'ReactPatch'
+    library: 'ReactProxy'
   },
   externals: [{
     react: {
