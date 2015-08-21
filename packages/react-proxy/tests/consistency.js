@@ -68,9 +68,15 @@ const fixtures = {
 
 describe('consistency', () => {
   let renderer;
+  let warnSpy;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
+    warnSpy = expect.spyOn(console, 'warn');
+  });
+
+  afterEach(() => {
+    expect(warnSpy.calls.length).toBe(0);
   });
 
   Object.keys(fixtures).forEach(type => {
