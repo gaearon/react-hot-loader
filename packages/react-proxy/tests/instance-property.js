@@ -43,56 +43,58 @@ describe('instance property', () => {
   });
 
   Object.keys(fixtures).forEach(type => {
-    const { InstanceProperty, InstancePropertyUpdate, InstancePropertyRemoval } = fixtures[type];
+    describe(type, () => {
+      const { InstanceProperty, InstancePropertyUpdate, InstancePropertyRemoval } = fixtures[type];
 
-    it(`is available on hotified class instance (${type})`, () => {
-      const proxy = createProxy(InstanceProperty);
-      const InstancePropertyProxy = proxy.get();
-      const instance = renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).toEqual(42);
-      expect(instance.answer).toEqual(42);
-    });
+      it('is available on hotified class instance', () => {
+        const proxy = createProxy(InstanceProperty);
+        const InstancePropertyProxy = proxy.get();
+        const instance = renderer.render(<InstancePropertyProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual(42);
+        expect(instance.answer).toEqual(42);
+      });
 
-    it(`is left unchanged when reassigned (${type})`, () => {
-      const proxy = createProxy(InstanceProperty);
-      const InstancePropertyProxy = proxy.get();
-      const instance = renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).toEqual(42);
+      it('is left unchanged when reassigned', () => {
+        const proxy = createProxy(InstanceProperty);
+        const InstancePropertyProxy = proxy.get();
+        const instance = renderer.render(<InstancePropertyProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual(42);
 
-      instance.answer = 100;
+        instance.answer = 100;
 
-      proxy.update(InstancePropertyUpdate);
-      renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).toEqual(100);
-      expect(instance.answer).toEqual(100);
+        proxy.update(InstancePropertyUpdate);
+        renderer.render(<InstancePropertyProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual(100);
+        expect(instance.answer).toEqual(100);
 
-      proxy.update(InstancePropertyRemoval);
-      renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).toEqual(100);
-      expect(instance.answer).toEqual(100);
-    });
+        proxy.update(InstancePropertyRemoval);
+        renderer.render(<InstancePropertyProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual(100);
+        expect(instance.answer).toEqual(100);
+      });
 
-    /**
-     * I'm not aware of any way of retrieving their new values
-     * without calling the constructor, which seems like too much
-     * of a side effect. We also don't want to overwrite them
-     * in case they changed.
-     */
-    it(`known limitation: is left unchanged even if not reassigned (${type})`, () => {
-      const proxy = createProxy(InstanceProperty);
-      const InstancePropertyProxy = proxy.get();
-      const instance = renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).toEqual(42);
+      /**
+       * I'm not aware of any way of retrieving their new values
+       * without calling the constructor, which seems like too much
+       * of a side effect. We also don't want to overwrite them
+       * in case they changed.
+       */
+      it('is left unchanged even if not reassigned (known limitation)', () => {
+        const proxy = createProxy(InstanceProperty);
+        const InstancePropertyProxy = proxy.get();
+        const instance = renderer.render(<InstancePropertyProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual(42);
 
-      proxy.update(InstancePropertyUpdate);
-      renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).toEqual(42);
-      expect(instance.answer).toEqual(42);
+        proxy.update(InstancePropertyUpdate);
+        renderer.render(<InstancePropertyProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual(42);
+        expect(instance.answer).toEqual(42);
 
-      proxy.update(InstancePropertyRemoval);
-      renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).toEqual(42);
-      expect(instance.answer).toEqual(42);
+        proxy.update(InstancePropertyRemoval);
+        renderer.render(<InstancePropertyProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual(42);
+        expect(instance.answer).toEqual(42);
+      });
     });
   });
 });

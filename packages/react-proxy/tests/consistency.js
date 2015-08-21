@@ -33,6 +33,7 @@ const fixtures = {
       }
     }
   },
+
   classic: {
     Bar: React.createClass({
       componentWillUnmount() {
@@ -80,33 +81,35 @@ describe('consistency', () => {
   });
 
   Object.keys(fixtures).forEach(type => {
-    const { Bar, Baz, Foo } = fixtures[type];
+    describe(type, () => {
+      const { Bar, Baz, Foo } = fixtures[type];
 
-    it(`does not overwrite the original class (${type})`, () => {
-      const proxy = createProxy(Bar);
-      const BarProxy = proxy.get();
-      const barInstance = renderer.render(<BarProxy />);
-      expect(renderer.getRenderOutput().props.children).toEqual('Bar');
+      it('does not overwrite the original class', () => {
+        const proxy = createProxy(Bar);
+        const BarProxy = proxy.get();
+        const barInstance = renderer.render(<BarProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual('Bar');
 
-      proxy.update(Baz);
-      const realBarInstance = renderer.render(<Bar />);
-      expect(renderer.getRenderOutput().props.children).toEqual('Bar');
-      expect(barInstance).toNotEqual(realBarInstance);
-      expect(barInstance.didUnmount).toEqual(true);
-    });
+        proxy.update(Baz);
+        const realBarInstance = renderer.render(<Bar />);
+        expect(renderer.getRenderOutput().props.children).toEqual('Bar');
+        expect(barInstance).toNotEqual(realBarInstance);
+        expect(barInstance.didUnmount).toEqual(true);
+      });
 
-    it(`sets up constructor to match the type (${type})`, () => {
-      let proxy = createProxy(Bar);
-      const BarProxy = proxy.get();
-      const barInstance = renderer.render(<BarProxy />);
-      expect(barInstance.constructor).toEqual(BarProxy);
-      expect(barInstance instanceof BarProxy).toEqual(true);
+      it('sets up constructor to match the type', () => {
+        let proxy = createProxy(Bar);
+        const BarProxy = proxy.get();
+        const barInstance = renderer.render(<BarProxy />);
+        expect(barInstance.constructor).toEqual(BarProxy);
+        expect(barInstance instanceof BarProxy).toEqual(true);
 
-      proxy.update(Baz);
-      const BazProxy = proxy.get();
-      expect(BarProxy).toEqual(BazProxy);
-      expect(barInstance.constructor).toEqual(BazProxy);
-      expect(barInstance instanceof BazProxy).toEqual(true);
+        proxy.update(Baz);
+        const BazProxy = proxy.get();
+        expect(BarProxy).toEqual(BazProxy);
+        expect(barInstance.constructor).toEqual(BazProxy);
+        expect(barInstance instanceof BazProxy).toEqual(true);
+      });
     });
   });
 });

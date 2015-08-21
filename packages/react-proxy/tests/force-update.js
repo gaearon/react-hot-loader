@@ -143,19 +143,21 @@ describe('force update', () => {
   });
 
   Object.keys(fixtures).forEach(type => {
-    const { Bar, Baz, Foo } = fixtures[type];
+    describe(type, () => {
+      const { Bar, Baz, Foo } = fixtures[type];
 
-    it(`gets triggered (${type})`, () => {
-      const proxy = createProxy(Bar);
-      const BarProxy = proxy.get();
-      renderer.render(<BarProxy />);
-      expect(renderer.getRenderOutput().props.children).toEqual('Bar');
+      it('gets triggered', () => {
+        const proxy = createProxy(Bar);
+        const BarProxy = proxy.get();
+        renderer.render(<BarProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual('Bar');
 
-      proxy.update(Baz);
-      expect(renderer.getRenderOutput().props.children).toEqual('Baz');
+        proxy.update(Baz);
+        expect(renderer.getRenderOutput().props.children).toEqual('Baz');
 
-      proxy.update(Foo);
-      expect(renderer.getRenderOutput().props.children).toEqual('Foo');
+        proxy.update(Foo);
+        expect(renderer.getRenderOutput().props.children).toEqual('Foo');
+      });
     });
   });
 });
