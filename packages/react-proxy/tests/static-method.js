@@ -103,6 +103,17 @@ describe('static method', () => {
         expect(StaticMethodProxy.getAnswer()).toEqual(42);
       });
 
+      it('gets added', () => {
+        const proxy = createProxy(StaticMethodRemoval);
+        const StaticMethodProxy = proxy.get();
+        expect(StaticMethodProxy.getAnswer).toEqual(undefined);
+
+        proxy.update(StaticMethod);
+        const instance = renderer.render(<StaticMethodProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual(42);
+        expect(StaticMethodProxy.getAnswer()).toEqual(42);
+      });
+
       it('gets replaced', () => {
         const proxy = createProxy(StaticMethod);
         const StaticMethodProxy = proxy.get();
