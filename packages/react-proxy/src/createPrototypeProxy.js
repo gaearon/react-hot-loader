@@ -42,7 +42,10 @@ export default function createPrototypeProxy() {
     });
     addedKeys.forEach(key => {
       if (typeof next[key] === 'function') {
+        // Wrap the original function
         proxy[key] = proxyMethod(key);
+        // Copy properties of the original function, if any
+        assign(proxy[key], next[key]);
       }
     });
 
