@@ -42,9 +42,8 @@ describe('consistency', () => {
 
   it('does not overwrite the hotified class', () => {
     const proxy = createProxy(Bar);
-    const HotBar = proxy.get();
-
-    const barInstance = renderer.render(<HotBar />);
+    const BarProxy = proxy.get();
+    const barInstance = renderer.render(<BarProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
     proxy.update(Baz);
@@ -56,14 +55,14 @@ describe('consistency', () => {
 
   it('sets up constructor to match the type', () => {
     let proxy = createProxy(Bar);
-    const HotBar = proxy.get();
-    const barInstance = renderer.render(<HotBar />);
-    expect(barInstance.constructor).to.equal(HotBar);
-    expect(barInstance instanceof HotBar).to.equal(true);
+    const BarProxy = proxy.get();
+    const barInstance = renderer.render(<BarProxy />);
+    expect(barInstance.constructor).to.equal(BarProxy);
+    expect(barInstance instanceof BarProxy).to.equal(true);
 
     proxy.update(Baz);
     const HotBaz = proxy.get();
-    expect(HotBar).to.equal(HotBaz);
+    expect(BarProxy).to.equal(HotBaz);
     expect(barInstance.constructor).to.equal(HotBaz);
     expect(barInstance instanceof HotBaz).to.equal(true);
   });

@@ -74,28 +74,27 @@ describe('instance method', () => {
 
   it('gets replaced', () => {
     const proxy = createProxy(Counter1x);
-
-    const HotCounter = proxy.get();
-    const instance = renderer.render(<HotCounter />);
+    const CounterProxy = proxy.get();
+    const instance = renderer.render(<CounterProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(0);
     instance.increment();
     expect(renderer.getRenderOutput().props.children).to.equal(1);
 
     proxy.update(Counter10x);
     instance.increment();
-    renderer.render(<HotCounter />);
+    renderer.render(<CounterProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(11);
 
     proxy.update(Counter100x);
     instance.increment();
-    renderer.render(<HotCounter />);
+    renderer.render(<CounterProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(111);
   });
 
   it('gets replaced if bound', () => {
     const proxy = createProxy(Counter1x);
-    const HotCounter = proxy.get();
-    const instance = renderer.render(<HotCounter />);
+    const CounterProxy = proxy.get();
+    const instance = renderer.render(<CounterProxy />);
 
     instance.increment = instance.increment.bind(instance);
 
@@ -105,12 +104,12 @@ describe('instance method', () => {
 
     proxy.update(Counter10x);
     instance.increment();
-    renderer.render(<HotCounter />);
+    renderer.render(<CounterProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(11);
 
     proxy.update(Counter100x);
     instance.increment();
-    renderer.render(<HotCounter />);
+    renderer.render(<CounterProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(111);
   });
 
@@ -120,8 +119,8 @@ describe('instance method', () => {
    */
   it('is detached and acts as a no-op if not reassigned and deleted', () => {
     const proxy = createProxy(Counter1x);
-    const HotCounter = proxy.get();
-    const instance = renderer.render(<HotCounter />);
+    const CounterProxy = proxy.get();
+    const instance = renderer.render(<CounterProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(0);
     instance.increment();
     const savedIncrement = instance.increment;
@@ -130,14 +129,14 @@ describe('instance method', () => {
     proxy.update(CounterWithoutIncrementMethod);
     expect(instance.increment).to.equal(undefined);
     savedIncrement.call(instance);
-    renderer.render(<HotCounter />);
+    renderer.render(<CounterProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(1);
   });
 
   it('is attached and acts as a no-op if reassigned and deleted', () => {
     const proxy = createProxy(Counter1x);
-    const HotCounter = proxy.get();
-    const instance = renderer.render(<HotCounter />);
+    const CounterProxy = proxy.get();
+    const instance = renderer.render(<CounterProxy />);
 
     instance.increment = instance.increment.bind(instance);
 
@@ -147,7 +146,7 @@ describe('instance method', () => {
 
     proxy.update(CounterWithoutIncrementMethod);
     instance.increment();
-    renderer.render(<HotCounter />);
+    renderer.render(<CounterProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(1);
   });
 });

@@ -51,8 +51,8 @@ describe('unmounting', () => {
 
   it('does not happen when rendering new proxied versions', () => {
     const proxy = createProxy(Bar);
-    const HotBar = proxy.get();
-    const barInstance = renderer.render(<HotBar />);
+    const BarProxy = proxy.get();
+    const barInstance = renderer.render(<BarProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
     proxy.update(Baz);
@@ -72,18 +72,18 @@ describe('unmounting', () => {
 
   it('does not happen when rendering old proxied versions', () => {
     const proxy = createProxy(Bar);
-    const HotBar = proxy.get();
-    const barInstance = renderer.render(<HotBar />);
+    const BarProxy = proxy.get();
+    const barInstance = renderer.render(<BarProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
     proxy.update(Baz);
-    const bazInstance = renderer.render(<HotBar />);
+    const bazInstance = renderer.render(<BarProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal('Baz');
     expect(barInstance).to.equal(bazInstance);
     expect(barInstance.didUnmount).to.equal(undefined);
 
     proxy.update(Foo);
-    const fooInstance = renderer.render(<HotBar />);
+    const fooInstance = renderer.render(<BarProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal('Foo');
     expect(barInstance).to.equal(fooInstance);
     expect(barInstance.didUnmount).to.equal(undefined);

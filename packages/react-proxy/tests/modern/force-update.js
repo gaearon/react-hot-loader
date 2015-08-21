@@ -78,9 +78,8 @@ describe('force update', () => {
 
   it('gets triggered on a plain class', () => {
     const proxy = createProxy(Bar);
-    const HotBar = proxy.get();
-
-    renderer.render(<HotBar />);
+    const BarProxy = proxy.get();
+    renderer.render(<BarProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
     proxy.update(Baz);
@@ -92,9 +91,8 @@ describe('force update', () => {
 
   it('gets triggered on a Component descendant', () => {
     const proxy = createProxy(BarComponent);
-    const HotBarComponent = proxy.get();
-
-    renderer.render(<HotBarComponent />);
+    const BarComponentProxy = proxy.get();
+    renderer.render(<BarComponentProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
     proxy.update(BazComponent);
@@ -106,8 +104,8 @@ describe('force update', () => {
 
   it('gets triggered on a class with strict shouldComponentUpdate', () => {
     const proxy = createProxy(BarShouldComponentUpdateFalse);
-    const HotBarShouldComponentUpdateFalse = proxy.get();
-    renderer.render(<HotBarShouldComponentUpdateFalse />);
+    const BarShouldComponentUpdateFalseProxy = proxy.get();
+    renderer.render(<BarShouldComponentUpdateFalseProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal('Bar');
 
     proxy.update(BazShouldComponentUpdateFalse);

@@ -44,53 +44,53 @@ describe('static method', () => {
 
   it('is available on hotified class instance', () => {
     const proxy = createProxy(StaticMethod);
-    const HotStaticMethod = proxy.get();
-    const instance = renderer.render(<HotStaticMethod />);
+    const StaticMethodProxy = proxy.get();
+    const instance = renderer.render(<StaticMethodProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
-    expect(HotStaticMethod.getAnswer()).to.equal(42);
+    expect(StaticMethodProxy.getAnswer()).to.equal(42);
   });
 
   it('gets replaced', () => {
     const proxy = createProxy(StaticMethod);
-    const HotStaticMethod = proxy.get();
-    const instance = renderer.render(<HotStaticMethod />);
+    const StaticMethodProxy = proxy.get();
+    const instance = renderer.render(<StaticMethodProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
-    expect(HotStaticMethod.getAnswer()).to.equal(42);
+    expect(StaticMethodProxy.getAnswer()).to.equal(42);
 
     proxy.update(StaticMethodUpdate);
-    renderer.render(<HotStaticMethod />);
+    renderer.render(<StaticMethodProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(43);
-    expect(HotStaticMethod.getAnswer()).to.equal(43);
+    expect(StaticMethodProxy.getAnswer()).to.equal(43);
   });
 
   /**
    * Known limitation.
    * If you find a way around it without breaking other tests, let me know!
    */
-  it('does not get replaced if bound (meh)', () => {
+  it('does not get replaced if bound (known limitation)', () => {
     const proxy = createProxy(StaticMethod);
-    const HotStaticMethod = proxy.get();
-    const getAnswer = HotStaticMethod.getAnswer = HotStaticMethod.getAnswer.bind(HotStaticMethod);
+    const StaticMethodProxy = proxy.get();
+    const getAnswer = StaticMethodProxy.getAnswer = StaticMethodProxy.getAnswer.bind(StaticMethodProxy);
 
-    renderer.render(<HotStaticMethod />);
+    renderer.render(<StaticMethodProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
 
     proxy.update(StaticMethodUpdate);
-    renderer.render(<HotStaticMethod />);
+    renderer.render(<StaticMethodProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
-    expect(HotStaticMethod.getAnswer()).to.equal(42);
+    expect(StaticMethodProxy.getAnswer()).to.equal(42);
     expect(getAnswer()).to.equal(42);
   });
 
   it('is detached if deleted', () => {
     const proxy = createProxy(StaticMethod);
-    const HotStaticMethod = proxy.get();
-    const instance = renderer.render(<HotStaticMethod />);
+    const StaticMethodProxy = proxy.get();
+    const instance = renderer.render(<StaticMethodProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
-    expect(HotStaticMethod.getAnswer()).to.equal(42);
+    expect(StaticMethodProxy.getAnswer()).to.equal(42);
 
     expect(() => proxy.update(StaticMethodRemoval)).to.throwError();
-    expect(() => renderer.render(<HotStaticMethod />)).to.throwError();
-    expect(HotStaticMethod.getAnswer).to.equal(undefined);
+    expect(() => renderer.render(<StaticMethodProxy />)).to.throwError();
+    expect(StaticMethodProxy.getAnswer).to.equal(undefined);
   });
 });

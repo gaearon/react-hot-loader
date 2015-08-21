@@ -68,27 +68,27 @@ describe('static property', () => {
 
   it('is available on hotified class instance', () => {
     const proxy = createProxy(StaticProperty);
-    const HotStaticProperty = proxy.get();
-    const instance = renderer.render(<HotStaticProperty />);
+    const StaticPropertyProxy = proxy.get();
+    const instance = renderer.render(<StaticPropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
-    expect(HotStaticProperty.answer).to.equal(42);
+    expect(StaticPropertyProxy.answer).to.equal(42);
   });
 
   it('is changed when not reassigned', () => {
     const proxy = createProxy(StaticProperty);
-    const HotStaticProperty = proxy.get();
-    const instance = renderer.render(<HotStaticProperty />);
+    const StaticPropertyProxy = proxy.get();
+    const instance = renderer.render(<StaticPropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
 
     proxy.update(StaticPropertyUpdate);
-    renderer.render(<HotStaticProperty />);
+    renderer.render(<StaticPropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(43);
-    expect(HotStaticProperty.answer).to.equal(43);
+    expect(StaticPropertyProxy.answer).to.equal(43);
 
     proxy.update(StaticPropertyRemoval);
-    renderer.render(<HotStaticProperty />);
+    renderer.render(<StaticPropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(undefined);
-    expect(HotStaticProperty.answer).to.equal(undefined);
+    expect(StaticPropertyProxy.answer).to.equal(undefined);
   });
 
   it('is changed for propTypes, contextTypes, childContextTypes', () => {
@@ -109,20 +109,20 @@ describe('static property', () => {
    */
   it('is not changed when reassigned', () => {
     const proxy = createProxy(StaticProperty);
-    const HotStaticProperty = proxy.get();
-    const instance = renderer.render(<HotStaticProperty />);
+    const StaticPropertyProxy = proxy.get();
+    const instance = renderer.render(<StaticPropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
 
-    HotStaticProperty.answer = 100;
+    StaticPropertyProxy.answer = 100;
 
     proxy.update(StaticPropertyUpdate);
-    renderer.render(<HotStaticProperty />);
+    renderer.render(<StaticPropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(100);
-    expect(HotStaticProperty.answer).to.equal(100);
+    expect(StaticPropertyProxy.answer).to.equal(100);
 
     proxy.update(StaticPropertyRemoval);
-    renderer.render(<HotStaticProperty />);
+    renderer.render(<StaticPropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(100);
-    expect(HotStaticProperty.answer).to.equal(100);
+    expect(StaticPropertyProxy.answer).to.equal(100);
   });
 });

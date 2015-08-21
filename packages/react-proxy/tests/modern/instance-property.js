@@ -34,27 +34,27 @@ describe('instance property', () => {
 
   it('is available on hotified class instance', () => {
     const proxy = createProxy(InstanceProperty);
-    const HotInstanceProperty = proxy.get();
-    const instance = renderer.render(<HotInstanceProperty />);
+    const InstancePropertyProxy = proxy.get();
+    const instance = renderer.render(<InstancePropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
     expect(instance.answer).to.equal(42);
   });
 
   it('is left unchanged when reassigned', () => {
     const proxy = createProxy(InstanceProperty);
-    const HotInstanceProperty = proxy.get();
-    const instance = renderer.render(<HotInstanceProperty />);
+    const InstancePropertyProxy = proxy.get();
+    const instance = renderer.render(<InstancePropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.eql(42);
 
     instance.answer = 100;
 
     proxy.update(InstancePropertyUpdate);
-    renderer.render(<HotInstanceProperty />);
+    renderer.render(<InstancePropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(100);
     expect(instance.answer).to.equal(100);
 
     proxy.update(InstancePropertyRemoval);
-    renderer.render(<HotInstanceProperty />);
+    renderer.render(<InstancePropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(100);
     expect(instance.answer).to.equal(100);
   });
@@ -65,19 +65,19 @@ describe('instance property', () => {
    * of a side effect. We also don't want to overwrite them
    * in case they changed.
    */
-  it('is left unchanged when not reassigned (meh)', () => {
+  it('is left unchanged even if not reassigned (known limitation)', () => {
     const proxy = createProxy(InstanceProperty);
-    const HotInstanceProperty = proxy.get();
-    const instance = renderer.render(<HotInstanceProperty />);
+    const InstancePropertyProxy = proxy.get();
+    const instance = renderer.render(<InstancePropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.eql(42);
 
     proxy.update(InstancePropertyUpdate);
-    renderer.render(<HotInstanceProperty />);
+    renderer.render(<InstancePropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
     expect(instance.answer).to.equal(42);
 
     proxy.update(InstancePropertyRemoval);
-    renderer.render(<HotInstanceProperty />);
+    renderer.render(<InstancePropertyProxy />);
     expect(renderer.getRenderOutput().props.children).to.equal(42);
     expect(instance.answer).to.equal(42);
   });
