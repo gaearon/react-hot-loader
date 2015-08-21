@@ -9,65 +9,36 @@ function forceUpdate(instance) {
   React.Component.prototype.forceUpdate.call(instance);
 }
 
-/**
- * Wraps componentWillMount and componentWillUnmount to
- * push and remove instances from `mountedInstances`.
- * This lets us `forceUpdate` instances when we need to.
- *
- * We could listen to componentDidMount, but shallow renderer
- * we're using in tests doesn't call it, and we don't really care.
- */
-function trackMount(prototype, mountedInstances) {
-  const realComponentWillMount = prototype.componentWillMount;
-  prototype.componentWillMount = function componentWillMount() {
-    mountedInstances.push(this);
-
-    if (realComponentWillMount) {
-      realComponentWillMount.apply(this, arguments);
-    }
-  };
-
-  const realComponentWillUnmount = prototype.componentWillUnmount;
-  prototype.componentWillUnmount = function componentWillUnmount() {
-    mountedInstances.splice(mountedInstances.indexOf(this), 1);
-
-    if (realComponentWillUnmount) {
-      realComponentWillUnmount.apply(this, arguments);
-    }
-  };
-
-  return prototype;
-}
-
 export default function proxyClass(InitialClass) {
   const prototypeProxy = createPrototypeProxy();
-  const mountedInstances = [];
   let CurrentClass;
 
   function ProxyClass() {
     CurrentClass.apply(this, arguments);
   }
 
+  // Point proxy constructor to the proxy prototype
+  ProxyClass.prototype = prototypeProxy.get();
+
   function update(NextClass) {
     if (typeof NextClass !== 'function') {
       throw new Error('Expected a constructor.');
     }
 
+    // Save the next constructor so we call it
     CurrentClass = NextClass;
 
+    // Update the prototype proxy with new methods
     prototypeProxy.update(NextClass.prototype);
-    ProxyClass.prototype = trackMount(
-      prototypeProxy.get(),
-      mountedInstances
-    );
 
-    // Wow, this is dense!
-    // I have no idea what's going on here, but it works.
-    ProxyClass.prototype.__proto__ = NextClass.prototype;
+    // Set up the constructor property so accessing the statics work
     ProxyClass.prototype.constructor = ProxyClass;
+
+    // Naïvely proxy static methods and properties
     ProxyClass.prototype.constructor.__proto__ = NextClass;
 
-    mountedInstances.forEach(forceUpdate);
+    // Force redraw regardless of shouldComponentUpdate()
+    prototypeProxy.getMountedInstances().forEach(forceUpdate);
   };
 
   function get() {
