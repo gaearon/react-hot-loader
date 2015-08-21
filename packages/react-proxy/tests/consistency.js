@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
-import expect from 'expect.js';
+import expect from 'expect';
 import { createProxy } from '../src';
 
 const fixtures = {
@@ -80,27 +80,27 @@ describe('consistency', () => {
       const proxy = createProxy(Bar);
       const BarProxy = proxy.get();
       const barInstance = renderer.render(<BarProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal('Bar');
+      expect(renderer.getRenderOutput().props.children).toEqual('Bar');
 
       proxy.update(Baz);
       const realBarInstance = renderer.render(<Bar />);
-      expect(renderer.getRenderOutput().props.children).to.equal('Bar');
-      expect(barInstance).to.not.equal(realBarInstance);
-      expect(barInstance.didUnmount).to.equal(true);
+      expect(renderer.getRenderOutput().props.children).toEqual('Bar');
+      expect(barInstance).toNotEqual(realBarInstance);
+      expect(barInstance.didUnmount).toEqual(true);
     });
 
     it(`sets up constructor to match the type (${type})`, () => {
       let proxy = createProxy(Bar);
       const BarProxy = proxy.get();
       const barInstance = renderer.render(<BarProxy />);
-      expect(barInstance.constructor).to.equal(BarProxy);
-      expect(barInstance instanceof BarProxy).to.equal(true);
+      expect(barInstance.constructor).toEqual(BarProxy);
+      expect(barInstance instanceof BarProxy).toEqual(true);
 
       proxy.update(Baz);
       const HotBaz = proxy.get();
-      expect(BarProxy).to.equal(HotBaz);
-      expect(barInstance.constructor).to.equal(HotBaz);
-      expect(barInstance instanceof HotBaz).to.equal(true);
+      expect(BarProxy).toEqual(HotBaz);
+      expect(barInstance.constructor).toEqual(HotBaz);
+      expect(barInstance instanceof HotBaz).toEqual(true);
     });
   });
 });

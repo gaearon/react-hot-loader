@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
-import expect from 'expect.js';
+import expect from 'expect';
 import { createProxy } from '../src';
 
 const fixtures = {
@@ -139,23 +139,34 @@ describe('instance method', () => {
   Object.keys(fixtures).forEach(type => {
     const { Counter1x, Counter10x, Counter100x, CounterWithoutIncrementMethod } = fixtures[type];
 
+    it(`gets added (${type})`, () => {
+      const proxy = createProxy(CounterWithoutIncrementMethod);
+      const CounterProxy = proxy.get();
+      const instance = renderer.render(<CounterProxy />);
+      expect(renderer.getRenderOutput().props.children).toEqual(0);
+
+      proxy.update(Counter1x);
+      instance.increment();
+      expect(renderer.getRenderOutput().props.children).toEqual(1);
+    });
+
     it(`gets replaced (${type})`, () => {
       const proxy = createProxy(Counter1x);
       const CounterProxy = proxy.get();
       const instance = renderer.render(<CounterProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(0);
+      expect(renderer.getRenderOutput().props.children).toEqual(0);
       instance.increment();
-      expect(renderer.getRenderOutput().props.children).to.equal(1);
+      expect(renderer.getRenderOutput().props.children).toEqual(1);
 
       proxy.update(Counter10x);
       instance.increment();
       renderer.render(<CounterProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(11);
+      expect(renderer.getRenderOutput().props.children).toEqual(11);
 
       proxy.update(Counter100x);
       instance.increment();
       renderer.render(<CounterProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(111);
+      expect(renderer.getRenderOutput().props.children).toEqual(111);
     });
 
     it(`gets replaced if bound (${type})`, () => {
@@ -165,19 +176,19 @@ describe('instance method', () => {
 
       instance.increment = instance.increment.bind(instance);
 
-      expect(renderer.getRenderOutput().props.children).to.equal(0);
+      expect(renderer.getRenderOutput().props.children).toEqual(0);
       instance.increment();
-      expect(renderer.getRenderOutput().props.children).to.equal(1);
+      expect(renderer.getRenderOutput().props.children).toEqual(1);
 
       proxy.update(Counter10x);
       instance.increment();
       renderer.render(<CounterProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(11);
+      expect(renderer.getRenderOutput().props.children).toEqual(11);
 
       proxy.update(Counter100x);
       instance.increment();
       renderer.render(<CounterProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(111);
+      expect(renderer.getRenderOutput().props.children).toEqual(111);
     });
 
     /**
@@ -188,16 +199,16 @@ describe('instance method', () => {
       const proxy = createProxy(Counter1x);
       const CounterProxy = proxy.get();
       const instance = renderer.render(<CounterProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(0);
+      expect(renderer.getRenderOutput().props.children).toEqual(0);
       instance.increment();
       const savedIncrement = instance.increment;
-      expect(renderer.getRenderOutput().props.children).to.equal(1);
+      expect(renderer.getRenderOutput().props.children).toEqual(1);
 
       proxy.update(CounterWithoutIncrementMethod);
-      expect(instance.increment).to.equal(undefined);
+      expect(instance.increment).toEqual(undefined);
       savedIncrement.call(instance);
       renderer.render(<CounterProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(1);
+      expect(renderer.getRenderOutput().props.children).toEqual(1);
     });
 
     it(`is attached and acts as a no-op if reassigned and deleted (${type})`, () => {
@@ -207,14 +218,14 @@ describe('instance method', () => {
 
       instance.increment = instance.increment.bind(instance);
 
-      expect(renderer.getRenderOutput().props.children).to.equal(0);
+      expect(renderer.getRenderOutput().props.children).toEqual(0);
       instance.increment();
-      expect(renderer.getRenderOutput().props.children).to.equal(1);
+      expect(renderer.getRenderOutput().props.children).toEqual(1);
 
       proxy.update(CounterWithoutIncrementMethod);
       instance.increment();
       renderer.render(<CounterProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(1);
+      expect(renderer.getRenderOutput().props.children).toEqual(1);
     });
   });
 });

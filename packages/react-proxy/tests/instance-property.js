@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
-import expect from 'expect.js';
+import expect from 'expect';
 import { createProxy } from '../src';
 
 const fixtures = {
@@ -43,27 +43,27 @@ describe('instance property', () => {
       const proxy = createProxy(InstanceProperty);
       const InstancePropertyProxy = proxy.get();
       const instance = renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(42);
-      expect(instance.answer).to.equal(42);
+      expect(renderer.getRenderOutput().props.children).toEqual(42);
+      expect(instance.answer).toEqual(42);
     });
 
     it(`is left unchanged when reassigned (${type})`, () => {
       const proxy = createProxy(InstanceProperty);
       const InstancePropertyProxy = proxy.get();
       const instance = renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).to.eql(42);
+      expect(renderer.getRenderOutput().props.children).toEqual(42);
 
       instance.answer = 100;
 
       proxy.update(InstancePropertyUpdate);
       renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(100);
-      expect(instance.answer).to.equal(100);
+      expect(renderer.getRenderOutput().props.children).toEqual(100);
+      expect(instance.answer).toEqual(100);
 
       proxy.update(InstancePropertyRemoval);
       renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(100);
-      expect(instance.answer).to.equal(100);
+      expect(renderer.getRenderOutput().props.children).toEqual(100);
+      expect(instance.answer).toEqual(100);
     });
 
     /**
@@ -76,17 +76,17 @@ describe('instance property', () => {
       const proxy = createProxy(InstanceProperty);
       const InstancePropertyProxy = proxy.get();
       const instance = renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).to.eql(42);
+      expect(renderer.getRenderOutput().props.children).toEqual(42);
 
       proxy.update(InstancePropertyUpdate);
       renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(42);
-      expect(instance.answer).to.equal(42);
+      expect(renderer.getRenderOutput().props.children).toEqual(42);
+      expect(instance.answer).toEqual(42);
 
       proxy.update(InstancePropertyRemoval);
       renderer.render(<InstancePropertyProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(42);
-      expect(instance.answer).to.equal(42);
+      expect(renderer.getRenderOutput().props.children).toEqual(42);
+      expect(instance.answer).toEqual(42);
     });
   });
 });

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
-import expect from 'expect.js';
+import expect from 'expect';
 import { createProxy } from '../src';
 
 const fixtures = {
@@ -91,21 +91,21 @@ describe('static method', () => {
       const proxy = createProxy(StaticMethod);
       const StaticMethodProxy = proxy.get();
       const instance = renderer.render(<StaticMethodProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(42);
-      expect(StaticMethodProxy.getAnswer()).to.equal(42);
+      expect(renderer.getRenderOutput().props.children).toEqual(42);
+      expect(StaticMethodProxy.getAnswer()).toEqual(42);
     });
 
     it(`gets replaced (${type})`, () => {
       const proxy = createProxy(StaticMethod);
       const StaticMethodProxy = proxy.get();
       const instance = renderer.render(<StaticMethodProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(42);
-      expect(StaticMethodProxy.getAnswer()).to.equal(42);
+      expect(renderer.getRenderOutput().props.children).toEqual(42);
+      expect(StaticMethodProxy.getAnswer()).toEqual(42);
 
       proxy.update(StaticMethodUpdate);
       renderer.render(<StaticMethodProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(43);
-      expect(StaticMethodProxy.getAnswer()).to.equal(43);
+      expect(renderer.getRenderOutput().props.children).toEqual(43);
+      expect(StaticMethodProxy.getAnswer()).toEqual(43);
     });
 
     /**
@@ -118,25 +118,25 @@ describe('static method', () => {
       const getAnswer = StaticMethodProxy.getAnswer = StaticMethodProxy.getAnswer.bind(StaticMethodProxy);
 
       renderer.render(<StaticMethodProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(42);
+      expect(renderer.getRenderOutput().props.children).toEqual(42);
 
       proxy.update(StaticMethodUpdate);
       renderer.render(<StaticMethodProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(42);
-      expect(StaticMethodProxy.getAnswer()).to.equal(42);
-      expect(getAnswer()).to.equal(42);
+      expect(renderer.getRenderOutput().props.children).toEqual(42);
+      expect(StaticMethodProxy.getAnswer()).toEqual(42);
+      expect(getAnswer()).toEqual(42);
     });
 
     it(`is detached if deleted (${type})`, () => {
       const proxy = createProxy(StaticMethod);
       const StaticMethodProxy = proxy.get();
       const instance = renderer.render(<StaticMethodProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal(42);
-      expect(StaticMethodProxy.getAnswer()).to.equal(42);
+      expect(renderer.getRenderOutput().props.children).toEqual(42);
+      expect(StaticMethodProxy.getAnswer()).toEqual(42);
 
-      expect(() => proxy.update(StaticMethodRemoval)).to.throwError();
-      expect(() => renderer.render(<StaticMethodProxy />)).to.throwError();
-      expect(StaticMethodProxy.getAnswer).to.equal(undefined);
+      expect(() => proxy.update(StaticMethodRemoval)).toThrow();
+      expect(() => renderer.render(<StaticMethodProxy />)).toThrow();
+      expect(StaticMethodProxy.getAnswer).toEqual(undefined);
     });
   });
 });

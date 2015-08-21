@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
-import expect from 'expect.js';
+import expect from 'expect';
 import { createProxy } from '../src';
 
 const fixtures = {
@@ -143,13 +143,13 @@ describe('force update', () => {
       const proxy = createProxy(Bar);
       const BarProxy = proxy.get();
       renderer.render(<BarProxy />);
-      expect(renderer.getRenderOutput().props.children).to.equal('Bar');
+      expect(renderer.getRenderOutput().props.children).toEqual('Bar');
 
       proxy.update(Baz);
-      expect(renderer.getRenderOutput().props.children).to.equal('Baz');
+      expect(renderer.getRenderOutput().props.children).toEqual('Baz');
 
       proxy.update(Foo);
-      expect(renderer.getRenderOutput().props.children).to.equal('Foo');
+      expect(renderer.getRenderOutput().props.children).toEqual('Foo');
     });
   });
 });
