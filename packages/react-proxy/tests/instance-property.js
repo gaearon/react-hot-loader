@@ -26,6 +26,34 @@ const fixtures = {
         return <div>{this.answer}</div>;
       }
     }
+  },
+
+  classic: {
+    InstanceProperty: React.createClass({
+      componentWillMount() {
+        this.answer = 42;
+      },
+
+      render() {
+        return <div>{this.answer}</div>;
+      }
+    }),
+
+    InstancePropertyUpdate: React.createClass({
+      componentWillMount() {
+        this.answer = 43;
+      },
+
+      render() {
+        return <div>{this.answer}</div>;
+      }
+    }),
+
+    InstancePropertyRemoval: React.createClass({
+      render() {
+        return <div>{this.answer}</div>;
+      }
+    })
   }
 };
 

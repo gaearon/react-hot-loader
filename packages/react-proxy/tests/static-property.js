@@ -60,6 +60,72 @@ const fixtures = {
         something: React.PropTypes.string
       };
     }
+  },
+
+  classic: {
+    StaticProperty: React.createClass({
+      statics: {
+        answer: 42
+      },
+
+      render() {
+        return (
+          <div>{this.constructor.answer}</div>
+        );
+      }
+    }),
+
+    StaticPropertyUpdate: React.createClass({
+      statics: {
+        answer: 43
+      },
+
+      render() {
+        return (
+          <div>{this.constructor.answer}</div>
+        );
+      }
+    }),
+
+    StaticPropertyRemoval: React.createClass({
+      render() {
+        return (
+          <div>{this.constructor.answer}</div>
+        );
+      }
+    }),
+
+    PropTypes: React.createClass({
+      render() {},
+
+      propTypes: {
+        something: React.PropTypes.number
+      },
+
+      contextTypes: {
+        something: React.PropTypes.number
+      },
+
+      childContextTypes: {
+        something: React.PropTypes.number
+      }
+    }),
+
+    PropTypesUpdate: React.createClass({
+      render() {},
+
+      propTypes: {
+        something: React.PropTypes.string
+      },
+
+      contextTypes: {
+        something: React.PropTypes.string
+      },
+
+      childContextTypes: {
+        something: React.PropTypes.string
+      }
+    })
   }
 };
 
