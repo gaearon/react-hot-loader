@@ -25,7 +25,9 @@ export default function createPrototypeProxy() {
 
     // Update proxy method list
     addedKeys.forEach(key => {
-      proxy[key] = proxyMethod(key);
+      if (typeof next[key] === 'function') {
+        proxy[key] = proxyMethod(key);
+      }
     });
     removedKeys.forEach(key => {
       delete proxy[key];
