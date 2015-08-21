@@ -133,6 +133,10 @@ describe('consistency', () => {
       let proxy = createProxy(Bar);
       const BarProxy = proxy.get();
       const barInstance = renderer.render(<BarProxy />);
+
+      warnSpy.destroy();
+
+      const localWarnSpy = expect.spyOn(console, 'warn');
       expect(barInstance.constructor.type).toEqual(BarProxy);
 
       proxy.update(Baz);
@@ -140,8 +144,8 @@ describe('consistency', () => {
       expect(BarProxy).toEqual(BazProxy);
       expect(barInstance.constructor.type).toEqual(BazProxy);
 
-      expect(warnSpy.calls.length).toBe(1);
-      warnSpy.calls = [];
+      expect(localWarnSpy.calls.length).toBe(1);
+      localWarnSpy.destroy();
     });
   });
 });
