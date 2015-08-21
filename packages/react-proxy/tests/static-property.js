@@ -109,15 +109,15 @@ describe('static property', () => {
 
     it(`is changed for propTypes, contextTypes, childContextTypes (${type})`, () => {
       const proxy = createProxy(PropTypes);
-      const HotPropTypes = proxy.get();
-      expect(HotPropTypes.propTypes.something).toEqual(React.PropTypes.number);
-      expect(HotPropTypes.contextTypes.something).toEqual(React.PropTypes.number);
-      expect(HotPropTypes.childContextTypes.something).toEqual(React.PropTypes.number);
+      const PropTypesProxy = proxy.get();
+      expect(PropTypesProxy.propTypes.something).toEqual(React.PropTypes.number);
+      expect(PropTypesProxy.contextTypes.something).toEqual(React.PropTypes.number);
+      expect(PropTypesProxy.childContextTypes.something).toEqual(React.PropTypes.number);
 
       proxy.update(PropTypesUpdate);
-      expect(HotPropTypes.propTypes.something).toEqual(React.PropTypes.string);
-      expect(HotPropTypes.contextTypes.something).toEqual(React.PropTypes.string);
-      expect(HotPropTypes.childContextTypes.something).toEqual(React.PropTypes.string);
+      expect(PropTypesProxy.propTypes.something).toEqual(React.PropTypes.string);
+      expect(PropTypesProxy.contextTypes.something).toEqual(React.PropTypes.string);
+      expect(PropTypesProxy.childContextTypes.something).toEqual(React.PropTypes.string);
     });
 
     /**

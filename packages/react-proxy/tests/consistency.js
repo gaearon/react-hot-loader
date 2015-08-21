@@ -103,10 +103,10 @@ describe('consistency', () => {
       expect(barInstance instanceof BarProxy).toEqual(true);
 
       proxy.update(Baz);
-      const HotBaz = proxy.get();
-      expect(BarProxy).toEqual(HotBaz);
-      expect(barInstance.constructor).toEqual(HotBaz);
-      expect(barInstance instanceof HotBaz).toEqual(true);
+      const BazProxy = proxy.get();
+      expect(BarProxy).toEqual(BazProxy);
+      expect(barInstance.constructor).toEqual(BazProxy);
+      expect(barInstance instanceof BazProxy).toEqual(true);
     });
   });
 });

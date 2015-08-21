@@ -101,15 +101,15 @@ describe('unmounting', () => {
       expect(renderer.getRenderOutput().props.children).toEqual('Bar');
 
       proxy.update(Baz);
-      const HotBaz = proxy.get();
-      const bazInstance = renderer.render(<HotBaz />);
+      const BazProxy = proxy.get();
+      const bazInstance = renderer.render(<BazProxy />);
       expect(renderer.getRenderOutput().props.children).toEqual('Baz');
       expect(barInstance).toEqual(bazInstance);
       expect(barInstance.didUnmount).toEqual(undefined);
 
       proxy.update(Foo);
-      const HotFoo = proxy.get();
-      const fooInstance = renderer.render(<HotFoo />);
+      const FooProxy = proxy.get();
+      const fooInstance = renderer.render(<FooProxy />);
       expect(renderer.getRenderOutput().props.children).toEqual('Foo');
       expect(barInstance).toEqual(fooInstance);
       expect(barInstance.didUnmount).toEqual(undefined);
