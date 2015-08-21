@@ -37,6 +37,9 @@ export default function proxyClass(InitialClass) {
     // Naïvely proxy static methods and properties
     ProxyClass.prototype.constructor.__proto__ = NextClass;
 
+    // Try to infer displayName
+    ProxyClass.displayName = NextClass.name || NextClass.displayName;
+
     // Force redraw regardless of shouldComponentUpdate()
     prototypeProxy.getMountedInstances().forEach(forceUpdate);
   };

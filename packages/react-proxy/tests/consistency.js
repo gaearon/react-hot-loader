@@ -111,6 +111,37 @@ describe('consistency', () => {
         expect(barInstance.constructor).toEqual(BazProxy);
         expect(barInstance instanceof BazProxy).toEqual(true);
       });
+
+      it('sets up displayName from displayName or name', () => {
+        let proxy = createProxy(Bar);
+        const BarProxy = proxy.get();
+        const barInstance = renderer.render(<BarProxy />);
+        expect(barInstance.constructor.displayName).toEqual('Bar');
+
+        proxy.update(Baz);
+        const BazProxy = proxy.get();
+        expect(BarProxy).toEqual(BazProxy);
+        expect(barInstance.constructor.displayName).toEqual('Baz');
+      });
+    });
+  });
+
+  describe('classic only', () => {
+    const { Bar, Baz } = fixtures.classic;
+
+    it('sets up legacy type property', () => {
+      let proxy = createProxy(Bar);
+      const BarProxy = proxy.get();
+      const barInstance = renderer.render(<BarProxy />);
+      expect(barInstance.constructor.type).toEqual(BarProxy);
+
+      proxy.update(Baz);
+      const BazProxy = proxy.get();
+      expect(BarProxy).toEqual(BazProxy);
+      expect(barInstance.constructor.type).toEqual(BazProxy);
+
+      expect(warnSpy.calls.length).toBe(1);
+      warnSpy.calls = [];
     });
   });
 });
