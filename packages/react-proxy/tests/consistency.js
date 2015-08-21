@@ -32,6 +32,37 @@ const fixtures = {
         return <div>Foo</div>;
       }
     }
+  },
+  classic: {
+    Bar: React.createClass({
+      componentWillUnmount() {
+        this.didUnmount = true;
+      },
+
+      render() {
+        return <div>Bar</div>;
+      }
+    }),
+
+    Baz: React.createClass({
+      componentWillUnmount() {
+        this.didUnmount = true;
+      },
+
+      render() {
+        return <div>Baz</div>;
+      }
+    }),
+
+    Foo: React.createClass({
+      componentWillUnmount() {
+        this.didUnmount = true;
+      },
+
+      render() {
+        return <div>Foo</div>;
+      }
+    })
   }
 };
 

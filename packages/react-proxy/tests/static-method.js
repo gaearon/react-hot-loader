@@ -36,6 +36,44 @@ const fixtures = {
         );
       }
     }
+  },
+
+  classic: {
+    StaticMethod: React.createClass({
+      statics: {
+        getAnswer() {
+          return 42;
+        }
+      },
+
+      render() {
+        return (
+          <div>{this.constructor.getAnswer()}</div>
+        );
+      }
+    }),
+
+    StaticMethodUpdate: React.createClass({
+      statics: {
+        getAnswer() {
+          return 43;
+        }
+      },
+
+      render() {
+        return (
+          <div>{this.constructor.getAnswer()}</div>
+        );
+      }
+    }),
+
+    StaticMethodRemoval: React.createClass({
+      render() {
+        return (
+          <div>{this.constructor.getAnswer()}</div>
+        );
+      }
+    })
   }
 };
 

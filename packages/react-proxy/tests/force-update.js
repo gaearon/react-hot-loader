@@ -23,6 +23,7 @@ const fixtures = {
       }
     }
   },
+
   modernWithSuperclass: {
     Bar: class Bar extends Component {
       render() {
@@ -42,6 +43,7 @@ const fixtures = {
       }
     },
   },
+
   modernShouldComponentUpdateFalse: {
     Bar: class Bar {
       shouldComponentUpdate() {
@@ -72,6 +74,58 @@ const fixtures = {
         return <div>Foo</div>;
       }
     }
+  },
+
+  classic: {
+    Bar: React.createClass({
+      render() {
+        return <div>Bar</div>;
+      }
+    }),
+
+    Baz: React.createClass({
+      render() {
+        return <div>Baz</div>;
+      }
+    }),
+
+    Foo: React.createClass({
+      render() {
+        return <div>Foo</div>;
+      }
+    })
+  },
+
+  classicShouldComponentUpdateFalse: {
+    Bar: React.createClass({
+      shouldComponentUpdate() {
+        return false;
+      },
+
+      render() {
+        return <div>Bar</div>;
+      }
+    }),
+
+    Baz: React.createClass({
+      shouldComponentUpdate() {
+        return false;
+      },
+
+      render() {
+        return <div>Baz</div>;
+      }
+    }),
+
+    Foo: React.createClass({
+      shouldComponentUpdate() {
+        return false;
+      },
+
+      render() {
+        return <div>Foo</div>;
+      }
+    })
   }
 };
 

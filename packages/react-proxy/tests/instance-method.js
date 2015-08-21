@@ -66,6 +66,66 @@ const fixtures = {
         return <span>{this.state.counter}</span>;
       }
     }
+  },
+
+  classic: {
+    Counter1x: React.createClass({
+      getInitialState() {
+        return { counter: 0 };
+      },
+
+      increment() {
+        this.setState({
+          counter: this.state.counter + 1
+        });
+      },
+
+      render() {
+        return <span>{this.state.counter}</span>;
+      }
+    }),
+
+    Counter10x: React.createClass({
+      getInitialState() {
+        return { counter: 0 };
+      },
+
+      increment() {
+        this.setState({
+          counter: this.state.counter + 10
+        });
+      },
+
+      render() {
+        return <span>{this.state.counter}</span>;
+      }
+    }),
+
+    Counter100x: React.createClass({
+      getInitialState() {
+        return { counter: 0 };
+      },
+
+      increment() {
+        this.setState({
+          counter: this.state.counter + 100
+        });
+      },
+
+      render() {
+        return <span>{this.state.counter}</span>;
+      }
+    }),
+
+    CounterWithoutIncrementMethod: React.createClass({
+      getInitialState() {
+        return { counter: 0 };
+      },
+
+      render() {
+        return <span>{this.state.counter}</span>;
+      }
+    })
   }
 };
 
