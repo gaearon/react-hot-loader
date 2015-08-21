@@ -177,12 +177,36 @@ describe('instance method', () => {
         expect(renderer.getRenderOutput().props.children).toEqual(111);
       });
 
-      it('gets replaced if bound', () => {
+      it('gets replaced if bound by assignment', () => {
         const proxy = createProxy(Counter1x);
         const CounterProxy = proxy.get();
         const instance = renderer.render(<CounterProxy />);
 
         instance.increment = instance.increment.bind(instance);
+
+        expect(renderer.getRenderOutput().props.children).toEqual(0);
+        instance.increment();
+        expect(renderer.getRenderOutput().props.children).toEqual(1);
+
+        proxy.update(Counter10x);
+        instance.increment();
+        renderer.render(<CounterProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual(11);
+
+        proxy.update(Counter100x);
+        instance.increment();
+        renderer.render(<CounterProxy />);
+        expect(renderer.getRenderOutput().props.children).toEqual(111);
+      });
+
+      it('gets replaced if bound by redefinition', () => {
+        const proxy = createProxy(Counter1x);
+        const CounterProxy = proxy.get();
+        const instance = renderer.render(<CounterProxy />);
+
+        Object.defineProperty(instance, 'increment', {
+          value: instance.increment.bind(instance)
+        });
 
         expect(renderer.getRenderOutput().props.children).toEqual(0);
         instance.increment();
