@@ -1,3 +1,4 @@
+import assign from 'lodash/object/assign';
 import difference from 'lodash/array/difference';
 
 export default function createPrototypeProxy() {

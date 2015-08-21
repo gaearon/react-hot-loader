@@ -135,7 +135,7 @@ describe('force update', () => {
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    warnSpy = expect.spyOn(console, 'warn');
+    warnSpy = expect.spyOn(console, 'warn').andCallThrough();
   });
 
   afterEach(() => {
