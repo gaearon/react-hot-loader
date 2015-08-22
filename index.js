@@ -25,7 +25,7 @@ module.exports = function (source, map) {
 
   prependText = [
     '/* REACT HOT LOADER */',
-    'if (module.hot) {',
+    'if ("object"==typeof module && module.hot) {',
       '(function () {',
         'var ReactHotAPI = require(' + JSON.stringify(require.resolve('react-hot-api')) + '),',
             'RootInstanceProvider = require(' + JSON.stringify(require.resolve('./RootInstanceProvider')) + '),',
@@ -43,7 +43,7 @@ module.exports = function (source, map) {
   appendText = [
     '/* REACT HOT LOADER */',
     '}).call(this);',
-    'if (module.hot) {',
+    'if ("object"==typeof module && module.hot) {',
       '(function () {',
         'module.hot.dispose(function (data) {',
           'data.makeHot = module.makeHot;',
