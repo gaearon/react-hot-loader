@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.2.9
+
+* Silently ignore exports that raise an error when accessed (#114)
+* Update `source-map` dependency
+
 ### 1.2.8
 
 * Remove React from peerDependencies
