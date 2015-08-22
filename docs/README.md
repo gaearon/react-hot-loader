@@ -5,6 +5,7 @@
 * [isomorphic-hot-loader](https://github.com/irvinebroque/isomorphic-hot-loader) (react-router, isomorphic)
 * [isomorphic-react-template](https://github.com/gpbl/isomorphic-react-template/) (react-router, isomorphic)
 * [coffee-react-quickstart](https://github.com/KyleAMathews/coffee-react-quickstart) (react-router, CoffeeScript, Gulp)
+* [react-static-boilerplate](https://github.com/koistya/react-static-boilerplate) (static site generator; React, PostCSS, Webpack, BrowserSync)
 * [boilerplate-webpack-react](https://github.com/tcoopman/boilerplate-webpack-react) (react-router, isomorphic)
 * [este](http://github.com/steida/este) (react-router, isomorphic, Flux, Babel)
 * [react-isomorphic-starterkit](https://github.com/RickWong/react-isomorphic-starterkit) (react-router, react-async, isomorphic)
