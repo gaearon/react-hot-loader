@@ -106,6 +106,13 @@ describe('consistency', () => {
         expect(barInstance.didUnmount).toEqual(true);
       });
 
+      it('returns an existing proxy when wrapped twice', () => {
+        const proxy = createProxy(Bar);
+        const Proxy = proxy.get();
+        const proxyTwice = createProxy(Proxy);
+        expect(proxyTwice).toBe(proxy);
+      });
+
       it('sets up constructor to match the type', () => {
         let proxy = createProxy(Bar);
         const BarProxy = proxy.get();

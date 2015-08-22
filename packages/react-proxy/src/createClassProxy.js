@@ -2,6 +2,12 @@ import createPrototypeProxy from './createPrototypeProxy';
 import { bindAutoBindMethods, deleteUnknownAutoBindMethods } from './bindAutoBindMethods';
 
 export default function proxyClass(InitialClass) {
+  // Prevent double wrapping.
+  // Given a proxy class, return the existing proxy managing it.
+  if (InitialClass.__reactPatchProxy) {
+    return InitialClass.__reactPatchProxy;
+  }
+
   const prototypeProxy = createPrototypeProxy();
   let CurrentClass;
 
@@ -46,8 +52,11 @@ export default function proxyClass(InitialClass) {
 
   update(InitialClass);
 
-  return {
+  const proxy = {
     get,
     update
   };
+
+  ProxyClass.__reactPatchProxy = proxy;
+  return proxy;
 }
