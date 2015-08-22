@@ -19,9 +19,6 @@
     "url": "https://github.com/gaearon/react-proxy/issues"
   },
   "homepage": "https://github.com/gaearon/react-proxy",
-  "peerDependencies": {
-    "react": ">=0.13.0"
-  },
   "devDependencies": {
     "babel": "^5.1.13",
     "babel-core": "^5.1.13",

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect';
-import { createProxy } from '../src';
+import { createProxy, getForceUpdate } from '../src';
 
 const fixtures = {
   modernNoSuperClass: {
@@ -132,8 +132,10 @@ const fixtures = {
 describe('force update', () => {
   let renderer;
   let warnSpy;
+  let forceUpdate;
 
   beforeEach(() => {
+    forceUpdate = getForceUpdate(React);
     renderer = createShallowRenderer();
     warnSpy = expect.spyOn(console, 'warn').andCallThrough();
   });
@@ -153,10 +155,10 @@ describe('force update', () => {
         renderer.render(<Proxy />);
         expect(renderer.getRenderOutput().props.children).toEqual('Bar');
 
-        proxy.update(Baz);
+        proxy.update(Baz).forEach(forceUpdate);
         expect(renderer.getRenderOutput().props.children).toEqual('Baz');
 
-        proxy.update(Foo);
+        proxy.update(Foo).forEach(forceUpdate);
         expect(renderer.getRenderOutput().props.children).toEqual('Foo');
       });
     });

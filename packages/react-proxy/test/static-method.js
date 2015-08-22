@@ -153,7 +153,8 @@ describe('static method', () => {
         expect(renderer.getRenderOutput().props.children).toEqual(42);
         expect(Proxy.getAnswer()).toEqual(42);
 
-        expect(() => proxy.update(StaticMethodRemoval)).toThrow();
+        proxy.update(StaticMethodRemoval);
+        expect(() => instance.forceUpdate()).toThrow();
         expect(() => renderer.render(<Proxy />)).toThrow();
         expect(Proxy.getAnswer).toEqual(undefined);
       });

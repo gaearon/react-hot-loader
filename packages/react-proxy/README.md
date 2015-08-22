@@ -5,6 +5,10 @@
 Generic React component proxy.  
 A future engine for React Hot Loader. 
 
+## Requirements
+
+* React 0.13+
+
 ## Usage
 
 Intended to be used from hot reloading tools like React Hot Loader.  
@@ -37,14 +41,20 @@ React.render(<ComponentVersion2 />, rootEl); // will reset state and kill DOM :-
 With React Proxy:
 
 ```js
-import { createProxy } from 'react-proxy';
+import { createProxy, getForceUpdate } from 'react-proxy';
 
 const proxy = createProxy(ComponentVersion1);
-const Component = proxy.get();
 
-React.render(<Component />, rootEl);
+const Proxy = proxy.get();
+React.render(<Proxy />, rootEl);
 
-proxy.update(ComponentVersion2); // will keep the state and DOM
+// will update the mounted instances' prototypes:
+// both DOM and state are perserved.
+const mountedInstances = proxy.update(ComponentVersion2);
+
+// works with React Native and non-Component descendants
+const forceUpdate = getForceUpdate(React);
+mountedInstances.forEach(forceUpdate);
 ```
 
 ## License

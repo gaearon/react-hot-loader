@@ -123,6 +123,8 @@ export default function createPrototypeProxy() {
 
     // Set up the prototype chain
     proxy.__proto__ = next;
+
+    return mountedInstances;
   }
 
   /**
@@ -132,16 +134,8 @@ export default function createPrototypeProxy() {
     return proxy;
   }
 
-  /**
-   * Returns an array of all mounted instances.
-   */
-  function getMountedInstances() {
-    return mountedInstances;
-  }
-
   return {
     update,
-    get,
-    getMountedInstances
+    get
   };
 };
