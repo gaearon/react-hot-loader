@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
+import autobind from './helpers/autobind';
 import expect from 'expect';
 import { createProxy } from '../src';
 
@@ -62,6 +63,73 @@ const fixtures = {
         return <span>{this.state.counter}</span>;
       }
     })
+  },
+
+  modern: {
+    Counter1x: class Counter1x extends Component {
+      constructor(props) {
+        super(props);
+        this.state = { counter: 0 };
+      }
+
+      @autobind
+      increment() {
+        this.setState({
+          counter: this.state.counter + 1
+        });
+      }
+
+      render() {
+        return <span>{this.state.counter}</span>;
+      }
+    },
+
+    Counter10x: class Counter10x extends Component {
+      constructor(props) {
+        super(props);
+        this.state = { counter: 0 };
+      }
+
+      @autobind
+      increment() {
+        this.setState({
+          counter: this.state.counter + 10
+        });
+      }
+
+      render() {
+        return <span>{this.state.counter}</span>;
+      }
+    },
+
+    Counter100x: class Counter100x extends Component {
+      constructor(props) {
+        super(props);
+        this.state = { counter: 0 };
+      }
+
+      @autobind
+      increment() {
+        this.setState({
+          counter: this.state.counter + 100
+        });
+      }
+
+      render() {
+        return <span>{this.state.counter}</span>;
+      }
+    },
+
+    CounterWithoutIncrementMethod: class CounterWithoutIncrementMethod extends Component {
+      constructor(props) {
+        super(props);
+        this.state = { counter: 0 };
+      }
+
+      render() {
+        return <span>{this.state.counter}</span>;
+      }
+    }
   }
 };
 

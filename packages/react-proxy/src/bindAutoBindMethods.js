@@ -47,27 +47,7 @@ function bindAutoBindMethod(component, method) {
   return boundMethod;
 }
 
-/**
- * Deletes autobound methods that are no longer in autobind map.
- */
-export function deleteUnknownAutoBindMethods(component) {
-  if (!component.__reactAutoBindMap) {
-    return;
-  }
-
-  for (var name in component) {
-    if (
-      component.hasOwnProperty(name) &&
-      !component.__reactAutoBindMap.hasOwnProperty(name) &&
-      typeof Object.getOwnPropertyDescriptor(component, name).value === 'function' &&
-      component[name].__reactBoundArguments === null
-    ) {
-      delete component[name];
-    }
-  }
-}
-
-export function bindAutoBindMethods(component) {
+export default function bindAutoBindMethods(component) {
   for (var autoBindKey in component.__reactAutoBindMap) {
     if (component.__reactAutoBindMap.hasOwnProperty(autoBindKey)) {
       var method = component.__reactAutoBindMap[autoBindKey];

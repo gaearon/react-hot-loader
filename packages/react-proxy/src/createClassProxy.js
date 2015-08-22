@@ -1,5 +1,6 @@
 import createPrototypeProxy from './createPrototypeProxy';
-import { bindAutoBindMethods, deleteUnknownAutoBindMethods } from './bindAutoBindMethods';
+import bindAutoBindMethods from './bindAutoBindMethods';
+import deleteUnknownAutoBindMethods from './deleteUnknownAutoBindMethods';
 
 export default function proxyClass(InitialClass) {
   // Prevent double wrapping.
