@@ -1,5 +1,6 @@
 import React from 'react';
 import createPrototypeProxy from './createPrototypeProxy';
+import { bindAutoBindMethods, deleteUnknownAutoBindMethods } from './bindAutoBindMethods';
 
 /**
  * Force-updates an instance regardless of whether
@@ -40,8 +41,15 @@ export default function proxyClass(InitialClass) {
     // Try to infer displayName
     ProxyClass.displayName = NextClass.name || NextClass.displayName;
 
+    // Grab all mounted instances
+    const mountedInstances = prototypeProxy.getMountedInstances();
+
+    // We might have added new methods that need to be auto-bound
+    mountedInstances.forEach(bindAutoBindMethods);
+    mountedInstances.forEach(deleteUnknownAutoBindMethods);
+
     // Force redraw regardless of shouldComponentUpdate()
-    prototypeProxy.getMountedInstances().forEach(forceUpdate);
+    mountedInstances.forEach(forceUpdate);
   };
 
   function get() {

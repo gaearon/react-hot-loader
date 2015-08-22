@@ -5,6 +5,8 @@ import { createProxy } from '../src';
 
 const fixtures = {
   modern: {
+    shouldWarnOnBind: false,
+
     Counter1x: class Counter1x extends Component {
       constructor(props) {
         super(props);
@@ -69,6 +71,8 @@ const fixtures = {
   },
 
   classic: {
+    shouldWarnOnBind: true,
+
     Counter1x: React.createClass({
       getInitialState() {
         return { counter: 0 };
@@ -145,7 +149,7 @@ describe('instance method', () => {
 
   Object.keys(fixtures).forEach(type => {
     describe(type, () => {
-      const { Counter1x, Counter10x, Counter100x, CounterWithoutIncrementMethod } = fixtures[type];
+      const { Counter1x, Counter10x, Counter100x, CounterWithoutIncrementMethod, shouldWarnOnBind } = fixtures[type];
 
       it('gets added', () => {
         const proxy = createProxy(CounterWithoutIncrementMethod);
@@ -182,7 +186,13 @@ describe('instance method', () => {
         const Proxy = proxy.get();
         const instance = renderer.render(<Proxy />);
 
+        warnSpy.destroy();
+        const localWarnSpy = expect.spyOn(console, 'warn');
+
         instance.increment = instance.increment.bind(instance);
+
+        expect(localWarnSpy.calls.length).toBe(shouldWarnOnBind ? 1 : 0);
+        localWarnSpy.destroy();
 
         expect(renderer.getRenderOutput().props.children).toEqual(0);
         instance.increment();
@@ -204,9 +214,15 @@ describe('instance method', () => {
         const Proxy = proxy.get();
         const instance = renderer.render(<Proxy />);
 
+        warnSpy.destroy();
+        const localWarnSpy = expect.spyOn(console, 'warn');
+
         Object.defineProperty(instance, 'increment', {
           value: instance.increment.bind(instance)
         });
+
+        expect(localWarnSpy.calls.length).toBe(shouldWarnOnBind ? 1 : 0);
+        localWarnSpy.destroy();
 
         expect(renderer.getRenderOutput().props.children).toEqual(0);
         instance.increment();
@@ -248,7 +264,10 @@ describe('instance method', () => {
         const Proxy = proxy.get();
         const instance = renderer.render(<Proxy />);
 
-        instance.increment = instance.increment.bind(instance);
+        // Pass an additional argument so that in classic mode,
+        // autobinding doesn't provide us a cached bound handler,
+        // and instead actually performs the bind (which is being tested).
+        instance.increment = instance.increment.bind(instance, 'lol');
 
         expect(renderer.getRenderOutput().props.children).toEqual(0);
         instance.increment();
