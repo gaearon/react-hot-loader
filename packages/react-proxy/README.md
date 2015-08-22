@@ -1,5 +1,4 @@
-React Proxy
-=========
+# React Proxy [![build status](https://img.shields.io/travis/gaearon/react-proxy/master.svg?style=flat-square)](https://travis-ci.org/gaearon/react-proxy) [![npm version](https://img.shields.io/npm/v/react-proxy.svg?style=flat-square)](https://www.npmjs.com/package/react-proxy) 
 
 **Work in progress.**
 
