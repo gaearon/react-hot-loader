@@ -62,45 +62,45 @@ describe('instance descriptor', () => {
       describe('getter', () => {
         it('is available on proxy class instance', () => {
           const proxy = createProxy(InstanceDescriptor);
-          const InstanceDescriptorProxy = proxy.get();
-          const instance = renderer.render(<InstanceDescriptorProxy base={100} />);
+          const Proxy = proxy.get();
+          const instance = renderer.render(<Proxy base={100} />);
           expect(renderer.getRenderOutput().props.children).toEqual(142);
           expect(instance.answer).toEqual(142);
         });
 
         it('gets added', () => {
           const proxy = createProxy(InstanceDescriptorRemoval);
-          const InstanceDescriptorProxy = proxy.get();
-          const instance = renderer.render(<InstanceDescriptorProxy base={100} />);
+          const Proxy = proxy.get();
+          const instance = renderer.render(<Proxy base={100} />);
           expect(renderer.getRenderOutput().props.children).toEqual(undefined);
 
           proxy.update(InstanceDescriptor);
-          renderer.render(<InstanceDescriptorProxy base={100} />);
+          renderer.render(<Proxy base={100} />);
           expect(renderer.getRenderOutput().props.children).toEqual(142);
           expect(instance.answer).toEqual(142);
         });
 
         it('gets replaced', () => {
           const proxy = createProxy(InstanceDescriptor);
-          const InstanceDescriptorProxy = proxy.get();
-          const instance = renderer.render(<InstanceDescriptorProxy base={100} />);
+          const Proxy = proxy.get();
+          const instance = renderer.render(<Proxy base={100} />);
           expect(renderer.getRenderOutput().props.children).toEqual(142);
 
           proxy.update(InstanceDescriptorUpdate);
-          renderer.render(<InstanceDescriptorProxy base={100} />);
+          renderer.render(<Proxy base={100} />);
           expect(renderer.getRenderOutput().props.children).toEqual(143);
           expect(instance.answer).toEqual(143);
 
           proxy.update(InstanceDescriptorRemoval);
-          renderer.render(<InstanceDescriptorProxy base={100} />);
+          renderer.render(<Proxy base={100} />);
           expect(renderer.getRenderOutput().props.children).toEqual(undefined);
           expect(instance.answer).toEqual(undefined);
         });
 
         it('gets redefined', () => {
           const proxy = createProxy(InstanceDescriptor);
-          const InstanceDescriptorProxy = proxy.get();
-          const instance = renderer.render(<InstanceDescriptorProxy base={100} />);
+          const Proxy = proxy.get();
+          const instance = renderer.render(<Proxy base={100} />);
           expect(renderer.getRenderOutput().props.children).toEqual(142);
 
           Object.defineProperty(instance, 'answer', {
@@ -108,12 +108,12 @@ describe('instance descriptor', () => {
           });
 
           proxy.update(InstanceDescriptorUpdate);
-          renderer.render(<InstanceDescriptorProxy base={100} />);
+          renderer.render(<Proxy base={100} />);
           expect(renderer.getRenderOutput().props.children).toEqual(7);
           expect(instance.answer).toEqual(7);
 
           proxy.update(InstanceDescriptorRemoval);
-          renderer.render(<InstanceDescriptorProxy base={100} />);
+          renderer.render(<Proxy base={100} />);
           expect(renderer.getRenderOutput().props.children).toEqual(7);
           expect(instance.answer).toEqual(7);
         });
@@ -122,16 +122,16 @@ describe('instance descriptor', () => {
       describe('setter', () => {
         it('is available on proxy class instance', () => {
           const proxy = createProxy(InstanceDescriptor);
-          const InstanceDescriptorProxy = proxy.get();
-          const instance = renderer.render(<InstanceDescriptorProxy />);
+          const Proxy = proxy.get();
+          const instance = renderer.render(<Proxy />);
           instance.something = 10;
           expect(instance._something).toEqual(20);
         });
 
         it('gets added', () => {
           const proxy = createProxy(InstanceDescriptorRemoval);
-          const InstanceDescriptorProxy = proxy.get();
-          const instance = renderer.render(<InstanceDescriptorProxy base={100} />);
+          const Proxy = proxy.get();
+          const instance = renderer.render(<Proxy base={100} />);
 
           proxy.update(InstanceDescriptor);
           instance.something = 10;
@@ -140,8 +140,8 @@ describe('instance descriptor', () => {
 
         it('gets replaced', () => {
           const proxy = createProxy(InstanceDescriptor);
-          const InstanceDescriptorProxy = proxy.get();
-          const instance = renderer.render(<InstanceDescriptorProxy />);
+          const Proxy = proxy.get();
+          const instance = renderer.render(<Proxy />);
           instance.something = 10;
           expect(instance._something).toEqual(20);
 
@@ -159,8 +159,8 @@ describe('instance descriptor', () => {
 
         it('gets redefined', () => {
           const proxy = createProxy(InstanceDescriptor);
-          const InstanceDescriptorProxy = proxy.get();
-          const instance = renderer.render(<InstanceDescriptorProxy base={100} />);
+          const Proxy = proxy.get();
+          const instance = renderer.render(<Proxy base={100} />);
           expect(renderer.getRenderOutput().props.children).toEqual(142);
 
           Object.defineProperty(instance, 'something', {

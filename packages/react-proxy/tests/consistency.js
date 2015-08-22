@@ -95,8 +95,8 @@ describe('consistency', () => {
 
       it('does not overwrite the original class', () => {
         const proxy = createProxy(Bar);
-        const BarProxy = proxy.get();
-        const barInstance = renderer.render(<BarProxy />);
+        const Proxy = proxy.get();
+        const barInstance = renderer.render(<Proxy />);
         expect(renderer.getRenderOutput().props.children).toEqual('Bar');
 
         proxy.update(Baz);
@@ -122,31 +122,29 @@ describe('consistency', () => {
 
       it('sets up displayName from displayName or name', () => {
         let proxy = createProxy(Bar);
-        const BarProxy = proxy.get();
-        const barInstance = renderer.render(<BarProxy />);
+        const Proxy = proxy.get();
+        const barInstance = renderer.render(<Proxy />);
         expect(barInstance.constructor.displayName).toEqual('Bar');
 
         proxy.update(Baz);
-        const BazProxy = proxy.get();
-        expect(BarProxy).toEqual(BazProxy);
         expect(barInstance.constructor.displayName).toEqual('Baz');
       });
 
       it('keeps own methods on the prototype', () => {
         let proxy = createProxy(Bar);
-        const BarProxy = proxy.get();
+        const Proxy = proxy.get();
 
-        const propertyNames = Object.getOwnPropertyNames(BarProxy.prototype);
+        const propertyNames = Object.getOwnPropertyNames(Proxy.prototype);
         expect(propertyNames).toInclude('doNothing');
       });
 
       it('preserves enumerability and writability of methods', () => {
         let proxy = createProxy(Bar);
-        const BarProxy = proxy.get();
+        const Proxy = proxy.get();
 
         ['doNothing', 'render', 'componentWillMount', 'componentWillUnmount'].forEach(name => {
           const originalDescriptor = Object.getOwnPropertyDescriptor(Bar.prototype, name);
-          const proxyDescriptor = Object.getOwnPropertyDescriptor(BarProxy.prototype, name);
+          const proxyDescriptor = Object.getOwnPropertyDescriptor(Proxy.prototype, name);
 
           if (originalDescriptor) {
             expect(proxyDescriptor.enumerable).toEqual(originalDescriptor.enumerable, name);
@@ -165,16 +163,16 @@ describe('consistency', () => {
 
     it('sets up legacy type property', () => {
       let proxy = createProxy(Bar);
-      const BarProxy = proxy.get();
-      const barInstance = renderer.render(<BarProxy />);
+      const Proxy = proxy.get();
+      const barInstance = renderer.render(<Proxy />);
 
       warnSpy.destroy();
       const localWarnSpy = expect.spyOn(console, 'warn');
-      expect(barInstance.constructor.type).toEqual(BarProxy);
+      expect(barInstance.constructor.type).toEqual(Proxy);
 
       proxy.update(Baz);
       const BazProxy = proxy.get();
-      expect(BarProxy).toEqual(BazProxy);
+      expect(Proxy).toEqual(BazProxy);
       expect(barInstance.constructor.type).toEqual(BazProxy);
 
       expect(localWarnSpy.calls.length).toBe(1);

@@ -77,27 +77,27 @@ describe('instance property', () => {
 
       it('is available on proxy class instance', () => {
         const proxy = createProxy(InstanceProperty);
-        const InstancePropertyProxy = proxy.get();
-        const instance = renderer.render(<InstancePropertyProxy />);
+        const Proxy = proxy.get();
+        const instance = renderer.render(<Proxy />);
         expect(renderer.getRenderOutput().props.children).toEqual(42);
         expect(instance.answer).toEqual(42);
       });
 
       it('is left unchanged when reassigned', () => {
         const proxy = createProxy(InstanceProperty);
-        const InstancePropertyProxy = proxy.get();
-        const instance = renderer.render(<InstancePropertyProxy />);
+        const Proxy = proxy.get();
+        const instance = renderer.render(<Proxy />);
         expect(renderer.getRenderOutput().props.children).toEqual(42);
 
         instance.answer = 100;
 
         proxy.update(InstancePropertyUpdate);
-        renderer.render(<InstancePropertyProxy />);
+        renderer.render(<Proxy />);
         expect(renderer.getRenderOutput().props.children).toEqual(100);
         expect(instance.answer).toEqual(100);
 
         proxy.update(InstancePropertyRemoval);
-        renderer.render(<InstancePropertyProxy />);
+        renderer.render(<Proxy />);
         expect(renderer.getRenderOutput().props.children).toEqual(100);
         expect(instance.answer).toEqual(100);
       });
@@ -110,17 +110,17 @@ describe('instance property', () => {
        */
       it('is left unchanged even if not reassigned (known limitation)', () => {
         const proxy = createProxy(InstanceProperty);
-        const InstancePropertyProxy = proxy.get();
-        const instance = renderer.render(<InstancePropertyProxy />);
+        const Proxy = proxy.get();
+        const instance = renderer.render(<Proxy />);
         expect(renderer.getRenderOutput().props.children).toEqual(42);
 
         proxy.update(InstancePropertyUpdate);
-        renderer.render(<InstancePropertyProxy />);
+        renderer.render(<Proxy />);
         expect(renderer.getRenderOutput().props.children).toEqual(42);
         expect(instance.answer).toEqual(42);
 
         proxy.update(InstancePropertyRemoval);
-        renderer.render(<InstancePropertyProxy />);
+        renderer.render(<Proxy />);
         expect(renderer.getRenderOutput().props.children).toEqual(42);
         expect(instance.answer).toEqual(42);
       });

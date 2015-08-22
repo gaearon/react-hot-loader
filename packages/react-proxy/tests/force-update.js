@@ -149,8 +149,8 @@ describe('force update', () => {
 
       it('gets triggered', () => {
         const proxy = createProxy(Bar);
-        const BarProxy = proxy.get();
-        renderer.render(<BarProxy />);
+        const Proxy = proxy.get();
+        renderer.render(<Proxy />);
         expect(renderer.getRenderOutput().props.children).toEqual('Bar');
 
         proxy.update(Baz);
