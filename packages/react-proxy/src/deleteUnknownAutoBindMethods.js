@@ -23,6 +23,11 @@ function shouldDeleteModernInstanceMethod(component, name) {
     return false;
   }
 
+  if (prototypeDescriptor.get().length !== component[name].length) {
+    // The length doesn't match, bail out
+    return false;
+  }
+
   // This seems like a method bound using an autobinding getter on the prototype
   // Hopefully we won't run into too many false positives.
   return true;
