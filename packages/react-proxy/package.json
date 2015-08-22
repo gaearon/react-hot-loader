@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/gaearon/react-proxy",
   "peerDependencies": {
-    "react": ">=0.11.0"
+    "react": ">=0.13.0"
   },
   "devDependencies": {
     "babel": "^5.1.13",
