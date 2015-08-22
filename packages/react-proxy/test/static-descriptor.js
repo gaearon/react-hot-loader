@@ -37,6 +37,16 @@ const fixtures = {
       render() {
         return <div>{this.constructor.answer}</div>;
       }
+    },
+
+    ThrowingAccessors: class ThrowingAccessors {
+      static get something() {
+        throw new Error();
+      }
+
+      static set something(value) {
+        throw new Error();
+      }
     }
   }
 };
@@ -56,9 +66,16 @@ describe('static descriptor', () => {
   });
 
   Object.keys(fixtures).forEach(type => {
-    const { StaticDescriptor, StaticDescriptorUpdate, StaticDescriptorRemoval } = fixtures[type];
+    const { StaticDescriptor, StaticDescriptorUpdate, StaticDescriptorRemoval, ThrowingAccessors } = fixtures[type];
 
     describe(type, () => {
+      it('does not invoke accessors', () => {
+        const proxy = createProxy(StaticDescriptor);
+        const Proxy = proxy.get();
+        const instance = renderer.render(<Proxy />);
+        expect(() => proxy.update(ThrowingAccessors)).toNotThrow();
+      });
+
       describe('getter', () => {
         it('is available on proxy class', () => {
           const proxy = createProxy(StaticDescriptor);

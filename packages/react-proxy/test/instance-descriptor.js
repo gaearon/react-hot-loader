@@ -37,6 +37,16 @@ const fixtures = {
       render() {
         return <div>{this.answer}</div>;
       }
+    },
+
+    ThrowingAccessors: class ThrowingAccessors {
+      get something() {
+        throw new Error();
+      }
+
+      set something(value) {
+        throw new Error();
+      }
     }
   }
 };
@@ -56,9 +66,16 @@ describe('instance descriptor', () => {
   });
 
   Object.keys(fixtures).forEach(type => {
-    const { InstanceDescriptor, InstanceDescriptorUpdate, InstanceDescriptorRemoval } = fixtures[type];
+    const { InstanceDescriptor, InstanceDescriptorUpdate, InstanceDescriptorRemoval, ThrowingAccessors } = fixtures[type];
 
     describe(type, () => {
+      it('does not invoke accessors', () => {
+        const proxy = createProxy(InstanceDescriptor);
+        const Proxy = proxy.get();
+        const instance = renderer.render(<Proxy />);
+        expect(() => proxy.update(ThrowingAccessors)).toNotThrow();
+      });
+
       describe('getter', () => {
         it('is available on proxy class instance', () => {
           const proxy = createProxy(InstanceDescriptor);
