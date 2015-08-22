@@ -11,9 +11,12 @@ export default function proxyClass(InitialClass) {
   const prototypeProxy = createPrototypeProxy();
   let CurrentClass;
 
-  function ProxyClass() {
-    CurrentClass.apply(this, arguments);
-  }
+  // Create a proxy constructor with matching name
+  const ProxyClass = new Function('getCurrentClass',
+    `return function ${InitialClass.name || 'ProxyClass'}() {
+      return getCurrentClass().apply(this, arguments);
+    }`
+  )(() => CurrentClass);
 
   // Point proxy constructor to the proxy prototype
   ProxyClass.prototype = prototypeProxy.get();

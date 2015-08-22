@@ -186,4 +186,18 @@ describe('consistency', () => {
       localWarnSpy.destroy();
     });
   });
+
+  describe('modern only', () => {
+    const { Bar, Baz } = fixtures.modern;
+
+    it('sets up the constructor name from initial name', () => {
+      let proxy = createProxy(Bar);
+      const Proxy = proxy.get();
+      expect(Proxy.name).toEqual('Bar');
+
+      // Known limitation: name can't change
+      proxy.update(Baz);
+      expect(Proxy.name).toEqual('Bar');
+    });
+  });
 });
