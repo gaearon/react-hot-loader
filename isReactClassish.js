@@ -29,17 +29,7 @@ function isReactClassish(Class, React) {
     return false;
   }
 
-  // React 0.13
-  if (hasRender(Class) || descendsFromReactComponent(Class, React)) {
-    return true;
-  }
-
-  // React 0.12 and earlier
-  if (Class.type && hasRender(Class.type)) {
-    return true;
-  }
-
-  return false;
+  return hasRender(Class) || descendsFromReactComponent(Class, React);
 }
 
 module.exports = isReactClassish;

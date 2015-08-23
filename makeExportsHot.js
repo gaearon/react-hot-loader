@@ -23,12 +23,6 @@ function makeExportsHot(m, React) {
       continue;
     }
 
-    if (exportsReactClass && key === 'type') {
-      // React 0.12 also puts classes under `type` property for compat.
-      // Skip to avoid updating twice.
-      continue;
-    }
-
     var value;
     try {
       value = freshExports[key];
