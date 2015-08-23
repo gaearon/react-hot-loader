@@ -34,7 +34,12 @@ function makeExportsHot(m, React) {
       continue;
     }
 
-    if (Object.getOwnPropertyDescriptor(m.exports, key).writable) {
+    var descriptor = Object.getOwnPropertyDescriptor(m.exports, key);
+    if (!descriptor) {
+      continue;
+    }
+
+    if (descriptor.writable) {
       m.exports[key] = m.makeHot(value, '__MODULE_EXPORTS_' + key);
       foundReactClasses = true;
     } else {
