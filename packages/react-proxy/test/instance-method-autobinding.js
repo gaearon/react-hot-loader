@@ -182,4 +182,47 @@ describe('autobound instance method', () => {
       });
     });
   });
+
+  describe('classic only', () => {
+    const { Counter1x, Counter10x, Counter100x } = fixtures.classic;
+
+    /**
+     * Important in case it's a subscription that
+     * later needs to gets destroyed.
+     */
+    it('preserves the reference', () => {
+      const proxy = createProxy(Counter1x);
+      const Proxy = proxy.get();
+      const instance = renderer.render(<Proxy />);
+      const savedIncrement = instance.increment;
+
+      proxy.update(Counter10x);
+      expect(instance.increment).toBe(savedIncrement);
+
+      proxy.update(Counter100x);
+      expect(instance.increment).toBe(savedIncrement);
+    });
+  });
+
+  describe('modern only', () => {
+    const { Counter1x, Counter10x, Counter100x } = fixtures.modern;
+
+    /**
+     * There's nothing we can do here.
+     * You can't use a lazy autobind with hot reloading
+     * and expect function reference equality.
+     */
+    it('does not preserve the reference (known limitation)', () => {
+      const proxy = createProxy(Counter1x);
+      const Proxy = proxy.get();
+      const instance = renderer.render(<Proxy />);
+      const savedIncrement = instance.increment;
+
+      proxy.update(Counter10x);
+      expect(instance.increment).toNotBe(savedIncrement);
+
+      proxy.update(Counter100x);
+      expect(instance.increment).toNotBe(savedIncrement);
+    });
+  });
 });

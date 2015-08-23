@@ -49,9 +49,21 @@ function bindAutoBindMethod(component, method) {
 
 export default function bindAutoBindMethods(component) {
   for (var autoBindKey in component.__reactAutoBindMap) {
-    if (component.__reactAutoBindMap.hasOwnProperty(autoBindKey)) {
-      var method = component.__reactAutoBindMap[autoBindKey];
-      component[autoBindKey] = bindAutoBindMethod(component, method);
+    if (!component.__reactAutoBindMap.hasOwnProperty(autoBindKey)) {
+      return;
     }
+
+    // Tweak: skip methods that are already bound.
+    // This is to preserve method reference in case it is used
+    // as a subscription handler that needs to be detached later.
+    if (
+      component.hasOwnProperty(autoBindKey) &&
+      component[autoBindKey].__reactBoundContext === component
+    ) {
+      continue;
+    }
+
+    var method = component.__reactAutoBindMap[autoBindKey];
+    component[autoBindKey] = bindAutoBindMethod(component, method);
   }
 };
