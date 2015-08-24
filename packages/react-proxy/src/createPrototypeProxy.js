@@ -23,14 +23,12 @@ export default function createPrototypeProxy() {
   }
 
   /**
-   * Augments the original componentWillMount with instance tracking.
-   * We're using it instead of componentDidMount because it works with shallow rendering.
-   * TODO: maybe this is a bad idea and we should instead fix shallow rendering.
+   * Augments the original componentDidMount with instance tracking.
    */
-  function proxiedComponentWillMount() {
+  function proxiedComponentDidMount() {
     mountedInstances.push(this);
-    if (typeof current.componentWillMount === 'function') {
-      return current.componentWillMount.apply(this, arguments);
+    if (typeof current.componentDidMount === 'function') {
+      return current.componentDidMount.apply(this, arguments);
     }
   }
 
@@ -38,7 +36,11 @@ export default function createPrototypeProxy() {
    * Augments the original componentWillUnmount with instance tracking.
    */
   function proxiedComponentWillUnmount() {
-    mountedInstances.splice(mountedInstances.indexOf(this), 1);
+    const index = mountedInstances.indexOf(this);
+    // Unless we're in a weird environment without componentDidMount
+    if (index !== -1) {
+      mountedInstances.splice(index, 1);
+    }
     if (typeof current.componentWillUnmount === 'function') {
       return current.componentWillUnmount.apply(this, arguments);
     }
@@ -117,7 +119,7 @@ export default function createPrototypeProxy() {
     });
 
     // Track mounting and unmounting
-    defineProxyPropertyWithValue('componentWillMount', proxiedComponentWillMount);
+    defineProxyPropertyWithValue('componentDidMount', proxiedComponentDidMount);
     defineProxyPropertyWithValue('componentWillUnmount', proxiedComponentWillUnmount);
     defineProxyPropertyWithValue('__reactAutoBindMap', createAutoBindMap());
 

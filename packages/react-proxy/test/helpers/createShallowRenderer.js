@@ -20,8 +20,11 @@ var assign = require("react/lib/Object.assign");
 /**
  * @class ReactShallowRenderer
  */
-var ReactShallowRenderer = function() {
+var ReactShallowRenderer = function({
+  callComponentDidMount = true
+}: options = {}) {
   this._instance = null;
+  this._callComponentDidMount = callComponentDidMount;
 };
 
 ReactShallowRenderer.prototype.getRenderOutput = function() {
@@ -97,6 +100,13 @@ ReactShallowRenderer.prototype._render = function(element, transaction, context)
 
     instance.mountComponent(rootID, transaction, context);
 
+    if (this._callComponentDidMount) {
+      var component = instance.getPublicInstance();
+      if (component.componentDidMount) {
+        component.componentDidMount();
+      }
+    }
+
     this._instance = instance;
   } else {
     this._instance.receiveComponent(element, transaction, context);
@@ -105,6 +115,6 @@ ReactShallowRenderer.prototype._render = function(element, transaction, context)
   this._element = element;
 };
 
-module.exports = function createShallowRenderer() {
-  return new ReactShallowRenderer()
+module.exports = function createShallowRenderer(options) {
+  return new ReactShallowRenderer(options)
 };

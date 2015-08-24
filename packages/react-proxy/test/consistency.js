@@ -149,7 +149,7 @@ describe('consistency', () => {
         let proxy = createProxy(Bar);
         const Proxy = proxy.get();
 
-        ['doNothing', 'render', 'componentWillMount', 'componentWillUnmount'].forEach(name => {
+        ['doNothing', 'render', 'componentDidMount', 'componentWillUnmount'].forEach(name => {
           const originalDescriptor = Object.getOwnPropertyDescriptor(Bar.prototype, name);
           const proxyDescriptor = Object.getOwnPropertyDescriptor(Proxy.prototype, name);
 

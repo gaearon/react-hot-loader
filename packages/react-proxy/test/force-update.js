@@ -161,6 +161,22 @@ describe('force update', () => {
         proxy.update(Foo).forEach(forceUpdate);
         expect(renderer.getRenderOutput().props.children).toEqual('Foo');
       });
+
+      it('does not get triggered in environment without componentDidMount', () => {
+        const proxy = createProxy(Bar);
+        const Proxy = proxy.get();
+        const serverLikeRenderer = createShallowRenderer({
+          callComponentDidMount: false
+        });
+        serverLikeRenderer.render(<Proxy />);
+        expect(serverLikeRenderer.getRenderOutput().props.children).toEqual('Bar');
+
+        expect(proxy.update(Baz).length).toEqual(0);
+        expect(serverLikeRenderer.getRenderOutput().props.children).toEqual('Bar');
+
+        expect(proxy.update(Baz).length).toEqual(0);
+        expect(serverLikeRenderer.getRenderOutput().props.children).toEqual('Bar');
+      });
     });
   });
 });
