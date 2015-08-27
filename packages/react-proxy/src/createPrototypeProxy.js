@@ -7,6 +7,20 @@ export default function createPrototypeProxy() {
   let mountedInstances = [];
 
   /**
+   * Creates a proxied toString() method pointing to the current version's toString().
+   */
+  function proxyToString(name) {
+    // Wrap to always call the current version
+    return function toString() {
+      if (typeof current[name] === 'function') {
+        return current[name].toString();
+      } else {
+        return '<method was deleted>';
+      }
+    };
+  }
+
+  /**
    * Creates a proxied method that calls the current version, whenever available.
    */
   function proxyMethod(name) {
@@ -19,6 +33,8 @@ export default function createPrototypeProxy() {
 
     // Copy properties of the original function, if any
     assign(proxiedMethod, current[name]);
+    proxiedMethod.toString = proxyToString(name);
+
     return proxiedMethod;
   }
 
@@ -31,6 +47,7 @@ export default function createPrototypeProxy() {
       return current.componentDidMount.apply(this, arguments);
     }
   }
+  proxiedComponentDidMount.toString = proxyToString('componentDidMount');
 
   /**
    * Augments the original componentWillUnmount with instance tracking.
@@ -45,6 +62,7 @@ export default function createPrototypeProxy() {
       return current.componentWillUnmount.apply(this, arguments);
     }
   }
+  proxiedComponentWillUnmount.toString = proxyToString('componentWillUnmount');
 
   /**
    * Defines a property on the proxy.

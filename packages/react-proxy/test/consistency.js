@@ -167,14 +167,20 @@ describe('consistency', () => {
         let proxy = createProxy(Bar);
 
         const Proxy = proxy.get();
-        ['doNothing', 'render', 'componentDidMount', 'componentWillUnmount'].forEach(name => {
-          expect(Proxy.prototype[name].toString()).toEqual(Bar.prototype[name].toString());
+        ['doNothing', 'render', 'componentWillUnmount'].forEach(name => {
+          const originalMethod = Bar.prototype[name];
+          const proxyMethod = Proxy.prototype[name];
+          expect(originalMethod.toString()).toEqual(proxyMethod.toString());
         });
 
-        Proxy.update(Baz);
-        ['doNothing', 'render', 'componentDidMount', 'componentWillUnmount'].forEach(name => {
-          expect(Proxy.prototype[name].toString()).toEqual(Baz.prototype[name].toString());
+        const doNothingBeforeItWasDeleted = Proxy.prototype.doNothing;
+        proxy.update(Baz);
+        ['render', 'componentWillUnmount'].forEach(name => {
+          const originalMethod = Baz.prototype[name];
+          const proxyMethod = Proxy.prototype[name];
+          expect(originalMethod.toString()).toEqual(proxyMethod.toString());
         });
+        expect(doNothingBeforeItWasDeleted.toString()).toEqual('<method was deleted>');
       });
     });
   });
