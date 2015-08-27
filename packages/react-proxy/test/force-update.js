@@ -130,12 +130,12 @@ const fixtures = {
 };
 
 describe('force update', () => {
+  const forceUpdate = getForceUpdate(React);;
+
   let renderer;
   let warnSpy;
-  let forceUpdate;
 
   beforeEach(() => {
-    forceUpdate = getForceUpdate(React);
     renderer = createShallowRenderer();
     warnSpy = expect.spyOn(console, 'warn').andCallThrough();
   });
