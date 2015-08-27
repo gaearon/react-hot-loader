@@ -5,7 +5,7 @@ import deleteUnknownAutoBindMethods from './deleteUnknownAutoBindMethods';
 export default function proxyClass(InitialClass) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
-  if (InitialClass.__reactPatchProxy) {
+  if (Object.prototype.hasOwnProperty.call(InitialClass, '__reactPatchProxy')) {
     return InitialClass.__reactPatchProxy;
   }
 
