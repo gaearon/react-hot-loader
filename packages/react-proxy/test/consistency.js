@@ -162,6 +162,20 @@ describe('consistency', () => {
           }
         });
       });
+
+      it('preserves toString() of methods', () => {
+        let proxy = createProxy(Bar);
+
+        const Proxy = proxy.get();
+        ['doNothing', 'render', 'componentDidMount', 'componentWillUnmount'].forEach(name => {
+          expect(Proxy.prototype[name].toString()).toEqual(Bar.prototype[name].toString());
+        });
+
+        Proxy.update(Baz);
+        ['doNothing', 'render', 'componentDidMount', 'componentWillUnmount'].forEach(name => {
+          expect(Proxy.prototype[name].toString()).toEqual(Baz.prototype[name].toString());
+        });
+      });
     });
   });
 
