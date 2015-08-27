@@ -4,20 +4,22 @@ import expect from 'expect';
 import { createProxy, getForceUpdate } from '../src';
 
 class Base1 {
+  getX() {
+    return 42;
+  }
+
   render() {
-    return this.actuallyRender(42);
+    return this.actuallyRender();
   }
 }
 
 class Base2 {
-  render() {
-    return this.actuallyRender(43);
+  getX() {
+    return 43;
   }
-}
 
-class Base3 {
   render() {
-    return this.actuallyRender(44);
+    return this.actuallyRender();
   }
 }
 
@@ -43,8 +45,8 @@ describe('inheritance', () => {
       const BaseProxy = baseProxy.get();
 
       class Derived extends BaseProxy {
-        actuallyRender(x) {
-          return <span>{x * 10}</span>;
+        actuallyRender() {
+          return <span>{super.getX() * 10}</span>;
         }
       }
 
@@ -63,8 +65,8 @@ describe('inheritance', () => {
       const BaseProxy = baseProxy.get();
 
       class Derived extends BaseProxy {
-        actuallyRender(x) {
-          return <span>{x * 10}</span>;
+        actuallyRender() {
+          return <span>{super.getX() * 10}</span>;
         }
       }
 
@@ -80,14 +82,14 @@ describe('inheritance', () => {
       const BaseProxy = baseProxy.get();
 
       class Derived1 extends BaseProxy {
-        actuallyRender(x) {
-          return <span>{x * 10}</span>;
+        actuallyRender() {
+          return <span>{super.getX() * 10}</span>;
         }
       }
 
       class Derived2 extends BaseProxy {
-        actuallyRender(x) {
-          return <span>{x * 100}</span>;
+        actuallyRender() {
+          return <span>{super.getX() * 100}</span>;
         }
       }
 
@@ -103,14 +105,14 @@ describe('inheritance', () => {
 
     it('replaces a derived method with proxied derived only', () => {
       class Derived1 extends Base1 {
-        actuallyRender(x) {
-          return <span>{x * 10}</span>;
+        actuallyRender() {
+          return <span>{super.getX() * 10}</span>;
         }
       }
 
       class Derived2 extends Base1 {
-        actuallyRender(x) {
-          return <span>{x * 100}</span>;
+        actuallyRender() {
+          return <span>{super.getX() * 100}</span>;
         }
       }
 
