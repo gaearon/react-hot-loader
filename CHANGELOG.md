@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.3.0
+
+* Recover from module errors on module level (**[#187](https://github.com/gaearon/react-hot-loader/pull/187)**)
+
 ### 1.2.9
 
 * Silently ignore exports that raise an error when accessed (#114)
