@@ -57,7 +57,7 @@ module.exports = function (source, map) {
             'if (shouldAcceptModule) {',
               'module.hot.accept(function (err) {',
                 'if (err) {',
-                  'console.error("Cannot not apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
+                  'console.error("Cannot apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
                 '}',
               '});',
             '}',
