@@ -15,7 +15,8 @@ module.exports = function (source, map) {
     return this.callback(null, source, map);
   }
 
-  var acceptUpdates = this.query !== '?manual',
+  var acceptUpdates = this.query.indexOf('manual') === -1,
+      reactModule = this.query.indexOf('native') !== -1 ? '"react-native"' : '"react"',
       filename = path.basename(resourcePath),
       separator = '\n\n',
       prependText,
@@ -28,7 +29,7 @@ module.exports = function (source, map) {
     'if (module.hot) {',
       '(function () {',
         'var ReactHotAPI = require(' + JSON.stringify(require.resolve('react-hot-api')) + '),',
-            'React = require("react");',
+            'React = require(' + reactModule + ');',
         'module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(React);',
       '})();',
     '}',
@@ -45,7 +46,7 @@ module.exports = function (source, map) {
           'var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false;',
           'if (module.exports && module.makeHot) {',
             'var makeExportsHot = require(' + JSON.stringify(require.resolve('./makeExportsHot')) + ');',
-            'if (makeExportsHot(module, require("react"))) {',
+            'if (makeExportsHot(module, require(' + reactModule + '))) {',
               'foundReactClasses = true;',
             '}',
             'var shouldAcceptModule = ' + JSON.stringify(acceptUpdates) + ' && foundReactClasses;',
