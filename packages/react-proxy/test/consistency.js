@@ -113,6 +113,24 @@ describe('consistency', () => {
         expect(proxyTwice).toBe(proxy);
       });
 
+      it('prevents recursive proxy cycle', () => {
+        const proxy = createProxy(Bar);
+        const Proxy = proxy.get();
+        proxy.update(Proxy);
+        expect(proxy.get()).toEqual(Proxy);
+      });
+
+      it('prevents mutually recursive proxy cycle', () => {
+        const barProxy = createProxy(Bar);
+        const BarProxy = barProxy.get();
+
+        const fooProxy = createProxy(Foo);
+        const FooProxy = fooProxy.get();
+
+        barProxy.update(FooProxy);
+        fooProxy.update(BarProxy);
+      });
+
       it('sets up constructor to match the type', () => {
         let proxy = createProxy(Bar);
         const BarProxy = proxy.get();

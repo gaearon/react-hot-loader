@@ -130,7 +130,7 @@ const fixtures = {
 };
 
 describe('force update', () => {
-  const forceUpdate = getForceUpdate(React);;
+  const forceUpdate = getForceUpdate(React);
 
   let renderer;
   let warnSpy;

@@ -27,6 +27,11 @@ export default function proxyClass(InitialClass) {
       throw new Error('Expected a constructor.');
     }
 
+    // Prevent proxy cycles
+    if (Object.prototype.hasOwnProperty.call(NextClass, '__reactPatchProxy')) {
+      return update(NextClass.__reactPatchProxy.__getCurrent());
+    }
+
     // Save the next constructor so we call it
     CurrentClass = NextClass;
 
@@ -54,11 +59,16 @@ export default function proxyClass(InitialClass) {
     return ProxyClass;
   }
 
+  function __getCurrent() {
+    return CurrentClass;
+  }
+
   update(InitialClass);
 
   const proxy = {
     get,
-    update
+    update,
+    __getCurrent
   };
 
   ProxyClass.__reactPatchProxy = proxy;
