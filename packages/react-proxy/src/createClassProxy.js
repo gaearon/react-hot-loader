@@ -59,18 +59,27 @@ export default function proxyClass(InitialClass) {
     return ProxyClass;
   }
 
-  function __getCurrent() {
+  function getCurrent() {
     return CurrentClass;
   }
 
   update(InitialClass);
 
-  const proxy = {
-    get,
-    update,
-    __getCurrent
-  };
+  const proxy = { get, update };
 
-  ProxyClass.__reactPatchProxy = proxy;
+  Object.defineProperty(proxy, '__getCurrent', {
+    configurable: false,
+    writable: false,
+    enumerable: false,
+    value: getCurrent
+  });
+
+  Object.defineProperty(ProxyClass, '__reactPatchProxy', {
+    configurable: false,
+    writable: false,
+    enumerable: false,
+    value: proxy
+  });
+
   return proxy;
 }
