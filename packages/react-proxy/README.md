@@ -90,7 +90,7 @@ mountedInstances.forEach(forceUpdate);
 * Does not replace bound static methods
 * Replacing a method using [`autobind-decorator`](https://github.com/andreypopp/autobind-decorator) causes its identity to change
 
-## Contibuting
+## Contributing
 
 1. Clone the repository
 2. Run `npm install`
