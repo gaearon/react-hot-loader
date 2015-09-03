@@ -57,6 +57,16 @@ If you've been with us for a while, read **[1.0 release notes and migration guid
 
 Watch the repo to stay tuned!
 
+## Patrons
+
+The work on React Hot Loader, [React Transform](https://github.com/gaearon/babel-plugin-react-transform), [Redux](https://github.com/rackt/redux), and related projects was [funded by the community](https://www.patreon.com/reactdx).  
+Meet some of the outstanding companies that made it possible:
+
+* [Webflow](http://webflow.com/)
+* [Chess iX](http://www.chess-ix.com/)
+
+[See the full list of React Hot Loader patrons.](PATRONS.md)
+
 ## License
 
 MIT (http://www.opensource.org/licenses/mit-license.php)
