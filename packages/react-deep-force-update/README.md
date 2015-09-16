@@ -9,6 +9,8 @@ Force-updates React component tree recursively. **Don’t use this in your appli
 npm install --save react-deep-force-update
 ```
 
+Requires React 0.13 and newer.
+
 ## Usage
 
 ```js
@@ -23,6 +25,10 @@ const instance = React.render(<Something />);
 // define a strict shouldComponentUpdate().
 deepForceUpdate(instance);
 ```
+
+## Credits
+
+This project is based on the [code written by @syranide](https://github.com/gaearon/react-hot-api/commit/b3d6059a17407ef44765814ce06b36716d110041).
 
 ## License
 
