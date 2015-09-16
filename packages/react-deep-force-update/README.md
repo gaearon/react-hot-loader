@@ -1,7 +1,11 @@
 react-deep-force-update
 =========================
 
-Force-updates React component tree recursively. **Don’t use this in your application code!** You’ll only need this if you’re writing a React development tool or library like [React Proxy](https://github.com/gaearon/react-proxy) and you want to enforce a deep update regardless of what component classes have to say.
+Force-updates React component tree recursively.
+
+**Don’t use this in your application code!**
+
+You’ll only need this if you’re writing a React development tool or library like [React Proxy](https://github.com/gaearon/react-proxy) and you want to enforce a deep update regardless of what component classes have to say.
 
 ## Installation
 
