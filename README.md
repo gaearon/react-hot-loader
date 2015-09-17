@@ -1,3 +1,8 @@
+>## Deprecation Notice
+
+>React Hot Loader is going to be phased away in favor of the [React Transform](https://github.com/gaearon/react-transform-boilerplate) family of projects.
+>We will soon have a migration guide and a detailed overview, but in the meantime, feel free to check them out and play with them!
+
 # React Hot Loader [![npm package](https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader)
 
 This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
