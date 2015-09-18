@@ -1,6 +1,10 @@
 react-deep-force-update
 =========================
 
+[![build status](https://img.shields.io/travis/gaearon/react-deep-force-update/master.svg?style=flat-square)](https://travis-ci.org/gaearon/react-deep-force-update) 
+[![npm version](https://img.shields.io/npm/v/react-deep-force-update.svg?style=flat-square)](https://www.npmjs.com/package/react-deep-force-update) 
+[![npm downloads](https://img.shields.io/npm/dm/react-deep-force-update.svg?style=flat-square)](https://www.npmjs.com/package/react-deep-force-update)
+
 Force-updates React component tree recursively.
 
 **Don’t use this in your application code!**
