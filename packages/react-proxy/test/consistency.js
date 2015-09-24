@@ -237,5 +237,20 @@ describe('consistency', () => {
       proxy.update(Baz);
       expect(Proxy.name).toEqual('Bar');
     });
+
+    it('should not crash if new Function() throws', () => {
+      let oldFunction = global.Function;
+      global.Function = function () { throw new Error(); }
+      try {
+        expect(() => {
+          const proxy = createProxy(Bar);
+          const Proxy = proxy.get();
+          const barInstance = renderer.render(<Proxy />);
+          expect(barInstance.constructor).toEqual(Proxy);
+        }).toNotThrow();
+      } finally {
+        global.Function = oldFunction;
+      }
+    });
   });
 });
