@@ -29,6 +29,8 @@ const fixtures = {
     },
 
     Foo: class Foo {
+      static displayName = 'Foo (Custom)';
+
       componentWillUnmount() {
         this.didUnmount = true;
       }
@@ -64,6 +66,8 @@ const fixtures = {
     }),
 
     Foo: React.createClass({
+      displayName: 'Foo (Custom)',
+
       componentWillUnmount() {
         this.didUnmount = true;
       },
@@ -153,6 +157,9 @@ describe('consistency', () => {
 
         proxy.update(Baz);
         expect(barInstance.constructor.displayName).toEqual('Baz');
+
+        proxy.update(Foo);
+        expect(barInstance.constructor.displayName).toEqual('Foo (Custom)');
       });
 
       it('keeps own methods on the prototype', () => {

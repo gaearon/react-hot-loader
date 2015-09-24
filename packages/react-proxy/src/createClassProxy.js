@@ -53,7 +53,7 @@ export default function proxyClass(InitialClass) {
     ProxyClass.prototype.constructor.__proto__ = NextClass;
 
     // Try to infer displayName
-    ProxyClass.displayName = NextClass.name || NextClass.displayName;
+    ProxyClass.displayName = NextClass.displayName || NextClass.name;
 
     // We might have added new methods that need to be auto-bound
     mountedInstances.forEach(bindAutoBindMethods);
