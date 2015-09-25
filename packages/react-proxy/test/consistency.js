@@ -192,7 +192,7 @@ describe('consistency', () => {
         let proxy = createProxy(Bar);
 
         const Proxy = proxy.get();
-        ['doNothing', 'render', 'componentWillUnmount'].forEach(name => {
+        ['doNothing', 'render', 'componentWillUnmount', 'constructor'].forEach(name => {
           const originalMethod = Bar.prototype[name];
           const proxyMethod = Proxy.prototype[name];
           expect(originalMethod.toString()).toEqual(proxyMethod.toString());
@@ -200,7 +200,7 @@ describe('consistency', () => {
 
         const doNothingBeforeItWasDeleted = Proxy.prototype.doNothing;
         proxy.update(Baz);
-        ['render', 'componentWillUnmount'].forEach(name => {
+        ['render', 'componentWillUnmount', 'constructor'].forEach(name => {
           const originalMethod = Baz.prototype[name];
           const proxyMethod = Proxy.prototype[name];
           expect(originalMethod.toString()).toEqual(proxyMethod.toString());

@@ -7,7 +7,8 @@ const RESERVED_STATICS = [
   'name',
   'arguments',
   'caller',
-  'prototype'
+  'prototype',
+  'toString'
 ];
 
 function isEqualDescriptor(a, b) {
@@ -60,6 +61,11 @@ export default function proxyClass(InitialClass) {
   // Point proxy constructor to the proxy prototype
   ProxyClass.prototype = prototypeProxy.get();
 
+  // Proxy toString() to the current constructor
+  ProxyClass.toString = function toString() {
+    return CurrentClass.toString();
+  };
+
   function update(NextClass) {
     if (typeof NextClass !== 'function') {
       throw new Error('Expected a constructor.');
@@ -102,6 +108,10 @@ export default function proxyClass(InitialClass) {
 
     // Remove old static methods and properties
     Object.getOwnPropertyNames(ProxyClass).forEach(key => {
+      if (RESERVED_STATICS.indexOf(key) > -1) {
+        return;
+      }
+
       // Skip statics that exist on the next class
       if (NextClass.hasOwnProperty(key)) {
         return;
