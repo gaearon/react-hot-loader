@@ -2,6 +2,29 @@ import createPrototypeProxy from './createPrototypeProxy';
 import bindAutoBindMethods from './bindAutoBindMethods';
 import deleteUnknownAutoBindMethods from './deleteUnknownAutoBindMethods';
 
+const RESERVED_STATICS = [
+  'length',
+  'name',
+  'arguments',
+  'caller',
+  'prototype'
+];
+
+function isEqualDescriptor(a, b) {
+  if (!a && !b) {
+    return true;
+  }
+  if (!a || !b) {
+    return false;
+  }
+  for (let key in a) {
+    if (a[key] !== b[key]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export default function proxyClass(InitialClass) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
@@ -11,6 +34,13 @@ export default function proxyClass(InitialClass) {
 
   const prototypeProxy = createPrototypeProxy();
   let CurrentClass;
+
+  let staticDescriptors = {};
+  function wasStaticModifiedByUser(key) {
+    // Compare the descriptor with the one we previously set ourselves.
+    const currentDescriptor = Object.getOwnPropertyDescriptor(ProxyClass, key);
+    return !isEqualDescriptor(staticDescriptors[key], currentDescriptor);
+  }
 
   let ProxyClass;
   try {
@@ -49,8 +79,46 @@ export default function proxyClass(InitialClass) {
     // Set up the constructor property so accessing the statics work
     ProxyClass.prototype.constructor = ProxyClass;
 
-    // Naïvely proxy static methods and properties
-    ProxyClass.prototype.constructor.__proto__ = NextClass;
+    // Set up the same prototype for inherited statics
+    ProxyClass.__proto__ = NextClass.__proto__;
+
+    // Copy static methods and properties
+    Object.getOwnPropertyNames(NextClass).forEach(key => {
+      if (RESERVED_STATICS.indexOf(key) > -1) {
+        return;
+      }
+
+      const staticDescriptor = {
+        ...Object.getOwnPropertyDescriptor(NextClass, key),
+        configurable: true
+      };
+
+      // Copy static unless user has redefined it at runtime
+      if (!wasStaticModifiedByUser(key)) {
+        Object.defineProperty(ProxyClass, key, staticDescriptor);
+        staticDescriptors[key] = staticDescriptor;
+      }
+    });
+
+    // Remove old static methods and properties
+    Object.getOwnPropertyNames(ProxyClass).forEach(key => {
+      // Skip statics that exist on the next class
+      if (NextClass.hasOwnProperty(key)) {
+        return;
+      }
+
+      // Skip non-configurable statics
+      const descriptor = Object.getOwnPropertyDescriptor(ProxyClass, key);
+      if (descriptor && !descriptor.configurable) {
+        return;
+      }
+
+      // Delete static unless user has redefined it at runtime
+      if (!wasStaticModifiedByUser(key)) {
+        delete ProxyClass[key];
+        delete staticDescriptors[key];
+      }
+    });
 
     // Try to infer displayName
     ProxyClass.displayName = NextClass.displayName || NextClass.name;

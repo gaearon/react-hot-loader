@@ -158,6 +158,12 @@ describe('static property', () => {
         expect(Proxy.answer).toEqual(42);
       });
 
+      it('is own on proxy class instance', () => {
+        const proxy = createProxy(StaticProperty);
+        const Proxy = proxy.get();
+        expect(Proxy.hasOwnProperty('answer')).toEqual(true);
+      });
+
       it('is changed when not reassigned', () => {
         const proxy = createProxy(StaticProperty);
         const Proxy = proxy.get();
