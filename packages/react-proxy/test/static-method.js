@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect';
-import { createProxy } from '../src';
+import createProxy from '../src';
 
 const fixtures = {
   modern: {
-    StaticMethod: class StaticMethod {
+    StaticMethod: class StaticMethod extends Component {
       static getAnswer() {
         return 42;
       };
@@ -17,7 +17,7 @@ const fixtures = {
       }
     },
 
-    StaticMethodUpdate: class StaticMethodUpdate {
+    StaticMethodUpdate: class StaticMethodUpdate extends Component {
       static getAnswer() {
         return 43;
       };
@@ -29,7 +29,7 @@ const fixtures = {
       }
     },
 
-    StaticMethodRemoval: class StaticMethodRemoval {
+    StaticMethodRemoval: class StaticMethodRemoval extends Component {
       render() {
         return (
           <div>{this.constructor.getAnswer()}</div>
@@ -83,7 +83,7 @@ describe('static method', () => {
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    warnSpy = expect.spyOn(console, 'warn').andCallThrough();
+    warnSpy = expect.spyOn(console, 'error').andCallThrough();
   });
 
   afterEach(() => {

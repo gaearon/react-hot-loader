@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import autobind from './helpers/autobind';
 import expect from 'expect';
-import { createProxy } from '../src';
+import createProxy from '../src';
 
 const fixtures = {
   classic: {
@@ -139,7 +139,7 @@ describe('autobound instance method', () => {
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    warnSpy = expect.spyOn(console, 'warn').andCallThrough();
+    warnSpy = expect.spyOn(console, 'error').andCallThrough();
   });
 
   afterEach(() => {

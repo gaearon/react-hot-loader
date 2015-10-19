@@ -25,12 +25,12 @@
     "babel-loader": "^5.0.0",
     "expect": "^1.9.0",
     "mocha": "^2.2.4",
-    "react": "^0.13.2",
+    "react": "^0.14.0",
+    "react-addons-test-utils": "^0.14.0",
     "rimraf": "^2.4.2",
     "webpack": "1.4.8"
   },
   "dependencies": {
-    "lodash": "^3.7.0",
-    "react-deep-force-update": "^1.0.0"
+    "lodash": "^3.7.0"
   }
 }

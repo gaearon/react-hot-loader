@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect';
-import { createProxy } from '../src';
+import createProxy from '../src';
 
 const fixtures = {
   modern: {
-    StaticDescriptor: class StaticDescriptor {
+    StaticDescriptor: class StaticDescriptor extends Component {
       static get answer() {
         return 42;
       }
@@ -19,7 +19,7 @@ const fixtures = {
       }
     },
 
-    StaticDescriptorUpdate: class StaticDescriptorUpdate {
+    StaticDescriptorUpdate: class StaticDescriptorUpdate extends Component {
       static get answer() {
         return 43;
       }
@@ -33,13 +33,13 @@ const fixtures = {
       }
     },
 
-    StaticDescriptorRemoval: class StaticDescriptorRemoval {
+    StaticDescriptorRemoval: class StaticDescriptorRemoval extends Component {
       render() {
         return <div>{this.constructor.answer}</div>;
       }
     },
 
-    ThrowingAccessors: class ThrowingAccessors {
+    ThrowingAccessors: class ThrowingAccessors extends Component {
       static get something() {
         throw new Error();
       }
@@ -57,7 +57,7 @@ describe('static descriptor', () => {
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    warnSpy = expect.spyOn(console, 'warn').andCallThrough();
+    warnSpy = expect.spyOn(console, 'error').andCallThrough();
   });
 
   afterEach(() => {

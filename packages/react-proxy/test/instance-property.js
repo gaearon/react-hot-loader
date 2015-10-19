@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect';
-import { createProxy } from '../src';
+import createProxy from '../src';
 
 const fixtures = {
   modern: {
-    InstanceProperty: class InstanceProperty {
+    InstanceProperty: class InstanceProperty extends Component {
       answer = 42;
 
       render() {
@@ -13,7 +13,7 @@ const fixtures = {
       }
     },
 
-    InstancePropertyUpdate: class InstancePropertyUpdate {
+    InstancePropertyUpdate: class InstancePropertyUpdate extends Component {
       answer = 43;
 
       render() {
@@ -21,7 +21,7 @@ const fixtures = {
       }
     },
 
-    InstancePropertyRemoval: class InstancePropertyRemoval {
+    InstancePropertyRemoval: class InstancePropertyRemoval extends Component {
       render() {
         return <div>{this.answer}</div>;
       }
@@ -63,7 +63,7 @@ describe('instance property', () => {
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    warnSpy = expect.spyOn(console, 'warn').andCallThrough();
+    warnSpy = expect.spyOn(console, 'error').andCallThrough();
   });
 
   afterEach(() => {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect';
-import { createProxy } from '../src';
+import createProxy from '../src';
 
 const fixtures = {
   modern: {
-    Bar: class Bar {
+    Bar: class Bar extends Component {
       componentWillUnmount() {
         this.didUnmount = true;
       }
@@ -18,7 +18,7 @@ const fixtures = {
       }
     },
 
-    Baz: class Baz {
+    Baz: class Baz extends Component {
       componentWillUnmount() {
         this.didUnmount = true;
       }
@@ -28,7 +28,7 @@ const fixtures = {
       }
     },
 
-    Foo: class Foo {
+    Foo: class Foo extends Component {
       static displayName = 'Foo (Custom)';
 
       componentWillUnmount() {
@@ -85,7 +85,7 @@ describe('consistency', () => {
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    warnSpy = expect.spyOn(console, 'warn').andCallThrough();
+    warnSpy = expect.spyOn(console, 'error').andCallThrough();
   });
 
   afterEach(() => {
@@ -207,28 +207,6 @@ describe('consistency', () => {
         });
         expect(doNothingBeforeItWasDeleted.toString()).toEqual('<method was deleted>');
       });
-    });
-  });
-
-  describe('classic only', () => {
-    const { Bar, Baz } = fixtures.classic;
-
-    it('sets up legacy type property', () => {
-      let proxy = createProxy(Bar);
-      const Proxy = proxy.get();
-      const barInstance = renderer.render(<Proxy />);
-
-      warnSpy.destroy();
-      const localWarnSpy = expect.spyOn(console, 'warn');
-      expect(barInstance.constructor.type).toEqual(Proxy);
-
-      proxy.update(Baz);
-      const BazProxy = proxy.get();
-      expect(Proxy).toEqual(BazProxy);
-      expect(barInstance.constructor.type).toEqual(BazProxy);
-
-      expect(localWarnSpy.calls.length).toBe(1);
-      localWarnSpy.destroy();
     });
   });
 

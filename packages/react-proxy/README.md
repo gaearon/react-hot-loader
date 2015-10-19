@@ -1,15 +1,17 @@
 # React Proxy [![build status](https://img.shields.io/travis/gaearon/react-proxy/master.svg?style=flat-square)](https://travis-ci.org/gaearon/react-proxy) [![npm version](https://img.shields.io/npm/v/react-proxy.svg?style=flat-square)](https://www.npmjs.com/package/react-proxy) 
 
-A generic React component proxy used as the new engine by React Hot Loader. 
+A generic React component proxy useful for hot reloading. 
 
 ## Requirements
 
-* React 0.13+
+* React 0.14+
 
 ## Usage
 
 Intended to be used from hot reloading tools like React Hot Loader.  
 If you’re an application developer, it’s unlikely you’ll want to use it directly.
+
+You will need something like [react-deep-force-update](https://github.com/gaearon/react-deep-force-update) to re-render the component tree after applying the update.
 
 ```js
 import React, { Component } from 'react';
@@ -40,7 +42,10 @@ React.render(<ComponentVersion2 />, rootEl);
 With React Proxy:
 
 ```js
-import { createProxy, getForceUpdate } from 'react-proxy';
+import React from 'react';
+import { render } from 'react-dom';
+import createProxy from 'react-proxy';
+import deepForceUpdate from 'react-deep-force-update';
 
 // Create a proxy object, given the initial React component class.
 const proxy = createProxy(ComponentVersion1);
@@ -50,26 +55,26 @@ const proxy = createProxy(ComponentVersion1);
 const Proxy = proxy.get();
 
 // Render the component (proxy, really).
-React.render(<Proxy />, rootEl);
+const rootInstance = render(<Proxy />, rootEl);
 
 // Point the proxy to the new React component class by calling update().
 // Instances will stay mounted and their state will be intact, but their methods will be updated.
-// The update() method returns an array of mounted instances so we can do something with them.
-const mountedInstances = proxy.update(ComponentVersion2);
+proxy.update(ComponentVersion2);
 
-// React Proxy also provides us with getForceUpdate() method that works even if the component
-// instance doesn't descend from React.Component, and doesn't have a forceUpdate() method.
-const forceUpdate = getForceUpdate(React);
-
-// Force-update all the affected instances!
-mountedInstances.forEach(forceUpdate);
+// Force-update the whole React component tree.
+// Until React provides an official DevTools API to do this,
+// you should keep the reference to the root instance(s).
+deepForceUpdate(rootInstance);
 ```
+
+## React Native
+
+This will work with React Native when [facebook/react-native#2985](https://github.com/facebook/react-native/issues/2985) lands.  
+For now, you can keep using 1.x.
 
 ## Features
 
 * Supports both classic (`React.createClass()`) and modern (ES6 classes) style
-* Supports classes that don’t descend from `React.Component`
-* Supports classes with strict `shouldComponentUpdate`
 * Supports inherited and base classes (although you shouldn’t use inheritance with React)
 * Supports classic `createClass()` autobinding and modern [`autobind-decorator`](https://github.com/andreypopp/autobind-decorator)
 * Contains an extensive test suite to avoid regressions

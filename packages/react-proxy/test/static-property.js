@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect';
-import { createProxy } from '../src';
+import createProxy from '../src';
 
 const fixtures = {
   modern: {
-    StaticProperty: class StaticProperty {
+    StaticProperty: class StaticProperty extends Component {
       static answer = 42;
 
       render() {
@@ -15,7 +15,7 @@ const fixtures = {
       }
     },
 
-    StaticPropertyUpdate: class StaticPropertyUpdate {
+    StaticPropertyUpdate: class StaticPropertyUpdate extends Component {
       static answer = 43;
 
       render() {
@@ -25,7 +25,7 @@ const fixtures = {
       }
     },
 
-    StaticPropertyRemoval: class StaticPropertyRemoval {
+    StaticPropertyRemoval: class StaticPropertyRemoval extends Component {
       render() {
         return (
           <div>{this.constructor.answer}</div>
@@ -33,7 +33,7 @@ const fixtures = {
       }
     },
 
-    PropTypes: class PropTypes {
+    PropTypes: class PropTypes extends Component {
       static propTypes = {
         something: React.PropTypes.number
       };
@@ -47,7 +47,7 @@ const fixtures = {
       };
     },
 
-    PropTypesUpdate: class PropTypesUpdate {
+    PropTypesUpdate: class PropTypesUpdate extends Component {
       static propTypes = {
         something: React.PropTypes.string
       };
@@ -135,7 +135,7 @@ describe('static property', () => {
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    warnSpy = expect.spyOn(console, 'warn').andCallThrough();
+    warnSpy = expect.spyOn(console, 'error').andCallThrough();
   });
 
   afterEach(() => {

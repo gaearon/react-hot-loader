@@ -26,130 +26,132 @@ function isEqualDescriptor(a, b) {
   return true;
 }
 
-export default function proxyClass(InitialClass) {
+export default function proxyClass(InitialComponent) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
-  if (Object.prototype.hasOwnProperty.call(InitialClass, '__reactPatchProxy')) {
-    return InitialClass.__reactPatchProxy;
+  if (Object.prototype.hasOwnProperty.call(InitialComponent, '__reactPatchProxy')) {
+    return InitialComponent.__reactPatchProxy;
   }
 
-  const prototypeProxy = createPrototypeProxy();
-  let CurrentClass;
+  let CurrentComponent;
+  let ProxyComponent;
 
   let staticDescriptors = {};
   function wasStaticModifiedByUser(key) {
     // Compare the descriptor with the one we previously set ourselves.
-    const currentDescriptor = Object.getOwnPropertyDescriptor(ProxyClass, key);
+    const currentDescriptor = Object.getOwnPropertyDescriptor(ProxyComponent, key);
     return !isEqualDescriptor(staticDescriptors[key], currentDescriptor);
   }
 
-  let ProxyClass;
   try {
     // Create a proxy constructor with matching name
-    ProxyClass = new Function('getCurrentClass',
-      `return function ${InitialClass.name || 'ProxyClass'}() {
-        return getCurrentClass().apply(this, arguments);
+    ProxyComponent = new Function('getCurrentComponent',
+      `return function ${InitialComponent.name || 'ProxyComponent'}() {
+         return getCurrentComponent().apply(this, arguments);
       }`
-    )(() => CurrentClass);
+    )(() => CurrentComponent);
   } catch (err) {
     // Some environments may forbid dynamic evaluation
-    ProxyClass = function () {
-      return CurrentClass.apply(this, arguments);
+    ProxyComponent = function () {
+      return CurrentComponent.apply(this, arguments);
     };
   }
 
-  // Point proxy constructor to the proxy prototype
-  ProxyClass.prototype = prototypeProxy.get();
-
   // Proxy toString() to the current constructor
-  ProxyClass.toString = function toString() {
-    return CurrentClass.toString();
+  ProxyComponent.toString = function toString() {
+    return CurrentComponent.toString();
   };
 
-  function update(NextClass) {
-    if (typeof NextClass !== 'function') {
+  let prototypeProxy;
+  if (InitialComponent.prototype && InitialComponent.prototype.isReactComponent) {
+    // Point proxy constructor to the proxy prototype
+    prototypeProxy = createPrototypeProxy();
+    ProxyComponent.prototype = prototypeProxy.get();
+  }
+
+  function update(NextComponent) {
+    if (typeof NextComponent !== 'function') {
       throw new Error('Expected a constructor.');
     }
 
     // Prevent proxy cycles
-    if (Object.prototype.hasOwnProperty.call(NextClass, '__reactPatchProxy')) {
-      return update(NextClass.__reactPatchProxy.__getCurrent());
+    if (Object.prototype.hasOwnProperty.call(NextComponent, '__reactPatchProxy')) {
+      return update(NextComponent.__reactPatchProxy.__getCurrent());
     }
 
     // Save the next constructor so we call it
-    CurrentClass = NextClass;
+    CurrentComponent = NextComponent;
 
-    // Update the prototype proxy with new methods
-    const mountedInstances = prototypeProxy.update(NextClass.prototype);
-
-    // Set up the constructor property so accessing the statics work
-    ProxyClass.prototype.constructor = ProxyClass;
+    // Try to infer displayName
+    ProxyComponent.displayName = NextComponent.displayName || NextComponent.name;
 
     // Set up the same prototype for inherited statics
-    ProxyClass.__proto__ = NextClass.__proto__;
+    ProxyComponent.__proto__ = NextComponent.__proto__;
 
     // Copy static methods and properties
-    Object.getOwnPropertyNames(NextClass).forEach(key => {
+    Object.getOwnPropertyNames(NextComponent).forEach(key => {
       if (RESERVED_STATICS.indexOf(key) > -1) {
         return;
       }
 
       const staticDescriptor = {
-        ...Object.getOwnPropertyDescriptor(NextClass, key),
+        ...Object.getOwnPropertyDescriptor(NextComponent, key),
         configurable: true
       };
 
       // Copy static unless user has redefined it at runtime
       if (!wasStaticModifiedByUser(key)) {
-        Object.defineProperty(ProxyClass, key, staticDescriptor);
+        Object.defineProperty(ProxyComponent, key, staticDescriptor);
         staticDescriptors[key] = staticDescriptor;
       }
     });
 
     // Remove old static methods and properties
-    Object.getOwnPropertyNames(ProxyClass).forEach(key => {
+    Object.getOwnPropertyNames(ProxyComponent).forEach(key => {
       if (RESERVED_STATICS.indexOf(key) > -1) {
         return;
       }
 
       // Skip statics that exist on the next class
-      if (NextClass.hasOwnProperty(key)) {
+      if (NextComponent.hasOwnProperty(key)) {
         return;
       }
 
       // Skip non-configurable statics
-      const descriptor = Object.getOwnPropertyDescriptor(ProxyClass, key);
+      const descriptor = Object.getOwnPropertyDescriptor(ProxyComponent, key);
       if (descriptor && !descriptor.configurable) {
         return;
       }
 
       // Delete static unless user has redefined it at runtime
       if (!wasStaticModifiedByUser(key)) {
-        delete ProxyClass[key];
+        delete ProxyComponent[key];
         delete staticDescriptors[key];
       }
     });
 
-    // Try to infer displayName
-    ProxyClass.displayName = NextClass.displayName || NextClass.name;
+    if (prototypeProxy) {
+      // Update the prototype proxy with new methods
+      const mountedInstances = prototypeProxy.update(NextComponent.prototype);
 
-    // We might have added new methods that need to be auto-bound
-    mountedInstances.forEach(bindAutoBindMethods);
-    mountedInstances.forEach(deleteUnknownAutoBindMethods);
+      // Set up the constructor property so accessing the statics work
+      ProxyComponent.prototype.constructor = ProxyComponent;
 
-    // Let the user take care of redrawing
-    return mountedInstances;
+      // We might have added new methods that need to be auto-bound
+      mountedInstances.forEach(bindAutoBindMethods);
+      mountedInstances.forEach(deleteUnknownAutoBindMethods);
+    }
   };
 
   function get() {
-    return ProxyClass;
+    return ProxyComponent;
   }
 
   function getCurrent() {
-    return CurrentClass;
+    return CurrentComponent;
   }
 
-  update(InitialClass);
+  update(InitialComponent);
 
   const proxy = { get, update };
 
@@ -160,7 +162,7 @@ export default function proxyClass(InitialClass) {
     value: getCurrent
   });
 
-  Object.defineProperty(ProxyClass, '__reactPatchProxy', {
+  Object.defineProperty(ProxyComponent, '__reactPatchProxy', {
     configurable: false,
     writable: false,
     enumerable: false,

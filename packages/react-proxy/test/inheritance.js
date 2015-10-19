@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect';
-import { createProxy, getForceUpdate } from '../src';
+import createProxy from '../src';
 
-class Base1 {
+class Base1 extends Component {
   static getY() {
     return 42;
   }
@@ -17,7 +17,7 @@ class Base1 {
   }
 }
 
-class Base2 {
+class Base2 extends Component {
   static getY() {
     return 43;
   }
@@ -32,14 +32,12 @@ class Base2 {
 }
 
 describe('inheritance', () => {
-  const forceUpdate = getForceUpdate(React);;
-
   let renderer;
   let warnSpy;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    warnSpy = expect.spyOn(console, 'warn').andCallThrough();
+    warnSpy = expect.spyOn(console, 'error').andCallThrough();
   });
 
   afterEach(() => {
@@ -64,7 +62,8 @@ describe('inheritance', () => {
       const instance = renderer.render(<DerivedProxy />);
       expect(renderer.getRenderOutput().props.children).toEqual(420);
 
-      baseProxy.update(Base2).forEach(forceUpdate);
+      baseProxy.update(Base2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual(430);
     });
 
@@ -84,7 +83,8 @@ describe('inheritance', () => {
       const instance = renderer.render(<DerivedProxy />);
       expect(renderer.getRenderOutput().props.children).toEqual(420);
 
-      baseProxy.update(Base2).forEach(forceUpdate);
+      baseProxy.update(Base2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual(430);
     });
 
@@ -101,7 +101,8 @@ describe('inheritance', () => {
       const instance = renderer.render(<Derived />);
       expect(renderer.getRenderOutput().props.children).toEqual(420);
 
-      baseProxy.update(Base2).forEach(forceUpdate);
+      baseProxy.update(Base2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual(430);
     });
 
@@ -118,7 +119,8 @@ describe('inheritance', () => {
       const instance = renderer.render(<Derived />);
       expect(renderer.getRenderOutput().props.children).toEqual(420);
 
-      baseProxy.update(Base2).forEach(forceUpdate);
+      baseProxy.update(Base2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual(430);
     });
 
@@ -144,7 +146,8 @@ describe('inheritance', () => {
       const instance = renderer.render(<DerivedProxy />);
       expect(renderer.getRenderOutput().props.children).toEqual(420);
 
-      derivedProxy.update(Derived2).forEach(forceUpdate);
+      derivedProxy.update(Derived2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual(4200);
     });
 
@@ -170,7 +173,8 @@ describe('inheritance', () => {
       const instance = renderer.render(<DerivedProxy />);
       expect(renderer.getRenderOutput().props.children).toEqual(420);
 
-      derivedProxy.update(Derived2).forEach(forceUpdate);
+      derivedProxy.update(Derived2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual(4200);
     });
 
@@ -193,7 +197,8 @@ describe('inheritance', () => {
       const instance = renderer.render(<DerivedProxy />);
       expect(renderer.getRenderOutput().props.children).toEqual(420);
 
-      derivedProxy.update(Derived2).forEach(forceUpdate);
+      derivedProxy.update(Derived2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual(4200);
     });
 
@@ -216,7 +221,8 @@ describe('inheritance', () => {
       const instance = renderer.render(<DerivedProxy />);
       expect(renderer.getRenderOutput().props.children).toEqual(420);
 
-      derivedProxy.update(Derived2).forEach(forceUpdate);
+      derivedProxy.update(Derived2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual(4200);
     });
 
@@ -257,22 +263,28 @@ describe('inheritance', () => {
       const instance = renderer.render(<DerivedProxy />);
       expect(renderer.getRenderOutput().props.children).toEqual('420 lol');
 
-      baseProxy.update(Base2).forEach(forceUpdate);
+      baseProxy.update(Base2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('430 lol');
 
-      middleProxy.update(Middle2).forEach(forceUpdate);
+      middleProxy.update(Middle2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('4300 lol');
 
-      derivedProxy.update(Derived2).forEach(forceUpdate);
+      derivedProxy.update(Derived2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('4300 nice');
 
-      derivedProxy.update(Derived1).forEach(forceUpdate);
+      derivedProxy.update(Derived1);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('4300 lol');
 
-      middleProxy.update(Middle1).forEach(forceUpdate);
+      middleProxy.update(Middle1);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('430 lol');
 
-      baseProxy.update(Base1).forEach(forceUpdate);
+      baseProxy.update(Base1);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('420 lol');
     });
 
@@ -313,22 +325,28 @@ describe('inheritance', () => {
       const instance = renderer.render(<DerivedProxy />);
       expect(renderer.getRenderOutput().props.children).toEqual('420 lol');
 
-      baseProxy.update(Base2).forEach(forceUpdate);
+      baseProxy.update(Base2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('430 lol');
 
-      middleProxy.update(Middle2).forEach(forceUpdate);
+      middleProxy.update(Middle2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('4300 lol');
 
-      derivedProxy.update(Derived2).forEach(forceUpdate);
+      derivedProxy.update(Derived2);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('4300 nice');
 
-      derivedProxy.update(Derived1).forEach(forceUpdate);
+      derivedProxy.update(Derived1);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('4300 lol');
 
-      middleProxy.update(Middle1).forEach(forceUpdate);
+      middleProxy.update(Middle1);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('430 lol');
 
-      baseProxy.update(Base1).forEach(forceUpdate);
+      baseProxy.update(Base1);
+      instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('420 lol');
     });
   });

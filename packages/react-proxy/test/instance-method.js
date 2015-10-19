@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect';
-import { createProxy } from '../src';
+import createProxy from '../src';
 
 const fixtures = {
   modern: {
@@ -139,7 +139,7 @@ describe('instance method', () => {
 
   beforeEach(() => {
     renderer = createShallowRenderer();
-    warnSpy = expect.spyOn(console, 'warn').andCallThrough();
+    warnSpy = expect.spyOn(console, 'error').andCallThrough();
   });
 
   afterEach(() => {
@@ -187,7 +187,7 @@ describe('instance method', () => {
         const instance = renderer.render(<Proxy />);
 
         warnSpy.destroy();
-        const localWarnSpy = expect.spyOn(console, 'warn');
+        const localWarnSpy = expect.spyOn(console, 'error');
 
         instance.increment = instance.increment.bind(instance);
 
@@ -215,7 +215,7 @@ describe('instance method', () => {
         const instance = renderer.render(<Proxy />);
 
         warnSpy.destroy();
-        const localWarnSpy = expect.spyOn(console, 'warn');
+        const localWarnSpy = expect.spyOn(console, 'error');
 
         Object.defineProperty(instance, 'increment', {
           value: instance.increment.bind(instance)

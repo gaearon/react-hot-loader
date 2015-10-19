@@ -102,7 +102,7 @@ ReactShallowRenderer.prototype._render = function(element, transaction, context)
 
     if (this._callComponentDidMount) {
       var component = instance.getPublicInstance();
-      if (component.componentDidMount) {
+      if (component && component.componentDidMount) {
         component.componentDidMount();
       }
     }
