@@ -9,7 +9,7 @@ Force-updates React component tree recursively.
 
 **Don’t use this in your application code!**
 
-You’ll only need this if you’re writing a React development tool or library like [React Proxy](https://github.com/gaearon/react-proxy) and you want to enforce a deep update regardless of what component classes have to say.
+You’ll only need this if you’re writing a React development tool and you want to enforce a deep update regardless of what component classes have to say.
 
 ## Installation
 
@@ -22,16 +22,22 @@ Requires React 0.14 and newer.
 ## Usage
 
 ```js
-import React from 'react'; // or 'react-native'
+import React from 'react';
+import { render } from 'react-dom';
 import deepForceUpdate from 'react-deep-force-update';
 
-const instance = React.render(<Something />);
+const instance = render(<Something />);
 
 // Will force-update the whole rendered tree
 // even if components in the middle of it
 // define a strict shouldComponentUpdate().
 deepForceUpdate(instance);
 ```
+
+## React Native
+
+This will work with React Native when [facebook/react-native#2985](https://github.com/facebook/react-native/issues/2985) lands.  
+For now, you can keep using 1.x.
 
 ## Credits
 
