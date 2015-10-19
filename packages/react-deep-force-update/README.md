@@ -17,15 +17,14 @@ You’ll only need this if you’re writing a React development tool or library 
 npm install --save react-deep-force-update
 ```
 
-Requires React 0.13 and newer.
+Requires React 0.14 and newer.
 
 ## Usage
 
 ```js
 import React from 'react'; // or 'react-native'
-import getDeepForceUpdate from 'react-deep-force-update';
+import deepForceUpdate from 'react-deep-force-update';
 
-const deepForceUpdate = getDeepForceUpdate(React);
 const instance = React.render(<Something />);
 
 // Will force-update the whole rendered tree

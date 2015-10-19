@@ -7,7 +7,7 @@
     "clean": "rimraf lib",
     "build": "babel src --out-dir lib",
     "lint": "eslint src test",
-    "test": "mocha --compilers js:babel/register --recursive",
+    "test": "mocha --compilers js:babel/register --recursive --require ./test/setup.js",
     "test:watch": "npm run test -- --watch",
     "prepublish": "npm run lint && npm run test && npm run clean && npm run build"
   },
@@ -32,10 +32,10 @@
     "eslint-config-airbnb": "0.0.6",
     "eslint-plugin-react": "^2.3.0",
     "expect": "^1.6.0",
+    "jsdom": "^5.6.1",
     "mocha": "^2.2.5",
-    "mocha-jsdom": "^1.0.0",
-    "react": "^0.14.0-rc1",
-    "react-addons-test-utils": "^0.14.0-rc1",
+    "react": "^0.14.0",
+    "react-addons-test-utils": "^0.14.0",
     "rimraf": "^2.3.4"
   }
 }

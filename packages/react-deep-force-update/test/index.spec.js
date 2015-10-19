@@ -1,8 +1,7 @@
-import jsdom from 'mocha-jsdom';
 import React, { Component } from 'react';
 import { renderIntoDocument } from 'react-addons-test-utils';
 import expect from 'expect';
-import getForceUpdate from '../src';
+import deepForceUpdate from '../src';
 
 let calls = 0;
 
@@ -64,14 +63,11 @@ class PureWrapperStrict extends Component {
 }
 
 describe('force update', () => {
-  jsdom();
-  const forceUpdate = getForceUpdate(React);
-
   function expectShallowUpdate(Type) {
     calls = 0;
     const instance = renderIntoDocument(<Type />);
     expect(calls).toEqual(1);
-    forceUpdate(instance);
+    deepForceUpdate(instance);
     expect(calls).toEqual(2);
   }
 
@@ -99,7 +95,7 @@ describe('force update', () => {
       </TypeA>
     );
     expect(calls).toEqual(6);
-    forceUpdate(instance);
+    deepForceUpdate(instance);
     expect(calls).toEqual(12);
   }
 

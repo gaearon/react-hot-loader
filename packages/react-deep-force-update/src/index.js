@@ -26,17 +26,21 @@ function setPendingForceUpdate(internalInstance) {
   }
 }
 
-function forceUpdateIfPending(internalInstance, React) {
+function forceUpdateIfPending(internalInstance) {
   if (internalInstance._pendingForceUpdate === true) {
     const publicInstance = internalInstance._instance;
-    React.Component.prototype.forceUpdate.call(publicInstance);
+    const { updater } = publicInstance;
+
+    if (typeof publicInstance.forceUpdate === 'function') {
+      publicInstance.forceUpdate();
+    } else if (updater && typeof updater.enqueueForceUpdate === 'function') {
+      updater.enqueueForceUpdate(publicInstance);
+    }
   }
 }
 
-export default function getForceUpdate(React) {
-  return instance => {
-    const internalInstance = instance._reactInternalInstance;
-    traverseRenderedChildren(internalInstance, setPendingForceUpdate);
-    traverseRenderedChildren(internalInstance, forceUpdateIfPending, React);
-  };
+export default function deepForceUpdate(instance) {
+  const internalInstance = instance._reactInternalInstance;
+  traverseRenderedChildren(internalInstance, setPendingForceUpdate);
+  traverseRenderedChildren(internalInstance, forceUpdateIfPending);
 }
