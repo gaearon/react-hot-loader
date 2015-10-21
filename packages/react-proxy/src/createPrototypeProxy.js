@@ -116,7 +116,6 @@ export default function createPrototypeProxy() {
     // Find changed property names
     const currentNames = Object.getOwnPropertyNames(current);
     const previousName = Object.getOwnPropertyNames(proxy);
-    const addedNames = difference(currentNames, previousName);
     const removedNames = difference(previousName, currentNames);
 
     // Remove properties and methods that are no longer there
