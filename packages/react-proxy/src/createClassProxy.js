@@ -1,6 +1,7 @@
 import createPrototypeProxy from './createPrototypeProxy';
 import bindAutoBindMethods from './bindAutoBindMethods';
 import deleteUnknownAutoBindMethods from './deleteUnknownAutoBindMethods';
+import supportsProtoAssignment from './supportsProtoAssignment';
 
 const RESERVED_STATICS = [
   'length',
@@ -26,7 +27,7 @@ function isEqualDescriptor(a, b) {
   return true;
 }
 
-export default function proxyClass(InitialComponent) {
+function proxyClass(InitialComponent) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
   if (Object.prototype.hasOwnProperty.call(InitialComponent, '__reactPatchProxy')) {
@@ -170,4 +171,21 @@ export default function proxyClass(InitialComponent) {
   });
 
   return proxy;
+}
+
+function createFallback(Component) {
+  let CurrentComponent = Component;
+
+  return {
+    get() {
+      return CurrentComponent;
+    },
+    update(NextComponent) {
+      CurrentComponent = NextComponent;
+    }
+  };
+}
+
+export default function createClassProxy(Component) {
+  return supportsProtoAssignment(Component) ? proxyClass(Component) : createFallback(Component);
 }
