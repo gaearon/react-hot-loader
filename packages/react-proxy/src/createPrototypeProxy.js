@@ -98,7 +98,7 @@ export default function createPrototypeProxy() {
 
     let __reactAutoBindMap = {};
     for (let name in current.__reactAutoBindMap) {
-      if (current.__reactAutoBindMap.hasOwnProperty(name)) {
+      if (typeof proxy[name] === 'function' && current.__reactAutoBindMap.hasOwnProperty(name)) {
         __reactAutoBindMap[name] = proxy[name];
       }
     }
