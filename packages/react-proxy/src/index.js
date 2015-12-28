@@ -1,6 +1,6 @@
 import supportsProtoAssignment from './supportsProtoAssignment';
 
-if (!supportsProtoAssignment({})) {
+if (!supportsProtoAssignment()) {
   console.warn(
     'This JavaScript environment does not support __proto__. ' +
     'This means that react-proxy is unable to proxy React components. ' +
