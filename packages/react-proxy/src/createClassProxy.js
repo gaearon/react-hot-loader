@@ -187,5 +187,7 @@ function createFallback(Component) {
 }
 
 export default function createClassProxy(Component) {
-  return supportsProtoAssignment(Component) ? proxyClass(Component) : createFallback(Component);
+  return supportsProtoAssignment(Component) ?
+    proxyClass(Component) :
+    createFallback(Component);
 }
