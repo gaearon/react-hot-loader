@@ -11,6 +11,10 @@
     "test:watch": "npm run test -- --watch",
     "prepublish": "npm run lint && npm run test && npm run clean && npm run build"
   },
+  "files": [
+    "lib",
+    "src"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/gaearon/react-deep-force-update.git"
