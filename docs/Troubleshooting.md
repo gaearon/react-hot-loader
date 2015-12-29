@@ -117,6 +117,14 @@ If you have several entry points in `entry` configuration option, make sure `web
   }
 ```
 
+You will have to include "client.js" in your host page for the hot updates to work.  For Example: 
+
+```html
+  <script src="/static/bundle-client.js"></script>
+  <script src="/static/bundle-app.js"></script>
+  <script src="/static/bundle-entry.js"></script>
+```
+
 The entry points that don't have `webpack/hot/only-dev-server` (or `webpack/hot/dev-server` if you fancy occasional reloads) won't know how to apply hot updates.
 
 #### Syntax error: Unexpected token <
