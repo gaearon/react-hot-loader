@@ -117,7 +117,7 @@ If you have several entry points in `entry` configuration option, make sure `web
   }
 ```
 
-You will have to include "client.js" in your host page for the hot updates to work.  For Example: 
+You will have to include "client.js" in your host page for the hot updates to work. For example: 
 
 ```html
   <script src="/static/bundle-client.js"></script>
