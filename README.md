@@ -5,7 +5,7 @@
 
 # React Hot Loader [![npm package](https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader)
 
-This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
+This is a **stable for daily use in development** implementation of [React live code editing](https://www.youtube.com/watch?v=pw4fKkyPPg8).
 
 * Get inspired by a **[demo video](https://vimeo.com/100010922)** and **[try the live demo](http://gaearon.github.io/react-hot-loader/)**.
 
@@ -15,7 +15,7 @@ This is a **stable for daily use in development** implementation of [React live 
 
 ## The Talk
 
-React Hot Loader was demoed together with **[Redux](https://github.com/gaearon/redux)** at React Europe.  
+React Hot Loader was demoed together with **[Redux](https://github.com/rackt/redux)** at React Europe.  
 Watch **[Dan Abramov's talk on Hot Reloading with Time Travel](https://www.youtube.com/watch?v=xsSnOQynTHs).**
 
 ## Installation
@@ -38,7 +38,7 @@ If you'd rather stay with **Browserify**, check out **[LiveReactload](https://gi
 
 ## Flux
 
-**[Redux](https://github.com/gaearon/redux)** is a Flux implementation that supports hot reloading of everything out of the box. Read **[The Evolution of Flux Frameworks](https://medium.com/@dan_abramov/the-evolution-of-flux-frameworks-6c16ad26bb31)** for some context around its creation.
+**[Redux](https://github.com/rackt/redux)** is a Flux implementation that supports hot reloading of everything out of the box. Read **[The Evolution of Flux Frameworks](https://medium.com/@dan_abramov/the-evolution-of-flux-frameworks-6c16ad26bb31)** for some context around its creation.
 
 ## React Native
 
@@ -67,11 +67,11 @@ Watch the repo to stay tuned!
 The work on React Hot Loader, [React Transform](https://github.com/gaearon/babel-plugin-react-transform), [Redux](https://github.com/rackt/redux), and related projects was [funded by the community](https://www.patreon.com/reactdx).  
 Meet some of the outstanding companies that made it possible:
 
-* [Webflow](http://webflow.com/)
+* [Webflow](https://webflow.com/)
 * [Chess iX](http://www.chess-ix.com/)
 
 [See the full list of React Hot Loader patrons.](PATRONS.md)
 
 ## License
 
-MIT (http://www.opensource.org/licenses/mit-license.php)
+MIT (http://opensource.org/licenses/mit-license.php)
