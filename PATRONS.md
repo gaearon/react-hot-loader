@@ -3,7 +3,7 @@
 The work on React Hot Loader, [React Transform](https://github.com/gaearon/babel-plugin-react-transform), [Redux](https://github.com/rackt/redux), and related projects was [funded by the community](https://www.patreon.com/reactdx).  
 Meet some of the outstanding companies and individuals that made it possible:
 
-* [Webflow](https://webflow.com/)
+* [Webflow](https://github.com/webflow)
 * [Chess iX](http://www.chess-ix.com/)
 * [Herman J. Radtke III](http://hermanradtke.com)
 * [Ken Wheeler](http://kenwheeler.github.io/)
