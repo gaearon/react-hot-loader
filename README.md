@@ -67,7 +67,7 @@ Watch the repo to stay tuned!
 The work on React Hot Loader, [React Transform](https://github.com/gaearon/babel-plugin-react-transform), [Redux](https://github.com/rackt/redux), and related projects was [funded by the community](https://www.patreon.com/reactdx).  
 Meet some of the outstanding companies that made it possible:
 
-* [Webflow](http://webflow.com/)
+* [Webflow](https://github.com/webflow)
 * [Chess iX](http://www.chess-ix.com/)
 
 [See the full list of React Hot Loader patrons.](PATRONS.md)
