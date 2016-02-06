@@ -44,17 +44,34 @@ function proxyClass(InitialComponent) {
     return !isEqualDescriptor(staticDescriptors[key], currentDescriptor);
   }
 
+  function instantiate(factory, context, params) {
+    const component = factory()
+
+    try {
+      return component.apply(context, params);
+    } catch (err) {
+      const instance = new component(...params);
+
+      Object.keys(instance).forEach(key => {
+        if (RESERVED_STATICS.indexOf(key) > -1) {
+          return;
+        }
+        context[key] = instance[key];
+      })
+    }
+  }
+
   try {
     // Create a proxy constructor with matching name
-    ProxyComponent = new Function('getCurrentComponent',
+    ProxyComponent = new Function('factory', 'instantiate',
       `return function ${InitialComponent.name || 'ProxyComponent'}() {
-         return getCurrentComponent().apply(this, arguments);
+         return instantiate(factory, this, arguments);
       }`
-    )(() => CurrentComponent);
+    )(() => CurrentComponent, instantiate);
   } catch (err) {
     // Some environments may forbid dynamic evaluation
     ProxyComponent = function () {
-      return CurrentComponent.apply(this, arguments);
+      return instantiate(() => CurrentComponent, this, arguments);
     };
   }
 
