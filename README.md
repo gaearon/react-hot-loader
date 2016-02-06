@@ -68,7 +68,7 @@ The work on React Hot Loader, [React Transform](https://github.com/gaearon/babel
 Meet some of the outstanding companies that made it possible:
 
 * [Webflow](https://github.com/webflow)
-* [Chess iX](http://www.chess-ix.com/)
+* [Ximedes](https://www.ximedes.com/)
 
 [See the full list of React Hot Loader patrons.](PATRONS.md)
 
