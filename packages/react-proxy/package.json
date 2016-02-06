@@ -6,6 +6,8 @@
   "scripts": {
     "build": "rimraf modules dist && webpack && babel src --out-dir modules",
     "test": "mocha --compilers js:babel-core/register --recursive ./test",
+    "test:harmony": "NODE_ENV=harmony npm run test",
+    "test:harmony:watch": "NODE_ENV=harmony npm run test -- --watch",
     "test:watch": "npm run test -- --watch",
     "prepublish": "npm run build"
   },
