@@ -45,12 +45,34 @@ function proxyClass(InitialComponent) {
   }
 
   function instantiate(factory, context, params) {
-    const component = factory()
+    const component = factory();
 
     try {
       return component.apply(context, params);
     } catch (err) {
-      const instance = new component(...params);
+      // Native ES6 class instantiation
+      let instance;
+
+      switch (params.length) {
+        case 0:
+          // No params
+          instance = new component();
+        break;
+        case 1:
+          // props
+          instance = new component(params[0]);
+        break;
+        case 2:
+          // props, context
+          instance = new component(params[0], params[1]);
+        break;
+        case 3:
+          // props, context, updater
+          instance = new component(params[0], params[1], params[2]);
+        break;
+        default:
+          throw new Error('Proxy not support more than 3 constructor parameters.')
+      }
 
       Object.keys(instance).forEach(key => {
         if (RESERVED_STATICS.indexOf(key) > -1) {
