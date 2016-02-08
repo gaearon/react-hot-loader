@@ -71,7 +71,7 @@ function proxyClass(InitialComponent) {
           instance = new component(params[0], params[1], params[2]);
         break;
         default:
-          throw new Error('Proxy not support more than 3 constructor parameters.')
+          throw new Error('Proxy does not support more than 3 constructor parameters.')
       }
 
       Object.keys(instance).forEach(key => {

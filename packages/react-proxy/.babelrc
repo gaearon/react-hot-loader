@@ -1,23 +1,30 @@
 {
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-export-extensions",
+    "transform-decorators-legacy",
+    "transform-object-rest-spread",
+    "transform-es2015-literals",
+    "transform-class-properties",
+    "transform-es2015-shorthand-properties",
+    "check-es2015-constants",
+    "transform-es2015-spread",
+    "transform-es2015-parameters",
+    "transform-es2015-destructuring",
+    "transform-es2015-modules-commonjs",
+    "transform-react-jsx",
+    "transform-flow-strip-types",
+    "transform-react-display-name",
+    "syntax-jsx"
+  ],
   "env": {
     "development": {
-      "plugins": ["transform-decorators-legacy"],
-      "presets": ["es2015", "stage-0", "react"]
-    },
-    "harmony": {
-      "presets": ["react"],
       "plugins": [
-        "transform-export-extensions",
+        "transform-es2015-template-literals",
+        "transform-es2015-arrow-functions",
         "transform-decorators-legacy",
-        "transform-object-rest-spread",
-        "transform-es2015-literals",
         "transform-class-properties",
-        "transform-es2015-shorthand-properties",
-        "check-es2015-constants",
-        "transform-es2015-spread",
-        "transform-es2015-parameters",
-        "transform-es2015-destructuring",
-        "transform-es2015-modules-commonjs"
+        "transform-es2015-classes"
       ]
     }
   }
