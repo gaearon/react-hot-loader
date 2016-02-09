@@ -225,7 +225,15 @@ describe('consistency', () => {
 
     it('should not crash if new Function() throws', () => {
       let oldFunction = global.Function;
-      global.Function = function () { throw new Error(); }
+
+      global.Function = class extends oldFunction {
+        constructor () {
+          super();
+
+          throw new Error();
+        }
+      };
+
       try {
         expect(() => {
           const proxy = createProxy(Bar);
