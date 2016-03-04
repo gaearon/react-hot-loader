@@ -5,14 +5,11 @@
   "main": "modules/index.js",
   "scripts": {
     "build": "rimraf modules dist && webpack && babel src --out-dir modules",
-    "test": "npm run test:babel-classes && npm run test:native-classes",
-    "test:no-env": "mocha --compilers js:babel-core/register --recursive ./test",
-    "test:babel-classes": "BABEL_ENV=babel-classes npm run test:no-env",
-    "test:babel-classes:watch": "BABEL_ENV=babel-classes npm run test:no-env -- --watch",
-    "test:native-classes": "BABEL_ENV=native-classes npm run test:no-env",
-    "test:native-classes:watch": "nBABEL_ENV=native-classes npm run test:no-env -- --watch",
-    "test:watch": "npm run test:babel-classes:watch",
-    "prepublish": "npm run build && npm run test"
+    "test": "mocha --compilers js:babel-core/register --recursive ./test",
+    "test:harmony": "NODE_ENV=harmony npm run test",
+    "test:harmony:watch": "NODE_ENV=harmony npm run test -- --watch",
+    "test:watch": "npm run test -- --watch",
+    "prepublish": "npm run build"
   },
   "files": [
     "dist",
