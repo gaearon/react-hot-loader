@@ -3,3 +3,5 @@ node_js:
   - "iojs-2"
 script:
   - npm test
+  - npm test:harmony
+  - npm run build

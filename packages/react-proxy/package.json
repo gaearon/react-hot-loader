@@ -9,7 +9,7 @@
     "test:harmony": "NODE_ENV=harmony npm run test",
     "test:harmony:watch": "NODE_ENV=harmony npm run test -- --watch",
     "test:watch": "npm run test -- --watch",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build && npm test && npm run test:harmony"
   },
   "files": [
     "dist",
