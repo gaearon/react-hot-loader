@@ -2,7 +2,6 @@
   "plugins": [
     "transform-decorators-legacy",
     "transform-export-extensions",
-    "transform-decorators-legacy",
     "transform-object-rest-spread",
     "transform-es2015-literals",
     "transform-class-properties",
@@ -18,7 +17,7 @@
     "syntax-jsx"
   ],
   "env": {
-    "development": {
+    "babel-classes": {
       "plugins": [
         "transform-es2015-template-literals",
         "transform-es2015-arrow-functions",
