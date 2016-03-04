@@ -1,6 +1,6 @@
 {
   "env": {
-    "babel-classes": {
+    "babel-es2015": {
       "plugins": [
         "transform-decorators-legacy",
         "transform-export-extensions",
@@ -25,7 +25,7 @@
         "transform-es2015-classes"
       ]
     },
-    "native-classes": {
+    "native-es2015": {
       "plugins": [
         "transform-decorators-legacy",
         "transform-export-extensions",
