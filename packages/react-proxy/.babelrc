@@ -1,30 +1,48 @@
 {
-  "plugins": [
-    "transform-decorators-legacy",
-    "transform-export-extensions",
-    "transform-decorators-legacy",
-    "transform-object-rest-spread",
-    "transform-es2015-literals",
-    "transform-class-properties",
-    "transform-es2015-shorthand-properties",
-    "check-es2015-constants",
-    "transform-es2015-spread",
-    "transform-es2015-parameters",
-    "transform-es2015-destructuring",
-    "transform-es2015-modules-commonjs",
-    "transform-react-jsx",
-    "transform-flow-strip-types",
-    "transform-react-display-name",
-    "syntax-jsx"
-  ],
   "env": {
-    "development": {
+    "babel-classes": {
       "plugins": [
+        "transform-decorators-legacy",
+        "transform-export-extensions",
+        "transform-decorators-legacy",
+        "transform-object-rest-spread",
+        "transform-es2015-literals",
+        "transform-class-properties",
+        "transform-es2015-shorthand-properties",
+        "check-es2015-constants",
+        "transform-es2015-spread",
+        "transform-es2015-parameters",
+        "transform-es2015-destructuring",
+        "transform-es2015-modules-commonjs",
+        "transform-react-jsx",
+        "transform-flow-strip-types",
+        "transform-react-display-name",
+        "syntax-jsx",
         "transform-es2015-template-literals",
         "transform-es2015-arrow-functions",
         "transform-decorators-legacy",
         "transform-class-properties",
         "transform-es2015-classes"
+      ]
+    },
+    "native-classes": {
+      "plugins": [
+        "transform-decorators-legacy",
+        "transform-export-extensions",
+        "transform-decorators-legacy",
+        "transform-object-rest-spread",
+        "transform-es2015-literals",
+        "transform-class-properties",
+        "transform-es2015-shorthand-properties",
+        "check-es2015-constants",
+        "transform-es2015-spread",
+        "transform-es2015-parameters",
+        "transform-es2015-destructuring",
+        "transform-es2015-modules-commonjs",
+        "transform-react-jsx",
+        "transform-flow-strip-types",
+        "transform-react-display-name",
+        "syntax-jsx"
       ]
     }
   }
