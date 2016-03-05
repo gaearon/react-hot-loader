@@ -1,5 +1,10 @@
 function shouldDeleteClassicInstanceMethod(component, name) {
-  if (component.__reactAutoBindMap.hasOwnProperty(name)) {
+  if (component.__reactAutoBindMap && component.__reactAutoBindMap.hasOwnProperty(name)) {
+    // It's a known autobound function, keep it
+    return false;
+  }
+
+  if (component.__reactAutoBindPairs && component.__reactAutoBindPairs.indexOf(name) >= 0) {
     // It's a known autobound function, keep it
     return false;
   }
@@ -40,7 +45,7 @@ function shouldDeleteInstanceMethod(component, name) {
     return;
   }
 
-  if (component.__reactAutoBindMap) {
+  if (component.__reactAutoBindMap || component.__reactAutoBindPairs) {
     // Classic
     return shouldDeleteClassicInstanceMethod(component, name);
   } else {
