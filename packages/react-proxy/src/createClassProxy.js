@@ -1,3 +1,4 @@
+import WeakMap from 'core-js/library/es6/weak-map';
 import createPrototypeProxy from './createPrototypeProxy';
 import bindAutoBindMethods from './bindAutoBindMethods';
 import deleteUnknownAutoBindMethods from './deleteUnknownAutoBindMethods';
@@ -27,11 +28,13 @@ function isEqualDescriptor(a, b) {
   return true;
 }
 
+let allProxies = new WeakMap();
+
 function proxyClass(InitialComponent) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
-  if (Object.prototype.hasOwnProperty.call(InitialComponent, '__reactPatchProxy')) {
-    return InitialComponent.__reactPatchProxy;
+  if (allProxies.has(InitialComponent)) {
+    return allProxies.get(InitialComponent);
   }
 
   let CurrentComponent;
@@ -94,8 +97,8 @@ function proxyClass(InitialComponent) {
     }
 
     // Prevent proxy cycles
-    if (Object.prototype.hasOwnProperty.call(NextComponent, '__reactPatchProxy')) {
-      return update(NextComponent.__reactPatchProxy.__getCurrent());
+    if (allProxies.has(NextComponent)) {
+      return update(allProxies.get(NextComponent).__getCurrent());
     }
 
     // Save the next constructor so we call it
@@ -173,19 +176,13 @@ function proxyClass(InitialComponent) {
   update(InitialComponent);
 
   const proxy = { get, update };
+  allProxies.set(ProxyComponent, proxy);
 
   Object.defineProperty(proxy, '__getCurrent', {
     configurable: false,
     writable: false,
     enumerable: false,
     value: getCurrent
-  });
-
-  Object.defineProperty(ProxyComponent, '__reactPatchProxy', {
-    configurable: false,
-    writable: false,
-    enumerable: false,
-    value: proxy
   });
 
   return proxy;

@@ -117,6 +117,36 @@ describe('consistency', () => {
         expect(proxyTwice).toBe(proxy);
       });
 
+      /*
+       * https://github.com/reactjs/react-redux/issues/163#issuecomment-192556637
+       */
+      it('avoid false positives when statics are hoisted', () => {
+        const fooProxy = createProxy(Foo);
+        const FooProxy = fooProxy.get();
+
+        class Stuff extends Component {
+          render() {}
+        }
+
+        const KNOWN_STATICS = {
+          name: true,
+          length: true,
+          prototype: true,
+          caller: true,
+          arguments: true,
+          arity: true,
+          type: true
+        };
+        Object.getOwnPropertyNames(FooProxy).forEach(key => {
+          if (!KNOWN_STATICS[key]) {
+            Stuff[key] = FooProxy[key];
+          }
+        });
+
+        const stuffProxy = createProxy(Stuff);
+        expect(stuffProxy).toNotBe(fooProxy);
+      });
+
       it('prevents recursive proxy cycle', () => {
         const proxy = createProxy(Bar);
         const Proxy = proxy.get();
