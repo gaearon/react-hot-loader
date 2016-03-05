@@ -9,4 +9,5 @@ if (!supportsProtoAssignment()) {
   );
 }
 
-export default from './createClassProxy';
+import createClassProxy from './createClassProxy';
+export default createClassProxy;
