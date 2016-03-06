@@ -67,11 +67,6 @@ proxy.update(ComponentVersion2);
 deepForceUpdate(rootInstance);
 ```
 
-## React Native
-
-This will work with React Native when [facebook/react-native#2985](https://github.com/facebook/react-native/issues/2985) lands.  
-For now, you can keep using 1.x.
-
 ## Features
 
 * Supports both classic (`React.createClass()`) and modern (ES6 classes) style
