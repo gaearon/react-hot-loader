@@ -1,5 +1,5 @@
-import assign from 'lodash/object/assign';
-import difference from 'lodash/array/difference';
+import assign from 'lodash/assign';
+import difference from 'lodash/difference';
 
 export default function createPrototypeProxy() {
   let proxy = {};

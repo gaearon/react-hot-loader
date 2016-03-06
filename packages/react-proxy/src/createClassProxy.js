@@ -1,4 +1,4 @@
-import WeakMap from 'core-js/library/es6/weak-map';
+import find from 'lodash/find';
 import createPrototypeProxy from './createPrototypeProxy';
 import bindAutoBindMethods from './bindAutoBindMethods';
 import deleteUnknownAutoBindMethods from './deleteUnknownAutoBindMethods';
@@ -28,13 +28,23 @@ function isEqualDescriptor(a, b) {
   return true;
 }
 
-let allProxies = new WeakMap();
+// This was originally a WeakMap but we had issues with React Native:
+// https://github.com/gaearon/react-proxy/issues/50#issuecomment-192928066
+let allProxies = [];
+function findProxy(Component) {
+  const pair = allProxies.find(([key]) => key === Component);
+  return pair ? pair[1] : null;
+}
+function addProxy(Component, proxy) {
+  allProxies.push([Component, proxy]);
+}
 
 function proxyClass(InitialComponent) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
-  if (allProxies.has(InitialComponent)) {
-    return allProxies.get(InitialComponent);
+  var existingProxy = findProxy(InitialComponent);
+  if (existingProxy) {
+    return existingProxy;
   }
 
   let CurrentComponent;
@@ -97,8 +107,9 @@ function proxyClass(InitialComponent) {
     }
 
     // Prevent proxy cycles
-    if (allProxies.has(NextComponent)) {
-      return update(allProxies.get(NextComponent).__getCurrent());
+    var existingProxy = findProxy(NextComponent);
+    if (existingProxy) {
+      return update(existingProxy.__getCurrent());
     }
 
     // Save the next constructor so we call it
@@ -176,7 +187,7 @@ function proxyClass(InitialComponent) {
   update(InitialComponent);
 
   const proxy = { get, update };
-  allProxies.set(ProxyComponent, proxy);
+  addProxy(ProxyComponent, proxy);
 
   Object.defineProperty(proxy, '__getCurrent', {
     configurable: false,
