@@ -1,5 +1,9 @@
 ## Changelog
 
+### 3.0.0-alpha
+
+Big changes both to internals and usage. No docs yet but you can look at https://github.com/gaearon/react-hot-boilerplate/pull/61 for an example.
+
 ### 2.0.0-alpha
 
 **Experimental release that isn't really representative on what will go in 2.0, but uses the new engine.**
