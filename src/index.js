@@ -1,2 +1,2 @@
-require('./patch');
-module.exports.AppContainer = require('./AppContainer');
+const AppContainer = require('./AppContainer');
+module.exports.AppContainer = AppContainer;
