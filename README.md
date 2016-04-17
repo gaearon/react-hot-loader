@@ -1,7 +1,8 @@
 >## Deprecation Notice
 
->React Hot Loader is going to be phased away in favor of the [React Transform](https://github.com/gaearon/react-transform-boilerplate) family of projects.
->We will soon have a migration guide and a detailed overview, but in the meantime, feel free to check them out and play with them!
+>Hang tight! React Hot Loader is in a turbulent phase right now.
+>Today [React Transform](https://github.com/gaearon/react-transform-boilerplate) family of projects is more up to date so you might want to use that instead.
+>We plan to rewrite and unify both projects under the React Hot Loader brand in the coming weeks.
 
 # React Hot Loader [![npm package](https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader)
 
@@ -42,7 +43,7 @@ If you'd rather stay with **Browserify**, check out **[LiveReactload](https://gi
 
 ## React Native
 
-You can use React Hot Loader to tweak a React Native application. Check out **[react-native-webpack-server](https://github.com/mjohnston/react-native-webpack-server)** by Michael Johnston.
+React Native [supports hot reloading natively](https://facebook.github.io/react-native/blog/2016/03/24/introducing-hot-reloading.html) as of version 0.22.
 
 ## Troubleshooting
 
