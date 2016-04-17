@@ -1,6 +1,6 @@
 (function () {
   /* react-hot-loader/webpack */
-  var hasOwn = Object.prototype.hasOwnProperty;
+  const hasOwn = Object.prototype.hasOwnProperty;
 
   function tag(fn, exportName) {
     if (typeof fn !== 'function') {
@@ -26,7 +26,7 @@
     return;
   }
 
-  for (var key in module.exports) {
+  for (let key in module.exports) {
     if (hasOwn.call(module.exports, key)) {
       tag(module.exports[key], key)
     }

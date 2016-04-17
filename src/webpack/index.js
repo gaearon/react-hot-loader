@@ -1,12 +1,11 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var SourceNode = require('source-map').SourceNode;
-var SourceMapConsumer = require('source-map').SourceMapConsumer;
-var makeIdentitySourceMap = require('./makeIdentitySourceMap');
+const fs = require('fs');
+const path = require('path');
+const { SourceNode, SourceMapConsumer } = require('source-map');
+const makeIdentitySourceMap = require('./makeIdentitySourceMap');
 
-var tagCommonJSExportsSource;
+let tagCommonJSExportsSource = null;
 
 function transform(source, map) {
   if (this.cacheable) {
@@ -20,8 +19,8 @@ function transform(source, map) {
     ).split(/\n\s*/).join(' ');
   }
 
-  var separator = '\n\n';
-  var appendText = tagCommonJSExportsSource.replace(
+  const separator = '\n\n';
+  const appendText = tagCommonJSExportsSource.replace(
     '__FILENAME__',
     JSON.stringify(path.basename(this.resourcePath))
   );
@@ -36,12 +35,12 @@ function transform(source, map) {
   if (!map) {
     map = makeIdentitySourceMap(source, this.resourcePath);
   }
-  var node = new SourceNode(null, null, null, [
+  const node = new SourceNode(null, null, null, [
     SourceNode.fromStringWithSourceMap(source, new SourceMapConsumer(map)),
     new SourceNode(null, null, this.resourcePath, appendText)
   ]).join(separator);
 
-  var result = node.toStringWithSourceMap();
+  const result = node.toStringWithSourceMap();
   this.callback(null, result.code, result.map.toString());
 };
 
