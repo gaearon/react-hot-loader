@@ -1,6 +1,0 @@
-{
-  "node": true,
-  "globals": {
-    "window": true
-  }
-}
