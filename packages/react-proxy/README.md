@@ -83,11 +83,11 @@ deepForceUpdate(rootInstance);
 * Replaces static getters and setters
 * Replaces unbound static methods
 * Replaces static properties unless they were overwritten by code
+* Sets up `this.constructor` to match the most recent class
 
 ## Known Limitations
 
 * Does not replace ES7 instance properties
-* Does not replace bound static methods
 * Replacing a method using [`autobind-decorator`](https://github.com/andreypopp/autobind-decorator) causes its identity to change
 
 ## Contributing

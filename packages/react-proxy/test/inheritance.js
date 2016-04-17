@@ -3,41 +3,47 @@ import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect';
 import createProxy from '../src';
 
-class Base1 extends Component {
-  static getY() {
-    return 42;
+function createModernFixtures() {
+  class Base1 extends Component {
+    static getY() {
+      return 42;
+    }
+
+    getX() {
+      return 42;
+    }
+
+    render() {
+      return this.actuallyRender();
+    }
   }
 
-  getX() {
-    return 42;
+  class Base2 extends Component {
+    static getY() {
+      return 43;
+    }
+
+    getX() {
+      return 43;
+    }
+
+    render() {
+      return this.actuallyRender();
+    }
   }
 
-  render() {
-    return this.actuallyRender();
-  }
-}
-
-class Base2 extends Component {
-  static getY() {
-    return 43;
-  }
-
-  getX() {
-    return 43;
-  }
-
-  render() {
-    return this.actuallyRender();
-  }
+  return { Base1, Base2 };
 }
 
 describe('inheritance', () => {
   let renderer;
   let warnSpy;
+  let Base1, Base2;
 
   beforeEach(() => {
     renderer = createShallowRenderer();
     warnSpy = expect.spyOn(console, 'error').andCallThrough();
+    ({ Base1, Base2 } = createModernFixtures());
   });
 
   afterEach(() => {
@@ -45,7 +51,7 @@ describe('inheritance', () => {
     expect(warnSpy.calls.length).toBe(0);
   });
 
-  describe('modern only', () => {
+  describe('modern', () => {
     it('replaces a base instance method with proxied base and derived', () => {
       const baseProxy = createProxy(Base1);
       const BaseProxy = baseProxy.get();
@@ -336,18 +342,6 @@ describe('inheritance', () => {
       derivedProxy.update(Derived2);
       instance.forceUpdate();
       expect(renderer.getRenderOutput().props.children).toEqual('4300 nice');
-
-      derivedProxy.update(Derived1);
-      instance.forceUpdate();
-      expect(renderer.getRenderOutput().props.children).toEqual('4300 lol');
-
-      middleProxy.update(Middle1);
-      instance.forceUpdate();
-      expect(renderer.getRenderOutput().props.children).toEqual('430 lol');
-
-      baseProxy.update(Base1);
-      instance.forceUpdate();
-      expect(renderer.getRenderOutput().props.children).toEqual('420 lol');
     });
   });
 });
