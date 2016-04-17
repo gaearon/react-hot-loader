@@ -81,6 +81,7 @@ When using WebpackDevServer CLI flag `--hot`, the plugin `new HotModuleReplaceme
 #### No 'Access-Control-Allow-Origin' header is present on the requested resource. 
 
 If you're trying to access Webpack Dev Server from a URL served on another port, you may try:
+
 * Changing `WebpackDevServer` options to include CORS header:
 
 ```js
@@ -91,17 +92,14 @@ new WebpackDevServer(webpack(config), {
 })
 ```
 
-* Making sure that `webpack-dev-server` **client host and port** in `webpack.config.js` matches those of your development server.
+* Making sure that `webpack-dev-server` **client host and port** in `webpack.config.js` matches those of your development server:
 
 ```js
-	entry: {
-		app: [
-			'webpack-dev-server/client?http://localhost:3000', // WebpackDevServer host and port
-			'webpack/hot/only-dev-server',
-			"./app/bootstrap.js"
-		],
-		vendor: ["node_modules/react/dist/react"]
-	},
+entry: [
+  'webpack-dev-server/client?http://localhost:3000', // WebpackDevServer host and port
+  'webpack/hot/only-dev-server',
+  './src/app'
+]
 ```
 
 
