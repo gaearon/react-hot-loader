@@ -1,3 +1,5 @@
+var React = require('react');
+
 var createProxy = require('react-proxy').default;
 var proxies = {};
 function resolveType(type) {
@@ -19,7 +21,6 @@ function resolveType(type) {
 }
 
 function patchReact() {
-  var React = require('react');
   if (React.createElement.isPatchedByReactHotLoader) {
     throw new Error('Cannot patch React twice.');
   }
@@ -36,12 +37,4 @@ function patchReact() {
   React.createElement = patchedCreateElement;
 }
 
-function forceUpdateTree(inst) {
-  var deepForceUpdate = require('react-deep-force-update');
-  if (inst) {
-    deepForceUpdate(inst);
-  }
-}
-
-patchReact()
-module.exports.forceUpdateTree = forceUpdateTree
+patchReact();

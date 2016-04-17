@@ -6,6 +6,7 @@
   "dependencies": {
     "react-deep-force-update": "^2.0.1",
     "react-proxy": "^3.0.0-alpha.0",
+    "redbox-react": "^1.2.3",
     "source-map": "^0.4.4"
   },
   "repository": {
