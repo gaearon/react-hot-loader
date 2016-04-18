@@ -6,12 +6,15 @@ function resolveType(type) {
   if (!type) {
     return type;
   }
+  if (!Object.hasOwnProperty.call(type, '__source')) {
+    return type;
+  }
   const source = type.__source;
-  if (!source || !source.fileName || !source.exportName) {
+  if (!source || !source.fileName || !source.localName) {
     return type;
   }
 
-  const fairlyUniqueID = source.fileName + '#' + source.exportName;
+  const fairlyUniqueID = source.fileName + '#' + source.localName;
   if (!proxies[fairlyUniqueID]) {
     proxies[fairlyUniqueID] = createProxy(type);
   } else {

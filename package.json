@@ -16,6 +16,7 @@
     "prepublish": "npm run clean && npm run build"
   },
   "dependencies": {
+    "babel-template": "^6.7.0",
     "react-deep-force-update": "^2.0.1",
     "react-proxy": "^3.0.0-alpha.0",
     "redbox-react": "^1.2.3",

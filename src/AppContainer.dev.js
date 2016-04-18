@@ -5,9 +5,9 @@ const { Component } = React;
 
 function ensureCreateElementIsPatched() {
   const A = () => {};
-  A.__source = { fileName: 'fake', exportName: 'fake' }
+  A.__source = { fileName: 'fake', localName: 'fake' }
   const B = () => {};
-  B.__source = { fileName: 'fake', exportName: 'fake' }
+  B.__source = { fileName: 'fake', localName: 'fake' }
 
   if (<A />.type !== <B />.type) {
     console.error(

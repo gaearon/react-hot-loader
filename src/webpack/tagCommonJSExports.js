@@ -1,12 +1,10 @@
 (function () {
   /* react-hot-loader/webpack */
-  const hasOwn = Object.prototype.hasOwnProperty;
-
-  function tag(fn, exportName) {
+  function tagSource(fn, localName) {
     if (typeof fn !== 'function') {
       return;
     }
-    if (hasOwn.call(fn, '__source')) {
+    if (fn.hasOwnProperty('__source')) {
       return;
     }
     try {
@@ -15,20 +13,20 @@
         configurable: true,
         value: {
           fileName: __FILENAME__,
-          exportName: exportName
+          localName: localName
         }
       });
     } catch (err) { }
   }
 
   if (typeof module.exports === 'function') {
-    tag(module.exports, '*');
+    tagSource(module.exports, 'module.exports');
     return;
   }
 
   for (let key in module.exports) {
-    if (hasOwn.call(module.exports, key)) {
-      tag(module.exports[key], key)
+    if (Object.prototype.hasOwnProperty.call(module.exports, key)) {
+      tagSource(module.exports[key], `module.exports.${key}`);
     }
   }
 })();
