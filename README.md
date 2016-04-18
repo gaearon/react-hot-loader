@@ -1,8 +1,6 @@
->## Deprecation Notice
+>## A Big Update Is Coming
 
->Hang tight! React Hot Loader is in a turbulent phase right now.
->Today [React Transform](https://github.com/gaearon/react-transform-boilerplate) family of projects is more up to date so you might want to use that instead.
->We plan to rewrite and unify both projects under the React Hot Loader brand in the coming weeks.
+>React Hot Loader 3 is [on the horizon](https://github.com/gaearon/react-hot-loader/pull/240), and you can try it today ([boilerplate branch](https://github.com/gaearon/react-hot-boilerplate/pull/61), [upgrade example](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915)). It fixes some [long-standing issues](https://twitter.com/dan_abramov/status/722040946075045888) with both React Hot Loader and React Transform, and is intended as a replacement for both. The docs are not there yet, but they will be added before the final release. For now, [this commit](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915) is a good reference.
 
 # React Hot Loader [![npm package](https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader)
 
@@ -43,7 +41,7 @@ If you'd rather stay with **Browserify**, check out **[LiveReactload](https://gi
 
 ## React Native
 
-React Native [supports hot reloading natively](https://facebook.github.io/react-native/blog/2016/03/24/introducing-hot-reloading.html) as of version 0.22.
+React Native **[supports hot reloading natively](https://facebook.github.io/react-native/blog/2016/03/24/introducing-hot-reloading.html)** as of version 0.22.
 
 ## Troubleshooting
 
