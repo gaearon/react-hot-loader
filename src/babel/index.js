@@ -29,7 +29,20 @@ const buildTagger = template(`
 })();
 `);
 
-export default function({ types: t, template }) {
+module.exports = function(args) {
+  if (this && this.callback) {
+    throw new Error(
+      'React Hot Loader: You are erroneously trying to use a Babel plugin ' +
+      'as a Webpack loader. Replace "react-hot-loader/babel" with ' +
+      '"react-hot-loader/webpack" in the "loaders" section of your Webpack ' +
+      'configuration. Alternatively, if you use Babel, we recommend that you ' +
+      'remove "react-hot-loader/babel" from the "loaders" section ' +
+      'altogether, and instead add "react-hot-loader/babel" to the "plugins" ' +
+      'section of your .babelrc file.'
+    );
+  }
+  const { types: t } = args;
+
   function shouldRegisterBinding(binding) {
     let { type, node } = binding.path;
     switch (type) {

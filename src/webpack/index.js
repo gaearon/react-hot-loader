@@ -8,6 +8,18 @@ const makeIdentitySourceMap = require('./makeIdentitySourceMap');
 let tagCommonJSExportsSource = null;
 
 function transform(source, map) {
+  if (source && source.types && source.types.IfStatement) {
+    throw new Error(
+      'React Hot Loader: You are erroneously trying to use a Webpack loader ' +
+      'as a Babel plugin. Replace "react-hot-loader/webpack" with ' +
+      '"react-hot-loader/babel" in the "plugins" section of your .babelrc file. ' +
+      'Alternatively, if you’d rather not use Babel for some reason, ' +
+      'you may remove "react-hot-loader/webpack" from the "plugins" section in ' +
+      'your .babelrc file altogether, and instead add "react-hot-loader/webpack" ' +
+      'to the "loaders" section in your Webpack configuration.'
+    );
+  }
+
   if (this.cacheable) {
     this.cacheable();
   }
