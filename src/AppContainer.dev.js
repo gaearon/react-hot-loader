@@ -3,6 +3,9 @@ const deepForceUpdate = require('react-deep-force-update');
 const Redbox = require('redbox-react');
 const { Component } = React;
 
+// Feature check for the createElement() patch.
+// If createElement() was patched, types with
+// the same __source will resolve to the same type.
 let wasCreateElementPatched = false;
 const A = () => {};
 A.__source = { fileName: 'fake', localName: 'fake' }
@@ -33,6 +36,8 @@ class AppContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // Hot reload is happening.
+    // Retry rendering!
     if (nextProps.component !== this.props.component) {
       this.setState({
         error: null
@@ -41,11 +46,18 @@ class AppContainer extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    // Hot reload has finished.
+    // Force-update the whole tree, including
+    // components that refuse to update.
     if (prevProps.component !== this.props.component) {
       deepForceUpdate(this);
     }
   }
 
+  // This hook is going to become official in React 15.x.
+  // In 15.0, it only catches errors on initial mount.
+  // Later it will work for updates as well:
+  // https://github.com/facebook/react/pull/6020
   unstable_handleError(error) {
     this.setState({
       error: error

@@ -8,6 +8,7 @@ const makeIdentitySourceMap = require('./makeIdentitySourceMap');
 let tagCommonJSExportsSource = null;
 
 function transform(source, map) {
+  // This is a Webpack loader, but the user put it in the Babel config.
   if (source && source.types && source.types.IfStatement) {
     throw new Error(
       'React Hot Loader: You are erroneously trying to use a Webpack loader ' +
@@ -24,6 +25,7 @@ function transform(source, map) {
     this.cacheable();
   }
 
+  // Read the helper once.
   if (!tagCommonJSExportsSource) {
     tagCommonJSExportsSource = fs.readFileSync(
       path.join(__dirname, 'tagCommonJSExports.js'),
@@ -31,6 +33,7 @@ function transform(source, map) {
     ).split(/\n\s*/).join(' ');
   }
 
+  // Parameterize the helper with the current filename.
   const separator = '\n\n';
   const appendText = tagCommonJSExportsSource.replace(
     '__FILENAME__',

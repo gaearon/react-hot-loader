@@ -30,6 +30,7 @@ const buildTagger = template(`
 `);
 
 module.exports = function(args) {
+  // This is a Babel plugin, but the user put it in the Webpack config.
   if (this && this.callback) {
     throw new Error(
       'React Hot Loader: You are erroneously trying to use a Babel plugin ' +
@@ -43,10 +44,14 @@ module.exports = function(args) {
   }
   const { types: t } = args;
 
+  // No-op in production.
   if (process.env.NODE_ENV === 'production') {
     return { visitor: {} };
   }
 
+  // Gather top-level variables, functions, and classes.
+  // Try our best to avoid variables from require().
+  // Ideally we only want to find components defined by the user.
   function shouldRegisterBinding(binding) {
     let { type, node } = binding.path;
     switch (type) {
@@ -69,21 +74,27 @@ module.exports = function(args) {
   return {
     visitor: {
       ExportDefaultDeclaration(path)  {
+        // Default exports with names are going
+        // to be in scope anyway so no need to bother.
         if (path.node.declaration.id) {
           return;
         }
 
+        // Move export default right hand side to a variable
+        // so we can later refer to it and tag it with __source.
         const id = path.scope.generateUidIdentifier('default');
         const expression = t.isExpression(path.node.declaration) ?
           path.node.declaration :
           t.toExpression(path.node.declaration);
-
         path.insertBefore(
           t.variableDeclaration('const', [
             t.variableDeclarator(id, expression)
           ])
         )
         path.node.declaration = id;
+
+        // It won't appear in scope.bindings
+        // so we'll manually remember it exists.
         path.parent[REGISTRATIONS].push(
           buildRegistration({
             ID: id,
@@ -95,6 +106,9 @@ module.exports = function(args) {
       Program: {
         enter({ node, scope }) {
           node[REGISTRATIONS] = [];
+
+          // Everything in the top level scope, when reasonable,
+          // is going to get tagged with __source.
           for (let id in scope.bindings) {
             const binding = scope.bindings[id];
             if (shouldRegisterBinding(binding)) {
@@ -109,6 +123,9 @@ module.exports = function(args) {
         exit({ node, scope }, { file }) {
           let registrations = node[REGISTRATIONS];
           node[REGISTRATIONS] = null;
+
+          // Inject the generated tagging code at the very end
+          // so that it is as minimally intrusive as possible.
           node.body.push(
             buildTagger({
               FILENAME: t.stringLiteral(file.opts.filename),
