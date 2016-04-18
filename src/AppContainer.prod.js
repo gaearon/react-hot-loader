@@ -3,7 +3,7 @@ const { Component } = React;
 
 class AppContainer extends Component {
   render() {
-    return <this.props.component />;
+    return <this.props.component {...this.props.props} />;
   }
 }
 

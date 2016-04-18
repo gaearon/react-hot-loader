@@ -57,7 +57,7 @@ class AppContainer extends Component {
     if (error) {
       return <this.props.errorReporter error={error} />;
     } else {
-      return <this.props.component />;
+      return <this.props.component {...this.props.props} />;
     }
   }
 }
