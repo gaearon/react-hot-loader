@@ -1,6 +1,16 @@
 const React = require('react');
 const createProxy = require('react-proxy').default;
 
+function setFlag(obj, key) {
+  try {
+    Object.defineProperty(obj, key, {
+      configurable: true,
+      enumerable: false,
+      value: true
+    });
+  } catch (err) {}
+}
+
 let proxies = {};
 let warnedAboutTypes = {};
 function resolveType(type) {
@@ -14,13 +24,7 @@ function resolveType(type) {
     !type.__source.fileName ||
     !type.__source.localName
   ) {
-    try {
-      Object.defineProperty(type, '__noSourceFound', {
-        configurable: true,
-        enumerable: false,
-        value: true
-      });
-    } catch (err) {}
+    setFlag(type, '__noSourceFound');
     return type;
   }
 
@@ -42,9 +46,11 @@ function resolveType(type) {
 
   if (!proxies[id]) {
     proxies[id] = createProxy(type);
-  } else {
+  } else if (!type.hasOwnProperty('__hasBeenUsedForProxy')) {
     proxies[id].update(type);
   }
+  setFlag(type, '__hasBeenUsedForProxy');
+
   return proxies[id].get();
 }
 
