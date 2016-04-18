@@ -43,6 +43,10 @@ module.exports = function(args) {
   }
   const { types: t } = args;
 
+  if (process.env.NODE_ENV === 'production') {
+    return { visitor: {} };
+  }
+
   function shouldRegisterBinding(binding) {
     let { type, node } = binding.path;
     switch (type) {
