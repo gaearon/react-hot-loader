@@ -33,12 +33,12 @@ module.exports = function(args) {
   if (this && this.callback) {
     throw new Error(
       'React Hot Loader: You are erroneously trying to use a Babel plugin ' +
-      'as a Webpack loader. Replace "react-hot-loader/babel" with ' +
-      '"react-hot-loader/webpack" in the "loaders" section of your Webpack ' +
-      'configuration. Alternatively, if you use Babel, we recommend that you ' +
+      'as a Webpack loader. We recommend that you use Babel, ' +
       'remove "react-hot-loader/babel" from the "loaders" section ' +
-      'altogether, and instead add "react-hot-loader/babel" to the "plugins" ' +
-      'section of your .babelrc file.'
+      'of your Webpack configuration, and instead add ' +
+      '"react-hot-loader/babel" to the "plugins" section of your .babelrc file. ' +
+      'If you prefer not to use Babel, replace "react-hot-loader/babel" with ' +
+      '"react-hot-loader/webpack" in the "loaders" section of your Webpack configuration. '
     );
   }
   const { types: t } = args;

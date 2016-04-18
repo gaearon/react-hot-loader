@@ -3,23 +3,25 @@ const AppContainer = require('./AppContainer');
 module.exports = function warnAboutIncorrectUsage(arg) {
   if (this && this.callback) {
     throw new Error(
-      'React Hot Loader is now more than a Webpack loader. ' +
-      'Replace "react-hot-loader" or "react-hot" with "react-hot-loader/webpack" ' +
-      'in the "loaders" section of your Webpack configuration. ' +
-      'Alternatively, if you use Babel, we recommend that you remove ' +
-      '"react-hot-loader" from the "loaders" section altogether, and ' +
-      'instead add "react-hot-loader/babel" to the "plugins" section of ' +
-      'your .babelrc file.'
+      'React Hot Loader: The Webpack loader is now exported separately. ' +
+      'If you use Babel, we recommend that you remove "react-hot-loader" ' +
+      'from the "loaders" section of your Webpack configuration altogether, ' +
+      'and instead add "react-hot-loader/babel" to the "plugins" section ' +
+      'of your .babelrc file. ' +
+      'If you prefer not to use Babel, replace "react-hot-loader" or ' +
+      '"react-hot" with "react-hot-loader/webpack" in the "loaders" section ' +
+      'of your Webpack configuration.'
     );
   } else if (arg && arg.types && arg.types.IfStatement) {
     throw new Error(
-      'React Hot Loader is more than a Babel plugin. ' +
+      'React Hot Loader: The Babel plugin is exported separately. ' +
       'Replace "react-hot-loader" with "react-hot-loader/babel" ' +
       'in the "plugins" section of your .babelrc file. ' +
-      'Alternatively, if you’d rather not use Babel for some reason, ' +
-      'you may remove "react-hot-loader" from the "plugins" section ' +
-      'altogether, and instead add "react-hot-loader/webpack" to the ' +
-      '"loaders" section of your Webpack configuration.'
+      'While we recommend the above, if you prefer not to use Babel, ' +
+      'you may remove "react-hot-loader" from the "plugins" section of ' +
+      'your .babelrc file altogether, and instead add ' +
+      '"react-hot-loader/webpack" to the "loaders" section of your Webpack ' +
+      'configuration.'
     );
   } else {
     throw new Error(

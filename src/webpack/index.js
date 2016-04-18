@@ -13,10 +13,10 @@ function transform(source, map) {
       'React Hot Loader: You are erroneously trying to use a Webpack loader ' +
       'as a Babel plugin. Replace "react-hot-loader/webpack" with ' +
       '"react-hot-loader/babel" in the "plugins" section of your .babelrc file. ' +
-      'Alternatively, if you’d rather not use Babel for some reason, ' +
-      'you may remove "react-hot-loader/webpack" from the "plugins" section in ' +
+      'While we recommend the above, if you prefer not to use Babel, ' +
+      'you may remove "react-hot-loader/webpack" from the "plugins" section of ' +
       'your .babelrc file altogether, and instead add "react-hot-loader/webpack" ' +
-      'to the "loaders" section in your Webpack configuration.'
+      'to the "loaders" section of your Webpack configuration.'
     );
   }
 
