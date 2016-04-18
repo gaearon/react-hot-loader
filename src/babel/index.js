@@ -65,7 +65,7 @@ module.exports = function(args) {
     }
   }
 
-  const DEFAULT_EXPORT = Symbol();
+  const REGISTRATIONS = Symbol();
   return {
     visitor: {
       ExportDefaultDeclaration(path)  {
@@ -84,34 +84,31 @@ module.exports = function(args) {
           ])
         )
         path.node.declaration = id;
-        path.parent[DEFAULT_EXPORT] = id;
+        path.parent[REGISTRATIONS].push(
+          buildRegistration({
+            ID: id,
+            NAME: t.stringLiteral('default')
+          })
+        );
       },
 
       Program: {
-        enter({ node }) {
-          node[DEFAULT_EXPORT] = null;
-        },
-
-        exit({ node, scope }, { file }) {
-          let registrations = [];
-
+        enter({ node, scope }) {
+          node[REGISTRATIONS] = [];
           for (let id in scope.bindings) {
             const binding = scope.bindings[id];
             if (shouldRegisterBinding(binding)) {
-              registrations.push(buildRegistration({
+              node[REGISTRATIONS].push(buildRegistration({
                 ID: binding.identifier,
                 NAME: t.stringLiteral(id)
               }));
             }
           }
+        },
 
-          if (node[DEFAULT_EXPORT]) {
-            registrations.push(buildRegistration({
-              ID: node[DEFAULT_EXPORT],
-              NAME: t.stringLiteral('default')
-            }));
-          }
-
+        exit({ node, scope }, { file }) {
+          let registrations = node[REGISTRATIONS];
+          node[REGISTRATIONS] = null;
           node.body.push(
             buildTagger({
               FILENAME: t.stringLiteral(file.opts.filename),
