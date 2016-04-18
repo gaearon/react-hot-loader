@@ -6,6 +6,7 @@
   "files": [
     "lib",
     "babel.js",
+    "patch.js",
     "webpack.js"
   ],
   "scripts": {
