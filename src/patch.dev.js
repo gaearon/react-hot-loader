@@ -2,25 +2,50 @@ const React = require('react');
 const createProxy = require('react-proxy').default;
 
 let proxies = {};
+let warnedAboutTypes = {};
 function resolveType(type) {
-  if (!type) {
-    return type;
-  }
-  if (!Object.hasOwnProperty.call(type, '__source')) {
-    return type;
-  }
-  const source = type.__source;
-  if (!source || !source.fileName || !source.localName) {
+  if (!type || typeof type === 'string') {
     return type;
   }
 
-  const fairlyUniqueID = source.fileName + '#' + source.localName;
-  if (!proxies[fairlyUniqueID]) {
-    proxies[fairlyUniqueID] = createProxy(type);
-  } else {
-    proxies[fairlyUniqueID].update(type);
+  if (
+    !Object.hasOwnProperty.call(type, '__source') ||
+    !type.__source ||
+    !type.__source.fileName ||
+    !type.__source.localName
+  ) {
+    try {
+      Object.defineProperty(type, '__noSourceFound', {
+        configurable: true,
+        enumerable: false,
+        value: true
+      });
+    } catch (err) {}
+    return type;
   }
-  return proxies[fairlyUniqueID].get();
+
+  const source = type.__source;
+  const id = source.fileName + '#' + source.localName;
+
+  if (type.hasOwnProperty('__noSourceFound')) {
+    if (!warnedAboutTypes[id]) {
+      warnedAboutTypes[id] = true;
+      console.error(
+        `React Hot Loader: ${source.localName} from ${source.fileName} will not ` +
+        `hot reload correctly because it contains an imperative call like ` +
+        `ReactDOM.render() in the same file. Split ${source.localName} into a ` +
+        `separate file for hot reloading to work.`
+      );
+    }
+    return type;
+  }
+
+  if (!proxies[id]) {
+    proxies[id] = createProxy(type);
+  } else {
+    proxies[id].update(type);
+  }
+  return proxies[id].get();
 }
 
 if (React.createElement.isPatchedByReactHotLoader) {
