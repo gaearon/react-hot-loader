@@ -73,9 +73,35 @@ if (React.createElement.isPatchedByReactHotLoader) {
   throw new Error('Cannot patch React twice.');
 }
 
+// This is lame but let's focus on shipping.
+// https://github.com/gaearon/react-hot-loader/issues/249
+function isReactRouterish(type) {
+  return type && (
+    type.displayName === 'Route' ||
+    type.name === 'Route' // In case Ryan and Michael embrace ES6 classes
+  );
+}
+
 const createElement = React.createElement;
-function patchedCreateElement(type, ...args) {
-  return createElement(resolveType(type), ...args);
+function patchedCreateElement(type, props, ...args) {
+  // Ideally we want to teach React Router to receive children.
+  // We're not in a perfect world, and a dirty workaround works for now.
+  // https://github.com/reactjs/react-router/issues/2182
+  if (
+    isReactRouterish(type) &&
+    props &&
+    typeof props.component === 'function'
+  ) {
+    // Side effect 😱
+    // Force proxies to update since React Router ignores new props.
+    resolveType(props.component);
+  }
+
+  // Trick React into rendering a proxy so that
+  // its state is preserved when the class changes.
+  // This will update the proxy if it's for a known type.
+  const resolvedType = resolveType(type);
+  return createElement(resolvedType, props, ...args);
 }
 patchedCreateElement.isPatchedByReactHotLoader = true;
 React.createElement = patchedCreateElement;
