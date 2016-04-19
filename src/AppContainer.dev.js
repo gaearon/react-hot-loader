@@ -49,7 +49,7 @@ class AppContainer extends Component {
     // Hot reload has finished.
     // Force-update the whole tree, including
     // components that refuse to update.
-    if (prevProps.children !== this.props.children) {
+    if (prevProps.children.type !== this.props.children.type) {
       deepForceUpdate(this);
     }
   }
@@ -69,10 +69,22 @@ class AppContainer extends Component {
     if (error) {
       return <this.props.errorReporter error={error} />;
     } else {
-      return React.cloneElement(this.props.children);
+      return React.Children.only(this.props.children);
     }
   }
 }
+
+AppContainer.propTypes = {
+  children: function (props, propName, componentName, location, propFullName) {
+    if (typeof props[propName].type !== 'function') {
+      return new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Expected a React Component!`);
+    }
+
+    if (React.Children.count(props[propName]) > 1) {
+      return new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Expected a single React Component!`);
+    }
+  }
+};
 
 AppContainer.defaultProps = {
   errorReporter: Redbox
