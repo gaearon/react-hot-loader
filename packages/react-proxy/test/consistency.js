@@ -39,7 +39,14 @@ function createModernFixtures() {
     }
   }
 
-  return { Bar, Baz, Foo };
+  class Anon extends React.Component {
+    render() {
+      return <div>Anon</div>;
+    }
+  }
+  delete Anon.name;
+
+  return { Bar, Baz, Foo, Anon };
 }
 
 function createClassicFixtures() {
@@ -78,7 +85,14 @@ function createClassicFixtures() {
     }
   });
 
-  return { Bar, Baz, Foo };
+  const Anon = React.createClass({
+    render() {
+      return <div>Anon</div>;
+    }
+  });
+  delete Anon.displayName;
+
+  return { Bar, Baz, Foo, Anon };
 }
 
 describe('consistency', () => {
@@ -96,9 +110,9 @@ describe('consistency', () => {
   });
 
   function runCommonTests(createFixtures) {
-    let Bar, Baz, Foo;
+    let Bar, Baz, Foo, Anon;
     beforeEach(() => {
-      ({ Foo, Bar, Baz } = createFixtures());
+      ({ Foo, Bar, Baz, Anon } = createFixtures());
     });
 
     it('does not overwrite the original class', () => {
@@ -185,16 +199,23 @@ describe('consistency', () => {
       expect(barInstance instanceof Baz).toEqual(true);
     });
 
-    it('sets up displayName from displayName or name', () => {
+    it('sets up name and displayName from displayName or name', () => {
       let proxy = createProxy(Bar);
       const Proxy = proxy.get();
+      expect(Proxy.name).toEqual('Bar');
       expect(Proxy.displayName).toEqual('Bar');
 
       proxy.update(Baz);
+      expect(Proxy.name).toEqual('Baz');
       expect(Proxy.displayName).toEqual('Baz');
 
       proxy.update(Foo);
+      expect(Proxy.name).toEqual('Foo (Custom)');
       expect(Proxy.displayName).toEqual('Foo (Custom)');
+
+      proxy.update(Anon);
+      expect(Proxy.name).toEqual('Unknown');
+      expect(Proxy.displayName).toEqual('Unknown');
     });
 
     it('keeps own methods on the prototype', () => {
@@ -205,7 +226,7 @@ describe('consistency', () => {
       expect(propertyNames).toInclude('doNothing');
     });
 
-    it('copies name to new method', () => {
+    it('preserves method names', () => {
       let proxy = createProxy(Bar);
       const Proxy = proxy.get();
       expect(Proxy.prototype.doNothing.name).toBe('doNothing');
@@ -261,16 +282,6 @@ describe('consistency', () => {
     beforeEach(() => {
       ({ Bar, Baz, Foo } = createModernFixtures());
     })
-
-    it('sets up the constructor name from initial name', () => {
-      let proxy = createProxy(Bar);
-      const Proxy = proxy.get();
-      expect(Proxy.name).toEqual('Bar');
-
-      // Known limitation: name can't change
-      proxy.update(Baz);
-      expect(Proxy.name).toEqual('Bar');
-    });
 
     it('should not crash if new Function() throws', () => {
       let oldFunction = global.Function;

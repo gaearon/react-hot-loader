@@ -29,6 +29,13 @@ function isEqualDescriptor(a, b) {
   return true;
 }
 
+function getDisplayName(Component) {
+  const displayName = Component.displayName || Component.name;
+  return (displayName && displayName !== 'ReactComponent') ?
+    displayName :
+    'Unknown';
+}
+
 // This was originally a WeakMap but we had issues with React Native:
 // https://github.com/gaearon/react-proxy/issues/50#issuecomment-192928066
 let allProxies = [];
@@ -70,10 +77,11 @@ function proxyClass(InitialComponent) {
     }
   }
 
+  let displayName = getDisplayName(InitialComponent);
   try {
     // Create a proxy constructor with matching name
     ProxyComponent = new Function('factory', 'instantiate',
-      `return function ${InitialComponent.name || 'ProxyComponent'}() {
+      `return function ${displayName}() {
          return instantiate(factory, this, arguments);
       }`
     )(() => CurrentComponent, instantiate);
@@ -83,6 +91,11 @@ function proxyClass(InitialComponent) {
       return instantiate(() => CurrentComponent, this, arguments);
     };
   }
+  try {
+    Object.defineProperty(ProxyComponent, 'name', {
+      value: displayName
+    });
+  } catch (err) { }
 
   // Proxy toString() to the current constructor
   ProxyComponent.toString = function toString() {
@@ -115,7 +128,13 @@ function proxyClass(InitialComponent) {
     CurrentComponent = NextComponent;
 
     // Try to infer displayName
-    ProxyComponent.displayName = NextComponent.displayName || NextComponent.name;
+    displayName = getDisplayName(NextComponent);
+    ProxyComponent.displayName = displayName;
+    try {
+      Object.defineProperty(ProxyComponent, 'name', {
+        value: displayName
+      });
+    } catch (err) { }
 
     // Set up the same prototype for inherited statics
     ProxyComponent.__proto__ = NextComponent.__proto__;
