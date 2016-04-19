@@ -65,9 +65,7 @@ function proxyClass(InitialComponent) {
     try {
       return component.apply(context, params);
     } catch (err) {
-      // Native ES6 class instantiation
       const instance = new component(...params);
-
       Object.keys(instance).forEach(key => {
         if (RESERVED_STATICS.indexOf(key) > -1) {
           return;

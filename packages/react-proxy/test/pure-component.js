@@ -16,10 +16,20 @@ function createPureFixtures() {
     return <div {...props}>Foo</div>;
   }
 
+  function Qux() {
+    throw new Error('Oops.');
+  }
+
+  const Quy = () => {
+    throw new Error('Ouch.');
+  }
+
   return {
     Bar,
     Baz,
-    Foo
+    Foo,
+    Qux,
+    Quy
   };
 }
 
@@ -41,12 +51,16 @@ describe('pure component', () => {
     let Bar;
     let Baz;
     let Foo;
+    let Qux;
+    let Quy;
 
     beforeEach(() => {
       ({
         Bar,
         Baz,
-        Foo
+        Foo,
+        Qux,
+        Quy
       } = createPureFixtures());
     });
 
@@ -63,6 +77,15 @@ describe('pure component', () => {
       proxy.update(Foo);
       renderer.render(<Proxy />);
       expect(renderer.getRenderOutput().props.children).toEqual('Foo');
+    });
+
+    it('does not swallow errors', () => {
+      const proxy = createProxy(Qux);
+      const Proxy = proxy.get();
+      expect(() => renderer.render(<Proxy />)).toThrow('Oops.');
+
+      proxy.update(Quy);
+      expect(() => renderer.render(<Proxy />)).toThrow('Ouch.');
     });
   });
 });

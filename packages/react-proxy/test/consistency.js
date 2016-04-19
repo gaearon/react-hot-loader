@@ -40,6 +40,11 @@ function createModernFixtures() {
   }
 
   class Anon extends React.Component {
+    constructor(props) {
+      super(props);
+      throw new Error('Oops.');
+    }
+
     render() {
       return <div>Anon</div>;
     }
@@ -86,6 +91,10 @@ function createClassicFixtures() {
   });
 
   const Anon = React.createClass({
+    getInitialState() {
+      throw new Error('Oops.');
+    },
+
     render() {
       return <div>Anon</div>;
     }
@@ -268,6 +277,12 @@ describe('consistency', () => {
         expect(originalMethod.toString()).toEqual(proxyMethod.toString());
       });
       expect(doNothingBeforeItWasDeleted.toString()).toEqual('<method was deleted>');
+    });
+
+    it('does not swallow constructor errors', () => {
+      let proxy = createProxy(Anon);
+      const Proxy = proxy.get();
+      expect(() => renderer.render(<Proxy />)).toThrow('Oops');
     });
   }
 
