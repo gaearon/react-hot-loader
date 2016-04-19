@@ -205,6 +205,12 @@ describe('consistency', () => {
       expect(propertyNames).toInclude('doNothing');
     });
 
+    it('copies name to new method', () => {
+      let proxy = createProxy(Bar);
+      const Proxy = proxy.get();
+      expect(Proxy.prototype.doNothing.name).toBe('doNothing');
+    });
+
     it('preserves enumerability and writability of methods', () => {
       let proxy = createProxy(Bar);
       const Proxy = proxy.get();

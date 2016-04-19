@@ -34,6 +34,11 @@ export default function createPrototypeProxy() {
     // Copy properties of the original function, if any
     assign(proxiedMethod, current[name]);
     proxiedMethod.toString = proxyToString(name);
+    try {
+      Object.defineProperty(proxiedMethod, 'name', {
+        value: name
+      });
+    } catch (err) { }
 
     return proxiedMethod;
   }
