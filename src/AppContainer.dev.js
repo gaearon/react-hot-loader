@@ -81,7 +81,7 @@ AppContainer.propTypes = {
     }
 
     if (React.Children.count(props[propName]) > 1) {
-      return new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Expected a single React Component!`);
+      return new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Expected a single React element with your app’s root component, e.g. <App />.`);
     }
   }
 };
