@@ -38,7 +38,7 @@ class AppContainer extends Component {
   componentWillReceiveProps(nextProps) {
     // Hot reload is happening.
     // Retry rendering!
-    if (nextProps.children !== this.props.children) {
+    if (nextProps.children.type !== this.props.children.type) {
       this.setState({
         error: null
       });
@@ -77,7 +77,7 @@ class AppContainer extends Component {
 AppContainer.propTypes = {
   children: function (props, propName, componentName, location, propFullName) {
     if (typeof props[propName].type !== 'function') {
-      return new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Expected a React Component!`);
+      return new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Expected a single React element with your app’s root component, e.g. <App />.`);
     }
 
     if (React.Children.count(props[propName]) > 1) {
