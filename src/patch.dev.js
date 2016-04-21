@@ -77,11 +77,30 @@ if (React.createElement.isPatchedByReactHotLoader) {
 // https://github.com/gaearon/react-hot-loader/issues/249
 function isReactRouterish(type) {
   return type && (
-    type.displayName === 'Route' ||
-    type.name === 'Route' || // In case Ryan and Michael embrace ES6 classes
-    type.displayName === 'IndexRoute' ||
-    type.name === 'IndexRoute'
+    type.displayName === 'Router' ||
+    type.name === 'Router' // In case Ryan and Michael embrace ES6 classes
   );
+}
+
+function forceUpdateComponentsOfRouteAndChildRoutes(route) {
+  // TODO: check whether it is possible to also handle the `getComponent` case here
+  if (route.component && typeof route.component === 'function') {
+    // Side effect 😱
+    // Force proxies to update since React Router ignores new props.
+    resolveType(route.component);
+  }
+
+  // Child routes will be in `children` when defining routes using react
+  // elements and in `routes` or `childRoutes` when using plain routes
+  const childRoutes = []
+    .concat(route.routes, route.childRoutes, route.children)
+    .filter(Boolean);
+
+  for (const childRoute of childRoutes) {
+    // When using `Route` element routes the relevant objects will be under props
+    // and when using plain routes directly on the route
+    forceUpdateComponentsOfRouteAndChildRoutes(childRoute.props || childRoute);
+  }
 }
 
 const createElement = React.createElement;
@@ -89,14 +108,8 @@ function patchedCreateElement(type, props, ...args) {
   // Ideally we want to teach React Router to receive children.
   // We're not in a perfect world, and a dirty workaround works for now.
   // https://github.com/reactjs/react-router/issues/2182
-  if (
-    isReactRouterish(type) &&
-    props &&
-    typeof props.component === 'function'
-  ) {
-    // Side effect 😱
-    // Force proxies to update since React Router ignores new props.
-    resolveType(props.component);
+  if (isReactRouterish(type) && props) {
+    forceUpdateComponentsOfRouteAndChildRoutes(props);
   }
 
   // Trick React into rendering a proxy so that
