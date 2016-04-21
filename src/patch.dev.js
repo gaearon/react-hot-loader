@@ -78,7 +78,9 @@ if (React.createElement.isPatchedByReactHotLoader) {
 function isReactRouterish(type) {
   return type && (
     type.displayName === 'Route' ||
-    type.name === 'Route' // In case Ryan and Michael embrace ES6 classes
+    type.name === 'Route' || // In case Ryan and Michael embrace ES6 classes
+    type.displayName === 'IndexRoute' ||
+    type.name === 'IndexRoute'
   );
 }
 
