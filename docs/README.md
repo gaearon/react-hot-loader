@@ -1,25 +1,5 @@
 ### Starter Kits
-
 * [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate) (Bare minimum)
-* [react-starter](https://github.com/webpack/react-starter) (react-router, includes production configs)
-* [isomorphic-hot-loader](https://github.com/irvinebroque/isomorphic-hot-loader) (react-router, isomorphic)
-* [isomorphic-react-template](https://github.com/gpbl/isomorphic-react-template/) (react-router, isomorphic)
-* [coffee-react-quickstart](https://github.com/KyleAMathews/coffee-react-quickstart) (react-router, CoffeeScript, Gulp)
-* [react-static-boilerplate](https://github.com/koistya/react-static-boilerplate) (static site generator; React, PostCSS, Webpack, BrowserSync)
-* [boilerplate-webpack-react](https://github.com/tcoopman/boilerplate-webpack-react) (react-router, isomorphic)
-* [este](http://github.com/steida/este) (react-router, isomorphic, Flux, Babel)
-* [react-isomorphic-starterkit](https://github.com/RickWong/react-isomorphic-starterkit) (react-router, react-async, isomorphic)
-* [yarsk](https://github.com/bradleyboy/yarsk) (Babel, Karma + Mocha, automated publishing to GitHub pages)
-* [react-web](https://github.com/darul75/web-react) (Babel, react-router, Alt flux)
-* [esnext-quickstart](https://github.com/nkbt/esnext-quickstart) (compile-time ESLint, ES6, Babel, Karma + Jasmine + Coverage)
-* [react-webpack-boilerplate](https://github.com/srn/react-webpack-boilerplate) (One-click Heroku deployable, Node.js server)
-* [flask-react-boilerplate](https://github.com/alexkuz/flask-react-boilerplate) (One-click Heroku deployable, Flask server + PostgreSQL, Babel, Flummox)
-* [react-kickstart](https://github.com/vesparny/react-kickstart) (react-router, mocha + chai + istanbul)
-* [react-redux-universal-hot-example](https://github.com/erikras/react-redux-universal-hot-example) (isomorphic, redux, client and server async data fetching, babel, react-router)
-* [go-starter-kit](https://github.com/olebedev/go-starter-kit) (hot reloadable golang/react/flummox/css-module isomorphic starter kit)
-* [react-fullstack-skeleton](https://github.com/fortruce/react-fullstack-skeleton) (react w/ backend api server)
-
-Don't be shy, add your own.
 
 ### Migrating to 1.0
 
