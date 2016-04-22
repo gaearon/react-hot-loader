@@ -7,7 +7,7 @@ highlighter:      pygments
 permalink:        pretty
 
 # Setup
-title:            'React Hot Loader'
+title:            'React Hot Loader 3'
 tagline:          'Tweak React components in real time.'
 description:      'Tweak React components in real time.'
 url:              http://localhost:4000
