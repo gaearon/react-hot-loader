@@ -84,10 +84,22 @@ function isReactRouterish(type) {
 
 function forceUpdateComponentsOfRouteAndChildRoutes(route) {
   // TODO: check whether it is possible to also handle the `getComponent` case here
-  if (route.component && typeof route.component === 'function') {
+  if (route.component && typeof(route.component) === 'function') {
     // Side effect 😱
     // Force proxies to update since React Router ignores new props.
     resolveType(route.component);
+  }
+
+  if (route.components) {
+    for (const key in route.components) {
+      if (!route.components.hasOwnProperty(key)) continue;
+
+      const component = route.components[key];
+
+      if (typeof(component) === 'function') {
+        resolveType(component);
+      }
+    }
   }
 
   // Child routes will be in `children` when defining routes using react
