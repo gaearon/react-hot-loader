@@ -1,10 +1,28 @@
-# React Hot Loader [![npm package](https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader)
+# React Hot Loader 3 [![npm package](https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader)
+
+### React Hot Loader 3 has arrived!
+
+It fixes some long-standing issues with both React Hot Loader and React Transform. 
+
+**It is intended as a replacement for both.**
+
+Some nice things about it:
+
+* Editing functional components preserves state
+* Works great with higher order components
+* Requires little configuration
+* Automatically disabled in production
+* Works with or without Babel (you can remove `react-hot-loader/babel` from `.babelrc` and instead add `react-hot-loader/webpack` to `loaders`)
+
+Check out [the Migration to 3.0 guide](https://github.com/gaearon/react-hot-loader/tree/master/docs#migration-to-30) to learn how to migrate your app to 3.0.
+
+### Learn
 
 This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
 
 * Get inspired by a **[demo video](https://vimeo.com/100010922)** and **[try the live demo](http://gaearon.github.io/react-hot-loader/)**.
 
-* Read **[the integration walkthrough](http://gaearon.github.io/react-hot-loader/getstarted/).**
+* Read **[the Getting Started guide](http://gaearon.github.io/react-hot-loader/getstarted/).**
 
 * Use **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)** for your next React project.
 
@@ -27,13 +45,9 @@ To use React Hot Loader in an existing project, you need to
 * enable Hot Module Replacement, which is a Webpack feature;
 * configure Webpack to use React Hot Loader for JS or JSX files.
 
-These steps are covered by **[the walkthrough](http://gaearon.github.io/react-hot-loader/getstarted/)**.
+These steps are covered by **[the Getting Started guide](http://gaearon.github.io/react-hot-loader/getstarted/)**.
 
 If you'd rather stay with **Browserify**, check out **[LiveReactload](https://github.com/milankinen/livereactload)** by Matti Lankinen.
-
-## Flux
-
-**[Redux](https://github.com/gaearon/redux)** is a Flux implementation that supports hot reloading of everything out of the box. Read **[The Evolution of Flux Frameworks](https://medium.com/@dan_abramov/the-evolution-of-flux-frameworks-6c16ad26bb31)** for some context around its creation.
 
 ## React Native
 
