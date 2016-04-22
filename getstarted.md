@@ -9,15 +9,114 @@ If you use Browserify, RequireJS or another JavaScript bundler, you need to swit
 
 This tutorial assumes that you already have a working Webpack configuration and `WebpackDevServer` compiles and serves your code. If youʼd rather play with a ready-made example, try <a href="https://github.com/gaearon/react-hot-boilerplate" target="_blank">react-hot-boilerplate</a>.
 
-### Installation
+## Installation
 
-The only extra package that you need to install is `react-hot-loader`. Do that by running
+The only package that you need to install is `react-hot-loader`. Do that by running:
 
 {% highlight sh %}
 npm install --save-dev react-hot-loader
 {% endhighlight %}
 
-### Development Server
+## Setup
+
+### Step 1. Setup Webpack Config
+The first thing you'll need to do is create a Webpack config for development.  This config must be separate from the one you use for production.
+
+Here is a basic example:
+```
+webpack.config.dev.js
+```
+{% highlight js %}
+var path = require('path');
+var webpack = require('webpack');
+
+module.exports = {
+  devtool: 'eval',
+  entry: [
+    './src/index'
+  ],
+  output: {
+    path: path.join(__dirname, 'dist'),
+    filename: 'bundle.js',
+    publicPath: '/static/'
+  },
+  plugins: [
+  ],
+  module: {
+    loaders: [{
+      test: /\.js$/,
+      loaders: ['babel'],
+      include: path.join(__dirname, 'src')
+    }]
+  }
+};
+{% endhighlight %}
+
+### Step 2. Add HotModuleReplacementPlugin
+Now that we have a development config, we need to add Webpack's `HotModuleReplacementPlugin`.  This can be done by adding `new webpack.HotModuleReplacementPlugin()` to the `plugins` section:
+
+{% highlight js %}
+plugins: [
+  new webpack.HotModuleReplacementPlugin()
+]
+{% endhighlight %}
+
+
+### Step 3. Setup Development Server
+If you are only rendering on the client, consider using `WebpackDevServer` as your development server.  It is easier to setup than `webpack-dev-middleware`.
+
+**WebpackDevServer**
+Install `webpack-dev-server` via npm:
+```
+npm install webpack-dev-server
+```
+
+Inside your Webpack development config,
+
+If you are going to be using server-side rendering, consider using Express + `webpack-dev-middleware`.  It is more work to set up than `WebpackDevServer`, but you will have more control.
+
+**webpack-dev-middleware**
+
+### Step 4. Use HMR to Replace Root Component
+Inside `index.js`, or wherever you are rendering your component, you need to add the following to re-render the root component:
+
+{% highlight js %}
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    ReactDOM.render(
+      <AppContainer>
+        <App/>
+      </AppContainer>,
+      rootEl
+    );
+  });
+{% endhighlight %}
+
+### Step 5. Add React Hot Loader To Preserve State
+Now it's time to add React Hot Loader using either the Babel or Webpack plugin.
+
+- If you use Babel:
+  - Add `react-hot-loader/babel` to `plugins` inside of `.babelrc`.
+
+{% highlight js %}
+{
+  "presets": ["es2015", "stage-0", "react"],
+  "plugins": ["react-hot-loader/babel"]
+}
+{% endhighlight %}
+
+- If you don't use Babel:
+  - Add `react-hot-loader/webpack` to `loaders` in your Webpack config.
+
+{% highlight js %}
+
+{% endhighlight %}
+
+
+- Add `react-hot-loader/patch` as the first entry point in your Webpack config.
+
+### Step 6. AppContainer
+The final step is to 
 
 With the loader installed, it is now time to configure a small dev server for Webpack to use. The key aspect of this configuration is that when creating a `new WebpackDevServer`, you need to specify `hot: true` as an option. For example, you can add an entirely new file called `server.js` and simply include the <a href="https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js" target="_blank">server provided in the boilerplate</a>.
 
