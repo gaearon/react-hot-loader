@@ -1,1 +1,2 @@
 import './babel';
+import './hackRouter';
