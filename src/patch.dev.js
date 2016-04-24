@@ -1,6 +1,6 @@
 const React = require('react');
 const resolveType = require('./resolveType');
-const hackRouter = require('./hackRouter');
+const fixupReactRouter = require('./fixupReactRouter');
 
 if (React.createElement.isPatchedByReactHotLoader) {
   throw new Error('Cannot patch React twice.');
@@ -11,7 +11,7 @@ function patchedCreateElement(type, props, ...args) {
   // Ideally we want to teach React Router to receive children.
   // We're not in a perfect world, and a dirty workaround works for now.
   // https://github.com/reactjs/react-router/issues/2182
-  hackRouter(type, props, resolveType);
+  fixupReactRouter(type, props, resolveType);
 
   // Trick React into rendering a proxy so that
   // its state is preserved when the class changes.

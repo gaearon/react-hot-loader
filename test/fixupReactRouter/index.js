@@ -1,4 +1,4 @@
-import hackRouter from '../../src/hackRouter';
+import fixupReactRouter from '../../src/fixupReactRouter';
 import expect, { createSpy } from 'expect';
 
 const forceUpdateSpy = createSpy();
@@ -7,7 +7,7 @@ const Router = {
   displayName: 'Router',
 };
 
-describe('hackRouter', () => {
+describe('fixupReactRouter', () => {
   beforeEach(() => {
     forceUpdateSpy.reset();
   });
@@ -27,7 +27,7 @@ describe('hackRouter', () => {
     };
 
     it('calls force update on each route\'s component', () => {
-      hackRouter(Router, props, forceUpdateSpy);
+      fixupReactRouter(Router, props, forceUpdateSpy);
       expect(forceUpdateSpy).toHaveBeenCalledWith(props.children[0].props.component);
       expect(forceUpdateSpy).toHaveBeenCalledWith(props.children[1].props.component);
     });
@@ -35,7 +35,7 @@ describe('hackRouter', () => {
     describe('and the top component is not a router', () => {
       it('does not call force update on any component', () => {
         const NotRouter = { displayName: 'DefinitelyNotARouter' };
-        hackRouter(NotRouter, props, forceUpdateSpy);
+        fixupReactRouter(NotRouter, props, forceUpdateSpy);
         expect(forceUpdateSpy).toNotHaveBeenCalled();
       });
     });
@@ -76,7 +76,7 @@ describe('hackRouter', () => {
     };
 
     it('calls force update on each route\'s components', () => {
-      hackRouter(Router, props, forceUpdateSpy);
+      fixupReactRouter(Router, props, forceUpdateSpy);
       expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[0].component);
       expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[1].component);
     });
@@ -95,7 +95,7 @@ describe('hackRouter', () => {
     };
 
     it('calls force update on each route\'s components', () => {
-      hackRouter(Router, props, forceUpdateSpy);
+      fixupReactRouter(Router, props, forceUpdateSpy);
       expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[0].component);
       expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[0].childRoutes[0].component);
     });
@@ -114,7 +114,7 @@ describe('hackRouter', () => {
     };
 
     it('calls force update on each component', () => {
-      hackRouter(Router, props, forceUpdateSpy);
+      fixupReactRouter(Router, props, forceUpdateSpy);
       expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[0].components.a);
       expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[0].components.b);
     });

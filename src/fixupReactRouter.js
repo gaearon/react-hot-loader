@@ -49,4 +49,4 @@ function fixupReactRouter(props, forceUpdateFunction) {
   });
 }
 
-module.exports = hackRouter;
+module.exports = fixupReactRouter;

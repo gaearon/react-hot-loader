@@ -1,2 +1,2 @@
 import './babel';
-import './hackRouter';
+import './fixupReactRouter';
