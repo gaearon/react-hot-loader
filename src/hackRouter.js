@@ -1,5 +1,16 @@
-// This is lame but let's focus on shipping.
-// https://github.com/gaearon/react-hot-loader/issues/249
+
+function ensureArray(maybeArray) {
+  if (!maybeArray) {
+    return [];
+  } else {
+    if (Array.isArray(maybeArray)) {
+      return maybeArray;
+    } else {
+      return [maybeArray];
+    }
+  }
+}
+
 function isReactRouterish(type) {
   return type && (
     type.displayName === 'Router' ||
@@ -7,43 +18,35 @@ function isReactRouterish(type) {
   );
 }
 
-function forceUpdateComponentsOfRouteAndChildRoutes(route, forceUpdateFunction) {
-  // TODO: check whether it is possible to also handle the `getComponent` case here
-  if (route.component && typeof(route.component) === 'function') {
+function extractComponents(routes) {
+  return routes
+    .map(route => {
+      // The route properties are at different locations depending on if plain routes
+      // or regular element routes are used
+      const component = route.component || (route.props && route.props.component);
+      const componentsMap = route.components || (route.props && route.props.components) || {};
+      const childRoutes = route.childRoutes || (route.props && ensureArray(route.props.children));
+
+      const components = Object.keys(componentsMap).map(key => componentsMap[key]);
+      const childRouteComponents = childRoutes && extractComponents(childRoutes);
+
+      return [].concat(component, components, childRouteComponents);
+    })
+    .reduce((reduceTarget, components) => reduceTarget.concat(components), []) // flatten
+    .filter(c => typeof(c) === 'function');
+}
+
+function fixupReactRouter(props, forceUpdateFunction) {
+  // Ideally we want to teach React Router to receive children.
+  // We're not in a perfect world, and a dirty workaround works for now.
+  // https://github.com/reactjs/react-router/issues/2182
+  const routes = props.routes || ensureArray(props.children);
+  const components = extractComponents(routes);
+  components.forEach((component) =>  {
     // Side effect 😱
     // Force proxies to update since React Router ignores new props.
-    forceUpdateFunction(route.component);
-  }
-
-  if (route.components) {
-    for (const key in route.components) {
-      if (!route.components.hasOwnProperty(key)) continue;
-
-      const component = route.components[key];
-
-      if (typeof(component) === 'function') {
-        forceUpdateFunction(component);
-      }
-    }
-  }
-
-  // Child routes will be in `children` when defining routes using react
-  // elements and in `routes` or `childRoutes` when using plain routes
-  const childRoutes = []
-    .concat(route.routes, route.childRoutes, route.children)
-    .filter(Boolean);
-
-  for (const childRoute of childRoutes) {
-    // When using `Route` element routes the relevant objects will be under props
-    // and when using plain routes directly on the route
-    forceUpdateComponentsOfRouteAndChildRoutes(childRoute.props || childRoute, forceUpdateFunction);
-  }
+    forceUpdateFunction(component);
+  });
 }
 
-export default function hackRouter(type, props, forceUpdateFunction) {
-  if (isReactRouterish(type) && props) {
-    forceUpdateComponentsOfRouteAndChildRoutes(props, forceUpdateFunction);
-  }
-}
-
-module.exports.default = hackRouter;
+module.exports = hackRouter;

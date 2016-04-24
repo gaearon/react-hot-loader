@@ -50,24 +50,20 @@ describe('hackRouter', () => {
     </Router> */
 
     const props = {
-      children: [
-        {
-          props: {
-            component: function a() {},
-            children: [
-              { props: { component: function b() {} } },
-            ],
+      children: {
+        props: {
+          component: function a() {},
+          children: {
+            props: { component: function b() {} },
           },
         },
-      ],
+      }
     };
 
     it('calls force update on each route\'s component', () => {
-      hackRouter(Router, props, forceUpdateSpy);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(props.children[0].props.component);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(
-        props.children[0].props.children[0].props.component
-      );
+      fixupReactRouter(props, forceUpdateSpy);
+      expect(forceUpdateSpy).toHaveBeenCalledWith(props.children.props.component);
+      expect(forceUpdateSpy).toHaveBeenCalledWith(props.children.props.children.props.component);
     });
   });
 
