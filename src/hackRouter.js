@@ -1,5 +1,3 @@
-const resolveType = require('./resolveType').default;
-
 // This is lame but let's focus on shipping.
 // https://github.com/gaearon/react-hot-loader/issues/249
 function isReactRouterish(type) {
@@ -9,12 +7,12 @@ function isReactRouterish(type) {
   );
 }
 
-function forceUpdateComponentsOfRouteAndChildRoutes(route) {
+function forceUpdateComponentsOfRouteAndChildRoutes(route, forceUpdateFunction) {
   // TODO: check whether it is possible to also handle the `getComponent` case here
   if (route.component && typeof(route.component) === 'function') {
     // Side effect 😱
     // Force proxies to update since React Router ignores new props.
-    resolveType(route.component);
+    forceUpdateFunction(route.component);
   }
 
   if (route.components) {
@@ -24,7 +22,7 @@ function forceUpdateComponentsOfRouteAndChildRoutes(route) {
       const component = route.components[key];
 
       if (typeof(component) === 'function') {
-        resolveType(component);
+        forceUpdateFunction(component);
       }
     }
   }
@@ -38,13 +36,13 @@ function forceUpdateComponentsOfRouteAndChildRoutes(route) {
   for (const childRoute of childRoutes) {
     // When using `Route` element routes the relevant objects will be under props
     // and when using plain routes directly on the route
-    forceUpdateComponentsOfRouteAndChildRoutes(childRoute.props || childRoute);
+    forceUpdateComponentsOfRouteAndChildRoutes(childRoute.props || childRoute, forceUpdateFunction);
   }
 }
 
-export default function hackRouter(type, props) {
+export default function hackRouter(type, props, forceUpdateFunction) {
   if (isReactRouterish(type) && props) {
-    forceUpdateComponentsOfRouteAndChildRoutes(props);
+    forceUpdateComponentsOfRouteAndChildRoutes(props, forceUpdateFunction);
   }
 }
 

@@ -69,4 +69,4 @@ function resolveType(type) {
   return proxies[id].get();
 }
 
-module.exports.default = resolveType;
+module.exports = resolveType;
