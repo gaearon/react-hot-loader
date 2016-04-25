@@ -72,7 +72,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import RootContainer from './containers/rootContainer.js';
 
-render(<RootContainer />, document.elementById('react-root');
+render(<RootContainer />, document.elementById('react-root'));
 ```
 you would add the following code to accept changes to RootContainer _or any of it's descendants_.
 
@@ -80,7 +80,7 @@ you would add the following code to accept changes to RootContainer _or any of i
  if (module.hot) {
    module.hot.accept('./containers/rootContainer.js', function() {
      var NextRootContainer = require('./containers/rootContainer.js';
-     render(<NextRootContainer />, document.elementById('react-root');
+     render(<NextRootContainer />, document.elementById('react-root'));
    }
  }
 ```
@@ -120,7 +120,7 @@ The final step adds adds `react-hot-loader` to our project to preserve _componen
     ```js
     import { AppContainer } from 'react-hot-loader';
     render(<AppContainer><RootContainer /></AppContainer>,
-    document.getElementById('react-root');
+      document.getElementById('react-root'));
     ```  
     **XXX pending [gaearon/react hot loader#244](https://github.com/gaearon/react-hot-loader/issues/244)**
 
@@ -146,7 +146,7 @@ if (module.hot) {
   module.hot.accept('./containers/rootContainer.js', function() {
     var NextRootContainer = require('./containers/rootContainer.js';
     render(<AppContainer><NextRootContainer /></AppContainer>,
-      document.getElementById('react-root');
+      document.getElementById('react-root'));
    }
 }
 ```
