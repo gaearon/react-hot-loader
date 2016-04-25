@@ -1,116 +1,192 @@
+# React Hot Loader v3
+
+**_Draft docs_**
+
+## Intro
+
+React Hot Loader lets us modify our React components and see the changes in realtime.  No more waiting for your entire project to rebuild every time you save a file; your webpage stays loaded and the modified component updates instantly.
+
+XXX do we even need an intro here?  What will be here vs main README?  e.g.
+*   animated gif (should definitely be main README)
+*   link to reacteurope video
+
+**Differences from Past Approaches and Issues Solved**
+
+First we had React Hot Loader, which was superseded by React Transform.  Each time we solved earlier issues but were faced with new ones.  RHLv3 solves all these issues with a more sustainable approach, and is intended as a replacement for both:
+
+*   Preserves state in functional components
+*   Little configuration required
+*   Disabled in production
+*   Works with or without Babel
+*   Everything you need in a single repo
+
+For more information on the evolution of approaches taken, see [](https://medium.com/@dan_abramov/hot-reloading-in-react-1140438583bf)https://medium.com/@dan_abramov/hot-reloading-in-react-1140438583bf.
+
+## Boilerplate Example
+
+What follows is a 3-step guide to integrating React Hot Loader into your current project.  Alternatively, you can also clone the boilerplate, for a quick start on a fresh app with everything working out-of-the-box.
+
+[](https://github.com/gaearon/react-hot-boilerplate/)https://github.com/gaearon/react-hot-boilerplate/
+
 ### Starter Kits
 
-* [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate) (Bare minimum)
-* [react-starter](https://github.com/webpack/react-starter) (react-router, includes production configs)
-* [isomorphic-hot-loader](https://github.com/irvinebroque/isomorphic-hot-loader) (react-router, isomorphic)
-* [isomorphic-react-template](https://github.com/gpbl/isomorphic-react-template/) (react-router, isomorphic)
-* [coffee-react-quickstart](https://github.com/KyleAMathews/coffee-react-quickstart) (react-router, CoffeeScript, Gulp)
-* [react-static-boilerplate](https://github.com/koistya/react-static-boilerplate) (static site generator; React, PostCSS, Webpack, BrowserSync)
-* [boilerplate-webpack-react](https://github.com/tcoopman/boilerplate-webpack-react) (react-router, isomorphic)
-* [este](http://github.com/steida/este) (react-router, isomorphic, Flux, Babel)
-* [react-isomorphic-starterkit](https://github.com/RickWong/react-isomorphic-starterkit) (react-router, react-async, isomorphic)
-* [yarsk](https://github.com/bradleyboy/yarsk) (Babel, Karma + Mocha, automated publishing to GitHub pages)
-* [react-web](https://github.com/darul75/web-react) (Babel, react-router, Alt flux)
-* [esnext-quickstart](https://github.com/nkbt/esnext-quickstart) (compile-time ESLint, ES6, Babel, Karma + Jasmine + Coverage)
-* [react-webpack-boilerplate](https://github.com/srn/react-webpack-boilerplate) (One-click Heroku deployable, Node.js server)
-* [flask-react-boilerplate](https://github.com/alexkuz/flask-react-boilerplate) (One-click Heroku deployable, Flask server + PostgreSQL, Babel, Flummox)
-* [react-kickstart](https://github.com/vesparny/react-kickstart) (react-router, mocha + chai + istanbul)
-* [react-redux-universal-hot-example](https://github.com/erikras/react-redux-universal-hot-example) (isomorphic, redux, client and server async data fetching, babel, react-router)
-* [go-starter-kit](https://github.com/olebedev/go-starter-kit) (hot reloadable golang/react/flummox/css-module isomorphic starter kit)
-* [react-fullstack-skeleton](https://github.com/fortruce/react-fullstack-skeleton) (react w/ backend api server)
+**XXX: from old doc, but we only want ones that are up to date with RHLv3**
 
-Don't be shy, add your own.
+## Integrating into your own App
 
-### Migrating to 1.0
+### Step 1/3: Enabling Hot Module Replacement (HMR)
 
-React Hot Loader has reached 1.0, and it's a breaking change. When React Hot Loader just started, it used a regex to find `createClass` calls and replace them with its own implementation. This turned out to be a bad idea for a number of reasons:
+HMR allows us to replace modules in-place without restarting the server, here's how you can enable it:
 
-* Doesn't work when components are created through wrappers (e.g. [OmniscientJS](http://omniscientjs.github.io));
-* Doesn't work when author calls React differently;
-* Causes false positives in React source code comments and elsewhere;
-* Most importantly, won't work with ES6 classes that will be future of React.
+**Webpack**
 
-Here's how we're solving these problems in 1.0:
+* Create a development Webpack config separate from production one
+* Add HotModuleReplacementPlugin to development Webpack config
+* If you only render on the client, consider using WebpackDevServer
+  * Easier to set up
+  * Enable hot: true and add its entry points
+* If you use server rendering, consider using Express server + webpack-dev-middleware
+* More work but also more control
+* Show how to add webpack-dev-middleware and its entry point
 
-#### Only `module.exports` and its own properties are hot by default
+**XXX cleanup, details**
 
-With 1.0, we no longer parse your sources. Instead, we only now make `module.exports` and its [own properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty) hot by default, and only if their prototype declares `render` method or descends from `React.Component`. **If you've been splitting each component in a separate file, that means no change for you here!** This allows us to support exotic wrappers.
+**Browserify**
 
-If you use inheritance in React 0.13, base classes will only be opted into hot reloading if they descend from `React.Component` or define `render` method. Otherwise you need to explicitly call `module.makeHot` as described below.
+If you have this setup working, please consider submitting instructions as a PR.
 
-#### You can make hot anything else via opt-in `module.makeHot` API
+**Meteor**
 
-But what if you *want* to have several hot-reloadable components in one file? Or what if you want to export a function creating components, or an object with several components as properties? For that, 1.0 **adds first public API to hot loader: `module.makeHot`**. This method will be present on `module` object if hot loader is enabled, and allows you to make any component hot:
+*   If you're using [webpack:webpack](https://atmospherejs.com/webpack/webpack) you can follow the webpack instructions or ask for help in [this](https://forums.meteor.com/t/use-webpack-with-meteor-simply-by-adding-packages-meteor-webpack-1-0-is-out/18819) forum post.
+
+*   Otherwise, for HMR in "native" Meteor, type: `meteor remove ecmascript && meteor add gadicc:ecmascript-hot` or see the [README](https://github.com/gadicc/meteor-react-hotloader#readme) for more details.  There are also some Meteor-specific RHLv3 install instructions [here](https://github.com/gadicc/meteor-react-hotloader/blob/master/docs/React_Hotloading.md).
+
+### Step 2/3: Using HMR to replace the root component
+
+When the HMR runtime receives an updated module, it first checks to see if the module knows how to update itself, and then ascends the import/require chain looking for a parent module that can accept the update.  We want our root component to be able to accept an update from any child component.
+
+If your client entry point looks like this:
 
 ```js
-var Something = React.createClass({
-  ...
-};
+import React from 'react';
+import { render } from 'react-dom';
+import RootContainer from './containers/rootContainer.js';
 
-if (module.makeHot) { // Won't be true in production
-  Something = module.makeHot(Something);
-}
+render(<RootContainer />, document.elementById('react-root');
 ```
-
-Explicit API can also be used inside functions:
+you would add the following code to accept changes to RootContainer _or any of it's descendants_.
 
 ```js
-function generateClass(param) {
-  var Class = return React.createClass({
-    ...
-  };
-
-  if (module.makeHot) {
-    Class = module.makeHot(Class, param);
-  }
-
-  return Class;
-}
-
+ if (module.hot) {
+   module.hot.accept('./containers/rootContainer.js', function() {
+     var NextRootContainer = require('./containers/rootContainer.js';
+     render(<NextRootContainer />, document.elementById('react-root');
+   }
+ }
 ```
+Note, with no further steps, this enough to hotload changes to React components, but state will not be preserved.  If you externalize all your state in a state store like Redux, this might be enough.
 
-Note the second parameter: `makeHot` needs some way to distinguish components of same type inside on module. By default, it uses `displayName` of given component class, but in case of dynamically generated classes (or if you're not using JSX), you have to provide it yourself.
+### Step 3/3: Adding React Hot Loader to preserve state
 
-### Manual mode (experimental)
+The final step adds adds `react-hot-loader` to our project to preserve _component state_ across hot loads.
 
-You can now use `react-hot?manual` instead of `react-hot` in Webpack config to turn on manual mode. In manual mode, “accepting” hot updates is up to you; modules won't accept themselves automatically. This can be used, for example, to put reloading logic on very top of the application and [hot-reload routes as well as components](https://github.com/rackt/react-router/pull/606#issuecomment-66936975). It will also work better when you have a lot of modules that export component-generating functions because updates will propagate to the top. (Don't worry if you don't understand this; it's just something experimental you might want to try to integrate hot reloading deeper into your app.)
+1.  Install the package:
 
-### Usage with external React
+    ```sh
+    npm install --save-dev react-hot-loader
+    ```
+1.  Add the package to your config.
 
-If you're using external standalone React bundle instead of NPM package, Hot Loader will fail because it relies on `react/lib/ReactMount` which is not exposed in precompiled React. It needs `ReactMount` to keep track of mounted React component instances on the page. However, you can supply your own root instance provider:
+    a.  If you use Babel, modify your `.babelrc` to ensure it includes at least:
+
+    ```js
+    {
+      "plugins": [ "react-hot-loader/babel" ]
+    }
+    ```
+    b. Alternatively, in Webpack, add `react-hot-loader/webpack` to your loaders
+
+    ```js
+        XXX
+    ```
+
+1.  Add following line to the top of your main entry point:
+    ```js
+    import 'react-hot-loader/patch';
+    ```
+
+1.  Wrap your `<RootContainer/>` inside of an `<AppContainer>`:
+
+    ```js
+    import { AppContainer } from 'react-hot-loader';
+    render(<AppContainer><RootContainer /></AppContainer>,
+    document.getElementById('react-root');
+    ```  
+    **XXX pending [gaearon/react hot loader#244](https://github.com/gaearon/react-hot-loader/issues/244)**
+
+    You should do this for both instances, e.g. your original mount and your mount code inside of the `module.hot.accept()` function.  `<AppContainer>` must wrap only a single, React component.
+
+That's it!
+
+## Putting it all together 
+
+If you followed all the steps your app's main entry point should now look something like this:
 
 ```js
-// Your app's index.js
+import 'react-hot-loader/patch';
+import React from 'react';
+import { render } from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
+import RootContainer from './containers/rootContainer.js';
 
-var React = require('react'),
-    router = require('./router');
-
-var rootInstance = null;
-
-router.run(function (Handler, state) {
-  rootInstance = React.render(<Handler />, document.body);
-});
+render(<AppContainer><RootContainer /></AppContainer>,
+  document.getElementById('react-root');
 
 if (module.hot) {
-  require('react-hot-loader/Injection').RootInstanceProvider.injectProvider({
-    getRootInstances: function () {
-      // Help React Hot Loader figure out the root component instances on the page:
-      return [rootInstance];
-    }
-  });
+  module.hot.accept('./containers/rootContainer.js', function() {
+    var NextRootContainer = require('./containers/rootContainer.js';
+    render(<AppContainer><NextRootContainer /></AppContainer>,
+      document.getElementById('react-root');
+   }
 }
 ```
 
-You'll only need this if you [use a precompiled version of React](https://github.com/gaearon/react-hot-loader/issues/53). If you use React NPM package, this is not necessary. You should generally use React NPM package unless you have good reason not to.
+### Checking that everything is working properly
 
-### Source Maps
+**XXX**
 
-If you use `devtool: 'source-map'` (or its equivalent), source maps will be emitted to hide hot reloading code.
+## Troubleshooting
 
-Source maps slow down your project. Use `devtool: 'eval'` for best build performance.
+**XXX could/should be in another file**
 
-Hot reloading code is just one line in the beginning and one line in the end of each module so you might not need source maps at all.
+## Tips and Tricks
 
-### React Hot API
+**XXX could/should be in another file**
 
-If you're authoring a build tool, you might be interested to hear that React Hot Loader brains have been extracted into runtime-agnostic [React Hot API](https://github.com/gaearon/react-hot-api). React Hot Loader just binds that API to Webpack runtime, but you can implement yours too.
+**How to get an error in your console too:**
+
+The redbox errors are great to clearly see rendering issues, and avoiding an uncaught error from breaking your app.  But there are some advantages to a thrown error in the console too, like filename resolution via sourcemaps, and click-to-open.  To get the best of both worlds, modify your app entry point as follows:
+
+```js
+import Redbox from 'redbox-react';
+
+const consoleErrorReporter = ({error}) => {
+  // We throw in a different context, so the app still doesn't break!
+  setTimeout(() => { throw error; });
+  return <Redbox error={error} />;
+};
+consoleErrorReporter.propTypes = {
+  error: React.PropTypes.error
+};
+
+render(
+  <AppContainer errorReporter={consoleErrorReporter}>
+    <AppRoot />
+  </AppContainer>,
+  document.getElementById('react-root')
+);
+```
+
+## Where to ask for Help
+
+**XXX**
