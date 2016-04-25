@@ -82,8 +82,7 @@ class AppContainer extends Component {
 
     if (this.props.component) {
       return <this.props.component {...this.props.props} />;
-    }
-    else {
+    } else {
       return React.Children.only(this.props.children);
     }
   }
