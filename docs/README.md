@@ -68,7 +68,7 @@ When the HMR runtime receives an updated module, it first checks to see if the m
 
 If your client entry point looks like this:
 
-```js
+```jsx
 import React from 'react';
 import { render } from 'react-dom';
 import RootContainer from './containers/rootContainer.js';
@@ -77,10 +77,10 @@ render(<RootContainer />, document.elementById('react-root'));
 ```
 you would add the following code to accept changes to RootContainer _or any of it's descendants_.
 
-```js
+```jsx
  if (module.hot) {
-   module.hot.accept('./containers/rootContainer.js', function() {
-     var NextRootContainer = require('./containers/rootContainer.js').default;
+   module.hot.accept('./containers/rootContainer.js', () => {
+     const NextRootContainer = require('./containers/rootContainer.js').default;
      render(<NextRootContainer />, document.elementById('react-root'));
    }
  }
@@ -94,7 +94,7 @@ The final step adds adds `react-hot-loader` to our project to preserve _componen
 1.  Install the package:
 
     ```sh
-    npm install --save-dev react-hot-loader
+    $ npm install --save-dev react-hot-loader
     ```
 1.  Add the package to your config.
 
@@ -132,7 +132,7 @@ The final step adds adds `react-hot-loader` to our project to preserve _componen
 
 1.  Wrap your `<RootContainer/>` inside of an `<AppContainer>`:
 
-    ```js
+    ```jsx
     import { AppContainer } from 'react-hot-loader';
     import RootContainer from './containers/rootContainer.js';
 
@@ -165,7 +165,7 @@ for an existing wrapper/parent component.
 Your application's main entry point might look like the code presented below. Notice that
 we are targeting and subsequently rendering into a particular DOM element's id (conveniently named `react-root`).
 
-```javascript
+```jsx
 import 'react-hot-loader/patch';
 import React from 'react';
 import { render } from 'react-dom';
