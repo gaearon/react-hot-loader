@@ -20,7 +20,8 @@ First we had React Hot Loader, which was superseded by React Transform.  Each ti
 *   Works with or without Babel
 *   Everything you need in a single repo
 
-For more information on the evolution of approaches taken, see [](https://medium.com/@dan_abramov/hot-reloading-in-react-1140438583bf)https://medium.com/@dan_abramov/hot-reloading-in-react-1140438583bf.
+For more information on the evolution of approaches taken
+To learn more about the evolution of prior approaches, read ["Hot Reloading in React"](https://medium.com/@dan_abramov/hot-reloading-in-react-1140438583bf) by [Dan Abramov](https://medium.com/@dan_abramov)
 
 ## Boilerplate Example
 
@@ -67,7 +68,7 @@ When the HMR runtime receives an updated module, it first checks to see if the m
 
 If your client entry point looks like this:
 
-```js
+```jsx
 import React from 'react';
 import { render } from 'react-dom';
 import RootContainer from './containers/rootContainer.js';
@@ -76,10 +77,10 @@ render(<RootContainer />, document.elementById('react-root'));
 ```
 you would add the following code to accept changes to RootContainer _or any of it's descendants_.
 
-```js
+```jsx
  if (module.hot) {
-   module.hot.accept('./containers/rootContainer.js', function() {
-     var NextRootContainer = require('./containers/rootContainer.js').default;
+   module.hot.accept('./containers/rootContainer.js', () => {
+     const NextRootContainer = require('./containers/rootContainer.js').default;
      render(<NextRootContainer />, document.elementById('react-root'));
    }
  }
@@ -93,7 +94,7 @@ The final step adds adds `react-hot-loader` to our project to preserve _componen
 1.  Install the package:
 
     ```sh
-    npm install --save-dev react-hot-loader
+    $ npm install --save-dev react-hot-loader
     ```
 1.  Add the package to your config.
 
@@ -107,7 +108,21 @@ The final step adds adds `react-hot-loader` to our project to preserve _componen
     b. Alternatively, in Webpack, add `react-hot-loader/webpack` to your loaders
 
     ```js
-        XXX
+        // webpackConfig.js
+
+        // TODO: Would love some help showing the shape of the webpack config without
+        // overwhelming users either - just want it to be familiar enough. I suppose we could
+        // also declare a variable and assign the require statement to it? (Just an idea)
+        devtool: ...,
+        entry: [...],
+        module: {
+            loaders: [{
+                test: /\.js$/,
+                loaders: ['react-hot-loader/webpack', 'babel'],
+                include: path.join(__dirname, 'src')
+            }]
+        }
+
     ```
 
 1.  Add following line to the top of your main entry point:
@@ -117,10 +132,15 @@ The final step adds adds `react-hot-loader` to our project to preserve _componen
 
 1.  Wrap your `<RootContainer/>` inside of an `<AppContainer>`:
 
-    ```js
+    ```jsx
     import { AppContainer } from 'react-hot-loader';
-    render(<AppContainer><RootContainer /></AppContainer>,
-      document.getElementById('react-root'));
+    import RootContainer from './containers/rootContainer.js';
+
+    render((
+        <AppContainer>
+            <RootContainer />
+        </AppContainer>
+    ), document.getElementById('react-root'));
     ```  
     **XXX pending [gaearon/react hot loader#244](https://github.com/gaearon/react-hot-loader/issues/244)**
 
@@ -128,26 +148,47 @@ The final step adds adds `react-hot-loader` to our project to preserve _componen
 
 That's it!
 
-## Putting it all together 
+## Putting it all together
 
-If you followed all the steps your app's main entry point should now look something like this:
+If you've gotten this far - you're almost done! But before showing you what your app's
+main entry point might look like, let's clarify a few things.
 
-```js
+`AppContainer`
+> `AppContainer` is a component provided by *this* library (`react-hot-loader`), it serves to
+wrap your entire app in order to provide hot reloading goodness!
+
+`RootContainer`
+> On the other hand, `RootContainer` represents any application's top-level component, prior
+to implementing the `AppContainer` mentioned above. Keep in mind that this can be substituted
+for an existing wrapper/parent component.
+
+Your application's main entry point might look like the code presented below. Notice that
+we are targeting and subsequently rendering into a particular DOM element's id (conveniently named `react-root`).
+
+```jsx
 import 'react-hot-loader/patch';
 import React from 'react';
 import { render } from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
+// See notes above re: AppContainer and RootContainer
+import { AppContainer } from 'react-hot-loader'
 import RootContainer from './containers/rootContainer.js';
 
-render(<AppContainer><RootContainer /></AppContainer>,
-  document.getElementById('react-root');
+render((
+  <AppContainer>
+    <RootContainer />
+  </AppContainer>
+), document.getElementById('react-root'));
 
 if (module.hot) {
-  module.hot.accept('./containers/rootContainer.js', function() {
-    var NextRootContainer = require('./containers/rootContainer.js').default;
-    render(<AppContainer><NextRootContainer /></AppContainer>,
-      document.getElementById('react-root'));
-   }
+  module.hot.accept('./containers/rootContainer.js', () => {
+    const NextRootContainer = require('./containers/rootContainer.js');
+
+    render((
+      <AppContainer>
+        <NextRootContainer />
+      </AppContainer>
+    ), document.getElementById('react-root'));
+  })
 }
 ```
 
@@ -165,9 +206,11 @@ if (module.hot) {
 
 **How to get an error in your console too:**
 
-The redbox errors are great to clearly see rendering issues, and avoiding an uncaught error from breaking your app.  But there are some advantages to a thrown error in the console too, like filename resolution via sourcemaps, and click-to-open.  To get the best of both worlds, modify your app entry point as follows:
+The `Redbox` errors are great to clearly see rendering issues, and avoiding an uncaught error from breaking your app.
+But there are some advantages to a thrown error in the console too, like filename resolution via sourcemaps, and click-to-open.
+To get the best of both worlds, modify your app entry point as follows:
 
-```js
+```jsx
 import Redbox from 'redbox-react';
 
 const consoleErrorReporter = ({error}) => {
@@ -175,16 +218,16 @@ const consoleErrorReporter = ({error}) => {
   setTimeout(() => { throw error; });
   return <Redbox error={error} />;
 };
+
 consoleErrorReporter.propTypes = {
   error: React.PropTypes.error
 };
 
-render(
+render((
   <AppContainer errorReporter={consoleErrorReporter}>
     <AppRoot />
-  </AppContainer>,
-  document.getElementById('react-root')
-);
+  </AppContainer>
+), document.getElementById('react-root'));
 ```
 
 ## Where to ask for Help
