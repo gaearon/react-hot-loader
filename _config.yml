@@ -1,13 +1,15 @@
 # Dependencies
 markdown:         kramdown
-highlighter:      pygments
+kramdown:
+  input:          GFM
+highlighter:      rouge
 # pygments:         true
 
 # Permalinks
 permalink:        pretty
 
 # Setup
-title:            'React Hot Loader 3'
+title:            'React Hot Loader'
 tagline:          'Tweak React components in real time.'
 description:      'Tweak React components in real time.'
 url:              http://localhost:4000
