@@ -79,7 +79,7 @@ you would add the following code to accept changes to RootContainer _or any of i
 ```js
  if (module.hot) {
    module.hot.accept('./containers/rootContainer.js', function() {
-     var NextRootContainer = require('./containers/rootContainer.js');
+     var NextRootContainer = require('./containers/rootContainer.js').default;
      render(<NextRootContainer />, document.elementById('react-root'));
    }
  }
@@ -144,7 +144,7 @@ render(<AppContainer><RootContainer /></AppContainer>,
 
 if (module.hot) {
   module.hot.accept('./containers/rootContainer.js', function() {
-    var NextRootContainer = require('./containers/rootContainer.js');
+    var NextRootContainer = require('./containers/rootContainer.js').default;
     render(<AppContainer><NextRootContainer /></AppContainer>,
       document.getElementById('react-root'));
    }
