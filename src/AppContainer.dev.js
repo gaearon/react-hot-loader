@@ -38,13 +38,7 @@ class AppContainer extends Component {
   componentWillReceiveProps(nextProps) {
     // Hot reload is happening.
     // Retry rendering!
-    if (nextProps.component !== this.props.component) {
-      this.setState({
-        error: null
-      });
-    }
-
-    if (nextProps.children.type !== this.props.children.type) {
+    if (this.hasChildTypeChanged(nextProps)) {
       this.setState({
         error: null
       });
@@ -55,11 +49,7 @@ class AppContainer extends Component {
     // Hot reload has finished.
     // Force-update the whole tree, including
     // components that refuse to update.
-    if (prevProps.component !== this.props.component) {
-      deepForceUpdate(this);
-    }
-
-    if (prevProps.children.type !== this.props.children.type) {
+    if (this.hasChildTypeChanged(prevProps)) {
       deepForceUpdate(this);
     }
   }
@@ -72,6 +62,19 @@ class AppContainer extends Component {
     this.setState({
       error: error
     });
+  }
+
+  hasChildTypeChanged(props) {
+    // Backwards compat
+    if (props.component !== this.props.component) {
+      return true;
+    }
+
+    if (props.children.type !== this.props.children.type) {
+      return true;
+    }
+
+    return false;
   }
 
   render() {
