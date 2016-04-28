@@ -1,3 +1,6 @@
+'use strict';
+
+import { Children, isValidElement } from 'react';
 
 function ensureArray(maybeArray) {
   if (!maybeArray) {
@@ -19,34 +22,40 @@ function isReactRouterish(type) {
 }
 
 function extractComponents(routes) {
-  return routes
+  return ensureArray(routes)
+    .filter(Boolean)
     .map(route => {
-      // The route properties are at different locations depending on if plain routes
-      // or regular element routes are used
-      const component = route.component || (route.props && route.props.component);
-      const componentsMap = route.components || (route.props && route.props.components) || {};
-      const childRoutes = route.childRoutes || (route.props && ensureArray(route.props.children));
+      const isElement = isValidElement(route);
+      const component = isElement ? route.props.component : route.component;
+      const namedComponentsByKey = isElement ? route.props.components : route.components;
 
-      const components = Object.keys(componentsMap).map(key => componentsMap[key]);
+      const indexRoute = route.indexRoute;
+      const childRoutes = isElement ?
+        Children.toArray(route.props.children) :
+        ensureArray(route.childRoutes);
+      const namedComponents = Object.keys(namedComponentsByKey || {}).map(key =>
+        namedComponentsByKey[key]
+      );
+
+      const indexRouteComponents = indexRoute && extractComponents(indexRoute);
       const childRouteComponents = childRoutes && extractComponents(childRoutes);
-
-      return [].concat(component, components, childRouteComponents);
+      return [].concat(
+        component,
+        namedComponents,
+        indexRouteComponents,
+        childRouteComponents
+      );
     })
-    .reduce((reduceTarget, components) => reduceTarget.concat(components), []) // flatten
-    .filter(c => typeof(c) === 'function');
+    .reduce((flattened, candidates) => flattened.concat(candidates), [])
+    .filter(c => typeof c === 'function');
 }
 
-function fixupReactRouter(props, forceUpdateFunction) {
-  // Ideally we want to teach React Router to receive children.
-  // We're not in a perfect world, and a dirty workaround works for now.
-  // https://github.com/reactjs/react-router/issues/2182
-  const routes = props.routes || ensureArray(props.children);
-  const components = extractComponents(routes);
-  components.forEach((component) =>  {
-    // Side effect 😱
-    // Force proxies to update since React Router ignores new props.
-    forceUpdateFunction(component);
-  });
+function extractRouteHandlerComponents(props) {
+  const routes = props.routes || Children.toArray(props.children);
+  return extractComponents(routes);
 }
 
-module.exports = { isReactRouterish, fixupReactRouter };
+module.exports = {
+  isReactRouterish,
+  extractRouteHandlerComponents
+};

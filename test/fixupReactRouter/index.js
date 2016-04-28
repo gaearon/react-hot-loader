@@ -1,127 +1,321 @@
-import { isReactRouterish, fixupReactRouter } from '../../src/fixupReactRouter';
+import React from 'react';
+import { isReactRouterish, extractRouteHandlerComponents } from '../../src/fixupReactRouter';
 import expect, { createSpy } from 'expect';
 
-const forceUpdateSpy = createSpy();
+const spy = createSpy();
 
+function Router() {}
+function Route() {};
+function IndexRoute() {};
+function Redirect() {};
+function NotRouter() {};
 
 describe('isReactRouterish', () => {
   describe('when given a router', () => {
     it('is true when given a router', () => {
-      const Router = { displayName: 'Router' };
       expect(isReactRouterish(Router)).toBe(true);
     });
   });
 
   describe('when not given a router', () => {
     it('returns false', () => {
-      const NotRouter = { displayName: 'DefinitelyNotARouter' };
       expect(isReactRouterish(NotRouter)).toBe(false);
     });
   });
 });
 
-describe('fixupReactRouter', () => {
-  beforeEach(() => {
-    forceUpdateSpy.reset();
+describe('extractRouteHandlerComponents', () => {
+  it('handles something that is not a React Router', () => {
+    const element = (
+      <NotRouter />
+    );
+    expect(
+      extractRouteHandlerComponents(element.props)
+    ).toEqual([]);
   });
 
-  describe('when routes are passed in as children', () => {
-    /* Equivalent to:
-    <Router>
-      <Route component={function a() {}} />
-      <Route component={function b() {}} />
-    </Router> */
+  describe('when routes are passed as React elements in "children" prop', () => {
+    it('handles no routes', () => {
+      const element = (
+        <Router />
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([]);
+    });
 
-    const props = {
-      children: [
-        { props: { component: function a() {} } },
-        { props: { component: function b() {} } },
-      ],
-    };
+    it('handles a single route', () => {
+      function a() {}
+      const element = (
+        <Router>
+          <Route component={a} />
+        </Router>
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a]);
+    });
 
-    it('calls force update on each route\'s component', () => {
-      fixupReactRouter(props, forceUpdateSpy);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(props.children[0].props.component);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(props.children[1].props.component);
+    it('handles a single note with multiple components', () => {
+      function a() {}
+      function b() {}
+      function c() {}
+      const element = (
+        <Router>
+          <Route components={{ a, b, c }} />
+        </Router>
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b, c]);
+    });
+
+    it('handles multiple routes', () => {
+      function a() {}
+      function b() {}
+      const element = (
+        <Router>
+          <Route component={a} />
+          <Route component={b} />
+        </Router>
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b]);
+    });
+
+    it('handles deep routes of different types', () => {
+      function a() {}
+      function b() {}
+      function c() {}
+      function d() {}
+      function e() {}
+      function f() {}
+      function g() {}
+      function h() {}
+      const element = (
+        <Router>
+          <Route component={a}>
+            <Route components={{b, c}} />
+            <Route component={d}>
+              <IndexRoute components={{e, f}} />
+              <Route component={g} />
+            </Route>
+          </Route>
+          <Redirect />
+          <IndexRoute component={h} />
+        </Router>
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b, c, d, e, f, g, h]);
+    });
+
+    it('ignores broken routes', () => {
+      function a() {}
+      function b() {}
+      const element = (
+        <Router>
+          <Route component={a} components={42}>
+            <Route component={null} />
+            <Route components={{ a: 42, b: null }} />
+            <Route>
+              <NotRouter />
+              <Route component={b} />
+            </Route>
+            {null}
+          </Route>
+        </Router>
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b]);
     });
   });
 
-  describe('when routes are passed in as children of children', () => {
-    /* Equivalent to:
-    <Router>
-      <Route component={function a() {}}>
-        <Route component={function b() {}} />
-      </Route>
-    </Router> */
+  describe('when routes are passed as React elements in "routes" prop', () => {
+    it('handles a single route', () => {
+      function a() {}
+      const element = (
+        <Router routes={
+          <Route component={a} />
+        } />
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a]);
+    });
 
-    const props = {
-      children: {
-        props: {
-          component: function a() {},
-          children: {
-            props: { component: function b() {} },
-          },
-        },
-      }
-    };
+    it('handles a single note with multiple components', () => {
+      function a() {}
+      function b() {}
+      function c() {}
+      const element = (
+        <Router routes={
+          <Route components={{ a, b, c }} />
+        } />
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b, c]);
+    });
 
-    it('calls force update on each route\'s component', () => {
-      fixupReactRouter(props, forceUpdateSpy);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(props.children.props.component);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(props.children.props.children.props.component);
+    it('handles multiple routes', () => {
+      function a() {}
+      function b() {}
+      const element = (
+        <Router routes={[
+          <Route component={a} />,
+          <Route component={b} />
+        ]} />
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b]);
+    });
+
+    it('handles deep routes of different types', () => {
+      function a() {}
+      function b() {}
+      function c() {}
+      function d() {}
+      function e() {}
+      function f() {}
+      function g() {}
+      function h() {}
+      const element = (
+        <Router routes={[
+          <Route component={a}>
+            <Route components={{b, c}} />
+            <Route component={d}>
+              <IndexRoute components={{e, f}} />
+              <Route component={g} />
+            </Route>
+          </Route>,
+          <Redirect />,
+          <IndexRoute component={h} />
+        ]} />
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b, c, d, e, f, g, h]);
+    });
+
+    it('ignores broken routes', () => {
+      function a() {}
+      function b() {}
+      const element = (
+        <Router routes={
+          <Route component={a} components={42}>
+            <Route component={null} />
+            <Route components={{ a: 42, b: null }} />
+            <Route>
+              <NotRouter />
+              <Route component={b} />
+            </Route>
+            {null}
+          </Route>
+        } />
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b]);
     });
   });
 
-  describe('when routes are passed in using the `routes` prop', () => {
-    const props = {
-      routes: [
-        { component: function a() {} },
-        { component: function b() {} },
-      ],
-    };
-
-    it('calls force update on each route\'s components', () => {
-      fixupReactRouter(props, forceUpdateSpy);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[0].component);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[1].component);
+  describe('when routes are passed as plain objects in "routes" prop', () => {
+    it('handles a single route', () => {
+      function a() {}
+      const element = (
+        <Router routes={{
+          component: a
+        }} />
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a]);
     });
-  });
 
-  describe('when routes are passed in using the `routes` and `childRoutes` props', () => {
-    const props = {
-      routes: [
-        {
-          component: function a() {},
-          childRoutes: [
-            { component: function b() {} },
-          ],
-        },
-      ],
-    };
-
-    it('calls force update on each route\'s components', () => {
-      fixupReactRouter(props, forceUpdateSpy);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[0].component);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[0].childRoutes[0].component);
+    it('handles a single note with multiple components', () => {
+      function a() {}
+      function b() {}
+      function c() {}
+      const element = (
+        <Router routes={{
+          components: { a, b, c }
+        }} />
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b, c]);
     });
-  });
 
-  describe('when there are multiple components on one route', () => {
-    const props = {
-      routes: [
-        {
-          components: {
-            a: function a() {},
-            b: function b() {},
-          },
-        },
-      ],
-    };
+    it('handles multiple routes', () => {
+      function a() {}
+      function b() {}
+      const element = (
+        <Router routes={[
+          { component: a },
+          { component: b }
+        ]} />
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b]);
+    });
 
-    it('calls force update on each component', () => {
-      fixupReactRouter(props, forceUpdateSpy);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[0].components.a);
-      expect(forceUpdateSpy).toHaveBeenCalledWith(props.routes[0].components.b);
+    it('handles deep routes of different types', () => {
+      function a() {}
+      function b() {}
+      function c() {}
+      function d() {}
+      function e() {}
+      function f() {}
+      function g() {}
+      const element = (
+        <Router routes={[
+          { component: a },
+          { components: { b, c } },
+          {
+            component: d,
+            indexRoute: {
+              components: { e, f }
+            },
+            childRoutes: [{
+              component: g
+            }]
+          }
+        ]} />
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b, c, d, e, f, g]);
+    });
+
+    it('ignores broken routes', () => {
+      function a() {}
+      function b() {}
+      const element = (
+        <Router routes={{
+          component: a,
+          components: 42,
+          childRoutes: [{
+            component: null
+          }, {
+            components: { a: 42, b: null },
+            childRoutes: {}
+          }, {
+            childRoutes: [{
+              something: 'else'
+            }, {
+              component: b
+            }]
+          }, null]
+        }} />
+      );
+      expect(
+        extractRouteHandlerComponents(element.props)
+      ).toEqual([a, b]);
     });
   });
 });

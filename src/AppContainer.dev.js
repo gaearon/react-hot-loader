@@ -1,3 +1,5 @@
+'use strict';
+
 const React = require('react');
 const deepForceUpdate = require('react-deep-force-update');
 const Redbox = require('redbox-react');

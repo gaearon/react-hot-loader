@@ -1,3 +1,5 @@
+'use strict';
+
 const AppContainer = require('./AppContainer');
 
 module.exports = function warnAboutIncorrectUsage(arg) {
