@@ -20,6 +20,7 @@ var { Z } = require("left-pad");
 const _default = React.createClass({});
 
 export default _default;
+;
 
 (function () {
   function tagSource(fn, localName) {
@@ -50,3 +51,5 @@ export default _default;
   tagSource(E, "E");
   tagSource(_default, "default");
 })();
+
+;

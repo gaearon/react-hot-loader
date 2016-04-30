@@ -30,7 +30,12 @@ function transform(source, map) {
     tagCommonJSExportsSource = fs.readFileSync(
       path.join(__dirname, 'tagCommonJSExports.js'),
       'utf8'
-    ).split(/\n\s*/).join(' ');
+    )
+    // Babel inserts these.
+    // Ideally we'd opt out for one file but this is simpler.
+    .replace(/['"]use strict['"];/, '')
+    .split(/\n\s*/)
+    .join(' ');
   }
 
   // Parameterize the helper with the current filename.

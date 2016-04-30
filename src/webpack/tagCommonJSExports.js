@@ -1,4 +1,4 @@
-(function () {
+;(function () {
   /* react-hot-loader/webpack */
   if (process.env.NODE_ENV !== 'production') {
     function tagSource(fn, localName) {

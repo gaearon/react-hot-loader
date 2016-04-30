@@ -19,6 +19,7 @@ var _default = function _default() {
 };
 
 exports.default = _default;
+;
 
 (function () {
   function tagSource(fn, localName) {
@@ -45,3 +46,5 @@ exports.default = _default;
   tagSource(Counter, "Counter");
   tagSource(_default, "default");
 })();
+
+;

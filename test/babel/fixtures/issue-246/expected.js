@@ -11,6 +11,7 @@ function spread() {
 
   return args.push(1);
 }
+;
 
 (function () {
   function tagSource(fn, localName) {
@@ -36,3 +37,5 @@ function spread() {
 
   tagSource(spread, "spread");
 })();
+
+;

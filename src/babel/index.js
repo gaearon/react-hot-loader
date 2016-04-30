@@ -1,8 +1,7 @@
 import template from 'babel-template';
 
-const buildRegistration = template(`
-  tagSource(ID, NAME);
-`);
+const buildRegistration = template('tagSource(ID, NAME);');
+const buildSemi = template(';');
 const buildTagger = template(`
 (function () {
   function tagSource(fn, localName) {
@@ -126,12 +125,14 @@ module.exports = function(args) {
 
           // Inject the generated tagging code at the very end
           // so that it is as minimally intrusive as possible.
+          node.body.push(buildSemi());
           node.body.push(
             buildTagger({
               FILENAME: t.stringLiteral(file.opts.filename),
               REGISTRATIONS: registrations
             })
-          )
+          );
+          node.body.push(buildSemi());
         }
       }
     }
