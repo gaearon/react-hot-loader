@@ -51,7 +51,7 @@ module.exports = {
 
 If you used WebpackDevServer CLI mode and after switching to Node it crashes with `Error: Invalid path ''`, you probably didn't have `path` specified in `output` at all. You can just put `path: __dirname` there, as it won't matter for development config.
 
-### Module not found: Error: Cannot resolve module 'react-hot' 
+### Module not found: Error: Cannot resolve module 'react-hot'
 
 Most likely you used `npm link` to use a development version of a package in a different folder, and React Hot Loader processed it by mistake. You should use [`include` in loader configuration](https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js#L27) to only opt-in your app's files to processing.
 
@@ -78,7 +78,7 @@ WebpackDevServer CLI mode [behaves slightly differently](https://github.com/webp
 
 When using WebpackDevServer CLI flag `--hot`, the plugin `new HotModuleReplacementPlugin()` should not be used and vice versa, they are mutually exclusive but the desired effect will work with any of them.
 
-#### No 'Access-Control-Allow-Origin' header is present on the requested resource. 
+#### No 'Access-Control-Allow-Origin' header is present on the requested resource.
 
 If you're trying to access Webpack Dev Server from a URL served on another port, you may try:
 
@@ -107,6 +107,8 @@ entry: [
 
 **If you get this warning when editing a root component**, this may be because you don't export anything from it, and call `React.render` from there. Put your root component in a separate file (e.g. `App.jsx`) and `require` it from `index.js` where you call `React.render`.
 
+You also get this warning in v1.x if you write your root component as [stateless plain function](http://facebook.github.io/react/docs/reusable-components.html#stateless-functions) instead of using `React.Component`. This problem is already solved completely in the upcoming [v3.x](https://github.com/gaearon/react-hot-boilerplate/pull/61).
+
 This warning may also appear **if you edit some non-component file** which is `require`d from files other than components. This means hot update bubbled up, but the app couldn't handle it. This is normal! Just refresh.
 
 If you get this warning **together with a 404 for `hot-update.json` file**, you're probably using an ancient version of `webpack-dev-server` (just update it).
@@ -130,7 +132,7 @@ If you have several entry points in `entry` configuration option, make sure `web
   }
 ```
 
-You will have to include "client.js" in your host page for the hot updates to work. For example: 
+You will have to include "client.js" in your host page for the hot updates to work. For example:
 
 ```html
   <script src="/static/bundle-client.js"></script>
