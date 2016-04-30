@@ -40,7 +40,7 @@ class AppContainer extends Component {
   componentWillReceiveProps(nextProps) {
     // Hot reload is happening.
     // Retry rendering!
-    if (nextProps.component !== this.props.component) {
+    if (this.hasChildTypeChanged(nextProps)) {
       this.setState({
         error: null
       });
@@ -51,7 +51,7 @@ class AppContainer extends Component {
     // Hot reload has finished.
     // Force-update the whole tree, including
     // components that refuse to update.
-    if (prevProps.component !== this.props.component) {
+    if (this.hasChildTypeChanged(prevProps)) {
       deepForceUpdate(this);
     }
   }
@@ -66,15 +66,44 @@ class AppContainer extends Component {
     });
   }
 
+  hasChildTypeChanged(props) {
+    // Backwards compat
+    if (props.component !== this.props.component) {
+      return true;
+    }
+
+    if (props.children.type !== this.props.children.type) {
+      return true;
+    }
+
+    return false;
+  }
+
   render() {
     const { error } = this.state;
     if (error) {
       return <this.props.errorReporter error={error} />;
-    } else {
+    }
+
+    if (this.props.component) {
       return <this.props.component {...this.props.props} />;
+    } else {
+      return React.Children.only(this.props.children);
     }
   }
 }
+
+AppContainer.propTypes = {
+  children: function (props, propName, componentName, location, propFullName) {
+    if (typeof props[propName].type !== 'function') {
+      return new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Expected a single React element with your app’s root component, e.g. <App />.`);
+    }
+
+    if (React.Children.count(props[propName]) > 1) {
+      return new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Expected a single React element with your app’s root component, e.g. <App />.`);
+    }
+  }
+};
 
 AppContainer.defaultProps = {
   errorReporter: Redbox

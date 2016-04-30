@@ -5,7 +5,11 @@ const { Component } = React;
 
 class AppContainer extends Component {
   render() {
-    return <this.props.component {...this.props.props} />;
+    if (this.props.component) {
+      return <this.props.component {...this.props.prop} />;
+    }
+
+    return React.Children.only(this.props.children);
   }
 }
 
