@@ -72,11 +72,9 @@ class AppContainer extends Component {
       return true;
     }
 
-    if (props.children.type !== this.props.children.type) {
-      return true;
-    }
-
-    return false;
+    return props.children &&
+      this.props.children &&
+      props.children.type !== this.props.children.type;
   }
 
   render() {
@@ -94,13 +92,25 @@ class AppContainer extends Component {
 }
 
 AppContainer.propTypes = {
-  children: function (props, propName, componentName, location, propFullName) {
-    if (typeof props[propName].type !== 'function') {
-      return new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Expected a single React element with your app’s root component, e.g. <App />.`);
+  component: function (props) {
+    if (props.component) {
+      return new Error(
+        `Passing "component" prop to <AppContainer /> is deprecated. ` +
+        `Replace <AppContainer component={App} /> with <AppContainer><App /></AppContainer>.`
+      );
     }
-
-    if (React.Children.count(props[propName]) > 1) {
-      return new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Expected a single React element with your app’s root component, e.g. <App />.`);
+  },
+  props: function (props) {
+    if (props.props) {
+      return new Error(
+        `Passing "props" prop to <AppContainer /> is deprecated. ` +
+        `Replace <AppContainer component={App} props={{ myProp: myValue }} /> with <AppContainer><App myProp={myValue} /></AppContainer>.`
+      );
+    }
+  },
+  children: function (props) {
+    if (React.Children.count(props.children) !== 1) {
+      return new Error(`Invalid prop "children" supplied to AppContainer. Expected a single React element with your app’s root component, e.g. <App />.`);
     }
   }
 };
