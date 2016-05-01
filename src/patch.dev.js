@@ -3,10 +3,6 @@
 const React = require('react');
 const resolveType = require('./resolveType');
 
-if (React.createElement.isPatchedByReactHotLoader) {
-  throw new Error('Cannot patch React twice.');
-}
-
 const createElement = React.createElement;
 function patchedCreateElement(type, ...args) {
   // Trick React into rendering a proxy so that
@@ -16,4 +12,8 @@ function patchedCreateElement(type, ...args) {
   return createElement(resolvedType, ...args);
 }
 patchedCreateElement.isPatchedByReactHotLoader = true;
-React.createElement = patchedCreateElement;
+
+if (!React.createElement.isPatchedByReactHotLoader) {
+  React.createElement = patchedCreateElement;
+}
+

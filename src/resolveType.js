@@ -5,7 +5,7 @@ let proxiesByID = {};
 let idsByType = new WeakMap();
 
 global.__REACT_HOT_LOADER__ = {
-  set(id, component) {
+  register(id, component) {
     idsByType.set(component, id);
   }
 };
@@ -26,7 +26,7 @@ function resolveType(type) {
   // new versions without destroying original instances.
   if (!proxiesByID[id]) {
     proxiesByID[id] = createProxy(type);
-  } else if (!type.hasOwnProperty('__hasBeenUsedForProxy')) {
+  } else {
     proxiesByID[id].update(type);
   }
 

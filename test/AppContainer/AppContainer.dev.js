@@ -5,7 +5,9 @@ import {mount} from 'enzyme'
 
 import AppContainer from '../../src/AppContainer.dev'
 
-const tag = (comp, name) => comp.__source = { fileName: name, localName: name }
+const tag = (comp, name) => {
+  global.__REACT_HOT_LOADER__.register(name, comp);
+};
 
 describe('<AppContainer />', () => {
   describe('when passed children', () => {
