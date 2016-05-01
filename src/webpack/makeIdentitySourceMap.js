@@ -1,12 +1,12 @@
 'use strict';
 
-var SourceMapGenerator = require('source-map').SourceMapGenerator;
+const { SourceMapGenerator } = require('source-map');
 
 function makeIdentitySourceMap(content, resourcePath) {
-  var map = new SourceMapGenerator();
+  const map = new SourceMapGenerator();
   map.setSourceContent(resourcePath, content);
 
-  content.split('\n').map(function (line, index) {
+  content.split('\n').map((line, index) => {
     map.addMapping({
       source: resourcePath,
       original: {

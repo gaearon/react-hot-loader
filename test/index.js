@@ -1,0 +1,2 @@
+import './babel';
+import './fixupReactRouter';

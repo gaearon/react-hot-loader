@@ -1,5 +1,26 @@
 ## Changelog
 
+### 3.0.0-alpha
+
+Big changes both to internals and usage. No docs yet but you can look at https://github.com/gaearon/react-hot-boilerplate/pull/61 for an example.
+
+### 2.0.0-alpha
+
+**Experimental release that isn't really representative on what will go in 2.0, but uses the new engine.**
+
+Some ideas of what should be possible with the new engine:
+
+* There is no requirement to pass `getRootInstances()` anymore, so React Hot Loader doesn't need `react/lib/ReactMount` or walk the tree, which was somewhat fragile and changing between versions
+* Static methods and properties are now hot-reloaded
+* Instance getters and setters are now hot reloaded
+* Static getters and setters are now hot reloaded
+* Deleted instance methods are now deleted during hot reloading
+* Single method form of [autobind-decorator](https://github.com/andreypopp/autobind-decorator) is now supported
+
+What might get broken:
+
+* We no longer overwrite or even touch the original class. Every time makeHot is invoked, it will return a special proxy class. This means a caveat: for example, static methods will only be hot-reloaded if you refer to them as `this.constructor.doSomething()` instead of `FooBar.doSomething()`. This is because React Hot Loader calls `makeHot` right before exporting, so `FooBar` still refers to the original class. Similarly, `this.constructor === App` will be `false` inside `App` unless you call `App = makeHot(App)` manually, which you can't do with React Hot Loader. **I'm not sure how much of a problem this will be, so let me know if it pains you.** In the longer term, we will deprecate React Hot Loader in favor of a Babel plugin which will be able to rewrite class definitions correctly, so it shouldn't be a problem for a long time. If there is demand, we can introduce a mode that rewrites passed classes, too.
+
 ### 1.3.0
 
 * Recover from module errors on module level (**[#187](https://github.com/gaearon/react-hot-loader/pull/187)**)
