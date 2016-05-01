@@ -22,25 +22,20 @@ exports.default = _default;
 ;
 
 (function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  var fileName = __FILENAME__;
+
   function tagSource(fn, localName) {
     if (typeof fn !== "function") {
       return;
     }
 
-    if (fn.hasOwnProperty("__source")) {
-      return;
-    }
+    var id = fileName + '#' + localName;
 
-    try {
-      Object.defineProperty(fn, "__source", {
-        enumerable: false,
-        configurable: true,
-        value: {
-          fileName: __FILENAME__,
-          localName: localName
-        }
-      });
-    } catch (err) {}
+    __REACT_HOT_LOADER__.register(id, fn);
   }
 
   tagSource(Counter, "Counter");

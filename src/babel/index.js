@@ -4,13 +4,18 @@ const buildRegistration = template('tagSource(ID, NAME);');
 const buildSemi = template(';');
 const buildTagger = template(`
 (function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  var fileName = FILENAME;
   function tagSource(fn, localName) {
     if (typeof fn !== "function") {
       return;
     }
 
-    var id = FILENAME + '#' + localName;
-    __REACT_HOT_LOADER__.set(id, fn);
+    var id = fileName + '#' + localName;
+    __REACT_HOT_LOADER__.register(id, fn);
   }
   REGISTRATIONS
 })();

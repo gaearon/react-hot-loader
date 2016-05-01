@@ -1,9 +1,10 @@
 const createProxy = require('react-proxy').default;
+const global = require('global');
 
 let proxiesByID = {};
 let idsByType = new WeakMap();
 
-window.__REACT_HOT_LOADER__ = {
+global.__REACT_HOT_LOADER__ = {
   set(id, component) {
     idsByType.set(component, id);
   }
