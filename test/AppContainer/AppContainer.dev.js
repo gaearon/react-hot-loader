@@ -9,61 +9,26 @@ const tag = (comp, name) => comp.__source = { fileName: name, localName: name }
 
 describe('<AppContainer />', () => {
   describe('when passed children', () => {
-    it('renders it', () => {
-      const spy = createSpy()
-      class App extends Component {
-        render() {
-          spy()
-          return <div>hey</div>
+    describe('with class root', () => {
+      it('renders it', () => {
+        const spy = createSpy()
+        class App extends Component {
+          render() {
+            spy()
+            return <div>hey</div>
+          }
         }
-      }
-      tag(App, 'App')
+        tag(App, 'App')
 
-      const wrapper = mount(<AppContainer><App /></AppContainer>)
-      expect(wrapper.find('App').length).toBe(1)
-      expect(wrapper.contains(<div>hey</div>)).toBe(true)
-      expect(spy.calls.length).toBe(1)
-    })
+        const wrapper = mount(<AppContainer><App /></AppContainer>)
+        expect(wrapper.find('App').length).toBe(1)
+        expect(wrapper.contains(<div>hey</div>)).toBe(true)
+        expect(spy.calls.length).toBe(1)
+      })
 
-    it('force updates the tree when receiving the same', () => {
-      const spy = createSpy()
-      class App extends Component {
-        shouldComponentUpdate() {
-          return false
-        }
+      it('force updates the tree on receiving new children', () => {
+        const spy = createSpy()
 
-        render() {
-          spy()
-          return <div>hey</div>
-        }
-      }
-      tag(App, 'App')
-
-      const wrapper = mount(<AppContainer><App /></AppContainer>)
-      expect(spy.calls.length).toBe(1)
-      wrapper.setProps({children: <App />})
-      expect(spy.calls.length).toBe(2)
-    })
-
-    it('force updates the tree when receiving different', () => {
-      const spy = createSpy()
-
-      class App extends Component {
-        shouldComponentUpdate() {
-          return false
-        }
-
-        render() {
-          spy()
-          return <div>hey</div>
-        }
-      }
-      tag(App, 'App')
-
-      const wrapper = mount(<AppContainer><App /></AppContainer>)
-      expect(spy.calls.length).toBe(1)
-
-      {
         class App extends Component {
           shouldComponentUpdate() {
             return false
@@ -71,90 +36,155 @@ describe('<AppContainer />', () => {
 
           render() {
             spy()
-            return <div>ho</div>
+            return <div>hey</div>
           }
         }
         tag(App, 'App')
-        wrapper.setProps({children: <App />})
-      }
 
-      expect(spy.calls.length).toBe(2)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
-    })
-  })
+        const wrapper = mount(<AppContainer><App /></AppContainer>)
+        expect(spy.calls.length).toBe(1)
 
-  describe('when passed component prop', () => {
-    it('renders it', () => {
-      const spy = createSpy()
-      class App extends Component {
-        render() {
-          spy()
-          return <div>hey</div>
-        }
-      }
-      tag(App, 'App')
+        {
+          class App extends Component {
+            shouldComponentUpdate() {
+              return false
+            }
 
-      const wrapper = mount(<AppContainer component={App}></AppContainer>)
-      expect(wrapper.find('App').length).toBe(1)
-      expect(wrapper.contains(<div>hey</div>)).toBe(true)
-      expect(spy.calls.length).toBe(1)
-    })
-
-    it('force updates the tree when receiving the same', () => {
-      const spy = createSpy()
-      class App extends Component {
-        shouldComponentUpdate() {
-          return false
+            render() {
+              spy()
+              return <div>ho</div>
+            }
+          }
+          tag(App, 'App')
+          wrapper.setProps({children: <App />})
         }
 
-        render() {
-          spy()
-          return <div>hey</div>
-        }
-      }
-      tag(App, 'App')
+        expect(spy.calls.length).toBe(2)
+        expect(wrapper.contains(<div>ho</div>)).toBe(true)
+      })
 
-      const wrapper = mount(<AppContainer component={App}></AppContainer>)
-      expect(spy.calls.length).toBe(1)
-      wrapper.setProps({component: App})
-      expect(spy.calls.length).toBe(2)
-    })
-
-    it('force updates the tree when receiving different', () => {
-      const spy = createSpy()
-
-      class App extends Component {
-        shouldComponentUpdate() {
-          return false
-        }
-
-        render() {
-          spy()
-          return <div>hey</div>
-        }
-      }
-      tag(App, 'App')
-
-      const wrapper = mount(<AppContainer component={App}></AppContainer>)
-      expect(spy.calls.length).toBe(1)
-
-      {
+      it('hot-reloads without losing state', () => {
         class App extends Component {
+          componentWillMount() {
+            this.state = 'old'
+          }
+
           shouldComponentUpdate() {
             return false
           }
 
           render() {
-            spy()
-            return <div>ho</div>
+            return <div>old render + {this.state} state</div>
           }
         }
         tag(App, 'App')
-        wrapper.setProps({component: App})
-      }
 
-      expect(spy.calls.length).toBe(2)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
+        const wrapper = mount(<AppContainer><App /></AppContainer>)
+        expect(wrapper.text()).toBe('old render + old state')
+
+        {
+          class App extends Component {
+            componentWillMount() {
+              this.state = 'new'
+            }
+
+            shouldComponentUpdate() {
+              return false
+            }
+
+            render() {
+              return <div>new render + {this.state} state</div>
+            }
+          }
+          tag(App, 'App')
+          wrapper.setProps({children: <App />})
+        }
+
+        expect(wrapper.text()).toBe('new render + old state')
+      })
+    })
+
+    describe('with SFC root', () => {
+      it('renders it', () => {
+        const spy = createSpy()
+        const App = () => {
+          spy()
+          return <div>hey</div>
+        }
+        tag(App, 'App')
+
+        const wrapper = mount(<AppContainer><App /></AppContainer>)
+        expect(wrapper.find('App').length).toBe(1)
+        expect(wrapper.contains(<div>hey</div>)).toBe(true)
+        expect(spy.calls.length).toBe(1)
+      })
+
+      it('force updates the tree on receiving new children', () => {
+        const spy = createSpy()
+
+        const App = () => {
+          spy()
+          return <div>hey</div>
+        }
+        tag(App, 'App')
+
+        const wrapper = mount(<AppContainer><App /></AppContainer>)
+        expect(spy.calls.length).toBe(1)
+
+        {
+          const App = () => {
+            spy()
+            return <div>ho</div>
+          }
+          tag(App, 'App')
+          wrapper.setProps({children: <App />})
+        }
+
+        expect(spy.calls.length).toBe(2)
+        expect(wrapper.contains(<div>ho</div>)).toBe(true)
+      })
+
+      it('hot-reloads without losing state', () => {
+        class App extends Component {
+          componentWillMount() {
+            this.state = 'old'
+          }
+
+          shouldComponentUpdate() { return false }
+
+          render() {
+            return <div>old render + {this.state} state</div>
+          }
+        }
+        tag(App, 'App')
+
+        const Root = () => <App />
+        tag(Root, 'Root')
+
+        const wrapper = mount(<AppContainer><Root /></AppContainer>)
+        expect(wrapper.text()).toBe('old render + old state')
+
+        {
+          class App extends Component {
+            componentWillMount() {
+              this.state = 'new'
+            }
+
+            shouldComponentUpdate() { return false }
+
+            render() {
+              return <div>new render + {this.state} state</div>
+            }
+          }
+          tag(App, 'App')
+
+          const Root = () => <App />
+          tag(Root, 'Root')
+          wrapper.setProps({children: <Root />})
+        }
+
+        expect(wrapper.text()).toBe('new render + old state')
+      })
     })
   })
 })
