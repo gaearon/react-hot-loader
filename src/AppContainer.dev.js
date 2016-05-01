@@ -43,15 +43,9 @@ class AppContainer extends Component {
     this.setState({
       error: null
     });
-  }
-
-  componentDidUpdate(prevProps) {
-    // Hot reload has finished.
     // Force-update the whole tree, including
     // components that refuse to update.
-    if (prevProps !== this.props) {
-      deepForceUpdate(this);
-    }
+    deepForceUpdate(this);
   }
 
   // This hook is going to become official in React 15.x.
