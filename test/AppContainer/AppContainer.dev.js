@@ -25,7 +25,7 @@ describe('<AppContainer />', () => {
       expect(spy.calls.length).toBe(1)
     })
 
-    it('doesnt force update the tree when receiving the same', () => {
+    it('force updates the tree when receiving the same', () => {
       const spy = createSpy()
       class App extends Component {
         shouldComponentUpdate() {
@@ -42,7 +42,7 @@ describe('<AppContainer />', () => {
       const wrapper = mount(<AppContainer><App /></AppContainer>)
       expect(spy.calls.length).toBe(1)
       wrapper.setProps({children: <App />})
-      expect(spy.calls.length).toBe(1)
+      expect(spy.calls.length).toBe(2)
     })
 
     it('force updates the tree when receiving different', () => {
@@ -100,7 +100,7 @@ describe('<AppContainer />', () => {
       expect(spy.calls.length).toBe(1)
     })
 
-    it('doesnt force update the tree when receiving the same', () => {
+    it('force updates the tree when receiving the same', () => {
       const spy = createSpy()
       class App extends Component {
         shouldComponentUpdate() {
@@ -117,7 +117,7 @@ describe('<AppContainer />', () => {
       const wrapper = mount(<AppContainer component={App}></AppContainer>)
       expect(spy.calls.length).toBe(1)
       wrapper.setProps({component: App})
-      expect(spy.calls.length).toBe(1)
+      expect(spy.calls.length).toBe(2)
     })
 
     it('force updates the tree when receiving different', () => {
