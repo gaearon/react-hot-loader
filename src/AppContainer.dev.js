@@ -5,7 +5,6 @@ const deepForceUpdate = require('react-deep-force-update');
 const Redbox = require('redbox-react');
 const { Component } = React;
 
-
 class AppContainer extends Component {
   constructor(props) {
     super(props);
