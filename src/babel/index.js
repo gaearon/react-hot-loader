@@ -9,20 +9,8 @@ const buildTagger = template(`
       return;
     }
 
-    if (fn.hasOwnProperty("__source")) {
-      return;
-    }
-
-    try {
-      Object.defineProperty(fn, "__source", {
-        enumerable: false,
-        configurable: true,
-        value: {
-          fileName: FILENAME,
-          localName: localName
-        }
-      });
-    } catch (err) {}
+    var id = FILENAME + '#' + localName;
+    __REACT_HOT_LOADER__.set(id, fn);
   }
   REGISTRATIONS
 })();
