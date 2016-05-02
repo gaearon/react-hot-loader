@@ -7,6 +7,10 @@ let idsByType = new WeakMap();
 global.__REACT_HOT_LOADER__ = {
   register(id, component) {
     idsByType.set(component, id);
+  },
+  reset() {
+    proxiesByID = {};
+    idsByType = new WeakMap();
   }
 };
 
