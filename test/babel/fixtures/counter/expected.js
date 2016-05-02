@@ -22,29 +22,13 @@ exports.default = _default;
 ;
 
 (function () {
-  function tagSource(fn, localName) {
-    if (typeof fn !== "function") {
-      return;
-    }
-
-    if (fn.hasOwnProperty("__source")) {
-      return;
-    }
-
-    try {
-      Object.defineProperty(fn, "__source", {
-        enumerable: false,
-        configurable: true,
-        value: {
-          fileName: __FILENAME__,
-          localName: localName
-        }
-      });
-    } catch (err) {}
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
   }
 
-  tagSource(Counter, "Counter");
-  tagSource(_default, "default");
+  __REACT_HOT_LOADER__.register(Counter, "Counter", __FILENAME__);
+
+  __REACT_HOT_LOADER__.register(_default, "default", __FILENAME__);
 })();
 
 ;

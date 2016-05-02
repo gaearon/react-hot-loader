@@ -41,7 +41,7 @@ function transform(source, map) {
   // Parameterize the helper with the current filename.
   const separator = '\n\n';
   const appendText = tagCommonJSExportsSource.replace(
-    '__FILENAME__',
+    /__FILENAME__/g,
     JSON.stringify(path.basename(this.resourcePath))
   );
 

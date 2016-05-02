@@ -14,28 +14,11 @@ function spread() {
 ;
 
 (function () {
-  function tagSource(fn, localName) {
-    if (typeof fn !== "function") {
-      return;
-    }
-
-    if (fn.hasOwnProperty("__source")) {
-      return;
-    }
-
-    try {
-      Object.defineProperty(fn, "__source", {
-        enumerable: false,
-        configurable: true,
-        value: {
-          fileName: __FILENAME__,
-          localName: localName
-        }
-      });
-    } catch (err) {}
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
   }
 
-  tagSource(spread, "spread");
+  __REACT_HOT_LOADER__.register(spread, "spread", __FILENAME__);
 })();
 
 ;

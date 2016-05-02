@@ -23,33 +23,21 @@ export default _default;
 ;
 
 (function () {
-  function tagSource(fn, localName) {
-    if (typeof fn !== "function") {
-      return;
-    }
-
-    if (fn.hasOwnProperty("__source")) {
-      return;
-    }
-
-    try {
-      Object.defineProperty(fn, "__source", {
-        enumerable: false,
-        configurable: true,
-        value: {
-          fileName: __FILENAME__,
-          localName: localName
-        }
-      });
-    } catch (err) {}
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
   }
 
-  tagSource(A, "A");
-  tagSource(B, "B");
-  tagSource(C, "C");
-  tagSource(D, "D");
-  tagSource(E, "E");
-  tagSource(_default, "default");
+  __REACT_HOT_LOADER__.register(A, "A", __FILENAME__);
+
+  __REACT_HOT_LOADER__.register(B, "B", __FILENAME__);
+
+  __REACT_HOT_LOADER__.register(C, "C", __FILENAME__);
+
+  __REACT_HOT_LOADER__.register(D, "D", __FILENAME__);
+
+  __REACT_HOT_LOADER__.register(E, "E", __FILENAME__);
+
+  __REACT_HOT_LOADER__.register(_default, "default", __FILENAME__);
 })();
 
 ;

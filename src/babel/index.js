@@ -1,29 +1,15 @@
 import template from 'babel-template';
 
-const buildRegistration = template('tagSource(ID, NAME);');
+const buildRegistration = template(
+  '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);'
+);
 const buildSemi = template(';');
 const buildTagger = template(`
 (function () {
-  function tagSource(fn, localName) {
-    if (typeof fn !== "function") {
-      return;
-    }
-
-    if (fn.hasOwnProperty("__source")) {
-      return;
-    }
-
-    try {
-      Object.defineProperty(fn, "__source", {
-        enumerable: false,
-        configurable: true,
-        value: {
-          fileName: FILENAME,
-          localName: localName
-        }
-      });
-    } catch (err) {}
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
   }
+
   REGISTRATIONS
 })();
 `);
@@ -72,7 +58,7 @@ module.exports = function(args) {
   const REGISTRATIONS = Symbol();
   return {
     visitor: {
-      ExportDefaultDeclaration(path)  {
+      ExportDefaultDeclaration(path, { file })  {
         // Default exports with names are going
         // to be in scope anyway so no need to bother.
         if (path.node.declaration.id) {
@@ -97,13 +83,14 @@ module.exports = function(args) {
         path.parent[REGISTRATIONS].push(
           buildRegistration({
             ID: id,
-            NAME: t.stringLiteral('default')
+            NAME: t.stringLiteral('default'),
+            FILENAME: t.stringLiteral(file.opts.filename)
           })
         );
       },
 
       Program: {
-        enter({ node, scope }) {
+        enter({ node, scope }, { file }) {
           node[REGISTRATIONS] = [];
 
           // Everything in the top level scope, when reasonable,
@@ -113,13 +100,14 @@ module.exports = function(args) {
             if (shouldRegisterBinding(binding)) {
               node[REGISTRATIONS].push(buildRegistration({
                 ID: binding.identifier,
-                NAME: t.stringLiteral(id)
+                NAME: t.stringLiteral(id),
+                FILENAME: t.stringLiteral(file.opts.filename)
               }));
             }
           }
         },
 
-        exit({ node, scope }, { file }) {
+        exit({ node, scope }) {
           let registrations = node[REGISTRATIONS];
           node[REGISTRATIONS] = null;
 
@@ -128,7 +116,6 @@ module.exports = function(args) {
           node.body.push(buildSemi());
           node.body.push(
             buildTagger({
-              FILENAME: t.stringLiteral(file.opts.filename),
               REGISTRATIONS: registrations
             })
           );

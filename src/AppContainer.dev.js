@@ -5,18 +5,6 @@ const deepForceUpdate = require('react-deep-force-update');
 const Redbox = require('redbox-react');
 const { Component } = React;
 
-// Feature check for the createElement() patch.
-// If createElement() was patched, types with
-// the same __source will resolve to the same type.
-let wasCreateElementPatched = false;
-const A = () => {};
-A.__source = { fileName: 'fake', localName: 'fake' }
-const B = () => {};
-B.__source = { fileName: 'fake', localName: 'fake' }
-if (<A />.type === <B />.type) {
-  wasCreateElementPatched = true;
-}
-
 class AppContainer extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +12,7 @@ class AppContainer extends Component {
   }
 
   componentDidMount() {
-    if (!wasCreateElementPatched) {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
       console.error(
         'React Hot Loader: It appears that "react-hot-loader/patch" ' +
         'did not run immediately before the app started. Make sure that it ' +
