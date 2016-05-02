@@ -4,12 +4,14 @@ const React = require('react');
 const createProxy = require('react-proxy').default;
 const global = require('global');
 
-let proxiesByID = {};
-let idsByType = new WeakMap();
+let proxiesByID;
+let didWarnAboutID;
+let hasCreatedElementsByType;
+let idsByType;
 
-global.__REACT_HOT_LOADER__ = {
-  register(component, uniqueLocalName, fileName) {
-    if (typeof component !== 'function') {
+const hooks = {
+  register(type, uniqueLocalName, fileName) {
+    if (typeof type !== 'function') {
       return;
     }
     if (!uniqueLocalName || !fileName) {
@@ -18,20 +20,40 @@ global.__REACT_HOT_LOADER__ = {
     if (typeof uniqueLocalName !== 'string' || typeof fileName !== 'string') {
       return;
     }
-    var id = fileName + '#' + uniqueLocalName;
-    idsByType.set(component, id);
+    const id = fileName + '#' + uniqueLocalName;
+    if (!idsByType.has(type) && hasCreatedElementsByType.has(type)) {
+      if (!didWarnAboutID[id]) {
+        didWarnAboutID[id] = true;
+        const baseName = fileName.replace(/^.*[\\\/]/, '');
+        console.error(
+          `React Hot Loader: ${uniqueLocalName} in ${fileName} will not hot reload ` +
+          `correctly because ${baseName} uses <${uniqueLocalName} /> during ` +
+          `module definition. For hot reloading to work, move ${uniqueLocalName} ` +
+          `into a separate file and import it from ${baseName}.`
+        );
+      }
+      return;
+    }
+    idsByType.set(type, id);
   },
   reset() {
     proxiesByID = {};
+    didWarnAboutID = {};
+    hasCreatedElementsByType = new WeakMap();
     idsByType = new WeakMap();
   }
 };
 
+hooks.reset();
+global.__REACT_HOT_LOADER__ = hooks;
+
 function resolveType(type) {
   // We only care about composite components
-  if (!type || typeof type === 'string') {
+  if (typeof type !== 'function') {
     return type;
   }
+
+  hasCreatedElementsByType.set(type, true);
 
   var id = idsByType.get(type);
   if (!id) {
