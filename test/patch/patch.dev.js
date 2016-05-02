@@ -109,22 +109,22 @@ function runAllTests(useWeakMap) {
     });
 
     it('passes props through', () => {
-      expect(<div x={42} y='lol' />.props).toEqual({
+      expect(<div x={42} y="lol" />.props).toEqual({
         x: 42,
         y: 'lol',
       });
-      expect(<A1 x={42} y='lol' />.props).toEqual({
+      expect(<A1 x={42} y="lol" />.props).toEqual({
         x: 42,
         y: 'lol',
       });
 
       RHL.register(B1, 'b', 'test.js');
-      expect(<B1 x={42} y='lol' />.props).toEqual({
+      expect(<B1 x={42} y="lol" />.props).toEqual({
         x: 42,
         y: 'lol',
       });
       RHL.register(B2, 'b', 'test.js');
-      expect(<B2 x={42} y='lol' />.props).toEqual({
+      expect(<B2 x={42} y="lol" />.props).toEqual({
         x: 42,
         y: 'lol',
       });

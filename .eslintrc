@@ -6,7 +6,6 @@
     },
   },
   "rules": {
-    "no-underscore-dangle": ["error", { "allow": ["__REACT_HOT_LOADER__"] }],
-    "jsx-quotes": ["error", "prefer-single"]
+    "no-underscore-dangle": ["error", { "allow": ["__REACT_HOT_LOADER__"] }]
   }
 }
