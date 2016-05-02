@@ -22,7 +22,7 @@ describe('tags potential React components', () => {
         actualPath;
       const expected = fs.readFileSync(
         path.join(fixtureDir, 'expected.js')
-      ).toString().replace('__FILENAME__', JSON.stringify(templatePath));
+      ).toString().replace(/__FILENAME__/g, JSON.stringify(templatePath));
       expect(trim(actual)).toEqual(trim(expected));
     });
   });

@@ -27,17 +27,17 @@ export default _default;
     return;
   }
 
-  __REACT_HOT_LOADER__.register(A, "A", FILENAME);
+  __REACT_HOT_LOADER__.register(A, "A", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(B, "B", FILENAME);
+  __REACT_HOT_LOADER__.register(B, "B", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(C, "C", FILENAME);
+  __REACT_HOT_LOADER__.register(C, "C", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(D, "D", FILENAME);
+  __REACT_HOT_LOADER__.register(D, "D", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(E, "E", FILENAME);
+  __REACT_HOT_LOADER__.register(E, "E", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(_default, "default", FILENAME);
+  __REACT_HOT_LOADER__.register(_default, "default", __FILENAME__);
 })();
 
 ;

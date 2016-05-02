@@ -18,7 +18,7 @@ function spread() {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(spread, "spread", FILENAME);
+  __REACT_HOT_LOADER__.register(spread, "spread", __FILENAME__);
 })();
 
 ;

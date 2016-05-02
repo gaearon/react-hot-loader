@@ -26,9 +26,9 @@ exports.default = _default;
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Counter, "Counter", FILENAME);
+  __REACT_HOT_LOADER__.register(Counter, "Counter", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(_default, "default", FILENAME);
+  __REACT_HOT_LOADER__.register(_default, "default", __FILENAME__);
 })();
 
 ;

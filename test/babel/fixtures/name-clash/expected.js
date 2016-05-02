@@ -8,9 +8,9 @@ export default _default2;
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, "_default", FILENAME);
+  __REACT_HOT_LOADER__.register(_default, "_default", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(_default2, "default", FILENAME);
+  __REACT_HOT_LOADER__.register(_default2, "default", __FILENAME__);
 })();
 
 ;
