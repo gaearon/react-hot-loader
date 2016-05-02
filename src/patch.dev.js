@@ -47,6 +47,7 @@ const hooks = {
       proxiesByID[id].update(type);
     }
   },
+
   reset() {
     proxiesByID = {};
     didWarnAboutID = {};
@@ -56,7 +57,6 @@ const hooks = {
 };
 
 hooks.reset();
-global.__REACT_HOT_LOADER__ = hooks;
 
 function resolveType(type) {
   // We only care about composite components
@@ -90,6 +90,7 @@ function patchedCreateElement(type, ...args) {
 }
 patchedCreateElement.isPatchedByReactHotLoader = true;
 
-if (!React.createElement.isPatchedByReactHotLoader) {
+if (typeof global.__REACT_HOT_LOADER__ === 'undefined') {
   React.createElement = patchedCreateElement;
+  global.__REACT_HOT_LOADER__ = hooks;
 }

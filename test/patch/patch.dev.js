@@ -31,21 +31,25 @@ describe('patch', () => {
     // https://github.com/gaearon/react-hot-loader/issues/241
 
     const spy = spyOn(console, 'error');
-    RHL.register(Kanye, 'Yeezy', '/wow/test.js');
-    expect(console.error.calls.length).toBe(1);
-    expect(console.error.calls[0].arguments[0]).toBe(
-      'React Hot Loader: Yeezy in /wow/test.js will not hot reload ' +
-      'correctly because test.js uses <Yeezy /> during ' +
-      'module definition. For hot reloading to work, move Yeezy ' +
-      'into a separate file and import it from test.js.'
-    );
-    expect(<Kanye />.type).toBe(Kanye);
-    expect(<Kanye2 />.type).toBe(Kanye2);
+    try {
+      RHL.register(Kanye, 'Yeezy', '/wow/test.js');
+      expect(console.error.calls.length).toBe(1);
+      expect(console.error.calls[0].arguments[0]).toBe(
+        'React Hot Loader: Yeezy in /wow/test.js will not hot reload ' +
+        'correctly because test.js uses <Yeezy /> during ' +
+        'module definition. For hot reloading to work, move Yeezy ' +
+        'into a separate file and import it from test.js.'
+      );
+      expect(<Kanye />.type).toBe(Kanye);
+      expect(<Kanye2 />.type).toBe(Kanye2);
 
-    RHL.register(Kanye2, 'Yeezy', '/wow/test.js');
-    expect(console.error.calls.length).toBe(1);
-    expect(<Kanye />.type).toBe(Kanye);
-    expect(<Kanye2 />.type).toBe(Kanye2);
+      RHL.register(Kanye2, 'Yeezy', '/wow/test.js');
+      expect(console.error.calls.length).toBe(1);
+      expect(<Kanye />.type).toBe(Kanye);
+      expect(<Kanye2 />.type).toBe(Kanye2);
+    } finally {
+      spy.restore();
+    }
   });
 
   it('resolves registered types by their last ID', () => {
