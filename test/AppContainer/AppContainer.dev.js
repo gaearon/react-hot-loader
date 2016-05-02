@@ -66,6 +66,44 @@ describe('<AppContainer />', () => {
         expect(wrapper.contains(<div>ho</div>)).toBe(true)
       })
 
+      it('force updates the tree on receiving cached children', () => {
+        const spy = createSpy()
+
+        class App extends Component {
+          shouldComponentUpdate() {
+            return false
+          }
+
+          render() {
+            spy()
+            return <div>hey</div>
+          }
+        }
+        RHL.register(App, 'App', 'test.js')
+
+        const element = <App />
+        const wrapper = mount(<AppContainer>{element}</AppContainer>)
+        expect(spy.calls.length).toBe(1)
+
+        {
+          class App extends Component {
+            shouldComponentUpdate() {
+              return false
+            }
+
+            render() {
+              spy()
+              return <div>ho</div>
+            }
+          }
+          RHL.register(App, 'App', 'test.js')
+          wrapper.setProps({children: element})
+        }
+
+        expect(spy.calls.length).toBe(2)
+        expect(wrapper.contains(<div>ho</div>)).toBe(true)
+      })
+
       it('hot-reloads without losing state', () => {
         class App extends Component {
           componentWillMount() {
@@ -141,6 +179,32 @@ describe('<AppContainer />', () => {
           }
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({children: <App />})
+        }
+
+        expect(spy.calls.length).toBe(2)
+        expect(wrapper.contains(<div>ho</div>)).toBe(true)
+      })
+
+      it('force updates the tree on receiving cached children', () => {
+        const spy = createSpy()
+
+        const App = () => {
+          spy()
+          return <div>hey</div>
+        }
+        RHL.register(App, 'App', 'test.js')
+
+        const element = <App />
+        const wrapper = mount(<AppContainer>{element}</AppContainer>)
+        expect(spy.calls.length).toBe(1)
+
+        {
+          const App = () => {
+            spy()
+            return <div>ho</div>
+          }
+          RHL.register(App, 'App', 'test.js')
+          wrapper.setProps({children: element})
         }
 
         expect(spy.calls.length).toBe(2)
@@ -240,6 +304,42 @@ describe('<AppContainer />', () => {
           const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
           RHL.register(Enhanced, 'Enhanced', 'test.js')
           wrapper.setProps({children: <Enhanced n={3} />})
+        }
+
+        expect(spy.calls.length).toBe(2)
+        expect(wrapper.contains(<div>ho</div>)).toBe(true)
+      })
+
+
+      it('force updates the tree on receiving cached children', () => {
+        const spy = createSpy()
+        class App extends React.Component {
+          render() {
+            spy()
+            return <div>hey</div>
+          }
+        }
+        RHL.register(App, 'App', 'test.js')
+
+        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
+        RHL.register(Enhanced, 'Enhanced', 'test.js')
+
+        const element = <Enhanced n={3} />
+        const wrapper = mount(<AppContainer>{element}</AppContainer>)
+        expect(spy.calls.length).toBe(1)
+
+        {
+          class App extends React.Component {
+            render() {
+              spy()
+              return <div>ho</div>
+            }
+          }
+          RHL.register(App, 'App', 'test.js')
+
+          const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
+          RHL.register(Enhanced, 'Enhanced', 'test.js')
+          wrapper.setProps({children: element})
         }
 
         expect(spy.calls.length).toBe(2)

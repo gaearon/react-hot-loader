@@ -34,7 +34,18 @@ const hooks = {
       }
       return;
     }
+
+    // Remember the ID.
     idsByType.set(type, id);
+
+    // We use React Proxy to generate classes that behave almost
+    // the same way as the original classes but are updatable with
+    // new versions without destroying original instances.
+    if (!proxiesByID[id]) {
+      proxiesByID[id] = createProxy(type);
+    } else {
+      proxiesByID[id].update(type);
+    }
   },
   reset() {
     proxiesByID = {};
@@ -55,22 +66,18 @@ function resolveType(type) {
 
   hasCreatedElementsByType.set(type, true);
 
+  // When available, give proxy class to React instead of the real class.
   var id = idsByType.get(type);
   if (!id) {
     return type;
   }
 
-  // We use React Proxy to generate classes that behave almost
-  // the same way as the original classes but are updatable with
-  // new versions without destroying original instances.
-  if (!proxiesByID[id]) {
-    proxiesByID[id] = createProxy(type);
-  } else {
-    proxiesByID[id].update(type);
+  var proxy = proxiesByID[id];
+  if (!proxy) {
+    return type;
   }
 
-  // Give proxy class to React instead of the real class.
-  return proxiesByID[id].get();
+  return proxy.get();
 }
 
 const createElement = React.createElement;
