@@ -14,7 +14,7 @@ const buildTagger = template(`
 })();
 `);
 
-module.exports = function(args) {
+module.exports = function (args) {
   // This is a Babel plugin, but the user put it in the Webpack config.
   if (this && this.callback) {
     throw new Error(
@@ -40,25 +40,25 @@ module.exports = function(args) {
   function shouldRegisterBinding(binding) {
     let { type, node } = binding.path;
     switch (type) {
-    case 'FunctionDeclaration':
-    case 'ClassDeclaration':
-    case 'VariableDeclaration':
-      return true;
-    case 'VariableDeclarator':
-      const { init } = node;
-      if (t.isCallExpression(init) && init.callee.name === 'require') {
+      case 'FunctionDeclaration':
+      case 'ClassDeclaration':
+      case 'VariableDeclaration':
+        return true;
+      case 'VariableDeclarator':
+        const { init } = node;
+        if (t.isCallExpression(init) && init.callee.name === 'require') {
+          return false;
+        }
+        return true;
+      default:
         return false;
-      }
-      return true;
-    default:
-      return false;
     }
   }
 
   const REGISTRATIONS = Symbol();
   return {
     visitor: {
-      ExportDefaultDeclaration(path, { file })  {
+      ExportDefaultDeclaration(path, { file }) {
         // Default exports with names are going
         // to be in scope anyway so no need to bother.
         if (path.node.declaration.id) {
@@ -73,9 +73,9 @@ module.exports = function(args) {
           t.toExpression(path.node.declaration);
         path.insertBefore(
           t.variableDeclaration('const', [
-            t.variableDeclarator(id, expression)
+            t.variableDeclarator(id, expression),
           ])
-        )
+        );
         path.node.declaration = id;
 
         // It won't appear in scope.bindings
@@ -84,7 +84,7 @@ module.exports = function(args) {
           buildRegistration({
             ID: id,
             NAME: t.stringLiteral('default'),
-            FILENAME: t.stringLiteral(file.opts.filename)
+            FILENAME: t.stringLiteral(file.opts.filename),
           })
         );
       },
@@ -101,7 +101,7 @@ module.exports = function(args) {
               node[REGISTRATIONS].push(buildRegistration({
                 ID: binding.identifier,
                 NAME: t.stringLiteral(id),
-                FILENAME: t.stringLiteral(file.opts.filename)
+                FILENAME: t.stringLiteral(file.opts.filename),
               }));
             }
           }
@@ -116,12 +116,12 @@ module.exports = function(args) {
           node.body.push(buildSemi());
           node.body.push(
             buildTagger({
-              REGISTRATIONS: registrations
+              REGISTRATIONS: registrations,
             })
           );
           node.body.push(buildSemi());
-        }
-      }
-    }
+        },
+      },
+    },
   };
-}
+};

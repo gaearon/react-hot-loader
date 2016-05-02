@@ -1,1 +1,1 @@
-import './AppContainer.dev'
+import './AppContainer.dev';

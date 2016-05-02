@@ -34,6 +34,6 @@ module.exports = function warnAboutIncorrectUsage(arg) {
       'require("react-hot-loader").AppContainer.'
     );
   }
-}
+};
 
 module.exports.AppContainer = AppContainer;

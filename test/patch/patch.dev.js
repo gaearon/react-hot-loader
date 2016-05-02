@@ -33,6 +33,7 @@ function runAllTests(useWeakMap) {
 
       const spy = spyOn(console, 'error');
       try {
+        /* eslint-disable no-console */
         RHL.register(Kanye, 'Yeezy', '/wow/test.js');
         expect(console.error.calls.length).toBe(1);
         expect(console.error.calls[0].arguments[0]).toBe(
@@ -48,6 +49,7 @@ function runAllTests(useWeakMap) {
         expect(console.error.calls.length).toBe(1);
         expect(<Kanye />.type).toBe(Kanye);
         expect(<Kanye2 />.type).toBe(Kanye2);
+        /* eslint-enable no-console */
       } finally {
         spy.restore();
       }
@@ -109,44 +111,44 @@ function runAllTests(useWeakMap) {
     it('passes props through', () => {
       expect(<div x={42} y='lol' />.props).toEqual({
         x: 42,
-        y: 'lol'
+        y: 'lol',
       });
       expect(<A1 x={42} y='lol' />.props).toEqual({
         x: 42,
-        y: 'lol'
+        y: 'lol',
       });
 
       RHL.register(B1, 'b', 'test.js');
       expect(<B1 x={42} y='lol' />.props).toEqual({
         x: 42,
-        y: 'lol'
+        y: 'lol',
       });
       RHL.register(B2, 'b', 'test.js');
       expect(<B2 x={42} y='lol' />.props).toEqual({
         x: 42,
-        y: 'lol'
+        y: 'lol',
       });
     });
 
     it('passes children through', () => {
       expect(<div>{'Hi'}{'Bye'}</div>.props.children).toEqual([
         'Hi',
-        'Bye'
+        'Bye',
       ]);
       expect(<A1>{'Hi'}{'Bye'}</A1>.props.children).toEqual([
         'Hi',
-        'Bye'
+        'Bye',
       ]);
 
       RHL.register(B1, 'b', 'test.js');
       expect(<B1>{'Hi'}{'Bye'}</B1>.props.children).toEqual([
         'Hi',
-        'Bye'
+        'Bye',
       ]);
       RHL.register(B2, 'b', 'test.js');
       expect(<B2>{'Hi'}{'Bye'}</B2>.props.children).toEqual([
         'Hi',
-        'Bye'
+        'Bye',
       ]);
     });
   });

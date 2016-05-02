@@ -1,4 +1,4 @@
-;(function () {
+(function () {
   /* react-hot-loader/webpack */
   if (process.env.NODE_ENV !== 'production') {
     if (typeof __REACT_HOT_LOADER__ === 'undefined') {

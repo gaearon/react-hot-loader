@@ -11,12 +11,12 @@ function makeIdentitySourceMap(content, resourcePath) {
       source: resourcePath,
       original: {
         line: index + 1,
-        column: 0
+        column: 0,
       },
       generated: {
         line: index + 1,
-        column: 0
-      }
+        column: 0,
+      },
     });
   });
 
