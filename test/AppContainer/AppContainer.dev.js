@@ -21,7 +21,7 @@ describe('<AppContainer />', () => {
             return <div>hey</div>
           }
         }
-        RHL.register('App', App)
+        RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(<AppContainer><App /></AppContainer>)
         expect(wrapper.find('App').length).toBe(1)
@@ -42,7 +42,7 @@ describe('<AppContainer />', () => {
             return <div>hey</div>
           }
         }
-        RHL.register('App', App)
+        RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(<AppContainer><App /></AppContainer>)
         expect(spy.calls.length).toBe(1)
@@ -58,7 +58,7 @@ describe('<AppContainer />', () => {
               return <div>ho</div>
             }
           }
-          RHL.register('App', App)
+          RHL.register(App, 'App', 'test.js')
           wrapper.setProps({children: <App />})
         }
 
@@ -80,7 +80,7 @@ describe('<AppContainer />', () => {
             return <div>old render + {this.state} state</div>
           }
         }
-        RHL.register('App', App)
+        RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(<AppContainer><App /></AppContainer>)
         expect(wrapper.text()).toBe('old render + old state')
@@ -99,7 +99,7 @@ describe('<AppContainer />', () => {
               return <div>new render + {this.state} state</div>
             }
           }
-          RHL.register('App', App)
+          RHL.register(App, 'App', 'test.js')
           wrapper.setProps({children: <App />})
         }
 
@@ -114,7 +114,7 @@ describe('<AppContainer />', () => {
           spy()
           return <div>hey</div>
         }
-        RHL.register('App', App)
+        RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(<AppContainer><App /></AppContainer>)
         expect(wrapper.find('App').length).toBe(1)
@@ -129,7 +129,7 @@ describe('<AppContainer />', () => {
           spy()
           return <div>hey</div>
         }
-        RHL.register('App', App)
+        RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(<AppContainer><App /></AppContainer>)
         expect(spy.calls.length).toBe(1)
@@ -139,7 +139,7 @@ describe('<AppContainer />', () => {
             spy()
             return <div>ho</div>
           }
-          RHL.register('App', App)
+          RHL.register(App, 'App', 'test.js')
           wrapper.setProps({children: <App />})
         }
 
@@ -159,10 +159,10 @@ describe('<AppContainer />', () => {
             return <div>old render + {this.state} state</div>
           }
         }
-        RHL.register('App', App)
+        RHL.register(App, 'App', 'test.js')
 
         const Root = () => <App />
-        RHL.register('Root', Root)
+        RHL.register(Root, 'Root', 'test.js')
 
         const wrapper = mount(<AppContainer><Root /></AppContainer>)
         expect(wrapper.text()).toBe('old render + old state')
@@ -179,10 +179,10 @@ describe('<AppContainer />', () => {
               return <div>new render + {this.state} state</div>
             }
           }
-          RHL.register('App', App)
+          RHL.register(App, 'App', 'test.js')
 
           const Root = () => <App />
-          RHL.register('Root', Root)
+          RHL.register(Root, 'Root', 'test.js')
           wrapper.setProps({children: <Root />})
         }
 
@@ -200,10 +200,10 @@ describe('<AppContainer />', () => {
             return <div>hey</div>
           }
         }
-        RHL.register('App', App)
+        RHL.register(App, 'App', 'test.js')
 
         const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-        RHL.register('Enhanced', Enhanced)
+        RHL.register(Enhanced, 'Enhanced', 'test.js')
 
         const wrapper = mount(<AppContainer><Enhanced n={3} /></AppContainer>)
         expect(wrapper.find('App').length).toBe(1)
@@ -220,10 +220,10 @@ describe('<AppContainer />', () => {
             return <div>hey</div>
           }
         }
-        RHL.register('App', App)
+        RHL.register(App, 'App', 'test.js')
 
         const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-        RHL.register('Enhanced', Enhanced)
+        RHL.register(Enhanced, 'Enhanced', 'test.js')
 
         const wrapper = mount(<AppContainer><Enhanced n={3} /></AppContainer>)
         expect(spy.calls.length).toBe(1)
@@ -235,10 +235,10 @@ describe('<AppContainer />', () => {
               return <div>ho</div>
             }
           }
-          RHL.register('App', App)
+          RHL.register(App, 'App', 'test.js')
 
           const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-          RHL.register('Enhanced', Enhanced)
+          RHL.register(Enhanced, 'Enhanced', 'test.js')
           wrapper.setProps({children: <Enhanced n={3} />})
         }
 
@@ -258,10 +258,10 @@ describe('<AppContainer />', () => {
             return <div>old render + {this.state} state + {this.props.n}</div>
           }
         }
-        RHL.register('App', App)
+        RHL.register(App, 'App', 'test.js')
 
         const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-        RHL.register('Enhanced', Enhanced)
+        RHL.register(Enhanced, 'Enhanced', 'test.js')
 
         const wrapper = mount(<AppContainer><Enhanced n={3} /></AppContainer>)
         expect(wrapper.text()).toBe('old render + old state + 15')
@@ -278,10 +278,10 @@ describe('<AppContainer />', () => {
               return <div>new render + {this.state} state + {this.props.n}</div>
             }
           }
-          RHL.register('App', App)
+          RHL.register(App, 'App', 'test.js')
 
           const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-          RHL.register('Enhanced', Enhanced)
+          RHL.register(Enhanced, 'Enhanced', 'test.js')
           wrapper.setProps({children: <Enhanced n={4} />})
         }
 

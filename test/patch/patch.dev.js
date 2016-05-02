@@ -1,5 +1,5 @@
 import '../../src/patch.dev';
-import expect from 'expect';
+import expect, { spyOn } from 'expect';
 import React from 'react';
 
 const RHL = global.__REACT_HOT_LOADER__;
@@ -20,24 +20,24 @@ describe('patch', () => {
   });
 
   it('resolves registered types by their last ID', () => {
-    RHL.register('a', A1);
+    RHL.register(A1, 'a', 'test.js');
     expect(<A1 />.type).toNotBe(A1);
     const A = <A1 />.type;
     expect(A).toBeA('function');
     expect(<A />.type).toBe(A);
 
-    RHL.register('a', A2);
+    RHL.register(A2, 'a', 'test.js');
     expect(<A1 />.type).toBe(A);
     expect(<A2 />.type).toBe(A);
     expect(<A />.type).toBe(A);
 
-    RHL.register('a', A3);
+    RHL.register(A3, 'a', 'test.js');
     expect(<A1 />.type).toBe(A);
     expect(<A2 />.type).toBe(A);
     expect(<A3 />.type).toBe(A);
     expect(<A />.type).toBe(A);
 
-    RHL.register('b', B1);
+    RHL.register(B1, 'b', 'test.js');
     const B = <B1 />.type;
     expect(<A1 />.type).toBe(A);
     expect(<A2 />.type).toBe(A);
@@ -46,7 +46,7 @@ describe('patch', () => {
     expect(<B1 />.type).toBe(B);
     expect(<B />.type).toBe(B);
 
-    RHL.register('b', B2);
+    RHL.register(B2, 'b', 'test.js');
     expect(<A1 />.type).toBe(A);
     expect(<A2 />.type).toBe(A);
     expect(<A3 />.type).toBe(A);
@@ -66,12 +66,12 @@ describe('patch', () => {
       y: 'lol'
     });
 
-    RHL.register('b', B1);
+    RHL.register(B1, 'b', 'test.js');
     expect(<B1 x={42} y='lol' />.props).toEqual({
       x: 42,
       y: 'lol'
     });
-    RHL.register('b', B2);
+    RHL.register(B2, 'b', 'test.js');
     expect(<B2 x={42} y='lol' />.props).toEqual({
       x: 42,
       y: 'lol'
@@ -88,12 +88,12 @@ describe('patch', () => {
       'Bye'
     ]);
 
-    RHL.register('b', B1);
+    RHL.register(B1, 'b', 'test.js');
     expect(<B1>{'Hi'}{'Bye'}</B1>.props.children).toEqual([
       'Hi',
       'Bye'
     ]);
-    RHL.register('b', B2);
+    RHL.register(B2, 'b', 'test.js');
     expect(<B2>{'Hi'}{'Bye'}</B2>.props.children).toEqual([
       'Hi',
       'Bye'

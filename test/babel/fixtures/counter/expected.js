@@ -26,20 +26,9 @@ exports.default = _default;
     return;
   }
 
-  var fileName = __FILENAME__;
+  __REACT_HOT_LOADER__.register(Counter, "Counter", FILENAME);
 
-  function tagSource(fn, localName) {
-    if (typeof fn !== "function") {
-      return;
-    }
-
-    var id = fileName + '#' + localName;
-
-    __REACT_HOT_LOADER__.register(id, fn);
-  }
-
-  tagSource(Counter, "Counter");
-  tagSource(_default, "default");
+  __REACT_HOT_LOADER__.register(_default, "default", FILENAME);
 })();
 
 ;

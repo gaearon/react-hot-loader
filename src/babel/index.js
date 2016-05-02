@@ -1,6 +1,8 @@
 import template from 'babel-template';
 
-const buildRegistration = template('tagSource(ID, NAME);');
+const buildRegistration = template(
+  '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);'
+);
 const buildSemi = template(';');
 const buildTagger = template(`
 (function () {
@@ -8,15 +10,6 @@ const buildTagger = template(`
     return;
   }
 
-  var fileName = FILENAME;
-  function tagSource(fn, localName) {
-    if (typeof fn !== "function") {
-      return;
-    }
-
-    var id = fileName + '#' + localName;
-    __REACT_HOT_LOADER__.register(id, fn);
-  }
   REGISTRATIONS
 })();
 `);

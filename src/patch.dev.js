@@ -8,7 +8,17 @@ let proxiesByID = {};
 let idsByType = new WeakMap();
 
 global.__REACT_HOT_LOADER__ = {
-  register(id, component) {
+  register(component, uniqueLocalName, fileName) {
+    if (typeof component !== 'function') {
+      return;
+    }
+    if (!uniqueLocalName || !fileName) {
+      return;
+    }
+    if (typeof uniqueLocalName !== 'string' || typeof fileName !== 'string') {
+      return;
+    }
+    var id = fileName + '#' + uniqueLocalName;
     idsByType.set(component, id);
   },
   reset() {

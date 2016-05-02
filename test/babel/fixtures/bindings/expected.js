@@ -27,24 +27,17 @@ export default _default;
     return;
   }
 
-  var fileName = __FILENAME__;
+  __REACT_HOT_LOADER__.register(A, "A", FILENAME);
 
-  function tagSource(fn, localName) {
-    if (typeof fn !== "function") {
-      return;
-    }
+  __REACT_HOT_LOADER__.register(B, "B", FILENAME);
 
-    var id = fileName + '#' + localName;
+  __REACT_HOT_LOADER__.register(C, "C", FILENAME);
 
-    __REACT_HOT_LOADER__.register(id, fn);
-  }
+  __REACT_HOT_LOADER__.register(D, "D", FILENAME);
 
-  tagSource(A, "A");
-  tagSource(B, "B");
-  tagSource(C, "C");
-  tagSource(D, "D");
-  tagSource(E, "E");
-  tagSource(_default, "default");
+  __REACT_HOT_LOADER__.register(E, "E", FILENAME);
+
+  __REACT_HOT_LOADER__.register(_default, "default", FILENAME);
 })();
 
 ;

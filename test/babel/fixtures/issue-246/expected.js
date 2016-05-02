@@ -18,19 +18,7 @@ function spread() {
     return;
   }
 
-  var fileName = __FILENAME__;
-
-  function tagSource(fn, localName) {
-    if (typeof fn !== "function") {
-      return;
-    }
-
-    var id = fileName + '#' + localName;
-
-    __REACT_HOT_LOADER__.register(id, fn);
-  }
-
-  tagSource(spread, "spread");
+  __REACT_HOT_LOADER__.register(spread, "spread", FILENAME);
 })();
 
 ;
