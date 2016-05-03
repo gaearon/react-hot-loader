@@ -160,7 +160,6 @@ The final step adds adds `react-hot-loader` to our project to preserve _componen
         </AppContainer>
     ), document.getElementById('react-root'));
     ```  
-    **XXX pending [gaearon/react hot loader#244](https://github.com/gaearon/react-hot-loader/issues/244)**
 
     You should do this for both instances, e.g. your original mount and your mount code inside of the `module.hot.accept()` function.  `<AppContainer>` must wrap only a single, React component.
 
