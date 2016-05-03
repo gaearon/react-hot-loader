@@ -13,7 +13,7 @@ const consoleErrorReporter = ({error}) => {
 };
 
 consoleErrorReporter.propTypes = {
-  error: React.PropTypes.error
+  error: React.PropTypes.instanceOf(Error).isRequired
 };
 
 render((
@@ -22,3 +22,5 @@ render((
   </AppContainer>
 ), document.getElementById('react-root'));
 ```
+
+You'll also need to `npm install --save-dev redbox-react`.
