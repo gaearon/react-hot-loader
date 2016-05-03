@@ -53,7 +53,7 @@ function transform(source, map) {
   }
 
   if (!map) {
-    map = makeIdentitySourceMap(source, this.resourcePath);
+    map = makeIdentitySourceMap(source, this.resourcePath); // eslint-disable-line no-param-reassign
   }
   const node = new SourceNode(null, null, null, [
     SourceNode.fromStringWithSourceMap(source, new SourceMapConsumer(map)),
@@ -61,7 +61,7 @@ function transform(source, map) {
   ]).join(separator);
 
   const result = node.toStringWithSourceMap();
-  this.callback(null, result.code, result.map.toString());
+  return this.callback(null, result.code, result.map.toString());
 }
 
 module.exports = transform;

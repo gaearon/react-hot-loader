@@ -13,7 +13,7 @@ class AppContainer extends Component {
 
   componentDidMount() {
     if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-      console.error( // eslint-disable-line no-console
+      console.error(
         'React Hot Loader: It appears that "react-hot-loader/patch" ' +
         'did not run immediately before the app started. Make sure that it ' +
         'runs before any other code. For example, if you use Webpack, ' +

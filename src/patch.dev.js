@@ -82,12 +82,12 @@ const hooks = {
     if (typeof uniqueLocalName !== 'string' || typeof fileName !== 'string') {
       return;
     }
-    const id = fileName + '#' + uniqueLocalName;
+    const id = fileName + '#' + uniqueLocalName; // eslint-disable-line prefer-template
     if (!idsByType.has(type) && hasCreatedElementsByType.has(type)) {
       if (!didWarnAboutID[id]) {
         didWarnAboutID[id] = true;
         const baseName = fileName.replace(/^.*[\\\/]/, '');
-        console.error( // eslint-disable-line no-console
+        console.error(
           `React Hot Loader: ${uniqueLocalName} in ${fileName} will not hot reload ` +
           `correctly because ${baseName} uses <${uniqueLocalName} /> during ` +
           `module definition. For hot reloading to work, move ${uniqueLocalName} ` +

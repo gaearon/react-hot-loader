@@ -14,7 +14,7 @@ const buildTagger = template(`
 })();
 `);
 
-module.exports = function (args) {
+module.exports = function plugin(args) {
   // This is a Babel plugin, but the user put it in the Webpack config.
   if (this && this.callback) {
     throw new Error(
@@ -38,18 +38,19 @@ module.exports = function (args) {
   // Try our best to avoid variables from require().
   // Ideally we only want to find components defined by the user.
   function shouldRegisterBinding(binding) {
-    let { type, node } = binding.path;
+    const { type, node } = binding.path;
     switch (type) {
       case 'FunctionDeclaration':
       case 'ClassDeclaration':
       case 'VariableDeclaration':
         return true;
-      case 'VariableDeclarator':
+      case 'VariableDeclarator': {
         const { init } = node;
         if (t.isCallExpression(init) && init.callee.name === 'require') {
           return false;
         }
         return true;
+      }
       default:
         return false;
     }
@@ -76,7 +77,7 @@ module.exports = function (args) {
             t.variableDeclarator(id, expression),
           ])
         );
-        path.node.declaration = id;
+        path.node.declaration = id; // eslint-disable-line no-param-reassign
 
         // It won't appear in scope.bindings
         // so we'll manually remember it exists.
@@ -91,11 +92,12 @@ module.exports = function (args) {
 
       Program: {
         enter({ node, scope }, { file }) {
-          node[REGISTRATIONS] = [];
+          node[REGISTRATIONS] = []; // eslint-disable-line no-param-reassign
 
           // Everything in the top level scope, when reasonable,
           // is going to get tagged with __source.
-          for (let id in scope.bindings) {
+          /* eslint-disable guard-for-in,no-restricted-syntax */
+          for (const id in scope.bindings) {
             const binding = scope.bindings[id];
             if (shouldRegisterBinding(binding)) {
               node[REGISTRATIONS].push(buildRegistration({
@@ -105,11 +107,12 @@ module.exports = function (args) {
               }));
             }
           }
+          /* eslint-enable */
         },
 
-        exit({ node, scope }) {
-          let registrations = node[REGISTRATIONS];
-          node[REGISTRATIONS] = null;
+        exit({ node }) {
+          const registrations = node[REGISTRATIONS];
+          node[REGISTRATIONS] = null; // eslint-disable-line no-param-reassign
 
           // Inject the generated tagging code at the very end
           // so that it is as minimally intrusive as possible.

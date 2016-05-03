@@ -33,7 +33,6 @@ function runAllTests(useWeakMap) {
 
       const spy = spyOn(console, 'error');
       try {
-        /* eslint-disable no-console */
         RHL.register(Kanye, 'Yeezy', '/wow/test.js');
         expect(console.error.calls.length).toBe(1);
         expect(console.error.calls[0].arguments[0]).toBe(
@@ -49,7 +48,6 @@ function runAllTests(useWeakMap) {
         expect(console.error.calls.length).toBe(1);
         expect(<Kanye />.type).toBe(Kanye);
         expect(<Kanye2 />.type).toBe(Kanye2);
-        /* eslint-enable no-console */
       } finally {
         spy.restore();
       }
