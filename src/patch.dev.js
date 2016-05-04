@@ -152,7 +152,18 @@ function patchedCreateElement(type, ...args) {
 }
 patchedCreateElement.isPatchedByReactHotLoader = true;
 
+function patchedCreateFactory(type) {
+  // Patch React.createFactory to use patched createElement
+  // because the original implementation uses the internal,
+  // unpatched ReactElement.createElement
+  const factory = patchedCreateElement.bind(null, type);
+  factory.type = type;
+  return factory;
+}
+patchedCreateFactory.isPatchedByReactHotLoader = true;
+
 if (typeof global.__REACT_HOT_LOADER__ === 'undefined') {
   React.createElement = patchedCreateElement;
+  React.createFactory = patchedCreateFactory;
   global.__REACT_HOT_LOADER__ = hooks;
 }
