@@ -24,14 +24,16 @@ class ComponentMap {
   get(type) {
     if (this.wm) {
       return this.wm.get(type);
-    } else {
-      const slot = this.getSlot(type);
-      for (let i = 0; i < slot.length; i++) {
-        if (slot[i].key === type) {
-          return slot[i].value;
-        }
+    }
+
+    const slot = this.getSlot(type);
+    for (let i = 0; i < slot.length; i++) {
+      if (slot[i].key === type) {
+        return slot[i].value;
       }
     }
+
+    return undefined;
   }
 
   set(type, value) {
@@ -52,15 +54,15 @@ class ComponentMap {
   has(type) {
     if (this.wm) {
       return this.wm.has(type);
-    } else {
-      const slot = this.getSlot(type);
-      for (let i = 0; i < slot.length; i++) {
-        if (slot[i].key === type) {
-          return true;
-        }
-      }
-      return false;
     }
+
+    const slot = this.getSlot(type);
+    for (let i = 0; i < slot.length; i++) {
+      if (slot[i].key === type) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 
@@ -80,7 +82,7 @@ const hooks = {
     if (typeof uniqueLocalName !== 'string' || typeof fileName !== 'string') {
       return;
     }
-    const id = fileName + '#' + uniqueLocalName;
+    const id = fileName + '#' + uniqueLocalName; // eslint-disable-line prefer-template
     if (!idsByType.has(type) && hasCreatedElementsByType.has(type)) {
       if (!didWarnAboutID[id]) {
         didWarnAboutID[id] = true;
@@ -113,7 +115,7 @@ const hooks = {
     didWarnAboutID = {};
     hasCreatedElementsByType = new ComponentMap(useWeakMap);
     idsByType = new ComponentMap(useWeakMap);
-  }
+  },
 };
 
 hooks.reset(typeof WeakMap === 'function');
@@ -127,12 +129,12 @@ function resolveType(type) {
   hasCreatedElementsByType.set(type, true);
 
   // When available, give proxy class to React instead of the real class.
-  var id = idsByType.get(type);
+  const id = idsByType.get(type);
   if (!id) {
     return type;
   }
 
-  var proxy = proxiesByID[id];
+  const proxy = proxiesByID[id];
   if (!proxy) {
     return type;
   }

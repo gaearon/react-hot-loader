@@ -48,20 +48,20 @@ function transform(source, map) {
   if (this.sourceMap === false) {
     return this.callback(null, [
       source,
-      appendText
+      appendText,
     ].join(separator));
   }
 
   if (!map) {
-    map = makeIdentitySourceMap(source, this.resourcePath);
+    map = makeIdentitySourceMap(source, this.resourcePath); // eslint-disable-line no-param-reassign
   }
   const node = new SourceNode(null, null, null, [
     SourceNode.fromStringWithSourceMap(source, new SourceMapConsumer(map)),
-    new SourceNode(null, null, this.resourcePath, appendText)
+    new SourceNode(null, null, this.resourcePath, appendText),
   ]).join(separator);
 
   const result = node.toStringWithSourceMap();
-  this.callback(null, result.code, result.map.toString());
-};
+  return this.callback(null, result.code, result.map.toString());
+}
 
 module.exports = transform;

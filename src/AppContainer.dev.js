@@ -25,11 +25,11 @@ class AppContainer extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps() {
     // Hot reload is happening.
     // Retry rendering!
     this.setState({
-      error: null
+      error: null,
     });
     // Force-update the whole tree, including
     // components that refuse to update.
@@ -40,9 +40,9 @@ class AppContainer extends Component {
   // In 15.0, it only catches errors on initial mount.
   // Later it will work for updates as well:
   // https://github.com/facebook/react/pull/6020
-  unstable_handleError(error) {
+  unstable_handleError(error) { // eslint-disable-line camelcase
     this.setState({
-      error: error
+      error,
     });
   }
 
@@ -54,38 +54,48 @@ class AppContainer extends Component {
 
     if (this.props.component) {
       return <this.props.component {...this.props.props} />;
-    } else {
-      return React.Children.only(this.props.children);
     }
+
+    return React.Children.only(this.props.children);
   }
 }
 
 AppContainer.propTypes = {
-  component: function (props) {
+  component(props) {
     if (props.component) {
       return new Error(
-        `Passing "component" prop to <AppContainer /> is deprecated. ` +
-        `Replace <AppContainer component={App} /> with <AppContainer><App /></AppContainer>.`
+        'Passing "component" prop to <AppContainer /> is deprecated. ' +
+        'Replace <AppContainer component={App} /> with <AppContainer><App /></AppContainer>.'
       );
     }
+
+    return undefined;
   },
-  props: function (props) {
+  props(props) {
     if (props.props) {
       return new Error(
-        `Passing "props" prop to <AppContainer /> is deprecated. ` +
-        `Replace <AppContainer component={App} props={{ myProp: myValue }} /> with <AppContainer><App myProp={myValue} /></AppContainer>.`
+        'Passing "props" prop to <AppContainer /> is deprecated. ' +
+        'Replace <AppContainer component={App} props={{ myProp: myValue }} /> ' +
+        'with <AppContainer><App myProp={myValue} /></AppContainer>.'
       );
     }
+
+    return undefined;
   },
-  children: function (props) {
+  children(props) {
     if (React.Children.count(props.children) !== 1) {
-      return new Error(`Invalid prop "children" supplied to AppContainer. Expected a single React element with your app’s root component, e.g. <App />.`);
+      return new Error(
+        'Invalid prop "children" supplied to AppContainer. ' +
+        'Expected a single React element with your app’s root component, e.g. <App />.'
+      );
     }
-  }
+
+    return undefined;
+  },
 };
 
 AppContainer.defaultProps = {
-  errorReporter: Redbox
+  errorReporter: Redbox,
 };
 
 module.exports = AppContainer;

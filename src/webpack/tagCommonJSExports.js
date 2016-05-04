@@ -1,4 +1,6 @@
-;(function () {
+/* global __FILENAME__ */
+
+;(function register() { // eslint-disable-line no-extra-semi
   /* react-hot-loader/webpack */
   if (process.env.NODE_ENV !== 'production') {
     if (typeof __REACT_HOT_LOADER__ === 'undefined') {
@@ -10,7 +12,7 @@
       return;
     }
 
-    for (let key in module.exports) {
+    for (const key in module.exports) { // eslint-disable-line no-restricted-syntax
       if (!Object.prototype.hasOwnProperty.call(module.exports, key)) {
         continue;
       }
@@ -25,4 +27,4 @@
       __REACT_HOT_LOADER__.register(namedExport, key, __FILENAME__);
     }
   }
-})();
+}());

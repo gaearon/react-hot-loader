@@ -1,7 +1,8 @@
 import './setup';
-import React, {Component} from 'react';
-import expect, {createSpy} from 'expect';
-import {mount} from 'enzyme';
+import React, { Component } from 'react';
+import expect, { createSpy } from 'expect';
+import { mount } from 'enzyme';
+import { mapProps } from 'recompose';
 
 import AppContainer from '../../src/AppContainer.dev';
 const RHL = global.__REACT_HOT_LOADER__;
@@ -34,12 +35,12 @@ function runAllTests(useWeakMap) {
 
         class App extends Component {
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
           render() {
-            spy()
-            return <div>hey</div>
+            spy();
+            return <div>hey</div>;
           }
         }
         RHL.register(App, 'App', 'test.js');
@@ -50,16 +51,16 @@ function runAllTests(useWeakMap) {
         {
           class App extends Component {
             shouldComponentUpdate() {
-              return false
+              return false;
             }
 
             render() {
-              spy()
-              return <div>ho</div>
+              spy();
+              return <div>ho</div>;
             }
           }
           RHL.register(App, 'App', 'test.js');
-          wrapper.setProps({children: <App />});
+          wrapper.setProps({ children: <App /> });
         }
 
         expect(spy.calls.length).toBe(2);
@@ -97,7 +98,7 @@ function runAllTests(useWeakMap) {
             }
           }
           RHL.register(App, 'App', 'test.js');
-          wrapper.setProps({children: element});
+          wrapper.setProps({ children: element });
         }
 
         expect(spy.calls.length).toBe(2);
@@ -113,647 +114,646 @@ function runAllTests(useWeakMap) {
           }
 
           render() {
-            spy()
-            return <div>hey</div>
+            spy();
+            return <div>hey</div>;
           }
         }
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
-        const element = <App />
-        let wrapper
+        const element = <App />;
+        let wrapper;
 
         {
           class App extends Component {
             shouldComponentUpdate() {
-              return false
+              return false;
             }
 
             render() {
-              spy()
-              return <div>ho</div>
+              spy();
+              return <div>ho</div>;
             }
           }
-          RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<AppContainer>{element}</AppContainer>)
+          RHL.register(App, 'App', 'test.js');
+          wrapper = mount(<AppContainer>{element}</AppContainer>);
         }
 
-        expect(spy.calls.length).toBe(1)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(1);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
       it('hot-reloads children without losing state', () => {
         class App extends Component {
           componentWillMount() {
-            this.state = 'old'
+            this.state = 'old';
           }
 
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
           render() {
-            return <div>old render + {this.state} state</div>
+            return <div>old render + {this.state} state</div>;
           }
         }
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
-        const wrapper = mount(<AppContainer><App /></AppContainer>)
-        expect(wrapper.text()).toBe('old render + old state')
+        const wrapper = mount(<AppContainer><App /></AppContainer>);
+        expect(wrapper.text()).toBe('old render + old state');
 
         {
           class App extends Component {
             componentWillMount() {
-              this.state = 'new'
+              this.state = 'new';
             }
 
             shouldComponentUpdate() {
-              return false
+              return false;
             }
 
             render() {
-              return <div>new render + {this.state} state</div>
+              return <div>new render + {this.state} state</div>;
             }
           }
-          RHL.register(App, 'App', 'test.js')
-          wrapper.setProps({children: <App />})
+          RHL.register(App, 'App', 'test.js');
+          wrapper.setProps({ children: <App /> });
         }
 
-        expect(wrapper.text()).toBe('new render + old state')
-      })
-    })
+        expect(wrapper.text()).toBe('new render + old state');
+      });
+    });
 
     describe('with createClass root', () => {
       it('renders children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
         const App = React.createClass({
           render() {
-            spy()
-            return <div>hey</div>
-          }
-        })
-        RHL.register(App, 'App', 'test.js')
+            spy();
+            return <div>hey</div>;
+          },
+        });
+        RHL.register(App, 'App', 'test.js');
 
-        const wrapper = mount(<AppContainer><App /></AppContainer>)
-        expect(wrapper.find('App').length).toBe(1)
-        expect(wrapper.contains(<div>hey</div>)).toBe(true)
-        expect(spy.calls.length).toBe(1)
-      })
+        const wrapper = mount(<AppContainer><App /></AppContainer>);
+        expect(wrapper.find('App').length).toBe(1);
+        expect(wrapper.contains(<div>hey</div>)).toBe(true);
+        expect(spy.calls.length).toBe(1);
+      });
 
       it('force updates the tree on receiving new children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
 
         const App = React.createClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>hey</div>
-          }
-        })
-        RHL.register(App, 'App', 'test.js')
+            spy();
+            return <div>hey</div>;
+          },
+        });
+        RHL.register(App, 'App', 'test.js');
 
-        const wrapper = mount(<AppContainer><App /></AppContainer>)
-        expect(spy.calls.length).toBe(1)
+        const wrapper = mount(<AppContainer><App /></AppContainer>);
+        expect(spy.calls.length).toBe(1);
 
         {
           const App = React.createClass({
             shouldComponentUpdate() {
-              return false
+              return false;
             },
 
             render() {
-              spy()
-              return <div>ho</div>
-            }
-          })
-          RHL.register(App, 'App', 'test.js')
-          wrapper.setProps({children: <App />})
+              spy();
+              return <div>ho</div>;
+            },
+          });
+          RHL.register(App, 'App', 'test.js');
+          wrapper.setProps({ children: <App /> });
         }
 
-        expect(spy.calls.length).toBe(2)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(2);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
       it('force updates the tree on receiving cached children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
 
         const App = React.createClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>hey</div>
-          }
-        })
-        RHL.register(App, 'App', 'test.js')
+            spy();
+            return <div>hey</div>;
+          },
+        });
+        RHL.register(App, 'App', 'test.js');
 
-        const element = <App />
-        const wrapper = mount(<AppContainer>{element}</AppContainer>)
-        expect(spy.calls.length).toBe(1)
+        const element = <App />;
+        const wrapper = mount(<AppContainer>{element}</AppContainer>);
+        expect(spy.calls.length).toBe(1);
 
         {
           const App = React.createClass({
             shouldComponentUpdate() {
-              return false
+              return false;
             },
 
             render() {
-              spy()
-              return <div>ho</div>
-            }
-          })
-          RHL.register(App, 'App', 'test.js')
-          wrapper.setProps({children: element})
+              spy();
+              return <div>ho</div>;
+            },
+          });
+          RHL.register(App, 'App', 'test.js');
+          wrapper.setProps({ children: element });
         }
 
-        expect(spy.calls.length).toBe(2)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(2);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
       it('renders latest children on receiving cached never-rendered children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
 
         const App = React.createClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>hey</div>
-          }
-        })
-        RHL.register(App, 'App', 'test.js')
+            spy();
+            return <div>hey</div>;
+          },
+        });
+        RHL.register(App, 'App', 'test.js');
 
-        const element = <App />
-        let wrapper
+        const element = <App />;
+        let wrapper;
 
         {
           const App = React.createClass({
             shouldComponentUpdate() {
-              return false
+              return false;
             },
 
             render() {
-              spy()
-              return <div>ho</div>
-            }
-          })
-          RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<AppContainer>{element}</AppContainer>)
+              spy();
+              return <div>ho</div>;
+            },
+          });
+          RHL.register(App, 'App', 'test.js');
+          wrapper = mount(<AppContainer>{element}</AppContainer>);
         }
 
-        expect(spy.calls.length).toBe(1)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(1);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
       it('hot-reloads children without losing state', () => {
         const App = React.createClass({
           componentWillMount() {
-            this.state = 'old'
+            this.state = 'old';
           },
 
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            return <div>old render + {this.state} state</div>
-          }
-        })
-        RHL.register(App, 'App', 'test.js')
+            return <div>old render + {this.state} state</div>;
+          },
+        });
+        RHL.register(App, 'App', 'test.js');
 
-        const wrapper = mount(<AppContainer><App /></AppContainer>)
-        expect(wrapper.text()).toBe('old render + old state')
+        const wrapper = mount(<AppContainer><App /></AppContainer>);
+        expect(wrapper.text()).toBe('old render + old state');
 
         {
           const App = React.createClass({
             componentWillMount() {
-              this.state = 'new'
+              this.state = 'new';
             },
 
             shouldComponentUpdate() {
-              return false
+              return false;
             },
 
             render() {
-              return <div>new render + {this.state} state</div>
-            }
-          })
-          RHL.register(App, 'App', 'test.js')
-          wrapper.setProps({children: <App />})
+              return <div>new render + {this.state} state</div>;
+            },
+          });
+          RHL.register(App, 'App', 'test.js');
+          wrapper.setProps({ children: <App /> });
         }
 
-        expect(wrapper.text()).toBe('new render + old state')
-      })
-    })
+        expect(wrapper.text()).toBe('new render + old state');
+      });
+    });
 
     describe('with createFactory root', () => {
       it('renders children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
         const App = React.createClass({
           render() {
-            spy()
-            return <div>hey</div>
-          }
-        })
-        RHL.register(App, 'App', 'test.js')
-        const AppF = React.createFactory(App)
+            spy();
+            return <div>hey</div>;
+          },
+        });
+        RHL.register(App, 'App', 'test.js');
+        const AppF = React.createFactory(App);
 
-        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
-        expect(wrapper.find('App').length).toBe(1)
-        expect(wrapper.contains(<div>hey</div>)).toBe(true)
-        expect(spy.calls.length).toBe(1)
-      })
+        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>);
+        expect(wrapper.find('App').length).toBe(1);
+        expect(wrapper.contains(<div>hey</div>)).toBe(true);
+        expect(spy.calls.length).toBe(1);
+      });
 
       it('force updates the tree on receiving new children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
 
         const App = React.createClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>hey</div>
-          }
-        })
-        RHL.register(App, 'App', 'test.js')
-        const AppF = React.createFactory(App)
+            spy();
+            return <div>hey</div>;
+          },
+        });
+        RHL.register(App, 'App', 'test.js');
+        const AppF = React.createFactory(App);
 
-        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
-        expect(spy.calls.length).toBe(1)
+        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>);
+        expect(spy.calls.length).toBe(1);
 
         {
           const App = React.createClass({
             shouldComponentUpdate() {
-              return false
+              return false;
             },
 
             render() {
-              spy()
-              return <div>ho</div>
-            }
-          })
-          RHL.register(App, 'App', 'test.js')
-          const AppF = React.createFactory(App)
-          wrapper.setProps({children: AppF()})
+              spy();
+              return <div>ho</div>;
+            },
+          });
+          RHL.register(App, 'App', 'test.js');
+          const AppF = React.createFactory(App);
+          wrapper.setProps({ children: AppF() });
         }
 
-        expect(spy.calls.length).toBe(2)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(2);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
       it('force updates the tree on receiving cached children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
 
         const App = React.createClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>hey</div>
-          }
-        })
-        RHL.register(App, 'App', 'test.js')
-        const AppF = React.createFactory(App)
+            spy();
+            return <div>hey</div>;
+          },
+        });
+        RHL.register(App, 'App', 'test.js');
+        const AppF = React.createFactory(App);
 
-        const element = AppF()
-        const wrapper = mount(<AppContainer>{element}</AppContainer>)
-        expect(spy.calls.length).toBe(1)
+        const element = AppF();
+        const wrapper = mount(<AppContainer>{element}</AppContainer>);
+        expect(spy.calls.length).toBe(1);
 
         {
           const App = React.createClass({
             shouldComponentUpdate() {
-              return false
+              return false;
             },
 
             render() {
-              spy()
-              return <div>ho</div>
-            }
-          })
-          RHL.register(App, 'App', 'test.js')
-          wrapper.setProps({children: element})
+              spy();
+              return <div>ho</div>;
+            },
+          });
+          RHL.register(App, 'App', 'test.js');
+          wrapper.setProps({ children: element });
         }
 
-        expect(spy.calls.length).toBe(2)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(2);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
       it('renders latest children on receiving cached never-rendered children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
 
         const App = React.createClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>hey</div>
-          }
-        })
-        RHL.register(App, 'App', 'test.js')
-        const AppF = React.createFactory(App)
+            spy();
+            return <div>hey</div>;
+          },
+        });
+        RHL.register(App, 'App', 'test.js');
+        const AppF = React.createFactory(App);
 
-        const element = AppF()
-        let wrapper
+        const element = AppF();
+        let wrapper;
 
         {
           const App = React.createClass({
             shouldComponentUpdate() {
-              return false
+              return false;
             },
 
             render() {
-              spy()
-              return <div>ho</div>
-            }
-          })
-          RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<AppContainer>{element}</AppContainer>)
+              spy();
+              return <div>ho</div>;
+            },
+          });
+          RHL.register(App, 'App', 'test.js');
+          wrapper = mount(<AppContainer>{element}</AppContainer>);
         }
 
-        expect(spy.calls.length).toBe(1)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(1);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
       it('hot-reloads children without losing state', () => {
         const App = React.createClass({
           componentWillMount() {
-            this.state = 'old'
+            this.state = 'old';
           },
 
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            return <div>old render + {this.state} state</div>
-          }
-        })
-        RHL.register(App, 'App', 'test.js')
-        const AppF = React.createFactory(App)
+            return <div>old render + {this.state} state</div>;
+          },
+        });
+        RHL.register(App, 'App', 'test.js');
+        const AppF = React.createFactory(App);
 
-        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
-        expect(wrapper.text()).toBe('old render + old state')
+        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>);
+        expect(wrapper.text()).toBe('old render + old state');
 
         {
           const App = React.createClass({
             componentWillMount() {
-              this.state = 'new'
+              this.state = 'new';
             },
 
             shouldComponentUpdate() {
-              return false
+              return false;
             },
 
             render() {
-              return <div>new render + {this.state} state</div>
-            }
-          })
-          RHL.register(App, 'App', 'test.js')
-          const AppF = React.createFactory(App)
-          wrapper.setProps({children: AppF()})
+              return <div>new render + {this.state} state</div>;
+            },
+          });
+          RHL.register(App, 'App', 'test.js');
+          const AppF = React.createFactory(App);
+          wrapper.setProps({ children: AppF() });
         }
 
-        expect(wrapper.text()).toBe('new render + old state')
-      })
-    })
+        expect(wrapper.text()).toBe('new render + old state');
+      });
+    });
 
     describe('with SFC root', () => {
       it('renders children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
         const App = () => {
-          spy()
-          return <div>hey</div>
-        }
-        RHL.register(App, 'App', 'test.js')
+          spy();
+          return <div>hey</div>;
+        };
+        RHL.register(App, 'App', 'test.js');
 
-        const wrapper = mount(<AppContainer><App /></AppContainer>)
-        expect(wrapper.find('App').length).toBe(1)
-        expect(wrapper.contains(<div>hey</div>)).toBe(true)
-        expect(spy.calls.length).toBe(1)
-      })
+        const wrapper = mount(<AppContainer><App /></AppContainer>);
+        expect(wrapper.find('App').length).toBe(1);
+        expect(wrapper.contains(<div>hey</div>)).toBe(true);
+        expect(spy.calls.length).toBe(1);
+      });
 
       it('force updates the tree on receiving new children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
 
         const App = () => {
-          spy()
-          return <div>hey</div>
-        }
-        RHL.register(App, 'App', 'test.js')
+          spy();
+          return <div>hey</div>;
+        };
+        RHL.register(App, 'App', 'test.js');
 
-        const wrapper = mount(<AppContainer><App /></AppContainer>)
-        expect(spy.calls.length).toBe(1)
+        const wrapper = mount(<AppContainer><App /></AppContainer>);
+        expect(spy.calls.length).toBe(1);
 
         {
           const App = () => {
-            spy()
-            return <div>ho</div>
-          }
-          RHL.register(App, 'App', 'test.js')
-          wrapper.setProps({children: <App />})
+            spy();
+            return <div>ho</div>;
+          };
+          RHL.register(App, 'App', 'test.js');
+          wrapper.setProps({ children: <App /> });
         }
 
-        expect(spy.calls.length).toBe(2)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(2);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
       it('force updates the tree on receiving cached children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
 
         const App = () => {
-          spy()
-          return <div>hey</div>
-        }
-        RHL.register(App, 'App', 'test.js')
+          spy();
+          return <div>hey</div>;
+        };
+        RHL.register(App, 'App', 'test.js');
 
-        const element = <App />
-        const wrapper = mount(<AppContainer>{element}</AppContainer>)
-        expect(spy.calls.length).toBe(1)
+        const element = <App />;
+        const wrapper = mount(<AppContainer>{element}</AppContainer>);
+        expect(spy.calls.length).toBe(1);
 
         {
           const App = () => {
-            spy()
-            return <div>ho</div>
-          }
-          RHL.register(App, 'App', 'test.js')
-          wrapper.setProps({children: element})
+            spy();
+            return <div>ho</div>;
+          };
+          RHL.register(App, 'App', 'test.js');
+          wrapper.setProps({ children: element });
         }
 
-        expect(spy.calls.length).toBe(2)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(2);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
       it('renders latest children on receiving cached never-rendered children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
 
         const App = () => {
-          spy()
-          return <div>hey</div>
-        }
-        RHL.register(App, 'App', 'test.js')
+          spy();
+          return <div>hey</div>;
+        };
+        RHL.register(App, 'App', 'test.js');
 
-        const element = <App />
-        let wrapper
+        const element = <App />;
+        let wrapper;
 
         {
           const App = () => {
-            spy()
-            return <div>ho</div>
-          }
-          RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<AppContainer>{element}</AppContainer>)
+            spy();
+            return <div>ho</div>;
+          };
+          RHL.register(App, 'App', 'test.js');
+          wrapper = mount(<AppContainer>{element}</AppContainer>);
         }
 
-        expect(spy.calls.length).toBe(1)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(1);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
       it('hot-reloads children without losing state', () => {
         class App extends Component {
           componentWillMount() {
-            this.state = 'old'
+            this.state = 'old';
           }
 
-          shouldComponentUpdate() { return false }
+          shouldComponentUpdate() { return false; }
 
           render() {
-            return <div>old render + {this.state} state</div>
+            return <div>old render + {this.state} state</div>;
           }
         }
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
-        const Root = () => <App />
-        RHL.register(Root, 'Root', 'test.js')
+        const Root = () => <App />;
+        RHL.register(Root, 'Root', 'test.js');
 
-        const wrapper = mount(<AppContainer><Root /></AppContainer>)
-        expect(wrapper.text()).toBe('old render + old state')
+        const wrapper = mount(<AppContainer><Root /></AppContainer>);
+        expect(wrapper.text()).toBe('old render + old state');
 
         {
           class App extends Component {
             componentWillMount() {
-              this.state = 'new'
+              this.state = 'new';
             }
 
-            shouldComponentUpdate() { return false }
+            shouldComponentUpdate() { return false; }
 
             render() {
-              return <div>new render + {this.state} state</div>
+              return <div>new render + {this.state} state</div>;
             }
           }
-          RHL.register(App, 'App', 'test.js')
+          RHL.register(App, 'App', 'test.js');
 
-          const Root = () => <App />
-          RHL.register(Root, 'Root', 'test.js')
-          wrapper.setProps({children: <Root />})
+          const Root = () => <App />;
+          RHL.register(Root, 'Root', 'test.js');
+          wrapper.setProps({ children: <Root /> });
         }
 
-        expect(wrapper.text()).toBe('new render + old state')
-      })
-    })
+        expect(wrapper.text()).toBe('new render + old state');
+      });
+    });
 
     describe('with HOC-wrapped root', () => {
-      const mapProps = require('recompose').mapProps
       it('renders children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
         class App extends React.Component {
           render() {
-            spy()
-            return <div>hey</div>
+            spy();
+            return <div>hey</div>;
           }
         }
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
-        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-        RHL.register(Enhanced, 'Enhanced', 'test.js')
+        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+        RHL.register(Enhanced, 'Enhanced', 'test.js');
 
-        const wrapper = mount(<AppContainer><Enhanced n={3} /></AppContainer>)
-        expect(wrapper.find('App').length).toBe(1)
-        expect(wrapper.contains(<div>hey</div>)).toBe(true)
-        expect(wrapper.find('App').prop('n')).toBe(15)
-        expect(spy.calls.length).toBe(1)
-      })
+        const wrapper = mount(<AppContainer><Enhanced n={3} /></AppContainer>);
+        expect(wrapper.find('App').length).toBe(1);
+        expect(wrapper.contains(<div>hey</div>)).toBe(true);
+        expect(wrapper.find('App').prop('n')).toBe(15);
+        expect(spy.calls.length).toBe(1);
+      });
 
       it('force updates the tree on receiving new children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
         class App extends React.Component {
           render() {
-            spy()
-            return <div>hey</div>
+            spy();
+            return <div>hey</div>;
           }
         }
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
-        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-        RHL.register(Enhanced, 'Enhanced', 'test.js')
+        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+        RHL.register(Enhanced, 'Enhanced', 'test.js');
 
-        const wrapper = mount(<AppContainer><Enhanced n={3} /></AppContainer>)
-        expect(spy.calls.length).toBe(1)
+        const wrapper = mount(<AppContainer><Enhanced n={3} /></AppContainer>);
+        expect(spy.calls.length).toBe(1);
 
         {
           class App extends React.Component {
             render() {
-              spy()
-              return <div>ho</div>
+              spy();
+              return <div>ho</div>;
             }
           }
-          RHL.register(App, 'App', 'test.js')
+          RHL.register(App, 'App', 'test.js');
 
-          const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-          RHL.register(Enhanced, 'Enhanced', 'test.js')
-          wrapper.setProps({children: <Enhanced n={3} />})
+          const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+          RHL.register(Enhanced, 'Enhanced', 'test.js');
+          wrapper.setProps({ children: <Enhanced n={3} /> });
         }
 
-        expect(spy.calls.length).toBe(2)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(2);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
 
       it('force updates the tree on receiving cached children', () => {
-        const spy = createSpy()
+        const spy = createSpy();
         class App extends React.Component {
           render() {
-            spy()
-            return <div>hey</div>
+            spy();
+            return <div>hey</div>;
           }
         }
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
-        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-        RHL.register(Enhanced, 'Enhanced', 'test.js')
+        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+        RHL.register(Enhanced, 'Enhanced', 'test.js');
 
-        const element = <Enhanced n={3} />
-        const wrapper = mount(<AppContainer>{element}</AppContainer>)
-        expect(spy.calls.length).toBe(1)
+        const element = <Enhanced n={3} />;
+        const wrapper = mount(<AppContainer>{element}</AppContainer>);
+        expect(spy.calls.length).toBe(1);
 
         {
           class App extends React.Component {
             render() {
-              spy()
-              return <div>ho</div>
+              spy();
+              return <div>ho</div>;
             }
           }
-          RHL.register(App, 'App', 'test.js')
+          RHL.register(App, 'App', 'test.js');
 
-          const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-          RHL.register(Enhanced, 'Enhanced', 'test.js')
-          wrapper.setProps({children: element})
+          const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+          RHL.register(Enhanced, 'Enhanced', 'test.js');
+          wrapper.setProps({ children: element });
         }
 
-        expect(spy.calls.length).toBe(2)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
-      })
+        expect(spy.calls.length).toBe(2);
+        expect(wrapper.contains(<div>ho</div>)).toBe(true);
+      });
 
       it('renders latest children on receiving cached never-rendered children', () => {
         const spy = createSpy();
@@ -825,14 +825,14 @@ function runAllTests(useWeakMap) {
 
           const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
           RHL.register(Enhanced, 'Enhanced', 'test.js');
-          wrapper.setProps({children: <Enhanced n={4} />});
+          wrapper.setProps({ children: <Enhanced n={4} /> });
         }
 
         expect(wrapper.text()).toBe('new render + old state + 20');
       });
     });
   });
-};
+}
 
 runAllTests(true);
 runAllTests(false);
