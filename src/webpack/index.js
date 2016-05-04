@@ -34,6 +34,9 @@ function transform(source, map) {
     // Babel inserts these.
     // Ideally we'd opt out for one file but this is simpler.
     .replace(/['"]use strict['"];/, '')
+    // eslint comments don't need to end up in the output
+    .replace(/\/\/ eslint-disable-line .*\n/g, '\n')
+    .replace(/\/\* global.*\*\//, '')
     .split(/\n\s*/)
     .join(' ');
   }
