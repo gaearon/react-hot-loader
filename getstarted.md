@@ -11,7 +11,9 @@ It works with Webpack and other bundlers that support both Hot Module Replacemen
 
 What follows is a 3-step guide to integrating React Hot Loader into your current project.  Alternatively, you can also clone the boilerplate, for a quick start on a fresh app with everything working out-of-the-box.
 
-[https://github.com/gaearon/react-hot-boilerplate/](https://github.com/gaearon/react-hot-boilerplate/)
+[https://github.com/gaearon/react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate)
+
+XXX pending [react-hot-boilerplate/pull/61](https://github.com/gaearon/react-hot-boilerplate/pull/61), until then, at [react-hot-boilerplate/tree/next](https://github.com/gaearon/react-hot-boilerplate/tree/next)
 
 ## Integrating into your own App
 
