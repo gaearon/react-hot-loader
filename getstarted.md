@@ -106,7 +106,7 @@ Note, with no further steps, this enough to hotload changes to React components,
 
 #### Step 3/3: Adding React Hot Loader to preserve state
 
-The final step adds adds `react-hot-loader` to our project to preserve _component state_ across hot loads.
+The final step adds `react-hot-loader` to our project to preserve *component state* across hot loads.
 
 1.  Install the package:
 
@@ -141,6 +141,14 @@ The final step adds adds `react-hot-loader` to our project to preserve _componen
         }
 
     ```
+
+    NB: `react-hot-loader/webpack` only works on *exported* components,
+    whereas `react-hot-loader/babel` picks up all *top-level variables* in
+    your files.
+
+    As a workaround, with webpack, you can export all the
+    components whose state you want to maintain, even if they're not
+    imported anywhere else.
 
 1.  Add following line to the top of your main entry point:
 
