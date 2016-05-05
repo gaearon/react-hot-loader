@@ -9,7 +9,7 @@ It works with Webpack and other bundlers that support both Hot Module Replacemen
 
 ## Boilerplate Example
 
-What follows is a 3-step guide to integrating React Hot Loader into your current project.  Alternatively, you can also clone the boilerplate, for a quick start on a fresh app with everything working out-of-the-box.
+What follows is a 3-step guide to integrating React Hot Loader into your current project.  If you just want a quick start with a fresh app with everything working out the box (using webpack), check out the boilerplate:
 
 [https://github.com/gaearon/react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate)
 
@@ -19,57 +19,47 @@ XXX pending [react-hot-boilerplate/pull/61](https://github.com/gaearon/react-hot
 
 ### Step 1/3: Enabling Hot Module Replacement (HMR)
 
-HMR allows us to replace modules in-place without restarting the server, here's how you can enable it:
+HMR allows us to replace modules in-place without restarting the server, here's how you can enable it for different bundlers:
 
 #### Webpack
 
-* Create a development Webpack config separate from production one
-* Add HotModuleReplacementPlugin to development Webpack config
-* If you only render on the client, consider using WebpackDevServer
-  * Easier to set up
-  * Enable hot: true and add its entry points
-* If you use server rendering, consider using Express server + webpack-dev-middleware
-* More work but also more control
-* Show how to add webpack-dev-middleware and its entry point
+**Option 1: WebpackDevServer (client only)**
 
-**XXX cleanup, details**
+If you only render on the client, this is the easier option and quicker to setup.  The key aspect of this configuration is that when creating a `new WebpackDevServer`, you need to specify `hot: true` as an option. For example, you can add an entirely new file called `server.js` and simply include the [server provided in the boilerplate](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js){:target="_blank"}.
 
-This tutorial assumes that you already have a working Webpack configuration and `WebpackDevServer` compiles and serves your code. If youʼd rather play with a ready-made example, try <a href="https://github.com/gaearon/react-hot-boilerplate" target="_blank">react-hot-boilerplate</a>.
+If you like, you can also edit [`package.json`](https://github.com/gaearon/react-hot-boilerplate/blob/master/package.json){:target="_blank"} to call the Webpack server on `npm start`:
 
-**Development Server**
+```js
+  "scripts": {
+    "start": "node server.js"
+  },
+```
 
-With the loader installed, it is now time to configure a small dev server for Webpack to use. The key aspect of this configuration is that when creating a `new WebpackDevServer`, you need to specify `hot: true` as an option. For example, you can add an entirely new file called `server.js` and simply include the <a href="https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js" target="_blank">server provided in the boilerplate</a>.
+In your [`webpack.config.js`](https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js){:target="_blank"}, configure the `entry` to include the dev server and the hot reloading server. Put them in array before your appʼs entry point:
 
-If you like, you may edit <a href="https://github.com/gaearon/react-hot-boilerplate/blob/master/package.json" target='_blank'>`package.json`</a> to call the Webpack server on `npm start`:
-
-{% highlight js %}
-"scripts": {
-  "start": "node server.js"
-},
-{% endhighlight %}
-
-**Configuration**
-
-It is time to configure Webpack itself.
-In your <a href="https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js" target="_blank">`webpack.config.js`</a>, configure the `entry` to include the dev server and the hot reloading server. Put them in array before your appʼs entry point:
-
-{% highlight js %}
-entry: [
-  'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
-  'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-  './scripts/index' // Your appʼs entry point
-]
-{% endhighlight %}
+```js
+  entry: [
+    'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
+    'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+    './scripts/index' // Your appʼs entry point
+  ]
+```
 
 Finally, the Hot Replacement plugin from Webpack has to be included in the `plugins` section of the config. If you have not used Webpack plugins before, donʼt forget to add `var webpack = require('webpack');` at the top of your config. Then just add `new webpack.HotModuleReplacementPlugin()` to the `plugins` section:
 
-{% highlight js %}
-plugins: [
-  new webpack.HotModuleReplacementPlugin()
-]
-{% endhighlight %}
+```js
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ]
+```
 
 >Note: If you are using Webpack Dev Server command line interface instead of its Node API, and you specify `--hot` mode, *don't* add this plugin. It is mutually exclusive with the `--hot` option.
+
+**Option 2: Express with webpack-dev-middleware (client & server)**
+
+If you need server rendering too, the WebpackDevServer above is not enough, instead we have to use an Express server with the `webpack-dev-middleware`.  This is a bit more work but also gives us more control; we need to add this middleware and it's entry point.
+
+XXX TODO
 
 #### Browserify
 
@@ -120,20 +110,13 @@ The final step adds `react-hot-loader` to our project to preserve *component sta
     a.  If you use Babel, modify your `.babelrc` to ensure it includes at least:
 
     ```js
-    {
-      "plugins": [ "react-hot-loader/babel" ]
-    }
+      {
+        "plugins": [ "react-hot-loader/babel" ]
+      }
     ```
-    b. Alternatively, in Webpack, add `react-hot-loader/webpack` to your loaders
+    b. Alternatively, in Webpack, add `react-hot-loader/webpack` to the **loaders** section of your `webpackConfig.js`:
 
     ```js
-        // webpackConfig.js
-
-        // TODO: Would love some help showing the shape of the webpack config without
-        // overwhelming users either - just want it to be familiar enough. I suppose we could
-        // also declare a variable and assign the require statement to it? (Just an idea)
-        devtool: ...,
-        entry: [...],
         module: {
             loaders: [{
                 test: /\.js$/,
@@ -141,7 +124,6 @@ The final step adds `react-hot-loader` to our project to preserve *component sta
                 include: path.join(__dirname, 'src')
             }]
         }
-
     ```
 
     NB: `react-hot-loader/webpack` only works on *exported* components,
