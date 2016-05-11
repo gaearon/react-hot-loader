@@ -81,7 +81,7 @@ a:after {
   bottom: 0; left: 0; right: 0;
   height: 1px;
   background-color: currentColor;
-  opacity: 0.15;
+  opacity: 0.45;
 }
 
 a:hover,
