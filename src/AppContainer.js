@@ -2,8 +2,8 @@
 
 'use strict';
 
-if (module.hot) {
-  module.exports = require('./AppContainer.dev');
-} else {
+if (!module.hot && process.env.NODE_ENV === 'production') {
   module.exports = require('./AppContainer.prod');
+} else {
+  module.exports = require('./AppContainer.dev');
 }

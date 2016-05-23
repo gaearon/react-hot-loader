@@ -2,7 +2,7 @@
 
 ;(function register() { // eslint-disable-line no-extra-semi
   /* react-hot-loader/webpack */
-  if (module.hot) {
+  if (process.env.NODE_ENV !== 'production') {
     if (typeof __REACT_HOT_LOADER__ === 'undefined') {
       return;
     }
