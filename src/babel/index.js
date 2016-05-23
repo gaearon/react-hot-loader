@@ -30,7 +30,7 @@ module.exports = function plugin(args) {
   const { types: t } = args;
 
   // No-op in production.
-  if (process.env.NODE_ENV === 'production') {
+  if (!module.hot) {
     return { visitor: {} };
   }
 

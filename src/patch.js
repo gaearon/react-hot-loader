@@ -2,8 +2,8 @@
 
 'use strict';
 
-if (process.env.NODE_ENV === 'production') {
-  module.exports = require('./patch.prod');
-} else {
+if (module.hot) {
   module.exports = require('./patch.dev');
+} else {
+  module.exports = require('./patch.prod');
 }
