@@ -92,6 +92,24 @@ describe('static descriptor', () => {
       expect(() => proxy.update(ThrowingAccessors)).toNotThrow();
     });
 
+    it('replaces non-configurable properties', () => {
+      Object.defineProperty(StaticDescriptor, 'nonConfigProp', {
+        configurable: false,
+        value: 10,
+      });
+      Object.defineProperty(StaticDescriptorUpdate, 'nonConfigProp', {
+        configurable: false,
+        value: 11,
+      });
+
+      const proxy = createProxy(StaticDescriptor);
+      const Proxy = proxy.get();
+      const instance = renderer.render(<Proxy />);
+      expect(instance.constructor.nonConfigProp).toEqual(10);
+      proxy.update(StaticDescriptorUpdate);
+      expect(instance.constructor.nonConfigProp).toEqual(11);
+    });
+
     describe('getter', () => {
       it('is available on proxy class', () => {
         const proxy = createProxy(StaticDescriptor);

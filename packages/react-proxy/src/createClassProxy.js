@@ -148,7 +148,9 @@ function proxyClass(InitialComponent) {
         const savedDescriptor = savedDescriptors[key];
 
         if (!isEqualDescriptor(prevDescriptor, savedDescriptor)) {
-          Object.defineProperty(NextComponent, key, prevDescriptor);
+          try {
+            Object.defineProperty(NextComponent, key, prevDescriptor);
+          } catch (err) { }
         }
       });
     }
@@ -164,8 +166,10 @@ function proxyClass(InitialComponent) {
 
       // Skip redefined descriptors
       if (prevDescriptor && savedDescriptor && !isEqualDescriptor(savedDescriptor, prevDescriptor)) {
-        Object.defineProperty(NextComponent, key, prevDescriptor);
-        Object.defineProperty(ProxyComponent, key, prevDescriptor);
+        try {
+          Object.defineProperty(NextComponent, key, prevDescriptor);
+          Object.defineProperty(ProxyComponent, key, prevDescriptor);
+        } catch (err) { }
         return;
       }
 
