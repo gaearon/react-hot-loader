@@ -22,6 +22,9 @@
 * [react-cordova-boilerplate](https://github.com/unimonkiez/react-cordova-boilerplate) (react with react-router, redux, hot loader and server-rendering for cordova)
 * [react-hot-boilerplate-ts](https://github.com/wmaurer/react-hot-boilerplate-ts) (hot reloadable typescript starter kit)
 * [Megatome](https://github.com/Levelmoney/generator-megatome) (Yeoman generator w/ dynamic switchable rendering on Node/browser, react-router, babel, isomophic, an easy config building environments, bring-your-own-data-model and docker)
+* [react-webpack-template](https://github.com/weblogixx/react-webpack-template) (Babel, Karma + Mocha + Istanbul Coverage, prepared for usage of Less/Sass/Stylus/PostCSS and CSSModules)
+* [generator-react-webpack](https://github.com/newtriks/generator-react-webpack) (Yeoman generator based on [react-webpack-template](https://github.com/weblogixx/react-webpack-template) with support for Babel, Karma + Mocha + Istanbul Coverage, prepared for usage of Less/Sass/Stylus/PostCSS and CSSModules)
+* [generator-react-webpack-alt](https://github.com/weblogixx/generator-react-webpack-alt) (Yeoman generator with added support of [alt.js](http://alt.js.org) based on [react-webpack-template](https://github.com/weblogixx/react-webpack-template) with support for Babel, Karma + Mocha + Istanbul Coverage, prepared for usage of Less/Sass/Stylus/PostCSS and CSSModules)
 
 Don't be shy, add your own.
 
