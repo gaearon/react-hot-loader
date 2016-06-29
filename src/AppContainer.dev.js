@@ -2,7 +2,7 @@
 
 const React = require('react');
 const deepForceUpdate = require('react-deep-force-update');
-const Redbox = require('redbox-react');
+const Redbox = require('redbox-react').default;
 const { Component } = React;
 
 class AppContainer extends Component {
