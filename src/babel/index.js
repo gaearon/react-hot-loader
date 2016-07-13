@@ -14,6 +14,16 @@ const buildTagger = template(`
 })();
 `);
 
+const buildNewClassProperty = (t, key, identifier, params) => {
+  const returnExpression = t.callExpression(
+    t.memberExpression(t.thisExpression(), identifier),
+    params
+  );
+  const blockStatement = t.blockStatement([t.returnStatement(returnExpression)]);
+  const newArrowFunction = t.arrowFunctionExpression(params, blockStatement);
+  return t.classProperty(key, newArrowFunction);
+};
+
 module.exports = function plugin(args) {
   // This is a Babel plugin, but the user put it in the Webpack config.
   if (this && this.callback) {
@@ -124,6 +134,30 @@ module.exports = function plugin(args) {
           );
           node.body.push(buildSemi());
         },
+      },
+
+      Class(classPath) {
+        const classBody = classPath.get('body');
+
+        classBody.get('body').forEach(path => {
+          if (path.isClassProperty()) {
+            const { node } = path;
+
+            if (node.value.type === 'ArrowFunctionExpression') {
+              const { params } = node.value;
+              const newIdentifier = t.identifier(`__${node.key.name}__REACT_HOT_LOADER__`);
+
+              // create a new method on the class that the original class property function
+              // calls, since the method is able to be replaced by RHL
+              const newMethod = t.classMethod('method', newIdentifier, params, node.value.body);
+              path.insertAfter(newMethod);
+
+              // replace the original class property function with a function that calls
+              // the new class method created above
+              path.replaceWith(buildNewClassProperty(t, node.key, newIdentifier, params));
+            }
+          }
+        });
       },
     },
   };
