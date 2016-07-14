@@ -143,13 +143,19 @@ module.exports = function plugin(args) {
           if (path.isClassProperty()) {
             const { node } = path;
 
-            if (node.value.type === 'ArrowFunctionExpression') {
-              const { params } = node.value;
+            // class property node value is nullable
+            if (node.value && node.value.type === 'ArrowFunctionExpression') {
+              const params = node.value.params;
               const newIdentifier = t.identifier(`__${node.key.name}__REACT_HOT_LOADER__`);
+
+              // arrow function body can either be a block statement or a returned expression
+              const newMethodBody = node.value.body.type === 'BlockStatement' ?
+                node.value.body :
+                t.blockStatement([t.returnStatement(node.value.body)]);
 
               // create a new method on the class that the original class property function
               // calls, since the method is able to be replaced by RHL
-              const newMethod = t.classMethod('method', newIdentifier, params, node.value.body);
+              const newMethod = t.classMethod('method', newIdentifier, params, newMethodBody);
               path.insertAfter(newMethod);
 
               // replace the original class property function with a function that calls
