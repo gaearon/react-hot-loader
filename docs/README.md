@@ -53,8 +53,7 @@ if (module.hot) {
     render(
       <AppContainer>
         <App/>
-      </AppContainer>
-      />,
+      </AppContainer>,
       document.getElementById('root')
     );
   });
