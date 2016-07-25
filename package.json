@@ -1,10 +1,11 @@
 {
   "name": "react-hot-loader",
-  "version": "1.3.0",
+  "version": "3.0.0-alpha.0",
   "description": "Tweak React components in real time.",
   "main": "index.js",
   "dependencies": {
-    "react-hot-api": "^0.4.5",
+    "react-deep-force-update": "^2.0.1",
+    "react-proxy": "^3.0.0-alpha.0",
     "source-map": "^0.4.4"
   },
   "repository": {
