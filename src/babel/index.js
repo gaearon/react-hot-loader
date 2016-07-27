@@ -14,25 +14,17 @@ const buildTagger = template(`
 })();
 `);
 
-const cleanUpParams = (t, params) => (
-  params.map((param, i) => {
-    if (param.type === 'AssignmentPattern') {
-      return param.left;
-    } else if (param.type === 'ObjectPattern') {
-      return t.identifier(`param${i}`);
-    }
-    return param;
-  })
-);
+const buildNewClassProperty = (t, classPropertyName, newMethodName) => {
+  const returnExpression = t.callExpression(
+    t.memberExpression(t.thisExpression(), newMethodName),
+    [t.spreadElement(t.identifier('params'))]
+  );
 
-const buildNewClassProperty = (t, key, identifier, params) => {
-  const returnStatement = t.returnStatement(t.callExpression(
-    t.memberExpression(t.thisExpression(), identifier),
-    params
-  ));
-  const arrowFunctionBody = t.blockStatement([returnStatement]);
-  const newArrowFunction = t.arrowFunctionExpression(params, arrowFunctionBody);
-  return t.classProperty(key, newArrowFunction);
+  const newArrowFunction = t.arrowFunctionExpression(
+    [t.restElement(t.identifier('params'))],
+    returnExpression
+  );
+  return t.classProperty(classPropertyName, newArrowFunction);
 };
 
 module.exports = function plugin(args) {
@@ -171,9 +163,7 @@ module.exports = function plugin(args) {
 
               // replace the original class property function with a function that calls
               // the new class method created above
-              path.replaceWith(
-                buildNewClassProperty(t, node.key, newIdentifier, cleanUpParams(t, params))
-              );
+              path.replaceWith(buildNewClassProperty(t, node.key, newIdentifier));
             }
           }
         });

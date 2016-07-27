@@ -10,8 +10,8 @@ var Foo = function () {
 
     _classCallCheck(this, Foo);
 
-    this.bar = function (param0, param1) {
-      return _this.__bar__REACT_HOT_LOADER__(param0, param1);
+    this.bar = function () {
+      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
     };
   }
 

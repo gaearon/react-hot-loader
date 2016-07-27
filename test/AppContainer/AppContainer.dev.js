@@ -336,6 +336,56 @@ function runAllTests(useWeakMap) {
         wrapper.find('span').simulate('click');
         expect(spy).toHaveBeenCalledWith('bar');
       });
+
+      it('replaces children with class property arrow ' +
+         'functions with different numbers of arguments', () => {
+        const spy = createSpy();
+
+        class App extends Component {
+          componentWillMount() {
+            this.state = 'new';
+          }
+
+          shouldComponentUpdate() {
+            return false;
+          }
+
+          handleClick = () => spy('foo');
+
+          render() {
+            return <span onClick={this.handleClick}>old render</span>;
+          }
+        }
+        RHL.register(App, 'App', 'test.js');
+
+        const wrapper = mount(<AppContainer><App /></AppContainer>);
+        wrapper.find('span').simulate('click');
+        expect(spy).toHaveBeenCalledWith('foo');
+
+        spy.reset();
+        {
+          class App extends Component {
+            componentWillMount() {
+              this.state = 'new';
+            }
+
+            shouldComponentUpdate() {
+              return false;
+            }
+
+            handleClick = ({ target }) => spy(target.value);
+
+            render() {
+              return <span onClick={this.handleClick}>new render</span>;
+            }
+          }
+          RHL.register(App, 'App', 'test.js');
+          wrapper.setProps({ children: <App /> });
+        }
+
+        wrapper.find('span').simulate('click', { target: { value: 'bar' } });
+        expect(spy).toHaveBeenCalledWith('bar');
+      });
     });
 
     describe('with createClass root', () => {

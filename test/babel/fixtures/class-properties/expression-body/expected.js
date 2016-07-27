@@ -10,8 +10,8 @@ var Foo = function () {
 
     _classCallCheck(this, Foo);
 
-    this.onClick = function (e) {
-      return _this.__onClick__REACT_HOT_LOADER__(e);
+    this.onClick = function () {
+      return _this.__onClick__REACT_HOT_LOADER__.apply(_this, arguments);
     };
   }
 
