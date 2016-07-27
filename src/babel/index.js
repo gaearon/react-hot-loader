@@ -14,6 +14,15 @@ const buildTagger = template(`
 })();
 `);
 
+const cleanUpParams = params => (
+  params.map(param => {
+    if (param.type === 'AssignmentPattern') {
+      return param.left;
+    }
+    return param;
+  })
+);
+
 const buildNewClassProperty = (t, key, identifier, params) => {
   const returnExpression = t.callExpression(
     t.memberExpression(t.thisExpression(), identifier),
@@ -160,7 +169,9 @@ module.exports = function plugin(args) {
 
               // replace the original class property function with a function that calls
               // the new class method created above
-              path.replaceWith(buildNewClassProperty(t, node.key, newIdentifier, params));
+              path.replaceWith(
+                buildNewClassProperty(t, node.key, newIdentifier, cleanUpParams(params))
+              );
             }
           }
         });
