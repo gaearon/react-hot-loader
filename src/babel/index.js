@@ -14,22 +14,24 @@ const buildTagger = template(`
 })();
 `);
 
-const cleanUpParams = params => (
-  params.map(param => {
+const cleanUpParams = (t, params) => (
+  params.map((param, i) => {
     if (param.type === 'AssignmentPattern') {
       return param.left;
+    } else if (param.type === 'ObjectPattern') {
+      return t.identifier(`param${i}`);
     }
     return param;
   })
 );
 
 const buildNewClassProperty = (t, key, identifier, params) => {
-  const returnExpression = t.callExpression(
+  const returnStatement = t.returnStatement(t.callExpression(
     t.memberExpression(t.thisExpression(), identifier),
     params
-  );
-  const blockStatement = t.blockStatement([t.returnStatement(returnExpression)]);
-  const newArrowFunction = t.arrowFunctionExpression(params, blockStatement);
+  ));
+  const arrowFunctionBody = t.blockStatement([returnStatement]);
+  const newArrowFunction = t.arrowFunctionExpression(params, arrowFunctionBody);
   return t.classProperty(key, newArrowFunction);
 };
 
@@ -170,7 +172,7 @@ module.exports = function plugin(args) {
               // replace the original class property function with a function that calls
               // the new class method created above
               path.replaceWith(
-                buildNewClassProperty(t, node.key, newIdentifier, cleanUpParams(params))
+                buildNewClassProperty(t, node.key, newIdentifier, cleanUpParams(t, params))
               );
             }
           }
