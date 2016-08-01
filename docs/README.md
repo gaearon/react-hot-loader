@@ -22,6 +22,7 @@
 * [react-cordova-boilerplate](https://github.com/unimonkiez/react-cordova-boilerplate) (react with react-router, redux, hot loader and server-rendering for cordova)
 * [react-hot-boilerplate-ts](https://github.com/wmaurer/react-hot-boilerplate-ts) (hot reloadable typescript starter kit)
 * [Megatome](https://github.com/Levelmoney/generator-megatome) (Yeoman generator w/ dynamic switchable rendering on Node/browser, react-router, babel, isomophic, an easy config building environments, bring-your-own-data-model and docker)
+* [react-and-firebase-starter-kit](https://github.com/zywyz/react-and-firebase-starter-kit) (react, es6, react-router, redux, webpack, gulp, firebase, sass, eslint, mocha/chai/enzyme)
 
 Don't be shy, add your own.
 
