@@ -2,6 +2,7 @@
 
 * [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate) (Bare minimum)
 * [react-starter](https://github.com/webpack/react-starter) (react-router, includes production configs)
+* [react-webpack-babel](https://github.com/alicoding/react-webpack-babel) (react+babel+webpack, simple and clean, production config)
 * [react-tape](https://github.com/fc-io/react-tape) (Babel, blue-tape, css-loader, html-webpack-plugin, production config)
 * [isomorphic-hot-loader](https://github.com/irvinebroque/isomorphic-hot-loader) (react-router, isomorphic)
 * [isomorphic-react-template](https://github.com/gpbl/isomorphic-react-template/) (react-router, isomorphic)
