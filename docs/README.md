@@ -50,11 +50,12 @@ ReactDOM.render(
 // Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./containers/App', () => {
-    render(
+    const NextApp = require('./containers/App').default;
+    ReactDOM.render(
       <AppContainer>
-        <App/>
+        <NextApp/>
       </AppContainer>
-      />,
+      ,
       document.getElementById('root')
     );
   });
