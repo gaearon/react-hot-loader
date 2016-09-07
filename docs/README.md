@@ -7,7 +7,7 @@ Don't be shy, add your own.
 * [react-lego](https://github.com/peter-mouland/react-lego) (universal, react-router, other optional techs)
 * [react-static-boilerplate](https://github.com/koistya/react-static-boilerplate) (static site generator; React, PostCSS, Webpack, BrowserSync)
 
-### React-Hot-Loader v1
+#### React-Hot-Loader v1
 
 * [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate) (Bare minimum)
 * [react-starter](https://github.com/webpack/react-starter) (react-router, includes production configs)
@@ -25,11 +25,11 @@ Don't be shy, add your own.
 * [react-webpack-template](https://github.com/weblogixx/react-webpack-template) (Babel, Karma + Mocha + Istanbul Coverage, prepared for usage of Less/Sass/Stylus/PostCSS and CSSModules)
 
 
-## react-transform-hmr
+#### react-transform-hmr
  * [react-redux-universal-hot-example](https://github.com/erikras/react-redux-universal-hot-example) (isomorphic, redux, client and server async data fetching, babel, react-router)
 
 
-## other (webpack)
+#### other (webpack)
 * [go-starter-kit](https://github.com/olebedev/go-starter-kit) (hot reloadable golang/react/flummox/css-module isomorphic starter kit)
 * [este](https://github.com/este/este) (react-router, isomorphic, Flux, Babel) 
 * [react-isomorphic-starterkit](https://github.com/RickWong/react-isomorphic-starterkit) (react-router, react-async, isomorphic)
