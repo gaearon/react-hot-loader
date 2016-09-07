@@ -1,4 +1,3 @@
 {
-  "presets": ["es2015", "stage-1"],
-  "plugins": ["../../../../../src/babel"]
+  "plugins": ["syntax-class-properties", "../../../../../src/babel"]
 }
