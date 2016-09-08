@@ -25,16 +25,6 @@ Don't be shy, add your own.
 * [react-webpack-template](https://github.com/weblogixx/react-webpack-template) (Babel, Karma + Mocha + Istanbul Coverage, prepared for usage of Less/Sass/Stylus/PostCSS and CSSModules)
 
 
-#### react-transform-hmr
- * [react-redux-universal-hot-example](https://github.com/erikras/react-redux-universal-hot-example) (isomorphic, redux, client and server async data fetching, babel, react-router)
-
-
-#### other (webpack)
-* [go-starter-kit](https://github.com/olebedev/go-starter-kit) (hot reloadable golang/react/flummox/css-module isomorphic starter kit)
-* [este](https://github.com/este/este) (react-router, isomorphic, Flux, Babel) 
-* [react-isomorphic-starterkit](https://github.com/RickWong/react-isomorphic-starterkit) (react-router, react-async, isomorphic)
-* [yarsk](https://github.com/bradleyboy/yarsk) (Babel, Karma + Mocha, automated publishing to GitHub pages)
-
 ### Migrating to 1.0
 
 React Hot Loader has reached 1.0, and it's a breaking change. When React Hot Loader just started, it used a regex to find `createClass` calls and replace them with its own implementation. This turned out to be a bad idea for a number of reasons:
