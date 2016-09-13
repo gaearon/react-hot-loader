@@ -8,6 +8,14 @@ React Hot Boilerplate
 
 The minimal dev environment to enable live-editing React components.
 
+### ⚠️⚠️⚠️ This Is Experimental and Incomplete! ⚠️⚠️⚠️
+
+This is **not a good starting point for people learning React.**  
+It’s experimental and completely lacks any production features.
+
+**Do not use this as an actual project boilerplate!**  
+If you’re just getting started with React, **use [Create React App](https://github.com/facebookincubator/create-react-app) instead.**
+
 ### Usage
 
 ```
