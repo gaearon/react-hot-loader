@@ -27,6 +27,24 @@ const buildNewClassProperty = (t, classPropertyName, newMethodName) => {
   return t.classProperty(classPropertyName, newArrowFunction);
 };
 
+const classPropertyOptOutVistor = {
+  MetaProperty(path, state) {
+    const { node } = path;
+
+    if (node.meta.name === 'new' && node.property.name === 'target') {
+      state.optOut = true; // eslint-disable-line no-param-reassign
+    }
+  },
+
+  ReferencedIdentifier(path, state) {
+    const { node } = path;
+
+    if (node.name === 'arguments') {
+      state.optOut = true; // eslint-disable-line no-param-reassign
+    }
+  },
+};
+
 module.exports = function plugin(args) {
   // This is a Babel plugin, but the user put it in the Webpack config.
   if (this && this.callback) {
@@ -145,6 +163,16 @@ module.exports = function plugin(args) {
         classBody.get('body').forEach(path => {
           if (path.isClassProperty()) {
             const { node } = path;
+
+            const state = {
+              optOut: false,
+            };
+
+            path.traverse(classPropertyOptOutVistor, state);
+
+            if (state.optOut) {
+              return;
+            }
 
             // class property node value is nullable
             if (node.value && node.value.type === 'ArrowFunctionExpression') {
