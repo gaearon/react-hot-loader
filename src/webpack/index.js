@@ -45,7 +45,7 @@ function transform(source, map) {
   const separator = '\n\n';
   const appendText = tagCommonJSExportsSource.replace(
     /__FILENAME__/g,
-    JSON.stringify(path.basename(this.resourcePath))
+    JSON.stringify(this.resourcePath)
   );
 
   if (this.sourceMap === false) {
