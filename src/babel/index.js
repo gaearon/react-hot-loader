@@ -14,6 +14,37 @@ const buildTagger = template(`
 })();
 `);
 
+const buildNewClassProperty = (t, classPropertyName, newMethodName) => {
+  const returnExpression = t.callExpression(
+    t.memberExpression(t.thisExpression(), newMethodName),
+    [t.spreadElement(t.identifier('params'))]
+  );
+
+  const newArrowFunction = t.arrowFunctionExpression(
+    [t.restElement(t.identifier('params'))],
+    returnExpression
+  );
+  return t.classProperty(classPropertyName, newArrowFunction);
+};
+
+const classPropertyOptOutVistor = {
+  MetaProperty(path, state) {
+    const { node } = path;
+
+    if (node.meta.name === 'new' && node.property.name === 'target') {
+      state.optOut = true; // eslint-disable-line no-param-reassign
+    }
+  },
+
+  ReferencedIdentifier(path, state) {
+    const { node } = path;
+
+    if (node.name === 'arguments') {
+      state.optOut = true; // eslint-disable-line no-param-reassign
+    }
+  },
+};
+
 module.exports = function plugin(args) {
   // This is a Babel plugin, but the user put it in the Webpack config.
   if (this && this.callback) {
@@ -124,6 +155,46 @@ module.exports = function plugin(args) {
           );
           node.body.push(buildSemi());
         },
+      },
+
+      Class(classPath) {
+        const classBody = classPath.get('body');
+
+        classBody.get('body').forEach(path => {
+          if (path.isClassProperty()) {
+            const { node } = path;
+
+            const state = {
+              optOut: false,
+            };
+
+            path.traverse(classPropertyOptOutVistor, state);
+
+            if (state.optOut) {
+              return;
+            }
+
+            // class property node value is nullable
+            if (node.value && node.value.type === 'ArrowFunctionExpression') {
+              const params = node.value.params;
+              const newIdentifier = t.identifier(`__${node.key.name}__REACT_HOT_LOADER__`);
+
+              // arrow function body can either be a block statement or a returned expression
+              const newMethodBody = node.value.body.type === 'BlockStatement' ?
+                node.value.body :
+                t.blockStatement([t.returnStatement(node.value.body)]);
+
+              // create a new method on the class that the original class property function
+              // calls, since the method is able to be replaced by RHL
+              const newMethod = t.classMethod('method', newIdentifier, params, newMethodBody);
+              path.insertAfter(newMethod);
+
+              // replace the original class property function with a function that calls
+              // the new class method created above
+              path.replaceWith(buildNewClassProperty(t, node.key, newIdentifier));
+            }
+          }
+        });
       },
     },
   };

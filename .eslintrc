@@ -1,10 +1,6 @@
 {
   "extends": "airbnb",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
-    },
-  },
+  "parser": "babel-eslint",
   "rules": {
     "no-underscore-dangle": ["error", { "allow": ["__REACT_HOT_LOADER__"] }],
     "no-console": ["error", { allow: ["error"] }],
