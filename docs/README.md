@@ -6,6 +6,7 @@ Don't be shy, add your own.
 * [react-hot-boilerplate/next](https://github.com/gaearon/react-hot-boilerplate/tree/next) (Bare minimum)
 * [react-lego](https://github.com/peter-mouland/react-lego) (universal, react-router, other optional techs)
 * [react-static-boilerplate](https://github.com/koistya/react-static-boilerplate) (static site generator; React, PostCSS, Webpack, BrowserSync)
+* [react-cool-starter](https://github.com/wellyshen/react-cool-starter) (universal, redux, react-router, webpack 2, Babel, PostCSS, and more...)
 
 #### React-Hot-Loader v1
 
