@@ -14,15 +14,20 @@ const buildTagger = template(`
 })();
 `);
 
-const buildNewClassProperty = (t, classPropertyName, newMethodName) => {
-  const returnExpression = t.callExpression(
+const buildNewClassProperty = (t, classPropertyName, newMethodName, isAsync) => {
+  let returnExpression = t.callExpression(
     t.memberExpression(t.thisExpression(), newMethodName),
     [t.spreadElement(t.identifier('params'))]
   );
 
+  if (isAsync) {
+    returnExpression = t.awaitExpression(returnExpression);
+  }
+
   const newArrowFunction = t.arrowFunctionExpression(
     [t.restElement(t.identifier('params'))],
-    returnExpression
+    returnExpression,
+    isAsync
   );
   return t.classProperty(classPropertyName, newArrowFunction);
 };
@@ -176,6 +181,7 @@ module.exports = function plugin(args) {
 
             // class property node value is nullable
             if (node.value && node.value.type === 'ArrowFunctionExpression') {
+              const isAsync = node.value.async;
               const params = node.value.params;
               const newIdentifier = t.identifier(`__${node.key.name}__REACT_HOT_LOADER__`);
 
@@ -187,11 +193,12 @@ module.exports = function plugin(args) {
               // create a new method on the class that the original class property function
               // calls, since the method is able to be replaced by RHL
               const newMethod = t.classMethod('method', newIdentifier, params, newMethodBody);
+              newMethod.async = isAsync;
               path.insertAfter(newMethod);
 
               // replace the original class property function with a function that calls
               // the new class method created above
-              path.replaceWith(buildNewClassProperty(t, node.key, newIdentifier));
+              path.replaceWith(buildNewClassProperty(t, node.key, newIdentifier, isAsync));
             }
           }
         });
