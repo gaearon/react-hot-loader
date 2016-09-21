@@ -21,7 +21,7 @@ var _default = function _default() {
 exports.default = _default;
 ;
 
-(function () {
+var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
     return;
   }
@@ -29,6 +29,6 @@ exports.default = _default;
   __REACT_HOT_LOADER__.register(Counter, "Counter", __FILENAME__);
 
   __REACT_HOT_LOADER__.register(_default, "default", __FILENAME__);
-})();
+}();
 
 ;

@@ -22,7 +22,7 @@ const _default = React.createClass({});
 export default _default;
 ;
 
-(function () {
+var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
     return;
   }
@@ -38,6 +38,6 @@ export default _default;
   __REACT_HOT_LOADER__.register(E, "E", __FILENAME__);
 
   __REACT_HOT_LOADER__.register(_default, "default", __FILENAME__);
-})();
+}();
 
 ;
