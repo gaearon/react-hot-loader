@@ -4,8 +4,11 @@ const buildRegistration = template(
   '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);'
 );
 const buildSemi = template(';');
+
+// We're making the IIFE we insert at the end of the file an unused variable
+// because it otherwise breaks the output of the babel-node REPL (#359).
 const buildTagger = template(`
-(function () {
+var UNUSED = (function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
     return;
   }
@@ -141,7 +144,7 @@ module.exports = function plugin(args) {
           /* eslint-enable */
         },
 
-        exit({ node }) {
+        exit({ node, scope }) {
           const registrations = node[REGISTRATIONS];
           node[REGISTRATIONS] = null; // eslint-disable-line no-param-reassign
 
@@ -150,6 +153,7 @@ module.exports = function plugin(args) {
           node.body.push(buildSemi());
           node.body.push(
             buildTagger({
+              UNUSED: scope.generateUidIdentifier(),
               REGISTRATIONS: registrations,
             })
           );
