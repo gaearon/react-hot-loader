@@ -1,6 +1,6 @@
 {
   "plugins": [
     "syntax-class-properties",
-    "../../../../src/babel"
+    "../../../../../src/babel"
   ]
 }
