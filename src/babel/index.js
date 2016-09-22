@@ -4,6 +4,9 @@ const buildRegistration = template(
   '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);'
 );
 const buildSemi = template(';');
+
+// We're making the IIFE we insert at the end of the file an unused variable
+// because it otherwise breaks the output of the babel-node REPL (#359).
 const buildTagger = template(`
 var UNUSED = (function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
