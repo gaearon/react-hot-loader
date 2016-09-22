@@ -1,5 +1,53 @@
 ## Changelog
 
+### 3.0.0-beta.5
+
+* Makes the class properties portion of the Babel plugin work with async functions. (#372)
+* Change the output of the tagger code in the Babel plugin so that it doesn't break the output of `babel-node`. (#374)
+
+### 3.0.0-beta.4
+
+* Extends the Babel plugin to enable hot reloading of class properties. (#322)
+* Fixes a bug in the Webpack loader from a component importing a module with the same basename. (#347)
+
+### 3.0.0-beta.3
+
+* Fixes broken import of RedBox, which led to confusing stack traces when applications threw errors. (#314)
+* Add `module.hot` checks to conditional `require()`s to remove unnecessary warnings when using server rendering. (#302)
+
+### 3.0.0-beta.2
+
+* Patch `React.createFactory` (#287)
+* Fix props typo (#285)
+
+### 3.0.0-beta.1
+
+* Adds complete React Router support. Async routes should work fine now. (#272)
+* Fixes a nasty bug which caused unwrapped component to render. (#266, #272)
+* Fixes an issue that caused components with `shouldComponentUpdate` optimizations not getting redrawn (#269, 2a1e384d54e1919117f70f75dd20ad2490b1d9f5)
+* Internal: a rewrite and much better test coverage.
+
+### 3.0.0-beta.0
+
+* Fixes an issue when used in Webpack 2 (https://github.com/gaearon/react-hot-loader/issues/263)
+* **Breaking change:** instead of
+
+  ```js
+<AppContainer component={App} props={{ prop: val }} />
+```
+
+  you now need to write
+
+  ```js
+  <AppContainer>
+    <App prop={val} />
+  </AppContainer>
+  ```
+
+  (#250)
+
+  **See [this commit](https://github.com/gaearon/react-hot-boilerplate/commit/b52c727937a499f3efdc5dceb74ae952aa318c3a) as an update reference!**
+
 ### 3.0.0-alpha
 
 Big changes both to internals and usage. No docs yet but you can look at https://github.com/gaearon/react-hot-boilerplate/pull/61 for an example.
