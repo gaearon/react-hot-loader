@@ -173,6 +173,11 @@ module.exports = function plugin(args) {
           if (path.isClassProperty()) {
             const { node } = path;
 
+            // don't apply transform to static class properties
+            if (node.static) {
+              return;
+            }
+
             const state = {
               optOut: false,
             };
