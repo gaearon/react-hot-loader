@@ -1,5 +1,6 @@
 {
   "plugins": [
+    "syntax-async-functions",
     "syntax-class-properties",
     "../../../../../src/babel"
   ]
