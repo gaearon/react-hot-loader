@@ -1,5 +1,8 @@
 class Foo {
-  bar = 2;
+  constructor() {
+    this.bar = 2;
+  }
+
 }
 ;
 

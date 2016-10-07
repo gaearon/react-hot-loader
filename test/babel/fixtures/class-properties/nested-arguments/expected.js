@@ -1,12 +1,14 @@
-var _arguments = arguments;
 class Foo {
-  bar = (a, b) => {
-    () => {
-      _arguments;
-    };
+  constructor() {
+    this.bar = (a, b) => {
+      () => {
+        arguments;
+      };
 
-    return a(b);
-  };
+      return a(b);
+    };
+  }
+
 }
 ;
 

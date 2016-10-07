@@ -1,7 +1,7 @@
-var _this = this;
-
 class Foo {
-  bar = async (...params) => await _this.__bar__REACT_HOT_LOADER__(...params);
+  constructor() {
+    this.bar = async (...params) => await this.__bar__REACT_HOT_LOADER__(...params);
+  }
 
   async __bar__REACT_HOT_LOADER__(a, b) {
     return await a(b);

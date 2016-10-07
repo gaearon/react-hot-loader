@@ -1,11 +1,14 @@
 class Foo {
-  bar = (a, b) => {
-    () => {
-      new.target;
-    };
+  constructor() {
+    this.bar = (a, b) => {
+      () => {
+        new.target;
+      };
 
-    return a(b);
-  };
+      return a(b);
+    };
+  }
+
 }
 ;
 
