@@ -1,8 +1,9 @@
-class Foo {
-  static bar = (a, b) => {
-    return a(b);
-  };
-}
+class Foo {}
+
+Foo.bar = (a, b) => {
+  return a(b);
+};
+
 ;
 
 var _temp = function () {

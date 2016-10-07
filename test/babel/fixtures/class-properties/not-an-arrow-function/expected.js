@@ -1,7 +1,10 @@
 class Foo {
-  bar = function (a, b) {
-    return a(b);
-  };
+  constructor() {
+    this.bar = function (a, b) {
+      return a(b);
+    };
+  }
+
 }
 ;
 

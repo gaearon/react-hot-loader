@@ -1,7 +1,7 @@
 {
   "plugins": [
+    "../../../../../src/babel",
+    "transform-class-properties",
     "syntax-async-functions",
-    "syntax-class-properties",
-    "../../../../../src/babel"
   ]
 }

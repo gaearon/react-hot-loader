@@ -1,7 +1,7 @@
-var _this = this;
-
 class Foo {
-  onClick = (...params) => _this.__onClick__REACT_HOT_LOADER__(...params);
+  constructor() {
+    this.onClick = (...params) => this.__onClick__REACT_HOT_LOADER__(...params);
+  }
 
   __onClick__REACT_HOT_LOADER__(e) {
     return e.target.value;
