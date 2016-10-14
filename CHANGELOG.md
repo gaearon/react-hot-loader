@@ -1,5 +1,10 @@
 ## Changelog
 
+### 3.0.0-beta.6
+
+* Use production versions of `patch` and `AppContainer` if no `module.hot` available, so it doesn't break people using `NODE_ENV=test`. (#398)
+* Opt out of transforming static class properties. (#381)
+
 ### 3.0.0-beta.5
 
 * Makes the class properties portion of the Babel plugin work with async functions. (#372)
