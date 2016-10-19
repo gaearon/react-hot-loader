@@ -1,6 +1,6 @@
 ## Known Limitations
 
-### require.ensure
+### Code Splitting
 If you want to use Webpack code splitting via `require.ensure`, you'll need to add an additional `module.hot.accept` callback within the `require.ensure` block, like this:
 
 ```js
@@ -15,6 +15,8 @@ require.ensure([], (require) => {
 ```
 
 Note that if you're using React Router (pre-4.0), this will only work with `getChildRoutes`, but not `getComponent`, since `getComponent`'s callback will only load a component once.
+
+Also, if you're using the Webpack 2 beta, you can use `System.import` without extra `module.hot.accept` calls, although there are still a [few issues with it](https://github.com/gaearon/react-hot-loader/issues/303).
 
 ### Checking Element `type`s
 Because React Hot Loader creates proxied versions of your components, comparing reference types of elements won't work:
@@ -41,15 +43,12 @@ App = connect()(App);
 export default App;
 ```
 
-RHL won't reload it. Instead, you'll need to define it once:
+React Hot Loader won't reload it. Instead, you'll need to define it once:
 
 ```js
 const App = () => (<div>hello</div>);
 export default connect()(App);
 ```
-
-### Using Non-Transformed Classes
-Unfortunately, right now classes need to be compiled by either Babel or TypeScript to the ES5 equivalent (see [#313](https://github.com/gaearon/react-hot-loader/issues/313)).
 
 ### Decorators
 Components that are decorated (using something like [`@autobind`](https://github.com/andreypopp/autobind-decorator)) currently do not retain state when being hot-reloaded. (see [#279](https://github.com/gaearon/react-hot-loader/issues/279))
