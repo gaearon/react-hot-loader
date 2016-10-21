@@ -3,11 +3,13 @@
   "version": "3.0.0-beta.6",
   "description": "Tweak React components in real time.",
   "main": "index.js",
+  "typings": "./index.d.ts",
   "files": [
     "lib",
     "babel.js",
     "patch.js",
-    "webpack.js"
+    "webpack.js",
+    "index.d.ts"
   ],
   "scripts": {
     "clean": "rimraf lib",
@@ -48,6 +50,7 @@
   },
   "homepage": "https://github.com/gaearon/react-hot-loader",
   "devDependencies": {
+    "@types/react": "^0.14.41",
     "babel-cli": "^6.7.5",
     "babel-core": "^6.7.6",
     "babel-eslint": "^6.1.2",
@@ -67,6 +70,8 @@
     "react-addons-test-utils": "^15.0.2",
     "react-dom": "^15.0.2",
     "recompose": "^0.17.0",
-    "rimraf": "^2.5.2"
+    "rimraf": "^2.5.2",
+    "typescript": "^1.8.0",
+    "typescript-definition-tester": "^0.0.4"
   }
 }
