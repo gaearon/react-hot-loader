@@ -71,7 +71,7 @@
     "react-dom": "^15.0.2",
     "recompose": "^0.17.0",
     "rimraf": "^2.5.2",
-    "typescript": "^1.8.0",
+    "typescript": "^2.0.3",
     "typescript-definition-tester": "^0.0.4"
   }
 }
