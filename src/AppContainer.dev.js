@@ -52,36 +52,11 @@ class AppContainer extends Component {
       return <this.props.errorReporter error={error} />;
     }
 
-    if (this.props.component) {
-      return <this.props.component {...this.props.props} />;
-    }
-
     return React.Children.only(this.props.children);
   }
 }
 
 AppContainer.propTypes = {
-  component(props) {
-    if (props.component) {
-      return new Error(
-        'Passing "component" prop to <AppContainer /> is deprecated. ' +
-        'Replace <AppContainer component={App} /> with <AppContainer><App /></AppContainer>.'
-      );
-    }
-
-    return undefined;
-  },
-  props(props) {
-    if (props.props) {
-      return new Error(
-        'Passing "props" prop to <AppContainer /> is deprecated. ' +
-        'Replace <AppContainer component={App} props={{ myProp: myValue }} /> ' +
-        'with <AppContainer><App myProp={myValue} /></AppContainer>.'
-      );
-    }
-
-    return undefined;
-  },
   children(props) {
     if (React.Children.count(props.children) !== 1) {
       return new Error(
