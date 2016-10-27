@@ -68,5 +68,8 @@
     "react-dom": "^15.0.2",
     "recompose": "^0.17.0",
     "rimraf": "^2.5.2"
+  },
+  "engines": {
+    "node": ">= 4"
   }
 }
