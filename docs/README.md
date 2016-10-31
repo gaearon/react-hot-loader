@@ -64,6 +64,40 @@ if (module.hot) {
 
 You can also check out [this commit for the migration of a TodoMVC app from 1.0 to 3.0.](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915)
 
+## Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app)
+
+* Run `npm run eject`
+* Install React Hot Loader (`npm install --save-dev react-hot-loader@3.0.0-beta.6`)
+* In `config/webpack.config.dev.js`:
+  1. Add `'react-hot-loader/patch'` to entry array (anywhere before `paths.appIndexJs`). It should now look like (excluding comments):
+  ```js
+    entry: [
+       'react-hot-loader/patch',
+       require.resolve('react-dev-utils/webpackHotDevClient'),
+       require.resolve('./polyfills'),
+       paths.appIndexJs
+    ]
+  ```
+
+  2. Add `'react-hot-loader/babel'` to Babel loader configuration. The loader should now look like:
+  ```js
+    {
+       test: /\.(js|jsx)$/,
+       include: paths.appSrc,
+       loader: 'babel',
+       query: {
+         cacheDirectory: findCacheDir({
+           name: 'react-scripts'
+         }),
+         plugins: [
+           'react-hot-loader/babel'
+         ]
+       }
+    }
+  ```
+
+* Add `AppContainer` to `src/index.js` (see `AppContainer` section in [Migration to 3.0 above](https://github.com/gaearon/react-hot-loader/blob/next-docs/docs/README.md#migration-to-30))
+
 ### Source Maps
 
 If you use `devtool: 'source-map'` (or its equivalent), source maps will be emitted to hide hot reloading code.
