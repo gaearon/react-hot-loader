@@ -1,5 +1,5 @@
 ### Starter Kit
-* [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate) (Bare minimum)
+* [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate/tree/next) (Bare minimum)
 
 ### Migration to 3.0
 - If you're using Babel and ES6, remove the `react-hot` loader from any loaders in your Webpack config, and add `react-hot-loader/babel` to the `plugins` section of your `.babelrc`:
@@ -30,11 +30,11 @@
 
 - 'react-hot-loader/patch' should be placed at the top of the `entry` section in your Webpack config.  An error will occur if any code runs before `react-hot-loader/patch` has, so put it in the first position.
 
-- `<AppContainer>` - AppContainer is a component that handles module reloading, as well as error handling.  The root component of your app should be nested in AppContainer as a child.  When in production, AppContainer is automatically disabled, and simply returns its children.
+- `<AppContainer/>` is a component that handles module reloading, as well as error handling.  The root component of your app should be nested in AppContainer as a child.  When in production, AppContainer is automatically disabled, and simply returns its children.
 
 - React Hot Loader 3 does not hide the hot module replacement API, so the following needs to be added below wherever you call `ReactDOM.render` in your app:
 
-```js
+```jsx
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
@@ -54,8 +54,7 @@ if (module.hot) {
     ReactDOM.render(
       <AppContainer>
         <NextApp/>
-      </AppContainer>
-      ,
+      </AppContainer>,
       document.getElementById('root')
     );
   });
