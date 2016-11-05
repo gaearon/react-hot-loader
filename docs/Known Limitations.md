@@ -21,23 +21,31 @@ Also, if you're using the Webpack 2 beta, you can use `System.import` without ex
 ### Checking Element `type`s
 Because React Hot Loader creates proxied versions of your components, comparing reference types of elements won't work:
 
-```js
+```jsx
 const element = <Component />;
 console.log(element.type === Component); // false
 ```
 
 One workaround is to create an element (that will have the `type` of the proxied component):
 
-```js
+```jsx
 const ComponentType = (<Component />).type;
 const element = <Component />;
 console.log(element.type === ComponentType); // true
 ```
 
+You can also set a property on the component class:
+
+```jsx
+const Widget = () => <div>hi</div>;
+Widget.isWidgetType = true;
+console.log(<Widget />.type.isWidgetType); // true
+```
+
 ### Reassigning Components
 React Hot Loader will only try to reload the original component reference, so if you reassign it to another variable like this:
 
-```js
+```jsx
 let App = () => (<div>hello</div>);
 App = connect()(App);
 export default App;
@@ -45,7 +53,7 @@ export default App;
 
 React Hot Loader won't reload it. Instead, you'll need to define it once:
 
-```js
+```jsx
 const App = () => (<div>hello</div>);
 export default connect()(App);
 ```
