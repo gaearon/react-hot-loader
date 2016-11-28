@@ -23,13 +23,22 @@ module.exports = function (source, map) {
       node,
       result;
 
+  var reactMountImport;
+  try {
+    require('react-dom/lib/ReactMount');
+    reactMountImport = 'ReactMount = require("react-dom/lib/ReactMount"),';
+} catch(e) {
+    console.log(e)
+    reactMountImport = 'ReactMount = require("react/lib/ReactMount"),';
+  }
+
   prependText = [
     '/* REACT HOT LOADER */',
     'if (module.hot) {',
       '(function () {',
         'var ReactHotAPI = require(' + JSON.stringify(require.resolve('react-hot-api')) + '),',
             'RootInstanceProvider = require(' + JSON.stringify(require.resolve('./RootInstanceProvider')) + '),',
-            'ReactMount = require("react/lib/ReactMount"),',
+            reactMountImport,
             'React = require("react");',
 
         'module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () {',
