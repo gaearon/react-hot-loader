@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.3.1
+
+* Fix import for ReactMount to support 15.4.0 (**[#430](https://github.com/gaearon/react-hot-loader/pull/430)**)
+
 ### 1.3.0
 
 * Recover from module errors on module level (**[#187](https://github.com/gaearon/react-hot-loader/pull/187)**)
