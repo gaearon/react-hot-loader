@@ -28,7 +28,6 @@ module.exports = function (source, map) {
     require('react-dom/lib/ReactMount');
     reactMountImport = 'ReactMount = require("react-dom/lib/ReactMount"),';
 } catch(e) {
-    console.log(e)
     reactMountImport = 'ReactMount = require("react/lib/ReactMount"),';
   }
 
