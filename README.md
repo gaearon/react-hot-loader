@@ -19,7 +19,7 @@ Watch **[Dan Abramov's talk on Hot Reloading with Time Travel](https://www.youtu
 
 ## Installation
 
-`npm install --save-dev react-hot-loader`
+`npm install --save-dev react-hot-loader@next`
 
 ## Usage
 
