@@ -15,6 +15,7 @@ Don't be shy, add your own.
 * [meatier](https://github.com/mattkrick/meatier) (webpack 2 + hmr, universal, redux, graphql, react, react-router-redux, ssr)
 * [react-hot-ts](https://github.com/Glavin001/react-hot-ts) (React, Webpack, TypeScript)
 * [react-boilerplate-app](https://github.com/vebjorni/react-boilerplate-app) (react (duh), router, webpack with dev server, babel, hot reloading)
+* [react-native-web](https://github.com/agrcrobles/react-native-web-webpack-starter) (react-native-web, webpack with dev server, hot reloading and flow soon...)
 
 #### React-Hot-Loader v1
 
