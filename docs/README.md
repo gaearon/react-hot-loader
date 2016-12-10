@@ -16,6 +16,7 @@ Don't be shy, add your own.
 * [react-hot-ts](https://github.com/Glavin001/react-hot-ts) (React, Webpack, TypeScript)
 * [react-boilerplate-app](https://github.com/vebjorni/react-boilerplate-app) (react (duh), router, webpack with dev server, babel, hot reloading)
 * [react-native-web](https://github.com/agrcrobles/react-native-web-webpack-starter) (react-native-web, webpack with dev server, hot reloading and flow soon...)
+* [react-starter-kit](https://github.com/elios264/react-starter) (webpack 2 + htr + react + redux + router + babel + sass)
 
 #### React-Hot-Loader v1
 
