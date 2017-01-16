@@ -19,6 +19,7 @@ Don't be shy, add your own.
 * [react-starter-kit](https://github.com/elios264/react-starter) (webpack 2 + htr + react + redux + router + babel + sass)
 * [redux-react-starter](https://github.com/didierfranc/redux-react-starter) (webpack 2 + redux + react-redux 5 + react-router 4 + styled-component ...)
 * [react-redux-universal-boilerplate](https://github.com/kiki-le-singe/react-redux-universal-boilerplate) (redux, react-router, universal, koa, webpack 2, babel, PostCSS, sass or cssnext, hot reloading, ...)
+* [ARc](https://arc.js.org) (React, Jest, Storybook and other optional feature branches) 
 
 #### React-Hot-Loader v1
 
