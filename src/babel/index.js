@@ -1,5 +1,7 @@
 import template from 'babel-template';
 
+const replaced = Symbol('replaced');
+
 const buildRegistration = template(
   '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);'
 );
@@ -33,6 +35,29 @@ const buildNewClassProperty = (t, classPropertyName, newMethodName, isAsync) => 
     isAsync
   );
   return t.classProperty(classPropertyName, newArrowFunction);
+};
+
+const buildNewAssignmentExpression = (t, classPropertyName, newMethodName, isAsync) => {
+  let returnExpression = t.callExpression(
+    t.memberExpression(t.thisExpression(), newMethodName),
+    [t.spreadElement(t.identifier('params'))]
+  );
+
+  if (isAsync) {
+    returnExpression = t.awaitExpression(returnExpression);
+  }
+
+  const newArrowFunction = t.arrowFunctionExpression(
+    [t.restElement(t.identifier('params'))],
+    returnExpression,
+    isAsync
+  );
+  const left = t.memberExpression(t.thisExpression(), t.identifier(classPropertyName.name));
+
+  const replacement = t.assignmentExpression('=', left, newArrowFunction);
+  replacement[replaced] = true;
+
+  return replacement;
 };
 
 const classPropertyOptOutVistor = {
@@ -165,7 +190,6 @@ module.exports = function plugin(args) {
           node.body.push(buildSemi());
         },
       },
-
       Class(classPath) {
         const classBody = classPath.get('body');
 
@@ -208,6 +232,41 @@ module.exports = function plugin(args) {
               // replace the original class property function with a function that calls
               // the new class method created above
               path.replaceWith(buildNewClassProperty(t, node.key, newIdentifier, isAsync));
+            }
+          } else {
+            if (!path.node[replaced] && path.node.kind === 'constructor') {
+              path[replaced] = true;
+              path.traverse({
+                AssignmentExpression(exp) {
+                  if (!exp.node[replaced]
+                    && exp.node.left.type === 'MemberExpression'
+                    && exp.node.left.object.type === 'ThisExpression'
+                    && exp.node.right.type === 'ArrowFunctionExpression'
+                    && !exp.node.right[replaced]
+                  ) {
+                    const key = exp.node.left.property;
+                    const node = exp.node.right;
+
+                    const isAsync = node.async;
+                    const params = node.params;
+                    const newIdentifier = t.identifier(`__${key.name}__REACT_HOT_LOADER__`);
+
+                    // arrow function body can either be a block statement or a returned expression
+                    const newMethodBody = node.body.type === 'BlockStatement' ?
+                      node.body :
+                      t.blockStatement([t.returnStatement(node.body)]);
+
+                    const newMethod = t.classMethod('method', newIdentifier, params, newMethodBody);
+                    newMethod.async = isAsync;
+                    newMethod[replaced] = true;
+                    path.insertAfter(newMethod);
+
+                    // replace assignment exp
+                    exp
+                      .replaceWith(buildNewAssignmentExpression(t, key, newIdentifier, isAsync));
+                  }
+                },
+              });
             }
           }
         });
