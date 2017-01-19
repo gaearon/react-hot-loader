@@ -241,7 +241,6 @@ module.exports = function plugin(args) {
                     && exp.node.left.type === 'MemberExpression'
                     && exp.node.left.object.type === 'ThisExpression'
                     && exp.node.right.type === 'ArrowFunctionExpression'
-                    && !exp.node.right[replaced]
                   ) {
                     const key = exp.node.left.property;
                     const node = exp.node.right;
