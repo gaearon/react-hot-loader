@@ -235,7 +235,6 @@ module.exports = function plugin(args) {
             }
           } else {
             if (!path.node[replaced] && path.node.kind === 'constructor') {
-              path[replaced] = true;
               path.traverse({
                 AssignmentExpression(exp) {
                   if (!exp.node[replaced]
