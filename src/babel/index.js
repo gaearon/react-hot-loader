@@ -124,7 +124,7 @@ module.exports = function plugin(args) {
           buildRegistration({
             ID: id,
             NAME: t.stringLiteral('default'),
-            FILENAME: t.stringLiteral(file.opts.filename),
+            FILENAME: t.stringLiteral('./' + file.opts.sourceFileName),
           })
         );
       },
@@ -142,7 +142,7 @@ module.exports = function plugin(args) {
               node[REGISTRATIONS].push(buildRegistration({
                 ID: binding.identifier,
                 NAME: t.stringLiteral(id),
-                FILENAME: t.stringLiteral(file.opts.filename),
+                FILENAME: t.stringLiteral('./' + file.opts.sourceFileName),
               }));
             }
           }
