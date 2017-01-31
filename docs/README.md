@@ -3,6 +3,7 @@
 Don't be shy, add your own.
 
 #### React-Hot-Loader v3
+* [react-starter-spa](https://github.com/3axap4eHko/react-starter-spa)(webpack2+hrm+redux+scfldr+babel-env+babili+PostCss and more)
 * [react-hot-boilerplate/next](https://github.com/gaearon/react-hot-boilerplate/tree/next) (Bare minimum)
 * [webpack-react-redux](https://github.com/jpsierens/webpack-react-redux) (redux, react-router, hmr)
 * [react-lego](https://github.com/peter-mouland/react-lego) (universal, react-router, other optional techs)
