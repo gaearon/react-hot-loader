@@ -22,6 +22,7 @@ Don't be shy, add your own.
 * [ARc](https://arc.js.org) (React, Jest, Storybook and other optional feature branches) 
 * [webpack-react-redux-starter](https://github.com/stsiarzhanau/webpack-react-redux-starter) (webpack 2, browsersync, babel, eslint, mocha, enzyme, jsdom, production config, detailed readme, and more...)
 * [trowel](https://github.com/frux/trowel) (universal/ssr, redux, react-router 4, webpack 2, postcss)
+* [react-navigation-web](https://github.com/agrcrobles/react-navigation-web) (react-navigation in web + redux, hot reloading!)
 
 #### React-Hot-Loader v1
 
