@@ -28,16 +28,6 @@
 }
 ```
 
-- When using **typescript**, babel is not required, so your config should look like ([demo](https://github.com/Glavin001/react-hot-ts)):
-
-```js
-{
-  test: /\.tsx?$/,
-  loaders: ['react-hot-loader/webpack', 'ts-loader'], // (or awesome-typescript-loader)
-  include: path.join(__dirname, '..', '..', 'src')
-}
-```
-
 - 'react-hot-loader/patch' should be placed at the top of the `entry` section in your Webpack config.  An error will occur if any code runs before `react-hot-loader/patch` has, so put it in the first position.
 
 - `<AppContainer/>` is a component that handles module reloading, as well as error handling.  The root component of your app should be nested in AppContainer as a child.  When in production, AppContainer is automatically disabled, and simply returns its children.
@@ -133,3 +123,16 @@ If you use `devtool: 'source-map'` (or its equivalent), source maps will be emit
 Source maps slow down your project. Use `devtool: 'eval'` for best build performance.
 
 Hot reloading code is just one line in the beginning and one line in the end of each module so you might not need source maps at all.
+
+## TypeScript
+
+When using TypeScript, Babel is not required, so your config should look like ([demo](https://github.com/Glavin001/react-hot-ts)):
+
+```js
+{
+  test: /\.tsx?$/,
+  loaders: ['react-hot-loader/webpack', 'ts-loader'], // (or awesome-typescript-loader)
+  include: path.join(__dirname, '..', '..', 'src')
+}
+```
+
