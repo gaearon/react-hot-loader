@@ -1,10 +1,6 @@
 class Foo {
   constructor() {
-    this.bar = async (...params) => await this.__bar__REACT_HOT_LOADER__(...params);
-  }
-
-  async __bar__REACT_HOT_LOADER__(a, b) {
-    return await b(a);
+    this.bar = async (a, b) => await b(a);
   }
 
 }

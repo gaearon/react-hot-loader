@@ -4,7 +4,7 @@ class Foo {
   }
 
   __bar__REACT_HOT_LOADER__(a = "foo") {
-    return `${ a }bar`;
+    return `${a}bar`;
   }
 
 }

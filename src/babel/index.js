@@ -191,6 +191,16 @@ module.exports = function plugin(args) {
             // class property node value is nullable
             if (node.value && node.value.type === 'ArrowFunctionExpression') {
               const isAsync = node.value.async;
+
+              // TODO:
+              // Remove this check when babel issue is resolved: https://github.com/babel/babel/issues/5078
+              // RHL Issue: https://github.com/gaearon/react-hot-loader/issues/391
+              // This code makes async arrow functions not reloadable,
+              // but doesn't break code any more when using 'this' inside AAF
+              if (isAsync) {
+                return;
+              }
+
               const params = node.value.params;
               const newIdentifier = t.identifier(`__${node.key.name}__REACT_HOT_LOADER__`);
 
