@@ -123,3 +123,16 @@ If you use `devtool: 'source-map'` (or its equivalent), source maps will be emit
 Source maps slow down your project. Use `devtool: 'eval'` for best build performance.
 
 Hot reloading code is just one line in the beginning and one line in the end of each module so you might not need source maps at all.
+
+## TypeScript
+
+When using TypeScript, Babel is not required, so your config should look like ([demo](https://github.com/Glavin001/react-hot-ts)):
+
+```js
+{
+  test: /\.tsx?$/,
+  loaders: ['react-hot-loader/webpack', 'ts-loader'], // (or awesome-typescript-loader)
+  include: path.join(__dirname, '..', '..', 'src')
+}
+```
+
