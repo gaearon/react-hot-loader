@@ -24,6 +24,7 @@ Don't be shy, add your own.
 * [trowel](https://github.com/frux/trowel) (universal/ssr, redux, react-router 4, webpack 2, postcss)
 * [react-navigation-web](https://github.com/agrcrobles/react-navigation-web) (react-navigation in web + redux, hot reloading!)
 * [react-universal-hot-loader-starter-kit](https://github.com/earnubs/react-hot-loader-starter-kit) (universal express app with webpack 2, react-router 4, redux and react-hot-loader 3)
+* [Webpack2-HMR-ReactHotLoader3-ReactRouter4-Redux](https://github.com/nganbread/Webpack2-HMR-ReactHotLoader3-ReactRouter4-Redux) (Bare minimum webpack 2, react-router 4, redux)
 
 #### React-Hot-Loader v1
 
