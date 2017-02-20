@@ -4,7 +4,9 @@ function hasRender(Class) {
     return false;
   }
 
-  return typeof prototype.render === 'function';
+  return typeof prototype.render === 'function'
+  && typeof prototype.componentWillMount === 'function'
+  && typeof prototype.componentWillUnmount === 'function';
 }
 
 function descendsFromReactComponent(Class, React) {
@@ -31,11 +33,6 @@ function isReactClassish(Class, React) {
 
   // React 0.13
   if (hasRender(Class) || descendsFromReactComponent(Class, React)) {
-    return true;
-  }
-
-  // React 0.12 and earlier
-  if (Class.type && hasRender(Class.type)) {
     return true;
   }
 
