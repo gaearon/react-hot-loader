@@ -2,7 +2,7 @@
 
 ### React Hot Loader 3 has arrived!
 
-It fixes some long-standing issues with both React Hot Loader and React Transform. 
+It fixes some long-standing issues with both React Hot Loader and React Transform.
 
 **It is intended as a replacement for both.**
 
@@ -18,7 +18,7 @@ Check out [the Migration to 3.0 guide](https://github.com/gaearon/react-hot-load
 
 ### Learn
 
-This is a **stable for daily use in development** implementation of [React live code editing](http://www.youtube.com/watch?v=pw4fKkyPPg8).
+This is a **stable for daily use in development** implementation of [React live code editing](https://www.youtube.com/watch?v=pw4fKkyPPg8).
 
 * Get inspired by a **[demo video](https://vimeo.com/100010922)** and **[try the live demo](http://gaearon.github.io/react-hot-loader/)**.
 
@@ -28,7 +28,7 @@ This is a **stable for daily use in development** implementation of [React live 
 
 ## The Talk
 
-React Hot Loader was demoed together with **[Redux](https://github.com/gaearon/redux)** at React Europe.  
+React Hot Loader was demoed together with **[Redux](https://github.com/gaearon/redux)** at React Europe.
 Watch **[Dan Abramov's talk on Hot Reloading with Time Travel](https://www.youtube.com/watch?v=xsSnOQynTHs).**
 
 ## Installation
@@ -51,7 +51,7 @@ If you'd rather stay with **Browserify**, check out **[LiveReactload](https://gi
 
 ## React Native
 
-You can use React Hot Loader to tweak a React Native application. Check out **[react-native-webpack-server](https://github.com/mjohnston/react-native-webpack-server)** by Michael Johnston.
+React Native **[supports hot reloading natively](https://facebook.github.io/react-native/blog/2016/03/24/introducing-hot-reloading.html)** as of version 0.22.
 
 ## Troubleshooting
 
@@ -71,6 +71,16 @@ If you've been with us for a while, read **[1.0 release notes and migration guid
 
 Watch the repo to stay tuned!
 
+## Patrons
+
+The work on React Hot Loader, [React Transform](https://github.com/gaearon/babel-plugin-react-transform), [Redux](https://github.com/reactjs/redux), and related projects was [funded by the community](https://www.patreon.com/reactdx).
+Meet some of the outstanding companies that made it possible:
+
+* [Webflow](https://github.com/webflow)
+* [Ximedes](https://www.ximedes.com/)
+
+[See the full list of React Hot Loader patrons.](PATRONS.md)
+
 ## License
 
-MIT (http://www.opensource.org/licenses/mit-license.php)
+MIT (https://opensource.org/licenses/mit-license.php)
