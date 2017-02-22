@@ -28,7 +28,7 @@
 }
 ```
 
-- 'react-hot-loader/patch' should be placed at the top of the `entry` section in your Webpack config.  An error will occur if any code runs before `react-hot-loader/patch` has, so put it in the first position.
+- 'react-hot-loader/patch' should be placed at the top of the `entry` section in your Webpack config. An error will occur if any app code runs before `react-hot-loader/patch` has, so put it in the first position (note: if you use any polyfills then it should go right after them).
 
 - `<AppContainer/>` is a component that handles module reloading, as well as error handling.  The root component of your app should be nested in AppContainer as a child.  When in production, AppContainer is automatically disabled, and simply returns its children.
 
@@ -63,10 +63,37 @@ if (module.hot) {
 
 You can also check out [this commit for the migration of a TodoMVC app from 1.0 to 3.0.](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915)
 
+## Webpack 2
+
+Because Webpack 2 has built-in support for ES2015 modules, you won't need to re-require your app root in `module.hot.accept`. The example above becomes:
+
+```jsx
+if (module.hot) {
+  module.hot.accept('./containers/App', () => {
+    ReactDOM.render(
+      <AppContainer>
+        <App/>
+      </AppContainer>,
+      document.getElementById('root')
+    );
+  });
+}
+```
+
+To make this work, you'll need to opt out of Babel transpiling ES2015 modules by changing the Babel ES2015 preset to be `["es2015", { "modules": false }]`
+
+### Source Maps
+
+If you use `devtool: 'source-map'` (or its equivalent), source maps will be emitted to hide hot reloading code.
+
+Source maps slow down your project. Use `devtool: 'eval'` for best build performance.
+
+Hot reloading code is just one line in the beginning and one line in the end of each module so you might not need source maps at all.
+
 ## Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app)
 
 * Run `npm run eject`
-* Install React Hot Loader (`npm install --save-dev react-hot-loader@3.0.0-beta.6`)
+* Install React Hot Loader (`npm install --save-dev react-hot-loader@next`)
 * In `config/webpack.config.dev.js`:
   1. Add `'react-hot-loader/patch'` to entry array (anywhere before `paths.appIndexJs`). It should now look like (excluding comments):
   ```js
@@ -96,33 +123,6 @@ You can also check out [this commit for the migration of a TodoMVC app from 1.0 
   ```
 
 * Add `AppContainer` to `src/index.js` (see `AppContainer` section in [Migration to 3.0 above](https://github.com/gaearon/react-hot-loader/blob/next-docs/docs/README.md#migration-to-30))
-
-## Webpack 2
-
-Because Webpack 2 has built-in support for ES2015 modules, you won't need to re-require your app root in `module.hot.accept`. The example above becomes:
-
-```jsx
-if (module.hot) {
-  module.hot.accept('./containers/App', () => {
-    ReactDOM.render(
-      <AppContainer>
-        <App/>
-      </AppContainer>,
-      document.getElementById('root')
-    );
-  });
-}
-```
-
-To make this work, you'll need to opt out of Babel transpiling ES2015 modules by changing the Babel ES2015 preset to be `["es2015", { "modules": false }]`
-
-### Source Maps
-
-If you use `devtool: 'source-map'` (or its equivalent), source maps will be emitted to hide hot reloading code.
-
-Source maps slow down your project. Use `devtool: 'eval'` for best build performance.
-
-Hot reloading code is just one line in the beginning and one line in the end of each module so you might not need source maps at all.
 
 ## TypeScript
 

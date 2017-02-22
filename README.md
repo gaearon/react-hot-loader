@@ -16,28 +16,13 @@ Some nice things about it:
 
 Check out [the Migration to 3.0 guide](https://github.com/gaearon/react-hot-loader/tree/master/docs#migration-to-30) to learn how to migrate your app to 3.0.
 
-### Learn
-
-This is a **stable for daily use in development** implementation of [React live code editing](https://www.youtube.com/watch?v=pw4fKkyPPg8).
-
-* Get inspired by a **[demo video](https://vimeo.com/100010922)** and **[try the live demo](http://gaearon.github.io/react-hot-loader/)**.
-
-* Read **[the Getting Started guide](http://gaearon.github.io/react-hot-loader/getstarted/).**
-
-* Use **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)** for your next React project.
-
-## The Talk
-
-React Hot Loader was demoed together with **[Redux](https://github.com/gaearon/redux)** at React Europe.
-Watch **[Dan Abramov's talk on Hot Reloading with Time Travel](https://www.youtube.com/watch?v=xsSnOQynTHs).**
-
 ## Installation
 
-`npm install --save-dev react-hot-loader`
+`npm install --save-dev react-hot-loader@next`
 
 ## Usage
 
-If you want to try hot reloading in a new project, try **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**, **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)** being the most minimal one.
+If you want to try hot reloading in a new project, try **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**, **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate/tree/next)** being the most minimal one.
 
 To use React Hot Loader in an existing project, you need to
 
@@ -45,9 +30,18 @@ To use React Hot Loader in an existing project, you need to
 * enable Hot Module Replacement, which is a Webpack feature;
 * configure Webpack to use React Hot Loader for JS or JSX files.
 
-These steps are covered by **[the Getting Started guide](http://gaearon.github.io/react-hot-loader/getstarted/)**.
+These steps are covered by **[the Migration to 3.0 guide](https://github.com/gaearon/react-hot-loader/tree/master/docs#migration-to-30)**.
 
 If you'd rather stay with **Browserify**, check out **[LiveReactload](https://github.com/milankinen/livereactload)** by Matti Lankinen.
+
+## Known limitations
+
+- React Router v3 is not fully supported. If you want to get most of React Hot Loader, consider switching to [React Router v4](https://reacttraining.com/react-router/). If you want to understand the reasoning, it's good to start in [React Router v4 FAQ](https://github.com/ReactTraining/react-router/blob/v4/README.md#v4-faq)
+
+## The Talk
+
+React Hot Loader was demoed together with **[Redux](https://github.com/gaearon/redux)** at React Europe.
+Watch **[Dan Abramov's talk on Hot Reloading with Time Travel](https://www.youtube.com/watch?v=xsSnOQynTHs).**
 
 ## React Native
 
@@ -59,11 +53,7 @@ If something doesn't work, in 99% cases it's a configuration issue. A missing op
 
 ## Documentation
 
-Docs are in a bit of a flux right now because I'm in the process of updating everything to document the major 1.0 release.
-
-If you just learned about React Hot Loader and want to find out more, **[check out the walkthrough](http://gaearon.github.io/react-hot-loader/getstarted/)** and then try one of the **[starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**.
-
-If you've been with us for a while, read **[1.0 release notes and migration guide](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#migrating-to-10)**.
+Check out the [docs directory](docs).
 
 ## Got Questions?
 
