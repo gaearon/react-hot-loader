@@ -36,7 +36,7 @@ If you'd rather stay with **Browserify**, check out **[LiveReactload](https://gi
 
 ## Known limitations
 
-- React Router v3 is not fully supported. If you want to get most of React Hot Loader, consider switching to [React Router v4](https://reacttraining.com/react-router/). If you want to understand the reasoning, it's good to start in [React Router v4 FAQ](https://github.com/ReactTraining/react-router/blob/v4/README.md#v4-faq)
+- React Router v3 is not fully supported. If you want to get most of React Hot Loader, consider switching to [React Router v4](https://reacttraining.com/react-router/) (Note: it's currently in beta!). If you want to understand the reasoning, it's good to start in [React Router v4 FAQ](https://github.com/ReactTraining/react-router/blob/v4/README.md#v4-faq)
 
 ## The Talk
 
@@ -54,6 +54,8 @@ If something doesn't work, in 99% cases it's a configuration issue. A missing op
 ## Documentation
 
 Check out the [docs directory](docs).
+
+You can also check out a great [webpack guide to React hot module replacement](https://webpack.js.org/guides/hmr-react/).
 
 ## Got Questions?
 

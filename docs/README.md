@@ -28,7 +28,19 @@
 }
 ```
 
-- 'react-hot-loader/patch' should be placed at the top of the `entry` section in your Webpack config. An error will occur if any app code runs before `react-hot-loader/patch` has, so put it in the first position (note: if you use any polyfills then it should go right after them).
+- 'react-hot-loader/patch' should be placed at the top of the `entry` section in your Webpack config. An error will occur if any app code runs before `react-hot-loader/patch` has, so put it in the first position. However, if you're using polyfills put them before patch:
+
+```js
+{
+  entry: {
+    'app': [
+      'babel-polyfill',
+      'react-hot-loader/patch',
+      './src/index'
+    ]
+  }
+}
+```
 
 - `<AppContainer/>` is a component that handles module reloading, as well as error handling.  The root component of your app should be nested in AppContainer as a child.  When in production, AppContainer is automatically disabled, and simply returns its children.
 
