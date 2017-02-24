@@ -31,6 +31,7 @@ Provided by community:
 - If you're using Babel and ES6, remove the `react-hot` loader from any loaders in your Webpack config, and add `react-hot-loader/babel` to the `plugins` section of your `.babelrc`:
 
 ```js
+// .babelrc
 {
   "presets": ["es2015-loose", "stage-0", "react"],
   "plugins": ["react-hot-loader/babel"]
@@ -40,23 +41,24 @@ Provided by community:
 - If you're *not* using Babel, or you're using Babel without ES6, replace the `react-hot` loader in your Webpack config with `react-hot-loader/webpack`:
 
 ```js
+// webpack.config.js
 {
   test: /\.js$/,
-  loaders: ['react-hot', 'babel'],
-  include: path.join(__dirname, '..', '..', 'src')
+  loaders: ['react-hot', 'babel']
 }
 
 // becomes
+// webpack.config.js
 {
   test: /\.js$/,
-  loaders: ['react-hot-loader/webpack', 'babel'],
-  include: path.join(__dirname, '..', '..', 'src')
+  loaders: ['react-hot-loader/webpack', 'babel']
 }
 ```
 
 - 'react-hot-loader/patch' should be placed at the top of the `entry` section in your Webpack config. An error will occur if any app code runs before `react-hot-loader/patch` has, so put it in the first position. However, if you're using polyfills put them before patch:
 
 ```js
+// webpack.config.js
 {
   entry: {
     'app': [
@@ -68,7 +70,7 @@ Provided by community:
 }
 ```
 
-- `<AppContainer/>` is a component that handles module reloading, as well as error handling.  The root component of your app should be nested in AppContainer as a child.  When in production, AppContainer is automatically disabled, and simply returns its children.
+- `<AppContainer/>` is a component that handles module reloading, as well as error handling. The root component of your app should be nested in AppContainer as a child. When in production, AppContainer is automatically disabled, and simply returns its children.
 
 - React Hot Loader 3 does not hide the hot module replacement API, so the following needs to be added below wherever you call `ReactDOM.render` in your app:
 
@@ -105,20 +107,30 @@ You can also check out [this commit for the migration of a TodoMVC app from 1.0 
 
 Because Webpack 2 has built-in support for ES2015 modules, you won't need to re-require your app root in `module.hot.accept`. The example above becomes:
 
+> Note: To make this work, you'll need to opt out of Babel transpiling ES2015 modules by changing the Babel ES2015 preset to be `["es2015", { "modules": false }]`
+
 ```jsx
+import React from 'react'
+import ReactDom from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
+
+import App from './containers/App'
+
+const render = Component => {
+  ReactDOM.render(
+    <AppContainer>
+      <Component />
+    </AppContainer>,
+    document.getElementById('root')
+  )
+}
+
+render(App)
+
 if (module.hot) {
-  module.hot.accept('./containers/App', () => {
-    ReactDOM.render(
-      <AppContainer>
-        <App/>
-      </AppContainer>,
-      document.getElementById('root')
-    );
-  });
+  module.hot.accept('./containers/App', () => { render(App) })
 }
 ```
-
-To make this work, you'll need to opt out of Babel transpiling ES2015 modules by changing the Babel ES2015 preset to be `["es2015", { "modules": false }]`
 
 ### Source Maps
 
@@ -169,8 +181,7 @@ When using TypeScript, Babel is not required, so your config should look like ([
 ```js
 {
   test: /\.tsx?$/,
-  loaders: ['react-hot-loader/webpack', 'ts-loader'], // (or awesome-typescript-loader)
-  include: path.join(__dirname, '..', '..', 'src')
+  loaders: ['react-hot-loader/webpack', 'ts-loader'] // (or awesome-typescript-loader)
 }
 ```
 
