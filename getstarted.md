@@ -9,9 +9,13 @@ If you just want a quick start with a fresh, barebones boilerplate, where everyt
 
 [https://github.com/gaearon/react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate)
 
+or the new, minimal one:
+
+[https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate](https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate)
+
 ## Integrating into your app
 
-What follows is a 3-step guide for integrating React Hot Loader into your current project.  Note that each step contains links to example code from the official boilerplate, which can be used as a reference.
+What follows is a 3-step guide for integrating React Hot Loader into your current project.
 
 ### Step 1 (of 3): Enabling Hot Module Replacement (HMR)
 
@@ -19,9 +23,21 @@ HMR allows us to replace modules in-place without restarting the server. Here's 
 
 #### Webpack
 
-**Option 1: Webpack Dev Server (client-side rendering only)**
+**Option 1: Webpack Dev Server CLI (client-side rendering only)**
 
-If you're only rendering on the client side, this is the easiest option, as it is quick to setup.  You can simply copy [`server.js`](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js){:target="_blank"} from the official boilerplate into your project. The important part of the configuration is that when you create a `new WebpackDevServer`, you need to specify `hot: true` as an option.
+The easiest and fastest option to use React Hot Loader with Webpack is to use `webpack-dev-server` with `--hot` CLI option.
+
+```js
+  "scripts": {
+    "start": "webpack-dev-server --hot"
+  },
+```
+
+That's it! You can go to the [Step 2](#step-2-of-3-using-hmr-to-replace-the-root-component).
+
+**Option 2: Webpack Dev Server with custom server (client-side rendering only)**
+
+If you're only rendering on the client side but you have to use some custom node server, this is still an easy option.  You can simply copy [`server.js`](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js){:target="_blank"} from the official boilerplate into your project. The important part of the configuration is that when you create a `new WebpackDevServer`, you need to specify `hot: true` as an option.
 
 Here is `server.js` from the official boilerplate:
 
@@ -73,15 +89,11 @@ Finally, the Hot Replacement plugin from Webpack has to be included in the `plug
 
 Check out the boilerplate's [`webpack.config.js`](https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js) to see it all together.
 
-**Option 2: Express with webpack-dev-middleware (client & server)**
+**Option 3: Express with webpack-dev-middleware (client & server)**
 
 If you are using server-side rendering, the WebpackDevServer above is not enough. Instead, we have to use an Express server with the `webpack-dev-middleware`.  This is a bit more work, but also gives us more control. We need to add this middleware and it's entry point.
 
 XXX TODO
-
-#### Browserify
-
-If you have this setup working, please consider submitting instructions as a PR.
 
 #### Meteor
 
@@ -124,7 +136,7 @@ To preserve *internal component state*, you now need to add `react-hot-loader` t
 1.  Install the package:
 
     ```sh
-    $ npm install --save-dev react-hot-loader
+    $ npm install --save-dev react-hot-loader@next
     ```
 1.  Add the package to your config:
 
@@ -161,11 +173,20 @@ To preserve *internal component state*, you now need to add `react-hot-loader` t
     import 'react-hot-loader/patch';
     ```
 
+    > Alternatively, in Webpack, add `react-hot-loader/patch` to the `entry` section of your `webpack.config.js`:
+
+    ```js
+      entry: [
+        'react-hot-loader/patch', // RHL patch
+        './scripts/index' // Your appʼs entry point
+      ]
+    ```
+
     b.  Wrap your app's top-level component inside of an **`<AppContainer>`.**
 
     > `AppContainer` is a component, provided by `react-hot-loader`, that handles hot reloading, as well as error handling.  It also [internally](https://github.com/gaearon/react-hot-loader/blob/next/src/AppContainer.js#L5-L9) handles disabling hot reloading/error handling when running in a production environment, so you no longer have to.
 
-    You need to wrap both instances, e.g. your original mount, and your mount code inside of the `module.hot.accept()` function.  Note that `<AppContainer>` must only wrap a single React component.  
+    You need to wrap both instances, e.g. your original mount, and your mount code inside of the `module.hot.accept()` function.  Note that `<AppContainer>` must only wrap a single React component.
 
     Your main entry point should now look something like this:
 
@@ -200,8 +221,8 @@ That's it! Happy hot reloading!
 
 ### Troubleshooting
 
-If hot reloading doesnʼt work, itʼs usually due to a deviation from the configuration described above. Make sure to compare your setup to <a href="https://github.com/gaearon/react-hot-boilerplate" target="_blank">`react-hot-boilerplate`</a> and verify that the boilerplate works for you. Look very closely for small typos.
+If hot reloading doesnʼt work, itʼs usually due to a deviation from the configuration described above. Make sure to compare your setup to <a href="https://github.com/gaearon/react-hot-boilerplate" target="_blank">`react-hot-boilerplate`</a> or <a href="https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate" target="_blank">`react-hot-loader-minimal-boilerplate`</a> and verify that the boilerplate works for you. Look very closely for small typos.
 
 If youʼre stuck, <a href="https://github.com/gaearon/react-hot-loader/issues/new" target="_blank">file an issue</a> or ask for help in <a href="https://gitter.im/gaearon/react-hot-loader" target="_blank">the Gitter room</a>, and weʼll try to figure it out.
 
-In order to improve our documentation, we need your feedback!  Please **TODO figure out how they can provide feedback**.
+In order to improve our documentation, we need your feedback! Feel free to <a href="https://github.com/gaearon/react-hot-loader/issues/new" target="_blank">open an issue</a> for that too!

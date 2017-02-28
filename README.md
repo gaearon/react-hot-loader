@@ -58,6 +58,13 @@ To see your Jekyll site with Poole applied, start a Jekyll server. In Terminal, 
 $ jekyll serve
 ```
 
+You may need a bundler:
+```bash
+$ gem install bundler
+$ bundle install
+$ bundle exec jekyll serve
+```
+
 Open <http://localhost:4000> in your browser, and voilà.
 
 ### 4. Serving it up
