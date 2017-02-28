@@ -1,9 +1,10 @@
-### Starter Kits
+### Starter Kit
 
-Don't be shy, add your own.
+Provided by collaborators:
+* [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate/tree/next) (Bare minimum)
+* [react-hot-loader-minimal-boilerplate](https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate)* (Bare minimum)
 
-#### React-Hot-Loader v3
-* [react-hot-boilerplate/next](https://github.com/gaearon/react-hot-boilerplate/tree/next) (Bare minimum)
+Provided by community:
 * [webpack-react-redux](https://github.com/jpsierens/webpack-react-redux) (redux, react-router, hmr)
 * [react-lego](https://github.com/peter-mouland/react-lego) (universal, react-router, other optional techs)
 * [react-static-boilerplate](https://github.com/koistya/react-static-boilerplate) (static site generator; React, PostCSS, Webpack, BrowserSync)
@@ -19,112 +20,117 @@ Don't be shy, add your own.
 * [react-starter-kit](https://github.com/elios264/react-starter) (webpack 2 + htr + react + redux + router + babel + sass)
 * [redux-react-starter](https://github.com/didierfranc/redux-react-starter) (webpack 2 + redux + react-redux 5 + react-router 4 + styled-component ...)
 * [react-redux-universal-boilerplate](https://github.com/kiki-le-singe/react-redux-universal-boilerplate) (redux, react-router, universal, koa, webpack 2, babel, PostCSS, sass or cssnext, hot reloading, ...)
-* [ARc](https://arc.js.org) (React, Jest, Storybook and other optional feature branches) 
+* [ARc](https://arc.js.org) (React, Jest, Storybook and other optional feature branches)
 * [webpack-react-redux-starter](https://github.com/stsiarzhanau/webpack-react-redux-starter) (webpack 2, browsersync, babel, eslint, mocha, enzyme, jsdom, production config, detailed readme, and more...)
 * [trowel](https://github.com/frux/trowel) (universal/ssr, redux, react-router 4, webpack 2, postcss)
 * [react-navigation-web](https://github.com/agrcrobles/react-navigation-web) (react-navigation in web + redux, hot reloading!)
 * [react-universal-hot-loader-starter-kit](https://github.com/earnubs/react-hot-loader-starter-kit) (universal express app with webpack 2, react-router 4, redux and react-hot-loader 3)
 * [bare-minimum-react-hot-rr4-redux](https://github.com/nganbread/bare-minimum-react-hot-rr4-redux) (Bare minimum webpack 2, react-router 4, redux)
 
-#### React-Hot-Loader v1
-
-* [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate) (Bare minimum)
-* [react-starter](https://github.com/webpack/react-starter) (react-router, includes production configs)
-* [react-webpack-babel](https://github.com/alicoding/react-webpack-babel) (react+babel+webpack, simple and clean, production config)
-* [react-tape](https://github.com/fc-io/react-tape) (Babel, blue-tape, css-loader, html-webpack-plugin, production config)
-* [isomorphic-hot-loader](https://github.com/irvinebroque/isomorphic-hot-loader) (react-router, isomorphic)
-* [isomorphic-react-template](https://github.com/gpbl/isomorphic-react-template/) (react-router, isomorphic)
-* [coffee-react-quickstart](https://github.com/KyleAMathews/coffee-react-quickstart) (react-router, CoffeeScript, Gulp)
-* [boilerplate-webpack-react](https://github.com/tcoopman/boilerplate-webpack-react) (react-router, isomorphic)
-* [react-web](https://github.com/darul75/web-react) (Babel, react-router, Alt flux)
-* [react-webpack-boilerplate](https://github.com/srn/react-webpack-boilerplate) (One-click Heroku deployable, Node.js server)
-* [react-fullstack-skeleton](https://github.com/fortruce/react-fullstack-skeleton) (react w/ backend api server)
-* [react-hot-boilerplate-ts](https://github.com/wmaurer/react-hot-boilerplate-ts) (hot reloadable typescript starter kit)
-* [Megatome](https://github.com/Levelmoney/generator-megatome) (Yeoman generator w/ dynamic switchable rendering on Node/browser, react-router, babel, isomophic, an easy config building environments, bring-your-own-data-model and docker)
-* [react-webpack-template](https://github.com/weblogixx/react-webpack-template) (Babel, Karma + Mocha + Istanbul Coverage, prepared for usage of Less/Sass/Stylus/PostCSS and CSSModules)
-
-
-### Migrating to 1.0
-
-React Hot Loader has reached 1.0, and it's a breaking change. When React Hot Loader just started, it used a regex to find `createClass` calls and replace them with its own implementation. This turned out to be a bad idea for a number of reasons:
-
-* Doesn't work when components are created through wrappers (e.g. [OmniscientJS](http://omniscientjs.github.io));
-* Doesn't work when author calls React differently;
-* Causes false positives in React source code comments and elsewhere;
-* Most importantly, won't work with ES6 classes that will be future of React.
-
-Here's how we're solving these problems in 1.0:
-
-#### Only `module.exports` and its own properties are hot by default
-
-With 1.0, we no longer parse your sources. Instead, we only now make `module.exports` and its [own properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty) hot by default, and only if their prototype declares `render` method or descends from `React.Component`. **If you've been splitting each component in a separate file, that means no change for you here!** This allows us to support exotic wrappers.
-
-If you use inheritance in React 0.13, base classes will only be opted into hot reloading if they descend from `React.Component` or define `render` method. Otherwise you need to explicitly call `module.makeHot` as described below.
-
-#### You can make hot anything else via opt-in `module.makeHot` API
-
-But what if you *want* to have several hot-reloadable components in one file? Or what if you want to export a function creating components, or an object with several components as properties? For that, 1.0 **adds first public API to hot loader: `module.makeHot`**. This method will be present on `module` object if hot loader is enabled, and allows you to make any component hot:
+### Migration to 3.0
+- If you're using Babel and ES6, remove the `react-hot` loader from any loaders in your Webpack config, and add `react-hot-loader/babel` to the `plugins` section of your `.babelrc`:
 
 ```js
-var Something = React.createClass({
-  ...
-};
-
-if (module.makeHot) { // Won't be true in production
-  Something = module.makeHot(Something);
+// .babelrc
+{
+  "presets": ["es2015-loose", "stage-0", "react"],
+  "plugins": ["react-hot-loader/babel"]
 }
 ```
 
-Explicit API can also be used inside functions:
+- If you're *not* using Babel, or you're using Babel without ES6, replace the `react-hot` loader in your Webpack config with `react-hot-loader/webpack`:
 
 ```js
-function generateClass(param) {
-  var Class = return React.createClass({
-    ...
-  };
+// webpack.config.js
+{
+  test: /\.js$/,
+  loaders: ['react-hot', 'babel']
+}
 
-  if (module.makeHot) {
-    Class = module.makeHot(Class, param);
+// becomes
+// webpack.config.js
+{
+  test: /\.js$/,
+  loaders: ['react-hot-loader/webpack', 'babel']
+}
+```
+
+- 'react-hot-loader/patch' should be placed at the top of the `entry` section in your Webpack config. An error will occur if any app code runs before `react-hot-loader/patch` has, so put it in the first position. However, if you're using polyfills put them before patch:
+
+```js
+// webpack.config.js
+{
+  entry: {
+    'app': [
+      'babel-polyfill',
+      'react-hot-loader/patch',
+      './src/index'
+    ]
   }
-
-  return Class;
 }
-
 ```
 
-Note the second parameter: `makeHot` needs some way to distinguish components of same type inside on module. By default, it uses `displayName` of given component class, but in case of dynamically generated classes (or if you're not using JSX), you have to provide it yourself.
+- `<AppContainer/>` is a component that handles module reloading, as well as error handling. The root component of your app should be nested in AppContainer as a child. When in production, AppContainer is automatically disabled, and simply returns its children.
 
-### Manual mode (experimental)
+- React Hot Loader 3 does not hide the hot module replacement API, so the following needs to be added below wherever you call `ReactDOM.render` in your app:
 
-You can now use `react-hot?manual` instead of `react-hot` in Webpack config to turn on manual mode. In manual mode, “accepting” hot updates is up to you; modules won't accept themselves automatically. This can be used, for example, to put reloading logic on very top of the application and [hot-reload routes as well as components](https://github.com/rackt/react-router/pull/606#issuecomment-66936975). It will also work better when you have a lot of modules that export component-generating functions because updates will propagate to the top. (Don't worry if you don't understand this; it's just something experimental you might want to try to integrate hot reloading deeper into your app.)
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
+import App from './containers/App'
 
-### Usage with external React
+ReactDOM.render(
+  <AppContainer>
+    <App/>
+  </AppContainer>,
+  document.getElementById('root')
+);
 
-If you're using external standalone React bundle instead of NPM package, Hot Loader will fail because it relies on `react/lib/ReactMount` which is not exposed in precompiled React. It needs `ReactMount` to keep track of mounted React component instances on the page. However, you can supply your own root instance provider:
-
-```js
-// Your app's index.js
-
-var React = require('react'),
-    router = require('./router');
-
-var rootInstance = null;
-
-router.run(function (Handler, state) {
-  rootInstance = React.render(<Handler />, document.body);
-});
-
+// Hot Module Replacement API
 if (module.hot) {
-  require('react-hot-loader/Injection').RootInstanceProvider.injectProvider({
-    getRootInstances: function () {
-      // Help React Hot Loader figure out the root component instances on the page:
-      return [rootInstance];
-    }
+  module.hot.accept('./containers/App', () => {
+    const NextApp = require('./containers/App').default;
+    ReactDOM.render(
+      <AppContainer>
+        <NextApp/>
+      </AppContainer>,
+      document.getElementById('root')
+    );
   });
 }
 ```
 
-You'll only need this if you [use a precompiled version of React](https://github.com/gaearon/react-hot-loader/issues/53). If you use React NPM package, this is not necessary. You should generally use React NPM package unless you have good reason not to.
+You can also check out [this commit for the migration of a TodoMVC app from 1.0 to 3.0.](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915)
+
+## Webpack 2
+
+Because Webpack 2 has built-in support for ES2015 modules, you won't need to re-require your app root in `module.hot.accept`. The example above becomes:
+
+> Note: To make this work, you'll need to opt out of Babel transpiling ES2015 modules by changing the Babel ES2015 preset to be `["es2015", { "modules": false }]`
+
+```jsx
+import React from 'react'
+import ReactDom from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
+
+import App from './containers/App'
+
+const render = Component => {
+  ReactDOM.render(
+    <AppContainer>
+      <Component />
+    </AppContainer>,
+    document.getElementById('root')
+  )
+}
+
+render(App)
+
+if (module.hot) {
+  module.hot.accept('./containers/App', () => { render(App) })
+}
+```
 
 ### Source Maps
 
@@ -134,6 +140,48 @@ Source maps slow down your project. Use `devtool: 'eval'` for best build perform
 
 Hot reloading code is just one line in the beginning and one line in the end of each module so you might not need source maps at all.
 
-### React Hot API
+## Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app)
 
-If you're authoring a build tool, you might be interested to hear that React Hot Loader brains have been extracted into runtime-agnostic [React Hot API](https://github.com/gaearon/react-hot-api). React Hot Loader just binds that API to Webpack runtime, but you can implement yours too.
+* Run `npm run eject`
+* Install React Hot Loader (`npm install --save-dev react-hot-loader@next`)
+* In `config/webpack.config.dev.js`:
+  1. Add `'react-hot-loader/patch'` to entry array (anywhere before `paths.appIndexJs`). It should now look like (excluding comments):
+  ```js
+    entry: [
+       'react-hot-loader/patch',
+       require.resolve('react-dev-utils/webpackHotDevClient'),
+       require.resolve('./polyfills'),
+       paths.appIndexJs
+    ]
+  ```
+
+  2. Add `'react-hot-loader/babel'` to Babel loader configuration. The loader should now look like:
+  ```js
+    {
+       test: /\.(js|jsx)$/,
+       include: paths.appSrc,
+       loader: 'babel',
+       query: {
+         cacheDirectory: findCacheDir({
+           name: 'react-scripts'
+         }),
+         plugins: [
+           'react-hot-loader/babel'
+         ]
+       }
+    }
+  ```
+
+* Add `AppContainer` to `src/index.js` (see `AppContainer` section in [Migration to 3.0 above](https://github.com/gaearon/react-hot-loader/blob/next-docs/docs/README.md#migration-to-30))
+
+## TypeScript
+
+When using TypeScript, Babel is not required, so your config should look like ([demo](https://github.com/Glavin001/react-hot-ts)):
+
+```js
+{
+  test: /\.tsx?$/,
+  loaders: ['react-hot-loader/webpack', 'ts-loader'] // (or awesome-typescript-loader)
+}
+```
+

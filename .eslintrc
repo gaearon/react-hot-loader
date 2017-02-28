@@ -1,0 +1,12 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "rules": {
+    "no-underscore-dangle": ["error", { "allow": ["__REACT_HOT_LOADER__"] }],
+    "no-console": ["error", { allow: ["error"] }],
+    "strict": 0,
+  },
+  globals: {
+    "__REACT_HOT_LOADER__": true
+  }
+}

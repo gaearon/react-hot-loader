@@ -1,29 +1,32 @@
->## A Big Update Is Coming
+# React Hot Loader 3 [![npm package](https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader)
 
->React Hot Loader 3 is [on the horizon](https://github.com/gaearon/react-hot-loader/pull/240), and you can try it today ([boilerplate branch](https://github.com/gaearon/react-hot-boilerplate/pull/61), [upgrade example](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915)). It fixes some [long-standing issues](https://twitter.com/dan_abramov/status/722040946075045888) with both React Hot Loader and React Transform, and is intended as a replacement for both. The docs are not there yet, but you can view a getting starting guide on [the README on the `next` branch](https://github.com/gaearon/react-hot-loader/tree/next/docs). You can install RHL3 using `npm install --save-dev react-hot-loader@next`
+### React Hot Loader 3 beta has arrived!
 
-# React Hot Loader [![npm package](https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/react-hot-loader)
+It fixes some long-standing issues with both React Hot Loader and React Transform.
 
-This is a **stable for daily use in development** implementation of [React live code editing](https://www.youtube.com/watch?v=pw4fKkyPPg8).
+**It is intended as a replacement for both.**
 
-* Get inspired by a **[demo video](https://vimeo.com/100010922)** and **[try the live demo](http://gaearon.github.io/react-hot-loader/)**.
+Some nice things about it:
 
-* Read **[the integration walkthrough](http://gaearon.github.io/react-hot-loader/getstarted/).**
+* Editing functional components preserves state
+* Works great with higher order components
+* Requires little configuration
+* Automatically disabled in production
+* Works with or without Babel (you can remove `react-hot-loader/babel` from `.babelrc` and instead add `react-hot-loader/webpack` to `loaders`)
 
-* Use **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)** for your next React project.
-
-## The Talk
-
-React Hot Loader was demoed together with **[Redux](https://github.com/gaearon/redux)** at React Europe.  
-Watch **[Dan Abramov's talk on Hot Reloading with Time Travel](https://www.youtube.com/watch?v=xsSnOQynTHs).**
+Check out [the Migration to 3.0 guide](https://github.com/gaearon/react-hot-loader/tree/master/docs#migration-to-30) to learn how to migrate your app to 3.0.
 
 ## Installation
 
-`npm install --save-dev react-hot-loader`
+`npm install --save-dev react-hot-loader@next`
 
 ## Usage
 
-If you want to try hot reloading in a new project, try **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**, **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)** being the most minimal one.
+If you want to try hot reloading in a new project, try **[one of the starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**.
+
+Provided by owner and collaborators:
+- **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate/tree/next)**
+- **[React Hot Loader Minimal Boilerplate](https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate)**
 
 To use React Hot Loader in an existing project, you need to
 
@@ -31,13 +34,18 @@ To use React Hot Loader in an existing project, you need to
 * enable Hot Module Replacement, which is a Webpack feature;
 * configure Webpack to use React Hot Loader for JS or JSX files.
 
-These steps are covered by **[the walkthrough](http://gaearon.github.io/react-hot-loader/getstarted/)**.
+These steps are covered by **[the Migration to 3.0 guide](https://github.com/gaearon/react-hot-loader/tree/master/docs#migration-to-30)**.
 
 If you'd rather stay with **Browserify**, check out **[LiveReactload](https://github.com/milankinen/livereactload)** by Matti Lankinen.
 
-## Flux
+## Known limitations
 
-**[Redux](https://github.com/gaearon/redux)** is a Flux implementation that supports hot reloading of everything out of the box. Read **[The Evolution of Flux Frameworks](https://medium.com/@dan_abramov/the-evolution-of-flux-frameworks-6c16ad26bb31)** for some context around its creation.
+- React Router v3 is not fully supported (e.g. async routes). If you want to get most of React Hot Loader, consider switching to [React Router v4](https://reacttraining.com/react-router/) (Note: it's currently in beta!). If you want to understand the reasoning, it's good to start in [React Router v4 FAQ](https://github.com/ReactTraining/react-router/blob/v4/README.md#v4-faq)
+
+## The Talk
+
+React Hot Loader was demoed together with **[Redux](https://github.com/gaearon/redux)** at React Europe.
+Watch **[Dan Abramov's talk on Hot Reloading with Time Travel](https://www.youtube.com/watch?v=xsSnOQynTHs).**
 
 ## React Native
 
@@ -49,11 +57,9 @@ If something doesn't work, in 99% cases it's a configuration issue. A missing op
 
 ## Documentation
 
-Docs are in a bit of a flux right now because I'm in the process of updating everything to document the major 1.0 release.
+Check out the [docs directory](docs).
 
-If you just learned about React Hot Loader and want to find out more, **[check out the walkthrough](http://gaearon.github.io/react-hot-loader/getstarted/)** and then try one of the **[starter kits](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kits)**.
-
-If you've been with us for a while, read **[1.0 release notes and migration guide](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#migrating-to-10)**.
+You can also check out a great [webpack guide to React hot module replacement](https://webpack.js.org/guides/hmr-react/).
 
 ## Got Questions?
 
@@ -63,7 +69,7 @@ Watch the repo to stay tuned!
 
 ## Patrons
 
-The work on React Hot Loader, [React Transform](https://github.com/gaearon/babel-plugin-react-transform), [Redux](https://github.com/reactjs/redux), and related projects was [funded by the community](https://www.patreon.com/reactdx).  
+The work on React Hot Loader, [React Transform](https://github.com/gaearon/babel-plugin-react-transform), [Redux](https://github.com/reactjs/redux), and related projects was [funded by the community](https://www.patreon.com/reactdx).
 Meet some of the outstanding companies that made it possible:
 
 * [Webflow](https://github.com/webflow)

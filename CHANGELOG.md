@@ -1,5 +1,79 @@
 ## Changelog
 
+### 3.0.0-beta.6
+
+* Use production versions of `patch` and `AppContainer` if no `module.hot` available, so it doesn't break people using `NODE_ENV=test`. (#398)
+* Opt out of transforming static class properties. (#381)
+
+### 3.0.0-beta.5
+
+* Makes the class properties portion of the Babel plugin work with async functions. (#372)
+* Change the output of the tagger code in the Babel plugin so that it doesn't break the output of `babel-node`. (#374)
+
+### 3.0.0-beta.4
+
+* Extends the Babel plugin to enable hot reloading of class properties. (#322)
+* Fixes a bug in the Webpack loader from a component importing a module with the same basename. (#347)
+
+### 3.0.0-beta.3
+
+* Fixes broken import of RedBox, which led to confusing stack traces when applications threw errors. (#314)
+* Add `module.hot` checks to conditional `require()`s to remove unnecessary warnings when using server rendering. (#302)
+
+### 3.0.0-beta.2
+
+* Patch `React.createFactory` (#287)
+* Fix props typo (#285)
+
+### 3.0.0-beta.1
+
+* Adds complete React Router support. Async routes should work fine now. (#272)
+* Fixes a nasty bug which caused unwrapped component to render. (#266, #272)
+* Fixes an issue that caused components with `shouldComponentUpdate` optimizations not getting redrawn (#269, 2a1e384d54e1919117f70f75dd20ad2490b1d9f5)
+* Internal: a rewrite and much better test coverage.
+
+### 3.0.0-beta.0
+
+* Fixes an issue when used in Webpack 2 (https://github.com/gaearon/react-hot-loader/issues/263)
+* **Breaking change:** instead of
+
+  ```js
+<AppContainer component={App} props={{ prop: val }} />
+```
+
+  you now need to write
+
+  ```js
+  <AppContainer>
+    <App prop={val} />
+  </AppContainer>
+  ```
+
+  (#250)
+
+  **See [this commit](https://github.com/gaearon/react-hot-boilerplate/commit/b52c727937a499f3efdc5dceb74ae952aa318c3a) as an update reference!**
+
+### 3.0.0-alpha
+
+Big changes both to internals and usage. No docs yet but you can look at https://github.com/gaearon/react-hot-boilerplate/pull/61 for an example.
+
+### 2.0.0-alpha
+
+**Experimental release that isn't really representative on what will go in 2.0, but uses the new engine.**
+
+Some ideas of what should be possible with the new engine:
+
+* There is no requirement to pass `getRootInstances()` anymore, so React Hot Loader doesn't need `react/lib/ReactMount` or walk the tree, which was somewhat fragile and changing between versions
+* Static methods and properties are now hot-reloaded
+* Instance getters and setters are now hot reloaded
+* Static getters and setters are now hot reloaded
+* Deleted instance methods are now deleted during hot reloading
+* Single method form of [autobind-decorator](https://github.com/andreypopp/autobind-decorator) is now supported
+
+What might get broken:
+
+* We no longer overwrite or even touch the original class. Every time makeHot is invoked, it will return a special proxy class. This means a caveat: for example, static methods will only be hot-reloaded if you refer to them as `this.constructor.doSomething()` instead of `FooBar.doSomething()`. This is because React Hot Loader calls `makeHot` right before exporting, so `FooBar` still refers to the original class. Similarly, `this.constructor === App` will be `false` inside `App` unless you call `App = makeHot(App)` manually, which you can't do with React Hot Loader. **I'm not sure how much of a problem this will be, so let me know if it pains you.** In the longer term, we will deprecate React Hot Loader in favor of a Babel plugin which will be able to rewrite class definitions correctly, so it shouldn't be a problem for a long time. If there is demand, we can introduce a mode that rewrites passed classes, too.
+
 ### 1.3.1
 
 * Fix import for ReactMount to support 15.4.0 (**[#430](https://github.com/gaearon/react-hot-loader/pull/430)**)
