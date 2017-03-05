@@ -112,7 +112,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import RootContainer from './containers/rootContainer.js';
 
-render(<RootContainer />, document.elementById('react-root'));
+render(<RootContainer />, document.getElementById('react-root'));
 ```
 Add the following code to accept changes to your RootContainer, _or any of it's descendants_:
 
@@ -120,7 +120,7 @@ Add the following code to accept changes to your RootContainer, _or any of it's 
  if (module.hot) {
    module.hot.accept('./containers/rootContainer.js', () => {
      const NextRootContainer = require('./containers/rootContainer.js').default;
-     render(<NextRootContainer />, document.elementById('react-root'));
+     render(<NextRootContainer />, document.getElementById('react-root'));
    }
  }
 ```
