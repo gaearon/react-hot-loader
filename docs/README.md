@@ -5,6 +5,7 @@ Provided by collaborators:
 * [react-hot-loader-minimal-boilerplate](https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate)* (Bare minimum)
 
 Provided by community:
+* [react-redux-styled-hot-universal](https://github.com/krasevych/react-redux-styled-hot-universal) (SSR, Universal Webpack, Redux, React-router, Webpack 2, Babel, Styled Components and more...)
 * [webpack-react-redux](https://github.com/jpsierens/webpack-react-redux) (redux, react-router, hmr)
 * [react-lego](https://github.com/peter-mouland/react-lego) (universal, react-router, other optional techs)
 * [react-static-boilerplate](https://github.com/koistya/react-static-boilerplate) (static site generator; React, PostCSS, Webpack, BrowserSync)
