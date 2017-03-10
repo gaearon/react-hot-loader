@@ -186,7 +186,7 @@ new webpack.DefinePlugin({
   }
 }),
 // keeps hashes consistent between compilations
-new webpack.optimize.OccurenceOrderPlugin(),
+new webpack.optimize.OccurrenceOrderPlugin(),
 // minifies your code
 new webpack.optimize.UglifyJsPlugin({
   compressor: {
