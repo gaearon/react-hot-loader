@@ -18,7 +18,7 @@ Check out [the Migration to 3.0 guide](https://github.com/gaearon/react-hot-load
 
 ## Installation
 
-`npm install --save-dev react-hot-loader@next`
+`npm install --save react-hot-loader@next`
 
 ## Usage
 
