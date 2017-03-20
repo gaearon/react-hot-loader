@@ -111,7 +111,7 @@ Because Webpack 2 has built-in support for ES2015 modules, you won't need to re-
 
 ```jsx
 import React from 'react'
-import ReactDom from 'react-dom'
+import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
 import App from './containers/App'
@@ -184,4 +184,3 @@ When using TypeScript, Babel is not required, so your config should look like ([
   loaders: ['react-hot-loader/webpack', 'ts-loader'] // (or awesome-typescript-loader)
 }
 ```
-
