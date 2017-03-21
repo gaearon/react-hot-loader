@@ -195,27 +195,73 @@ To preserve *internal component state*, you now need to add `react-hot-loader` t
     import React from 'react';
     import { render } from 'react-dom';
 
-    import { AppContainer } from 'react-hot-loader'
-    import RootContainer from './containers/rootContainer.js';
+    import { AppContainer } from 'react-hot-loader';
+    import RootContainer from './containers/rootContainer';
 
-    render((
-      <AppContainer>
-        <RootContainer />
-      </AppContainer>
-    ), document.getElementById('react-root'));
+    const render = Component => {
+      ReactDOM.render(
+        <AppContainer>
+          <Component />
+        </AppContainer>,
+        document.getElementById('root')
+      );
+    }
+
+    render(RootContainer);
 
     if (module.hot) {
       module.hot.accept('./containers/rootContainer.js', () => {
-        const NextRootContainer = require('./containers/rootContainer.js');
-
-        render((
-          <AppContainer>
-            <NextRootContainer />
-          </AppContainer>
-        ), document.getElementById('react-root'));
-      })
+        const NextRootContainer = require('./containers/rootContainer');
+        render(NextRootContainer);
+      });
     }
     ```
+
+    c. Webpack 2 has built-in support for ES2015 modules, and you won't need to re-require your app root in module.hot.accept. The example above becomes:
+
+    > Note: To make this work, you'll need to opt out of Babel transpiling ES2015 modules by changing the Babel ES2015 preset to be
+    ```
+    {
+      "presets": [["es2015", { "modules": false }]]
+    }
+    ```
+    or when using `latest` preset then:
+    ```
+    {
+      "presets": [
+        ["latest", {
+          "es2015": {
+            "modules": false
+          }
+        }]
+      ]
+    }
+    ```
+
+    ```js
+    import 'react-hot-loader/patch';
+    import React from 'react';
+    import ReactDom from 'react-dom';
+    import { AppContainer } from 'react-hot-loader';
+
+    import RootContainer from './containers/rootContainer';
+
+    const render = Component => {
+      ReactDOM.render(
+        <AppContainer>
+          <Component />
+        </AppContainer>,
+        document.getElementById('root')
+      );
+    }
+
+    render(RootContainer);
+
+    if (module.hot) {
+      module.hot.accept('./containers/rootContainer', () => { render(RootContainer) });
+    }
+    ```
+
 
 That's it! Happy hot reloading!
 
