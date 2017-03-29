@@ -40,7 +40,7 @@ If you'd rather stay with **Browserify**, check out **[LiveReactload](https://gi
 
 ## Known limitations
 
-- React Router v3 is not fully supported (e.g. async routes). If you want to get most of React Hot Loader, consider switching to [React Router v4](https://reacttraining.com/react-router/). If you want to understand the reasoning, it's good to start in [React Router v4 FAQ](https://github.com/ReactTraining/react-router/blob/v4/README.md#v4-faq)
+- React Router v3 is not fully supported (e.g. async routes). If you want to get most of React Hot Loader, consider switching to [React Router v4](https://reacttraining.com/react-router/). If you want to understand the reasoning, it's good to start in [React Router v4 FAQ](https://github.com/ReactTraining/react-router/tree/v4.0.0-beta.8#v4-faq)
 
 ## The Talk
 
