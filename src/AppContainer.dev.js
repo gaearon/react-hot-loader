@@ -61,7 +61,7 @@ AppContainer.propTypes = {
     if (React.Children.count(props.children) !== 1) {
       return new Error(
         'Invalid prop "children" supplied to AppContainer. ' +
-        'Expected a single React element with your app’s root component, e.g. <App />.'
+        'Expected a single React element with your app\'s root component, e.g. <App />.'
       );
     }
 
