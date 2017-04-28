@@ -19,8 +19,14 @@ var UNUSED = (function () {
 
 const buildNewClassProperty = (t, classPropertyName, newMethodName, isAsync) => {
   let returnExpression = t.callExpression(
-    t.memberExpression(t.thisExpression(), newMethodName),
-    [t.spreadElement(t.identifier('params'))]
+    t.memberExpression(
+      t.memberExpression(t.thisExpression(), newMethodName),
+      t.identifier('apply')
+    ),
+    [
+      t.thisExpression(),
+      t.identifier('params'),
+    ]
   );
 
   if (isAsync) {

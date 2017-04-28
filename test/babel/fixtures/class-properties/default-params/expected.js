@@ -1,6 +1,6 @@
 class Foo {
   constructor() {
-    this.bar = (...params) => this.__bar__REACT_HOT_LOADER__(...params);
+    this.bar = (...params) => this.__bar__REACT_HOT_LOADER__.apply(this, params);
   }
 
   __bar__REACT_HOT_LOADER__(a = "foo") {
