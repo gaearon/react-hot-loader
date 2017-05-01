@@ -9,7 +9,7 @@ const { Component } = React;
 // In 15.0, it only catches errors on initial mount.
 // Later it will work for updates as well:
 // https://github.com/facebook/react/pull/6020
-function unstable_handleError(error) { // eslint-disable-line camelcase
+function unstableHandleError(error) { // eslint-disable-line camelcase
   this.setState({
     error,
   });
@@ -54,7 +54,7 @@ class AppContainer extends Component {
   setHandleError(props) {
     const handleError = props.handleError;
     if (handleError) {
-      this.unstable_handleError = unstable_handleError;
+      this.unstable_handleError = unstableHandleError;
     } else {
       delete this.unstable_handleError;
     }
