@@ -23,15 +23,6 @@ class AppContainer extends Component {
     this.setHandleError(props);
   }
 
-  setHandleError(props) {
-    const handleError = props.handleError;
-    if (handleError) {
-      this.unstable_handleError = unstable_handleError;
-    } else {
-      delete this.unstable_handleError;
-    }
-  }
-
   componentDidMount() {
     if (typeof __REACT_HOT_LOADER__ === 'undefined') {
       console.error(
@@ -58,6 +49,15 @@ class AppContainer extends Component {
     // Force-update the whole tree, including
     // components that refuse to update.
     deepForceUpdate(this);
+  }
+
+  setHandleError(props) {
+    const handleError = props.handleError;
+    if (handleError) {
+      this.unstable_handleError = unstable_handleError;
+    } else {
+      delete this.unstable_handleError;
+    }
   }
 
   render() {
