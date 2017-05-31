@@ -63,9 +63,10 @@
     "expect": "^1.16.0",
     "jsdom": "^8.4.1",
     "mocha": "^2.4.5",
-    "react": "^15.0.2",
+    "proptypes": "0.14.4",
+    "react": "15.5.3",
     "react-addons-test-utils": "^15.0.2",
-    "react-dom": "^15.0.2",
+    "react-dom": "15.5.3",
     "recompose": "^0.17.0",
     "rimraf": "^2.5.2"
   },

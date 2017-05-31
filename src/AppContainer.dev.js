@@ -2,6 +2,7 @@
 
 const React = require('react');
 const deepForceUpdate = require('react-deep-force-update');
+const propTypes = require('prop-types'); // eslint-disable-line
 const Redbox = require('redbox-react').default;
 const { Component } = React;
 
