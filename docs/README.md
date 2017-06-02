@@ -121,7 +121,7 @@ import App from './containers/App'
 const render = Component => {
   ReactDOM.render(
     <AppContainer>
-      <Component />
+      <App />
     </AppContainer>,
     document.getElementById('root')
   )
