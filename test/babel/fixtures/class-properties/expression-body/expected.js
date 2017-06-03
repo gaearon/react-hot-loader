@@ -1,6 +1,6 @@
 class Foo {
   constructor() {
-    this.onClick = (...params) => this.__onClick__REACT_HOT_LOADER__(...params);
+    this.onClick = (...params) => this.__onClick__REACT_HOT_LOADER__.apply(this, params);
   }
 
   __onClick__REACT_HOT_LOADER__(e) {
