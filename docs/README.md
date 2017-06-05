@@ -165,10 +165,6 @@ Hot reloading code is just one line in the beginning and one line in the end of 
       include: paths.appSrc,
       loader: require.resolve('babel-loader'),
       options: {
-
-        // This is a feature of `babel-loader` for webpack (not Babel itself).
-        // It enables caching results in ./node_modules/.cache/babel-loader/
-        // directory for faster rebuilds.
         cacheDirectory: true,
         plugins: [
           'react-hot-loader/babel'
