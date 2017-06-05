@@ -150,11 +150,11 @@ Hot reloading code is just one line in the beginning and one line in the end of 
   1. Add `'react-hot-loader/patch'` to entry array (anywhere before `paths.appIndexJs`). It should now look like (excluding comments):
   ```js
     entry: [
-       'react-hot-loader/patch',
-       require.resolve('react-dev-utils/webpackHotDevClient'),
-       require.resolve('./polyfills'),
-       require.resolve('react-error-overlay'),
-       paths.appIndexJs
+      'react-hot-loader/patch',
+      require.resolve('react-dev-utils/webpackHotDevClient'),
+      require.resolve('./polyfills'),
+      require.resolve('react-error-overlay'),
+      paths.appIndexJs
     ]
   ```
 
