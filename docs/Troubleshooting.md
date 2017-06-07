@@ -114,6 +114,8 @@ You also get this warning in v1.x if you write your root component as [stateless
 
 This warning may also appear **if you edit some non-component file** which is `require`d from files other than components. This means hot update bubbled up, but the app couldn't handle it. This is normal! Just refresh.
 
+[Make sure](https://github.com/gaearon/babel-plugin-react-transform#installation) you’ve included ```.babelrc``` with ```extra.react-transform``` in your project.
+
 If you get this warning **together with a 404 for `hot-update.json` file**, you're probably using an ancient version of `webpack-dev-server` (just update it).
 
 #### I see “[WDS] Hot Module Replacement enabled” but nothing happens when I edit `App.js`
