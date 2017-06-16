@@ -1,7 +1,7 @@
 'use strict';
 
 const React = require('react');
-const createProxy = require('react-proxy').default;
+const createProxy = require('react-proxy').createProxy;
 const global = require('global');
 
 class ComponentMap {
