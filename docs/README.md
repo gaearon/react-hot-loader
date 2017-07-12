@@ -64,7 +64,6 @@ Provided by community:
 {
   entry: {
     'app': [
-      'babel-polyfill',
       'react-hot-loader/patch',
       './src/index'
     ]
