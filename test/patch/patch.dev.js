@@ -53,6 +53,48 @@ function runAllTests(useWeakMap) {
       }
     });
 
+    it('should report threats', () => {
+      const f1 = () => <div>234</div>;
+      const f2 = () => <div>123</div>;
+      const f3 = () => <div>123</div>;
+      const f4 = () => <div>123</div>;
+
+      const dynamic = () => () => <div>123</div>;
+
+      const spy = spyOn(console, 'error');
+      try {
+        RHL.register(f1, 'f1', '/wow/test.js');
+
+        // emulate `static` components from node_modules
+        React.createElement(f1);
+        React.createElement(f1);
+        expect(console.error.calls.length).toBe(0);
+        React.createElement(f2);
+        React.createElement(f2);
+        React.createElement(f3);
+        React.createElement(f3);
+
+        expect(console.error.calls.length).toBe(0);
+
+        // emulate uncatched non-static component
+        React.createElement(dynamic());
+        expect(console.error.calls.length).toBe(0);
+        React.createElement(dynamic());
+        expect(console.error.calls.length).toBe(0);
+
+        // emulate HMR
+        RHL.register(f4, 'f1', '/wow/test.js');
+
+        React.createElement(dynamic());
+        expect(console.error.calls.length).toBe(1);
+
+        const signature = dynamic().toString();
+        expect(console.error.calls[0].arguments[1]).toBe(signature);
+      } finally {
+        spy.restore();
+      }
+    });
+
     it('resolves registered types by their last ID', () => {
       RHL.register(A1, 'a', 'test.js');
       const A = <A1 />.type;

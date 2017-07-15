@@ -69,7 +69,9 @@ class ComponentMap {
 let proxiesByID;
 let didWarnAboutID;
 let hasCreatedElementsByType;
+let knownSignatures;
 let idsByType;
+let didUpdateProxy;
 
 const hooks = {
   register(type, uniqueLocalName, fileName) {
@@ -107,6 +109,7 @@ const hooks = {
       proxiesByID[id] = createProxy(type);
     } else {
       proxiesByID[id].update(type);
+      didUpdateProxy = true;
     }
   },
 
@@ -114,11 +117,25 @@ const hooks = {
     proxiesByID = {};
     didWarnAboutID = {};
     hasCreatedElementsByType = new ComponentMap(useWeakMap);
+    knownSignatures = {};
     idsByType = new ComponentMap(useWeakMap);
+    didUpdateProxy = false;
   },
 };
 
 hooks.reset(typeof WeakMap === 'function');
+
+function warnComponentIsUnknown(signature) {
+  if (didUpdateProxy) {
+    console.error(
+      'React Hot Loader: this component is not accepted by Hot Loader. \n' +
+      'Please check is it extracted as a top level class, a function or a variable. ' +
+      'Set breakpoint here to see source location in developer console. ' +
+      'Component source: \n',
+      signature
+    );
+  }
+}
 
 function resolveType(type) {
   // We only care about composite components
@@ -126,13 +143,23 @@ function resolveType(type) {
     return type;
   }
 
+  const wasKnownBefore = hasCreatedElementsByType.get(type);
   hasCreatedElementsByType.set(type, true);
 
   // When available, give proxy class to React instead of the real class.
   const id = idsByType.get(type);
   if (!id) {
+    if (!wasKnownBefore) {
+      const signature = type.toString();
+      if (knownSignatures[signature]) {
+        warnComponentIsUnknown(signature);
+      } else {
+        knownSignatures[signature] = type;
+      }
+    }
     return type;
   }
+
 
   const proxy = proxiesByID[id];
   if (!proxy) {
