@@ -121,7 +121,7 @@ Add the following code to accept changes to your RootContainer, _or any of its d
    module.hot.accept('./containers/rootContainer.js', () => {
      const NextRootContainer = require('./containers/rootContainer.js').default;
      render(<NextRootContainer />, document.getElementById('react-root'));
-   }
+   })
  }
 ```
 
