@@ -85,10 +85,9 @@ function runAllTests(useWeakMap) {
         // emulate HMR
         RHL.register(f4, 'f1', '/wow/test.js');
 
-        React.createElement(dynamic());
+        const signature = dynamic();
+        React.createElement(signature);
         expect(console.error.calls.length).toBe(1);
-
-        const signature = dynamic().toString();
         expect(console.error.calls[0].arguments[1]).toBe(signature);
       } finally {
         spy.restore();

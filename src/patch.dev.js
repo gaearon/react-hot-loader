@@ -125,14 +125,13 @@ const hooks = {
 
 hooks.reset(typeof WeakMap === 'function');
 
-function warnComponentIsUnknown(signature) {
+function warnAboutUnnacceptedClass(typeSignature) {
   if (didUpdateProxy) {
     console.error(
       'React Hot Loader: this component is not accepted by Hot Loader. \n' +
-      'Please check is it extracted as a top level class, a function or a variable. ' +
-      'Set breakpoint here to see source location in developer console. ' +
-      'Component source: \n',
-      signature
+      'Please check is it extracted as a top level class, a function or a variable. \n' +
+      'Click below to reveal the source location: \n',
+      typeSignature
     );
   }
 }
@@ -152,7 +151,7 @@ function resolveType(type) {
     if (!wasKnownBefore) {
       const signature = type.toString();
       if (knownSignatures[signature]) {
-        warnComponentIsUnknown(signature);
+        warnAboutUnnacceptedClass(type);
       } else {
         knownSignatures[signature] = type;
       }
