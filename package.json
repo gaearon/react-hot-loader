@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "react-hot-api": "^0.4.5",
-    "source-map": "^0.4.4"
+    "source-map": "^0.5.6"
   },
   "repository": {
     "type": "git",
