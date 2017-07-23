@@ -148,6 +148,7 @@ Hot reloading code is just one line in the beginning and one line in the end of 
 * Install React Hot Loader (`npm install --save-dev react-hot-loader@next`)
 * In `config/webpack.config.dev.js`:
   Add `'react-hot-loader/patch'` to entry array (anywhere before `paths.appIndexJs`). It should now look like (excluding comments):
+  
   ```js
     entry: [
        'react-hot-loader/patch',
@@ -157,6 +158,7 @@ Hot reloading code is just one line in the beginning and one line in the end of 
     ]
   ```
 * Add `AppContainer` to `src/index.js`:
+
   ```js
   import { AppContainer } from 'react-hot-loader'
 
