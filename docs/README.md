@@ -105,9 +105,9 @@ if (module.hot) {
 
 You can also check out [this commit for the migration of a TodoMVC app from 1.0 to 3.0.](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915)
 
-## Webpack 2
+## Webpack 2+
 
-Because Webpack 2 has built-in support for ES2015 modules, you won't need to re-require your app root in `module.hot.accept`. The example above becomes:
+Because Webpack 2+ has built-in support for ES2015 modules, you won't need to re-require your app root in `module.hot.accept`. The example above becomes:
 
 > Note: To make this work, you'll need to opt out of Babel transpiling ES2015 modules by changing the Babel ES2015 preset to be `["es2015", { "modules": false }]`
 
