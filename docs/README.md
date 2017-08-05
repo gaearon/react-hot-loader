@@ -174,7 +174,7 @@ Hot reloading code is just one line in the beginning and one line in the end of 
     }
   ```
 
-* Add `AppContainer` to `src/index.js` (see `AppContainer` section in [Migration to 3.0 above](https://github.com/gaearon/react-hot-loader/blob/next-docs/docs/README.md#migration-to-30))
+* Add `AppContainer` to `src/index.js` (see `AppContainer` section in [Migration to 3.0 above](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#migration-to-30))
 
 ## TypeScript
 
