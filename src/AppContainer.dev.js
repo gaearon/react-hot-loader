@@ -5,10 +5,22 @@ const deepForceUpdate = require('react-deep-force-update');
 const Redbox = require('redbox-react').default;
 const { Component } = React;
 
+// This hook is going to become official in React 15.x.
+// In 15.0, it only catches errors on initial mount.
+// Later it will work for updates as well:
+// https://github.com/facebook/react/pull/6020
+function unstableHandleError(error) { // eslint-disable-line camelcase
+  this.setState({
+    error,
+  });
+}
+
+
 class AppContainer extends Component {
   constructor(props) {
     super(props);
     this.state = { error: null };
+    this.setHandleError(props);
   }
 
   componentDidMount() {
@@ -25,7 +37,10 @@ class AppContainer extends Component {
     }
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
+    if (this.props.handleError !== nextProps.handleError) {
+      this.setHandleError(nextProps);
+    }
     // Hot reload is happening.
     // Retry rendering!
     this.setState({
@@ -36,14 +51,13 @@ class AppContainer extends Component {
     deepForceUpdate(this);
   }
 
-  // This hook is going to become official in React 15.x.
-  // In 15.0, it only catches errors on initial mount.
-  // Later it will work for updates as well:
-  // https://github.com/facebook/react/pull/6020
-  unstable_handleError(error) { // eslint-disable-line camelcase
-    this.setState({
-      error,
-    });
+  setHandleError(props) {
+    const handleError = props.handleError;
+    if (handleError) {
+      this.unstable_handleError = unstableHandleError;
+    } else {
+      delete this.unstable_handleError;
+    }
   }
 
   render() {
@@ -67,10 +81,12 @@ AppContainer.propTypes = {
 
     return undefined;
   },
+  handleError: React.PropTypes.bool,
 };
 
 AppContainer.defaultProps = {
   errorReporter: Redbox,
+  handleError: true,
 };
 
 module.exports = AppContainer;
