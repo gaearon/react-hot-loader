@@ -1,6 +1,6 @@
 {
   "name": "react-hot-loader",
-  "version": "3.0.0-beta.6",
+  "version": "3.0.0-beta.7",
   "description": "Tweak React components in real time.",
   "main": "index.js",
   "files": [
@@ -22,7 +22,7 @@
     "global": "^4.3.0",
     "react-deep-force-update": "^2.0.1",
     "react-proxy": "^3.0.0-alpha.0",
-    "redbox-react": "^1.2.5",
+    "redbox-react": "^1.3.6",
     "source-map": "^0.4.4"
   },
   "repository": {

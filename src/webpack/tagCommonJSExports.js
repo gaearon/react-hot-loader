@@ -7,19 +7,25 @@
       return;
     }
 
-    if (typeof module.exports === 'function') {
-      __REACT_HOT_LOADER__.register(module.exports, 'module.exports', __FILENAME__);
+    /* eslint-disable camelcase, no-undef */
+    const webpackExports = typeof __webpack_exports__ !== 'undefined'
+      ? __webpack_exports__
+      : module.exports;
+    /* eslint-enable camelcase, no-undef */
+
+    if (typeof webpackExports === 'function') {
+      __REACT_HOT_LOADER__.register(webpackExports, 'module.exports', __FILENAME__);
       return;
     }
 
-    for (const key in module.exports) { // eslint-disable-line no-restricted-syntax
-      if (!Object.prototype.hasOwnProperty.call(module.exports, key)) {
+    for (const key in webpackExports) { // eslint-disable-line no-restricted-syntax
+      if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) {
         continue;
       }
 
       let namedExport;
       try {
-        namedExport = module.exports[key];
+        namedExport = webpackExports[key];
       } catch (err) {
         continue;
       }
