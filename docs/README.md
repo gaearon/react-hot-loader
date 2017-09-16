@@ -31,6 +31,7 @@ Provided by community:
 * [react-universal-hot-loader-starter-kit](https://github.com/earnubs/react-hot-loader-starter-kit) (universal express app with webpack 2, react-router 4, redux and react-hot-loader 3)
 * [bare-minimum-react-hot-rr4-redux](https://github.com/nganbread/bare-minimum-react-hot-rr4-redux) (Bare minimum webpack 2, react-router 4, redux)
 * [react-webpack2-boilerplate](https://github.com/plag/react-webpack2-boilerplate/) (Minimal react-router-3, react-redux, redux-saga on webpack2 with full hot reloading include reducers, sagas and react-components)
+* [ts-react-boilerplate](https://github.com/sotnikov-link/ts-react-boilerplate) (react, typescript 2, webpack 2 + hot-reload, karma + jasmine + coverage, sourcemaps)
 * [react-boilerplate](https://github.com/mikechabot/react-boilerplate) (Dead simple boilerplate for ReactJS. Webpack 2, Redux. Hot Loader. Router)
 * [molecule](https://github.com/timberio/molecule) (Production ready boilerplate targeting web & electron, using webpack 2, redux, react-hot-loader, immutable.js, react-router and more)
 * [universal-js-hmr-ssr-react-redux](https://github.com/Alex-ray/v2-universal-js-hmr-ssr-react-redux) (Universal JS, Webpack 2, React Router 4, Server Side Rendering, Code Splitting, Redux, Express)
