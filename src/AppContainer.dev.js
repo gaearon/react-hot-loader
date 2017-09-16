@@ -41,6 +41,7 @@ class AppContainer extends Component {
   // Later it will work for updates as well:
   // https://github.com/facebook/react/pull/6020
   unstable_handleError(error) { // eslint-disable-line camelcase
+    console.error(error);
     this.setState({
       error,
     });
