@@ -152,31 +152,30 @@ Hot reloading code is just one line in the beginning and one line in the end of 
   1. Add `'react-hot-loader/patch'` to entry array (anywhere before `paths.appIndexJs`). It should now look like (excluding comments):
   ```js
     entry: [
-       'react-hot-loader/patch',
-       require.resolve('react-dev-utils/webpackHotDevClient'),
-       require.resolve('./polyfills'),
-       paths.appIndexJs
+      'react-hot-loader/patch',
+      require.resolve('react-dev-utils/webpackHotDevClient'),
+      require.resolve('./polyfills'),
+      require.resolve('react-error-overlay'),
+      paths.appIndexJs
     ]
   ```
 
   2. Add `'react-hot-loader/babel'` to Babel loader configuration. The loader should now look like:
   ```js
     {
-       test: /\.(js|jsx)$/,
-       include: paths.appSrc,
-       loader: 'babel',
-       query: {
-         cacheDirectory: findCacheDir({
-           name: 'react-scripts'
-         }),
-         plugins: [
-           'react-hot-loader/babel'
-         ]
-       }
-    }
+      test: /\.(js|jsx)$/,
+      include: paths.appSrc,
+      loader: require.resolve('babel-loader'),
+      options: {
+        cacheDirectory: true,
+        plugins: [
+          'react-hot-loader/babel'
+        ],
+      },
+    },
   ```
 
-* Add `AppContainer` to `src/index.js` (see `AppContainer` section in [Migration to 3.0 above](https://github.com/gaearon/react-hot-loader/blob/next-docs/docs/README.md#migration-to-30))
+* Add `AppContainer` to `src/index.js` (see `AppContainer` section in [Webpack 2](#webpack-2) above)
 
 ## TypeScript
 
