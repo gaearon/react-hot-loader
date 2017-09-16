@@ -211,7 +211,7 @@ To preserve *internal component state*, you now need to add `react-hot-loader` t
 
     if (module.hot) {
       module.hot.accept('./containers/rootContainer.js', () => {
-        const NextRootContainer = require('./containers/rootContainer');
+        const NextRootContainer = require('./containers/rootContainer').default;
         render(NextRootContainer);
       });
     }
