@@ -27,6 +27,8 @@ If you want to try hot reloading in a new project, try **[one of the starter kit
 Provided by owner and collaborators:
 - **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate/tree/next)**
 - **[React Hot Loader Minimal Boilerplate](https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate)**
+- **[React Hot Loader Express Minimal Boilerplate](https://github.com/zhenyulin/react-hot-loader-express-minimal-boilerplate)**
+
 
 To use React Hot Loader in an existing project, you need to
 
