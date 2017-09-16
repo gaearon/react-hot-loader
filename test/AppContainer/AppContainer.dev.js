@@ -300,6 +300,68 @@ function runAllTests(useWeakMap) {
         expect(wrapper.text()).toBe('new render + old state');
       });
 
+      it('replaces children class arrow functions in constructor', () => {
+        const spy = createSpy();
+
+        class App extends Component {
+          constructor(props) {
+            super(props);
+
+            this.handleClick = () => {
+              spy('foo');
+            };
+          }
+          componentWillMount() {
+            this.state = 'old';
+          }
+
+          shouldComponentUpdate() {
+            return false;
+          }
+
+          render() {
+            return (
+              <span onClick={this.handleClick}>old render + {this.state} state</span>
+            );
+          }
+        }
+        RHL.register(App, 'App', 'test.js');
+
+        const wrapper = mount(<AppContainer><App /></AppContainer>);
+        wrapper.find('span').simulate('click');
+        expect(spy).toHaveBeenCalledWith('foo');
+        expect(wrapper.text()).toBe('old render + old state');
+
+        spy.reset();
+        {
+          class App extends Component {
+            componentWillMount() {
+              this.state = 'new';
+            }
+
+            shouldComponentUpdate() {
+              return false;
+            }
+
+            handleClick = () => {
+              spy('bar');
+            };
+
+            render() {
+              return (
+                <span onClick={this.handleClick}>new render + {this.state} state</span>
+              );
+            }
+          }
+          RHL.register(App, 'App', 'test.js');
+          wrapper.setProps({ children: <App /> });
+        }
+
+        wrapper.find('span').simulate('click');
+        expect(spy).toHaveBeenCalledWith('bar');
+        expect(wrapper.text()).toBe('new render + old state');
+      });
+
       it('replaces children class property arrow functions without block statement bodies', () => {
         const spy = createSpy();
 

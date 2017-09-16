@@ -6,6 +6,8 @@ Provided by collaborators:
 
 Provided by community:
 * [react-kit](https://github.com/thomasthiebaud/react-kit) (webpack v2, redux, react-router v4, code splitting, jest, saga, reselect)
+* [hapi-react-hot-loader-example](https://github.com/codeBelt/hapi-react-hot-loader-example) (ES2015, Universal (SSR), React Hot Loader 3, React Router 4, Redux, Redux Saga, Redux Form, Async Component Code Splitting, Hapi, Webpack 3)
+* [typescript-hapi-react-hot-loader-example](https://github.com/codeBelt/typescript-hapi-react-hot-loader-example) (TypeScript, Universal (SSR), React Hot Loader 3, React Router 4, Redux, Redux Saga, Redux Form, Async Component Code Splitting, Hapi, Webpack 3)
 * [react-redux-styled-hot-universal](https://github.com/krasevych/react-redux-styled-hot-universal) (SSR, Universal Webpack, Redux, React-router, Webpack 2, Babel, Styled Components and more...)
 * [webpack-react-redux](https://github.com/jpsierens/webpack-react-redux) (redux, react-router, hmr)
 * [react-lego](https://github.com/peter-mouland/react-lego) (universal, react-router, other optional techs)
@@ -106,9 +108,9 @@ if (module.hot) {
 
 You can also check out [this commit for the migration of a TodoMVC app from 1.0 to 3.0.](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915)
 
-## Webpack 2
+## Webpack 2+
 
-Because Webpack 2 has built-in support for ES2015 modules, you won't need to re-require your app root in `module.hot.accept`. The example above becomes:
+Because Webpack 2+ has built-in support for ES2015 modules, you won't need to re-require your app root in `module.hot.accept`. The example above becomes:
 
 > Note: To make this work, you'll need to opt out of Babel transpiling ES2015 modules by changing the Babel ES2015 preset to be `["es2015", { "modules": false }]`
 
@@ -175,7 +177,7 @@ Hot reloading code is just one line in the beginning and one line in the end of 
     }
   ```
 
-* Add `AppContainer` to `src/index.js` (see `AppContainer` section in [Migration to 3.0 above](https://github.com/gaearon/react-hot-loader/blob/next-docs/docs/README.md#migration-to-30))
+* Add `AppContainer` to `src/index.js` (see `AppContainer` section in [Migration to 3.0 above](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#migration-to-30))
 
 ## TypeScript
 
