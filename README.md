@@ -38,6 +38,11 @@ These steps are covered by **[the Migration to 3.0 guide](https://github.com/gae
 
 If you'd rather stay with **Browserify**, check out **[LiveReactload](https://github.com/milankinen/livereactload)** by Matti Lankinen.
 
+Forks of the above Boilerplates using **Browserify** instead:
+
+- **[React Hot Browserify Boilerplate](https://github.com/EugeneZ/react-hot-browserify-boilerplate/tree/next)**
+- **[React Hot Loader Browserify Minimal Boilerplate](https://github.com/EugeneZ/react-hot-loader-browserify-minimal-boilerplate)**
+
 ## Known limitations
 
 - React Router v3 is not fully supported (e.g. async routes). If you want to get most of React Hot Loader, consider switching to [React Router v4](https://reacttraining.com/react-router/). If you want to understand the reasoning, it's good to start in [React Router v4 FAQ](https://github.com/ReactTraining/react-router/tree/v4.0.0-beta.8#v4-faq)
