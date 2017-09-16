@@ -5,6 +5,7 @@ Provided by collaborators:
 * [react-hot-loader-minimal-boilerplate](https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate)* (Bare minimum)
 
 Provided by community:
+* [react-kit](https://github.com/thomasthiebaud/react-kit) (webpack v2, redux, react-router v4, code splitting, jest, saga, reselect)
 * [hapi-react-hot-loader-example](https://github.com/codeBelt/hapi-react-hot-loader-example) (ES2015, Universal (SSR), React Hot Loader 3, React Router 4, Redux, Redux Saga, Redux Form, Async Component Code Splitting, Hapi, Webpack 3)
 * [typescript-hapi-react-hot-loader-example](https://github.com/codeBelt/typescript-hapi-react-hot-loader-example) (TypeScript, Universal (SSR), React Hot Loader 3, React Router 4, Redux, Redux Saga, Redux Form, Async Component Code Splitting, Hapi, Webpack 3)
 * [react-redux-styled-hot-universal](https://github.com/krasevych/react-redux-styled-hot-universal) (SSR, Universal Webpack, Redux, React-router, Webpack 2, Babel, Styled Components and more...)
