@@ -59,7 +59,7 @@ If something doesn't work, in 99% cases it's a configuration issue. A missing op
 
 Check out the [docs directory](docs).
 
-You can also check out a great [webpack guide to React hot module replacement](https://webpack.js.org/guides/hmr-react/).
+You can also check out a great [webpack guide to React hot module replacement](https://webpack.js.org/guides/hot-module-replacement/#components/sidebar/sidebar.jsx).
 
 ## Got Questions?
 
