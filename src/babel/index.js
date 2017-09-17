@@ -1,11 +1,11 @@
-import template from 'babel-template';
+import template from 'babel-template'
 
-const replaced = Symbol('replaced');
+const replaced = Symbol('replaced')
 
 const buildRegistration = template(
-  '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);'
-);
-const buildSemi = template(';');
+  '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);',
+)
+const buildSemi = template(';')
 
 // We're making the IIFE we insert at the end of the file an unused variable
 // because it otherwise breaks the output of the babel-node REPL (#359).
@@ -17,131 +17,144 @@ var UNUSED = (function () {
 
   REGISTRATIONS
 })();
-`);
+`)
 
-const buildNewClassProperty = (t, classPropertyName, newMethodName, isAsync) => {
+const buildNewClassProperty = (
+  t,
+  classPropertyName,
+  newMethodName,
+  isAsync,
+) => {
   let returnExpression = t.callExpression(
     t.memberExpression(t.thisExpression(), newMethodName),
-    [t.spreadElement(t.identifier('params'))]
-  );
+    [t.spreadElement(t.identifier('params'))],
+  )
 
   if (isAsync) {
-    returnExpression = t.awaitExpression(returnExpression);
+    returnExpression = t.awaitExpression(returnExpression)
   }
 
   const newArrowFunction = t.arrowFunctionExpression(
     [t.restElement(t.identifier('params'))],
     returnExpression,
-    isAsync
-  );
-  return t.classProperty(classPropertyName, newArrowFunction);
-};
+    isAsync,
+  )
+  return t.classProperty(classPropertyName, newArrowFunction)
+}
 
-const buildNewAssignmentExpression = (t, classPropertyName, newMethodName, isAsync) => {
+const buildNewAssignmentExpression = (
+  t,
+  classPropertyName,
+  newMethodName,
+  isAsync,
+) => {
   let returnExpression = t.callExpression(
     t.memberExpression(t.thisExpression(), newMethodName),
-    [t.spreadElement(t.identifier('params'))]
-  );
+    [t.spreadElement(t.identifier('params'))],
+  )
 
   if (isAsync) {
-    returnExpression = t.awaitExpression(returnExpression);
+    returnExpression = t.awaitExpression(returnExpression)
   }
 
   const newArrowFunction = t.arrowFunctionExpression(
     [t.restElement(t.identifier('params'))],
     returnExpression,
-    isAsync
-  );
-  const left = t.memberExpression(t.thisExpression(), t.identifier(classPropertyName.name));
+    isAsync,
+  )
+  const left = t.memberExpression(
+    t.thisExpression(),
+    t.identifier(classPropertyName.name),
+  )
 
-  const replacement = t.assignmentExpression('=', left, newArrowFunction);
-  replacement[replaced] = true;
+  const replacement = t.assignmentExpression('=', left, newArrowFunction)
+  replacement[replaced] = true
 
-  return replacement;
-};
+  return replacement
+}
 
 const classPropertyOptOutVistor = {
   MetaProperty(path, state) {
-    const { node } = path;
+    const { node } = path
 
     if (node.meta.name === 'new' && node.property.name === 'target') {
-      state.optOut = true; // eslint-disable-line no-param-reassign
+      state.optOut = true // eslint-disable-line no-param-reassign
     }
   },
 
   ReferencedIdentifier(path, state) {
-    const { node } = path;
+    const { node } = path
 
     if (node.name === 'arguments') {
-      state.optOut = true; // eslint-disable-line no-param-reassign
+      state.optOut = true // eslint-disable-line no-param-reassign
     }
   },
-};
+}
 
 module.exports = function plugin(args) {
   // This is a Babel plugin, but the user put it in the Webpack config.
   if (this && this.callback) {
     throw new Error(
       'React Hot Loader: You are erroneously trying to use a Babel plugin ' +
-      'as a Webpack loader. We recommend that you use Babel, ' +
-      'remove "react-hot-loader/babel" from the "loaders" section ' +
-      'of your Webpack configuration, and instead add ' +
-      '"react-hot-loader/babel" to the "plugins" section of your .babelrc file. ' +
-      'If you prefer not to use Babel, replace "react-hot-loader/babel" with ' +
-      '"react-hot-loader/webpack" in the "loaders" section of your Webpack configuration. '
-    );
+        'as a Webpack loader. We recommend that you use Babel, ' +
+        'remove "react-hot-loader/babel" from the "loaders" section ' +
+        'of your Webpack configuration, and instead add ' +
+        '"react-hot-loader/babel" to the "plugins" section of your .babelrc file. ' +
+        'If you prefer not to use Babel, replace "react-hot-loader/babel" with ' +
+        '"react-hot-loader/webpack" in the "loaders" section of your Webpack configuration. ',
+    )
   }
-  const { types: t } = args;
+  const { types: t } = args
 
   // No-op in production.
   if (process.env.NODE_ENV === 'production') {
-    return { visitor: {} };
+    return { visitor: {} }
   }
 
   // Gather top-level variables, functions, and classes.
   // Try our best to avoid variables from require().
   // Ideally we only want to find components defined by the user.
   function shouldRegisterBinding(binding) {
-    const { type, node } = binding.path;
+    const { type, node } = binding.path
     switch (type) {
       case 'FunctionDeclaration':
       case 'ClassDeclaration':
       case 'VariableDeclaration':
-        return true;
+        return true
       case 'VariableDeclarator': {
-        const { init } = node;
+        const { init } = node
         if (t.isCallExpression(init) && init.callee.name === 'require') {
-          return false;
+          return false
         }
-        return true;
+        return true
       }
       default:
-        return false;
+        return false
     }
   }
 
-  const REGISTRATIONS = Symbol();
+  const REGISTRATIONS = Symbol('registrations')
   return {
     visitor: {
       ExportDefaultDeclaration(path, { file }) {
         // Default exports with names are going
         // to be in scope anyway so no need to bother.
         if (path.node.declaration.id) {
-          return;
+          return
         }
 
         // Move export default right hand side to a variable
         // so we can later refer to it and tag it with __source.
-        const id = path.scope.generateUidIdentifier('default');
-        const expression = t.isExpression(path.node.declaration) ?
-          path.node.declaration :
-          t.toExpression(path.node.declaration);
+        const id = path.scope.generateUidIdentifier('default')
+        const expression = t.isExpression(path.node.declaration)
+          ? path.node.declaration
+          : t.toExpression(path.node.declaration)
         path.insertBefore(
           t.variableDeclaration('const', [
             t.variableDeclarator(id, expression),
-          ])
-        );
-        path.node.declaration = id; // eslint-disable-line no-param-reassign
+          ]),
+        )
+        path.node.declaration = id // eslint-disable-line no-param-reassign
 
         // It won't appear in scope.bindings
         // so we'll manually remember it exists.
@@ -150,71 +163,73 @@ module.exports = function plugin(args) {
             ID: id,
             NAME: t.stringLiteral('default'),
             FILENAME: t.stringLiteral(file.opts.filename),
-          })
-        );
+          }),
+        )
       },
 
       Program: {
         enter({ node, scope }, { file }) {
-          node[REGISTRATIONS] = []; // eslint-disable-line no-param-reassign
+          node[REGISTRATIONS] = [] // eslint-disable-line no-param-reassign
 
           // Everything in the top level scope, when reasonable,
           // is going to get tagged with __source.
           /* eslint-disable guard-for-in,no-restricted-syntax */
           for (const id in scope.bindings) {
-            const binding = scope.bindings[id];
+            const binding = scope.bindings[id]
             if (shouldRegisterBinding(binding)) {
-              node[REGISTRATIONS].push(buildRegistration({
-                ID: binding.identifier,
-                NAME: t.stringLiteral(id),
-                FILENAME: t.stringLiteral(file.opts.filename),
-              }));
+              node[REGISTRATIONS].push(
+                buildRegistration({
+                  ID: binding.identifier,
+                  NAME: t.stringLiteral(id),
+                  FILENAME: t.stringLiteral(file.opts.filename),
+                }),
+              )
             }
           }
           /* eslint-enable */
         },
 
         exit({ node, scope }) {
-          const registrations = node[REGISTRATIONS];
-          node[REGISTRATIONS] = null; // eslint-disable-line no-param-reassign
+          const registrations = node[REGISTRATIONS]
+          node[REGISTRATIONS] = null // eslint-disable-line no-param-reassign
 
           // Inject the generated tagging code at the very end
           // so that it is as minimally intrusive as possible.
-          node.body.push(buildSemi());
+          node.body.push(buildSemi())
           node.body.push(
             buildTagger({
               UNUSED: scope.generateUidIdentifier(),
               REGISTRATIONS: registrations,
-            })
-          );
-          node.body.push(buildSemi());
+            }),
+          )
+          node.body.push(buildSemi())
         },
       },
       Class(classPath) {
-        const classBody = classPath.get('body');
+        const classBody = classPath.get('body')
 
         classBody.get('body').forEach(path => {
           if (path.isClassProperty()) {
-            const { node } = path;
+            const { node } = path
 
             // don't apply transform to static class properties
             if (node.static) {
-              return;
+              return
             }
 
             const state = {
               optOut: false,
-            };
+            }
 
-            path.traverse(classPropertyOptOutVistor, state);
+            path.traverse(classPropertyOptOutVistor, state)
 
             if (state.optOut) {
-              return;
+              return
             }
 
             // class property node value is nullable
             if (node.value && node.value.type === 'ArrowFunctionExpression') {
-              const isAsync = node.value.async;
+              const isAsync = node.value.async
 
               // TODO:
               // Remove this check when babel issue is resolved: https://github.com/babel/babel/issues/5078
@@ -222,63 +237,86 @@ module.exports = function plugin(args) {
               // This code makes async arrow functions not reloadable,
               // but doesn't break code any more when using 'this' inside AAF
               if (isAsync) {
-                return;
+                return
               }
 
-              const params = node.value.params;
-              const newIdentifier = t.identifier(`__${node.key.name}__REACT_HOT_LOADER__`);
+              const params = node.value.params
+              const newIdentifier = t.identifier(
+                `__${node.key.name}__REACT_HOT_LOADER__`,
+              )
 
               // arrow function body can either be a block statement or a returned expression
-              const newMethodBody = node.value.body.type === 'BlockStatement' ?
-                node.value.body :
-                t.blockStatement([t.returnStatement(node.value.body)]);
+              const newMethodBody =
+                node.value.body.type === 'BlockStatement'
+                  ? node.value.body
+                  : t.blockStatement([t.returnStatement(node.value.body)])
 
               // create a new method on the class that the original class property function
               // calls, since the method is able to be replaced by RHL
-              const newMethod = t.classMethod('method', newIdentifier, params, newMethodBody);
-              newMethod.async = isAsync;
-              path.insertAfter(newMethod);
+              const newMethod = t.classMethod(
+                'method',
+                newIdentifier,
+                params,
+                newMethodBody,
+              )
+              newMethod.async = isAsync
+              path.insertAfter(newMethod)
 
               // replace the original class property function with a function that calls
               // the new class method created above
-              path.replaceWith(buildNewClassProperty(t, node.key, newIdentifier, isAsync));
+              path.replaceWith(
+                buildNewClassProperty(t, node.key, newIdentifier, isAsync),
+              )
             }
-          } else {
-            if (!path.node[replaced] && path.node.kind === 'constructor') {
-              path.traverse({
-                AssignmentExpression(exp) {
-                  if (!exp.node[replaced]
-                    && exp.node.left.type === 'MemberExpression'
-                    && exp.node.left.object.type === 'ThisExpression'
-                    && exp.node.right.type === 'ArrowFunctionExpression'
-                  ) {
-                    const key = exp.node.left.property;
-                    const node = exp.node.right;
+          } else if (!path.node[replaced] && path.node.kind === 'constructor') {
+            path.traverse({
+              AssignmentExpression(exp) {
+                if (
+                  !exp.node[replaced] &&
+                  exp.node.left.type === 'MemberExpression' &&
+                  exp.node.left.object.type === 'ThisExpression' &&
+                  exp.node.right.type === 'ArrowFunctionExpression'
+                ) {
+                  const key = exp.node.left.property
+                  const node = exp.node.right
 
-                    const isAsync = node.async;
-                    const params = node.params;
-                    const newIdentifier = t.identifier(`__${key.name}__REACT_HOT_LOADER__`);
+                  const isAsync = node.async
+                  const params = node.params
+                  const newIdentifier = t.identifier(
+                    `__${key.name}__REACT_HOT_LOADER__`,
+                  )
 
-                    // arrow function body can either be a block statement or a returned expression
-                    const newMethodBody = node.body.type === 'BlockStatement' ?
-                      node.body :
-                      t.blockStatement([t.returnStatement(node.body)]);
+                  // arrow function body can either be a block statement or a returned expression
+                  const newMethodBody =
+                    node.body.type === 'BlockStatement'
+                      ? node.body
+                      : t.blockStatement([t.returnStatement(node.body)])
 
-                    const newMethod = t.classMethod('method', newIdentifier, params, newMethodBody);
-                    newMethod.async = isAsync;
-                    newMethod[replaced] = true;
-                    path.insertAfter(newMethod);
+                  const newMethod = t.classMethod(
+                    'method',
+                    newIdentifier,
+                    params,
+                    newMethodBody,
+                  )
+                  newMethod.async = isAsync
+                  newMethod[replaced] = true
+                  path.insertAfter(newMethod)
 
-                    // replace assignment exp
-                    exp
-                      .replaceWith(buildNewAssignmentExpression(t, key, newIdentifier, isAsync));
-                  }
-                },
-              });
-            }
+                  // replace assignment exp
+                  exp.replaceWith(
+                    buildNewAssignmentExpression(
+                      t,
+                      key,
+                      newIdentifier,
+                      isAsync,
+                    ),
+                  )
+                }
+              },
+            })
           }
-        });
+        })
       },
     },
-  };
-};
+  }
+}
