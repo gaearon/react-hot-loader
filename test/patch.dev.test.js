@@ -1,5 +1,4 @@
-import '../../src/patch.dev';
-import expect, { spyOn } from 'expect';
+import '../src/patch.dev';
 import React from 'react';
 
 const RHL = global.__REACT_HOT_LOADER__;
@@ -31,11 +30,11 @@ function runAllTests(useWeakMap) {
       // or we may cause an existing component to unmount unpredictably.
       // https://github.com/gaearon/react-hot-loader/issues/241
 
-      const spy = spyOn(console, 'error');
+      const spy = jest.spyOn(console, 'error');
       try {
         RHL.register(Kanye, 'Yeezy', '/wow/test.js');
-        expect(console.error.calls.length).toBe(1);
-        expect(console.error.calls[0].arguments[0]).toBe(
+        expect(console.error.mock.calls.length).toBe(1);
+        expect(console.error.mock.calls[0][0]).toBe(
           'React Hot Loader: Yeezy in /wow/test.js will not hot reload ' +
           'correctly because test.js uses <Yeezy /> during ' +
           'module definition. For hot reloading to work, move Yeezy ' +
@@ -45,19 +44,19 @@ function runAllTests(useWeakMap) {
         expect(<Kanye2 />.type).toBe(Kanye2);
 
         RHL.register(Kanye2, 'Yeezy', '/wow/test.js');
-        expect(console.error.calls.length).toBe(1);
+        expect(console.error.mock.calls.length).toBe(1);
         expect(<Kanye />.type).toBe(Kanye);
         expect(<Kanye2 />.type).toBe(Kanye2);
       } finally {
-        spy.restore();
+        spy.mockRestore();
       }
     });
 
     it('resolves registered types by their last ID', () => {
       RHL.register(A1, 'a', 'test.js');
       const A = <A1 />.type;
-      expect(A).toNotBe(A1);
-      expect(A).toBeA('function');
+      expect(A).not.toBe(A1);
+      expect(A).toBeInstanceOf(Function);
       expect(<A />.type).toBe(A);
 
       RHL.register(A2, 'a', 'test.js');
@@ -95,8 +94,8 @@ function runAllTests(useWeakMap) {
       RHL.register(A1, 'x', 'test2.js');
 
       const A = <A1 />.type;
-      expect(A.type).toNotBe(A1);
-      expect(A).toBeA('function');
+      expect(A.type).not.toBe(A1);
+      expect(A).toBeInstanceOf(Function);
       expect(<A />.type).toBe(A);
 
       RHL.register(A2, 'a', 'test.js');

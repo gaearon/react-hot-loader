@@ -1,7 +1,7 @@
 {
   "extends": "../.eslintrc",
   "env": {
-    "mocha": true
+    "jest": true
   },
   "parserOptions": {
     "ecmaFeatures": {

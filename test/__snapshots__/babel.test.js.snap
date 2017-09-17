@@ -1,0 +1,860 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`copies arrow function body block onto hidden class methods arguments.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.bar = function () {
+      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__bar__REACT_HOT_LOADER__\\",
+    value: function __bar__REACT_HOT_LOADER__(a, b) {
+      arguments;
+
+      return a(b);
+    }
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/arguments.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods arrow function in constructor.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.onClick = function () {
+      return _this.__onClick__REACT_HOT_LOADER__.apply(_this, arguments);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__onClick__REACT_HOT_LOADER__\\",
+    value: function __onClick__REACT_HOT_LOADER__(e) {
+      return e.target.value;
+    }
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/arrow-function-in-constructor.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods async functions expression body.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step(\\"next\\", value); }, function (err) { step(\\"throw\\", err); }); } } return step(\\"next\\"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.bar = function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _args = arguments;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.__bar__REACT_HOT_LOADER__.apply(_this, _args);
+
+              case 2:
+                return _context.abrupt(\\"return\\", _context.sent);
+
+              case 3:
+              case \\"end\\":
+                return _context.stop();
+            }
+          }
+        }, _callee, _this);
+      }));
+
+      return function NAME() {
+        return _ref.apply(this, arguments);
+      };
+    }();
+  }
+
+  _createClass(Foo, [{
+    key: \\"__bar__REACT_HOT_LOADER__\\",
+    value: function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(a, b) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return b(a);
+
+              case 2:
+                return _context2.abrupt(\\"return\\", _context2.sent);
+
+              case 3:
+              case \\"end\\":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function __bar__REACT_HOT_LOADER__(_x, _x2) {
+        return _ref2.apply(this, arguments);
+      }
+
+      return __bar__REACT_HOT_LOADER__;
+    }()
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/async-functions-expression-body.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods async functions.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step(\\"next\\", value); }, function (err) { step(\\"throw\\", err); }); } } return step(\\"next\\"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.bar = function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _args = arguments;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.__bar__REACT_HOT_LOADER__.apply(_this, _args);
+
+              case 2:
+                return _context.abrupt(\\"return\\", _context.sent);
+
+              case 3:
+              case \\"end\\":
+                return _context.stop();
+            }
+          }
+        }, _callee, _this);
+      }));
+
+      return function NAME() {
+        return _ref.apply(this, arguments);
+      };
+    }();
+  }
+
+  _createClass(Foo, [{
+    key: \\"__bar__REACT_HOT_LOADER__\\",
+    value: function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(a, b) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return a(b);
+
+              case 2:
+                return _context2.abrupt(\\"return\\", _context2.sent);
+
+              case 3:
+              case \\"end\\":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function __bar__REACT_HOT_LOADER__(_x, _x2) {
+        return _ref2.apply(this, arguments);
+      }
+
+      return __bar__REACT_HOT_LOADER__;
+    }()
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/async-functions.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods block body.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.bar = function () {
+      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__bar__REACT_HOT_LOADER__\\",
+    value: function __bar__REACT_HOT_LOADER__(a, b) {
+      return a(b);
+    }
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/block-body.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods default params.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.bar = function () {
+      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__bar__REACT_HOT_LOADER__\\",
+    value: function __bar__REACT_HOT_LOADER__() {
+      var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"foo\\";
+
+      return a + \\"bar\\";
+    }
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/default-params.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods destructured params.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.bar = function () {
+      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__bar__REACT_HOT_LOADER__\\",
+    value: function __bar__REACT_HOT_LOADER__(_ref, _ref2) {
+      var a = _ref.a;
+      var b = _ref2.b;
+
+      return \\"\\" + a + b;
+    }
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/destructured-params.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods expression body.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.onClick = function () {
+      return _this.__onClick__REACT_HOT_LOADER__.apply(_this, arguments);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__onClick__REACT_HOT_LOADER__\\",
+    value: function __onClick__REACT_HOT_LOADER__(e) {
+      return e.target.value;
+    }
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/expression-body.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods nested arguments.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.bar = function () {
+      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__bar__REACT_HOT_LOADER__\\",
+    value: function __bar__REACT_HOT_LOADER__(a, b) {
+      var _arguments = arguments;
+
+      (function () {
+        _arguments;
+      });
+
+      return a(b);
+    }
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/nested-arguments.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods nested new.target.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.bar = function () {
+      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__bar__REACT_HOT_LOADER__\\",
+    value: function __bar__REACT_HOT_LOADER__(a, b) {
+      (function () {
+        new.target;
+      });
+
+      return a(b);
+    }
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/nested-new.target.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods new.target.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.bar = function () {
+      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__bar__REACT_HOT_LOADER__\\",
+    value: function __bar__REACT_HOT_LOADER__(a, b) {
+      new.target;
+
+      return a(b);
+    }
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/new.target.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods not a function.js 1`] = `
+"\\"use strict\\";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function Foo() {
+  _classCallCheck(this, Foo);
+
+  this.bar = 2;
+};
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/not-a-function.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods not an arrow function.js 1`] = `
+"\\"use strict\\";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function Foo() {
+  _classCallCheck(this, Foo);
+
+  this.bar = function (a, b) {
+    return a(b);
+  };
+};
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/not-an-arrow-function.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods same name as class method.js 1`] = `
+"\\"use strict\\";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function () {
+  function Foo() {
+    var _this = this;
+
+    _classCallCheck(this, Foo);
+
+    this.bar = function () {
+      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__bar__REACT_HOT_LOADER__\\",
+    value: function __bar__REACT_HOT_LOADER__(a, b) {
+      return a(b);
+    }
+  }, {
+    key: \\"bar\\",
+    value: function bar() {
+      return 2;
+    }
+  }]);
+
+  return Foo;
+}();
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/same-name-as-class-method.js\\");
+}();
+
+;"
+`;
+
+exports[`copies arrow function body block onto hidden class methods static property.js 1`] = `
+"\\"use strict\\";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Foo = function Foo() {
+  _classCallCheck(this, Foo);
+};
+
+Foo.bar = function (a, b) {
+  return a(b);
+};
+
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/static-property.js\\");
+}();
+
+;"
+`;
+
+exports[`tags potential React components bindings.js 1`] = `
+"\\"use strict\\";
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+exports.C = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _leftPad = require(\\"left-pad\\");
+
+var _leftPad2 = _interopRequireDefault(_leftPad);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var A = 42;
+function B() {
+  function R() {}
+
+  var S = function S() {
+    _classCallCheck(this, S);
+  };
+
+  var T = 42;
+}
+
+var C = exports.C = function () {
+  function C() {
+    _classCallCheck(this, C);
+  }
+
+  _createClass(C, [{
+    key: \\"U\\",
+    value: function U() {
+      function V() {
+        var W = function W() {
+          _classCallCheck(this, W);
+        };
+      }
+    }
+  }]);
+
+  return C;
+}();
+
+var D = function X() {
+  _classCallCheck(this, X);
+};
+var E = D;
+var Y = require(\\"left-pad\\");
+
+var _require = require(\\"left-pad\\"),
+    Z = _require.Z;
+
+var _default = React.createClass({
+  displayName: \\"_default\\"
+});
+
+exports.default = _default;
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(A, \\"A\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+
+  __REACT_HOT_LOADER__.register(B, \\"B\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+
+  __REACT_HOT_LOADER__.register(C, \\"C\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+
+  __REACT_HOT_LOADER__.register(D, \\"D\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+
+  __REACT_HOT_LOADER__.register(E, \\"E\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+
+  __REACT_HOT_LOADER__.register(_default, \\"default\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+}();
+
+;"
+`;
+
+exports[`tags potential React components counter.js 1`] = `
+"\\"use strict\\";
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var Counter = function Counter() {
+  _classCallCheck(this, Counter);
+};
+
+var _default = function _default() {
+  return React.createElement(
+    \\"div\\",
+    null,
+    React.createElement(Counter, null)
+  );
+};
+
+exports.default = _default;
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Counter, \\"Counter\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/counter.js\\");
+
+  __REACT_HOT_LOADER__.register(_default, \\"default\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/counter.js\\");
+}();
+
+;"
+`;
+
+exports[`tags potential React components issue 246.js 1`] = `
+"\\"use strict\\";
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+exports.spread = spread;
+function spread() {
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  return args.push(1);
+}
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(spread, \\"spread\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/issue-246.js\\");
+}();
+
+;"
+`;
+
+exports[`tags potential React components name clash.js 1`] = `
+"\\"use strict\\";
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+var _default = 10;
+var _default2 = 42;
+exports.default = _default2;
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(_default, \\"_default\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/name-clash.js\\");
+
+  __REACT_HOT_LOADER__.register(_default2, \\"default\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/name-clash.js\\");
+}();
+
+;"
+`;

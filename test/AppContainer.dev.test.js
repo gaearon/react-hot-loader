@@ -1,10 +1,9 @@
-import './setup';
+import '../src/patch.dev';
 import React, { Component } from 'react';
-import expect, { createSpy } from 'expect';
 import { mount, shallow } from 'enzyme';
 import { mapProps } from 'recompose';
 
-import AppContainer from '../../src/AppContainer.dev';
+import AppContainer from '../src/AppContainer.dev';
 const RHL = global.__REACT_HOT_LOADER__;
 
 function runAllTests(useWeakMap) {
@@ -15,7 +14,7 @@ function runAllTests(useWeakMap) {
 
     describe('with class root', () => {
       it('renders children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
         class App extends Component {
           render() {
             spy();
@@ -27,11 +26,11 @@ function runAllTests(useWeakMap) {
         const wrapper = mount(<AppContainer><App /></AppContainer>);
         expect(wrapper.find('App').length).toBe(1);
         expect(wrapper.contains(<div>hey</div>)).toBe(true);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
       });
 
       it('force updates the tree on receiving new children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         class App extends Component {
           shouldComponentUpdate() {
@@ -46,7 +45,7 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js');
 
         const wrapper = mount(<AppContainer><App /></AppContainer>);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
 
         {
           class App extends Component {
@@ -63,12 +62,12 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: <App /> });
         }
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy).toHaveBeenCalledTimes(2);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
       it('force updates the tree on receiving cached children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         class App extends Component {
           shouldComponentUpdate() {
@@ -84,7 +83,7 @@ function runAllTests(useWeakMap) {
 
         const element = <App />;
         const wrapper = mount(<AppContainer>{element}</AppContainer>);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
 
         {
           class App extends Component {
@@ -101,12 +100,12 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: element });
         }
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy).toHaveBeenCalledTimes(2);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
       it('renders latest children on receiving cached never-rendered children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         class App extends Component {
           shouldComponentUpdate() {
@@ -138,7 +137,7 @@ function runAllTests(useWeakMap) {
           wrapper = mount(<AppContainer>{element}</AppContainer>);
         }
 
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
@@ -183,7 +182,7 @@ function runAllTests(useWeakMap) {
       });
 
       it('replaces children class methods', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         class App extends Component {
           componentWillMount() {
@@ -211,7 +210,7 @@ function runAllTests(useWeakMap) {
         expect(spy).toHaveBeenCalledWith('foo');
         expect(wrapper.text()).toBe('old render + old state');
 
-        spy.reset();
+        spy.mockReset();
         {
           class App extends Component {
             componentWillMount() {
@@ -242,7 +241,7 @@ function runAllTests(useWeakMap) {
       });
 
       it('replaces children class property arrow functions', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         class App extends Component {
           componentWillMount() {
@@ -270,7 +269,7 @@ function runAllTests(useWeakMap) {
         expect(spy).toHaveBeenCalledWith('foo');
         expect(wrapper.text()).toBe('old render + old state');
 
-        spy.reset();
+        spy.mockReset();
         {
           class App extends Component {
             componentWillMount() {
@@ -301,7 +300,7 @@ function runAllTests(useWeakMap) {
       });
 
       it('replaces children class arrow functions in constructor', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         class App extends Component {
           constructor(props) {
@@ -332,7 +331,7 @@ function runAllTests(useWeakMap) {
         expect(spy).toHaveBeenCalledWith('foo');
         expect(wrapper.text()).toBe('old render + old state');
 
-        spy.reset();
+        spy.mockReset();
         {
           class App extends Component {
             componentWillMount() {
@@ -363,7 +362,7 @@ function runAllTests(useWeakMap) {
       });
 
       it('replaces children class property arrow functions without block statement bodies', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         class App extends Component {
           componentWillMount() {
@@ -389,7 +388,7 @@ function runAllTests(useWeakMap) {
         expect(spy).toHaveBeenCalledWith('foo');
         expect(wrapper.text()).toBe('old render + old state');
 
-        spy.reset();
+        spy.mockReset();
         {
           class App extends Component {
             componentWillMount() {
@@ -419,7 +418,7 @@ function runAllTests(useWeakMap) {
 
       it('replaces children with class property arrow ' +
          'functions with different numbers of arguments', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         class App extends Component {
           componentWillMount() {
@@ -445,7 +444,7 @@ function runAllTests(useWeakMap) {
         expect(spy).toHaveBeenCalledWith('foo');
         expect(wrapper.text()).toBe('old render + old state');
 
-        spy.reset();
+        spy.mockReset();
         {
           class App extends Component {
             componentWillMount() {
@@ -476,7 +475,7 @@ function runAllTests(useWeakMap) {
 
     describe('with createClass root', () => {
       it('renders children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
         const App = React.createClass({
           render() {
             spy();
@@ -488,11 +487,11 @@ function runAllTests(useWeakMap) {
         const wrapper = mount(<AppContainer><App /></AppContainer>);
         expect(wrapper.find('App').length).toBe(1);
         expect(wrapper.contains(<div>hey</div>)).toBe(true);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
       });
 
       it('force updates the tree on receiving new children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         const App = React.createClass({
           shouldComponentUpdate() {
@@ -507,7 +506,7 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js');
 
         const wrapper = mount(<AppContainer><App /></AppContainer>);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
 
         {
           const App = React.createClass({
@@ -524,12 +523,12 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: <App /> });
         }
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy).toHaveBeenCalledTimes(2);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
       it('force updates the tree on receiving cached children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         const App = React.createClass({
           shouldComponentUpdate() {
@@ -545,7 +544,7 @@ function runAllTests(useWeakMap) {
 
         const element = <App />;
         const wrapper = mount(<AppContainer>{element}</AppContainer>);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
 
         {
           const App = React.createClass({
@@ -562,12 +561,12 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: element });
         }
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy).toHaveBeenCalledTimes(2);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
       it('renders latest children on receiving cached never-rendered children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         const App = React.createClass({
           shouldComponentUpdate() {
@@ -599,7 +598,7 @@ function runAllTests(useWeakMap) {
           wrapper = mount(<AppContainer>{element}</AppContainer>);
         }
 
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
@@ -646,7 +645,7 @@ function runAllTests(useWeakMap) {
 
     describe('with createFactory root', () => {
       it('renders children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
         const App = React.createClass({
           render() {
             spy();
@@ -659,11 +658,11 @@ function runAllTests(useWeakMap) {
         const wrapper = mount(<AppContainer>{AppF()}</AppContainer>);
         expect(wrapper.find('App').length).toBe(1);
         expect(wrapper.contains(<div>hey</div>)).toBe(true);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
       });
 
       it('force updates the tree on receiving new children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         const App = React.createClass({
           shouldComponentUpdate() {
@@ -679,7 +678,7 @@ function runAllTests(useWeakMap) {
         const AppF = React.createFactory(App);
 
         const wrapper = mount(<AppContainer>{AppF()}</AppContainer>);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
 
         {
           const App = React.createClass({
@@ -697,12 +696,12 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: AppF() });
         }
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy).toHaveBeenCalledTimes(2);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
       it('force updates the tree on receiving cached children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         const App = React.createClass({
           shouldComponentUpdate() {
@@ -719,7 +718,7 @@ function runAllTests(useWeakMap) {
 
         const element = AppF();
         const wrapper = mount(<AppContainer>{element}</AppContainer>);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
 
         {
           const App = React.createClass({
@@ -736,12 +735,12 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: element });
         }
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy).toHaveBeenCalledTimes(2);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
       it('renders latest children on receiving cached never-rendered children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         const App = React.createClass({
           shouldComponentUpdate() {
@@ -774,7 +773,7 @@ function runAllTests(useWeakMap) {
           wrapper = mount(<AppContainer>{element}</AppContainer>);
         }
 
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
@@ -823,7 +822,7 @@ function runAllTests(useWeakMap) {
 
     describe('with SFC root', () => {
       it('renders children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
         const App = () => {
           spy();
           return <div>hey</div>;
@@ -833,11 +832,11 @@ function runAllTests(useWeakMap) {
         const wrapper = mount(<AppContainer><App /></AppContainer>);
         expect(wrapper.find('App').length).toBe(1);
         expect(wrapper.contains(<div>hey</div>)).toBe(true);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
       });
 
       it('force updates the tree on receiving new children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         const App = () => {
           spy();
@@ -846,7 +845,7 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js');
 
         const wrapper = mount(<AppContainer><App /></AppContainer>);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
 
         {
           const App = () => {
@@ -857,12 +856,12 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: <App /> });
         }
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy).toHaveBeenCalledTimes(2);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
       it('force updates the tree on receiving cached children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         const App = () => {
           spy();
@@ -872,7 +871,7 @@ function runAllTests(useWeakMap) {
 
         const element = <App />;
         const wrapper = mount(<AppContainer>{element}</AppContainer>);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
 
         {
           const App = () => {
@@ -883,12 +882,12 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: element });
         }
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy).toHaveBeenCalledTimes(2);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
       it('renders latest children on receiving cached never-rendered children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
 
         const App = () => {
           spy();
@@ -908,7 +907,7 @@ function runAllTests(useWeakMap) {
           wrapper = mount(<AppContainer>{element}</AppContainer>);
         }
 
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
@@ -957,7 +956,7 @@ function runAllTests(useWeakMap) {
 
     describe('with HOC-wrapped root', () => {
       it('renders children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
         class App extends React.Component {
           render() {
             spy();
@@ -973,11 +972,11 @@ function runAllTests(useWeakMap) {
         expect(wrapper.find('App').length).toBe(1);
         expect(wrapper.contains(<div>hey</div>)).toBe(true);
         expect(wrapper.find('App').prop('n')).toBe(15);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
       });
 
       it('force updates the tree on receiving new children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
         class App extends React.Component {
           render() {
             spy();
@@ -990,7 +989,7 @@ function runAllTests(useWeakMap) {
         RHL.register(Enhanced, 'Enhanced', 'test.js');
 
         const wrapper = mount(<AppContainer><Enhanced n={3} /></AppContainer>);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
 
         {
           class App extends React.Component {
@@ -1006,13 +1005,13 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: <Enhanced n={3} /> });
         }
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy).toHaveBeenCalledTimes(2);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
 
       it('force updates the tree on receiving cached children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
         class App extends React.Component {
           render() {
             spy();
@@ -1026,7 +1025,7 @@ function runAllTests(useWeakMap) {
 
         const element = <Enhanced n={3} />;
         const wrapper = mount(<AppContainer>{element}</AppContainer>);
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
 
         {
           class App extends React.Component {
@@ -1042,12 +1041,12 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: element });
         }
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy).toHaveBeenCalledTimes(2);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
       it('renders latest children on receiving cached never-rendered children', () => {
-        const spy = createSpy();
+        const spy = jest.fn();
         class App extends React.Component {
           render() {
             spy();
@@ -1076,7 +1075,7 @@ function runAllTests(useWeakMap) {
           wrapper = mount(<AppContainer>{element}</AppContainer>);
         }
 
-        expect(spy.calls.length).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
         expect(wrapper.contains(<div>ho</div>)).toBe(true);
       });
 
