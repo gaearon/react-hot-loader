@@ -14,7 +14,11 @@ describe('tags potential React components', () => {
     if (fs.statSync(fixtureFile).isFile()) {
       it(fixtureName.split('-').join(' '), () => {
         const actual = transformFileSync(fixtureFile).code
-        expect(trim(actual)).toMatchSnapshot()
+        const codeWithoutFilename = actual.replace(
+          new RegExp(`["']${fixtureFile}["']`, 'g'),
+          '__FILENAME__',
+        )
+        expect(trim(codeWithoutFilename)).toMatchSnapshot()
       })
     }
   })
@@ -27,7 +31,11 @@ describe('copies arrow function body block onto hidden class methods', () => {
     if (fs.statSync(fixtureFile).isFile()) {
       it(fixtureName.split('-').join(' '), () => {
         const actual = transformFileSync(fixtureFile).code
-        expect(trim(actual)).toMatchSnapshot()
+        const codeWithoutFilename = actual.replace(
+          new RegExp(`["']${fixtureFile}["']`, 'g'),
+          '__FILENAME__',
+        )
+        expect(trim(codeWithoutFilename)).toMatchSnapshot()
       })
     }
   })

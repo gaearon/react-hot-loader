@@ -37,7 +37,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/arguments.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -78,7 +78,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/arrow-function-in-constructor.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -166,7 +166,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/async-functions-expression-body.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -254,7 +254,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/async-functions.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -295,7 +295,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/block-body.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -338,7 +338,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/default-params.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -382,7 +382,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/destructured-params.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -423,7 +423,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/expression-body.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -470,7 +470,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/nested-arguments.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -515,7 +515,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/nested-new.target.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -558,7 +558,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/new.target.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -582,7 +582,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/not-a-function.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -608,7 +608,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/not-an-arrow-function.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -654,7 +654,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/same-name-as-class-method.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -680,7 +680,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/class-properties/static-property.js\\");
+  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
 }();
 
 ;"
@@ -755,17 +755,17 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(A, \\"A\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+  __REACT_HOT_LOADER__.register(A, \\"A\\", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(B, \\"B\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+  __REACT_HOT_LOADER__.register(B, \\"B\\", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(C, \\"C\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+  __REACT_HOT_LOADER__.register(C, \\"C\\", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(D, \\"D\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+  __REACT_HOT_LOADER__.register(D, \\"D\\", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(E, \\"E\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+  __REACT_HOT_LOADER__.register(E, \\"E\\", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(_default, \\"default\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/bindings.js\\");
+  __REACT_HOT_LOADER__.register(_default, \\"default\\", __FILENAME__);
 }();
 
 ;"
@@ -800,9 +800,9 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Counter, \\"Counter\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/counter.js\\");
+  __REACT_HOT_LOADER__.register(Counter, \\"Counter\\", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(_default, \\"default\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/counter.js\\");
+  __REACT_HOT_LOADER__.register(_default, \\"default\\", __FILENAME__);
 }();
 
 ;"
@@ -829,7 +829,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(spread, \\"spread\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/issue-246.js\\");
+  __REACT_HOT_LOADER__.register(spread, \\"spread\\", __FILENAME__);
 }();
 
 ;"
@@ -851,9 +851,9 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, \\"_default\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/name-clash.js\\");
+  __REACT_HOT_LOADER__.register(_default, \\"_default\\", __FILENAME__);
 
-  __REACT_HOT_LOADER__.register(_default2, \\"default\\", \\"/Users/neoziro/projects/react-hot-loader/test/__babel_fixtures__/name-clash.js\\");
+  __REACT_HOT_LOADER__.register(_default2, \\"default\\", __FILENAME__);
 }();
 
 ;"
