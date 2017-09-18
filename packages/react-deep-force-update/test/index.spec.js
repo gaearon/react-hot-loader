@@ -71,6 +71,37 @@ describe('force update', () => {
     expect(calls).toEqual(2);
   }
 
+  function expectNoUpdate(TypeA, TypeB) {
+    calls = 0;
+    const instance = renderIntoDocument(
+      <TypeA> {/* 1 */}
+        {'text'}
+        {42}
+        <div>
+          <TypeB> {/* 2 */}
+            <TypeA /> {/* 3 */}
+            <Noop />
+          </TypeB>
+        </div>
+        {[
+          <TypeB key='a'> {/* 4 */}
+            <div>
+              <TypeA>yo</TypeA> {/* 5 */}
+            </div>
+          </TypeB>,
+          <TypeA key='b'> {/* 6 */}
+          </TypeA>
+        ]}
+      </TypeA>
+    );
+    expect(calls).toEqual(6);
+    deepForceUpdate(instance, () => false, () => calls++);
+    expect(calls).toEqual(6);
+    let onUpdateCalls = 6;
+    deepForceUpdate(instance, () => true, () => onUpdateCalls++);
+    expect(onUpdateCalls).toBeGreaterThan(calls);
+  }
+
   function expectDeepUpdate(TypeA, TypeB) {
     calls = 0;
     const instance = renderIntoDocument(
@@ -154,5 +185,9 @@ describe('force update', () => {
     expectDeepUpdate(ModernStrict, PureWrapperStrict);
     expectDeepUpdate(PureWrapperStrict, ClassicStrict);
     expectDeepUpdate(PureWrapperStrict, ModernStrict);
+  });
+
+  it('respects shouldUpdate and onUpdate arguments', () => {
+    expectNoUpdate(PureWrapperStrict, PureWrapperStrict);
   });
 });
