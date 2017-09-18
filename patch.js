@@ -1,1 +1,1 @@
-module.exports = require('./lib/patch');
+module.exports = require('./lib/patch')
