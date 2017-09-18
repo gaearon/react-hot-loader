@@ -1,3 +1,1 @@
-'use strict';
-
-module.exports.AppContainer = require('./AppContainer');
+module.exports.AppContainer = require('./AppContainer')

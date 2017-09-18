@@ -1,30 +1,44 @@
 /* global __FILENAME__ */
 
-;(function register() { // eslint-disable-line no-extra-semi
+;(function register() {
+  // eslint-disable-line no-extra-semi
   /* react-hot-loader/webpack */
   if (process.env.NODE_ENV !== 'production') {
     if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-      return;
+      return
     }
 
-    if (typeof module.exports === 'function') {
-      __REACT_HOT_LOADER__.register(module.exports, 'module.exports', __FILENAME__);
-      return;
+    /* eslint-disable camelcase, no-undef */
+    const webpackExports =
+      typeof __webpack_exports__ !== 'undefined'
+        ? __webpack_exports__
+        : module.exports
+    /* eslint-enable camelcase, no-undef */
+
+    if (typeof webpackExports === 'function') {
+      __REACT_HOT_LOADER__.register(
+        webpackExports,
+        'module.exports',
+        __FILENAME__,
+      )
+      return
     }
 
-    for (const key in module.exports) { // eslint-disable-line no-restricted-syntax
-      if (!Object.prototype.hasOwnProperty.call(module.exports, key)) {
-        continue;
+    /* eslint-disable no-restricted-syntax */
+    for (const key in webpackExports) {
+      /* eslint-enable no-restricted-syntax */
+      if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) {
+        continue
       }
 
-      let namedExport;
+      let namedExport
       try {
-        namedExport = module.exports[key];
+        namedExport = webpackExports[key]
       } catch (err) {
-        continue;
+        continue
       }
 
-      __REACT_HOT_LOADER__.register(namedExport, key, __FILENAME__);
+      __REACT_HOT_LOADER__.register(namedExport, key, __FILENAME__)
     }
   }
-}());
+})()
