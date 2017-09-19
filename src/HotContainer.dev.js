@@ -3,7 +3,7 @@ const deepForceUpdate = require('react-deep-force-update')
 
 const { Component } = React
 
-class AppContainer extends Component {
+class HotContainer extends Component {
   constructor(props) {
     super(props)
     this.state = { error: null }
@@ -64,11 +64,11 @@ class AppContainer extends Component {
   }
 }
 
-AppContainer.propTypes = {
+HotContainer.propTypes = {
   children(props) {
     if (React.Children.count(props.children) !== 1) {
       return new Error(
-        'Invalid prop "children" supplied to AppContainer. ' +
+        'Invalid prop "children" supplied to HotContainer. ' +
           'Expected a single React element with your app’s root component, e.g. <App />.',
       )
     }
@@ -81,4 +81,4 @@ AppContainer.propTypes = {
   ]),
 }
 
-module.exports = AppContainer
+module.exports = HotContainer
