@@ -1,4 +1,1 @@
-{
-  "stage": 0,
-  "loose": "all"
-}
+{ "presets": ["env", "react"] }

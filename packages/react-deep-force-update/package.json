@@ -4,16 +4,16 @@
   "description": "Force-updates React component tree recursively",
   "main": "lib/index.js",
   "scripts": {
-    "clean": "rimraf lib",
     "build": "babel src --out-dir lib",
-    "lint": "eslint src test",
-    "test": "mocha --compilers js:babel/register --recursive --require ./test/setup.js",
-    "test:watch": "npm run test -- --watch",
-    "prepublish": "npm run lint && npm run test && npm run clean && npm run build"
+    "clean": "rimraf lib",
+    "lint": "eslint .",
+    "test": "jest",
+    "test:watch": "yarn test -- --watch",
+    "prepublish": "yarn clean && yarn build",
+    "format": "prettier --write \"{src,test}/**/*.js\" *.js"
   },
   "files": [
-    "lib",
-    "src"
+    "lib"
   ],
   "repository": {
     "type": "git",
@@ -29,17 +29,22 @@
   },
   "homepage": "https://github.com/gaearon/react-deep-force-update",
   "devDependencies": {
-    "babel": "^5.5.8",
-    "babel-core": "^5.6.18",
-    "babel-eslint": "^3.1.15",
-    "eslint": "^0.23",
-    "eslint-config-airbnb": "0.0.6",
-    "eslint-plugin-react": "^2.3.0",
-    "expect": "^1.6.0",
-    "jsdom": "^5.6.1",
-    "mocha": "^2.2.5",
-    "react": "^0.14.0",
-    "react-addons-test-utils": "^0.14.0",
-    "rimraf": "^2.3.4"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "create-react-class": "^15.6.0",
+    "eslint": "^4.7.1",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-config-prettier": "^2.5.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "jest": "^21.1.0",
+    "prettier": "^1.7.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "rimraf": "^2.6.2"
   }
 }
