@@ -2,22 +2,19 @@
 
 **How to get an error in your console too:**
 
-The `Redbox` errors are great to clearly see rendering issues, and avoiding an uncaught error from breaking your app.  But there are some advantages to a thrown error in the console too, like filename resolution via sourcemaps, and click-to-open.  To get the best of both worlds, modify your app entry point as follows:
+The previously used `Redbox` for React Hot Loader has known limitations due to sourcemaps and it's no longer a default catcher. Errors are great to clearly see rendering issues, and avoiding an uncaught error from breaking your app. But there are some advantages to a thrown error in the console too, like filename resolution via sourcemaps, and click-to-open. To get the `Redbox` back, and have the best of both worlds, modify your app entry point as follows:
 
 ```jsx
 import Redbox from 'redbox-react';
 
-const consoleErrorReporter = ({error}) => {
-  console.error(error);
-  return <Redbox error={error} />;
-};
+const CustomErrorReporter = ({ error }) => <Redbox error={ error } />;
 
-consoleErrorReporter.propTypes = {
+CustomErrorReporter.propTypes = {
   error: React.PropTypes.instanceOf(Error).isRequired
 };
 
 render((
-  <AppContainer errorReporter={consoleErrorReporter}>
+  <AppContainer errorReporter={ CustomErrorReporter }>
     <AppRoot />
   </AppContainer>
 ), document.getElementById('react-root'));

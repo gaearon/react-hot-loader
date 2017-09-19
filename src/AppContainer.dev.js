@@ -1,6 +1,5 @@
 const React = require('react')
 const deepForceUpdate = require('react-deep-force-update')
-const Redbox = require('redbox-react').default
 
 const { Component } = React
 
@@ -53,8 +52,12 @@ class AppContainer extends Component {
 
   render() {
     const { error } = this.state
-    if (error) {
+
+    if (this.props.errorReporter && error) {
+      console.error(error)
       return <this.props.errorReporter error={error} />
+    } else if (error) {
+      console.error(error)
     }
 
     return React.Children.only(this.props.children)
@@ -72,10 +75,10 @@ AppContainer.propTypes = {
 
     return undefined
   },
-}
-
-AppContainer.defaultProps = {
-  errorReporter: Redbox,
+  errorReporter: React.PropTypes.oneOfType([
+    React.PropTypes.node,
+    React.PropTypes.func,
+  ]),
 }
 
 module.exports = AppContainer

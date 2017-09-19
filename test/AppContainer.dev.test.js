@@ -1,6 +1,6 @@
 import '../src/patch.dev'
 import React, { Component } from 'react'
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import { mapProps } from 'recompose'
 
 import AppContainer from '../src/AppContainer.dev'
@@ -1227,19 +1227,6 @@ function runAllTests(useWeakMap) {
 
         expect(wrapper.text()).toBe('new render + old state + 20')
       })
-    })
-
-    describe('should use Redbox as the default errorReporter', () => {
-      const wrapper = shallow(
-        <AppContainer>
-          <div>hey</div>
-        </AppContainer>,
-      )
-      const error = new Error('Something is wrong!')
-      wrapper.setState({ error })
-      const errorReporter = wrapper.find('RedBox')
-      expect(errorReporter.length).toBe(1)
-      expect(errorReporter.prop('error')).toBe(error)
     })
   })
 }
