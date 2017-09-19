@@ -68,6 +68,8 @@ let proxiesByID
 let didWarnAboutID
 let hasCreatedElementsByType
 let idsByType
+let knownSignatures
+let didUpdateProxy
 
 const hooks = {
   register(type, uniqueLocalName, fileName) {
@@ -105,6 +107,7 @@ const hooks = {
       proxiesByID[id] = createProxy(type)
     } else {
       proxiesByID[id].update(type)
+      didUpdateProxy = true
     }
   },
 
@@ -113,10 +116,23 @@ const hooks = {
     didWarnAboutID = {}
     hasCreatedElementsByType = new ComponentMap(useWeakMap)
     idsByType = new ComponentMap(useWeakMap)
+    knownSignatures = {}
+    didUpdateProxy = false
   },
 }
 
 hooks.reset(typeof WeakMap === 'function')
+
+function warnAboutUnnacceptedClass(typeSignature) {
+  if (didUpdateProxy) {
+    console.error(
+      'React Hot Loader: this component is not accepted by Hot Loader. \n' +
+      'Please check is it extracted as a top level class, a function or a variable. \n' +
+      'Click below to reveal the source location: \n',
+      typeSignature
+    )
+  }
+}
 
 function resolveType(type) {
   // We only care about composite components
@@ -124,12 +140,21 @@ function resolveType(type) {
     return type
   }
 
+  const wasKnownBefore = hasCreatedElementsByType.get(type)
   hasCreatedElementsByType.set(type, true)
 
   // When available, give proxy class to React instead of the real class.
   const id = idsByType.get(type)
   if (!id) {
-    return type
+    if (!wasKnownBefore) {
+      const signature = type.toString()
+      if (knownSignatures[signature]) {
+        warnAboutUnnacceptedClass(type)
+      } else {
+        knownSignatures[signature] = type
+      }
+    }
+    return type;
   }
 
   const proxy = proxiesByID[id]
