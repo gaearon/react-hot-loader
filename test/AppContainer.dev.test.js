@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 import { mount } from 'enzyme'
 import { mapProps } from 'recompose'
 
-import AppContainer from '../src/AppContainer.dev'
+import HotContainer from '../src/HotContainer.dev'
 
 const RHL = global.__REACT_HOT_LOADER__
 
 function runAllTests(useWeakMap) {
-  describe(`<AppContainer /> [useWeakMap == ${useWeakMap}]`, () => {
+  describe(`<HotContainer /> [useWeakMap == ${useWeakMap}]`, () => {
     beforeEach(() => {
       RHL.reset(useWeakMap)
     })
@@ -25,9 +25,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(wrapper.find('App').length).toBe(1)
         expect(wrapper.contains(<div>hey</div>)).toBe(true)
@@ -50,9 +50,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(spy).toHaveBeenCalledTimes(1)
 
@@ -91,7 +91,7 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const element = <App />
-        const wrapper = mount(<AppContainer>{element}</AppContainer>)
+        const wrapper = mount(<HotContainer>{element}</HotContainer>)
         expect(spy).toHaveBeenCalledTimes(1)
 
         {
@@ -143,7 +143,7 @@ function runAllTests(useWeakMap) {
             }
           }
           RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<AppContainer>{element}</AppContainer>)
+          wrapper = mount(<HotContainer>{element}</HotContainer>)
         }
 
         expect(spy).toHaveBeenCalledTimes(1)
@@ -167,9 +167,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(wrapper.text()).toBe('old render + old state')
 
@@ -221,9 +221,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         wrapper.find('span').simulate('click')
         expect(spy).toHaveBeenCalledWith('foo')
@@ -288,9 +288,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         wrapper.find('span').simulate('click')
         expect(spy).toHaveBeenCalledWith('foo')
@@ -358,9 +358,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         wrapper.find('span').simulate('click')
         expect(spy).toHaveBeenCalledWith('foo')
@@ -423,9 +423,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         wrapper.find('span').simulate('click')
         expect(spy).toHaveBeenCalledWith('foo')
@@ -489,9 +489,9 @@ function runAllTests(useWeakMap) {
           RHL.register(App, 'App', 'test.js')
 
           const wrapper = mount(
-            <AppContainer>
+            <HotContainer>
               <App />
-            </AppContainer>,
+            </HotContainer>,
           )
           wrapper.find('span').simulate('click')
           expect(spy).toHaveBeenCalledWith('foo')
@@ -541,9 +541,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(wrapper.find('App').length).toBe(1)
         expect(wrapper.contains(<div>hey</div>)).toBe(true)
@@ -566,9 +566,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(spy).toHaveBeenCalledTimes(1)
 
@@ -607,7 +607,7 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const element = <App />
-        const wrapper = mount(<AppContainer>{element}</AppContainer>)
+        const wrapper = mount(<HotContainer>{element}</HotContainer>)
         expect(spy).toHaveBeenCalledTimes(1)
 
         {
@@ -659,7 +659,7 @@ function runAllTests(useWeakMap) {
             },
           })
           RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<AppContainer>{element}</AppContainer>)
+          wrapper = mount(<HotContainer>{element}</HotContainer>)
         }
 
         expect(spy).toHaveBeenCalledTimes(1)
@@ -683,9 +683,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(wrapper.text()).toBe('old render + old state')
 
@@ -723,7 +723,7 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
         const AppF = React.createFactory(App)
 
-        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
+        const wrapper = mount(<HotContainer>{AppF()}</HotContainer>)
         expect(wrapper.find('App').length).toBe(1)
         expect(wrapper.contains(<div>hey</div>)).toBe(true)
         expect(spy).toHaveBeenCalledTimes(1)
@@ -745,7 +745,7 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
         const AppF = React.createFactory(App)
 
-        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
+        const wrapper = mount(<HotContainer>{AppF()}</HotContainer>)
         expect(spy).toHaveBeenCalledTimes(1)
 
         {
@@ -785,7 +785,7 @@ function runAllTests(useWeakMap) {
         const AppF = React.createFactory(App)
 
         const element = AppF()
-        const wrapper = mount(<AppContainer>{element}</AppContainer>)
+        const wrapper = mount(<HotContainer>{element}</HotContainer>)
         expect(spy).toHaveBeenCalledTimes(1)
 
         {
@@ -838,7 +838,7 @@ function runAllTests(useWeakMap) {
             },
           })
           RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<AppContainer>{element}</AppContainer>)
+          wrapper = mount(<HotContainer>{element}</HotContainer>)
         }
 
         expect(spy).toHaveBeenCalledTimes(1)
@@ -862,7 +862,7 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
         const AppF = React.createFactory(App)
 
-        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
+        const wrapper = mount(<HotContainer>{AppF()}</HotContainer>)
         expect(wrapper.text()).toBe('old render + old state')
 
         {
@@ -898,9 +898,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(wrapper.find('App').length).toBe(1)
         expect(wrapper.contains(<div>hey</div>)).toBe(true)
@@ -917,9 +917,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <App />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(spy).toHaveBeenCalledTimes(1)
 
@@ -946,7 +946,7 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const element = <App />
-        const wrapper = mount(<AppContainer>{element}</AppContainer>)
+        const wrapper = mount(<HotContainer>{element}</HotContainer>)
         expect(spy).toHaveBeenCalledTimes(1)
 
         {
@@ -980,7 +980,7 @@ function runAllTests(useWeakMap) {
             return <div>ho</div>
           }
           RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<AppContainer>{element}</AppContainer>)
+          wrapper = mount(<HotContainer>{element}</HotContainer>)
         }
 
         expect(spy).toHaveBeenCalledTimes(1)
@@ -1007,9 +1007,9 @@ function runAllTests(useWeakMap) {
         RHL.register(Root, 'Root', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <Root />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(wrapper.text()).toBe('old render + old state')
 
@@ -1053,9 +1053,9 @@ function runAllTests(useWeakMap) {
         RHL.register(Enhanced, 'Enhanced', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <Enhanced n={3} />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(wrapper.find('App').length).toBe(1)
         expect(wrapper.contains(<div>hey</div>)).toBe(true)
@@ -1077,9 +1077,9 @@ function runAllTests(useWeakMap) {
         RHL.register(Enhanced, 'Enhanced', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <Enhanced n={3} />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(spy).toHaveBeenCalledTimes(1)
 
@@ -1115,7 +1115,7 @@ function runAllTests(useWeakMap) {
         RHL.register(Enhanced, 'Enhanced', 'test.js')
 
         const element = <Enhanced n={3} />
-        const wrapper = mount(<AppContainer>{element}</AppContainer>)
+        const wrapper = mount(<HotContainer>{element}</HotContainer>)
         expect(spy).toHaveBeenCalledTimes(1)
 
         {
@@ -1163,7 +1163,7 @@ function runAllTests(useWeakMap) {
 
           const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
           RHL.register(Enhanced, 'Enhanced', 'test.js')
-          wrapper = mount(<AppContainer>{element}</AppContainer>)
+          wrapper = mount(<HotContainer>{element}</HotContainer>)
         }
 
         expect(spy).toHaveBeenCalledTimes(1)
@@ -1194,9 +1194,9 @@ function runAllTests(useWeakMap) {
         RHL.register(Enhanced, 'Enhanced', 'test.js')
 
         const wrapper = mount(
-          <AppContainer>
+          <HotContainer>
             <Enhanced n={3} />
-          </AppContainer>,
+          </HotContainer>,
         )
         expect(wrapper.text()).toBe('old render + old state + 15')
 

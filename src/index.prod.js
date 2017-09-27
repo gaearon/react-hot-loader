@@ -1,1 +1,1 @@
-module.exports.AppContainer = require('./AppContainer')
+module.exports.HotContainer = require('./HotContainer')

@@ -4,7 +4,7 @@ const React = require('react')
 
 const { Component } = React
 
-class AppContainer extends Component {
+class HotContainer extends Component {
   render() {
     if (this.props.component) {
       return <this.props.component {...this.props.props} />
@@ -14,4 +14,4 @@ class AppContainer extends Component {
   }
 }
 
-module.exports = AppContainer
+module.exports = HotContainer
