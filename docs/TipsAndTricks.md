@@ -14,9 +14,9 @@ CustomErrorReporter.propTypes = {
 };
 
 render((
-  <HotContainer errorReporter={ CustomErrorReporter }>
+  <AppContainer errorReporter={ CustomErrorReporter }>
     <AppRoot />
-  </HotContainer>
+  </AppContainer>
 ), document.getElementById('react-root'));
 ```
 

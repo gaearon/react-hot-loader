@@ -81,20 +81,20 @@ Provided by community:
 }
 ```
 
-- `<HotContainer/>` is a component that handles module reloading, as well as error handling. The root component of your app should be nested in HotContainer as a child. When in production, HotContainer is automatically disabled, and simply returns its children.
+- `<AppContainer/>` is a component that handles module reloading, as well as error handling. The root component of your app should be nested in AppContainer as a child. When in production, AppContainer is automatically disabled, and simply returns its children.
 
 - React Hot Loader 3 does not hide the hot module replacement API, so the following needs to be added below wherever you call `ReactDOM.render` in your app:
 
 ```jsx
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { HotContainer } from 'react-hot-loader'
+import { AppContainer } from 'react-hot-loader'
 import App from './containers/App'
 
 ReactDOM.render(
-  <HotContainer>
+  <AppContainer>
     <App/>
-  </HotContainer>,
+  </AppContainer>,
   document.getElementById('root')
 );
 
@@ -103,9 +103,9 @@ if (module.hot) {
   module.hot.accept('./containers/App', () => {
     const NextApp = require('./containers/App').default;
     ReactDOM.render(
-      <HotContainer>
+      <AppContainer>
         <NextApp/>
-      </HotContainer>,
+      </AppContainer>,
       document.getElementById('root')
     );
   });
@@ -123,15 +123,15 @@ Because Webpack 2+ has built-in support for ES2015 modules, you won't need to re
 ```jsx
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { HotContainer } from 'react-hot-loader'
+import { AppContainer } from 'react-hot-loader'
 
 import App from './containers/App'
 
 const render = Component => {
   ReactDOM.render(
-    <HotContainer>
+    <AppContainer>
       <Component />
-    </HotContainer>,
+    </AppContainer>,
     document.getElementById('root')
   )
 }
@@ -183,7 +183,7 @@ Hot reloading code is just one line in the beginning and one line in the end of 
     }
   ```
 
-* Add `HotContainer` to `src/index.js` (see `HotContainer` section in [Migration to 3.0 above](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#migration-to-30))
+* Add `AppContainer` to `src/index.js` (see `AppContainer` section in [Migration to 3.0 above](https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#migration-to-30))
 
 ## TypeScript
 
