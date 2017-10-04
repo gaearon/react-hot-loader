@@ -54,6 +54,7 @@
     "babel-eslint": "^8.0.0",
     "babel-jest": "^21.0.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
+		"babel-plugin-transform-react-remove-prop-types": "^0.4.9",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.5.0",
     "enzyme": "^2.2.0",
