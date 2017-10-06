@@ -1,5 +1,5 @@
 {
-  "name": "@frielforreal/react-hot-loader",
+  "name": "react-hot-loader",
   "version": "3.0.0-rc.0",
   "description": "Tweak React components in real time.",
   "main": "index.js",
