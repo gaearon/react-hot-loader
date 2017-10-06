@@ -1,6 +1,6 @@
 const React = require('react')
 const deepForceUpdate = require('react-deep-force-update')
-
+const PropTypes = require('prop-types')
 const { Component } = React
 
 class HotContainer extends Component {
@@ -76,8 +76,8 @@ HotContainer.propTypes = {
     return undefined
   },
   errorReporter: React.PropTypes.oneOfType([
-    React.PropTypes.node,
-    React.PropTypes.func,
+    PropTypes.node,
+    PropTypes.func,
   ]),
 }
 
