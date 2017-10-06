@@ -6,7 +6,7 @@ module.exports = function warnAboutIncorrectUsage(arg) {
       'React Hot Loader: The Webpack loader is now exported separately. ' +
         'If you use Babel, we recommend that you remove "react-hot-loader" ' +
         'from the "loaders" section of your Webpack configuration altogether, ' +
-        'and instead add "react-hot-loader/babel" to the "plugins" section ' +
+        'and instead add "react-hot-loader/babel-plugin" to the "plugins" section ' +
         'of your .babelrc file. ' +
         'If you prefer not to use Babel, replace "react-hot-loader" or ' +
         '"react-hot" with "react-hot-loader/webpack" in the "loaders" section ' +
@@ -15,7 +15,7 @@ module.exports = function warnAboutIncorrectUsage(arg) {
   } else if (arg && arg.types && arg.types.IfStatement) {
     throw new Error(
       'React Hot Loader: The Babel plugin is exported separately. ' +
-        'Replace "react-hot-loader" with "react-hot-loader/babel" ' +
+        'Replace "react-hot-loader" with "react-hot-loader/babel-plugin" ' +
         'in the "plugins" section of your .babelrc file. ' +
         'While we recommend the above, if you prefer not to use Babel, ' +
         'you may remove "react-hot-loader" from the "plugins" section of ' +

@@ -6,11 +6,12 @@ The previously used `Redbox` for React Hot Loader has known limitations due to s
 
 ```jsx
 import Redbox from 'redbox-react';
+import PropTypes from 'prop-types';
 
 const CustomErrorReporter = ({ error }) => <Redbox error={ error } />;
 
 CustomErrorReporter.propTypes = {
-  error: React.PropTypes.instanceOf(Error).isRequired
+  error: PropTypes.instanceOf(Error).isRequired
 };
 
 render((
