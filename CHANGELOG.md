@@ -1,5 +1,10 @@
 ## Changelog
 
+### 3.0.0-rc.0
+
+* The React component `AppContainer` is now `HotContainer`.
+* The exported Babel plugin is now `react-hot-loader/babel-plugin`.
+
 ### 3.0.0-beta.6
 
 * Use production versions of `patch` and `AppContainer` if no `module.hot` available, so it doesn't break people using `NODE_ENV=test`. (#398)
