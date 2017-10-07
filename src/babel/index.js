@@ -240,7 +240,7 @@ module.exports = function plugin(args) {
                 return
               }
 
-              const params = node.value.params
+              const { params } = node.value
               const newIdentifier = t.identifier(
                 `__${node.key.name}__REACT_HOT_LOADER__`,
               )
@@ -281,7 +281,7 @@ module.exports = function plugin(args) {
                   const node = exp.node.right
 
                   const isAsync = node.async
-                  const params = node.params
+                  const { params } = node
                   const newIdentifier = t.identifier(
                     `__${key.name}__REACT_HOT_LOADER__`,
                   )

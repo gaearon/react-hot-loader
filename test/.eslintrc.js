@@ -13,10 +13,12 @@ module.exports = {
     'react/no-multi-comp': 'off',
     'react/prefer-es6-class': 'off',
     'react/prop-types': 'off',
+    'react/no-unused-state': 'off',
     'no-shadow': 'off',
     'new-cap': 'off',
     'import/first': 'off',
     'class-methods-use-this': 'off',
     'jsx-a11y/no-static-element-interactions': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
   },
 }

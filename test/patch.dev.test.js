@@ -30,7 +30,7 @@ function runAllTests(useWeakMap) {
       // or we may cause an existing component to unmount unpredictably.
       // https://github.com/gaearon/react-hot-loader/issues/241
 
-      const spy = jest.spyOn(console, 'error')
+      const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
       try {
         RHL.register(Kanye, 'Yeezy', '/wow/test.js')
         expect(console.error.mock.calls.length).toBe(1)
@@ -60,7 +60,7 @@ function runAllTests(useWeakMap) {
 
       const dynamic = () => () => <div>123</div>
 
-      const spy = jest.spyOn(console, 'error')
+      const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
       try {
         RHL.register(f1, 'f1', '/wow/test.js')
