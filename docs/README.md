@@ -39,13 +39,13 @@ Provided by community:
 * [universal-js-hmr-ssr-react-redux](https://github.com/Alex-ray/v2-universal-js-hmr-ssr-react-redux) (Universal JS, Webpack 2, React Router 4, Server Side Rendering, Code Splitting, Redux, Express)
 
 ### Migration to 3.0
-- If you're using Babel and ES6, remove the `react-hot` loader from any loaders in your Webpack config, and add `react-hot-loader/babel` to the `plugins` section of your `.babelrc`:
+- If you're using Babel and ES6, remove the `react-hot` loader from any loaders in your Webpack config, and add `react-hot-loader/babel-plugin` to the `plugins` section of your `.babelrc`:
 
 ```js
 // .babelrc
 {
   "presets": ["es2015-loose", "stage-0", "react"],
-  "plugins": ["react-hot-loader/babel"]
+  "plugins": ["react-hot-loader/babel-plugin"]
 }
 ```
 
@@ -166,7 +166,7 @@ Hot reloading code is just one line in the beginning and one line in the end of 
     ]
   ```
 
-  2. Add `'react-hot-loader/babel'` to Babel loader configuration. The loader should now look like:
+  2. Add `'react-hot-loader/babel-plugin'` to Babel loader configuration. The loader should now look like:
   ```js
     {
        test: /\.(js|jsx)$/,
@@ -177,7 +177,7 @@ Hot reloading code is just one line in the beginning and one line in the end of 
            name: 'react-scripts'
          }),
          plugins: [
-           'react-hot-loader/babel'
+           'react-hot-loader/babel-plugin'
          ]
        }
     }

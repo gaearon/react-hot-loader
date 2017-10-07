@@ -12,7 +12,7 @@ Some nice things about it:
 * Works great with higher order components
 * Requires little configuration
 * Automatically disabled in production
-* Works with or without Babel (you can remove `react-hot-loader/babel` from `.babelrc` and instead add `react-hot-loader/webpack` to `loaders`)
+* Works with or without Babel (you can remove `react-hot-loader/babel-plugin` from `.babelrc` and instead add `react-hot-loader/webpack` to `loaders`)
 
 Check out [the Migration to 3.0 guide](https://github.com/gaearon/react-hot-loader/tree/master/docs#migration-to-30) to learn how to migrate your app to 3.0.
 

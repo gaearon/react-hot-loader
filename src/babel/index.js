@@ -97,10 +97,10 @@ module.exports = function plugin(args) {
     throw new Error(
       'React Hot Loader: You are erroneously trying to use a Babel plugin ' +
         'as a Webpack loader. We recommend that you use Babel, ' +
-        'remove "react-hot-loader/babel" from the "loaders" section ' +
+        'remove "react-hot-loader/babel-plugin" from the "loaders" section ' +
         'of your Webpack configuration, and instead add ' +
-        '"react-hot-loader/babel" to the "plugins" section of your .babelrc file. ' +
-        'If you prefer not to use Babel, replace "react-hot-loader/babel" with ' +
+        '"react-hot-loader/babel-plugin" to the "plugins" section of your .babelrc file. ' +
+        'If you prefer not to use Babel, replace "react-hot-loader/babel-plugin" with ' +
         '"react-hot-loader/webpack" in the "loaders" section of your Webpack configuration. ',
     )
   }
