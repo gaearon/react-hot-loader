@@ -8,11 +8,11 @@ It fixes some long-standing issues with both React Hot Loader and React Transfor
 
 Some nice things about it:
 
-* Editing functional components preserves state
-* Works great with higher order components
+* Editing functional components preserves state (see [notes](#limitations))
+* Works great with higher order components (see [notes](#limitations))
 * Requires little configuration
 * Automatically disabled in production
-* Works with or without Babel (you can remove `react-hot-loader/babel` from `.babelrc` and instead add `react-hot-loader/webpack` to `loaders`)
+* Works with or without Babel (you can remove `react-hot-loader/babel` from `.babelrc` and instead add `react-hot-loader/webpack` to `loaders`) (see [notes](#limitations))
 
 Check out [the Migration to 3.0 guide](https://github.com/gaearon/react-hot-loader/tree/master/docs#migration-to-30) to learn how to migrate your app to 3.0.
 
@@ -38,9 +38,13 @@ These steps are covered by **[the Migration to 3.0 guide](https://github.com/gae
 
 If you'd rather stay with **Browserify**, check out **[LiveReactload](https://github.com/milankinen/livereactload)** by Matti Lankinen.
 
-## Known limitations
+## <a name='limitations'></a>Known limitations
 
 - React Router v3 is not fully supported (e.g. async routes). If you want to get most of React Hot Loader, consider switching to [React Router v4](https://reacttraining.com/react-router/). If you want to understand the reasoning, it's good to start in [React Router v4 FAQ](https://github.com/ReactTraining/react-router/tree/v4.0.0-beta.8#v4-faq)
+- React Hot Loader can't replace any Component, only *registered* ones.
+  - when using webpack loader - only module exports are _registered_.
+  - when using babel plugin - only top level variables are _registered_.
+  - when React Hot Loader can't replace Component, an error message will be displayed.
 
 ## The Talk
 
@@ -53,7 +57,12 @@ React Native **[supports hot reloading natively](https://facebook.github.io/reac
 
 ## Troubleshooting
 
-If something doesn't work, in 99% cases it's a configuration issue. A missing option, a wrong path or port. Webpack is very strict about configuration, and the best way to find out what's wrong is to compare your project to an already working setup, such as **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)**, bit by bit. We're also gathering **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)** so send a PR if you have a lesson to share!
+If it doesn't work, in 99% cases it's a configuration issue. 
+A missing option, a wrong path or port. Webpack is very strict about configuration, and the best way to find out what's wrong is to compare your project to an already working setup, such as **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)**, bit by bit.
+ 
+If something doesn't work, in 99% cases it's an issue with your code - Component doesn't got registered, due to HOC or Decorator around it, which making it invisible to babel plugin, or webpack loader.  
+
+We're also gathering **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)** so send a PR if you have a lesson to share!
 
 ## Documentation
 

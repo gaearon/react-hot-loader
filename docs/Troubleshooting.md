@@ -226,3 +226,30 @@ new WebpackDevServer(webpack(config), {
 ```
 
 After this you should be able to access your SPA via any url that has been defined in it.
+
+#### React Hot Loader: this component is not accepted by Hot Loader
+
+The problem is that React Hot Loader could not replace the `old` version of some Component, by the new one.
+The reason is always the same - React Hot Loader can't understand that old and new is the same Component.
+
+Why? The Component is not extracted as a top level variable. And only such Components React Hot Loader can digest.
+```js
+ const SuperComponent = 
+     connect()(         <-- last HoC
+       withSomeStuff(   <-- first HoC
+         Component      <-- a real component
+       )
+     );
+```
+SuperComponent is a top-level variable. And Component is. But withSomeStuff will also produce a (temporal) Component, absolutely invisible to React Hot Loader.
+
+Solution
+```js
+ const WithSomeStuffComponent = withSomeStuff(Component);
+ const SuperComponent = connect()(WithSomeStuffComponent);
+```  
+So yes - it is __absolutely__ impossible to use functional composition and React Hot Loader.
+All temporal variables, steps, spare parts __must__ be separated.
+
+PS: it is possible to create a babel plugin, which will extract all the things. But who will create it?
+ 
