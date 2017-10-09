@@ -1,7 +1,6 @@
 # React Hot Loader
 
 [![Build Status][build-badge]][build]
-[![Code Coverage][coverage-badge]][coverage]
 [![version][version-badge]][package]
 [![MIT License][license-badge]][LICENSE]
 
@@ -300,8 +299,6 @@ MIT
 
 [build-badge]: https://img.shields.io/travis/gaearon/react-hot-loader.svg?style=flat-square
 [build]: https://travis-ci.org/gaearon/react-hot-loader
-[coverage-badge]: https://img.shields.io/codecov/c/github/gaearon/react-hot-loader.svg?style=flat-square
-[coverage]: https://codecov.io/github/gaearon/react-hot-loader
 [version-badge]: https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square
 [package]: https://www.npmjs.com/package/react-hot-loader
 [license-badge]: https://img.shields.io/npm/l/react-hot-loader.svg?style=flat-square
