@@ -1,4 +1,5 @@
 const HotContainer = require('./HotContainer')
+const AppContainer = require('./AppContainer.dev')
 
 module.exports = function warnAboutIncorrectUsage(arg) {
   if (this && this.callback) {
@@ -35,3 +36,4 @@ module.exports = function warnAboutIncorrectUsage(arg) {
 }
 
 module.exports.HotContainer = HotContainer
+module.exports.AppContainer = AppContainer
