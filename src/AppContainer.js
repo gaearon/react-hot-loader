@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 
 if (!module.hot || process.env.NODE_ENV === 'production') {
-  module.exports = require('./HotContainer.prod')
+  module.exports = require('./AppContainer.prod')
 } else {
-  module.exports = require('./HotContainer.dev')
+  module.exports = require('./AppContainer.dev')
 }

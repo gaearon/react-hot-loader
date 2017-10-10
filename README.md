@@ -46,19 +46,19 @@ module.exports = {
 }
 ```
 
-4. Wrap your application into `<HotContainer>`, all children of `<HotContainer>` will be reloaded when a change occurs:
+4. Wrap your application into `<AppContainer>`, all children of `<AppContainer>` will be reloaded when a change occurs:
 
 ```js
 // main.js
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { HotContainer } from 'react-hot-loader'
+import { AppContainer } from 'react-hot-loader'
 import App from './containers/App'
 
 ReactDOM.render(
-  <HotContainer>
+  <AppContainer>
     <App/>
-  </HotContainer>,
+  </AppContainer>,
   document.getElementById('root'),
 )
 
@@ -120,7 +120,7 @@ module.exports = {
     }
   ```
 
-* Add `HotContainer` to `src/index.js` (see step 4 of Getting Started).
+* Add `AppContainer` to `src/index.js` (see step 4 of Getting Started).
 
 ## TypeScript
 

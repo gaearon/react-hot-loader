@@ -1,9 +1,8 @@
 ## Changelog
 
-### 4.0.0
+### 3.0.0
 
 * Add React 16 support (#629, #658)
-* Rename AppContainer into HotContainer (#639)
 * Remove RedBox as default error catcher (#494)
 
 ### 3.0.0-beta.6
