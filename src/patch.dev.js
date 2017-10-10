@@ -127,9 +127,9 @@ function warnAboutUnnacceptedClass(typeSignature) {
   if (didUpdateProxy) {
     console.error(
       'React Hot Loader: this component is not accepted by Hot Loader. \n' +
-      'Please check is it extracted as a top level class, a function or a variable. \n' +
-      'Click below to reveal the source location: \n',
-      typeSignature
+        'Please check is it extracted as a top level class, a function or a variable. \n' +
+        'Click below to reveal the source location: \n',
+      typeSignature,
     )
   }
 }
@@ -154,7 +154,7 @@ function resolveType(type) {
         knownSignatures[signature] = type
       }
     }
-    return type;
+    return type
   }
 
   const proxy = proxiesByID[id]
@@ -165,7 +165,7 @@ function resolveType(type) {
   return proxy.get()
 }
 
-const createElement = React.createElement
+const { createElement } = React
 function patchedCreateElement(type, ...args) {
   // Trick React into rendering a proxy so that
   // its state is preserved when the class changes.

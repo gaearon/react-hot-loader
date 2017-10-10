@@ -1,4 +1,4 @@
-const HotContainer = require('./HotContainer')
+const AppContainer = require('./AppContainer')
 
 module.exports = function warnAboutIncorrectUsage(arg) {
   if (this && this.callback) {
@@ -27,11 +27,11 @@ module.exports = function warnAboutIncorrectUsage(arg) {
     throw new Error(
       'React Hot Loader does not have a default export. ' +
         'If you use the import statement, make sure to include the ' +
-        'curly braces: import { HotContainer } from "react-hot-loader". ' +
+        'curly braces: import { AppContainer } from "react-hot-loader". ' +
         'If you use CommonJS, make sure to read the named export: ' +
-        'require("react-hot-loader").HotContainer.',
+        'require("react-hot-loader").AppContainer.',
     )
   }
 }
 
-module.exports.HotContainer = HotContainer
+module.exports.AppContainer = AppContainer

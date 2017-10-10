@@ -1,14 +1,15 @@
 import '../src/patch.dev'
 import React, { Component } from 'react'
+import createReactClass from 'create-react-class'
 import { mount } from 'enzyme'
 import { mapProps } from 'recompose'
 
-import HotContainer from '../src/HotContainer.dev'
+import AppContainer from '../src/AppContainer.dev'
 
 const RHL = global.__REACT_HOT_LOADER__
 
 function runAllTests(useWeakMap) {
-  describe(`<HotContainer /> [useWeakMap == ${useWeakMap}]`, () => {
+  describe(`<AppContainer /> [useWeakMap == ${useWeakMap}]`, () => {
     beforeEach(() => {
       RHL.reset(useWeakMap)
     })
@@ -25,9 +26,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(wrapper.find('App').length).toBe(1)
         expect(wrapper.contains(<div>hey</div>)).toBe(true)
@@ -50,9 +51,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(spy).toHaveBeenCalledTimes(1)
 
@@ -91,7 +92,7 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const element = <App />
-        const wrapper = mount(<HotContainer>{element}</HotContainer>)
+        const wrapper = mount(<AppContainer>{element}</AppContainer>)
         expect(spy).toHaveBeenCalledTimes(1)
 
         {
@@ -143,7 +144,7 @@ function runAllTests(useWeakMap) {
             }
           }
           RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<HotContainer>{element}</HotContainer>)
+          wrapper = mount(<AppContainer>{element}</AppContainer>)
         }
 
         expect(spy).toHaveBeenCalledTimes(1)
@@ -152,8 +153,9 @@ function runAllTests(useWeakMap) {
 
       it('hot-reloads children without losing state', () => {
         class App extends Component {
-          componentWillMount() {
-            this.state = 'old'
+          constructor(props) {
+            super(props)
+            this.state = { value: 'old' }
           }
 
           shouldComponentUpdate() {
@@ -161,22 +163,23 @@ function runAllTests(useWeakMap) {
           }
 
           render() {
-            return <div>old render + {this.state} state</div>
+            return <div>old render + {this.state.value} state</div>
           }
         }
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(wrapper.text()).toBe('old render + old state')
 
         {
           class App extends Component {
-            componentWillMount() {
-              this.state = 'new'
+            constructor(props) {
+              super(props)
+              this.state = { value: 'new' }
             }
 
             shouldComponentUpdate() {
@@ -184,7 +187,7 @@ function runAllTests(useWeakMap) {
             }
 
             render() {
-              return <div>new render + {this.state} state</div>
+              return <div>new render + {this.state.value} state</div>
             }
           }
           RHL.register(App, 'App', 'test.js')
@@ -198,8 +201,9 @@ function runAllTests(useWeakMap) {
         const spy = jest.fn()
 
         class App extends Component {
-          componentWillMount() {
-            this.state = 'old'
+          constructor(props) {
+            super(props)
+            this.state = { value: 'old' }
           }
 
           shouldComponentUpdate() {
@@ -213,7 +217,7 @@ function runAllTests(useWeakMap) {
           render() {
             return (
               <span onClick={this.handleClick}>
-                old render + {this.state} state
+                old render + {this.state.value} state
               </span>
             )
           }
@@ -221,9 +225,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         wrapper.find('span').simulate('click')
         expect(spy).toHaveBeenCalledWith('foo')
@@ -232,8 +236,9 @@ function runAllTests(useWeakMap) {
         spy.mockReset()
         {
           class App extends Component {
-            componentWillMount() {
-              this.state = 'new'
+            constructor(props) {
+              super(props)
+              this.state = { value: 'new' }
             }
 
             shouldComponentUpdate() {
@@ -247,7 +252,7 @@ function runAllTests(useWeakMap) {
             render() {
               return (
                 <span onClick={this.handleClick}>
-                  new render + {this.state} state
+                  new render + {this.state.value} state
                 </span>
               )
             }
@@ -265,8 +270,9 @@ function runAllTests(useWeakMap) {
         const spy = jest.fn()
 
         class App extends Component {
-          componentWillMount() {
-            this.state = 'old'
+          constructor(props) {
+            super(props)
+            this.state = { value: 'old' }
           }
 
           shouldComponentUpdate() {
@@ -280,7 +286,7 @@ function runAllTests(useWeakMap) {
           render() {
             return (
               <span onClick={this.handleClick}>
-                old render + {this.state} state
+                old render + {this.state.value} state
               </span>
             )
           }
@@ -288,9 +294,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         wrapper.find('span').simulate('click')
         expect(spy).toHaveBeenCalledWith('foo')
@@ -299,8 +305,9 @@ function runAllTests(useWeakMap) {
         spy.mockReset()
         {
           class App extends Component {
-            componentWillMount() {
-              this.state = 'new'
+            constructor(props) {
+              super(props)
+              this.state = { value: 'new' }
             }
 
             shouldComponentUpdate() {
@@ -314,7 +321,7 @@ function runAllTests(useWeakMap) {
             render() {
               return (
                 <span onClick={this.handleClick}>
-                  new render + {this.state} state
+                  new render + {this.state.value} state
                 </span>
               )
             }
@@ -338,9 +345,8 @@ function runAllTests(useWeakMap) {
             this.handleClick = () => {
               spy('foo')
             }
-          }
-          componentWillMount() {
-            this.state = 'old'
+
+            this.state = { value: 'old' }
           }
 
           shouldComponentUpdate() {
@@ -350,7 +356,7 @@ function runAllTests(useWeakMap) {
           render() {
             return (
               <span onClick={this.handleClick}>
-                old render + {this.state} state
+                old render + {this.state.value} state
               </span>
             )
           }
@@ -358,9 +364,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         wrapper.find('span').simulate('click')
         expect(spy).toHaveBeenCalledWith('foo')
@@ -369,8 +375,9 @@ function runAllTests(useWeakMap) {
         spy.mockReset()
         {
           class App extends Component {
-            componentWillMount() {
-              this.state = 'new'
+            constructor(props) {
+              super(props)
+              this.state = { value: 'new' }
             }
 
             shouldComponentUpdate() {
@@ -384,7 +391,7 @@ function runAllTests(useWeakMap) {
             render() {
               return (
                 <span onClick={this.handleClick}>
-                  new render + {this.state} state
+                  new render + {this.state.value} state
                 </span>
               )
             }
@@ -402,8 +409,9 @@ function runAllTests(useWeakMap) {
         const spy = jest.fn()
 
         class App extends Component {
-          componentWillMount() {
-            this.state = 'old'
+          constructor(props) {
+            super(props)
+            this.state = { value: 'old' }
           }
 
           shouldComponentUpdate() {
@@ -415,7 +423,7 @@ function runAllTests(useWeakMap) {
           render() {
             return (
               <span onClick={this.handleClick}>
-                old render + {this.state} state
+                old render + {this.state.value} state
               </span>
             )
           }
@@ -423,9 +431,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         wrapper.find('span').simulate('click')
         expect(spy).toHaveBeenCalledWith('foo')
@@ -434,8 +442,9 @@ function runAllTests(useWeakMap) {
         spy.mockReset()
         {
           class App extends Component {
-            componentWillMount() {
-              this.state = 'new'
+            constructor(props) {
+              super(props)
+              this.state = { value: 'new' }
             }
 
             shouldComponentUpdate() {
@@ -447,7 +456,7 @@ function runAllTests(useWeakMap) {
             render() {
               return (
                 <span onClick={this.handleClick}>
-                  new render + {this.state} state
+                  new render + {this.state.value} state
                 </span>
               )
             }
@@ -468,8 +477,9 @@ function runAllTests(useWeakMap) {
           const spy = jest.fn()
 
           class App extends Component {
-            componentWillMount() {
-              this.state = 'old'
+            constructor(props) {
+              super(props)
+              this.state = { value: 'old' }
             }
 
             shouldComponentUpdate() {
@@ -481,7 +491,7 @@ function runAllTests(useWeakMap) {
             render() {
               return (
                 <span onClick={this.handleClick}>
-                  old render + {this.state} state
+                  old render + {this.state.value} state
                 </span>
               )
             }
@@ -489,9 +499,9 @@ function runAllTests(useWeakMap) {
           RHL.register(App, 'App', 'test.js')
 
           const wrapper = mount(
-            <HotContainer>
+            <AppContainer>
               <App />
-            </HotContainer>,
+            </AppContainer>,
           )
           wrapper.find('span').simulate('click')
           expect(spy).toHaveBeenCalledWith('foo')
@@ -500,8 +510,9 @@ function runAllTests(useWeakMap) {
           spy.mockReset()
           {
             class App extends Component {
-              componentWillMount() {
-                this.state = 'new'
+              constructor(props) {
+                super(props)
+                this.state = { value: 'new' }
               }
 
               shouldComponentUpdate() {
@@ -513,7 +524,7 @@ function runAllTests(useWeakMap) {
               render() {
                 return (
                   <span onClick={this.handleClick}>
-                    new render + {this.state} state
+                    new render + {this.state.value} state
                   </span>
                 )
               }
@@ -532,7 +543,7 @@ function runAllTests(useWeakMap) {
     describe('with createClass root', () => {
       it('renders children', () => {
         const spy = jest.fn()
-        const App = React.createClass({
+        const App = createReactClass({
           render() {
             spy()
             return <div>hey</div>
@@ -541,9 +552,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(wrapper.find('App').length).toBe(1)
         expect(wrapper.contains(<div>hey</div>)).toBe(true)
@@ -553,7 +564,7 @@ function runAllTests(useWeakMap) {
       it('force updates the tree on receiving new children', () => {
         const spy = jest.fn()
 
-        const App = React.createClass({
+        const App = createReactClass({
           shouldComponentUpdate() {
             return false
           },
@@ -566,14 +577,14 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(spy).toHaveBeenCalledTimes(1)
 
         {
-          const App = React.createClass({
+          const App = createReactClass({
             shouldComponentUpdate() {
               return false
             },
@@ -594,7 +605,7 @@ function runAllTests(useWeakMap) {
       it('force updates the tree on receiving cached children', () => {
         const spy = jest.fn()
 
-        const App = React.createClass({
+        const App = createReactClass({
           shouldComponentUpdate() {
             return false
           },
@@ -607,11 +618,11 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const element = <App />
-        const wrapper = mount(<HotContainer>{element}</HotContainer>)
+        const wrapper = mount(<AppContainer>{element}</AppContainer>)
         expect(spy).toHaveBeenCalledTimes(1)
 
         {
-          const App = React.createClass({
+          const App = createReactClass({
             shouldComponentUpdate() {
               return false
             },
@@ -632,7 +643,7 @@ function runAllTests(useWeakMap) {
       it('renders latest children on receiving cached never-rendered children', () => {
         const spy = jest.fn()
 
-        const App = React.createClass({
+        const App = createReactClass({
           shouldComponentUpdate() {
             return false
           },
@@ -648,7 +659,7 @@ function runAllTests(useWeakMap) {
         let wrapper
 
         {
-          const App = React.createClass({
+          const App = createReactClass({
             shouldComponentUpdate() {
               return false
             },
@@ -659,7 +670,7 @@ function runAllTests(useWeakMap) {
             },
           })
           RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<HotContainer>{element}</HotContainer>)
+          wrapper = mount(<AppContainer>{element}</AppContainer>)
         }
 
         expect(spy).toHaveBeenCalledTimes(1)
@@ -667,9 +678,9 @@ function runAllTests(useWeakMap) {
       })
 
       it('hot-reloads children without losing state', () => {
-        const App = React.createClass({
-          componentWillMount() {
-            this.state = 'old'
+        const App = createReactClass({
+          getInitialState() {
+            return { value: 'old' }
           },
 
           shouldComponentUpdate() {
@@ -677,22 +688,22 @@ function runAllTests(useWeakMap) {
           },
 
           render() {
-            return <div>old render + {this.state} state</div>
+            return <div>old render + {this.state.value} state</div>
           },
         })
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(wrapper.text()).toBe('old render + old state')
 
         {
-          const App = React.createClass({
-            componentWillMount() {
-              this.state = 'new'
+          const App = createReactClass({
+            getInitialState() {
+              return { value: 'new' }
             },
 
             shouldComponentUpdate() {
@@ -700,7 +711,7 @@ function runAllTests(useWeakMap) {
             },
 
             render() {
-              return <div>new render + {this.state} state</div>
+              return <div>new render + {this.state.value} state</div>
             },
           })
           RHL.register(App, 'App', 'test.js')
@@ -714,7 +725,7 @@ function runAllTests(useWeakMap) {
     describe('with createFactory root', () => {
       it('renders children', () => {
         const spy = jest.fn()
-        const App = React.createClass({
+        const App = createReactClass({
           render() {
             spy()
             return <div>hey</div>
@@ -723,7 +734,7 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
         const AppF = React.createFactory(App)
 
-        const wrapper = mount(<HotContainer>{AppF()}</HotContainer>)
+        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
         expect(wrapper.find('App').length).toBe(1)
         expect(wrapper.contains(<div>hey</div>)).toBe(true)
         expect(spy).toHaveBeenCalledTimes(1)
@@ -732,7 +743,7 @@ function runAllTests(useWeakMap) {
       it('force updates the tree on receiving new children', () => {
         const spy = jest.fn()
 
-        const App = React.createClass({
+        const App = createReactClass({
           shouldComponentUpdate() {
             return false
           },
@@ -745,11 +756,11 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
         const AppF = React.createFactory(App)
 
-        const wrapper = mount(<HotContainer>{AppF()}</HotContainer>)
+        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
         expect(spy).toHaveBeenCalledTimes(1)
 
         {
-          const App = React.createClass({
+          const App = createReactClass({
             shouldComponentUpdate() {
               return false
             },
@@ -771,7 +782,7 @@ function runAllTests(useWeakMap) {
       it('force updates the tree on receiving cached children', () => {
         const spy = jest.fn()
 
-        const App = React.createClass({
+        const App = createReactClass({
           shouldComponentUpdate() {
             return false
           },
@@ -785,11 +796,11 @@ function runAllTests(useWeakMap) {
         const AppF = React.createFactory(App)
 
         const element = AppF()
-        const wrapper = mount(<HotContainer>{element}</HotContainer>)
+        const wrapper = mount(<AppContainer>{element}</AppContainer>)
         expect(spy).toHaveBeenCalledTimes(1)
 
         {
-          const App = React.createClass({
+          const App = createReactClass({
             shouldComponentUpdate() {
               return false
             },
@@ -810,7 +821,7 @@ function runAllTests(useWeakMap) {
       it('renders latest children on receiving cached never-rendered children', () => {
         const spy = jest.fn()
 
-        const App = React.createClass({
+        const App = createReactClass({
           shouldComponentUpdate() {
             return false
           },
@@ -827,7 +838,7 @@ function runAllTests(useWeakMap) {
         let wrapper
 
         {
-          const App = React.createClass({
+          const App = createReactClass({
             shouldComponentUpdate() {
               return false
             },
@@ -838,7 +849,7 @@ function runAllTests(useWeakMap) {
             },
           })
           RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<HotContainer>{element}</HotContainer>)
+          wrapper = mount(<AppContainer>{element}</AppContainer>)
         }
 
         expect(spy).toHaveBeenCalledTimes(1)
@@ -846,9 +857,9 @@ function runAllTests(useWeakMap) {
       })
 
       it('hot-reloads children without losing state', () => {
-        const App = React.createClass({
-          componentWillMount() {
-            this.state = 'old'
+        const App = createReactClass({
+          getInitialState() {
+            return { value: 'old' }
           },
 
           shouldComponentUpdate() {
@@ -856,19 +867,19 @@ function runAllTests(useWeakMap) {
           },
 
           render() {
-            return <div>old render + {this.state} state</div>
+            return <div>old render + {this.state.value} state</div>
           },
         })
         RHL.register(App, 'App', 'test.js')
         const AppF = React.createFactory(App)
 
-        const wrapper = mount(<HotContainer>{AppF()}</HotContainer>)
+        const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
         expect(wrapper.text()).toBe('old render + old state')
 
         {
-          const App = React.createClass({
-            componentWillMount() {
-              this.state = 'new'
+          const App = createReactClass({
+            getInitialState() {
+              return { value: 'new' }
             },
 
             shouldComponentUpdate() {
@@ -876,7 +887,7 @@ function runAllTests(useWeakMap) {
             },
 
             render() {
-              return <div>new render + {this.state} state</div>
+              return <div>new render + {this.state.value} state</div>
             },
           })
           RHL.register(App, 'App', 'test.js')
@@ -898,9 +909,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(wrapper.find('App').length).toBe(1)
         expect(wrapper.contains(<div>hey</div>)).toBe(true)
@@ -917,9 +928,9 @@ function runAllTests(useWeakMap) {
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <App />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(spy).toHaveBeenCalledTimes(1)
 
@@ -937,29 +948,32 @@ function runAllTests(useWeakMap) {
       })
 
       it('force updates the tree on receiving cached children', () => {
-        const spy = jest.fn()
-
-        const App = () => {
-          spy()
-          return <div>hey</div>
+        const firstSpy = jest.fn()
+        const Dummy = () => {
+          firstSpy()
+          return <div>first</div>
         }
-        RHL.register(App, 'App', 'test.js')
 
-        const element = <App />
-        const wrapper = mount(<HotContainer>{element}</HotContainer>)
-        expect(spy).toHaveBeenCalledTimes(1)
+        const App = () => <Dummy />
+        RHL.register(Dummy, 'Dummy', 'test.js')
+
+        const wrapper = mount(<AppContainer><App /></AppContainer>)
+        expect(firstSpy).toHaveBeenCalledTimes(1)
+
+        const secondSpy = jest.fn()
 
         {
-          const App = () => {
-            spy()
-            return <div>ho</div>
+          const Dummy = () => {
+            secondSpy()
+            return <div>second</div>
           }
-          RHL.register(App, 'App', 'test.js')
-          wrapper.setProps({ children: element })
+          RHL.register(Dummy, 'Dummy', 'test.js')
+          wrapper.setProps({ children: <App /> })
         }
 
-        expect(spy).toHaveBeenCalledTimes(2)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
+        expect(firstSpy).toHaveBeenCalledTimes(1)
+        expect(secondSpy).toHaveBeenCalledTimes(1)
+        expect(wrapper.contains(<div>second</div>)).toBe(true)
       })
 
       it('renders latest children on receiving cached never-rendered children', () => {
@@ -980,7 +994,7 @@ function runAllTests(useWeakMap) {
             return <div>ho</div>
           }
           RHL.register(App, 'App', 'test.js')
-          wrapper = mount(<HotContainer>{element}</HotContainer>)
+          wrapper = mount(<AppContainer>{element}</AppContainer>)
         }
 
         expect(spy).toHaveBeenCalledTimes(1)
@@ -989,8 +1003,9 @@ function runAllTests(useWeakMap) {
 
       it('hot-reloads children without losing state', () => {
         class App extends Component {
-          componentWillMount() {
-            this.state = 'old'
+          constructor(props) {
+            super(props)
+            this.state = { value: 'old' }
           }
 
           shouldComponentUpdate() {
@@ -998,7 +1013,7 @@ function runAllTests(useWeakMap) {
           }
 
           render() {
-            return <div>old render + {this.state} state</div>
+            return <div>old render + {this.state.value} state</div>
           }
         }
         RHL.register(App, 'App', 'test.js')
@@ -1007,16 +1022,17 @@ function runAllTests(useWeakMap) {
         RHL.register(Root, 'Root', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <Root />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(wrapper.text()).toBe('old render + old state')
 
         {
           class App extends Component {
-            componentWillMount() {
-              this.state = 'new'
+            constructor(props) {
+              super(props)
+              this.state = { value: 'new' }
             }
 
             shouldComponentUpdate() {
@@ -1024,7 +1040,7 @@ function runAllTests(useWeakMap) {
             }
 
             render() {
-              return <div>new render + {this.state} state</div>
+              return <div>new render + {this.state.value} state</div>
             }
           }
           RHL.register(App, 'App', 'test.js')
@@ -1053,9 +1069,9 @@ function runAllTests(useWeakMap) {
         RHL.register(Enhanced, 'Enhanced', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <Enhanced n={3} />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(wrapper.find('App').length).toBe(1)
         expect(wrapper.contains(<div>hey</div>)).toBe(true)
@@ -1077,9 +1093,9 @@ function runAllTests(useWeakMap) {
         RHL.register(Enhanced, 'Enhanced', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <Enhanced n={3} />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(spy).toHaveBeenCalledTimes(1)
 
@@ -1102,38 +1118,36 @@ function runAllTests(useWeakMap) {
       })
 
       it('force updates the tree on receiving cached children', () => {
-        const spy = jest.fn()
-        class App extends React.Component {
-          render() {
-            spy()
-            return <div>hey</div>
-          }
+        const firstSpy = jest.fn()
+        const Dummy = () => {
+          firstSpy()
+          return <div>first</div>
         }
-        RHL.register(App, 'App', 'test.js')
+        const App = () => <Dummy />
+        RHL.register(Dummy, 'Dummy', 'test.js')
 
         const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
         RHL.register(Enhanced, 'Enhanced', 'test.js')
 
-        const element = <Enhanced n={3} />
-        const wrapper = mount(<HotContainer>{element}</HotContainer>)
-        expect(spy).toHaveBeenCalledTimes(1)
+        const wrapper = mount(<AppContainer><Enhanced n={3} /></AppContainer>)
+        expect(firstSpy).toHaveBeenCalledTimes(1)
 
+        const secondSpy = jest.fn()
         {
-          class App extends React.Component {
-            render() {
-              spy()
-              return <div>ho</div>
-            }
+          const Dummy = () => {
+            secondSpy()
+            return <div>second</div>
           }
-          RHL.register(App, 'App', 'test.js')
+          RHL.register(Dummy, 'Dummy', 'test.js')
 
           const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
           RHL.register(Enhanced, 'Enhanced', 'test.js')
-          wrapper.setProps({ children: element })
+          wrapper.setProps({ children: <Enhanced n={3} /> })
         }
 
-        expect(spy).toHaveBeenCalledTimes(2)
-        expect(wrapper.contains(<div>ho</div>)).toBe(true)
+        expect(firstSpy).toHaveBeenCalledTimes(1)
+        expect(secondSpy).toHaveBeenCalledTimes(1)
+        expect(wrapper.contains(<div>second</div>)).toBe(true)
       })
 
       it('renders latest children on receiving cached never-rendered children', () => {
@@ -1163,7 +1177,7 @@ function runAllTests(useWeakMap) {
 
           const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
           RHL.register(Enhanced, 'Enhanced', 'test.js')
-          wrapper = mount(<HotContainer>{element}</HotContainer>)
+          wrapper = mount(<AppContainer>{element}</AppContainer>)
         }
 
         expect(spy).toHaveBeenCalledTimes(1)
@@ -1172,8 +1186,9 @@ function runAllTests(useWeakMap) {
 
       it('hot-reloads children without losing state', () => {
         class App extends Component {
-          componentWillMount() {
-            this.state = 'old'
+          constructor(props) {
+            super(props)
+            this.state = { value: 'old' }
           }
 
           shouldComponentUpdate() {
@@ -1183,7 +1198,7 @@ function runAllTests(useWeakMap) {
           render() {
             return (
               <div>
-                old render + {this.state} state + {this.props.n}
+                old render + {this.state.value} state + {this.props.n}
               </div>
             )
           }
@@ -1194,16 +1209,17 @@ function runAllTests(useWeakMap) {
         RHL.register(Enhanced, 'Enhanced', 'test.js')
 
         const wrapper = mount(
-          <HotContainer>
+          <AppContainer>
             <Enhanced n={3} />
-          </HotContainer>,
+          </AppContainer>,
         )
         expect(wrapper.text()).toBe('old render + old state + 15')
 
         {
           class App extends Component {
-            componentWillMount() {
-              this.state = 'new'
+            constructor(props) {
+              super(props)
+              this.state = { value: 'new' }
             }
 
             shouldComponentUpdate() {
@@ -1213,7 +1229,7 @@ function runAllTests(useWeakMap) {
             render() {
               return (
                 <div>
-                  new render + {this.state} state + {this.props.n}
+                  new render + {this.state.value} state + {this.props.n}
                 </div>
               )
             }
@@ -1232,4 +1248,4 @@ function runAllTests(useWeakMap) {
 }
 
 runAllTests(true)
-runAllTests(false)
+// runAllTests(false)
