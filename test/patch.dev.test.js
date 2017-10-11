@@ -60,7 +60,7 @@ function runAllTests(useWeakMap) {
 
       const dynamic = () => () => <div>123</div>
 
-      const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
+      const spy = jest.spyOn(console, 'warn').mockImplementation(() => {})
 
       try {
         RHL.register(f1, 'f1', '/wow/test.js')
@@ -68,32 +68,32 @@ function runAllTests(useWeakMap) {
         // emulate `static` components from node_modules
         React.createElement(f1)
         React.createElement(f1)
-        expect(console.error.mock.calls.length).toBe(0)
+        expect(console.warn.mock.calls.length).toBe(0)
         React.createElement(f2)
         React.createElement(f2)
         React.createElement(f3)
         React.createElement(f3)
 
-        expect(console.error.mock.calls.length).toBe(0)
+        expect(console.warn.mock.calls.length).toBe(0)
 
         // emulate uncatched non-static component
         React.createElement(dynamic())
-        expect(console.error.mock.calls.length).toBe(0)
+        expect(console.warn.mock.calls.length).toBe(0)
         React.createElement(dynamic())
-        expect(console.error.mock.calls.length).toBe(0)
+        expect(console.warn.mock.calls.length).toBe(0)
 
         // emulate HMR
         RHL.register(f4, 'f1', '/wow/test.js')
 
         const signature = dynamic()
         React.createElement(signature)
-        expect(console.error.mock.calls.length).toBe(1)
-        expect(console.error.mock.calls[0][0]).toBe(
+        expect(console.warn.mock.calls.length).toBe(1)
+        expect(console.warn.mock.calls[0][0]).toBe(
           'React Hot Loader: this component is not accepted by Hot Loader. \n' +
           'Please check is it extracted as a top level class, a function or a variable. \n' +
           'Click below to reveal the source location: \n'
         )
-        expect(console.error.mock.calls[0][1]).toBe(signature)
+        expect(console.warn.mock.calls[0][1]).toBe(signature)
       } finally {
         spy.mockRestore()
       }
