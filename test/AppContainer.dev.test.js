@@ -1253,7 +1253,7 @@ function runAllTests(useWeakMap) {
           </AppContainer>,
         )
 
-        expect(RHL.warnings).toBe(undefined)
+        expect(RHL.warnings).toBe(true)
 
         mount(
           <AppContainer warnings={false}>
