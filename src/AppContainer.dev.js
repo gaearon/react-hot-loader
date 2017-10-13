@@ -8,7 +8,10 @@ class AppContainer extends Component {
   constructor(props) {
     super(props)
 
-    if (typeof __REACT_HOT_LOADER__ !== 'undefined') {
+    if (
+      props.warnings === false &&
+      typeof __REACT_HOT_LOADER__ !== 'undefined'
+    ) {
       __REACT_HOT_LOADER__.warnings = props.warnings
     }
 
@@ -83,10 +86,6 @@ AppContainer.propTypes = {
   },
   errorReporter: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   warnings: PropTypes.bool,
-}
-
-AppContainer.defaultProps = {
-  warnings: true,
 }
 
 module.exports = AppContainer

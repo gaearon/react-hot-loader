@@ -119,6 +119,8 @@ const hooks = {
     knownSignatures = {}
     didUpdateProxy = false
   },
+
+  warnings: true,
 }
 
 hooks.reset(typeof WeakMap === 'function')
