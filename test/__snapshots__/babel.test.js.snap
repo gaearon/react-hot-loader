@@ -50,25 +50,54 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function () {
-  function Foo() {
+var PropsInConstructor = function () {
+  function PropsInConstructor(_ref) {
     var _this = this;
 
-    _classCallCheck(this, Foo);
+    var a = _ref.a,
+        b = _ref.b;
+
+    _classCallCheck(this, PropsInConstructor);
 
     this.onClick = function () {
       return _this.__onClick__REACT_HOT_LOADER__.apply(_this, arguments);
     };
   }
 
-  _createClass(Foo, [{
+  _createClass(PropsInConstructor, [{
+    key: \\"__onClick__REACT_HOT_LOADER__\\",
+    value: function __onClick__REACT_HOT_LOADER__(e) {
+      var _props = this.props,
+          a = _props.a,
+          b = _props.b;
+
+      console.log(a, b);
+      console.log(e.target.value);
+    }
+  }]);
+
+  return PropsInConstructor;
+}();
+
+var ReturnFunc = function () {
+  function ReturnFunc() {
+    var _this2 = this;
+
+    _classCallCheck(this, ReturnFunc);
+
+    this.onClick = function () {
+      return _this2.__onClick__REACT_HOT_LOADER__.apply(_this2, arguments);
+    };
+  }
+
+  _createClass(ReturnFunc, [{
     key: \\"__onClick__REACT_HOT_LOADER__\\",
     value: function __onClick__REACT_HOT_LOADER__(e) {
       return e.target.value;
     }
   }]);
 
-  return Foo;
+  return ReturnFunc;
 }();
 
 ;
@@ -78,7 +107,9 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
+  __REACT_HOT_LOADER__.register(PropsInConstructor, \\"PropsInConstructor\\", __FILENAME__);
+
+  __REACT_HOT_LOADER__.register(ReturnFunc, \\"ReturnFunc\\", __FILENAME__);
 }();
 
 ;"
