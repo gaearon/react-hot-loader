@@ -1244,6 +1244,27 @@ function runAllTests(useWeakMap) {
         expect(wrapper.text()).toBe('new render + old state + 20')
       })
     })
+
+    describe('container props', () => {
+      it('can disable warnings', () => {
+        mount(
+          <AppContainer>
+            <div>hey</div>
+          </AppContainer>,
+        )
+
+        expect(RHL.warnings).toBe(true)
+
+        mount(
+          <AppContainer warnings={false}>
+            <div>hey</div>
+          </AppContainer>,
+        )
+
+        expect(RHL.warnings).toBe(false)
+        delete RHL.warnings
+      })
+    })
   })
 }
 

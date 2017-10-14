@@ -171,6 +171,16 @@ render((
 
 You'll also need to `npm install --save-dev redbox-react`.
 
+## Disable warnings
+
+React Hot Loader will by default emit a warning for components not accepted by the Hot Loader. If you want to disable these warnings, you can pass a `warnings` prop with the value `false` to `AppContainer`.
+
+```js
+<AppContainer warnings={false}>
+  ...
+</AppContainer>
+```  
+
 ## Starter Kit
 
 Provided by collaborators:

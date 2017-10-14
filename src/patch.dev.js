@@ -119,12 +119,14 @@ const hooks = {
     knownSignatures = {}
     didUpdateProxy = false
   },
+
+  warnings: true,
 }
 
 hooks.reset(typeof WeakMap === 'function')
 
 function warnAboutUnnacceptedClass(typeSignature) {
-  if (didUpdateProxy) {
+  if (didUpdateProxy && global.__REACT_HOT_LOADER__.warnings !== false) {
     console.warn(
       'React Hot Loader: this component is not accepted by Hot Loader. \n' +
         'Please check is it extracted as a top level class, a function or a variable. \n' +
