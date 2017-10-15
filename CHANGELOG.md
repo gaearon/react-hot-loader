@@ -1,5 +1,10 @@
 ## Changelog
 
+### 3.1.1
+
+* Revert fix arrow function that uses props in constructor (#670)
+* Remove babel-template dependency (#671)
+
 ### 3.1.0
 
 * Add an option to disable warnings (#669)
