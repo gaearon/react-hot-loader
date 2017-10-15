@@ -3,32 +3,19 @@
 exports[`copies arrow function body block onto hidden class methods arguments.js 1`] = `
 "\\"use strict\\";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function () {
-  function Foo() {
-    var _this = this;
+var Foo = function Foo() {
+  var _arguments = arguments;
 
-    _classCallCheck(this, Foo);
+  _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
+  this.bar = function (a, b) {
+    _arguments;
 
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      arguments;
-
-      return a(b);
-    }
-  }]);
-
-  return Foo;
-}();
+    return a(b);
+  };
+};
 
 ;
 
@@ -46,59 +33,27 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods arrow function in constructor.js 1`] = `
 "\\"use strict\\";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var PropsInConstructor = function () {
-  function PropsInConstructor(_ref) {
-    var _this = this;
+var PropsInConstructor = function PropsInConstructor(_ref) {
+  var a = _ref.a,
+      b = _ref.b;
 
-    var a = _ref.a,
-        b = _ref.b;
+  _classCallCheck(this, PropsInConstructor);
 
-    _classCallCheck(this, PropsInConstructor);
+  this.onClick = function (e) {
+    console.log(a, b);
+    console.log(e.target.value);
+  };
+};
 
-    this.onClick = function () {
-      return _this.__onClick__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
+var ReturnFunc = function ReturnFunc() {
+  _classCallCheck(this, ReturnFunc);
 
-  _createClass(PropsInConstructor, [{
-    key: \\"__onClick__REACT_HOT_LOADER__\\",
-    value: function __onClick__REACT_HOT_LOADER__(e) {
-      var _props = this.props,
-          a = _props.a,
-          b = _props.b;
-
-      console.log(a, b);
-      console.log(e.target.value);
-    }
-  }]);
-
-  return PropsInConstructor;
-}();
-
-var ReturnFunc = function () {
-  function ReturnFunc() {
-    var _this2 = this;
-
-    _classCallCheck(this, ReturnFunc);
-
-    this.onClick = function () {
-      return _this2.__onClick__REACT_HOT_LOADER__.apply(_this2, arguments);
-    };
-  }
-
-  _createClass(ReturnFunc, [{
-    key: \\"__onClick__REACT_HOT_LOADER__\\",
-    value: function __onClick__REACT_HOT_LOADER__(e) {
-      return e.target.value;
-    }
-  }]);
-
-  return ReturnFunc;
-}();
+  this.onClick = function (e) {
+    return e.target.value;
+  };
+};
 
 ;
 
@@ -118,77 +73,40 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods async functions expression body.js 1`] = `
 "\\"use strict\\";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step(\\"next\\", value); }, function (err) { step(\\"throw\\", err); }); } } return step(\\"next\\"); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function () {
-  function Foo() {
-    var _this = this;
+var Foo = function Foo() {
+  var _this = this;
 
-    _classCallCheck(this, Foo);
+  _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return _this.__bar__REACT_HOT_LOADER__.apply(_this, _args);
+  this.bar = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(a, b) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return b(a);
 
-              case 2:
-                return _context.abrupt(\\"return\\", _context.sent);
+            case 2:
+              return _context.abrupt(\\"return\\", _context.sent);
 
-              case 3:
-              case \\"end\\":
-                return _context.stop();
-            }
+            case 3:
+            case \\"end\\":
+              return _context.stop();
           }
-        }, _callee, _this);
-      }));
+        }
+      }, _callee, _this);
+    }));
 
-      return function NAME() {
-        return _ref.apply(this, arguments);
-      };
-    }();
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(a, b) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return b(a);
-
-              case 2:
-                return _context2.abrupt(\\"return\\", _context2.sent);
-
-              case 3:
-              case \\"end\\":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function __bar__REACT_HOT_LOADER__(_x, _x2) {
-        return _ref2.apply(this, arguments);
-      }
-
-      return __bar__REACT_HOT_LOADER__;
-    }()
-  }]);
-
-  return Foo;
-}();
+    return function (_x, _x2) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+};
 
 ;
 
@@ -206,77 +124,40 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods async functions.js 1`] = `
 "\\"use strict\\";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step(\\"next\\", value); }, function (err) { step(\\"throw\\", err); }); } } return step(\\"next\\"); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function () {
-  function Foo() {
-    var _this = this;
+var Foo = function Foo() {
+  var _this = this;
 
-    _classCallCheck(this, Foo);
+  _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return _this.__bar__REACT_HOT_LOADER__.apply(_this, _args);
+  this.bar = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(a, b) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return a(b);
 
-              case 2:
-                return _context.abrupt(\\"return\\", _context.sent);
+            case 2:
+              return _context.abrupt(\\"return\\", _context.sent);
 
-              case 3:
-              case \\"end\\":
-                return _context.stop();
-            }
+            case 3:
+            case \\"end\\":
+              return _context.stop();
           }
-        }, _callee, _this);
-      }));
+        }
+      }, _callee, _this);
+    }));
 
-      return function NAME() {
-        return _ref.apply(this, arguments);
-      };
-    }();
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(a, b) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return a(b);
-
-              case 2:
-                return _context2.abrupt(\\"return\\", _context2.sent);
-
-              case 3:
-              case \\"end\\":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function __bar__REACT_HOT_LOADER__(_x, _x2) {
-        return _ref2.apply(this, arguments);
-      }
-
-      return __bar__REACT_HOT_LOADER__;
-    }()
-  }]);
-
-  return Foo;
-}();
+    return function (_x, _x2) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+};
 
 ;
 
@@ -294,30 +175,15 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods block body.js 1`] = `
 "\\"use strict\\";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function () {
-  function Foo() {
-    var _this = this;
+var Foo = function Foo() {
+  _classCallCheck(this, Foo);
 
-    _classCallCheck(this, Foo);
-
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      return a(b);
-    }
-  }]);
-
-  return Foo;
-}();
+  this.bar = function (a, b) {
+    return a(b);
+  };
+};
 
 ;
 
@@ -335,32 +201,17 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods default params.js 1`] = `
 "\\"use strict\\";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function () {
-  function Foo() {
-    var _this = this;
+var Foo = function Foo() {
+  _classCallCheck(this, Foo);
 
-    _classCallCheck(this, Foo);
+  this.bar = function () {
+    var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"foo\\";
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__() {
-      var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"foo\\";
-
-      return a + \\"bar\\";
-    }
-  }]);
-
-  return Foo;
-}();
+    return a + \\"bar\\";
+  };
+};
 
 ;
 
@@ -378,33 +229,18 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods destructured params.js 1`] = `
 "\\"use strict\\";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function () {
-  function Foo() {
-    var _this = this;
+var Foo = function Foo() {
+  _classCallCheck(this, Foo);
 
-    _classCallCheck(this, Foo);
+  this.bar = function (_ref, _ref2) {
+    var a = _ref.a;
+    var b = _ref2.b;
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(_ref, _ref2) {
-      var a = _ref.a;
-      var b = _ref2.b;
-
-      return \\"\\" + a + b;
-    }
-  }]);
-
-  return Foo;
-}();
+    return \\"\\" + a + b;
+  };
+};
 
 ;
 
@@ -422,30 +258,15 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods expression body.js 1`] = `
 "\\"use strict\\";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function () {
-  function Foo() {
-    var _this = this;
+var Foo = function Foo() {
+  _classCallCheck(this, Foo);
 
-    _classCallCheck(this, Foo);
-
-    this.onClick = function () {
-      return _this.__onClick__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__onClick__REACT_HOT_LOADER__\\",
-    value: function __onClick__REACT_HOT_LOADER__(e) {
-      return e.target.value;
-    }
-  }]);
-
-  return Foo;
-}();
+  this.onClick = function (e) {
+    return e.target.value;
+  };
+};
 
 ;
 
@@ -463,36 +284,21 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods nested arguments.js 1`] = `
 "\\"use strict\\";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function () {
-  function Foo() {
-    var _this = this;
+var Foo = function Foo() {
+  var _arguments = arguments;
 
-    _classCallCheck(this, Foo);
+  _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
+  this.bar = function (a, b) {
+    (function () {
+      _arguments;
+    });
 
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      var _arguments = arguments;
-
-      (function () {
-        _arguments;
-      });
-
-      return a(b);
-    }
-  }]);
-
-  return Foo;
-}();
+    return a(b);
+  };
+};
 
 ;
 
@@ -510,34 +316,19 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods nested new.target.js 1`] = `
 "\\"use strict\\";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function () {
-  function Foo() {
-    var _this = this;
+var Foo = function Foo() {
+  _classCallCheck(this, Foo);
 
-    _classCallCheck(this, Foo);
+  this.bar = function (a, b) {
+    (function () {
+      new.target;
+    });
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      (function () {
-        new.target;
-      });
-
-      return a(b);
-    }
-  }]);
-
-  return Foo;
-}();
+    return a(b);
+  };
+};
 
 ;
 
@@ -555,32 +346,17 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods new.target.js 1`] = `
 "\\"use strict\\";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function () {
-  function Foo() {
-    var _this = this;
+var Foo = function Foo() {
+  _classCallCheck(this, Foo);
 
-    _classCallCheck(this, Foo);
+  this.bar = function (a, b) {
+    new.target;
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      new.target;
-
-      return a(b);
-    }
-  }]);
-
-  return Foo;
-}();
+    return a(b);
+  };
+};
 
 ;
 
@@ -654,21 +430,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    this.bar = function (a, b) {
+      return a(b);
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      return a(b);
-    }
-  }, {
     key: \\"bar\\",
     value: function bar() {
       return 2;
