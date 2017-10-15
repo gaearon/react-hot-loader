@@ -41,7 +41,6 @@
   },
   "homepage": "https://github.com/gaearon/react-hot-loader",
   "dependencies": {
-    "babel-template": "^6.7.0",
     "global": "^4.3.0",
     "react-deep-force-update": "^2.1.1",
     "react-proxy": "^3.0.0-alpha.0",

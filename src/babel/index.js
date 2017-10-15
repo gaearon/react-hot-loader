@@ -1,23 +1,4 @@
-import template from 'babel-template'
-
 const replaced = Symbol('replaced')
-
-const buildRegistration = template(
-  '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);',
-)
-const buildSemi = template(';')
-
-// We're making the IIFE we insert at the end of the file an unused variable
-// because it otherwise breaks the output of the babel-node REPL (#359).
-const buildTagger = template(`
-var UNUSED = (function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  REGISTRATIONS
-})();
-`)
 
 const buildNewClassProperty = (
   t,
@@ -104,7 +85,23 @@ module.exports = function plugin(args) {
         '"react-hot-loader/webpack" in the "loaders" section of your Webpack configuration. ',
     )
   }
-  const { types: t } = args
+  const { types: t, template } = args
+
+  const buildRegistration = template(
+    '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);',
+  )
+
+  // We're making the IIFE we insert at the end of the file an unused variable
+  // because it otherwise breaks the output of the babel-node REPL (#359).
+  const buildTagger = template(`
+  var UNUSED = (function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+      return;
+    }
+
+    REGISTRATIONS
+  })();
+  `)
 
   // No-op in production.
   if (process.env.NODE_ENV === 'production') {
@@ -195,14 +192,14 @@ module.exports = function plugin(args) {
 
           // Inject the generated tagging code at the very end
           // so that it is as minimally intrusive as possible.
-          node.body.push(buildSemi())
+          node.body.push(t.emptyStatement())
           node.body.push(
             buildTagger({
               UNUSED: scope.generateUidIdentifier(),
               REGISTRATIONS: registrations,
             }),
           )
-          node.body.push(buildSemi())
+          node.body.push(t.emptyStatement())
         },
       },
       Class(classPath) {
