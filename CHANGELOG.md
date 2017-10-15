@@ -1,5 +1,10 @@
 ## Changelog
 
+### 3.1.0
+
+* Add an option to disable warnings (#669)
+* Fix arrow function that uses props in constructor (#670)
+
 ### 3.0.0
 
 * Add React 16 support (#629, #658)
