@@ -1,13 +1,4 @@
-class PropsInConstructor {
-  constructor({ a, b }) {
-    this.onClick = (e) => {
-      console.log(a, b)
-      console.log(e.target.value)
-    }
-  }
-}
-
-class ReturnFunc {
+class Foo {
   constructor() {
     this.onClick = (e) => e.target.value
   }
