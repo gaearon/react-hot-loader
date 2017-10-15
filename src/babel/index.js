@@ -266,7 +266,6 @@ module.exports = function plugin(args) {
               )
             }
           } else if (!path.node[replaced] && path.node.kind === 'constructor') {
-            const constructorParams = path.node.params
             path.traverse({
               AssignmentExpression(exp) {
                 if (
@@ -285,27 +284,10 @@ module.exports = function plugin(args) {
                   )
 
                   // arrow function body can either be a block statement or a returned expression
-                  let newMethodBody =
+                  const newMethodBody =
                     node.body.type === 'BlockStatement'
                       ? node.body
                       : t.blockStatement([t.returnStatement(node.body)])
-
-                  if (constructorParams[0]) {
-                    const props = t.variableDeclaration('const', [
-                      t.variableDeclarator(
-                        constructorParams[0],
-                        t.memberExpression(
-                          t.thisExpression(),
-                          t.identifier('props'),
-                        ),
-                      ),
-                    ])
-
-                    newMethodBody = t.blockStatement([
-                      props,
-                      ...newMethodBody.body,
-                    ])
-                  }
 
                   const newMethod = t.classMethod(
                     'method',
