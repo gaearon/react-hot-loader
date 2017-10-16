@@ -17,8 +17,9 @@ Watch **[Dan Abramov's talk on Hot Reloading with Time Travel](https://www.youtu
 ## Install
 
 ```
-npm install react-hot-loader
+npm install --save react-hot-loader
 ```
+> Note: You can safely install react-hot-loader as a regular dependency instead of a dev dependency as it automatically ensures it is not executed in production and the footprint is minimal.
 
 ## Getting started
 
