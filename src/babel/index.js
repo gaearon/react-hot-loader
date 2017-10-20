@@ -1,5 +1,7 @@
 const replaced = Symbol('replaced')
 
+const proxyInstance = t => t.memberExpression(t.thisExpression(),t.identifier('__REACT_PROXY_CONTEXT'));
+
 const buildNewClassProperty = (
   t,
   classPropertyName,
@@ -7,7 +9,7 @@ const buildNewClassProperty = (
   isAsync,
 ) => {
   let returnExpression = t.callExpression(
-    t.memberExpression(t.thisExpression(), newMethodName),
+    t.memberExpression(proxyInstance(t), newMethodName),
     [t.spreadElement(t.identifier('params'))],
   )
 
@@ -30,7 +32,7 @@ const buildNewAssignmentExpression = (
   isAsync,
 ) => {
   let returnExpression = t.callExpression(
-    t.memberExpression(t.thisExpression(), newMethodName),
+    t.memberExpression(proxyInstance(t), newMethodName),
     [t.spreadElement(t.identifier('params'))],
   )
 
