@@ -101,10 +101,10 @@ module.exports = {
   1. Add `'react-hot-loader/patch'` to entry array (anywhere before `paths.appIndexJs`). It should now look like (excluding comments):
   ```js
     entry: [
-       'react-hot-loader/patch',
-       require.resolve('react-dev-utils/webpackHotDevClient'),
-       require.resolve('./polyfills'),
-       paths.appIndexJs
+      'react-hot-loader/patch',
+      require.resolve('react-dev-utils/webpackHotDevClient'),
+      require.resolve('./polyfills'),
+      paths.appIndexJs
     ]
   ```
 
@@ -112,19 +112,19 @@ module.exports = {
   ```js
     // Process JS with Babel.
     {
-       test: /\.(js|jsx)$/,
-       include: paths.appSrc,
-       loader: require.resolve('babel-loader'),
-       options: {
+      test: /\.(js|jsx)$/,
+      include: paths.appSrc,
+      loader: require.resolve('babel-loader'),
+      options: {
   
-         // This is a feature of `babel-loader` for webpack (not Babel itself).
-         // It enables caching results in ./node_modules/.cache/babel-loader/
-         // directory for faster rebuilds.
-         cacheDirectory: true,
-         plugins: [
-           'react-hot-loader/babel'
-         ]
-       },
+        // This is a feature of `babel-loader` for webpack (not Babel itself).
+        // It enables caching results in ./node_modules/.cache/babel-loader/
+        // directory for faster rebuilds.
+        cacheDirectory: true,
+        plugins: [
+          'react-hot-loader/babel'
+        ]
+      },
     },
   ```
 
