@@ -47,6 +47,8 @@ module.exports = {
 }
 ```
 
+> Note: Make sure to set the `output.publicPath` property to `"/"` as well. Otherwise hot reloading won't work as expected for nested routes.
+
 4. Wrap your application into `<AppContainer>`, all children of `<AppContainer>` will be reloaded when a change occurs:
 
 ```js
