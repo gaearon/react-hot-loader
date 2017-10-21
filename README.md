@@ -110,19 +110,22 @@ module.exports = {
 
   2. Add `'react-hot-loader/babel'` to Babel loader configuration. The loader should now look like:
   ```js
+    // Process JS with Babel.
     {
        test: /\.(js|jsx)$/,
        include: paths.appSrc,
-       loader: 'babel',
-       query: {
-         cacheDirectory: findCacheDir({
-           name: 'react-scripts'
-         }),
+       loader: require.resolve('babel-loader'),
+       options: {
+  
+         // This is a feature of `babel-loader` for webpack (not Babel itself).
+         // It enables caching results in ./node_modules/.cache/babel-loader/
+         // directory for faster rebuilds.
+         cacheDirectory: true,
          plugins: [
            'react-hot-loader/babel'
          ]
-       }
-    }
+       },
+    },
   ```
 
 * Add `AppContainer` to `src/index.js` (see step 4 of Getting Started).
