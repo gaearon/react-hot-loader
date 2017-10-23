@@ -13,6 +13,42 @@ Know a problem? Feel free to send a PR with edits.
 
 If you don't see some of the messages, or some of the requests, or if some of the requests fail, this is a symptom of an incorrect configuration. Comparing your setup with [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) may help you find the mistake.
 
+##### Common TypeScript Mistake
+
+If you're a TypeScript user then to get set up with HMR then it's not unusual to alias `module` as an `any` like so:
+
+```ts
+const anyModule = module as any;
+if (anyModule.hot) {
+    anyModule.hot.accept('./app', () => render(App));
+}
+```
+
+**DON'T DO THIS.** It will result in full page reloads each time you make a change.  Instead do something like this:
+
+```ts
+if ((module as any).hot) {
+  (module as any).hot.accept('./app', () => render(App));
+}
+```
+
+or this:
+
+```ts
+declare const module: any;
+if (module.hot) {
+    module.hot.accept('./app', () => render(App));
+}
+```
+
+Then you should see the expected messages / get the expected behaviour:
+
+```
+[HMR] Updated modules:
+// ...
+[HMR] App is up to date.
+```
+
 ---------
 
 ### Can't Build
