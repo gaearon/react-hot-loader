@@ -1,6 +1,7 @@
 const React = require('react')
-const createProxy = require('react-proxy').default
+const createProxy = require('react-stand-in').default
 const global = require('global')
+const stack = require('stacktrace-js');
 
 class ComponentMap {
   constructor(useWeakMap) {
@@ -45,7 +46,7 @@ class ComponentMap {
           return
         }
       }
-      slot.push({ key: type, value })
+      slot.push({key: type, value})
     }
   }
 
@@ -82,6 +83,7 @@ const hooks = {
     if (typeof uniqueLocalName !== 'string' || typeof fileName !== 'string') {
       return
     }
+
     const id = fileName + '#' + uniqueLocalName // eslint-disable-line prefer-template
     if (!idsByType.has(type) && hasCreatedElementsByType.has(type)) {
       if (!didWarnAboutID[id]) {
@@ -89,9 +91,9 @@ const hooks = {
         const baseName = fileName.replace(/^.*[\\/]/, '')
         console.error(
           `React Hot Loader: ${uniqueLocalName} in ${fileName} will not hot reload ` +
-            `correctly because ${baseName} uses <${uniqueLocalName} /> during ` +
-            `module definition. For hot reloading to work, move ${uniqueLocalName} ` +
-            `into a separate file and import it from ${baseName}.`,
+          `correctly because ${baseName} uses <${uniqueLocalName} /> during ` +
+          `module definition. For hot reloading to work, move ${uniqueLocalName} ` +
+          `into a separate file and import it from ${baseName}.`,
         )
       }
       return
@@ -129,8 +131,8 @@ function warnAboutUnnacceptedClass(typeSignature) {
   if (didUpdateProxy && global.__REACT_HOT_LOADER__.warnings !== false) {
     console.warn(
       'React Hot Loader: this component is not accepted by Hot Loader. \n' +
-        'Please check is it extracted as a top level class, a function or a variable. \n' +
-        'Click below to reveal the source location: \n',
+      'Please check is it extracted as a top level class, a function or a variable. \n' +
+      'Click below to reveal the source location: \n',
       typeSignature,
     )
   }
@@ -142,24 +144,22 @@ function resolveType(type) {
     return type
   }
 
-  const wasKnownBefore = hasCreatedElementsByType.get(type)
-  hasCreatedElementsByType.set(type, true)
-
   // When available, give proxy class to React instead of the real class.
-  const id = idsByType.get(type)
+  let id = idsByType.get(type)
+
   if (!id) {
-    if (!wasKnownBefore) {
-      const signature = type.toString()
-      if (knownSignatures[signature]) {
-        warnAboutUnnacceptedClass(type)
-      } else {
-        knownSignatures[signature] = type
-      }
-    }
-    return type
+    const trace = stack.getSync();
+    const fingerPrint = [type.name,type.displayName,trace[2].functionName,trace[2].source].join(';');
+    const typeSignature = type.toString();
+
+    hooks.register(type, typeSignature, 'source');
+    hooks.register(type, fingerPrint, 'trace');
+    id = idsByType.get(type)
   }
 
-  const proxy = proxiesByID[id]
+  hasCreatedElementsByType.set(type, true)
+
+  const proxy = proxiesByID[id];
   if (!proxy) {
     return type
   }
@@ -167,7 +167,7 @@ function resolveType(type) {
   return proxy.get()
 }
 
-const { createElement } = React
+const {createElement} = React
 function patchedCreateElement(type, ...args) {
   // Trick React into rendering a proxy so that
   // its state is preserved when the class changes.
