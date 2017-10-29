@@ -1,6 +1,6 @@
 {
   "name": "react-hot-loader",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "description": "Tweak React components in real time.",
   "main": "index.js",
   "files": [
@@ -15,7 +15,7 @@
     "test": "jest",
     "test:watch": "yarn test -- --watch",
     "lint": "eslint .",
-    "prepublish": "yarn clean && yarn build",
+    "prepublishOnly": "yarn clean && yarn build",
     "format": "prettier --write \"{test,src}/**/*.js\" *.js"
   },
   "repository": {
@@ -65,6 +65,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
     "jest": "^21.2.1",
+    "lerna": "^2.4.0",
     "prettier": "^1.7.4",
     "raf": "^3.4.0",
     "react": "^16.0.0",
