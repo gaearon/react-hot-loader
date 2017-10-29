@@ -1,7 +1,6 @@
 const React = require('react')
 const createProxy = require('react-stand-in').default
 const global = require('global')
-const stack = require('stacktrace-js');
 
 class ComponentMap {
   constructor(useWeakMap) {
@@ -46,7 +45,7 @@ class ComponentMap {
           return
         }
       }
-      slot.push({key: type, value})
+      slot.push({ key: type, value })
     }
   }
 
@@ -69,11 +68,18 @@ let proxiesByID
 let didWarnAboutID
 let hasCreatedElementsByType
 let idsByType
+let firstInstances
 let knownSignatures
 let didUpdateProxy
 
+function replaceFirstInstance (id, type) {
+  try {
+    firstInstances[id].prototype.__facade__rewireSuper(type)
+  } catch (e) {}
+}
+
 const hooks = {
-  register(type, uniqueLocalName, fileName) {
+  register(type, uniqueLocalName, fileName, replaceCallback) {
     if (typeof type !== 'function') {
       return
     }
@@ -106,8 +112,10 @@ const hooks = {
     // the same way as the original classes but are updatable with
     // new versions without destroying original instances.
     if (!proxiesByID[id]) {
+      firstInstances[id] = type;
       proxiesByID[id] = createProxy(type)
     } else {
+      replaceFirstInstance(id, type)
       proxiesByID[id].update(type)
       didUpdateProxy = true
     }
@@ -118,6 +126,7 @@ const hooks = {
     didWarnAboutID = {}
     hasCreatedElementsByType = new ComponentMap(useWeakMap)
     idsByType = new ComponentMap(useWeakMap)
+    firstInstances = {}
     knownSignatures = {}
     didUpdateProxy = false
   },
@@ -144,22 +153,24 @@ function resolveType(type) {
     return type
   }
 
-  // When available, give proxy class to React instead of the real class.
-  let id = idsByType.get(type)
-
-  if (!id) {
-    const trace = stack.getSync();
-    const fingerPrint = [type.name,type.displayName,trace[2].functionName,trace[2].source].join(';');
-    const typeSignature = type.toString();
-
-    hooks.register(type, typeSignature, 'source');
-    hooks.register(type, fingerPrint, 'trace');
-    id = idsByType.get(type)
-  }
-
+  const wasKnownBefore = hasCreatedElementsByType.get(type)
   hasCreatedElementsByType.set(type, true)
 
-  const proxy = proxiesByID[id];
+  // When available, give proxy class to React instead of the real class.
+  const id = idsByType.get(type)
+  if (!id) {
+    if (!wasKnownBefore) {
+      const signature = type.toString()
+      if (knownSignatures[signature]) {
+        warnAboutUnnacceptedClass(type)
+      } else {
+        knownSignatures[signature] = type
+      }
+    }
+    return type
+  }
+
+  const proxy = proxiesByID[id]
   if (!proxy) {
     return type
   }
@@ -167,7 +178,7 @@ function resolveType(type) {
   return proxy.get()
 }
 
-const {createElement} = React
+const { createElement } = React
 function patchedCreateElement(type, ...args) {
   // Trick React into rendering a proxy so that
   // its state is preserved when the class changes.

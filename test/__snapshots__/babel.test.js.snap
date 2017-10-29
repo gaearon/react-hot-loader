@@ -9,23 +9,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
+    var _arguments = arguments;
 
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      var _REACT_PROXY_CONTEXT;
+    this.bar = function (a, b) {
+      _arguments;
 
-      return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__bar__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, arguments);
+      return a(b);
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      arguments;
-
-      return a(b);
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
     }
   }]);
 
@@ -54,21 +67,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.onClick = function () {
-      var _REACT_PROXY_CONTEXT;
-
-      return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__onClick__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, arguments);
+    this.onClick = function (e) {
+      return e.target.value;
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__onClick__REACT_HOT_LOADER__\\",
-    value: function __onClick__REACT_HOT_LOADER__(e) {
-      return e.target.value;
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
     }
   }]);
 
@@ -104,16 +128,13 @@ var Foo = function () {
     _classCallCheck(this, Foo);
 
     this.bar = function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _REACT_PROXY_CONTEXT;
-
-        var _args = arguments;
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(a, b) {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__bar__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, _args);
+                return b(a);
 
               case 2:
                 return _context.abrupt(\\"return\\", _context.sent);
@@ -126,40 +147,32 @@ var Foo = function () {
         }, _callee, _this);
       }));
 
-      return function NAME() {
+      return function (_x, _x2) {
         return _ref.apply(this, arguments);
       };
     }();
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(a, b) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return b(a);
-
-              case 2:
-                return _context2.abrupt(\\"return\\", _context2.sent);
-
-              case 3:
-              case \\"end\\":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function __bar__REACT_HOT_LOADER__(_x, _x2) {
-        return _ref2.apply(this, arguments);
-      }
-
-      return __bar__REACT_HOT_LOADER__;
-    }()
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
   }]);
 
   return Foo;
@@ -194,16 +207,13 @@ var Foo = function () {
     _classCallCheck(this, Foo);
 
     this.bar = function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _REACT_PROXY_CONTEXT;
-
-        var _args = arguments;
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(a, b) {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__bar__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, _args);
+                return a(b);
 
               case 2:
                 return _context.abrupt(\\"return\\", _context.sent);
@@ -216,40 +226,32 @@ var Foo = function () {
         }, _callee, _this);
       }));
 
-      return function NAME() {
+      return function (_x, _x2) {
         return _ref.apply(this, arguments);
       };
     }();
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(a, b) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return a(b);
-
-              case 2:
-                return _context2.abrupt(\\"return\\", _context2.sent);
-
-              case 3:
-              case \\"end\\":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function __bar__REACT_HOT_LOADER__(_x, _x2) {
-        return _ref2.apply(this, arguments);
-      }
-
-      return __bar__REACT_HOT_LOADER__;
-    }()
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
   }]);
 
   return Foo;
@@ -277,21 +279,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      var _REACT_PROXY_CONTEXT;
-
-      return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__bar__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, arguments);
+    this.bar = function (a, b) {
+      return a(b);
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      return a(b);
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
     }
   }]);
 
@@ -320,23 +333,34 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
     this.bar = function () {
-      var _REACT_PROXY_CONTEXT;
+      var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"foo\\";
 
-      return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__bar__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, arguments);
+      return a + \\"bar\\";
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__() {
-      var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"foo\\";
-
-      return a + \\"bar\\";
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
     }
   }]);
 
@@ -365,24 +389,35 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      var _REACT_PROXY_CONTEXT;
-
-      return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__bar__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(_ref, _ref2) {
+    this.bar = function (_ref, _ref2) {
       var a = _ref.a;
       var b = _ref2.b;
 
       return \\"\\" + a + b;
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
     }
   }]);
 
@@ -411,21 +446,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.onClick = function () {
-      var _REACT_PROXY_CONTEXT;
-
-      return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__onClick__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, arguments);
+    this.onClick = function (e) {
+      return e.target.value;
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__onClick__REACT_HOT_LOADER__\\",
-    value: function __onClick__REACT_HOT_LOADER__(e) {
-      return e.target.value;
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
     }
   }]);
 
@@ -454,27 +500,38 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
+    var _arguments = arguments;
 
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      var _REACT_PROXY_CONTEXT;
-
-      return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__bar__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      var _arguments = arguments;
-
+    this.bar = function (a, b) {
       (function () {
         _arguments;
       });
 
       return a(b);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
     }
   }]);
 
@@ -503,25 +560,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      var _REACT_PROXY_CONTEXT;
-
-      return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__bar__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
+    this.bar = function (a, b) {
       (function () {
         new.target;
       });
 
       return a(b);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
     }
   }]);
 
@@ -550,23 +618,34 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      var _REACT_PROXY_CONTEXT;
+    this.bar = function (a, b) {
+      new.target;
 
-      return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__bar__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, arguments);
+      return a(b);
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      new.target;
-
-      return a(b);
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
     }
   }]);
 
@@ -589,13 +668,41 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods not a function.js 1`] = `
 "\\"use strict\\";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function Foo() {
-  _classCallCheck(this, Foo);
+var Foo = function () {
+  function Foo() {
+    _classCallCheck(this, Foo);
 
-  this.bar = 2;
-};
+    this.bar = 2;
+  }
+
+  _createClass(Foo, [{
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }]);
+
+  return Foo;
+}();
 
 ;
 
@@ -613,15 +720,43 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods not an arrow function.js 1`] = `
 "\\"use strict\\";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function Foo() {
-  _classCallCheck(this, Foo);
+var Foo = function () {
+  function Foo() {
+    _classCallCheck(this, Foo);
 
-  this.bar = function (a, b) {
-    return a(b);
-  };
-};
+    this.bar = function (a, b) {
+      return a(b);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }]);
+
+  return Foo;
+}();
 
 ;
 
@@ -645,26 +780,37 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      var _REACT_PROXY_CONTEXT;
-
-      return (_REACT_PROXY_CONTEXT = _this.__REACT_PROXY_CONTEXT).__bar__REACT_HOT_LOADER__.apply(_REACT_PROXY_CONTEXT, arguments);
+    this.bar = function (a, b) {
+      return a(b);
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      return a(b);
-    }
-  }, {
     key: \\"bar\\",
     value: function bar() {
       return 2;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
     }
   }]);
 
@@ -687,11 +833,39 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods static property.js 1`] = `
 "\\"use strict\\";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function Foo() {
-  _classCallCheck(this, Foo);
-};
+var Foo = function () {
+  function Foo() {
+    _classCallCheck(this, Foo);
+  }
+
+  _createClass(Foo, [{
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Foo = superClass;
+    }
+  }]);
+
+  return Foo;
+}();
 
 Foo.bar = function (a, b) {
   return a(b);
@@ -732,9 +906,35 @@ var A = 42;
 function B() {
   function R() {}
 
-  var S = function S() {
-    _classCallCheck(this, S);
-  };
+  var S = function () {
+    function S() {
+      _classCallCheck(this, S);
+    }
+
+    _createClass(S, [{
+      key: \\"__facade__regenerateByEval\\",
+      value: function __facade__regenerateByEval(key, code) {
+        this[key] = eval(code);
+      }
+    }, {
+      key: \\"__facade__rewireSuper\\",
+      value: function __facade__rewireSuper(superClass) {
+        S = superClass;
+      }
+    }, {
+      key: \\"__facade__regenerateByEval\\",
+      value: function __facade__regenerateByEval(key, code) {
+        this[key] = eval(code);
+      }
+    }, {
+      key: \\"__facade__rewireSuper\\",
+      value: function __facade__rewireSuper(superClass) {
+        S = superClass;
+      }
+    }]);
+
+    return S;
+  }();
 
   var T = 42;
 }
@@ -748,19 +948,81 @@ var C = exports.C = function () {
     key: \\"U\\",
     value: function U() {
       function V() {
-        var W = function W() {
-          _classCallCheck(this, W);
-        };
+        var W = function () {
+          function W() {
+            _classCallCheck(this, W);
+          }
+
+          _createClass(W, [{
+            key: \\"__facade__regenerateByEval\\",
+            value: function __facade__regenerateByEval(key, code) {
+              this[key] = eval(code);
+            }
+          }, {
+            key: \\"__facade__rewireSuper\\",
+            value: function __facade__rewireSuper(superClass) {
+              W = superClass;
+            }
+          }, {
+            key: \\"__facade__regenerateByEval\\",
+            value: function __facade__regenerateByEval(key, code) {
+              this[key] = eval(code);
+            }
+          }, {
+            key: \\"__facade__rewireSuper\\",
+            value: function __facade__rewireSuper(superClass) {
+              W = superClass;
+            }
+          }]);
+
+          return W;
+        }();
       }
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      C = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      C = superClass;
     }
   }]);
 
   return C;
 }();
 
-var D = function X() {
-  _classCallCheck(this, X);
-};
+var D = function () {
+  function X() {
+    _classCallCheck(this, X);
+  }
+
+  _createClass(X, [{
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      X = superClass;
+    }
+  }]);
+
+  return X;
+}();
 var E = D;
 var Y = require(\\"left-pad\\");
 
@@ -802,11 +1064,39 @@ Object.defineProperty(exports, \\"__esModule\\", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Counter = function Counter() {
-  _classCallCheck(this, Counter);
-};
+var Counter = function () {
+  function Counter() {
+    _classCallCheck(this, Counter);
+  }
+
+  _createClass(Counter, [{
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Counter = superClass;
+    }
+  }, {
+    key: \\"__facade__regenerateByEval\\",
+    value: function __facade__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }, {
+    key: \\"__facade__rewireSuper\\",
+    value: function __facade__rewireSuper(superClass) {
+      Counter = superClass;
+    }
+  }]);
+
+  return Counter;
+}();
 
 var _default = function _default() {
   return React.createElement(

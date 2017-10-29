@@ -40,6 +40,8 @@ module.exports = function plugin(args) {
 
   var evalTemplate = template('this[key]=eval(code);')
 
+  var rewireSuperTemplate = template('ID=superClass;');
+
   // We're making the IIFE we insert at the end of the file an unused variable
   // because it otherwise breaks the output of the babel-node REPL (#359).
   const buildTagger = template(`
@@ -153,6 +155,7 @@ module.exports = function plugin(args) {
       },
       Class(classPath) {
         const classBody = classPath.get('body')
+
         var newMethod = t.classMethod(
           'method',
           t.identifier('__facade__regenerateByEval'),
@@ -160,6 +163,13 @@ module.exports = function plugin(args) {
           t.blockStatement([evalTemplate()])
         )
         classBody.pushContainer('body',newMethod)
+
+        var newMethod = t.classMethod(
+          'method',
+          t.identifier('__facade__rewireSuper'),
+          [t.identifier('superClass')],
+          t.blockStatement([rewireSuperTemplate({ ID: t.identifier(classPath.node.id.name) })]));
+        classBody.pushContainer('body', newMethod);
       },
     },
   }
