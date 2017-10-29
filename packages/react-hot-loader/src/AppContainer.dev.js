@@ -1,8 +1,6 @@
-const React = require('react')
-const PropTypes = require('prop-types')
-const deepForceUpdate = require('react-deep-force-update')
-
-const { Component } = React
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import deepForceUpdate from 'react-deep-force-update'
 
 class AppContainer extends Component {
   constructor(props) {

@@ -1,6 +1,6 @@
-const React = require('react')
-const createProxy = require('react-proxy').default
-const global = require('global')
+import React from 'react'
+import createProxy from 'react-proxy'
+import global from 'global'
 
 class ComponentMap {
   constructor(useWeakMap) {
@@ -167,13 +167,14 @@ function resolveType(type) {
   return proxy.get()
 }
 
-const { createElement } = React
+const { createElement: originalCreateElement } = React
+
 function patchedCreateElement(type, ...args) {
   // Trick React into rendering a proxy so that
   // its state is preserved when the class changes.
   // This will update the proxy if it's for a known type.
   const resolvedType = resolveType(type)
-  return createElement(resolvedType, ...args)
+  return originalCreateElement(resolvedType, ...args)
 }
 patchedCreateElement.isPatchedByReactHotLoader = true
 

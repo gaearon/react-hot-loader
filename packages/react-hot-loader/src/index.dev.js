@@ -1,6 +1,8 @@
-const AppContainer = require('./AppContainer')
+import AppContainer from './AppContainer'
 
-module.exports = function warnAboutIncorrectUsage(arg) {
+export { AppContainer }
+
+export default function warnAboutIncorrectUsage(arg) {
   if (this && this.callback) {
     throw new Error(
       'React Hot Loader: The Webpack loader is now exported separately. ' +
@@ -33,5 +35,3 @@ module.exports = function warnAboutIncorrectUsage(arg) {
     )
   }
 }
-
-module.exports.AppContainer = AppContainer

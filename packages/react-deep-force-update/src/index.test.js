@@ -1,7 +1,9 @@
+/* eslint-env jest */
+
 import React, { Component } from 'react'
 import createReactClass from 'create-react-class'
 import { renderIntoDocument } from 'react-dom/test-utils'
-import deepForceUpdate from '../src'
+import deepForceUpdate from './'
 
 let calls = 0
 

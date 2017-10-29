@@ -1,2 +1,5 @@
-test/__babel_fixtures__
-lib
+node_modules/
+__babel_fixtures__/
+lib/
+dist/
+modules/

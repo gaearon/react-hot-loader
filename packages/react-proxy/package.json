@@ -10,7 +10,7 @@
     "test:native-es2015": "NODE_ENV=native-es2015 mocha --compilers js:babel-core/register --recursive ./test",
     "test:native-es2015:watch": "npm run test:native-es2015 -- --watch",
     "test:watch": "npm run test:babel-es2015 -- --watch",
-    "prepublish": "npm run build && npm test"
+    "prepublishOnly": "npm run build && npm test"
   },
   "files": [
     "dist",

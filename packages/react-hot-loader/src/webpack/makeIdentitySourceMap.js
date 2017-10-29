@@ -1,4 +1,4 @@
-const { SourceMapGenerator } = require('source-map')
+import { SourceMapGenerator } from 'source-map'
 
 function makeIdentitySourceMap(content, resourcePath) {
   const map = new SourceMapGenerator()
@@ -21,4 +21,4 @@ function makeIdentitySourceMap(content, resourcePath) {
   return map.toJSON()
 }
 
-module.exports = makeIdentitySourceMap
+export default makeIdentitySourceMap

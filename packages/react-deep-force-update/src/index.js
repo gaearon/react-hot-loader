@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 // Constant to identify a React Component. It's been extracted from ReactTypeOfWork
 // (https://github.com/facebook/react/blob/master/src/shared/ReactTypeOfWork.js#L20)
 const ReactClassComponent = 2

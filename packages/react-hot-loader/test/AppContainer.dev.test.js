@@ -1,9 +1,10 @@
-import '../src/patch.dev'
+/* eslint-env jest */
+
 import React, { Component } from 'react'
 import createReactClass from 'create-react-class'
 import { mount } from 'enzyme'
 import { mapProps } from 'recompose'
-
+import '../src/patch.dev'
 import AppContainer from '../src/AppContainer.dev'
 
 const RHL = global.__REACT_HOT_LOADER__
@@ -957,7 +958,11 @@ function runAllTests(useWeakMap) {
         const App = () => <Dummy />
         RHL.register(Dummy, 'Dummy', 'test.js')
 
-        const wrapper = mount(<AppContainer><App /></AppContainer>)
+        const wrapper = mount(
+          <AppContainer>
+            <App />
+          </AppContainer>,
+        )
         expect(firstSpy).toHaveBeenCalledTimes(1)
 
         const secondSpy = jest.fn()
@@ -1129,7 +1134,11 @@ function runAllTests(useWeakMap) {
         const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
         RHL.register(Enhanced, 'Enhanced', 'test.js')
 
-        const wrapper = mount(<AppContainer><Enhanced n={3} /></AppContainer>)
+        const wrapper = mount(
+          <AppContainer>
+            <Enhanced n={3} />
+          </AppContainer>,
+        )
         expect(firstSpy).toHaveBeenCalledTimes(1)
 
         const secondSpy = jest.fn()

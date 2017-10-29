@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 
-const React = require('react')
-
-const { Component } = React
+import React, { Component } from 'react'
 
 class AppContainer extends Component {
   render() {
@@ -14,4 +12,4 @@ class AppContainer extends Component {
   }
 }
 
-module.exports = AppContainer
+export default AppContainer

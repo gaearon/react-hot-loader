@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 import path from 'path'
 import fs from 'fs'
 import { transformFileSync } from 'babel-core'

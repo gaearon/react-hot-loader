@@ -1,7 +1,7 @@
-const fs = require('fs')
-const path = require('path')
-const { SourceNode, SourceMapConsumer } = require('source-map')
-const makeIdentitySourceMap = require('./makeIdentitySourceMap')
+import fs from 'fs'
+import path from 'path'
+import { SourceNode, SourceMapConsumer } from 'source-map'
+import makeIdentitySourceMap from './makeIdentitySourceMap'
 
 let tagCommonJSExportsSource = null
 
@@ -60,4 +60,4 @@ function transform(source, map) {
   return this.callback(null, result.code, result.map.toString())
 }
 
-module.exports = transform
+export default transform

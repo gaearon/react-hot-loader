@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "test": "jest",
     "test:watch": "yarn test -- --watch",
-    "prepublish": "yarn clean && yarn build",
+    "prepublishOnly": "yarn clean && yarn build",
     "format": "prettier --write \"{src,test}/**/*.js\" *.js"
   },
   "files": [
@@ -27,24 +27,5 @@
   "bugs": {
     "url": "https://github.com/gaearon/react-deep-force-update/issues"
   },
-  "homepage": "https://github.com/gaearon/react-deep-force-update",
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.0.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
-    "create-react-class": "^15.6.0",
-    "eslint": "^4.7.1",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-prettier": "^2.5.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.1.0",
-    "jest": "^21.1.0",
-    "prettier": "^1.7.0",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "rimraf": "^2.6.2"
-  }
+  "homepage": "https://github.com/gaearon/react-deep-force-update"
 }
