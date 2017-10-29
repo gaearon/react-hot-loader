@@ -1,5 +1,5 @@
 const React = require('react')
-const createProxy = require('react-proxy').default
+const createProxy = require('react-stand-in').default
 const global = require('global')
 
 class ComponentMap {
@@ -68,11 +68,18 @@ let proxiesByID
 let didWarnAboutID
 let hasCreatedElementsByType
 let idsByType
+let firstInstances
 let knownSignatures
 let didUpdateProxy
 
+function replaceFirstInstance (id, type) {
+  try {
+    firstInstances[id].prototype.__facade__rewireSuper(type)
+  } catch (e) {}
+}
+
 const hooks = {
-  register(type, uniqueLocalName, fileName) {
+  register(type, uniqueLocalName, fileName, replaceCallback) {
     if (typeof type !== 'function') {
       return
     }
@@ -82,6 +89,7 @@ const hooks = {
     if (typeof uniqueLocalName !== 'string' || typeof fileName !== 'string') {
       return
     }
+
     const id = fileName + '#' + uniqueLocalName // eslint-disable-line prefer-template
     if (!idsByType.has(type) && hasCreatedElementsByType.has(type)) {
       if (!didWarnAboutID[id]) {
@@ -89,9 +97,9 @@ const hooks = {
         const baseName = fileName.replace(/^.*[\\/]/, '')
         console.error(
           `React Hot Loader: ${uniqueLocalName} in ${fileName} will not hot reload ` +
-            `correctly because ${baseName} uses <${uniqueLocalName} /> during ` +
-            `module definition. For hot reloading to work, move ${uniqueLocalName} ` +
-            `into a separate file and import it from ${baseName}.`,
+          `correctly because ${baseName} uses <${uniqueLocalName} /> during ` +
+          `module definition. For hot reloading to work, move ${uniqueLocalName} ` +
+          `into a separate file and import it from ${baseName}.`,
         )
       }
       return
@@ -104,8 +112,10 @@ const hooks = {
     // the same way as the original classes but are updatable with
     // new versions without destroying original instances.
     if (!proxiesByID[id]) {
+      firstInstances[id] = type;
       proxiesByID[id] = createProxy(type)
     } else {
+      replaceFirstInstance(id, type)
       proxiesByID[id].update(type)
       didUpdateProxy = true
     }
@@ -116,6 +126,7 @@ const hooks = {
     didWarnAboutID = {}
     hasCreatedElementsByType = new ComponentMap(useWeakMap)
     idsByType = new ComponentMap(useWeakMap)
+    firstInstances = {}
     knownSignatures = {}
     didUpdateProxy = false
   },
@@ -129,8 +140,8 @@ function warnAboutUnnacceptedClass(typeSignature) {
   if (didUpdateProxy && global.__REACT_HOT_LOADER__.warnings !== false) {
     console.warn(
       'React Hot Loader: this component is not accepted by Hot Loader. \n' +
-        'Please check is it extracted as a top level class, a function or a variable. \n' +
-        'Click below to reveal the source location: \n',
+      'Please check is it extracted as a top level class, a function or a variable. \n' +
+      'Click below to reveal the source location: \n',
       typeSignature,
     )
   }

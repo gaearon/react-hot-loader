@@ -3290,9 +3290,9 @@ react-dom@^16.0.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-proxy@^3.0.0-alpha.0:
-  version "3.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/react-proxy/-/react-proxy-3.0.0-alpha.1.tgz#4400426bcfa80caa6724c7755695315209fa4b07"
+react-stand-in@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-stand-in/-/react-stand-in-1.0.2.tgz#c73f2659baa436d9533341d54100b03e864256f9"
   dependencies:
     lodash "^4.6.1"
 
