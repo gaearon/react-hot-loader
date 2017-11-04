@@ -86,9 +86,13 @@ module.exports = function plugin(args) {
     )
   }
   const { types: t, template } = args
+  
+  const templateOptions = {
+    placeholderPattern: /^([A-Z0-9]+)([A-Z0-9_]+)$/
+  }  
 
   const buildRegistration = template(
-    '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);',
+    '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);', templateOptions,
   )
 
   // We're making the IIFE we insert at the end of the file an unused variable
@@ -101,7 +105,7 @@ module.exports = function plugin(args) {
 
     REGISTRATIONS
   })();
-  `)
+  `, templateOptions)
 
   // No-op in production.
   if (process.env.NODE_ENV === 'production') {
