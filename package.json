@@ -1,6 +1,6 @@
 {
   "name": "react-hot-loader",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Tweak React components in real time.",
   "main": "index.js",
   "files": [
