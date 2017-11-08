@@ -1,5 +1,9 @@
 ## Changelog
 
+### 3.1.2
+
+* Add support for Babel 7 (#693)
+
 ### 3.1.1
 
 * Revert fix arrow function that uses props in constructor (#670)
