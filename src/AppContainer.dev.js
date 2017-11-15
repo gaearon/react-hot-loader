@@ -42,6 +42,17 @@ class AppContainer extends Component {
     // components that refuse to update.
     deepForceUpdate(this)
   }
+  
+  shouldComponentUpdate(prevProps, prevState) {
+    // Don't update the component if the state had an error and still has one.
+    // This allows to break an infinite loop of error -> render -> error -> render
+    // https://github.com/gaearon/react-hot-loader/issues/696
+    if (prevState.error && this.state.error) {
+      return false
+    }
+
+    return true
+  }
 
   // This hook is going to become official in React 15.x.
   // In 15.0, it only catches errors on initial mount.
