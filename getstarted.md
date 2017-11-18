@@ -193,7 +193,7 @@ To preserve *internal component state*, you now need to add `react-hot-loader` t
     ```js
     import 'react-hot-loader/patch';
     import React from 'react';
-    import { render } from 'react-dom';
+    import ReactDOM from 'react-dom';
 
     import { AppContainer } from 'react-hot-loader';
     import RootContainer from './containers/rootContainer';
