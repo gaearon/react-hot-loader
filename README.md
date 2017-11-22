@@ -23,18 +23,19 @@ npm install --save react-hot-loader
 
 ## Getting started
 
-1. Add `react-hot-loader/babel` to your `.babelrc`:
+1. Add `react-hot-loader/babel` and set `{ modules: false }` in your `.babelrc`:
 
 ```js
 // .babelrc
 {
+  "presets": [["env", { "modules": false }],
   "plugins": ["react-hot-loader/babel"]
 }
 ```
 
-2. [Enable Hot Module Replacement in Webpack](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr)
+3. [Enable Hot Module Replacement in Webpack](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr)
 
-3. Add `react-hot-loader/patch` at the top of the entry section (except polyfills) of your Webpack config:
+4. Add `react-hot-loader/patch` at the top of the entry section (except polyfills) of your Webpack config:
 
 ```js
 // webpack.config.js
@@ -49,7 +50,7 @@ module.exports = {
 
 > Note: Make sure to set the `output.publicPath` property to `"/"` as well. Otherwise hot reloading won't work as expected for nested routes.
 
-4. Wrap your application into `<AppContainer>`, all children of `<AppContainer>` will be reloaded when a change occurs:
+5. Wrap your application into `<AppContainer>`, all children of `<AppContainer>` will be reloaded when a change occurs:
 
 ```js
 // main.js
