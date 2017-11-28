@@ -1,0 +1,42 @@
+{
+  "name": "react-stand-in",
+  "version": "1.1.0",
+  "description": "Proxies ES6 React components without unmounting or losing their state.",
+  "main": "modules/index.js",
+  "scripts": {
+    "clean": "rimraf modules dist",
+    "build:dist": "NODE_ENV=native-es2015 webpack",
+    "build:es": "NODE_ENV=native-es2015 babel src --out-dir modules",
+    "build": "npm run clean && npm run build:es",
+    "test": "npm run test:babel-es2015 && npm run test:native-es2015",
+    "test:babel-es2015": "NODE_ENV=babel-es2015 mocha --compilers js:babel-core/register --recursive ./test",
+    "test:native-es2015": "NODE_ENV=native-es2015 mocha --compilers js:babel-core/register --recursive ./test",
+    "test:native-es2015:watch": "npm run test:native-es2015 -- --watch",
+    "test:watch": "npm run test:babel-es2015 -- --watch",
+    "prepublish": "npm run build"
+  },
+  "files": [
+    "dist",
+    "modules",
+    "src",
+    "symbols.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thekashey/react-facade.git"
+  },
+  "author": "Anton Korzunov <thekashey@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thekashey/react-facade/issues"
+  },
+  "homepage": "https://github.com/thekashey/react-facade",
+  "peerDependencies": {},
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "react-proxy"
+  ],
+  "devDependencies": {}
+}
