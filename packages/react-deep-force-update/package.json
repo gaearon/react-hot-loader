@@ -27,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/gaearon/react-deep-force-update/issues"
   },
+  "devDependencies": {
+    "babel-cli": "^6.3.17"
+  },
   "homepage": "https://github.com/gaearon/react-deep-force-update"
 }
