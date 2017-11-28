@@ -3,9 +3,9 @@
 let exportedModule
 
 if (!module.hot || process.env.NODE_ENV === 'production') {
-  exportedModule = require('./index.prod').default
+  exportedModule = require('./index.prod')
 } else {
-  exportedModule = require('./index.dev').default
+  exportedModule = require('./index.dev')
 }
 
-export default exportedModule
+module.exports = exportedModule;

@@ -1,6 +1,7 @@
-import React from 'react'
-import createProxy from 'react-proxy'
+import createProxy from 'react-stand-in'
+import { REWIRE_CLASSNAME } from 'react-stand-in/symbols';
 import global from 'global'
+import React from 'react'
 
 class ComponentMap {
   constructor(useWeakMap) {
@@ -68,8 +69,15 @@ let proxiesByID
 let didWarnAboutID
 let hasCreatedElementsByType
 let idsByType
+let firstInstances
 let knownSignatures
 let didUpdateProxy
+
+function replaceFirstInstance (id, type) {
+  try {
+    firstInstances[id].prototype[REWIRE_CLASSNAME](type)
+  } catch (e) {}
+}
 
 const hooks = {
   register(type, uniqueLocalName, fileName) {
@@ -89,9 +97,9 @@ const hooks = {
         const baseName = fileName.replace(/^.*[\\/]/, '')
         console.error(
           `React Hot Loader: ${uniqueLocalName} in ${fileName} will not hot reload ` +
-            `correctly because ${baseName} uses <${uniqueLocalName} /> during ` +
-            `module definition. For hot reloading to work, move ${uniqueLocalName} ` +
-            `into a separate file and import it from ${baseName}.`,
+          `correctly because ${baseName} uses <${uniqueLocalName} /> during ` +
+          `module definition. For hot reloading to work, move ${uniqueLocalName} ` +
+          `into a separate file and import it from ${baseName}.`,
         )
       }
       return
@@ -104,9 +112,11 @@ const hooks = {
     // the same way as the original classes but are updatable with
     // new versions without destroying original instances.
     if (!proxiesByID[id]) {
+      firstInstances[id] = type;
       proxiesByID[id] = createProxy(type)
     } else {
       proxiesByID[id].update(type)
+      //replaceFirstInstance(id, type)
       didUpdateProxy = true
     }
   },
@@ -116,6 +126,7 @@ const hooks = {
     didWarnAboutID = {}
     hasCreatedElementsByType = new ComponentMap(useWeakMap)
     idsByType = new ComponentMap(useWeakMap)
+    firstInstances = {}
     knownSignatures = {}
     didUpdateProxy = false
   },
@@ -125,12 +136,12 @@ const hooks = {
 
 hooks.reset(typeof WeakMap === 'function')
 
-function warnAboutUnnacceptedClass(typeSignature) {
+function warnAboutUnacceptedClass(typeSignature) {
   if (didUpdateProxy && global.__REACT_HOT_LOADER__.warnings !== false) {
     console.warn(
       'React Hot Loader: this component is not accepted by Hot Loader. \n' +
-        'Please check is it extracted as a top level class, a function or a variable. \n' +
-        'Click below to reveal the source location: \n',
+      'Please check is it extracted as a top level class, a function or a variable. \n' +
+      'Click below to reveal the source location: \n',
       typeSignature,
     )
   }
@@ -151,7 +162,7 @@ function resolveType(type) {
     if (!wasKnownBefore) {
       const signature = type.toString()
       if (knownSignatures[signature]) {
-        warnAboutUnnacceptedClass(type)
+        warnAboutUnacceptedClass(type)
       } else {
         knownSignatures[signature] = type
       }

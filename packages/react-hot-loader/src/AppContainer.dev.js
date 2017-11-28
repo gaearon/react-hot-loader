@@ -86,4 +86,4 @@ AppContainer.propTypes = {
   warnings: PropTypes.bool,
 }
 
-module.exports = AppContainer
+export default AppContainer

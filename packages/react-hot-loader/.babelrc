@@ -1,0 +1,9 @@
+{
+  "presets": ["env", "react"],
+  "plugins": ["transform-class-properties"],
+  "env": {
+    "test": {
+      "plugins": ["transform-class-properties", "./lib/babel"]
+    }
+  }
+}

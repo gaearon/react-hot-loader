@@ -1,75 +1,8 @@
 const replaced = Symbol('replaced')
+const { REGENERATE_METHOD, REWIRE_CLASSNAME } = require('react-stand-in/symbols');
 
-const buildNewClassProperty = (
-  t,
-  classPropertyName,
-  newMethodName,
-  isAsync,
-) => {
-  let returnExpression = t.callExpression(
-    t.memberExpression(t.thisExpression(), newMethodName),
-    [t.spreadElement(t.identifier('params'))],
-  )
-
-  if (isAsync) {
-    returnExpression = t.awaitExpression(returnExpression)
-  }
-
-  const newArrowFunction = t.arrowFunctionExpression(
-    [t.restElement(t.identifier('params'))],
-    returnExpression,
-    isAsync,
-  )
-  return t.classProperty(classPropertyName, newArrowFunction)
-}
-
-const buildNewAssignmentExpression = (
-  t,
-  classPropertyName,
-  newMethodName,
-  isAsync,
-) => {
-  let returnExpression = t.callExpression(
-    t.memberExpression(t.thisExpression(), newMethodName),
-    [t.spreadElement(t.identifier('params'))],
-  )
-
-  if (isAsync) {
-    returnExpression = t.awaitExpression(returnExpression)
-  }
-
-  const newArrowFunction = t.arrowFunctionExpression(
-    [t.restElement(t.identifier('params'))],
-    returnExpression,
-    isAsync,
-  )
-  const left = t.memberExpression(
-    t.thisExpression(),
-    t.identifier(classPropertyName.name),
-  )
-
-  const replacement = t.assignmentExpression('=', left, newArrowFunction)
-  replacement[replaced] = true
-
-  return replacement
-}
-
-const classPropertyOptOutVistor = {
-  MetaProperty(path, state) {
-    const { node } = path
-
-    if (node.meta.name === 'new' && node.property.name === 'target') {
-      state.optOut = true // eslint-disable-line no-param-reassign
-    }
-  },
-
-  ReferencedIdentifier(path, state) {
-    const { node } = path
-
-    if (node.name === 'arguments') {
-      state.optOut = true // eslint-disable-line no-param-reassign
-    }
-  },
+const templateOptions = {
+  placeholderPattern: /^([A-Z0-9]+)([A-Z0-9_]+)$/
 }
 
 module.exports = function plugin(args) {
@@ -87,9 +20,12 @@ module.exports = function plugin(args) {
   }
   const { types: t, template } = args
 
-  const buildRegistration = template(
-    '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);',
-  )
+  const buildRegistration = template('__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);', templateOptions)
+
+  // const THIS=CLASSID;
+  var evalTemplate = template('this[key]=eval(code);', templateOptions)
+
+  var rewireSuperTemplate = template('ID=superClass;', templateOptions)
 
   // We're making the IIFE we insert at the end of the file an unused variable
   // because it otherwise breaks the output of the babel-node REPL (#359).
@@ -101,7 +37,7 @@ module.exports = function plugin(args) {
 
     REGISTRATIONS
   })();
-  `)
+  `, templateOptions)
 
   // No-op in production.
   if (process.env.NODE_ENV === 'production') {
@@ -205,114 +141,20 @@ module.exports = function plugin(args) {
       Class(classPath) {
         const classBody = classPath.get('body')
 
-        classBody.get('body').forEach(path => {
-          if (path.isClassProperty()) {
-            const { node } = path
+        const regenerateMethod = t.classMethod(
+          'method',
+          t.identifier(REGENERATE_METHOD),
+          [t.identifier('key'), t.identifier('code')],
+          t.blockStatement([evalTemplate()])
+        )
+        classBody.pushContainer('body',regenerateMethod)
 
-            // don't apply transform to static class properties
-            if (node.static) {
-              return
-            }
-
-            const state = {
-              optOut: false,
-            }
-
-            path.traverse(classPropertyOptOutVistor, state)
-
-            if (state.optOut) {
-              return
-            }
-
-            // class property node value is nullable
-            if (node.value && node.value.type === 'ArrowFunctionExpression') {
-              const isAsync = node.value.async
-
-              // TODO:
-              // Remove this check when babel issue is resolved: https://github.com/babel/babel/issues/5078
-              // RHL Issue: https://github.com/gaearon/react-hot-loader/issues/391
-              // This code makes async arrow functions not reloadable,
-              // but doesn't break code any more when using 'this' inside AAF
-              if (isAsync) {
-                return
-              }
-
-              const { params } = node.value
-              const newIdentifier = t.identifier(
-                `__${node.key.name}__REACT_HOT_LOADER__`,
-              )
-
-              // arrow function body can either be a block statement or a returned expression
-              const newMethodBody =
-                node.value.body.type === 'BlockStatement'
-                  ? node.value.body
-                  : t.blockStatement([t.returnStatement(node.value.body)])
-
-              // create a new method on the class that the original class property function
-              // calls, since the method is able to be replaced by RHL
-              const newMethod = t.classMethod(
-                'method',
-                newIdentifier,
-                params,
-                newMethodBody,
-              )
-              newMethod.async = isAsync
-              path.insertAfter(newMethod)
-
-              // replace the original class property function with a function that calls
-              // the new class method created above
-              path.replaceWith(
-                buildNewClassProperty(t, node.key, newIdentifier, isAsync),
-              )
-            }
-          } else if (!path.node[replaced] && path.node.kind === 'constructor') {
-            path.traverse({
-              AssignmentExpression(exp) {
-                if (
-                  !exp.node[replaced] &&
-                  exp.node.left.type === 'MemberExpression' &&
-                  exp.node.left.object.type === 'ThisExpression' &&
-                  exp.node.right.type === 'ArrowFunctionExpression'
-                ) {
-                  const key = exp.node.left.property
-                  const node = exp.node.right
-
-                  const isAsync = node.async
-                  const { params } = node
-                  const newIdentifier = t.identifier(
-                    `__${key.name}__REACT_HOT_LOADER__`,
-                  )
-
-                  // arrow function body can either be a block statement or a returned expression
-                  const newMethodBody =
-                    node.body.type === 'BlockStatement'
-                      ? node.body
-                      : t.blockStatement([t.returnStatement(node.body)])
-
-                  const newMethod = t.classMethod(
-                    'method',
-                    newIdentifier,
-                    params,
-                    newMethodBody,
-                  )
-                  newMethod.async = isAsync
-                  newMethod[replaced] = true
-                  path.insertAfter(newMethod)
-
-                  // replace assignment exp
-                  exp.replaceWith(
-                    buildNewAssignmentExpression(
-                      t,
-                      key,
-                      newIdentifier,
-                      isAsync,
-                    ),
-                  )
-                }
-              },
-            })
-          }
-        })
+        const replaceClassMethod = t.classMethod(
+          'method',
+          t.identifier(REWIRE_CLASSNAME),
+          [t.identifier('superClass')],
+          t.blockStatement([rewireSuperTemplate({ ID: t.identifier(classPath.node.id.name) })]));
+        classBody.pushContainer('body', replaceClassMethod);
       },
     },
   }
