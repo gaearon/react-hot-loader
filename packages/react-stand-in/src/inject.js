@@ -9,7 +9,7 @@ function mergeComponents(ProxyComponent, NextComponent, PreviousComponents) {
     try {
       // bypass babel class inheritance checking
       PreviousComponents.forEach(PreviousComponent => PreviousComponent.prototype = NextComponent.prototype);
-    }catch(e){
+    } catch (e) {
       // It was es6 class
     }
 
@@ -23,25 +23,27 @@ function mergeComponents(ProxyComponent, NextComponent, PreviousComponents) {
       .forEach(function (key) {
         const next = ins2[key];
         const prev = ins1[key];
-        if (isNativeFunction(next) || isNativeFunction(prev)) {
-          // this is bound method
-          if (next.length === prev.length) {
-            injectedCode[key] = `Object.getPrototypeOf(this)['${key}'].bind(this)`;
-          } else {
-            console.error('React-stand-in:',
-              'Updated class ', ProxyComponent.name, 'contains native or bound function ', key, next,
-              '. Unable to reproduce, use arrow functions instead.');
+        if (prev && next) {
+          if (isNativeFunction(next) || isNativeFunction(prev)) {
+            // this is bound method
+            if (next.length === prev.length && ProxyComponent.prototype[key]) {
+              injectedCode[key] = `Object.getPrototypeOf(this)['${key}'].bind(this)`;
+            } else {
+              console.error('React-stand-in:',
+                'Updated class ', ProxyComponent.name, 'contains native or bound function ', key, next,
+                '. Unable to reproduce, use arrow functions instead.');
+            }
+            return;
           }
-          return;
-        }
 
-        if (("" + next) !== ("" + prev)) {
-          if (!hasRegenerate) {
-            console.error('React-stand-in:',
-              ' Updated class ', ProxyComponent.name, 'had different code for', key, next,
-              '. Unable to reproduce. Regeneration support needed.');
-          } else {
-            injectedCode[key] = next;
+          if (("" + next) !== ("" + prev)) {
+            if (!hasRegenerate) {
+              console.error('React-stand-in:',
+                ' Updated class ', ProxyComponent.name, 'had different code for', key, next,
+                '. Unable to reproduce. Regeneration support needed.');
+            } else {
+              injectedCode[key] = next;
+            }
           }
         }
 
@@ -71,7 +73,7 @@ function inject(target, currentGeneration, injectedMembers) {
   if (target[GENERATION] !== currentGeneration) {
     Object
       .keys(injectedMembers)
-      .forEach(key => target[REGENERATE_METHOD](key, '/*RHL*/'+injectedMembers[key]));
+      .forEach(key => target[REGENERATE_METHOD](key, '/*RHL*/' + injectedMembers[key]));
 
     target[GENERATION] = currentGeneration;
   }

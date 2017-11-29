@@ -1,5 +1,5 @@
 const replaced = Symbol('replaced')
-const { REGENERATE_METHOD, REWIRE_CLASSNAME } = require('react-stand-in/symbols');
+const { REGENERATE_METHOD } = require('react-stand-in/symbols');
 
 const templateOptions = {
   placeholderPattern: /^([A-Z0-9]+)([A-Z0-9_]+)$/
@@ -22,10 +22,7 @@ module.exports = function plugin(args) {
 
   const buildRegistration = template('__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);', templateOptions)
 
-  // const THIS=CLASSID;
   var evalTemplate = template('this[key]=eval(code);', templateOptions)
-
-  var rewireSuperTemplate = template('ID=superClass;', templateOptions)
 
   // We're making the IIFE we insert at the end of the file an unused variable
   // because it otherwise breaks the output of the babel-node REPL (#359).
@@ -148,13 +145,6 @@ module.exports = function plugin(args) {
           t.blockStatement([evalTemplate()])
         )
         classBody.pushContainer('body',regenerateMethod)
-
-        const replaceClassMethod = t.classMethod(
-          'method',
-          t.identifier(REWIRE_CLASSNAME),
-          [t.identifier('superClass')],
-          t.blockStatement([rewireSuperTemplate({ ID: t.identifier(classPath.node.id.name) })]));
-        classBody.pushContainer('body', replaceClassMethod);
       },
     },
   }

@@ -2,7 +2,7 @@
   "presets": ["react"],
   "env": {
     "babel-es2015": {
-      "presets": ["es2015"],
+      "presets": ["env"],
       "plugins": [
         "transform-es2015-classes",
         "transform-object-rest-spread",

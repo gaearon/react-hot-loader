@@ -1,6 +1,6 @@
 {
   "name": "react-stand-in",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Proxies ES6 React components without unmounting or losing their state.",
   "main": "modules/index.js",
   "scripts": {
@@ -38,5 +38,10 @@
   "keywords": [
     "react-proxy"
   ],
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "mocha": "^4.0.1",
+    "rimraf": "^2.6.2"
+  }
 }

@@ -44,7 +44,7 @@
   "dependencies": {
     "global": "^4.3.0",
     "react-deep-force-update": "^2.1.1",
-    "react-stand-in": "1.1.0",
+    "react-stand-in": "1.1.1",
     "redbox-react": "^1.3.6",
     "source-map": "^0.6.1"
   },
@@ -52,6 +52,7 @@
     "node": ">= 6"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0"
+    "babel-cli": "^6.26.0",
+    "jest": "^21.2.1"
   }
 }
