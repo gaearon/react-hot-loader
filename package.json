@@ -22,6 +22,7 @@
     "eslint-plugin-react": "^7.4.0",
     "jest": "^21.2.1",
     "lerna": "^2.4.0",
+    "mocha": "^4.0.1",
     "prettier": "^1.7.4",
     "raf": "^3.4.0",
     "react-test-renderer": "^16.0.0",
