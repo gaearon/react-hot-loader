@@ -1,14 +1,14 @@
 import {isNativeFunction, reactLifeCycleMethods} from './react-utils';
 import {REGENERATE_METHOD, PREFIX, GENERATION} from "./symbols";
 
-function mergeComponents(ProxyComponent, NextComponent, PreviousComponents) {
+function mergeComponents(ProxyComponent, NextComponent, InitialComponent) {
   const injectedCode = {};
   try {
     const ins2 = new NextComponent({}, {});
 
     try {
       // bypass babel class inheritance checking
-      PreviousComponents.forEach(PreviousComponent => PreviousComponent.prototype = NextComponent.prototype);
+      InitialComponent.prototype = NextComponent.prototype;
     } catch (e) {
       // It was es6 class
     }

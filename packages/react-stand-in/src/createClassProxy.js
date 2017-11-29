@@ -14,7 +14,6 @@ function proxyClass(InitialComponent) {
   }
 
   let CurrentComponent;
-  let PreviousComponents = [];
   let ProxyComponent;
   let savedDescriptors = {};
   let injectedMembers = {};
@@ -34,7 +33,10 @@ function proxyClass(InitialComponent) {
   ProxyComponent = class extends InitialParent {
     constructor(props, context) {
       super(props, context);
-      this[GENERATION] = proxyGeneration;
+      this[GENERATION] = 0;
+      // as long we cant override constructor
+      // every class shall evolve from a base class
+      inject(this, proxyGeneration, injectedMembers);
     }
 
     render() {
@@ -69,9 +71,6 @@ function proxyClass(InitialComponent) {
 
     // Save the next constructor so we call it
     const PreviousComponent = CurrentComponent;
-    if(PreviousComponent) {
-      PreviousComponents.push(PreviousComponent);
-    }
     CurrentComponent = NextComponent;
 
     // Try to infer displayName
@@ -92,7 +91,7 @@ function proxyClass(InitialComponent) {
       checkLifeCycleMethods(ProxyComponent, NextComponent);
       Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype);
       if (proxyGeneration > 1) {
-        injectedMembers = mergeComponents(ProxyComponent, NextComponent, PreviousComponents);
+        injectedMembers = mergeComponents(ProxyComponent, NextComponent, InitialComponent);
         ///
 
       }
