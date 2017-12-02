@@ -2,10 +2,13 @@
 
 import React, { Component } from 'react'
 import createReactClass from 'create-react-class'
-import { mount } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16';
+import { mount, configure } from 'enzyme'
 import { mapProps } from 'recompose'
 import '../src/patch.dev'
 import AppContainer from '../src/AppContainer.dev'
+
+configure({ adapter: new Adapter() });
 
 const RHL = global.__REACT_HOT_LOADER__
 

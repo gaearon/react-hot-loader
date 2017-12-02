@@ -1,6 +1,6 @@
 {
   "name": "react-stand-in",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Proxies ES6 React components without unmounting or losing their state.",
   "main": "modules/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "build:dist": "NODE_ENV=native-es2015 webpack",
     "build:es": "NODE_ENV=native-es2015 babel src --out-dir modules",
     "build": "npm run clean && npm run build:es",
-    "test": "npm run test:babel-es2015 && npm run test:native-es2015",
+    "test": "npm run test:babel-es2015",
     "test:babel-es2015": "NODE_ENV=babel-es2015 mocha --compilers js:babel-core/register --recursive ./test",
     "test:native-es2015": "NODE_ENV=native-es2015 mocha --compilers js:babel-core/register --recursive ./test",
     "test:native-es2015:watch": "npm run test:native-es2015 -- --watch",

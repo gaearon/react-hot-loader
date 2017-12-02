@@ -44,7 +44,7 @@
   "dependencies": {
     "global": "^4.3.0",
     "react-deep-force-update": "^2.1.1",
-    "react-stand-in": "1.1.2",
+    "react-stand-in": "1.1.3",
     "redbox-react": "^1.3.6",
     "source-map": "^0.6.1"
   },

@@ -73,7 +73,21 @@ function inject(target, currentGeneration, injectedMembers) {
   if (target[GENERATION] !== currentGeneration) {
     Object
       .keys(injectedMembers)
-      .forEach(key => target[REGENERATE_METHOD](key, '/*RHL*/' + injectedMembers[key]));
+      .forEach(key => {
+          try {
+            target[REGENERATE_METHOD](
+              key,
+              `(function REACT_HOT_LOADER_SANDBOX () {
+          var _this2 = this; // common babel variable
+          return ${injectedMembers[key]};
+          }).call(this)`
+            )
+          } catch (e) {
+            console.error('React-stand-in: Failed to regenerate method ', key, ' of class ', target);
+            console.error('got error', e);
+          }
+        }
+      );
 
     target[GENERATION] = currentGeneration;
   }

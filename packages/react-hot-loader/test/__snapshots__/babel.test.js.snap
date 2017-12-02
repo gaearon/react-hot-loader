@@ -9,21 +9,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
+    var _arguments = arguments;
 
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    this.bar = function (a, b) {
+      _arguments;
+
+      return a(b);
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      arguments;
-
-      return a(b);
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
     }
   }]);
 
@@ -52,19 +52,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.onClick = function () {
-      return _this.__onClick__REACT_HOT_LOADER__.apply(_this, arguments);
+    this.onClick = function (e) {
+      return e.target.value;
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__onClick__REACT_HOT_LOADER__\\",
-    value: function __onClick__REACT_HOT_LOADER__(e) {
-      return e.target.value;
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
     }
   }]);
 
@@ -100,14 +98,13 @@ var Foo = function () {
     _classCallCheck(this, Foo);
 
     this.bar = function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _args = arguments;
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(a, b) {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this.__bar__REACT_HOT_LOADER__.apply(_this, _args);
+                return b(a);
 
               case 2:
                 return _context.abrupt(\\"return\\", _context.sent);
@@ -120,40 +117,17 @@ var Foo = function () {
         }, _callee, _this);
       }));
 
-      return function NAME() {
+      return function (_x, _x2) {
         return _ref.apply(this, arguments);
       };
     }();
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(a, b) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return b(a);
-
-              case 2:
-                return _context2.abrupt(\\"return\\", _context2.sent);
-
-              case 3:
-              case \\"end\\":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function __bar__REACT_HOT_LOADER__(_x, _x2) {
-        return _ref2.apply(this, arguments);
-      }
-
-      return __bar__REACT_HOT_LOADER__;
-    }()
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
   }]);
 
   return Foo;
@@ -188,14 +162,13 @@ var Foo = function () {
     _classCallCheck(this, Foo);
 
     this.bar = function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _args = arguments;
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(a, b) {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this.__bar__REACT_HOT_LOADER__.apply(_this, _args);
+                return a(b);
 
               case 2:
                 return _context.abrupt(\\"return\\", _context.sent);
@@ -208,40 +181,17 @@ var Foo = function () {
         }, _callee, _this);
       }));
 
-      return function NAME() {
+      return function (_x, _x2) {
         return _ref.apply(this, arguments);
       };
     }();
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(a, b) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return a(b);
-
-              case 2:
-                return _context2.abrupt(\\"return\\", _context2.sent);
-
-              case 3:
-              case \\"end\\":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function __bar__REACT_HOT_LOADER__(_x, _x2) {
-        return _ref2.apply(this, arguments);
-      }
-
-      return __bar__REACT_HOT_LOADER__;
-    }()
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
   }]);
 
   return Foo;
@@ -269,19 +219,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    this.bar = function (a, b) {
+      return a(b);
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      return a(b);
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
     }
   }]);
 
@@ -310,21 +258,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
     this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+      var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"foo\\";
+
+      return a + \\"bar\\";
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__() {
-      var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"foo\\";
-
-      return a + \\"bar\\";
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
     }
   }]);
 
@@ -353,22 +299,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(_ref, _ref2) {
+    this.bar = function (_ref, _ref2) {
       var a = _ref.a;
       var b = _ref2.b;
 
       return \\"\\" + a + b;
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
     }
   }]);
 
@@ -397,19 +341,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.onClick = function () {
-      return _this.__onClick__REACT_HOT_LOADER__.apply(_this, arguments);
+    this.onClick = function (e) {
+      return e.target.value;
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__onClick__REACT_HOT_LOADER__\\",
-    value: function __onClick__REACT_HOT_LOADER__(e) {
-      return e.target.value;
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
     }
   }]);
 
@@ -438,25 +380,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
+    var _arguments = arguments;
 
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      var _arguments = arguments;
-
+    this.bar = function (a, b) {
       (function () {
         _arguments;
       });
 
       return a(b);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
     }
   }]);
 
@@ -485,23 +425,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-  }
-
-  _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
+    this.bar = function (a, b) {
       (function () {
         new.target;
       });
 
       return a(b);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
     }
   }]);
 
@@ -530,21 +468,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    this.bar = function (a, b) {
+      new.target;
+
+      return a(b);
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      new.target;
-
-      return a(b);
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
     }
   }]);
 
@@ -567,13 +503,26 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods not a function.js 1`] = `
 "\\"use strict\\";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function Foo() {
-  _classCallCheck(this, Foo);
+var Foo = function () {
+  function Foo() {
+    _classCallCheck(this, Foo);
 
-  this.bar = 2;
-};
+    this.bar = 2;
+  }
+
+  _createClass(Foo, [{
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }]);
+
+  return Foo;
+}();
 
 ;
 
@@ -591,15 +540,28 @@ var _temp = function () {
 exports[`copies arrow function body block onto hidden class methods not an arrow function.js 1`] = `
 "\\"use strict\\";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-var Foo = function Foo() {
-  _classCallCheck(this, Foo);
+var Foo = function () {
+  function Foo() {
+    _classCallCheck(this, Foo);
 
-  this.bar = function (a, b) {
-    return a(b);
-  };
-};
+    this.bar = function (a, b) {
+      return a(b);
+    };
+  }
+
+  _createClass(Foo, [{
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
+    }
+  }]);
+
+  return Foo;
+}();
 
 ;
 
@@ -623,24 +585,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Foo = function () {
   function Foo() {
-    var _this = this;
-
     _classCallCheck(this, Foo);
 
-    this.bar = function () {
-      return _this.__bar__REACT_HOT_LOADER__.apply(_this, arguments);
+    this.bar = function (a, b) {
+      return a(b);
     };
   }
 
   _createClass(Foo, [{
-    key: \\"__bar__REACT_HOT_LOADER__\\",
-    value: function __bar__REACT_HOT_LOADER__(a, b) {
-      return a(b);
-    }
-  }, {
     key: \\"bar\\",
     value: function bar() {
       return 2;
+    }
+  }, {
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
     }
   }]);
 
@@ -728,6 +688,11 @@ var C = exports.C = function () {
           _classCallCheck(this, W);
         };
       }
+    }
+  }, {
+    key: \\"__reactstandin__regenerateByEval\\",
+    value: function __reactstandin__regenerateByEval(key, code) {
+      this[key] = eval(code);
     }
   }]);
 
