@@ -4,7 +4,7 @@ import expect from 'expect';
 import createProxy from '../src';
 import getForceUpdate from './helpers/deepForceUpdate';
 
-const fixtures = {
+const createFixtures = () => ({
   modern: {
     InstanceDescriptor: class InstanceDescriptor {
       get answer() {
@@ -50,7 +50,7 @@ const fixtures = {
       }
     }
   }
-};
+});
 
 describe('instance descriptor', () => {
   let renderer;
@@ -66,11 +66,14 @@ describe('instance descriptor', () => {
     expect(warnSpy.calls.length).toBe(0);
   });
 
-  Object.keys(fixtures).forEach(type => {
-    const { InstanceDescriptor, InstanceDescriptorUpdate, InstanceDescriptorRemoval, ThrowingAccessors } = fixtures[type];
+  Object.keys(createFixtures()).forEach(type => {
 
     describe(type, () => {
       it('does not invoke accessors', () => {
+        const {
+          InstanceDescriptor,
+          ThrowingAccessors
+        } = createFixtures()[type];
         const proxy = createProxy(InstanceDescriptor);
         const Proxy = proxy.get();
         const instance = renderer.render(<Proxy />);
@@ -79,6 +82,9 @@ describe('instance descriptor', () => {
 
       describe('getter', () => {
         it('is available on proxy class instance', () => {
+          const {
+            InstanceDescriptor,
+          } = createFixtures()[type];
           const proxy = createProxy(InstanceDescriptor);
           const Proxy = proxy.get();
           const instance = renderer.render(<Proxy base={100} />);
@@ -87,6 +93,10 @@ describe('instance descriptor', () => {
         });
 
         it('gets added', () => {
+          const {
+            InstanceDescriptor,
+            InstanceDescriptorRemoval,
+          } = createFixtures()[type];
           const proxy = createProxy(InstanceDescriptorRemoval);
           const Proxy = proxy.get();
           const instance = renderer.render(<Proxy base={100} />);
@@ -99,6 +109,12 @@ describe('instance descriptor', () => {
         });
 
         it('gets replaced', () => {
+          const {
+            InstanceDescriptor,
+            InstanceDescriptorUpdate,
+            InstanceDescriptorRemoval,
+          } = createFixtures()[type];
+
           const proxy = createProxy(InstanceDescriptor);
           const Proxy = proxy.get();
           const instance = renderer.render(<Proxy base={100} />);
@@ -116,6 +132,12 @@ describe('instance descriptor', () => {
         });
 
         it('gets redefined', () => {
+          const {
+            InstanceDescriptor,
+            InstanceDescriptorUpdate,
+            InstanceDescriptorRemoval
+          } = createFixtures()[type];
+
           const proxy = createProxy(InstanceDescriptor);
           const Proxy = proxy.get();
           const instance = renderer.render(<Proxy base={100} />);
@@ -139,6 +161,9 @@ describe('instance descriptor', () => {
 
       describe('setter', () => {
         it('is available on proxy class instance', () => {
+          const {
+            InstanceDescriptor,
+          } = createFixtures()[type];
           const proxy = createProxy(InstanceDescriptor);
           const Proxy = proxy.get();
           const instance = renderer.render(<Proxy />);
@@ -147,6 +172,10 @@ describe('instance descriptor', () => {
         });
 
         it('gets added', () => {
+          const {
+            InstanceDescriptor,
+            InstanceDescriptorRemoval,
+          } = createFixtures()[type];
           const proxy = createProxy(InstanceDescriptorRemoval);
           const Proxy = proxy.get();
           const instance = renderer.render(<Proxy base={100} />);
@@ -157,6 +186,11 @@ describe('instance descriptor', () => {
         });
 
         it('gets replaced', () => {
+          const {
+            InstanceDescriptor,
+            InstanceDescriptorUpdate,
+            InstanceDescriptorRemoval,
+          } = createFixtures()[type];
           const proxy = createProxy(InstanceDescriptor);
           const Proxy = proxy.get();
           const instance = renderer.render(<Proxy />);
@@ -176,6 +210,10 @@ describe('instance descriptor', () => {
         });
 
         it('gets redefined', () => {
+          const {
+            InstanceDescriptor,
+            InstanceDescriptorUpdate,
+          } = createFixtures()[type];
           const proxy = createProxy(InstanceDescriptor);
           const Proxy = proxy.get();
           const instance = renderer.render(<Proxy base={100} />);

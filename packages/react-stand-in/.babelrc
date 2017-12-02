@@ -4,15 +4,15 @@
     "babel-es2015": {
       "presets": ["env"],
       "plugins": [
+        "transform-class-properties",
         "transform-es2015-classes",
-        "transform-object-rest-spread",
-        "transform-class-properties"
+        "transform-object-rest-spread"
       ]
     },
     "native-es2015": {
       "plugins": [
-        "transform-object-rest-spread",
         "transform-class-properties",
+        "transform-object-rest-spread",
         "transform-es2015-literals",
         "transform-es2015-shorthand-properties",
         "check-es2015-constants",

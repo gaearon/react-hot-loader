@@ -3,7 +3,7 @@ import createShallowRenderer from './helpers/createShallowRenderer';
 import expect from 'expect';
 import createProxy from '../src';
 
-const fixtures = {
+const createFixtures = () => ({
   modern: {
     Bar: class Bar {
       componentWillUnmount() {
@@ -35,13 +35,15 @@ const fixtures = {
       }
     }
   }
-};
+});
 
 describe('unmounting', () => {
   let renderer;
   let warnSpy;
+  let fixtures = createFixtures();
 
   beforeEach(() => {
+    fixtures = createFixtures();
     renderer = createShallowRenderer();
     warnSpy = expect.spyOn(console, 'warn').andCallThrough();
   });
@@ -53,9 +55,10 @@ describe('unmounting', () => {
 
   Object.keys(fixtures).forEach(type => {
     describe(type, () => {
-      const { Bar, Baz, Foo } = fixtures[type];
+
 
       it('happens without proxy', () => {
+        const { Bar, Baz, Foo } = fixtures[type];
         const barInstance = renderer.render(<Bar />);
         expect(renderer.getRenderOutput().props.children).toEqual('Bar');
         const bazInstance = renderer.render(<Baz />);
@@ -65,6 +68,7 @@ describe('unmounting', () => {
       });
 
       it('does not happen when rendering new proxied versions', () => {
+        const { Bar, Baz, Foo } = fixtures[type];
         const proxy = createProxy(Bar);
         const BarProxy = proxy.get();
         const barInstance = renderer.render(<BarProxy />);
@@ -86,6 +90,7 @@ describe('unmounting', () => {
       });
 
       it('does not happen when rendering old proxied versions', () => {
+        const { Bar, Baz, Foo } = fixtures[type];
         const proxy = createProxy(Bar);
         const Proxy = proxy.get();
         const barInstance = renderer.render(<Proxy />);

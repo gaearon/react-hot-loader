@@ -60,7 +60,7 @@ describe('consistency', () => {
     describe(type, () => {
       const { Bar, Baz, Foo } = fixtures[type];
 
-      it('does not overwrite the original class', () => {
+      it('overwrites the original class', () => {
         const proxy = createProxy(Bar);
         const Proxy = proxy.get();
         const barInstance = renderer.render(<Proxy />);
@@ -68,7 +68,7 @@ describe('consistency', () => {
 
         proxy.update(Baz);
         const realBarInstance = renderer.render(<Bar />);
-        expect(renderer.getRenderOutput().props.children).toEqual('Bar');
+        expect(renderer.getRenderOutput().props.children).toEqual('Baz');
         expect(barInstance).toNotEqual(realBarInstance);
         expect(barInstance.didUnmount).toEqual(true);
       });

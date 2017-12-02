@@ -4,7 +4,7 @@ import expect from 'expect';
 import createProxy from '../src';
 import getForceUpdate from './helpers/deepForceUpdate';
 
-const fixtures = {
+const createFixtures = () => ({
   modern: {
     shouldWarnOnBind: false,
 
@@ -70,7 +70,7 @@ const fixtures = {
       }
     }
   }
-};
+});
 
 describe('instance method', () => {
   let renderer;
@@ -86,11 +86,13 @@ describe('instance method', () => {
     expect(warnSpy.calls.length).toBe(0);
   });
 
-  Object.keys(fixtures).forEach(type => {
+  Object.keys(createFixtures()).forEach(type => {
     describe(type, () => {
-      const { Counter1x, Counter10x, Counter100x, CounterWithoutIncrementMethod, shouldWarnOnBind } = fixtures[type];
-
       it('gets added', () => {
+        const {
+          Counter1x,
+          CounterWithoutIncrementMethod,
+        } = createFixtures()[type];
         const proxy = createProxy(CounterWithoutIncrementMethod);
         const Proxy = proxy.get();
         const instance = renderer.render(<Proxy />);
@@ -102,6 +104,11 @@ describe('instance method', () => {
       });
 
       it('gets replaced', () => {
+        const {
+          Counter1x,
+          Counter10x,
+          Counter100x,
+        } = createFixtures()[type];
         const proxy = createProxy(Counter1x);
         const Proxy = proxy.get();
         const instance = renderer.render(<Proxy />);
@@ -121,6 +128,11 @@ describe('instance method', () => {
       });
 
       it('cant handle bound methods', () => {
+        const {
+          Counter1x,
+          Counter10x,
+          shouldWarnOnBind
+        } = createFixtures()[type];
         const proxy = createProxy(Counter1x);
         const Proxy = proxy.get();
         const instance = renderer.render(<Proxy />);
