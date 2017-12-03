@@ -7,7 +7,7 @@
   "plugins": ["transform-class-properties", "transform-object-rest-spread"],
   "env": {
     "test": {
-      "plugins": ["transform-class-properties", "transform-object-rest-spread", "./lib/babel"]
+      "plugins": ["transform-class-properties", "transform-object-rest-spread", "./packages/react-hot-loader/lib/babel"]
     }
   }
 }
