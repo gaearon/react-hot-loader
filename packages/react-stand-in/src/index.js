@@ -1,2 +1,4 @@
-import createClassProxy from './createClassProxy';
-export default createClassProxy;
+import createClassProxy from './createClassProxy'
+
+export * from './symbols'
+export default createClassProxy

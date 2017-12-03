@@ -1,8 +1,7 @@
 import createProxy from 'react-stand-in'
-import { REWIRE_CLASSNAME } from 'react-stand-in/symbols';
 import global from 'global'
 import React from 'react'
-import {didUpdate} from "./updateCounter";
+import { didUpdate } from './updateCounter'
 
 class ComponentMap {
   constructor(useWeakMap) {
@@ -76,7 +75,7 @@ let didUpdateProxy
 
 const hooks = {
   register(type, uniqueLocalName, fileName) {
-    didUpdate();
+    didUpdate()
 
     if (typeof type !== 'function') {
       return
@@ -93,10 +92,16 @@ const hooks = {
         didWarnAboutID[id] = true
         const baseName = fileName.replace(/^.*[\\/]/, '')
         console.error(
-          `React Hot Loader: ${uniqueLocalName} in ${fileName} will not hot reload ` +
-          `correctly because ${baseName} uses <${uniqueLocalName} /> during ` +
-          `module definition. For hot reloading to work, move ${uniqueLocalName} ` +
-          `into a separate file and import it from ${baseName}.`,
+          `React Hot Loader: ${uniqueLocalName} in ${
+            fileName
+          } will not hot reload ` +
+            `correctly because ${baseName} uses <${
+              uniqueLocalName
+            } /> during ` +
+            `module definition. For hot reloading to work, move ${
+              uniqueLocalName
+            } ` +
+            `into a separate file and import it from ${baseName}.`,
         )
       }
       return
@@ -109,11 +114,11 @@ const hooks = {
     // the same way as the original classes but are updatable with
     // new versions without destroying original instances.
     if (!proxiesByID[id]) {
-      firstInstances[id] = type;
+      firstInstances[id] = type
       proxiesByID[id] = createProxy(type)
     } else {
       proxiesByID[id].update(type)
-      //replaceFirstInstance(id, type)
+      // replaceFirstInstance(id, type)
       didUpdateProxy = true
     }
   },
@@ -137,8 +142,8 @@ function warnAboutUnacceptedClass(typeSignature) {
   if (didUpdateProxy && global.__REACT_HOT_LOADER__.warnings !== false) {
     console.warn(
       'React Hot Loader: this component is not accepted by Hot Loader. \n' +
-      'Please check is it extracted as a top level class, a function or a variable. \n' +
-      'Click below to reveal the source location: \n',
+        'Please check is it extracted as a top level class, a function or a variable. \n' +
+        'Click below to reveal the source location: \n',
       typeSignature,
     )
   }

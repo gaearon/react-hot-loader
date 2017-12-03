@@ -1,34 +1,16 @@
 {
   "name": "react-deep-force-update",
-  "version": "2.1.1",
+  "version": "4.0.0-beta.1",
   "description": "Force-updates React component tree recursively",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "babel src --out-dir lib",
-    "clean": "rimraf lib",
-    "lint": "eslint .",
-    "test": "jest",
-    "test:watch": "yarn test -- --watch",
-    "prepublishOnly": "yarn clean && yarn build",
-    "format": "prettier --write \"{src,test}/**/*.js\" *.js"
-  },
+  "homepage": "https://github.com/gaearon/react-hot-loader",
+  "repository": "https://github.com/gaearon/react-hot-loader/tree/master/packages/react-deep-force-update",
+  "license": "MIT",
+  "author": "Dan Abramov",
   "files": [
     "lib"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gaearon/react-deep-force-update.git"
-  },
   "keywords": [
     "react"
-  ],
-  "author": "Dan Abramov <dan.abramov@me.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/gaearon/react-deep-force-update/issues"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.3.17"
-  },
-  "homepage": "https://github.com/gaearon/react-deep-force-update"
+  ]
 }

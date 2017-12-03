@@ -1,8 +1,8 @@
 const replaced = Symbol('replaced')
-const {REGENERATE_METHOD} = require('react-stand-in/symbols');
+const { REGENERATE_METHOD } = require('react-stand-in/symbols')
 
 const templateOptions = {
-  placeholderPattern: /^([A-Z0-9]+)([A-Z0-9_]+)$/
+  placeholderPattern: /^([A-Z0-9]+)([A-Z0-9_]+)$/,
 }
 
 module.exports = function plugin(args) {
@@ -10,23 +10,27 @@ module.exports = function plugin(args) {
   if (this && this.callback) {
     throw new Error(
       'React Hot Loader: You are erroneously trying to use a Babel plugin ' +
-      'as a Webpack loader. We recommend that you use Babel, ' +
-      'remove "react-hot-loader/babel" from the "loaders" section ' +
-      'of your Webpack configuration, and instead add ' +
-      '"react-hot-loader/babel" to the "plugins" section of your .babelrc file. ' +
-      'If you prefer not to use Babel, replace "react-hot-loader/babel" with ' +
-      '"react-hot-loader/webpack" in the "loaders" section of your Webpack configuration. ',
+        'as a Webpack loader. We recommend that you use Babel, ' +
+        'remove "react-hot-loader/babel" from the "loaders" section ' +
+        'of your Webpack configuration, and instead add ' +
+        '"react-hot-loader/babel" to the "plugins" section of your .babelrc file. ' +
+        'If you prefer not to use Babel, replace "react-hot-loader/babel" with ' +
+        '"react-hot-loader/webpack" in the "loaders" section of your Webpack configuration. ',
     )
   }
-  const {types: t, template} = args
+  const { types: t, template } = args
 
-  const buildRegistration = template('__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);', templateOptions)
+  const buildRegistration = template(
+    '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);',
+    templateOptions,
+  )
 
   var evalTemplate = template('this[key]=eval(code);', templateOptions)
 
   // We're making the IIFE we insert at the end of the file an unused variable
   // because it otherwise breaks the output of the babel-node REPL (#359).
-  const buildTagger = template(`
+  const buildTagger = template(
+    `
   var UNUSED = (function () {
     if (typeof __REACT_HOT_LOADER__ === 'undefined') {
       return;
@@ -34,25 +38,27 @@ module.exports = function plugin(args) {
 
     REGISTRATIONS
   })();
-  `, templateOptions)
+  `,
+    templateOptions,
+  )
 
   // No-op in production.
   if (process.env.NODE_ENV === 'production') {
-    return {visitor: {}}
+    return { visitor: {} }
   }
 
   // Gather top-level variables, functions, and classes.
   // Try our best to avoid variables from require().
   // Ideally we only want to find components defined by the user.
   function shouldRegisterBinding(binding) {
-    const {type, node} = binding.path
+    const { type, node } = binding.path
     switch (type) {
       case 'FunctionDeclaration':
       case 'ClassDeclaration':
       case 'VariableDeclaration':
         return true
       case 'VariableDeclarator': {
-        const {init} = node
+        const { init } = node
         if (t.isCallExpression(init) && init.callee.name === 'require') {
           return false
         }
@@ -66,7 +72,7 @@ module.exports = function plugin(args) {
   const REGISTRATIONS = Symbol('registrations')
   return {
     visitor: {
-      ExportDefaultDeclaration(path, {file}) {
+      ExportDefaultDeclaration(path, { file }) {
         // Default exports with names are going
         // to be in scope anyway so no need to bother.
         if (path.node.declaration.id) {
@@ -98,7 +104,7 @@ module.exports = function plugin(args) {
       },
 
       Program: {
-        enter({node, scope}, {file}) {
+        enter({ node, scope }, { file }) {
           node[REGISTRATIONS] = [] // eslint-disable-line no-param-reassign
 
           // Everything in the top level scope, when reasonable,
@@ -119,7 +125,7 @@ module.exports = function plugin(args) {
           /* eslint-enable */
         },
 
-        exit({node, scope}) {
+        exit({ node, scope }) {
           const registrations = node[REGISTRATIONS]
           node[REGISTRATIONS] = null // eslint-disable-line no-param-reassign
 
@@ -141,7 +147,7 @@ module.exports = function plugin(args) {
         let hasMethods = false
 
         classBody.get('body').forEach(path => {
-          const {node} = path
+          const { node } = path
 
           // don't apply transform to static class properties
           if (node.static) {
@@ -151,7 +157,7 @@ module.exports = function plugin(args) {
           if (node.key.name !== REGENERATE_METHOD) {
             hasMethods = true
           } else {
-            hasRegenerateMethod = true;
+            hasRegenerateMethod = true
           }
         })
 
@@ -160,7 +166,7 @@ module.exports = function plugin(args) {
             'method',
             t.identifier(REGENERATE_METHOD),
             [t.identifier('key'), t.identifier('code')],
-            t.blockStatement([evalTemplate()])
+            t.blockStatement([evalTemplate()]),
           )
           classBody.pushContainer('body', regenerateMethod)
         }
