@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unused-prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { mount } from 'enzyme'
+import { ensureNoWarnings, createMounter } from './helper'
 import createProxy from '../src'
 
 const fixtures = {
@@ -68,15 +68,8 @@ const fixtures = {
 }
 
 describe('static property', () => {
-  let warnSpy
-
-  beforeEach(() => {
-    warnSpy = jest.spyOn(console, 'warn')
-  })
-
-  afterEach(() => {
-    expect(warnSpy).not.toHaveBeenCalled()
-  })
+  ensureNoWarnings()
+  const { mount } = createMounter()
 
   Object.keys(fixtures).forEach(type => {
     describe(type, () => {
@@ -109,12 +102,12 @@ describe('static property', () => {
         expect(wrapper.text()).toBe('42')
 
         proxy.update(StaticPropertyUpdate)
-        wrapper.mount()
+        mount(<Proxy />)
         expect(wrapper.text()).toBe('43')
         expect(Proxy.answer).toBe(43)
 
         proxy.update(StaticPropertyRemoval)
-        wrapper.mount()
+        mount(<Proxy />)
         expect(wrapper.text()).toBe('')
         expect(Proxy.answer).toBe(undefined)
       })
@@ -148,12 +141,12 @@ describe('static property', () => {
         Proxy.answer = 100
 
         proxy.update(StaticPropertyUpdate)
-        wrapper.mount()
+        mount(<Proxy />)
         expect(wrapper.text()).toBe('100')
         expect(Proxy.answer).toBe(100)
 
         proxy.update(StaticPropertyRemoval)
-        wrapper.mount()
+        mount(<Proxy />)
         expect(wrapper.text()).toBe('100')
         expect(Proxy.answer).toBe(100)
       })

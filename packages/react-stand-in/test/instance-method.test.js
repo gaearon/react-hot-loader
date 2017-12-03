@@ -1,6 +1,6 @@
 /* eslint-env jest */
 import React from 'react'
-import { mount } from 'enzyme'
+import { createMounter, ensureNoWarnings } from './helper'
 import createProxy from '../src'
 
 const createFixtures = () => ({
@@ -72,15 +72,8 @@ const createFixtures = () => ({
 })
 
 describe('instance method', () => {
-  let warnSpy
-
-  beforeEach(() => {
-    warnSpy = jest.spyOn(console, 'warn')
-  })
-
-  afterEach(() => {
-    expect(warnSpy).not.toHaveBeenCalled()
-  })
+  const { getWarnSpy } = ensureNoWarnings()
+  const { mount } = createMounter()
 
   Object.keys(createFixtures()).forEach(type => {
     describe(type, () => {
@@ -109,12 +102,12 @@ describe('instance method', () => {
 
         proxy.update(Counter10x)
         wrapper.instance().increment()
-        wrapper.mount()
+        mount(<Proxy />)
         expect(wrapper.text()).toEqual('11')
 
         proxy.update(Counter100x)
         wrapper.instance().increment()
-        wrapper.mount()
+        mount(<Proxy />)
         expect(wrapper.text()).toEqual('111')
       })
 
@@ -127,7 +120,7 @@ describe('instance method', () => {
         const wrapper = mount(<Proxy />)
         const instance = wrapper.instance()
 
-        warnSpy.mockReset()
+        getWarnSpy().mockReset()
         const localWarnSpy = jest.spyOn(console, 'warn')
 
         instance.increment = instance.increment.bind(instance)
@@ -140,7 +133,7 @@ describe('instance method', () => {
 
         proxy.update(Counter10x)
         instance.increment()
-        wrapper.mount()
+        mount(<Proxy />)
         expect(wrapper.text()).toEqual('2') // not 11
       })
     })

@@ -1,7 +1,7 @@
 /* eslint-env jest */
 /* eslint-disable react/no-render-return-value */
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { ensureNoWarnings, createMounter } from './helper'
 import createProxy from '../src'
 
 const createFixtures = () => ({
@@ -39,28 +39,24 @@ const createFixtures = () => ({
 })
 
 describe('unmounting', () => {
-  let warnSpy
-  let element
   let fixtures = createFixtures()
+  ensureNoWarnings()
+  const { mount } = createMounter()
 
   beforeEach(() => {
-    element = document.createElement('div')
     fixtures = createFixtures()
-    warnSpy = jest.spyOn(console, 'warn')
-  })
-
-  afterEach(() => {
-    expect(warnSpy).not.toHaveBeenCalled()
   })
 
   Object.keys(fixtures).forEach(type => {
     describe(type, () => {
       it('happens without proxy', () => {
         const { Bar, Baz } = fixtures[type]
-        const barInstance = ReactDOM.render(<Bar />, element)
-        expect(element.innerHTML).toBe('<div>Bar</div>')
-        const bazInstance = ReactDOM.render(<Baz />, element)
-        expect(element.innerHTML).toBe('<div>Baz</div>')
+        const barWrapper = mount(<Bar />)
+        const barInstance = barWrapper.instance()
+        expect(barWrapper.text()).toBe('Bar')
+        const bazWrapper = mount(<Baz />)
+        const bazInstance = bazWrapper.instance()
+        expect(bazWrapper.text()).toBe('Baz')
         expect(barInstance).not.toBe(bazInstance)
         expect(barInstance.didUnmount).toBe(true)
       })
@@ -69,21 +65,24 @@ describe('unmounting', () => {
         const { Bar, Baz, Foo } = fixtures[type]
         const proxy = createProxy(Bar)
         const BarProxy = proxy.get()
-        const barInstance = ReactDOM.render(<BarProxy />, element)
-        expect(element.innerHTML).toBe('<div>Bar</div>')
+        const barWrapper = mount(<BarProxy />)
+        const barInstance = barWrapper.instance()
+        expect(barWrapper.text()).toBe('Bar')
         expect(barInstance.didUnmount).toBe(undefined)
 
         proxy.update(Baz)
         const BazProxy = proxy.get()
-        const bazInstance = ReactDOM.render(<BazProxy />, element)
-        expect(element.innerHTML).toBe('<div>Baz</div>')
-        expect(bazInstance).toBe(bazInstance)
+        const bazWrapper = mount(<BazProxy />)
+        const bazInstance = bazWrapper.instance()
+        expect(bazWrapper.text()).toBe('Baz')
+        expect(barInstance).toBe(bazInstance)
         expect(barInstance.didUnmount).toBe(undefined)
 
         proxy.update(Foo)
         const FooProxy = proxy.get()
-        const fooInstance = ReactDOM.render(<FooProxy />, element)
-        expect(element.innerHTML).toBe('<div>Foo</div>')
+        const fooWrapper = mount(<FooProxy />)
+        const fooInstance = fooWrapper.instance()
+        expect(fooWrapper.text()).toBe('Foo')
         expect(barInstance).toBe(fooInstance)
         expect(barInstance.didUnmount).toBe(undefined)
       })
@@ -92,21 +91,21 @@ describe('unmounting', () => {
         const { Bar, Baz, Foo } = fixtures[type]
         const proxy = createProxy(Bar)
         const Proxy = proxy.get()
-        const barInstance = ReactDOM.render(<Proxy />, element)
-        expect(element.innerHTML).toBe('<div>Bar</div>')
-        expect(barInstance.didUnmount).toBe(undefined)
+        const barWrapper = mount(<Proxy />)
+        expect(barWrapper.text()).toBe('Bar')
+        expect(barWrapper.instance().didUnmount).toBe(undefined)
 
         proxy.update(Baz)
-        const bazInstance = ReactDOM.render(<Proxy />, element)
-        expect(element.innerHTML).toBe('<div>Baz</div>')
-        expect(barInstance).toBe(bazInstance)
-        expect(barInstance.didUnmount).toBe(undefined)
+        const bazWrapper = mount(<Proxy />)
+        expect(bazWrapper.text()).toBe('Baz')
+        expect(barWrapper.instance()).toBe(bazWrapper.instance())
+        expect(barWrapper.instance().didUnmount).toBe(undefined)
 
         proxy.update(Foo)
-        const fooInstance = ReactDOM.render(<Proxy />, element)
-        expect(element.innerHTML).toBe('<div>Foo</div>')
-        expect(barInstance).toBe(fooInstance)
-        expect(barInstance.didUnmount).toBe(undefined)
+        const fooWrapper = mount(<Proxy />)
+        expect(fooWrapper.text()).toBe('Foo')
+        expect(barWrapper.instance()).toBe(fooWrapper.instance())
+        expect(barWrapper.instance().didUnmount).toBe(undefined)
       })
     })
   })

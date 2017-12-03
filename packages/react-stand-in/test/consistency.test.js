@@ -1,8 +1,7 @@
 /* eslint-env jest */
 /* eslint-disable react/no-render-return-value */
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { mount } from 'enzyme'
+import { createMounter, ensureNoWarnings } from './helper'
 import createProxy from '../src'
 
 const fixtures = {
@@ -44,17 +43,8 @@ const fixtures = {
 }
 
 describe('consistency', () => {
-  let warnSpy
-  let element
-
-  beforeEach(() => {
-    element = document.createElement('div')
-    warnSpy = jest.spyOn(console, 'warn')
-  })
-
-  afterEach(() => {
-    expect(warnSpy).not.toHaveBeenCalled()
-  })
+  ensureNoWarnings()
+  const { mount } = createMounter()
 
   Object.keys(fixtures).forEach(type => {
     describe(type, () => {
@@ -63,13 +53,15 @@ describe('consistency', () => {
       it('overwrites the original class', () => {
         const proxy = createProxy(Bar)
         const Proxy = proxy.get()
-        const barInstance = ReactDOM.render(<Proxy />, element)
-        expect(element.innerHTML).toBe('<div>Bar</div>')
+        const barWrapper = mount(<Proxy />)
+        const barInstance = barWrapper.instance()
+        expect(barWrapper.text()).toBe('Bar')
 
         proxy.update(Baz)
 
-        const realBarInstance = ReactDOM.render(<Bar />, element)
-        expect(element.innerHTML).toBe('<div>Bar</div>')
+        const realBarWrapper = mount(<Bar />)
+        const realBarInstance = realBarWrapper.instance()
+        expect(realBarWrapper.text()).toBe('Bar')
         expect(barInstance).not.toBe(realBarInstance)
         expect(barInstance.didUnmount).toBe(true)
       })

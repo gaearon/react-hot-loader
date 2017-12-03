@@ -1,6 +1,6 @@
 /* eslint-env jest */
 import React from 'react'
-import { mount } from 'enzyme'
+import { createMounter, ensureNoWarnings } from './helper'
 import createProxy from '../src'
 
 const createFixtures = () => ({
@@ -56,15 +56,8 @@ const createFixtures = () => ({
 })
 
 describe('instance descriptor', () => {
-  let warnSpy
-
-  beforeEach(() => {
-    warnSpy = jest.spyOn(console, 'warn')
-  })
-
-  afterEach(() => {
-    expect(warnSpy).not.toHaveBeenCalled()
-  })
+  ensureNoWarnings()
+  const { mount } = createMounter()
 
   Object.keys(createFixtures()).forEach(type => {
     describe(type, () => {
@@ -141,7 +134,7 @@ describe('instance descriptor', () => {
           Object.defineProperty(wrapper.instance(), 'answer', { value: 7 })
 
           proxy.update(InstanceDescriptorUpdate)
-          wrapper.mount()
+          mount(<Proxy base={100} />)
           expect(wrapper.text()).toBe('7')
           expect(wrapper.instance().answer).toBe(7)
 

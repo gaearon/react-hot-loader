@@ -1,6 +1,6 @@
 /* eslint-env jest */
 import React from 'react'
-import { mount } from 'enzyme'
+import { ensureNoWarnings, createMounter } from './helper'
 import createProxy from '../src'
 
 const fixtures = {
@@ -34,15 +34,8 @@ const fixtures = {
 }
 
 describe('static method', () => {
-  let warnSpy
-
-  beforeEach(() => {
-    warnSpy = jest.spyOn(console, 'warn')
-  })
-
-  afterEach(() => {
-    expect(warnSpy).not.toHaveBeenCalled()
-  })
+  ensureNoWarnings()
+  const { mount } = createMounter()
 
   Object.keys(fixtures).forEach(type => {
     describe(type, () => {
@@ -89,7 +82,7 @@ describe('static method', () => {
         expect(Proxy.getAnswer()).toBe(42)
 
         proxy.update(StaticMethodUpdate)
-        wrapper.mount()
+        mount(<Proxy />)
         expect(wrapper.text()).toBe('43')
         expect(Proxy.getAnswer()).toBe(43)
       })
@@ -104,7 +97,7 @@ describe('static method', () => {
         expect(wrapper.text()).toBe('42')
 
         proxy.update(StaticMethodUpdate)
-        wrapper.mount()
+        mount(<Proxy />)
 
         expect(wrapper.text()).toBe('42')
         expect(Proxy.getAnswer()).toBe(42)
@@ -119,6 +112,7 @@ describe('static method', () => {
         expect(Proxy.getAnswer()).toBe(42)
 
         proxy.update(StaticMethodRemoval)
+        console.error = jest.fn()
         expect(() => wrapper.instance().forceUpdate()).toThrow()
         expect(() => mount(<Proxy />)).toThrow()
         expect(Proxy.getAnswer).toBe(undefined)

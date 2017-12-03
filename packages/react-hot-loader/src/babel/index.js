@@ -1,5 +1,4 @@
-const replaced = Symbol('replaced')
-const { REGENERATE_METHOD } = require('react-stand-in/symbols')
+const { REGENERATE_METHOD } = require('react-stand-in')
 
 const templateOptions = {
   placeholderPattern: /^([A-Z0-9]+)([A-Z0-9_]+)$/,
@@ -25,7 +24,7 @@ module.exports = function plugin(args) {
     templateOptions,
   )
 
-  var evalTemplate = template('this[key]=eval(code);', templateOptions)
+  const evalTemplate = template('this[key]=eval(code);', templateOptions)
 
   // We're making the IIFE we insert at the end of the file an unused variable
   // because it otherwise breaks the output of the babel-node REPL (#359).

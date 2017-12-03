@@ -1,6 +1,6 @@
 /* eslint-env jest */
 import React from 'react'
-import { mount } from 'enzyme'
+import { ensureNoWarnings, createMounter } from './helper'
 import createProxy from '../src'
 
 const fixtures = {
@@ -56,15 +56,8 @@ const fixtures = {
 }
 
 describe('static descriptor', () => {
-  let warnSpy
-
-  beforeEach(() => {
-    warnSpy = jest.spyOn(console, 'warn')
-  })
-
-  afterEach(() => {
-    expect(warnSpy).not.toHaveBeenCalled()
-  })
+  ensureNoWarnings()
+  const { mount } = createMounter()
 
   Object.keys(fixtures).forEach(type => {
     const {
@@ -99,7 +92,7 @@ describe('static descriptor', () => {
           expect(wrapper.text()).toEqual('')
 
           proxy.update(StaticDescriptor)
-          wrapper.mount()
+          mount(<Proxy />)
           expect(wrapper.text()).toEqual('42')
           expect(wrapper.instance().constructor.answer).toEqual(42)
         })
@@ -111,12 +104,12 @@ describe('static descriptor', () => {
           expect(wrapper.text()).toEqual('42')
 
           proxy.update(StaticDescriptorUpdate)
-          wrapper.mount()
+          mount(<Proxy />)
           expect(wrapper.text()).toEqual('43')
           expect(wrapper.instance().constructor.answer).toEqual(43)
 
           proxy.update(StaticDescriptorRemoval)
-          wrapper.mount()
+          mount(<Proxy />)
           expect(wrapper.text()).toEqual('')
           expect(wrapper.instance().answer).toEqual(undefined)
         })
@@ -132,12 +125,12 @@ describe('static descriptor', () => {
           })
 
           proxy.update(StaticDescriptorUpdate)
-          wrapper.mount()
+          mount(<Proxy />)
           expect(wrapper.text()).toEqual('7')
           expect(wrapper.instance().constructor.answer).toEqual(7)
 
           proxy.update(StaticDescriptorRemoval)
-          wrapper.mount()
+          mount(<Proxy />)
           expect(wrapper.text()).toEqual('7')
           expect(wrapper.instance().constructor.answer).toEqual(7)
         })
@@ -176,10 +169,10 @@ describe('static descriptor', () => {
           proxy.update(StaticDescriptorRemoval)
           expect(wrapper.instance().constructor._something).toEqual(30)
 
+          console.error = jest.fn()
           expect(() => {
             wrapper.instance().constructor.something = 7
           }).toThrow()
-          // expect(wrapper.instance().constructor.something).toEqual(7);
           expect(wrapper.instance().constructor._something).toEqual(30)
         })
 

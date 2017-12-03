@@ -1,6 +1,6 @@
 /* eslint-env jest */
 import React from 'react'
-import { mount } from 'enzyme'
+import { ensureNoWarnings, createMounter } from './helper'
 import createProxy from '../src'
 
 const fixtures = {
@@ -52,15 +52,8 @@ const fixtures = {
 }
 
 describe('instance property', () => {
-  let warnSpy
-
-  beforeEach(() => {
-    warnSpy = jest.spyOn(console, 'warn')
-  })
-
-  afterEach(() => {
-    expect(warnSpy).not.toHaveBeenCalled()
-  })
+  ensureNoWarnings()
+  const { mount } = createMounter()
 
   Object.keys(fixtures).forEach(type => {
     describe(type, () => {
@@ -86,13 +79,16 @@ describe('instance property', () => {
 
         wrapper.instance().answer = 100
 
+        jest.spyOn(console, 'error').mockImplementation(() => {})
         proxy.update(InstancePropertyUpdate)
-        wrapper.mount()
+        expect(console.error).toHaveBeenCalled()
+        console.error.mockRestore()
+        mount(<Proxy />)
         expect(wrapper.text()).toBe('100')
         expect(wrapper.instance().answer).toBe(100)
 
         proxy.update(InstancePropertyRemoval)
-        wrapper.mount()
+        mount(<Proxy />)
         expect(wrapper.text()).toBe('100')
         expect(wrapper.instance().answer).toBe(100)
       })
@@ -109,13 +105,16 @@ describe('instance property', () => {
         const wrapper = mount(<Proxy />)
         expect(wrapper.text()).toBe('42')
 
+        jest.spyOn(console, 'error').mockImplementation(() => {})
         proxy.update(InstancePropertyUpdate)
-        wrapper.mount()
+        expect(console.error).toHaveBeenCalled()
+        console.error.mockRestore()
+        mount(<Proxy />)
         expect(wrapper.text()).toBe('42')
         expect(wrapper.instance().answer).toBe(42)
 
         proxy.update(InstancePropertyRemoval)
-        wrapper.mount()
+        mount(<Proxy />)
         expect(wrapper.text()).toBe('42')
         expect(wrapper.instance().answer).toBe(42)
       })
@@ -140,7 +139,7 @@ describe('instance property', () => {
       const wrapper = mount(<Proxy />)
       expect(wrapper.text()).toBe('42')
       wrapper.instance().answer = 100
-      wrapper.mount()
+      mount(<Proxy />)
       expect(wrapper.text()).toBe('100')
     })
   })
