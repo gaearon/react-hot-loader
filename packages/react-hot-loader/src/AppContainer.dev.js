@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import deepForceUpdate from 'react-deep-force-update'
+import {getGeneration} from "./updateCounter";
 
 class AppContainer extends Component {
   constructor(props) {
@@ -31,14 +32,28 @@ class AppContainer extends Component {
   }
 
   componentWillReceiveProps() {
-    // Hot reload is happening.
-    // Retry rendering!
-    this.setState({
-      error: null,
-    })
-    // Force-update the whole tree, including
-    // components that refuse to update.
-    deepForceUpdate(this)
+    if (this.state.generation!==getGeneration()) {
+      // Hot reload is happening.
+      // Retry rendering!
+      this.setState({
+        error: null,
+        generation: getGeneration()
+      })
+      // Force-update the whole tree, including
+      // components that refuse to update.
+      deepForceUpdate(this)
+    }
+  }
+
+  shouldComponentUpdate(prevProps, prevState) {
+    // Don't update the component if the state had an error and still has one.
+    // This allows to break an infinite loop of error -> render -> error -> render
+    // https://github.com/gaearon/react-hot-loader/issues/696
+    if (prevState.error && this.state.error) {
+      return false
+    }
+
+    return true
   }
 
   // This hook is going to become official in React 15.x.

@@ -2,6 +2,7 @@ import createProxy from 'react-stand-in'
 import { REWIRE_CLASSNAME } from 'react-stand-in/symbols';
 import global from 'global'
 import React from 'react'
+import {didUpdate} from "./updateCounter";
 
 class ComponentMap {
   constructor(useWeakMap) {
@@ -73,14 +74,10 @@ let firstInstances
 let knownSignatures
 let didUpdateProxy
 
-function replaceFirstInstance (id, type) {
-  try {
-    firstInstances[id].prototype[REWIRE_CLASSNAME](type)
-  } catch (e) {}
-}
-
 const hooks = {
   register(type, uniqueLocalName, fileName) {
+    didUpdate();
+
     if (typeof type !== 'function') {
       return
     }
