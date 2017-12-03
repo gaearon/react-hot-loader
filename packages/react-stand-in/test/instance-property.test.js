@@ -79,18 +79,15 @@ describe('instance property', () => {
 
         wrapper.instance().answer = 100
 
-        jest.spyOn(console, 'error').mockImplementation(() => {})
         proxy.update(InstancePropertyUpdate)
-        expect(console.error).toHaveBeenCalled()
-        console.error.mockRestore()
         mount(<Proxy />)
-        expect(wrapper.text()).toBe('100')
-        expect(wrapper.instance().answer).toBe(100)
+        expect(wrapper.text()).toBe('43')
+        expect(wrapper.instance().answer).toBe(43)
 
         proxy.update(InstancePropertyRemoval)
         mount(<Proxy />)
-        expect(wrapper.text()).toBe('100')
-        expect(wrapper.instance().answer).toBe(100)
+        expect(wrapper.text()).toBe('43')
+        expect(wrapper.instance().answer).toBe(43)
       })
 
       /**
@@ -105,18 +102,15 @@ describe('instance property', () => {
         const wrapper = mount(<Proxy />)
         expect(wrapper.text()).toBe('42')
 
-        jest.spyOn(console, 'error').mockImplementation(() => {})
         proxy.update(InstancePropertyUpdate)
-        expect(console.error).toHaveBeenCalled()
-        console.error.mockRestore()
         mount(<Proxy />)
-        expect(wrapper.text()).toBe('42')
-        expect(wrapper.instance().answer).toBe(42)
+        expect(wrapper.text()).toBe('43')
+        expect(wrapper.instance().answer).toBe(43)
 
         proxy.update(InstancePropertyRemoval)
         mount(<Proxy />)
-        expect(wrapper.text()).toBe('42')
-        expect(wrapper.instance().answer).toBe(42)
+        expect(wrapper.text()).toBe('43')
+        expect(wrapper.instance().answer).toBe(43)
       })
     })
   })

@@ -5,13 +5,15 @@ exports[`copies arrow function body block onto hidden class methods arguments.js
 
 class Foo {
   constructor() {
-    this.bar = (...params) => this.__bar__REACT_HOT_LOADER__(...params);
+    this.bar = (a, b) => {
+      arguments;
+
+      return a(b);
+    };
   }
 
-  __bar__REACT_HOT_LOADER__(a, b) {
-    arguments;
-
-    return a(b);
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -33,11 +35,11 @@ exports[`copies arrow function body block onto hidden class methods arrow functi
 
 class Foo {
   constructor() {
-    this.onClick = (...params) => this.__onClick__REACT_HOT_LOADER__(...params);
+    this.onClick = e => e.target.value;
   }
 
-  __onClick__REACT_HOT_LOADER__(e) {
-    return e.target.value;
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -59,11 +61,11 @@ exports[`copies arrow function body block onto hidden class methods async functi
 
 class Foo {
   constructor() {
-    this.bar = async (...params) => await this.__bar__REACT_HOT_LOADER__(...params);
+    this.bar = async (a, b) => await b(a);
   }
 
-  async __bar__REACT_HOT_LOADER__(a, b) {
-    return await b(a);
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -85,11 +87,13 @@ exports[`copies arrow function body block onto hidden class methods async functi
 
 class Foo {
   constructor() {
-    this.bar = async (...params) => await this.__bar__REACT_HOT_LOADER__(...params);
+    this.bar = async (a, b) => {
+      return await a(b);
+    };
   }
 
-  async __bar__REACT_HOT_LOADER__(a, b) {
-    return await a(b);
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -111,11 +115,13 @@ exports[`copies arrow function body block onto hidden class methods block body.j
 
 class Foo {
   constructor() {
-    this.bar = (...params) => this.__bar__REACT_HOT_LOADER__(...params);
+    this.bar = (a, b) => {
+      return a(b);
+    };
   }
 
-  __bar__REACT_HOT_LOADER__(a, b) {
-    return a(b);
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -137,11 +143,13 @@ exports[`copies arrow function body block onto hidden class methods default para
 
 class Foo {
   constructor() {
-    this.bar = (...params) => this.__bar__REACT_HOT_LOADER__(...params);
+    this.bar = (a = \\"foo\\") => {
+      return \`\${a}bar\`;
+    };
   }
 
-  __bar__REACT_HOT_LOADER__(a = \\"foo\\") {
-    return \`\${a}bar\`;
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -163,11 +171,13 @@ exports[`copies arrow function body block onto hidden class methods destructured
 
 class Foo {
   constructor() {
-    this.bar = (...params) => this.__bar__REACT_HOT_LOADER__(...params);
+    this.bar = ({ a }, { b }) => {
+      return \`\${a}\${b}\`;
+    };
   }
 
-  __bar__REACT_HOT_LOADER__({ a }, { b }) {
-    return \`\${a}\${b}\`;
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -189,11 +199,11 @@ exports[`copies arrow function body block onto hidden class methods expression b
 
 class Foo {
   constructor() {
-    this.onClick = (...params) => this.__onClick__REACT_HOT_LOADER__(...params);
+    this.onClick = e => e.target.value;
   }
 
-  __onClick__REACT_HOT_LOADER__(e) {
-    return e.target.value;
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -215,15 +225,17 @@ exports[`copies arrow function body block onto hidden class methods nested argum
 
 class Foo {
   constructor() {
-    this.bar = (...params) => this.__bar__REACT_HOT_LOADER__(...params);
+    this.bar = (a, b) => {
+      () => {
+        arguments;
+      };
+
+      return a(b);
+    };
   }
 
-  __bar__REACT_HOT_LOADER__(a, b) {
-    () => {
-      arguments;
-    };
-
-    return a(b);
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -245,15 +257,17 @@ exports[`copies arrow function body block onto hidden class methods nested new.t
 
 class Foo {
   constructor() {
-    this.bar = (...params) => this.__bar__REACT_HOT_LOADER__(...params);
+    this.bar = (a, b) => {
+      () => {
+        new.target;
+      };
+
+      return a(b);
+    };
   }
 
-  __bar__REACT_HOT_LOADER__(a, b) {
-    () => {
-      new.target;
-    };
-
-    return a(b);
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -275,13 +289,15 @@ exports[`copies arrow function body block onto hidden class methods new.target.j
 
 class Foo {
   constructor() {
-    this.bar = (...params) => this.__bar__REACT_HOT_LOADER__(...params);
+    this.bar = (a, b) => {
+      new.target;
+
+      return a(b);
+    };
   }
 
-  __bar__REACT_HOT_LOADER__(a, b) {
-    new.target;
-
-    return a(b);
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -304,6 +320,10 @@ exports[`copies arrow function body block onto hidden class methods not a functi
 class Foo {
   constructor() {
     this.bar = 2;
+  }
+
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
   }
 
 }
@@ -330,6 +350,10 @@ class Foo {
     };
   }
 
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
+  }
+
 }
 ;
 
@@ -349,16 +373,19 @@ exports[`copies arrow function body block onto hidden class methods same name as
 
 class Foo {
   constructor() {
-    this.bar = (...params) => this.__bar__REACT_HOT_LOADER__(...params);
-  }
-
-  __bar__REACT_HOT_LOADER__(a, b) {
-    return a(b);
+    this.bar = (a, b) => {
+      return a(b);
+    };
   }
 
   bar() {
     return 2;
   }
+
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
+  }
+
 }
 ;
 
@@ -421,6 +448,11 @@ class C {
       class W {}
     }
   }
+
+  __reactstandin__regenerateByEval(key, code) {
+    this[key] = eval(code);
+  }
+
 }
 exports.C = C;
 const D = class X {};
