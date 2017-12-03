@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "yarn build && lerna-watch",
     "build": "lerna-build",
-    "ci": "yarn build && yarn lint && yarn test",
+    "ci": "lerna bootstrap && yarn build && yarn lint && yarn test",
     "format": "prettier --write \"packages/**/*.js\" *.js",
     "lint": "eslint .",
     "test": "jest",
