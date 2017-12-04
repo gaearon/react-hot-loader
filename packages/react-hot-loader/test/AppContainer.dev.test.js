@@ -322,6 +322,12 @@ function runAllTests(useWeakMap) {
               spy('bar')
             }
 
+            /* eslint-disable */
+            __reactstandin__regenerateByEval(key, code) {
+              this[key] = eval(code)
+            }
+            /* eslint-enable */
+
             render() {
               return (
                 <span onClick={this.handleClick}>
@@ -329,8 +335,6 @@ function runAllTests(useWeakMap) {
                 </span>
               )
             }
-
-            __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
           }
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
@@ -394,6 +398,12 @@ function runAllTests(useWeakMap) {
               spy('bar')
             }
 
+            /* eslint-disable */
+            __reactstandin__regenerateByEval(key, code) {
+              this[key] = eval(code)
+            }
+            /* eslint-enable */
+
             render() {
               return (
                 <span onClick={this.handleClick}>
@@ -401,8 +411,6 @@ function runAllTests(useWeakMap) {
                 </span>
               )
             }
-
-            __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
           }
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
@@ -461,6 +469,12 @@ function runAllTests(useWeakMap) {
 
             handleClick = () => spy('bar')
 
+            /* eslint-disable */
+            __reactstandin__regenerateByEval(key, code) {
+              this[key] = eval(code)
+            }
+            /* eslint-enable */
+
             render() {
               return (
                 <span onClick={this.handleClick}>
@@ -468,7 +482,6 @@ function runAllTests(useWeakMap) {
                 </span>
               )
             }
-            __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
           }
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
@@ -530,6 +543,12 @@ function runAllTests(useWeakMap) {
 
               handleClick = ({ target }) => spy(target.value)
 
+              /* eslint-disable */
+              __reactstandin__regenerateByEval(key, code) {
+                this[key] = eval(code)
+              }
+              /* eslint-enable */
+
               render() {
                 return (
                   <span onClick={this.handleClick}>
@@ -537,8 +556,6 @@ function runAllTests(useWeakMap) {
                   </span>
                 )
               }
-
-              __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
             }
             RHL.register(App, 'App', 'test.js')
             wrapper.setProps({ children: <App /> })

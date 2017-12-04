@@ -13,11 +13,15 @@ const createFixtures = () => ({
 
       doNothing() {}
 
+      /* eslint-disable */
+      __reactstandin__regenerateByEval(key, code) {
+        this[key] = eval(code)
+      }
+      /* eslint-enable */
+
       render() {
         return <div>Bar</div>
       }
-
-      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     Baz: class Baz extends React.Component {
@@ -25,13 +29,17 @@ const createFixtures = () => ({
         this.didUnmount = true
       }
 
+      thisIsES6 = () => {}
+
+      /* eslint-disable */
+      __reactstandin__regenerateByEval(key, code) {
+        this[key] = eval(code)
+      }
+      /* eslint-enable */
+
       render() {
         return <div>Baz</div>
       }
-
-      thisIsES6 = () => {};
-
-      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     Foo: class Foo extends React.Component {
@@ -41,11 +49,15 @@ const createFixtures = () => ({
         this.didUnmount = true
       }
 
+      /* eslint-disable */
+      __reactstandin__regenerateByEval(key, code) {
+        this[key] = eval(code)
+      }
+      /* eslint-enable */
+      
       render() {
         return <div>Foo</div>
       }
-
-      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
   },
 })
@@ -77,15 +89,15 @@ describe('consistency', () => {
         const realBarInstance = realBarWrapper.instance()
 
         // detecting babel envirorment
-        const baz = new Baz();
-        if (baz.thisIsES6.toString().indexOf('=>')>=0) {
+        const baz = new Baz()
+        if (baz.thisIsES6.toString().indexOf('=>') >= 0) {
           // this is ES6 class. Bar is still Bar.
           expect(realBarWrapper.text()).toBe('Bar')
         } else {
           // this is ES5 class. Bar is now Baz!
           expect(realBarWrapper.text()).toBe('Baz')
         }
-        
+
         expect(barInstance).not.toBe(realBarInstance)
         expect(barInstance.didUnmount).toBe(true)
       })

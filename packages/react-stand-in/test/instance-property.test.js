@@ -8,40 +8,56 @@ const fixtures = {
     InstanceProperty: class InstanceProperty extends React.Component {
       answer = 42
 
+      /* eslint-disable */
+      __reactstandin__regenerateByEval(key, code) {
+        this[key] = eval(code)
+      }
+      /* eslint-enable */
+
       render() {
         return <div>{this.answer}</div>
       }
-
-      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     InstancePropertyUpdate: class InstancePropertyUpdate extends React.Component {
       answer = 43
 
+      /* eslint-disable */
+      __reactstandin__regenerateByEval(key, code) {
+        this[key] = eval(code)
+      }
+      /* eslint-enable */
+
       render() {
         return <div>{this.answer}</div>
       }
-
-      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     InstancePropertyRemoval: class InstancePropertyRemoval extends React.Component {
+      /* eslint-disable */
+      __reactstandin__regenerateByEval(key, code) {
+        this[key] = eval(code)
+      }
+      /* eslint-enable */
+
       render() {
         return <div>{this.answer}</div>
       }
-
-      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     InstancePropertyFromLocal: class InstanceProperty extends React.Component {
       getAnswer = () => this.answer
       answer = 42
 
+      /* eslint-disable */
+      __reactstandin__regenerateByEval(key, code) {
+        this[key] = eval(code)
+      }
+      /* eslint-enable */
+
       render() {
         return <div>{this.getAnswer()}</div>
       }
-
-      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     InstancePropertyFromContext: class InstanceProperty extends React.Component {
@@ -52,11 +68,15 @@ const fixtures = {
       /* eslint-enable arrow-body-style */
       answer = 42
 
+      /* eslint-disable */
+      __reactstandin__regenerateByEval(key, code) {
+        this[key] = eval(code)
+      }
+      /* eslint-enable */
+
       render() {
         return <div>{this.getAnswer()}</div>
       }
-
-      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
   },
 }
