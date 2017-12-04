@@ -7,6 +7,7 @@
     "ci": "lerna bootstrap && yarn build && yarn lint && yarn test",
     "format": "prettier --write \"packages/**/*.js\" *.js",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "yarn test:modern && yarn test:es2015",
     "test:es2015": "BABEL_TARGET=es2015 jest",
     "test:modern": "BABEL_TARGET=modern jest"
