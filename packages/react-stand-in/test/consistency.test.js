@@ -4,7 +4,7 @@ import React from 'react'
 import { createMounter, ensureNoWarnings } from './helper'
 import createProxy from '../src'
 
-const fixtures = {
+const createFixtures = () => ({
   modern: {
     Bar: class Bar extends React.Component {
       componentWillUnmount() {
@@ -40,15 +40,21 @@ const fixtures = {
       }
     },
   },
-}
+})
 
 describe('consistency', () => {
   ensureNoWarnings()
   const { mount } = createMounter()
 
-  Object.keys(fixtures).forEach(type => {
+  Object.keys(createFixtures()).forEach(type => {
     describe(type, () => {
-      const { Bar, Baz, Foo } = fixtures[type]
+      let  Bar, Baz, Foo;
+      beforeEach( () => {
+        const fixtures = createFixtures()[type];
+        Bar = fixtures.Bar;
+        Baz = fixtures.Baz;
+        Foo = fixtures.Foo;
+      });
 
       it('overwrites the original class', () => {
         const proxy = createProxy(Bar)
@@ -61,7 +67,7 @@ describe('consistency', () => {
 
         const realBarWrapper = mount(<Bar />)
         const realBarInstance = realBarWrapper.instance()
-        expect(realBarWrapper.text()).toBe('Bar')
+        expect(realBarWrapper.text()).toBe('Baz')
         expect(barInstance).not.toBe(realBarInstance)
         expect(barInstance.didUnmount).toBe(true)
       })
@@ -160,9 +166,8 @@ describe('consistency', () => {
   })
 
   describe('modern only', () => {
-    const { Bar, Baz } = fixtures.modern
-
     it('sets up the constructor name from initial name', () => {
+      const { Bar, Baz } = createFixtures().modern
       const proxy = createProxy(Bar)
       const Proxy = proxy.get()
       expect(Proxy.name).toBe('Bar')
@@ -172,6 +177,7 @@ describe('consistency', () => {
     })
 
     it('should not crash if new Function() throws', () => {
+      const { Bar } = createFixtures().modern
       const oldFunction = global.Function
 
       global.Function = class extends oldFunction {

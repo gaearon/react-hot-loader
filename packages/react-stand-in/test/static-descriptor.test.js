@@ -3,7 +3,7 @@ import React from 'react'
 import { ensureNoWarnings, createMounter } from './helper'
 import createProxy from '../src'
 
-const fixtures = {
+const createFixtures = () => ({
   modern: {
     StaticDescriptor: class StaticDescriptor extends React.Component {
       static get answer() {
@@ -53,22 +53,23 @@ const fixtures = {
       }
     },
   },
-}
+})
 
 describe('static descriptor', () => {
   ensureNoWarnings()
   const { mount } = createMounter()
 
-  Object.keys(fixtures).forEach(type => {
-    const {
-      StaticDescriptor,
-      StaticDescriptorUpdate,
-      StaticDescriptorRemoval,
-      ThrowingAccessors,
-    } = fixtures[type]
+  Object.keys(createFixtures()).forEach(type => {
+    let fixtures;
 
     describe(type, () => {
+      beforeEach( () => fixtures = createFixtures()[type])
+
       it('does not invoke accessors', () => {
+        const {
+          StaticDescriptor,
+          ThrowingAccessors,
+        } = fixtures;
         const proxy = createProxy(StaticDescriptor)
         const Proxy = proxy.get()
         mount(<Proxy />)
@@ -76,7 +77,12 @@ describe('static descriptor', () => {
       })
 
       describe('getter', () => {
+        beforeEach( () => fixtures = createFixtures()[type])
+
         it('is available on proxy class', () => {
+          const {
+            StaticDescriptor,
+          } = fixtures;
           const proxy = createProxy(StaticDescriptor)
           const Proxy = proxy.get()
           const wrapper = mount(<Proxy />)
@@ -86,6 +92,10 @@ describe('static descriptor', () => {
         })
 
         it('gets added', () => {
+          const {
+            StaticDescriptor,
+            StaticDescriptorRemoval,
+          } = fixtures;
           const proxy = createProxy(StaticDescriptorRemoval)
           const Proxy = proxy.get()
           const wrapper = mount(<Proxy />)
@@ -98,6 +108,11 @@ describe('static descriptor', () => {
         })
 
         it('gets replaced', () => {
+          const {
+            StaticDescriptor,
+            StaticDescriptorUpdate,
+            StaticDescriptorRemoval,
+          } = fixtures;
           const proxy = createProxy(StaticDescriptor)
           const Proxy = proxy.get()
           const wrapper = mount(<Proxy />)
@@ -115,6 +130,11 @@ describe('static descriptor', () => {
         })
 
         it('gets redefined', () => {
+          const {
+            StaticDescriptor,
+            StaticDescriptorUpdate,
+            StaticDescriptorRemoval,
+          } = fixtures;
           const proxy = createProxy(StaticDescriptor)
           const Proxy = proxy.get()
           const wrapper = mount(<Proxy />)
@@ -137,7 +157,12 @@ describe('static descriptor', () => {
       })
 
       describe('setter', () => {
+        beforeEach( () => fixtures = createFixtures()[type])
+
         it('is available on proxy class instance', () => {
+          const {
+            StaticDescriptor,
+          } = fixtures;
           const proxy = createProxy(StaticDescriptor)
           const Proxy = proxy.get()
           const wrapper = mount(<Proxy />)
@@ -145,6 +170,10 @@ describe('static descriptor', () => {
         })
 
         it('gets added', () => {
+          const {
+            StaticDescriptor,
+            StaticDescriptorRemoval,
+          } = fixtures;
           const proxy = createProxy(StaticDescriptorRemoval)
           const Proxy = proxy.get()
           const wrapper = mount(<Proxy />)
@@ -155,6 +184,11 @@ describe('static descriptor', () => {
         })
 
         it('gets replaced', () => {
+          const {
+            StaticDescriptor,
+            StaticDescriptorUpdate,
+            StaticDescriptorRemoval,
+          } = fixtures;
           const proxy = createProxy(StaticDescriptor)
           const Proxy = proxy.get()
           const wrapper = mount(<Proxy />)
@@ -177,6 +211,10 @@ describe('static descriptor', () => {
         })
 
         it('gets redefined', () => {
+          const {
+            StaticDescriptor,
+            StaticDescriptorUpdate,
+          } = fixtures;
           const proxy = createProxy(StaticDescriptor)
           const Proxy = proxy.get()
           const wrapper = mount(<Proxy />)
