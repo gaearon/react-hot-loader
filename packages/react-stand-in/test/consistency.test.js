@@ -2,7 +2,7 @@
 /* eslint-disable react/no-render-return-value */
 import React from 'react'
 import { createMounter, ensureNoWarnings } from './helper'
-import createProxy from '../src'
+import createProxy from '../lib'
 
 const createFixtures = () => ({
   modern: {
@@ -54,7 +54,7 @@ const createFixtures = () => ({
         this[key] = eval(code)
       }
       /* eslint-enable */
-      
+
       render() {
         return <div>Foo</div>
       }

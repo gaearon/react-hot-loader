@@ -3,7 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ensureNoWarnings, createMounter } from './helper'
-import createProxy from '../src'
+import createProxy from '../lib'
 
 const fixtures = {
   modern: {

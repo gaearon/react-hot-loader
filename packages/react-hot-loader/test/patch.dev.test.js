@@ -1,7 +1,7 @@
 /* eslint-env jest */
 
 import React from 'react'
-import '../src/patch.dev'
+import '../lib/patch.dev'
 
 const RHL = global.__REACT_HOT_LOADER__
 function A1() {}

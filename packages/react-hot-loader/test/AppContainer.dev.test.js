@@ -5,8 +5,8 @@ import createReactClass from 'create-react-class'
 import Adapter from 'enzyme-adapter-react-16'
 import { mount, configure } from 'enzyme'
 import { mapProps } from 'recompose'
-import '../src/patch.dev'
-import AppContainer from '../src/AppContainer.dev'
+import '../lib/patch.dev'
+import AppContainer from '../lib/AppContainer.dev'
 
 configure({ adapter: new Adapter() })
 
