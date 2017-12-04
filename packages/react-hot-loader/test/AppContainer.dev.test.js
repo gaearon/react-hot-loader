@@ -329,6 +329,8 @@ function runAllTests(useWeakMap) {
                 </span>
               )
             }
+
+            __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
           }
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
@@ -399,6 +401,8 @@ function runAllTests(useWeakMap) {
                 </span>
               )
             }
+
+            __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
           }
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
@@ -464,6 +468,7 @@ function runAllTests(useWeakMap) {
                 </span>
               )
             }
+            __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
           }
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
@@ -532,6 +537,8 @@ function runAllTests(useWeakMap) {
                   </span>
                 )
               }
+
+              __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
             }
             RHL.register(App, 'App', 'test.js')
             wrapper.setProps({ children: <App /> })

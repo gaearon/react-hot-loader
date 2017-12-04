@@ -11,6 +11,8 @@ const fixtures = {
       render() {
         return <div>{this.answer}</div>
       }
+
+      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     InstancePropertyUpdate: class InstancePropertyUpdate extends React.Component {
@@ -19,12 +21,16 @@ const fixtures = {
       render() {
         return <div>{this.answer}</div>
       }
+
+      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     InstancePropertyRemoval: class InstancePropertyRemoval extends React.Component {
       render() {
         return <div>{this.answer}</div>
       }
+
+      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     InstancePropertyFromLocal: class InstanceProperty extends React.Component {
@@ -34,6 +40,8 @@ const fixtures = {
       render() {
         return <div>{this.getAnswer()}</div>
       }
+
+      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     InstancePropertyFromContext: class InstanceProperty extends React.Component {
@@ -47,6 +55,8 @@ const fixtures = {
       render() {
         return <div>{this.getAnswer()}</div>
       }
+
+      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
   },
 }

@@ -16,6 +16,8 @@ const createFixtures = () => ({
       render() {
         return <div>Bar</div>
       }
+
+      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     Baz: class Baz extends React.Component {
@@ -26,6 +28,10 @@ const createFixtures = () => ({
       render() {
         return <div>Baz</div>
       }
+
+      thisIsES6 = () => {};
+
+      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
 
     Foo: class Foo extends React.Component {
@@ -38,6 +44,8 @@ const createFixtures = () => ({
       render() {
         return <div>Foo</div>
       }
+
+      __reactstandin__regenerateByEval(key,code){ this[key]=eval(code); }
     },
   },
 })
@@ -56,17 +64,28 @@ describe('consistency', () => {
       })
 
       it('overwrites the original class', () => {
+        // spin up
         const proxy = createProxy(Bar)
         const Proxy = proxy.get()
         const barWrapper = mount(<Proxy />)
         const barInstance = barWrapper.instance()
         expect(barWrapper.text()).toBe('Bar')
 
+        // replace base component
         proxy.update(Baz)
-
         const realBarWrapper = mount(<Bar />)
         const realBarInstance = realBarWrapper.instance()
-        expect(realBarWrapper.text()).toBe('Baz')
+
+        // detecting babel envirorment
+        const baz = new Baz();
+        if (baz.thisIsES6.toString().indexOf('=>')>=0) {
+          // this is ES6 class. Bar is still Bar.
+          expect(realBarWrapper.text()).toBe('Bar')
+        } else {
+          // this is ES5 class. Bar is now Baz!
+          expect(realBarWrapper.text()).toBe('Baz')
+        }
+        
         expect(barInstance).not.toBe(realBarInstance)
         expect(barInstance.didUnmount).toBe(true)
       })
