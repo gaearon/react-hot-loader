@@ -8,4 +8,4 @@ if (!module.hot || process.env.NODE_ENV === 'production') {
   exportedModule = require('./index.dev')
 }
 
-module.exports = exportedModule;
+module.exports = exportedModule

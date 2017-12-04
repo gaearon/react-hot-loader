@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import deepForceUpdate from 'react-deep-force-update'
-import {getGeneration} from "./updateCounter";
+import { getGeneration } from './updateCounter'
 
 class AppContainer extends Component {
   constructor(props) {
@@ -32,12 +32,12 @@ class AppContainer extends Component {
   }
 
   componentWillReceiveProps() {
-    if (this.state.generation!==getGeneration()) {
+    if (this.state.generation !== getGeneration()) {
       // Hot reload is happening.
       // Retry rendering!
       this.setState({
         error: null,
-        generation: getGeneration()
+        generation: getGeneration(),
       })
       // Force-update the whole tree, including
       // components that refuse to update.

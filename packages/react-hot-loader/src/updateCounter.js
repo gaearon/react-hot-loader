@@ -1,4 +1,4 @@
-let generation = 0 ;
+let generation = 0
 
-export const didUpdate = () => generation++;
-export const getGeneration = () => generation;
+export const didUpdate = () => generation++
+export const getGeneration = () => generation
