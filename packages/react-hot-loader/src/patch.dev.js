@@ -149,6 +149,10 @@ function warnAboutUnacceptedClass(typeSignature) {
   }
 }
 
+function getSignature(type) {
+  return type.toString() + (type.displayName ? type.displayName : '')
+}
+
 function resolveType(type) {
   // We only care about composite components
   if (typeof type !== 'function') {
@@ -162,7 +166,7 @@ function resolveType(type) {
   const id = idsByType.get(type)
   if (!id) {
     if (!wasKnownBefore) {
-      const signature = type.toString()
+      const signature = getSignature(type)
       if (knownSignatures[signature]) {
         warnAboutUnacceptedClass(type)
       } else {

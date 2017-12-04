@@ -54,6 +54,47 @@ function runAllTests(useWeakMap) {
       }
     })
 
+    it('report proxy duplicates', () => {
+      const createUniqueComponent = (variable) => () => <div>123{variable}</div>
+      const f1 = createUniqueComponent(1)
+      const f2 = createUniqueComponent(2)
+
+      const spy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+
+      try {
+        RHL.register(createUniqueComponent, 'f1', '/wow/test.js')
+        React.createElement(f1)
+        React.createElement(f1)
+        expect(console.warn.mock.calls.length).toBe(0)
+        RHL.register(createUniqueComponent, 'f1', '/wow/test.js')
+        React.createElement(f2)
+        expect(console.warn.mock.calls.length).toBe(1)
+      } finally {
+        spy.mockRestore()
+      }
+    })
+
+    it('report proxy named duplicates', () => {
+      const createUniqueComponent = (variable) => () => <div>123{variable}</div>
+      const f1 = createUniqueComponent(1)
+      const f2 = createUniqueComponent(2)
+      f2.displayName='another';
+
+      const spy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+
+      try {
+        RHL.register(createUniqueComponent, 'f1', '/wow/test.js')
+        React.createElement(f1)
+        React.createElement(f1)
+        expect(console.warn.mock.calls.length).toBe(0)
+        RHL.register(createUniqueComponent, 'f1', '/wow/test.js')
+        React.createElement(f2)
+        expect(console.warn.mock.calls.length).toBe(0)
+      } finally {
+        spy.mockRestore()
+      }
+    })
+
     it('report proxy failures', () => {
       const f1 = () => <div>234</div>
       const f2 = () => <div>123</div>
