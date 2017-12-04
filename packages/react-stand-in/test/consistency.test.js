@@ -48,13 +48,12 @@ describe('consistency', () => {
 
   Object.keys(createFixtures()).forEach(type => {
     describe(type, () => {
-      let  Bar, Baz, Foo;
-      beforeEach( () => {
-        const fixtures = createFixtures()[type];
-        Bar = fixtures.Bar;
-        Baz = fixtures.Baz;
-        Foo = fixtures.Foo;
-      });
+      let Bar
+      let Baz
+      let Foo
+      beforeEach(() => {
+        ;({ Bar, Baz, Foo } = createFixtures()[type])
+      })
 
       it('overwrites the original class', () => {
         const proxy = createProxy(Bar)
