@@ -3,11 +3,12 @@
 // (https://github.com/facebook/react/blob/master/src/shared/ReactTypeOfWork.js#L20)
 import getReactInstance from "./getReactInstance";
 
-const ReactClassComponent = 2
+//const ReactClassComponent = 2
 
 function pushState(stack, instance) {
-  stack.type = internalInstance.type;
-  stack.ins = internalInstance.ins;
+  stack.type = instance.type;
+  stack.ins = instance.stateNode;
+  stack.tag = instance.tag;
   stack.children = [];
 }
 
@@ -49,17 +50,14 @@ function hydrateTree(root) {
 function traverseTree(root, stack) {
   pushState(stack, root);
   let node = root
-  if (node.tag === ReactClassComponent) {
-    const publicInstance = node.stateNode
-  }
   if (node.child) {
     let child = node.child;
-    while (child.sibling) {
+    do {
       const childStack = {};
-      traverseTree(child, childStack)
+      traverseTree(child, childStack);
       stack.children.push(childStack);
       child = child.sibling
-    }
+    } while (child)
   }
 }
 

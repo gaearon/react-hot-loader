@@ -4,7 +4,7 @@ import path from 'path'
 import fs from 'fs'
 import { transformFileSync } from 'babel-core'
 /* eslint-disable import/no-unresolved, import/extensions */
-import { getOptions, TARGETS } from 'testConfig/babel'
+import { getOptions, TARGETS } from '../../../testConfig/babel'
 /* eslint-enable import/no-unresolved, import/extensions */
 
 const FIXTURES_DIR = path.join(__dirname, '__babel_fixtures__')

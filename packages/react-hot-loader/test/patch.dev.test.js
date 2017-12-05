@@ -1,7 +1,7 @@
 /* eslint-env jest */
 
 import React from 'react'
-import '../src/patch.dev'
+import '../lib/patch.dev'
 
 const RHL = global.__REACT_HOT_LOADER__
 function A1() {}
@@ -55,7 +55,7 @@ function runAllTests(useWeakMap) {
     })
 
     it('report proxy duplicates', () => {
-      const createUniqueComponent = (variable) => () => <div>123{variable}</div>
+      const createUniqueComponent = variable => () => <div>123{variable}</div>
       const f1 = createUniqueComponent(1)
       const f2 = createUniqueComponent(2)
 
@@ -75,10 +75,10 @@ function runAllTests(useWeakMap) {
     })
 
     it('report proxy named duplicates', () => {
-      const createUniqueComponent = (variable) => () => <div>123{variable}</div>
+      const createUniqueComponent = variable => () => <div>123{variable}</div>
       const f1 = createUniqueComponent(1)
       const f2 = createUniqueComponent(2)
-      f2.displayName='another';
+      f2.displayName = 'another'
 
       const spy = jest.spyOn(console, 'warn').mockImplementation(() => {})
 

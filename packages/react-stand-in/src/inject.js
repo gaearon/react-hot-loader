@@ -4,7 +4,7 @@ import { REGENERATE_METHOD, PREFIX, GENERATION } from './symbols'
 function mergeComponents(ProxyComponent, NextComponent, InitialComponent) {
   const injectedCode = {}
   try {
-    const ins2 = new NextComponent({}, {})
+    const nextInstance = new NextComponent({}, {})
 
     try {
       // bypass babel class inheritance checking
@@ -13,53 +13,55 @@ function mergeComponents(ProxyComponent, NextComponent, InitialComponent) {
       // It was es6 class
     }
 
-    const ins1 = new ProxyComponent({}, {})
+    const proxyInstance = new ProxyComponent({}, {})
 
-    const mergeProps = Object.assign({}, ins1, ins2)
-    const hasRegenerate = ins1[REGENERATE_METHOD]
-    Object.keys(mergeProps)
-      .filter(key => !key.startsWith(PREFIX))
-      .forEach(key => {
-        const next = ins2[key]
-        const prev = ins1[key]
-        if (prev && next) {
-          if (isNativeFunction(next) || isNativeFunction(prev)) {
-            // this is bound method
-            if (next.length === prev.length && ProxyComponent.prototype[key]) {
-              injectedCode[key] = `Object.getPrototypeOf(this)['${
-                key
-              }'].bind(this)`
-            } else {
-              console.error(
-                'React-stand-in:',
-                'Updated class ',
-                ProxyComponent.name,
-                'contains native or bound function ',
-                key,
-                next,
-                '. Unable to reproduce, use arrow functions instead.',
-              )
-            }
-            return
+    const mergedAttrs = Object.assign({}, proxyInstance, nextInstance)
+    const hasRegenerate = proxyInstance[REGENERATE_METHOD]
+    Object.keys(mergedAttrs).forEach(key => {
+      if (key.startsWith(PREFIX)) return
+      const nextAttr = nextInstance[key]
+      const prevAttr = proxyInstance[key]
+      if (prevAttr && nextAttr) {
+        if (isNativeFunction(nextAttr) || isNativeFunction(prevAttr)) {
+          // this is bound method
+          if (
+            nextAttr.length === prevAttr.length &&
+            ProxyComponent.prototype[key]
+          ) {
+            injectedCode[key] = `Object.getPrototypeOf(this)['${
+              key
+            }'].bind(this)`
+          } else {
+            console.error(
+              'React-stand-in:',
+              'Updated class ',
+              ProxyComponent.name,
+              'contains native or bound function ',
+              key,
+              nextAttr,
+              '. Unable to reproduce, use arrow functions instead.',
+            )
           }
+          return
+        }
 
-          if (String(next) !== String(prev)) {
-            if (!hasRegenerate) {
-              console.error(
-                'React-stand-in:',
-                ' Updated class ',
-                ProxyComponent.name,
-                'had different code for',
-                key,
-                next,
-                '. Unable to reproduce. Regeneration support needed.',
-              )
-            } else {
-              injectedCode[key] = next
-            }
+        if (String(nextAttr) !== String(prevAttr)) {
+          if (!hasRegenerate) {
+            console.error(
+              'React-stand-in:',
+              ' Updated class ',
+              ProxyComponent.name,
+              'had different code for',
+              key,
+              nextAttr,
+              '. Unable to reproduce. Regeneration support needed.',
+            )
+          } else {
+            injectedCode[key] = nextAttr
           }
         }
-      })
+      }
+    })
   } catch (e) {
     console.error('React-stand-in:', e)
   }

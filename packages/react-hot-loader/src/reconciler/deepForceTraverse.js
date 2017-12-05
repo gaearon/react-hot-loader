@@ -29,9 +29,12 @@ const deepForceTraverse = (instance, stack) => {
   const children = stack.children;
   flow.forEach( (child, index) => {
     const schild = children[index];
-    if(swappable(child,schild)){
+    // they are both registered, or have equal code/displayname/signature
+    if(swappable(child.type,schild.type)){
+      // update proxy
       swap(child,schild);
-      deepForceTraverse(child,schild);
+      // swap.. call deep
+      deepForceTraverse(child.ins,schild);
     }
   });
 }

@@ -2,7 +2,7 @@
 /* eslint-disable react/no-render-return-value */
 import React from 'react'
 import { ensureNoWarnings, createMounter } from './helper'
-import createProxy from '../src'
+import createProxy from '../lib'
 
 const createFixtures = () => ({
   modern: {

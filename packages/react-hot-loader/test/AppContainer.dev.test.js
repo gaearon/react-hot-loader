@@ -5,8 +5,8 @@ import createReactClass from 'create-react-class'
 import Adapter from 'enzyme-adapter-react-16'
 import { mount, configure } from 'enzyme'
 import { mapProps } from 'recompose'
-import '../src/patch.dev'
-import AppContainer from '../src/AppContainer.dev'
+import '../lib/patch.dev'
+import AppContainer from '../lib/AppContainer.dev'
 
 configure({ adapter: new Adapter() })
 
@@ -322,6 +322,12 @@ function runAllTests(useWeakMap) {
               spy('bar')
             }
 
+            /* eslint-disable */
+            __reactstandin__regenerateByEval(key, code) {
+              this[key] = eval(code)
+            }
+            /* eslint-enable */
+
             render() {
               return (
                 <span onClick={this.handleClick}>
@@ -392,6 +398,12 @@ function runAllTests(useWeakMap) {
               spy('bar')
             }
 
+            /* eslint-disable */
+            __reactstandin__regenerateByEval(key, code) {
+              this[key] = eval(code)
+            }
+            /* eslint-enable */
+
             render() {
               return (
                 <span onClick={this.handleClick}>
@@ -456,6 +468,12 @@ function runAllTests(useWeakMap) {
             }
 
             handleClick = () => spy('bar')
+
+            /* eslint-disable */
+            __reactstandin__regenerateByEval(key, code) {
+              this[key] = eval(code)
+            }
+            /* eslint-enable */
 
             render() {
               return (
@@ -524,6 +542,12 @@ function runAllTests(useWeakMap) {
               }
 
               handleClick = ({ target }) => spy(target.value)
+
+              /* eslint-disable */
+              __reactstandin__regenerateByEval(key, code) {
+                this[key] = eval(code)
+              }
+              /* eslint-enable */
 
               render() {
                 return (
