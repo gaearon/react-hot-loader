@@ -1,89 +1,73 @@
 /* eslint-disable no-underscore-dangle */
 // Constant to identify a React Component. It's been extracted from ReactTypeOfWork
 // (https://github.com/facebook/react/blob/master/src/shared/ReactTypeOfWork.js#L20)
+import getReactInstance from "./getReactInstance";
+
 const ReactClassComponent = 2
 
-function traverseRenderedChildren(internalInstance, callback, argument) {
-  callback(internalInstance, argument)
+function pushState(stack, instance) {
+  stack.type = internalInstance.type;
+  stack.ins = internalInstance.ins;
+  stack.children = [];
+}
+
+function traverseRenderedChildren(internalInstance, stack) {
+  pushState(stack, internalInstance);
 
   if (internalInstance._renderedComponent) {
+    const childStack = {};
     traverseRenderedChildren(
       internalInstance._renderedComponent,
-      callback,
-      argument,
+      childStack,
     )
+    stack.children.push(childStack);
   } else {
-    for (const key in internalInstance._renderedChildren) {
-      if (internalInstance._renderedChildren.hasOwnProperty(key)) {
-        traverseRenderedChildren(
-          internalInstance._renderedChildren[key],
-          callback,
-          argument,
-        )
-      }
+    internalInstance._renderedChildren.forEach(child => {
+      const childStack = {};
+      traverseRenderedChildren(
+        child,
+        childStack
+      );
+      stack.children.push(childStack);
+    })
+  }
+}
+
+function hydrateStack(instance) {
+  const internalInstance = instance._reactInternalInstance;
+  const stack = {};
+  traverseRenderedChildren(internalInstance, stack)
+  return stack;
+}
+
+function hydrateTree(root) {
+  const stack = {};
+  traverseTree(root, stack)
+  return stack;
+}
+
+function traverseTree(root, stack) {
+  pushState(stack, root);
+  let node = root
+  if (node.tag === ReactClassComponent) {
+    const publicInstance = node.stateNode
+  }
+  if (node.child) {
+    let child = node.child;
+    while (child.sibling) {
+      const childStack = {};
+      traverseTree(child, childStack)
+      stack.children.push(childStack);
+      child = child.sibling
     }
   }
 }
 
-function setPendingForceUpdate(internalInstance, shouldUpdate) {
-  if (
-    internalInstance._pendingForceUpdate === false &&
-    shouldUpdate(internalInstance)
-  ) {
-    internalInstance._pendingForceUpdate = true
-  }
-}
-
-function forceUpdateIfPending(internalInstance, onUpdate) {
-  if (internalInstance._pendingForceUpdate === true) {
-    const publicInstance = internalInstance._instance
-    const { updater } = publicInstance
-
-    if (typeof publicInstance.forceUpdate === 'function') {
-      publicInstance.forceUpdate()
-    } else if (updater && typeof updater.enqueueForceUpdate === 'function') {
-      updater.enqueueForceUpdate(publicInstance)
-    }
-    onUpdate(internalInstance)
-  }
-}
-
-function deepForceUpdateStack(instance, shouldUpdate, onUpdate) {
-  const internalInstance = instance._reactInternalInstance
-  traverseRenderedChildren(internalInstance, forceUpdateIfPending, onUpdate)
-}
-
-export default function hydrate(
-  instance,
-) {
-  const root = instance._reactInternalFiber || instance._reactInternalInstance
+export default function hydrate(instance,) {
+  const root = getReactInstance(instance);
   if (typeof root.tag !== 'number') {
     // Traverse stack-based React tree.
     return hydrateStack(instance)
   }
-
-  let node = root
-  while (true) {
-    if (node.tag === ReactClassComponent) {
-      const publicInstance = node.stateNode
-      const { updater } = publicInstance
-      push(node.type)
-    }
-    if (node.child) {
-      node.child.return = node
-      node = node.child
-      continue
-    }
-    if (node === root) {
-      return undefined
-    }
-    while (!node.sibling) {
-      if (!node.return || node.return === root) {
-        return undefined
-      }
-      node = node.return
-    }
-    node.sibling.return = node.return
-    node = node.sibling
-  }
+  return hydrateTree(root);
 }

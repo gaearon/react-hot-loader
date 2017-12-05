@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import deepForceUpdate from 'react-deep-force-update'
 import { getGeneration } from './updateCounter'
+import hydrate from "./reconciler/traverse";
+import deepForceTraverse from "./reconciler/deepForceTraverse";
 
 class AppContainer extends Component {
   constructor(props) {
@@ -39,6 +41,9 @@ class AppContainer extends Component {
         error: null,
         generation: getGeneration(),
       })
+
+      const theState = hydrate(this);
+      deepForceTraverse(this, theState);
       // Force-update the whole tree, including
       // components that refuse to update.
       deepForceUpdate(this)
