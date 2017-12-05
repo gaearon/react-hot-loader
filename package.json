@@ -7,8 +7,9 @@
     "ci": "lerna bootstrap && yarn build && yarn lint && yarn test",
     "format": "prettier --write \"packages/**/*.js\" *.js",
     "lint": "eslint .",
-    "test": "jest",
-    "test:watch": "yarn test --watch"
+    "test": "yarn test:modern && yarn test:es2015",
+    "test:es2015": "BABEL_TARGET=es2015 jest",
+    "test:modern": "BABEL_TARGET=modern jest"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
@@ -47,9 +48,13 @@
     "node": ">= 6"
   },
   "jest": {
-    "setupFiles": [
-      "raf/polyfill",
-      "<rootDir>/setupTests.js"
-    ]
+    "moduleDirectories": [
+      "node_modules",
+      "<rootDir>"
+    ],
+    "setupFiles": ["<rootDir>/testConfig/setupTests.js"],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/testConfig/babel.js"
+    }
   }
 }
