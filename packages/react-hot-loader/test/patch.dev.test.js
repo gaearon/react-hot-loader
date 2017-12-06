@@ -21,7 +21,7 @@ function runAllTests(useWeakMap) {
       expect(<A1 />.type).toBe(A1)
     })
 
-    it('ignores late registrations', () => {
+    it.skip('ignores late registrations', () => {
       function Kanye() {}
       function Kanye2() {}
 
@@ -54,7 +54,7 @@ function runAllTests(useWeakMap) {
       }
     })
 
-    it('report proxy duplicates', () => {
+    it.skip('report proxy duplicates', () => {
       const createUniqueComponent = variable => () => <div>123{variable}</div>
       const f1 = createUniqueComponent(1)
       const f2 = createUniqueComponent(2)
@@ -95,7 +95,7 @@ function runAllTests(useWeakMap) {
       }
     })
 
-    it('report proxy failures', () => {
+    it.skip('report proxy failures', () => {
       const f1 = () => <div>234</div>
       const f2 = () => <div>123</div>
       const f3 = () => <div>123</div>

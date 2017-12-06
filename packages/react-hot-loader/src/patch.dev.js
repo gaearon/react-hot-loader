@@ -2,9 +2,11 @@ import global from 'global'
 import React from 'react'
 import { didUpdate } from './updateCounter'
 import {
-  isTypeUsed, isTypeRegistered, updateProxyById,
-  resetProxies, getProxyByType
-} from "./reconciler/proxies";
+  updateProxyById,
+  resetProxies,
+  getProxyByType,
+  createProxyForType,
+} from './reconciler/proxies'
 
 const hooks = {
   register(type, uniqueLocalName, fileName) {
@@ -20,37 +22,19 @@ const hooks = {
       return
     }
     const id = fileName + '#' + uniqueLocalName // eslint-disable-line prefer-template
-    if (!isTypeRegistered(type) && isTypeUsed(type)) {
-      // nop
-      return
-    }
 
-    updateProxyById(id, type);
+    updateProxyById(id, type)
   },
 
   reset(useWeakMap) {
-    resetProxies(useWeakMap);
+    resetProxies(useWeakMap)
   },
 
   warnings: true,
+  reconciler: false,
 }
 
 hooks.reset(typeof WeakMap === 'function')
-
-// function warnAboutUnacceptedClass(typeSignature) {
-//   if (didUpdateProxy() && global.__REACT_HOT_LOADER__.warnings !== false) {
-//     console.warn(
-//       'React Hot Loader: this component is not accepted by Hot Loader. \n' +
-//         'Please check is it extracted as a top level class, a function or a variable. \n' +
-//         'Click below to reveal the source location: \n',
-//       typeSignature,
-//     )
-//   }
-// }
-//
-// function getSignature(type) {
-//   return type.toString() + (type.displayName ? type.displayName : '')
-// }
 
 function resolveType(type) {
   // We only care about composite components
@@ -58,30 +42,16 @@ function resolveType(type) {
     return type
   }
 
-//  const wasKnownBefore = willCreateElement(type);
+  const proxy = __REACT_HOT_LOADER__.reconciler
+    ? createProxyForType(type)
+    : getProxyByType(type)
 
-  // When available, give proxy class to React instead of the real class.
-//  const id = getIdByType(type);
-//  if (!id) {
-    // if (!wasKnownBefore) {
-    //   const signature = getSignature(type)
-    //   if (knownSignatures[signature]) {
-    //     warnAboutUnacceptedClass(type)
-    //   } else {
-    //     knownSignatures[signature] = type
-    //   }
-    // }
-//    return type
-//  }
-
-  const proxy = getProxyByType(type);
   if (!proxy) {
     return type
   }
 
   return proxy.get()
 }
-
 
 const { createElement: originalCreateElement } = React
 
@@ -92,6 +62,7 @@ function patchedCreateElement(type, ...args) {
   const resolvedType = resolveType(type)
   return originalCreateElement(resolvedType, ...args)
 }
+
 patchedCreateElement.isPatchedByReactHotLoader = true
 
 function patchedCreateFactory(type) {
@@ -102,6 +73,7 @@ function patchedCreateFactory(type) {
   factory.type = type
   return factory
 }
+
 patchedCreateFactory.isPatchedByReactHotLoader = true
 
 if (typeof global.__REACT_HOT_LOADER__ === 'undefined') {

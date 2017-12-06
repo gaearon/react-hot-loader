@@ -2,18 +2,20 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import deepForceUpdate from 'react-deep-force-update'
 import { getGeneration } from './updateCounter'
-import hydrate from "./reconciler/traverse";
-import deepForceTraverse from "./reconciler/deepForceTraverse";
+import hydrate from './reconciler/traverse'
+import deepForceTraverse from './reconciler/deepForceTraverse'
 
 class AppContainer extends Component {
   constructor(props) {
     super(props)
 
-    if (
-      props.warnings === false &&
-      typeof __REACT_HOT_LOADER__ !== 'undefined'
-    ) {
-      __REACT_HOT_LOADER__.warnings = props.warnings
+    if (typeof __REACT_HOT_LOADER__ !== 'undefined') {
+      if (props.warnings === false) {
+        __REACT_HOT_LOADER__.warnings = props.warnings
+      }
+      if (props.reconciler === true) {
+        __REACT_HOT_LOADER__.reconciler = props.reconciler
+      }
     }
 
     this.state = { error: null }
@@ -42,8 +44,10 @@ class AppContainer extends Component {
         generation: getGeneration(),
       })
 
-      const theState = hydrate(this);
-      deepForceTraverse(this, theState);
+      if (__REACT_HOT_LOADER__.reconciler) {
+        const theState = hydrate(this)
+        deepForceTraverse(this, theState)
+      }
       // Force-update the whole tree, including
       // components that refuse to update.
       deepForceUpdate(this)
@@ -104,6 +108,7 @@ AppContainer.propTypes = {
   },
   errorReporter: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   warnings: PropTypes.bool,
+  reconciler: PropTypes.bool,
 }
 
 export default AppContainer
