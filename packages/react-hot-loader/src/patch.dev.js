@@ -33,6 +33,7 @@ const hooks = {
 
   warnings: true,
   reconciler: false,
+  fuzzyCompare: true
 }
 
 hooks.reset()

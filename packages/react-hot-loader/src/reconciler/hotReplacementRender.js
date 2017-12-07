@@ -16,7 +16,7 @@ const getTypeOf = type => {
 
 const haveTextSimilarity = (a, b) =>
   // equal or slight change
-  a === b || levenshtein.get(a, b) < a.length * 0.2
+  a === b || (__REACT_HOT_LOADER__.fuzzyCompare && levenshtein.get(a, b) < a.length * 0.2)
 
 const equalClasses = (a, b) => {
   // prototypeA - the real class

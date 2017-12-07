@@ -50,10 +50,11 @@ class AppContainer extends Component {
       if (__REACT_HOT_LOADER__.reconciler) {
         // perform sandboxed render to find similarities between new and old code
         hotReplacementRender(this, hydrate(this))
+      } else {
+        // Force-update the whole tree, including
+        // components that refuse to update.
+        deepForceUpdate(this)
       }
-      // Force-update the whole tree, including
-      // components that refuse to update.
-      deepForceUpdate(this)
     }
   }
 
