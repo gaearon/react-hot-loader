@@ -1,4 +1,3 @@
-import ComponentMap from './ComponentMap'
 import createProxy from 'react-stand-in'
 
 let proxiesByID
@@ -6,14 +5,11 @@ let idsByType
 
 let elementCount = 0
 
-const generateTypeId = type => 'auto-' + elementCount++
+const generateTypeId = () => `auto-${elementCount++}`
 
 export const getIdByType = type => idsByType.get(type)
+
 export const getProxyByType = type => proxiesByID[getIdByType(type)]
-export const createProxyForType = type => {
-  const proxy = getProxyByType(type)
-  return proxy ? proxy : updateProxyById(generateTypeId(type), type)
-}
 
 export const updateProxyById = (id, type) => {
   // Remember the ID.
@@ -27,7 +23,10 @@ export const updateProxyById = (id, type) => {
   return proxiesByID[id]
 }
 
-export const resetProxies = useWeakMap => {
+export const createProxyForType = type =>
+  getProxyByType(type) || updateProxyById(generateTypeId(), type)
+
+export const resetProxies = () => {
   proxiesByID = {}
-  idsByType = new ComponentMap(useWeakMap)
+  idsByType = new WeakMap()
 }

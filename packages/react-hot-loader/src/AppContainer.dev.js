@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import deepForceUpdate from 'react-deep-force-update'
 import { getGeneration } from './updateCounter'
-import hydrate from './reconciler/traverse'
-import deepForceTraverse from './reconciler/deepForceTraverse'
+import hydrate from './reconciler/reactHydrate'
+import hotReplacementRender from './reconciler/hotReplacementRender'
 
 class AppContainer extends Component {
   constructor(props) {
@@ -18,7 +18,10 @@ class AppContainer extends Component {
       }
     }
 
-    this.state = { error: null }
+    this.state = {
+      error: null,
+      generation: 0,
+    }
   }
 
   componentDidMount() {
@@ -38,15 +41,15 @@ class AppContainer extends Component {
   componentWillReceiveProps() {
     if (this.state.generation !== getGeneration()) {
       // Hot reload is happening.
-      // Retry rendering!
+
       this.setState({
         error: null,
         generation: getGeneration(),
       })
 
       if (__REACT_HOT_LOADER__.reconciler) {
-        const theState = hydrate(this)
-        deepForceTraverse(this, theState)
+        // perform sandboxed render to find similarities between new and old code
+        hotReplacementRender(this, hydrate(this))
       }
       // Force-update the whole tree, including
       // components that refuse to update.

@@ -1,5 +1,6 @@
 import global from 'global'
 import React from 'react'
+const { REGENERATE_METHOD } = require('react-stand-in')
 import { didUpdate } from './updateCounter'
 import {
   updateProxyById,
@@ -34,7 +35,7 @@ const hooks = {
   reconciler: false,
 }
 
-hooks.reset(typeof WeakMap === 'function')
+hooks.reset()
 
 function resolveType(type) {
   // We only care about composite components
@@ -42,9 +43,15 @@ function resolveType(type) {
     return type
   }
 
-  const proxy = __REACT_HOT_LOADER__.reconciler
-    ? createProxyForType(type)
-    : getProxyByType(type)
+  const couldWrapWithProxy =
+    !type.prototype ||
+    !type.prototype.render ||
+    type.prototype[REGENERATE_METHOD]
+
+  const proxy =
+    __REACT_HOT_LOADER__.reconciler && couldWrapWithProxy
+      ? createProxyForType(type)
+      : getProxyByType(type)
 
   if (!proxy) {
     return type

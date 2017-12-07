@@ -1,15 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-// Constant to identify a React Component. It's been extracted from ReactTypeOfWork
-// (https://github.com/facebook/react/blob/master/src/shared/ReactTypeOfWork.js#L20)
-import getReactInstance from './getReactInstance'
+
+import { getReactInstance, getReactComponent } from './reactUtils'
 
 function pushState(stack, instance) {
   stack.type = instance.type
   stack.tag = instance.tag
   stack.children = []
-  stack.ins = typeof instance.type === 'function' ? instance.stateNode : stack
+  stack.instance = getReactComponent(instance) || stack
 }
 
+// these function might be obsolete
 function traverseRenderedChildren(internalInstance, stack) {
   pushState(stack, internalInstance)
 
@@ -33,17 +33,11 @@ function hydrateStack(instance) {
   return stack
 }
 
-function hydrateTree(root) {
-  const stack = {}
-  traverseTree(root, stack)
-  return stack
-}
-
 function traverseTree(root, stack) {
   pushState(stack, root)
-  let node = root
+  const node = root
   if (node.child) {
-    let child = node.child
+    let { child } = node
     do {
       const childStack = {}
       traverseTree(child, childStack)
@@ -51,6 +45,13 @@ function traverseTree(root, stack) {
       child = child.sibling
     } while (child)
   }
+}
+
+// modern react tree
+function hydrateTree(root) {
+  const stack = {}
+  traverseTree(root, stack)
+  return stack
 }
 
 export default function hydrate(instance) {

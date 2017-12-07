@@ -1,5 +1,7 @@
-import { getIdByType, updateProxyById } from './proxies'
 import { PROXY_KEY } from 'react-stand-in'
+import levenshtein from 'fast-levenshtein'
+import { getIdByType, updateProxyById } from './proxies'
+import { updateInstance } from './reactUtils'
 
 const displayName = type => type.displayName || type.name
 const isReactClass = fn => !!fn.render
@@ -12,31 +14,34 @@ const getTypeOf = type => {
   return 'Fragment' // ?
 }
 
-const haveTextSimilarity = (a, b) => {
-  // return levenstein(a,b) < length(a)/10
-  return a === b
-}
+const haveTextSimilarity = (a, b) =>
+  // equal or slight change
+  a === b || levenshtein.get(a, b) < a.length * 0.2
 
 const equalClasses = (a, b) => {
+  // prototypeA - the real class
   const prototypeA = a.prototype
-  const prototypeB = b.prototype
-  let hit = 0
-  let miss = 0
+  // prototypeB - the proxied component
+  const prototypeB = Object.getPrototypeOf(b.prototype)
+
+  let hits = 0
+  let misses = 0
   Object.getOwnPropertyNames(prototypeA).forEach(key => {
     if (typeof prototypeA[key] === 'function') {
       if (
         haveTextSimilarity(String(prototypeA[key]), String(prototypeB[key]))
       ) {
-        hit++
+        hits++
       } else {
-        miss++
+        misses++
       }
     }
   })
-  return hit > 0 && miss <= 1
+  // allow to add or remove one function
+  return hits > 0 && misses <= 1
 }
 
-const swappable = (a, b) => {
+const isSwappable = (a, b) => {
   // both are registered components
   if (getIdByType(b) && getIdByType(a) === getIdByType(b)) {
     return true
@@ -56,24 +61,12 @@ const swappable = (a, b) => {
   return false
 }
 
-const swap = (newClass, oldClass) => {
-  let id = getIdByType(oldClass)
-  updateProxyById(id, newClass)
-}
-
-function callFunctionalComponent(component, props, context) {
-  return component(props, context)
-}
-
-const render = (component, stack) => {
+const render = component => {
   if (!component) {
     return []
   }
   if (isReactClass(component)) {
     return component.render()
-  }
-  if (isFunctional(component)) {
-    return callFunctionalComponent(component, stack.props, stack.context)
   }
   if (isArray(component)) {
     return component.map(render)
@@ -85,7 +78,7 @@ const render = (component, stack) => {
   return []
 }
 
-const mergeChildren = (a, b) => {
+const mergeInject = (a, b) => {
   if (a.length !== b.length) {
     return { children: [] }
   }
@@ -102,40 +95,47 @@ const mergeChildren = (a, b) => {
   }
 }
 
-const deepForceTraverse = (instance, stack) => {
+const hotReplacementRender = (instance, stack) => {
+  // disable reconciler to prevent upcoming components from proxying.
   __REACT_HOT_LOADER__.reconciler = false
-  const flow = asArray(render(instance, stack))
+  const flow = asArray(render(instance))
   __REACT_HOT_LOADER__.reconciler = true
 
-  const children = stack.children
+  const { children } = stack
 
   flow.forEach((child, index) => {
     const stackChild = children[index]
-    const next = ins => deepForceTraverse(ins, stackChild)
+    const next = instance => hotReplacementRender(instance, stackChild)
+
+    // text node
     if (typeof child !== 'object') {
       return
     }
     if (typeof child.type !== 'function') {
       next(
-        mergeChildren(
+        // move types from render to the instances of hydrated tree
+        mergeInject(
           child.props ? child.props.children : child.children,
-          stackChild.ins.children,
+          stackChild.instance.children,
         ),
       )
-    } else if (child.type === stackChild.type) {
-      next(stackChild.ins)
-    } else if (swappable(child.type, stackChild.type)) {
-      // they are both registered, or have equal code/displayname/signature
-      // TODO: one could not find proxy by proxy, only by original type
-      // as result one could not use type from rendered tree to gather Id
+    } else {
+      if (child.type === stackChild.type) {
+        next(stackChild.instance)
+      } else if (isSwappable(child.type, stackChild.type)) {
+        // they are both registered, or have equal code/displayname/signature
+        // TODO: one could not find proxy by proxy, only by original type
+        // as result one could not use type from rendered tree to gather Id
 
-      // update proxy using internal PROXY_KEY
-      updateProxyById(stackChild.ins[PROXY_KEY], child.type)
+        // update proxy using internal PROXY_KEY
+        updateProxyById(stackChild.instance[PROXY_KEY], child.type)
 
-      // swap(child.type, stackChild.type);
-      next(stackChild.ins)
+        // swap(child.type, stackChild.type);
+        next(stackChild.instance)
+      }
+      updateInstance(stackChild.instance)
     }
   })
 }
 
-export default deepForceTraverse
+export default hotReplacementRender
