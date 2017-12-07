@@ -1,6 +1,6 @@
 import global from 'global'
 import React from 'react'
-const { REGENERATE_METHOD } = require('react-stand-in')
+import { REGENERATE_METHOD } from 'react-stand-in'
 import { didUpdate } from './updateCounter'
 import {
   updateProxyById,
