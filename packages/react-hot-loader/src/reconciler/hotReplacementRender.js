@@ -1,7 +1,7 @@
-import {PROXY_KEY} from 'react-stand-in'
+import { PROXY_KEY } from 'react-stand-in'
 import levenshtein from 'fast-levenshtein'
-import {getIdByType, updateProxyById} from './proxies'
-import {updateInstance} from './reactUtils'
+import { getIdByType, updateProxyById } from './proxies'
+import { updateInstance } from './reactUtils'
 
 const displayName = type => type.displayName || type.name
 const isReactClass = fn => fn && !!fn.render
@@ -16,7 +16,8 @@ const getTypeOf = type => {
 
 const haveTextSimilarity = (a, b) =>
   // equal or slight change
-  a === b || (__REACT_HOT_LOADER__.fuzzyCompare && levenshtein.get(a, b) < a.length * 0.2)
+  a === b ||
+  (__REACT_HOT_LOADER__.fuzzyCompare && levenshtein.get(a, b) < a.length * 0.2)
 
 const equalClasses = (a, b) => {
   // prototypeA - the real class
@@ -80,13 +81,13 @@ const render = component => {
 
 const mergeInject = (a, b) => {
   if (a && !Array.isArray(a)) {
-    return mergeInject([a], b);
+    return mergeInject([a], b)
   }
   if (b && !Array.isArray(b)) {
-    return mergeInject(a, [b]);
+    return mergeInject(a, [b])
   }
   if (a.length !== b.length) {
-    return {children: []}
+    return { children: [] }
   }
   return {
     children: a.map((child, index) => {
@@ -107,7 +108,7 @@ const hotReplacementRender = (instance, stack) => {
   const flow = asArray(render(instance))
   __REACT_HOT_LOADER__.disableComponentProxy = false
 
-  const {children} = stack
+  const { children } = stack
 
   flow.forEach((child, index) => {
     const stackChild = children[index]
