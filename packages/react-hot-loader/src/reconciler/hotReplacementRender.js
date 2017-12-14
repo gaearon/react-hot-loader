@@ -1,10 +1,10 @@
-import { PROXY_KEY } from 'react-stand-in'
+import {PROXY_KEY} from 'react-stand-in'
 import levenshtein from 'fast-levenshtein'
-import { getIdByType, updateProxyById } from './proxies'
-import { updateInstance } from './reactUtils'
+import {getIdByType, updateProxyById} from './proxies'
+import {updateInstance} from './reactUtils'
 
 const displayName = type => type.displayName || type.name
-const isReactClass = fn => !!fn.render
+const isReactClass = fn => fn && !!fn.render
 const isFunctional = fn => typeof fn === 'function'
 const isArray = fn => Array.isArray(fn)
 const asArray = a => (isArray(a) ? a : [a])
@@ -79,8 +79,14 @@ const render = component => {
 }
 
 const mergeInject = (a, b) => {
+  if (a && !Array.isArray(a)) {
+    return mergeInject([a], b);
+  }
+  if (b && !Array.isArray(b)) {
+    return mergeInject(a, [b]);
+  }
   if (a.length !== b.length) {
-    return { children: [] }
+    return {children: []}
   }
   return {
     children: a.map((child, index) => {
@@ -97,11 +103,11 @@ const mergeInject = (a, b) => {
 
 const hotReplacementRender = (instance, stack) => {
   // disable reconciler to prevent upcoming components from proxying.
-  __REACT_HOT_LOADER__.reconciler = false
+  __REACT_HOT_LOADER__.disableComponentProxy = true
   const flow = asArray(render(instance))
-  __REACT_HOT_LOADER__.reconciler = true
+  __REACT_HOT_LOADER__.disableComponentProxy = false
 
-  const { children } = stack
+  const {children} = stack
 
   flow.forEach((child, index) => {
     const stackChild = children[index]

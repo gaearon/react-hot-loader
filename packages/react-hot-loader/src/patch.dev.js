@@ -1,7 +1,7 @@
 import global from 'global'
 import React from 'react'
-import { REGENERATE_METHOD } from 'react-stand-in'
-import { didUpdate } from './updateCounter'
+import {REGENERATE_METHOD} from 'react-stand-in'
+import {didUpdate} from './updateCounter'
 import {
   updateProxyById,
   resetProxies,
@@ -33,14 +33,17 @@ const hooks = {
 
   warnings: true,
   reconciler: false,
-  fuzzyCompare: true
+  fuzzyCompare: true,
+
+  disableComponentProxy: false
 }
 
 hooks.reset()
 
 function resolveType(type) {
+  const {disableComponentProxy, reconciler} = __REACT_HOT_LOADER__;
   // We only care about composite components
-  if (typeof type !== 'function') {
+  if (typeof type !== 'function' || disableComponentProxy) {
     return type
   }
 
@@ -50,7 +53,7 @@ function resolveType(type) {
     type.prototype[REGENERATE_METHOD]
 
   const proxy =
-    __REACT_HOT_LOADER__.reconciler && couldWrapWithProxy
+    reconciler && couldWrapWithProxy
       ? createProxyForType(type)
       : getProxyByType(type)
 
@@ -61,7 +64,7 @@ function resolveType(type) {
   return proxy.get()
 }
 
-const { createElement: originalCreateElement } = React
+const {createElement: originalCreateElement} = React
 
 function patchedCreateElement(type, ...args) {
   // Trick React into rendering a proxy so that

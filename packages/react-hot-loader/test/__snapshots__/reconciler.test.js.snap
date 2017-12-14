@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[` 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "children": Array [
+              Object {
+                "children": Array [
+                  Object {
+                    "children": Array [],
+                    "instance": [Circular],
+                    "tag": 6,
+                    "type": null,
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "children": Array [],
+                        "instance": [Circular],
+                        "tag": 5,
+                        "type": "div",
+                      },
+                    ],
+                    "instance": [Circular],
+                    "tag": 5,
+                    "type": "div",
+                  },
+                ],
+                "instance": [Circular],
+                "tag": 5,
+                "type": "section",
+              },
+            ],
+            "instance": [Circular],
+            "tag": 1,
+            "type": [Function],
+          },
+        ],
+        "instance": [Circular],
+        "tag": 5,
+        "type": "div",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "children": Array [
+              Object {
+                "children": Array [
+                  Object {
+                    "children": Array [],
+                    "instance": [Circular],
+                    "tag": 6,
+                    "type": null,
+                  },
+                  Object {
+                    "children": Array [],
+                    "instance": [Circular],
+                    "tag": 6,
+                    "type": null,
+                  },
+                ],
+                "instance": [Circular],
+                "tag": 5,
+                "type": "section",
+              },
+            ],
+            "instance": [Circular],
+            "tag": 1,
+            "type": [Function],
+          },
+        ],
+        "instance": [Circular],
+        "tag": 5,
+        "type": "div",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "children": Array [],
+            "instance": [Circular],
+            "tag": 6,
+            "type": null,
+          },
+          Object {
+            "children": Array [],
+            "instance": [Circular],
+            "tag": 5,
+            "type": "p",
+          },
+        ],
+        "instance": [Circular],
+        "tag": 5,
+        "type": "div",
+      },
+    ],
+    "instance": [Circular],
+    "tag": 5,
+    "type": "div",
+  },
+]
+`;
