@@ -2,19 +2,26 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import deepForceUpdate from 'react-deep-force-update'
 import { getGeneration } from './updateCounter'
+import hydrate from './reconciler/reactHydrate'
+import hotReplacementRender from './reconciler/hotReplacementRender'
 
 class AppContainer extends Component {
   constructor(props) {
     super(props)
 
-    if (
-      props.warnings === false &&
-      typeof __REACT_HOT_LOADER__ !== 'undefined'
-    ) {
-      __REACT_HOT_LOADER__.warnings = props.warnings
+    if (typeof __REACT_HOT_LOADER__ !== 'undefined') {
+      if (props.warnings === false) {
+        __REACT_HOT_LOADER__.warnings = props.warnings
+      }
+      if (props.reconciler === true) {
+        __REACT_HOT_LOADER__.reconciler = props.reconciler
+      }
     }
 
-    this.state = { error: null }
+    this.state = {
+      error: null,
+      generation: 0,
+    }
   }
 
   componentDidMount() {
@@ -34,14 +41,20 @@ class AppContainer extends Component {
   componentWillReceiveProps() {
     if (this.state.generation !== getGeneration()) {
       // Hot reload is happening.
-      // Retry rendering!
+
       this.setState({
         error: null,
         generation: getGeneration(),
       })
-      // Force-update the whole tree, including
-      // components that refuse to update.
-      deepForceUpdate(this)
+
+      if (__REACT_HOT_LOADER__.reconciler) {
+        // perform sandboxed render to find similarities between new and old code
+        hotReplacementRender(this, hydrate(this))
+      } else {
+        // Force-update the whole tree, including
+        // components that refuse to update.
+        deepForceUpdate(this)
+      }
     }
   }
 
@@ -99,6 +112,7 @@ AppContainer.propTypes = {
   },
   errorReporter: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   warnings: PropTypes.bool,
+  reconciler: PropTypes.bool,
 }
 
 export default AppContainer

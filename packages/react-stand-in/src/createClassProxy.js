@@ -1,11 +1,11 @@
 import { Component } from 'react'
 import transferStaticProps from './staticProps'
-import { GENERATION } from './symbols'
+import { GENERATION, PROXY_KEY } from './symbols'
 import { addProxy, findProxy } from './proxies'
 import { getDisplayName, isReactClass } from './react-utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 
-function proxyClass(InitialComponent) {
+function proxyClass(InitialComponent, proxyKey) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
   const existingProxy = findProxy(InitialComponent)
@@ -33,6 +33,7 @@ function proxyClass(InitialComponent) {
     constructor(props, context) {
       super(props, context)
       this[GENERATION] = 0
+      this[PROXY_KEY] = proxyKey
       // as long we cant override constructor
       // every class shall evolve from a base class
       inject(this, proxyGeneration, injectedMembers)
