@@ -1,12 +1,26 @@
-# React Stand-In (Facade) [![build status](https://img.shields.io/travis/thekashey/react-stand-in/master.svg?style=flat-square)](https://travis-ci.org/thekashey/react-stand-in) [![npm version](https://img.shields.io/npm/v/react-proxy.svg?style=flat-square)](https://www.npmjs.com/package/react-proxy) 
-Drop-in replace of [react-proxy](https://github.com/gaearon/react-proxy). All this README are borrowed from it.
+# React Stand-In (Facade) [![build status](https://img.shields.io/travis/thekashey/react-stand-in/master.svg?style=flat-square)](https://travis-ci.org/thekashey/react-stand-in) [![npm version](https://img.shields.io/npm/v/react-stand-in.svg?style=flat-square)](https://www.npmjs.com/package/react-stand-in) 
+A successor of [react-proxy](https://github.com/gaearon/react-proxy), created especially for react-hot-loader case.
+From API point of view - this __is__ react-proxy.
 
-``The difference? This one works only for ES6 code, and  does not support old React implimentation``
+The differences from react-proxy:
+- does not proxy or wrap source component, but inherits from and replaces it.
+- may replace the base class with the latest class variant.
+- applies changes made in constructor
 
-A generic React component proxy useful for hot reloading. 
-A descendant of React-Proxy with extension for ES6/7 environment.
-  
-Handles arrow function in a more easy way
+### How it works
+React stand in is a real stand in. To satisfy goal it:
+1. Inherits from the base class, keeping the all `real` method in prototype
+2. On HMR it __replaces__ the class prototype by the new component. Now it inherits from the new class variant.
+3. To pass the babel's runtime checks it also replaces prototype of the base class.
+4. It copies over all static fields from a new class variant.
+5. It creates a new and the old class, checking of some class member are changed, creating the `upgrade` list.
+6. On a construction, or unevolded component render it applies the upgrade list.
+
+The keys points from here, __you should keep in mind__.
+- Point 3 means than in es2015 env stand-in WILL have a sideeffect on the base class, __soiling it by the new code__.
+As long the old class have been just replaced by a new one - this is ok.
+- Point 6 means than you will always instance the `first` class, and next upgrating it to the last one.
+There is no way to replace constructor for ES6 classes.   
 
 ## Requirements
 
@@ -73,7 +87,7 @@ proxy.update(ComponentVersion2);
 deepForceUpdate(rootInstance);
 ```
 
-## Features
+## Features (~99% React-proxy)
 
 * Supports only modern (ES6 classes) style
 * Supports inherited and base classes (although you shouldn’t use inheritance with React)
@@ -90,14 +104,6 @@ deepForceUpdate(rootInstance);
 * Replaces static properties unless they were overwritten by code
 * Sets up `this.constructor` to match the most recent class
 
-## Contributing
-
-1. Clone the repository
-2. Run `npm install`
-3. Run `npm run test:watch`
-4. Take a look at the existing tests
-5. Add tests for the failing case you aim to fix and make them pass
-6. Submit a PR!
 
 ## License
 

@@ -49,8 +49,9 @@ module.exports = {
 
 > Note: Make sure to set the `output.publicPath` property to `"/"` as well. Otherwise hot reloading won't work as expected for nested routes.
 
-4. Wrap your application into `<AppContainer>`, all children of `<AppContainer>` will be reloaded when a change occurs:
+4. Setup React-hot-loader to update your application when its code updates.
 
+4.1 Wrap your application into `<AppContainer>`, all children of `<AppContainer>` will be reloaded when a change occurs:
 ```js
 // main.js
 import React from 'react'
@@ -71,29 +72,45 @@ render(App)
 
 // Webpack Hot Module Replacement API
 if (module.hot) {
-  module.hot.accept('./containers/App', () => { render(App) })
+  module.hot.accept('./containers/App', () => {
+    // if you are using harmony modules ({modules:false})
+    render(App)
+    
+    // in all other cases - re-require App manually
+    render(require('./containers/App'))
+  })
 }
 ```
+> Note: To make this work, you'll need to opt out of Babel transpiling ES2015 modules by changing the Babel ES2015 preset to be `["env", { "modules": false }]`
 
-> Note: To make this work, you'll need to opt out of Babel transpiling ES2015 modules by changing the Babel ES2015 preset to be `["es2015", { "modules": false }]`
-
-## Using Webpack loader instead of Babel plugin
-
-You may not use Babel in your project, React Hot Loader provides a Webpack loader with **[limited support](https://github.com/gaearon/react-hot-loader#known-limitations)**. If you want to use it, you can add it in your Webpack config. **If you use Babel, you don't need to add this loader**.
-
+4.2 Or mark your Application as hotExported.
 ```js
-// webpack.config.js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        use: ['react-hot-loader/webpack']
-      }
-    ]
-  }
+// ./containers/App.js
+import {hotExported} from 'react-hot-loader'
+const App = () => <div>MY APPLICATION</div>
+
+export default hotExported(module, all); // <---
+
+
+// -----------
+// main.js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './containers/App'
+
+const render = Component => {
+  // there is no AppContainer here
+  ReactDOM.render(
+    <Component />,
+    document.getElementById('root'),
+  )
 }
-```
+
+render(App)
+``` 
+This is far more easier way, and it is also __compatible with any source code splitting__ and deferred components loading library, 
+but can introduce strange behavior in case you export non-React components from App.js.
+You can mix 4.1 and 4.2, using the first one on Application level, and the second on chunk level. 
 
 ## Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app)
 
@@ -130,11 +147,13 @@ module.exports = {
     },
   ```
 
-* Add `AppContainer` to `src/index.js` (see step 4 of Getting Started).
+* Add `AppContainer` to `src/index.js` or mark your App as _hot-exported_ (see step 4 of Getting Started).
 
 ## TypeScript
 
-When using TypeScript, Babel is not required, so your config should look like ([demo](https://github.com/Glavin001/react-hot-ts)):
+When using TypeScript, Babel is not required, and you can use RHL without babel as long you dont have any arrow functions(transpiling to the es2015 code).
+In case you want to use latest version of EcmaScript - please include babel plugin to your config.
+In case you wont - add a webpack loader to your config.
 
 ```js
 {
@@ -177,16 +196,6 @@ render((
 
 You'll also need to `npm install --save-dev redbox-react`.
 
-## Disable warnings
-
-React Hot Loader will by default emit a warning for components not accepted by the Hot Loader. If you want to disable these warnings, you can pass a `warnings` prop with the value `false` to `AppContainer`.
-
-```js
-<AppContainer warnings={false}>
-  ...
-</AppContainer>
-```  
-
 ## Starter Kit
 
 Provided by collaborators:
@@ -227,33 +236,30 @@ Provided by community:
 * [molecule](https://github.com/timberio/molecule) (Production ready boilerplate targeting web & electron, using webpack 2, redux, react-hot-loader, immutable.js, react-router and more)
 * [universal-js-hmr-ssr-react-redux](https://github.com/Alex-ray/v2-universal-js-hmr-ssr-react-redux) (Universal JS, Webpack 2, React Router 4, Server Side Rendering, Code Splitting, Redux, Express)
 
-## Known limitations
+
+## Known limitations and side effects
 
 ### Components not replaced
 
-- React Hot Loader can't replace any Component, only *registered* ones.
-  - when using webpack loader - only module exports are _registered_.
-  - when using babel plugin - only top level variables are _registered_.
-  - when React Hot Loader can't replace Component, an error message will be displayed.
+- React Hot Loader will not replace any component `hot-reloaded` in node_modules
 
 ### Code Splitting
 
-If you want to use Webpack code splitting via `require.ensure`, you'll need to add an additional `module.hot.accept` callback within the `require.ensure` block, like this:
+- As long most of modern react-component-loader (react-loadable, loadable-components, and so on) does not, and should not support RHL,
+just mark export of exported component as `hotExported`
 
 ```js
-require.ensure([], (require) => {
-  if (module.hot) {
-    module.hot.accept('../components/App', () => {
-      loadComponent(require('../components/App').default);
-    })
-  }
-  loadComponent(require('../components/App').default);
-});
+//a.js
+const AsyncComponent = loadable( () => import('./b.js'));
+
+//b.js
+import {hotExported} from 'react-hot-loader';
+//....
+export default hotExported(module, MyComponent);
+
 ```
 
 Note that if you're using React Router (pre-4.0), this will only work with `getChildRoutes`, but not `getComponent`, since `getComponent`'s callback will only load a component once.
-
-Also, if you're using the Webpack 2 beta, you can use `System.import` without extra `module.hot.accept` calls, although there are still a [few issues with it](https://github.com/gaearon/react-hot-loader/issues/303).
 
 ### Checking Element `type`s
 
@@ -265,11 +271,17 @@ console.log(element.type === Component); // false
 ```
 
 One workaround is to create an element (that will have the `type` of the proxied component):
-
 ```js
 const ComponentType = (<Component />).type;
 const element = <Component />;
 console.log(element.type === ComponentType); // true
+```
+
+Second - is to use helper function
+```js
+import {compareComponent} from 'react-hot-loader'
+const element = <Component />;
+compareComponent(element.type, Component); // true
 ```
 
 You can also set a property on the component class:
@@ -280,30 +292,19 @@ Widget.isWidgetType = true;
 console.log(<Widget />.type.isWidgetType); // true
 ```
 
-### Reassigning Components
+### The original class got updated
+On code replace you are replacing the old code by a new one. You should not use the old code, as thus allow RHL to safely modify it.
+See react-stand-in for more details.
 
-React Hot Loader will only try to reload the original component reference, so if you reassign it to another variable like this:
-
-```js
-let App = () => (<div>hello</div>);
-App = connect()(App);
-export default App;
-```
-
-React Hot Loader won't reload it. Instead, you'll need to define it once:
-
-```js
-const App = () => (<div>hello</div>);
-export default connect()(App);
-```
+### New Components keep executing the old code
+There is no way to hot-update constructor code, as result even new components will be born as the first ones, and then grow into the last ones.
+See react-stand-in for more details.
 
 ### Decorators
-
-Components that are decorated (using something like [`@autobind`](https://github.com/andreypopp/autobind-decorator)) currently do not retain state when being hot-reloaded. (see [#279](https://github.com/gaearon/react-hot-loader/issues/279))
+Some decorators may not work, as long they can alter the base class in a unexpected way. Please report.
 
 
 ## Troubleshooting
-
 If it doesn't work, in 99% cases it's a configuration issue.
 A missing option, a wrong path or port. Webpack is very strict about configuration, and the best way to find out what's wrong is to compare your project to an already working setup, such as **[React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)**, bit by bit.
 
