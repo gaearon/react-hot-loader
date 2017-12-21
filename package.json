@@ -17,6 +17,7 @@
     "babel-core": "^6.7.6",
     "babel-eslint": "^8.0.1",
     "babel-jest": "^21.2.0",
+    "babel-plugin-dynamic-import-node": "^1.2.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.0",
@@ -53,9 +54,12 @@
       "node_modules",
       "<rootDir>"
     ],
-    "setupFiles": ["<rootDir>/testConfig/setupTests.js"],
+    "setupFiles": [
+      "<rootDir>/testConfig/setupTests.js"
+    ],
     "transform": {
       "^.+\\.js$": "<rootDir>/testConfig/babel.js"
     }
-  }
+  },
+  "dependencies": {}
 }

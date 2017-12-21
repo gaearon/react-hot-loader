@@ -1,6 +1,7 @@
 import AppContainer from './AppContainer'
+import { hotExported, compareComponents } from './utils.dev'
 
-export { AppContainer }
+export { AppContainer, hotExported, compareComponents }
 
 export default function warnAboutIncorrectUsage(arg) {
   if (this && this.callback) {
