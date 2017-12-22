@@ -1,5 +1,13 @@
 ## Changelog
 
+### 4.0.0-beta.1
+* Remove webpack plugin (#707)
+* Replace react-proxy by react-stand-in (#707)
+* Replace react-deep-force-update by reconciler (#703)
+* Add `hot` HOC (#707)
+* Add `areComponentsEqual` (#304)
+* `warnings` flag now controls reconciler, not dev patch.
+
 ### 3.1.1
 
 * Revert fix arrow function that uses props in constructor (#670)
