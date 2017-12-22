@@ -263,29 +263,21 @@ new WebpackDevServer(webpack(config), {
 
 After this you should be able to access your SPA via any url that has been defined in it.
 
-#### React Hot Loader: this component is not accepted by Hot Loader
+#### React-hot-loader: a Unknown was found where a Unknown was expected.
 
-The problem is that React Hot Loader could not replace the `old` version of some Component, by the new one.
-The reason is always the same - React Hot Loader can't understand that old and new is the same Component.
+The problem is that after hot module update some branches of React Tree differs from the previous versions.
+As result React-hot-loader will not update these branches at all, and you may lose internal components state.
 
-Why? The Component is not extracted as a top level variable. And only such Components React Hot Loader can digest.
-```js
- const SuperComponent = 
-     connect()(         <-- last HoC
-       withSomeStuff(   <-- first HoC
-         Component      <-- a real component
-       )
-     );
-```
-SuperComponent is a top-level variable. And Component is. But withSomeStuff will also produce a (temporal) Component, absolutely invisible to React Hot Loader.
+The `equality` of Components are defined as:
+1. They have same variable names in the same files. Ie they are both MyComponent from MyComponent.js
+2. They have same displayName and similar code.
+>Note: similar code is not _equal_ code. RHL will stand some small changes in code, or even adding a new method in class.
 
-Solution
-```js
- const WithSomeStuffComponent = withSomeStuff(Component);
- const SuperComponent = connect()(WithSomeStuffComponent);
-```  
-So yes - it is __absolutely__ impossible to use functional composition and React Hot Loader.
-All temporal variables, steps, spare parts __must__ be separated.
+#### Not all of my code got updated.
+Hot module replacement is a tricky thing. Just double check that you are not exporting anything else from the
+modules with `hot` exported components – functions, constants, anything NOT REACT.
 
-PS: it is possible to create a babel plugin, which will extract all the things. But who will create it?
- 
+`hot` function setups module self-acceptance. And it may be a dangerous thing.
+
+#### RHL is not working for Electon or Parcel
+`hot` function is not tested in these environments, yet. Please use `old school` AppContainer and setup HRM manually.
