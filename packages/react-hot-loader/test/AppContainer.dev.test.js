@@ -76,7 +76,7 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: <App /> })
         }
 
-        expect(spy).toHaveBeenCalledTimes(2)
+        expect(spy).toHaveBeenCalledTimes(3)
         expect(wrapper.contains(<div>ho</div>)).toBe(true)
       })
 
@@ -114,7 +114,7 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: element })
         }
 
-        expect(spy).toHaveBeenCalledTimes(2)
+        expect(spy).toHaveBeenCalledTimes(3)
         expect(wrapper.contains(<div>ho</div>)).toBe(true)
       })
 
@@ -626,7 +626,7 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: <App /> })
         }
 
-        expect(spy).toHaveBeenCalledTimes(2)
+        expect(spy).toHaveBeenCalledTimes(1 + 2)
         expect(wrapper.contains(<div>ho</div>)).toBe(true)
       })
 
@@ -664,7 +664,7 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: element })
         }
 
-        expect(spy).toHaveBeenCalledTimes(2)
+        expect(spy).toHaveBeenCalledTimes(1 + 2)
         expect(wrapper.contains(<div>ho</div>)).toBe(true)
       })
 
@@ -803,7 +803,7 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: AppF() })
         }
 
-        expect(spy).toHaveBeenCalledTimes(2)
+        expect(spy).toHaveBeenCalledTimes(1 + 2)
         expect(wrapper.contains(<div>ho</div>)).toBe(true)
       })
 
@@ -842,7 +842,7 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: element })
         }
 
-        expect(spy).toHaveBeenCalledTimes(2)
+        expect(spy).toHaveBeenCalledTimes(1 + 2)
         expect(wrapper.contains(<div>ho</div>)).toBe(true)
       })
 
@@ -971,7 +971,7 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: <App /> })
         }
 
-        expect(spy).toHaveBeenCalledTimes(2)
+        expect(spy).toHaveBeenCalledTimes(1 + 2)
         expect(wrapper.contains(<div>ho</div>)).toBe(true)
       })
 
@@ -1004,7 +1004,7 @@ function runAllTests(useWeakMap) {
         }
 
         expect(firstSpy).toHaveBeenCalledTimes(1)
-        expect(secondSpy).toHaveBeenCalledTimes(1)
+        expect(secondSpy).toHaveBeenCalledTimes(2)
         expect(wrapper.contains(<div>second</div>)).toBe(true)
       })
 
@@ -1145,7 +1145,7 @@ function runAllTests(useWeakMap) {
           wrapper.setProps({ children: <Enhanced n={3} /> })
         }
 
-        expect(spy).toHaveBeenCalledTimes(2)
+        expect(spy).toHaveBeenCalledTimes(1 + 2)
         expect(wrapper.contains(<div>ho</div>)).toBe(true)
       })
 
@@ -1182,7 +1182,7 @@ function runAllTests(useWeakMap) {
         }
 
         expect(firstSpy).toHaveBeenCalledTimes(1)
-        expect(secondSpy).toHaveBeenCalledTimes(1)
+        expect(secondSpy).toHaveBeenCalledTimes(2)
         expect(wrapper.contains(<div>second</div>)).toBe(true)
       })
 

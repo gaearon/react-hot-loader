@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import hoistNonReactStatic from 'hoist-non-react-statics'
 import AppContainer from './AppContainer.dev'
+import { getProxyByType } from './reconciler/proxies'
 
-const getDisplayName = WrappedComponent =>
+export const getDisplayName = WrappedComponent =>
   WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
 const copyReactProp = (source, target) => {
@@ -11,8 +12,6 @@ const copyReactProp = (source, target) => {
   target.WrappedComponent = source
 
   target.propTypes = source.contextTypes
-  target.childContextTypes = source.childContextTypes
-  target.contextTypes = source.contextTypes
 }
 
 const makeHotExport = (sourceModule, getInstances) => {
@@ -42,35 +41,36 @@ const makeHotExport = (sourceModule, getInstances) => {
   }
 }
 
-export const hotExported = (sourceModule, WrappedComponent, props = {}) => {
+const hot = sourceModule => {
   let instances = []
-
-  class ExportedComponent extends Component {
-    componentWillMount() {
-      instances.push(this)
-    }
-
-    componentWillUnmount() {
-      instances = instances.filter(a => a !== this)
-    }
-
-    render() {
-      return (
-        <AppContainer {...props}>
-          <WrappedComponent {...this.props} />
-        </AppContainer>
-      )
-    }
-  }
-
-  copyReactProp(WrappedComponent, ExportedComponent)
-
   makeHotExport(sourceModule, () => instances)
-
   // TODO: Ensure that all exports from this file are react components.
 
-  return ExportedComponent
+  return WrappedComponent => {
+    class ExportedComponent extends Component {
+      componentWillMount() {
+        instances.push(this)
+      }
+
+      componentWillUnmount() {
+        instances = instances.filter(a => a !== this)
+      }
+
+      render() {
+        return (
+          <AppContainer>
+            <WrappedComponent {...this.props} />
+          </AppContainer>
+        )
+      }
+    }
+
+    copyReactProp(WrappedComponent, ExportedComponent)
+
+    return ExportedComponent
+  }
 }
 
-// TODO: refactor for Reconcile branch
-export const compareComponents = (a, b) => a === b
+const areComponentsEqual = (a, b) => getProxyByType(a) === getProxyByType(b)
+
+export { hot, areComponentsEqual }

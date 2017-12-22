@@ -2,6 +2,7 @@ import { PROXY_KEY } from 'react-stand-in'
 import levenshtein from 'fast-levenshtein'
 import { getIdByType, updateProxyById } from './proxies'
 import { updateInstance } from './reactUtils'
+import { getDisplayName } from '../utils.dev'
 
 const displayName = type => type.displayName || type.name
 const isReactClass = fn => fn && !!fn.render
@@ -15,7 +16,7 @@ const getTypeOf = type => {
 }
 
 const haveTextSimilarity = (a, b) =>
-  // equal or slight change
+  // equal or slight changed
   a === b ||
   (__REACT_HOT_LOADER__.fuzzyCompare && levenshtein.get(a, b) < a.length * 0.2)
 
@@ -35,6 +36,9 @@ const equalClasses = (a, b) => {
         hits++
       } else {
         misses++
+        if (key === 'render') {
+          misses++
+        }
       }
     }
   })
@@ -103,10 +107,7 @@ const mergeInject = (a, b) => {
 }
 
 const hotReplacementRender = (instance, stack) => {
-  // disable reconciler to prevent upcoming components from proxying.
-  __REACT_HOT_LOADER__.disableComponentProxy = true
   const flow = asArray(render(instance))
-  __REACT_HOT_LOADER__.disableComponentProxy = false
 
   const { children } = stack
 
@@ -139,10 +140,26 @@ const hotReplacementRender = (instance, stack) => {
 
         // swap(child.type, stackChild.type);
         next(stackChild.instance)
+      } else if (__REACT_HOT_LOADER__.warnings) {
+        console.warn(
+          `React-hot-loader: a ${getDisplayName(
+            child.type,
+          )} was found where a ${getDisplayName(stackChild.type)} was expected.
+          ${child.type}`
+        )
       }
+
       updateInstance(stackChild.instance)
     }
   })
 }
 
-export default hotReplacementRender
+export default (instance, stack) => {
+  try {
+    // disable reconciler to prevent upcoming components from proxying.
+    __REACT_HOT_LOADER__.disableComponentProxy = true
+    hotReplacementRender(instance, stack)
+  } finally {
+    __REACT_HOT_LOADER__.disableComponentProxy = false
+  }
+}

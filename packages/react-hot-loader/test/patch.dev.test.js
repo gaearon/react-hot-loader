@@ -4,6 +4,9 @@ import React from 'react'
 import '../lib/patch.dev'
 
 const RHL = global.__REACT_HOT_LOADER__
+
+__REACT_HOT_LOADER__.disableComponentProxy = true
+
 function A1() {}
 function A2() {}
 function A3() {}

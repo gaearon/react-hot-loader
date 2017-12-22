@@ -7,6 +7,7 @@ import '../src/patch.dev'
 import AppContainer from '../src/AppContainer.dev'
 import { didUpdate } from '../src/updateCounter'
 import hydrate from '../src/reconciler/reactHydrate'
+import { areComponentEqual } from '../src/utils.dev'
 
 configure({ adapter: new Adapter() })
 
@@ -43,13 +44,6 @@ const createTestDouble = (render, name, key) => {
     unmounted,
     key,
   }
-}
-
-const getType = Component => <Component />.type
-const typesAreEqual = (a, b) => {
-  const typeA = getType(a)
-  const typeB = getType(b)
-  return typeA instanceof typeB || typeB instanceof typeA || typeA === typeB
 }
 
 describe('reconciler', () => {
@@ -90,7 +84,7 @@ describe('reconciler', () => {
       )
 
       const wrapper = mount(
-        <AppContainer reconciler>
+        <AppContainer>
           <App />
         </AppContainer>,
       )
@@ -103,15 +97,15 @@ describe('reconciler', () => {
       // replace with `the same` component
       currentComponent = Component2
       // they are different
-      expect(typesAreEqual(Component1.Component, Component2.Component)).toBe(
-        false,
-      )
+      expect(
+        areComponentEqual(Component1.Component, Component2.Component),
+      ).toBe(false)
       didUpdate()
       wrapper.setProps({ update: 'now' })
       // not react-stand-in merge them together
-      expect(typesAreEqual(Component1.Component, Component2.Component)).toBe(
-        true,
-      )
+      expect(
+        areComponentEqual(Component1.Component, Component2.Component),
+      ).toBe(true)
       expect(wrapper.find(<Component1.Component />.type).length).toBe(1)
       expect(wrapper.find(<Component2.Component />.type).length).toBe(1)
 
@@ -129,12 +123,12 @@ describe('reconciler', () => {
       expect(Component2.unmounted).toHaveBeenCalledTimes(1)
       expect(Component3.mounted).toHaveBeenCalledTimes(1)
 
-      expect(typesAreEqual(Component1.Component, Component3.Component)).toBe(
-        false,
-      )
-      expect(typesAreEqual(Component2.Component, Component3.Component)).toBe(
-        false,
-      )
+      expect(
+        areComponentEqual(Component1.Component, Component3.Component),
+      ).toBe(false)
+      expect(
+        areComponentEqual(Component2.Component, Component3.Component),
+      ).toBe(false)
     })
 
     it('should regenerate internal component', () => {
@@ -229,6 +223,7 @@ describe('reconciler', () => {
     const Transform = ({ children }) => <section>42 + {children}</section>
     const One = ({ children }) => <section>1 == {children(1)}</section>
 
+    __REACT_HOT_LOADER__.disableComponentProxy = true
     const wrapper = mount(
       <AppContainer reconciler>
         <div>
@@ -249,8 +244,9 @@ describe('reconciler', () => {
         </div>
       </AppContainer>,
     )
+    __REACT_HOT_LOADER__.disableComponentProxy = false
     const { instance, children } = hydrate(wrapper.instance())
     expect(children).toMatchSnapshot()
-    expect(instance).not.toBe(null);
+    expect(instance).not.toBe(null)
   })
 })
