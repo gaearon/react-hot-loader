@@ -11,6 +11,7 @@ class Counter extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log('unmount')
     clearInterval(this.interval)
   }
 
