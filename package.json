@@ -49,13 +49,8 @@
     "node": ">= 6"
   },
   "jest": {
-    "moduleDirectories": [
-      "node_modules",
-      "<rootDir>"
-    ],
-    "setupFiles": [
-      "<rootDir>/testConfig/setupTests.js"
-    ],
+    "moduleDirectories": ["node_modules", "<rootDir>"],
+    "setupFiles": ["<rootDir>/testConfig/setupTests.js"],
     "transform": {
       "^.+\\.js$": "<rootDir>/testConfig/babel.js"
     }

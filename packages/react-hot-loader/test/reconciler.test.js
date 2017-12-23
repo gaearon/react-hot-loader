@@ -7,7 +7,7 @@ import '../src/patch.dev'
 import AppContainer from '../src/AppContainer.dev'
 import { didUpdate } from '../src/updateCounter'
 import hydrate from '../src/reconciler/reactHydrate'
-import { areComponentEqual } from '../src/utils.dev'
+import { areComponentsEqual } from '../src/utils.dev'
 
 configure({ adapter: new Adapter() })
 
@@ -84,7 +84,7 @@ describe('reconciler', () => {
       )
 
       const wrapper = mount(
-        <AppContainer>
+        <AppContainer warnings={false}>
           <App />
         </AppContainer>,
       )
@@ -98,13 +98,13 @@ describe('reconciler', () => {
       currentComponent = Component2
       // they are different
       expect(
-        areComponentEqual(Component1.Component, Component2.Component),
+        areComponentsEqual(Component1.Component, Component2.Component),
       ).toBe(false)
       didUpdate()
       wrapper.setProps({ update: 'now' })
       // not react-stand-in merge them together
       expect(
-        areComponentEqual(Component1.Component, Component2.Component),
+        areComponentsEqual(Component1.Component, Component2.Component),
       ).toBe(true)
       expect(wrapper.find(<Component1.Component />.type).length).toBe(1)
       expect(wrapper.find(<Component2.Component />.type).length).toBe(1)
@@ -124,10 +124,10 @@ describe('reconciler', () => {
       expect(Component3.mounted).toHaveBeenCalledTimes(1)
 
       expect(
-        areComponentEqual(Component1.Component, Component3.Component),
+        areComponentsEqual(Component1.Component, Component3.Component),
       ).toBe(false)
       expect(
-        areComponentEqual(Component2.Component, Component3.Component),
+        areComponentsEqual(Component2.Component, Component3.Component),
       ).toBe(false)
     })
 
@@ -219,34 +219,36 @@ describe('reconciler', () => {
     })
   })
 
-  describe('Hydrate', () => {
-    const Transform = ({ children }) => <section>42 + {children}</section>
-    const One = ({ children }) => <section>1 == {children(1)}</section>
+  describe('hydrate', () => {
+    it('should hydrate', () => {
+      const Transform = ({ children }) => <section>42 + {children}</section>
+      const One = ({ children }) => <section>1 == {children(1)}</section>
 
-    __REACT_HOT_LOADER__.disableComponentProxy = true
-    const wrapper = mount(
-      <AppContainer reconciler>
-        <div>
+      __REACT_HOT_LOADER__.disableComponentProxy = true
+      const wrapper = mount(
+        <AppContainer reconciler>
           <div>
-            <Transform>
-              <div>
-                <div>42</div>
-              </div>
-            </Transform>
+            <div>
+              <Transform>
+                <div>
+                  <div>42</div>
+                </div>
+              </Transform>
+            </div>
+            <div>
+              <One>{one => one}</One>
+            </div>
+            <div>
+              the lazy brown fox
+              <p>jumped over the hedge</p>
+            </div>
           </div>
-          <div>
-            <One>{one => one}</One>
-          </div>
-          <div>
-            the lazy brown fox
-            <p>jumped over the hedge</p>
-          </div>
-        </div>
-      </AppContainer>,
-    )
-    __REACT_HOT_LOADER__.disableComponentProxy = false
-    const { instance, children } = hydrate(wrapper.instance())
-    expect(children).toMatchSnapshot()
-    expect(instance).not.toBe(null)
+        </AppContainer>,
+      )
+      __REACT_HOT_LOADER__.disableComponentProxy = false
+      const { instance, children } = hydrate(wrapper.instance())
+      expect(children).toMatchSnapshot()
+      expect(instance).not.toBe(null)
+    })
   })
 })
