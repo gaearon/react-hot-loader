@@ -1,14 +1,15 @@
 import { Component } from 'react'
 import transferStaticProps from './staticProps'
 import { GENERATION, PROXY_KEY } from './symbols'
-import { addProxy, findProxy } from './proxies'
 import { getDisplayName, isReactClass } from './react-utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
+
+const proxies = new WeakMap()
 
 function proxyClass(InitialComponent, proxyKey) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
-  const existingProxy = findProxy(InitialComponent)
+  const existingProxy = proxies.get(InitialComponent)
   if (existingProxy) {
     return existingProxy
   }
@@ -55,12 +56,13 @@ function proxyClass(InitialComponent, proxyKey) {
     if (typeof NextComponent !== 'function') {
       throw new Error('Expected a constructor.')
     }
+
     if (NextComponent === CurrentComponent) {
       return
     }
 
     // Prevent proxy cycles
-    const existingProxy = findProxy(NextComponent)
+    const existingProxy = proxies.get(NextComponent)
     if (existingProxy) {
       update(existingProxy.__standin_getCurrent())
       return
@@ -75,7 +77,6 @@ function proxyClass(InitialComponent, proxyKey) {
     CurrentComponent = NextComponent
 
     // Try to infer displayName
-
     const displayName = getDisplayName(CurrentComponent)
     ProxyComponent.displayName = displayName
 
@@ -92,7 +93,9 @@ function proxyClass(InitialComponent, proxyKey) {
       NextComponent,
     )
 
-    if (isReactClass(NextComponent)) {
+    if (isFunctionalComponent) {
+      ProxyComponent.prototype.prototype = StatelessProxyComponent.prototype
+    } else {
       checkLifeCycleMethods(ProxyComponent, NextComponent)
       Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
       if (proxyGeneration > 1) {
@@ -102,8 +105,6 @@ function proxyClass(InitialComponent, proxyKey) {
           InitialComponent,
         )
       }
-    } else {
-      ProxyComponent.prototype.prototype = StatelessProxyComponent.prototype
     }
   }
 
@@ -118,7 +119,7 @@ function proxyClass(InitialComponent, proxyKey) {
   update(InitialComponent)
 
   const proxy = { get, update }
-  addProxy(ProxyComponent, proxy)
+  proxies.set(ProxyComponent, proxy)
 
   Object.defineProperty(proxy, '__standin_getCurrent', {
     configurable: false,
