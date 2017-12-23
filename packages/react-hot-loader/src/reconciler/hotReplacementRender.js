@@ -135,7 +135,8 @@ const hotReplacementRender = (instance, stack) => {
         // as result one could not use type from rendered tree to gather Id
 
         // update proxy using internal PROXY_KEY
-        updateProxyById(stackChild.instance[PROXY_KEY], child.type)
+        if (stackChild.instance[PROXY_KEY])
+          updateProxyById(stackChild.instance[PROXY_KEY], child.type)
 
         // swap(child.type, stackChild.type);
         next(stackChild.instance)
