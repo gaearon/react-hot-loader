@@ -17,8 +17,7 @@ const getTypeOf = type => {
 
 const haveTextSimilarity = (a, b) =>
   // equal or slight changed
-  a === b ||
-  (__REACT_HOT_LOADER__.fuzzyCompare && levenshtein.get(a, b) < a.length * 0.2)
+  a === b || levenshtein.get(a, b) < a.length * 0.2
 
 const equalClasses = (a, b) => {
   // prototypeA - the real class
@@ -145,7 +144,7 @@ const hotReplacementRender = (instance, stack) => {
           `React-hot-loader: a ${getDisplayName(
             child.type,
           )} was found where a ${getDisplayName(stackChild.type)} was expected.
-          ${child.type}`
+          ${child.type}`,
         )
       }
 
