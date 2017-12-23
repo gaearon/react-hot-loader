@@ -1,7 +1,7 @@
 {
   "presets": ["env", "react"],
   "plugins": [
-    "transform-class-properties",
-    "../packages/react-hot-loader/babel"
+    "../packages/react-hot-loader/babel",
+    "transform-class-properties"
   ]
 }
