@@ -24,11 +24,11 @@ const makeHotExport = (sourceModule, getInstances) => {
   if (sourceModule.hot) {
     sourceModule.hot.accept(() => {
       // Mark as self-accepted for Webpack
-      // Update instances for parsel
+      // Update instances for Parcel
       thenUpdateInstances()
     })
 
-    // webpack way
+    // Webpack way
     if (sourceModule.hot.addStatusHandler) {
       if (sourceModule.hot.status() === 'idle') {
         sourceModule.hot.addStatusHandler(status => {
