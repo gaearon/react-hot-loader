@@ -1,4 +1,2 @@
-export { default as AppContainer } from './AppContainer'
-
-export const areComponentsEqual = (a, b) => a === b
-export const hot = () => Component => Component
+export { default as AppContainer } from './AppContainer.dev'
+export { hot, areComponentsEqual } from './utils.prod'
