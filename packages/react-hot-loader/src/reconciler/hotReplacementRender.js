@@ -89,7 +89,7 @@ const mergeInject = (a, b) => {
   if (b && !Array.isArray(b)) {
     return mergeInject(a, [b])
   }
-  if (a.length !== b.length) {
+  if (!a || !b || a.length !== b.length)
     return { children: [] }
   }
   return {
@@ -115,7 +115,7 @@ const hotReplacementRender = (instance, stack) => {
     const next = instance => hotReplacementRender(instance, stackChild)
 
     // text node
-    if (typeof child !== 'object') {
+    if (!child || typeof child !== 'object') {
       return
     }
     if (typeof child.type !== 'function') {
