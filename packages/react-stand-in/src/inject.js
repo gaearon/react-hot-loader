@@ -4,13 +4,22 @@ import { REGENERATE_METHOD, PREFIX, GENERATION } from './symbols'
 function mergeComponents(ProxyComponent, NextComponent, InitialComponent) {
   const injectedCode = {}
   try {
-    const nextInstance = new NextComponent({}, {})
+    let nextInstance
+    try {
+      nextInstance = new NextComponent({}, {})
+    } catch (e) {
+      // some components, like Redux connect could not be created without proper context
+    }
 
     try {
       // bypass babel class inheritance checking
       InitialComponent.prototype = NextComponent.prototype
     } catch (e) {
       // It was es6 class
+    }
+
+    if (!nextInstance) {
+      return injectedCode
     }
 
     const proxyInstance = new ProxyComponent({}, {})
@@ -28,9 +37,9 @@ function mergeComponents(ProxyComponent, NextComponent, InitialComponent) {
             nextAttr.length === prevAttr.length &&
             ProxyComponent.prototype[key]
           ) {
-            injectedCode[
+            injectedCode[key] = `Object.getPrototypeOf(this)['${
               key
-            ] = `Object.getPrototypeOf(this)['${key}'].bind(this)`
+            }'].bind(this)`
           } else {
             console.error(
               'React-stand-in:',
@@ -45,8 +54,13 @@ function mergeComponents(ProxyComponent, NextComponent, InitialComponent) {
           return
         }
 
-        if (String(nextAttr) !== String(prevAttr)) {
+        const nextString = String(nextAttr);
+        if (nextString !== String(prevAttr)) {
           if (!hasRegenerate) {
+            if (nextString.indexOf('function') < 0 && nextString.indexOf('=>') < 0) {
+              // just copy prop over
+              injectedCode[key] = nextAttr;
+            }
             console.error(
               'React-stand-in:',
               ' Updated class ',
@@ -91,15 +105,20 @@ function checkLifeCycleMethods(ProxyComponent, NextComponent) {
 
 function inject(target, currentGeneration, injectedMembers) {
   if (target[GENERATION] !== currentGeneration) {
+    const hasRegenerate = !!target[REGENERATE_METHOD]
     Object.keys(injectedMembers).forEach(key => {
       try {
-        target[REGENERATE_METHOD](
-          key,
-          `(function REACT_HOT_LOADER_SANDBOX () {
+        if(hasRegenerate) {
+          target[REGENERATE_METHOD](
+            key,
+            `(function REACT_HOT_LOADER_SANDBOX () {
           var _this2 = this; // common babel variable
           return ${injectedMembers[key]};
           }).call(this)`,
-        )
+          )
+        } else {
+          target[key] = injectedMembers[key];
+        }
       } catch (e) {
         console.error(
           'React-stand-in: Failed to regenerate method ',

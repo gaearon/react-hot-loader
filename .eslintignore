@@ -3,3 +3,4 @@ __babel_fixtures__/
 lib/
 dist/
 modules/
+coverage

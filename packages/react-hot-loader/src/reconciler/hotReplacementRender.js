@@ -15,6 +15,11 @@ const getTypeOf = type => {
   return 'Fragment' // ?
 }
 
+const filterNullArray = a => {
+  if(!a) return [];
+  return a.filter(x => !!x);
+}
+
 const haveTextSimilarity = (a, b) =>
   // equal or slight changed
   a === b || levenshtein.get(a, b) < a.length * 0.2
@@ -106,7 +111,7 @@ const mergeInject = (a, b) => {
 }
 
 const hotReplacementRender = (instance, stack) => {
-  const flow = asArray(render(instance))
+  const flow = filterNullArray(asArray(render(instance)))
 
   const { children } = stack
 
@@ -122,7 +127,7 @@ const hotReplacementRender = (instance, stack) => {
       next(
         // move types from render to the instances of hydrated tree
         mergeInject(
-          child.props ? child.props.children : child.children,
+          filterNullArray(asArray(child.props ? child.props.children : child.children)),
           stackChild.instance.children,
         ),
       )
