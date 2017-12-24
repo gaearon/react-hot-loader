@@ -5,8 +5,7 @@
   "main": "lib/index.js",
   "types": "react-hot-loader.d.ts",
   "homepage": "https://github.com/gaearon/react-hot-loader",
-  "repository":
-    "https://github.com/gaearon/react-hot-loader/tree/master/packages/react-hot-loader",
+  "repository": "https://github.com/gaearon/react-hot-loader/tree/master/packages/react-hot-loader",
   "license": "MIT",
   "author": "Dan Abramov",
   "files": [
