@@ -1,6 +1,7 @@
 ## Changelog
 
 ### 4.0.0-beta.1
+
 * Remove webpack plugin (#707)
 * Replace react-proxy by react-stand-in (#707)
 * Replace react-deep-force-update by reconciler (#703)
@@ -61,20 +62,21 @@
 * **Breaking change:** instead of
 
   ```js
-<AppContainer component={App} props={{ prop: val }} />
-```
+  <AppContainer component={App} props={{ prop: val }} />
+  ```
 
+````
   you now need to write
 
   ```js
   <AppContainer>
     <App prop={val} />
   </AppContainer>
-  ```
+````
 
-  (#250)
+(#250)
 
-  **See [this commit](https://github.com/gaearon/react-hot-boilerplate/commit/b52c727937a499f3efdc5dceb74ae952aa318c3a) as an update reference!**
+**See [this commit](https://github.com/gaearon/react-hot-boilerplate/commit/b52c727937a499f3efdc5dceb74ae952aa318c3a) as an update reference!**
 
 ### 3.0.0-alpha
 

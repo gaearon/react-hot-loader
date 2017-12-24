@@ -28,9 +28,9 @@ function mergeComponents(ProxyComponent, NextComponent, InitialComponent) {
             nextAttr.length === prevAttr.length &&
             ProxyComponent.prototype[key]
           ) {
-            injectedCode[key] = `Object.getPrototypeOf(this)['${
+            injectedCode[
               key
-            }'].bind(this)`
+            ] = `Object.getPrototypeOf(this)['${key}'].bind(this)`
           } else {
             console.error(
               'React-stand-in:',
@@ -84,7 +84,9 @@ function checkLifeCycleMethods(ProxyComponent, NextComponent) {
         )
       }
     })
-  } catch (e) {}
+  } catch (e) {
+    // Ignore errors
+  }
 }
 
 function inject(target, currentGeneration, injectedMembers) {

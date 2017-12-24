@@ -1,2 +1,4 @@
 __babel_fixtures__
-__snapshots__
+__snapshots__/
+node_modules/
+lib/
