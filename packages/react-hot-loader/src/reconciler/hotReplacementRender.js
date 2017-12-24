@@ -4,7 +4,14 @@ import {getIdByType, updateProxyById} from './proxies'
 import {updateInstance} from './reactUtils'
 import {getDisplayName} from '../utils.dev'
 
+// some `empty` names, React can autoset display name to...
+const UNDEFINED_NAMES = {
+  'Unknown': true,
+  'Component': true,
+}
+
 const displayName = type => type.displayName || type.name || 'Unknown'
+const areNamesEqual = (a, b) => a === b || (UNDEFINED_NAMES[a] && UNDEFINED_NAMES[b])
 const isReactClass = fn => fn && !!fn.render
 const isFunctional = fn => typeof fn === 'function'
 const isArray = fn => Array.isArray(fn)
@@ -20,15 +27,15 @@ const filterNullArray = a => {
   return a.filter(x => !!x);
 }
 
+const getElementType = child => child.type[UNWRAP_PROXY] ? child.type[UNWRAP_PROXY]() : child.type;
+
 const haveTextSimilarity = (a, b) =>
   // equal or slight changed
   a === b || levenshtein.get(a, b) < a.length * 0.2
 
 const equalClasses = (a, b) => {
-  // prototypeA - the real class
   const prototypeA = a.prototype
-  // prototypeB - the proxied component
-  const prototypeB = Object.getPrototypeOf(b.prototype)
+  const prototypeB = b.prototype
 
   let hits = 0
   let misses = 0
@@ -59,11 +66,11 @@ const isSwappable = (a, b) => {
     return false
   }
   if (isReactClass(a.prototype)) {
-    return displayName(a) === displayName(b) && equalClasses(a, b)
+    return areNamesEqual(displayName(a), displayName(b)) && equalClasses(a, b)
   }
   if (isFunctional(a)) {
     return (
-      displayName(a) === displayName(b) &&
+      areNamesEqual(displayName(a), displayName(b)) &&
       haveTextSimilarity(String(a), String(b))
     )
   }
@@ -134,11 +141,12 @@ const hotReplacementRender = (instance, stack) => {
       )
     } else {
       // unwrap proxy
-      const childType = child.type[UNWRAP_PROXY] ? child.type[UNWRAP_PROXY]() : child.type;
+      const childType = getElementType(child)
+      const stackType = getElementType(stackChild)
 
       if (child.type === stackChild.type) {
         next(stackChild.instance)
-      } else if (isSwappable(childType, stackChild.type)) {
+      } else if (isSwappable(childType, stackType)) {
         // they are both registered, or have equal code/displayname/signature
         // TODO: one could not find proxy by proxy, only by original type
         // as result one could not use type from rendered tree to gather Id
@@ -146,13 +154,12 @@ const hotReplacementRender = (instance, stack) => {
         // update proxy using internal PROXY_KEY
         updateProxyById(stackChild.instance[PROXY_KEY], childType)
 
-        // swap(child.type, stackChild.type);
         next(stackChild.instance)
       } else if (__REACT_HOT_LOADER__.warnings) {
         console.warn(
           `React-hot-loader: a ${getDisplayName(
             childType,
-          )} was found where a ${getDisplayName(stackChild.type)} was expected.
+          )} was found where a ${getDisplayName(stackChild)} was expected.
           ${childType}`,
         )
       }
@@ -168,6 +175,6 @@ export default (instance, stack) => {
     __REACT_HOT_LOADER__.disableComponentProxy = true
     hotReplacementRender(instance, stack)
   } finally {
-    __REACT_HOT_LOADER__.disableComponentProxy = false
+   __REACT_HOT_LOADER__.disableComponentProxy = false
   }
 }

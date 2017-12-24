@@ -40,7 +40,7 @@ hooks.reset()
 function resolveType(type) {
   const { disableComponentProxy } = __REACT_HOT_LOADER__
   // We only care about composite components
-  if (typeof type !== 'function' || disableComponentProxy) {
+  if (typeof type !== 'function') {
     return type
   }
 
@@ -49,8 +49,9 @@ function resolveType(type) {
     !type.prototype.render ||
     type.prototype[REGENERATE_METHOD]
 
+  // is proxing is disabled - do not create auto proxies, but use the old ones
   const proxy =
-     couldWrapWithProxy
+     !disableComponentProxy && couldWrapWithProxy
       ? createProxyForType(type)
       : getProxyByType(type)
 
@@ -62,6 +63,7 @@ function resolveType(type) {
 }
 
 const { createElement: originalCreateElement } = React
+const childrenOnly = React.Children.only;
 
 function patchedCreateElement(type, ...args) {
   // Trick React into rendering a proxy so that
@@ -84,8 +86,15 @@ function patchedCreateFactory(type) {
 
 patchedCreateFactory.isPatchedByReactHotLoader = true
 
+function patchedChildOnly (element) {
+  return Object.assign({}, element, {
+    type: resolveType(element.type)
+  })
+}
+
 if (typeof global.__REACT_HOT_LOADER__ === 'undefined') {
   React.createElement = patchedCreateElement
   React.createFactory = patchedCreateFactory
+  React.Children.only = patchedChildOnly;
   global.__REACT_HOT_LOADER__ = hooks
 }

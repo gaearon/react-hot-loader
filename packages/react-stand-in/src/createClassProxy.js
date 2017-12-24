@@ -61,6 +61,14 @@ function proxyClass(InitialComponent, proxyKey) {
     }
   }
 
+  function get() {
+    return ProxyComponent
+  }
+
+  function getCurrent() {
+    return CurrentComponent
+  }
+
   ProxyComponent.toString = function toString() {
     return CurrentComponent.toString()
   }
@@ -124,14 +132,6 @@ function proxyClass(InitialComponent, proxyKey) {
         )
       }
     }
-  }
-
-  function get() {
-    return ProxyComponent
-  }
-
-  function getCurrent() {
-    return CurrentComponent
   }
 
   update(InitialComponent)

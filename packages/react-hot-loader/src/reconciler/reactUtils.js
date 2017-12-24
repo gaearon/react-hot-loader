@@ -14,7 +14,5 @@ export const updateInstance = instance => {
     instance.forceUpdate()
   } else if (updater && typeof updater.enqueueForceUpdate === 'function') {
     updater.enqueueForceUpdate(instance)
-  } else {
-    instance._pendingForceUpdate = true
   }
 }
