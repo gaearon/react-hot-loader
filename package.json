@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "yarn build && lerna-watch",
+    "prebuild": "rm -rf packages/*/lib",
     "build": "lerna-build",
     "ci":
       "lerna bootstrap && yarn build && yarn lint && yarn test --coverage && codecov",
