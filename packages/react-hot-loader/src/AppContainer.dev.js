@@ -33,7 +33,7 @@ class AppContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     if (this.state.generation !== getGeneration()) {
       // Hot reload is happening.
 
@@ -43,7 +43,9 @@ class AppContainer extends React.Component {
       })
 
       // perform sandboxed render to find similarities between new and old code
+      this.renderAnotherChildren = nextProps.children;
       hotReplacementRender(this, hydrate(this))
+      this.renderAnotherChildren = null;
     }
   }
 
@@ -74,7 +76,7 @@ class AppContainer extends React.Component {
       console.error(error)
     }
 
-    return React.Children.only(this.props.children)
+    return React.Children.only(this.renderAnotherChildren || this.props.children)
   }
 }
 

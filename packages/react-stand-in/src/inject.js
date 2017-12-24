@@ -1,15 +1,22 @@
 import { isNativeFunction, reactLifeCycleMethods } from './react-utils'
 import { REGENERATE_METHOD, PREFIX, GENERATION } from './symbols'
 
-function mergeComponents(ProxyComponent, NextComponent, InitialComponent) {
+function safeConstructor(Component, lastInstance){
+  try {
+    if(lastInstance) {
+      return new Component(lastInstance.props, lastInstance.context)
+    }
+    return new Component({}, {})
+  } catch (e) {
+    // some components, like Redux connect could not be created without proper context
+  }
+  return null;
+}
+
+function mergeComponents(ProxyComponent, NextComponent, InitialComponent, lastInstance) {
   const injectedCode = {}
   try {
-    let nextInstance
-    try {
-      nextInstance = new NextComponent({}, {})
-    } catch (e) {
-      // some components, like Redux connect could not be created without proper context
-    }
+    const nextInstance = safeConstructor(NextComponent, lastInstance);
 
     try {
       // bypass babel class inheritance checking
@@ -18,11 +25,11 @@ function mergeComponents(ProxyComponent, NextComponent, InitialComponent) {
       // It was es6 class
     }
 
-    if (!nextInstance) {
-      return injectedCode
-    }
+    const proxyInstance = safeConstructor(ProxyComponent, lastInstance);
 
-    const proxyInstance = new ProxyComponent({}, {})
+    if(!nextInstance || !proxyInstance){
+      return injectedCode;
+    }
 
     const mergedAttrs = Object.assign({}, proxyInstance, nextInstance)
     const hasRegenerate = proxyInstance[REGENERATE_METHOD]
@@ -51,7 +58,7 @@ function mergeComponents(ProxyComponent, NextComponent, InitialComponent) {
               '. Unable to reproduce, use arrow functions instead.',
             )
           }
-          return
+          return;
         }
 
         const nextString = String(nextAttr);
@@ -60,16 +67,17 @@ function mergeComponents(ProxyComponent, NextComponent, InitialComponent) {
             if (nextString.indexOf('function') < 0 && nextString.indexOf('=>') < 0) {
               // just copy prop over
               injectedCode[key] = nextAttr;
+            } else {
+              console.error(
+                'React-stand-in:',
+                ' Updated class ',
+                ProxyComponent.name,
+                'had different code for',
+                key,
+                nextAttr,
+                '. Unable to reproduce. Regeneration support needed.',
+              )
             }
-            console.error(
-              'React-stand-in:',
-              ' Updated class ',
-              ProxyComponent.name,
-              'had different code for',
-              key,
-              nextAttr,
-              '. Unable to reproduce. Regeneration support needed.',
-            )
           } else {
             injectedCode[key] = nextAttr
           }

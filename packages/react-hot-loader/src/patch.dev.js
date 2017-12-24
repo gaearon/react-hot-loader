@@ -40,7 +40,7 @@ hooks.reset()
 function resolveType(type) {
   const { disableComponentProxy } = __REACT_HOT_LOADER__
   // We only care about composite components
-  if (typeof type !== 'function') {
+  if (typeof type !== 'function' || disableComponentProxy) {
     return type
   }
 
@@ -50,7 +50,7 @@ function resolveType(type) {
     type.prototype[REGENERATE_METHOD]
 
   const proxy =
-    !disableComponentProxy && couldWrapWithProxy
+     couldWrapWithProxy
       ? createProxyForType(type)
       : getProxyByType(type)
 

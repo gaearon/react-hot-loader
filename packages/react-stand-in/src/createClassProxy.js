@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import transferStaticProps from './staticProps'
-import { GENERATION, PROXY_KEY } from './symbols'
+import {GENERATION, PROXY_KEY, UNWRAP_PROXY} from './symbols'
 import { getDisplayName, isReactClass } from './react-utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 
@@ -30,6 +30,8 @@ function proxyClass(InitialComponent, proxyKey) {
     ? StatelessProxyComponent
     : InitialComponent
 
+  let lastInstance = null
+
   const ProxyComponent = class extends InitialParent {
     constructor(props, context) {
       super(props, context)
@@ -38,6 +40,17 @@ function proxyClass(InitialComponent, proxyKey) {
       // as long we cant override constructor
       // every class shall evolve from a base class
       inject(this, proxyGeneration, injectedMembers)
+
+      lastInstance = this;
+    }
+
+    // for beta testing only
+    componentWillUnmount(){
+      if(!isFunctionalComponent) {
+        if(CurrentComponent.prototype.componentWillUnmount) {
+          CurrentComponent.prototype.componentWillUnmount.call(this);
+        }
+      }
     }
 
     render() {
@@ -52,6 +65,8 @@ function proxyClass(InitialComponent, proxyKey) {
     return CurrentComponent.toString()
   }
 
+  ProxyComponent[UNWRAP_PROXY] = getCurrent;
+
   function update(NextComponent) {
     if (typeof NextComponent !== 'function') {
       throw new Error('Expected a constructor.')
@@ -64,7 +79,7 @@ function proxyClass(InitialComponent, proxyKey) {
     // Prevent proxy cycles
     const existingProxy = proxies.get(NextComponent)
     if (existingProxy) {
-      update(existingProxy.__standin_getCurrent())
+      update(existingProxy[UNWRAP_PROXY]())
       return
     }
 
@@ -105,6 +120,7 @@ function proxyClass(InitialComponent, proxyKey) {
           ProxyComponent,
           NextComponent,
           InitialComponent,
+          lastInstance
         )
       }
     }
@@ -123,7 +139,7 @@ function proxyClass(InitialComponent, proxyKey) {
   const proxy = { get, update }
   proxies.set(ProxyComponent, proxy)
 
-  Object.defineProperty(proxy, '__standin_getCurrent', {
+  Object.defineProperty(proxy, UNWRAP_PROXY, {
     configurable: false,
     writable: false,
     enumerable: false,
