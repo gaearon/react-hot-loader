@@ -1,4 +1,4 @@
-/* eslint-env jest */
+/* eslint-env jest, browser */
 
 import React, { Component } from 'react'
 import createReactClass from 'create-react-class'
@@ -307,6 +307,8 @@ function runAllTests(useWeakMap) {
         expect(wrapper.text()).toBe('old render + old state')
 
         spy.mockReset()
+        window.spy = spy
+
         {
           class App extends Component {
             constructor(props) {
@@ -319,7 +321,7 @@ function runAllTests(useWeakMap) {
             }
 
             handleClick = () => {
-              spy('bar')
+              window.spy('bar')
             }
 
             /* eslint-disable */
@@ -383,6 +385,8 @@ function runAllTests(useWeakMap) {
         expect(wrapper.text()).toBe('old render + old state')
 
         spy.mockReset()
+        window.spy = spy
+
         {
           class App extends Component {
             constructor(props) {
@@ -395,7 +399,7 @@ function runAllTests(useWeakMap) {
             }
 
             handleClick = () => {
-              spy('bar')
+              window.spy('bar')
             }
 
             /* eslint-disable */
@@ -456,6 +460,9 @@ function runAllTests(useWeakMap) {
         expect(wrapper.text()).toBe('old render + old state')
 
         spy.mockReset()
+
+        window.spy = spy
+
         {
           class App extends Component {
             constructor(props) {
@@ -467,7 +474,7 @@ function runAllTests(useWeakMap) {
               return false
             }
 
-            handleClick = () => spy('bar')
+            handleClick = () => window.spy('bar')
 
             /* eslint-disable */
             __reactstandin__regenerateByEval(key, code) {
@@ -530,6 +537,7 @@ function runAllTests(useWeakMap) {
           expect(wrapper.text()).toBe('old render + old state')
 
           spy.mockReset()
+          window.spy = spy
           {
             class App extends Component {
               constructor(props) {
@@ -541,7 +549,7 @@ function runAllTests(useWeakMap) {
                 return false
               }
 
-              handleClick = ({ target }) => spy(target.value)
+              handleClick = ({ target }) => window.spy(target.value)
 
               /* eslint-disable */
               __reactstandin__regenerateByEval(key, code) {

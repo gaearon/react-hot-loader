@@ -3,6 +3,7 @@
     [
       "env",
       {
+        "loose": true,
         "targets": {
           "browsers": [
             "last 2 chrome versions",
@@ -16,7 +17,7 @@
     "react"
   ],
   "plugins": [
-    "transform-class-properties",
+    ["transform-class-properties", { "loose": true }],
     "transform-object-rest-spread",
     "dynamic-import-node"
   ]

@@ -2,7 +2,10 @@ module.exports = {
   extends: ['airbnb', 'prettier', 'prettier/react'],
   parser: 'babel-eslint',
   rules: {
-    'no-underscore-dangle': ['error', { allow: ['__REACT_HOT_LOADER__'] }],
+    'no-underscore-dangle': [
+      'error',
+      { allow: ['__REACT_HOT_LOADER__', '__standin_getCurrent'] },
+    ],
     'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-plusplus': 'off',
     'no-continue': 'off',

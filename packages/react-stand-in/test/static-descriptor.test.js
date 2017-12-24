@@ -1,4 +1,5 @@
 /* eslint-env jest */
+/* eslint-disable no-underscore-dangle */
 import React from 'react'
 import { ensureNoWarnings, createMounter } from './helper'
 import createProxy from '../lib'

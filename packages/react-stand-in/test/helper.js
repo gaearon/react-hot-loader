@@ -1,3 +1,4 @@
+/* eslint-env browser */
 /* eslint-disable react/no-render-return-value */
 import ReactDOM from 'react-dom'
 

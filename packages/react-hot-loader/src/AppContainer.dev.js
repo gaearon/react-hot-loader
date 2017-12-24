@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { getGeneration } from './updateCounter'
 import hydrate from './reconciler/reactHydrate'
 import hotReplacementRender from './reconciler/hotReplacementRender'
+import './patch.dev'
 
-class AppContainer extends Component {
+class AppContainer extends React.Component {
   constructor(props) {
     super(props)
 
@@ -56,16 +57,6 @@ class AppContainer extends Component {
 
     return true
   }
-
-  // This hook is going to become official in React 15.x.
-  // In 15.0, it only catches errors on initial mount.
-  // Later it will work for updates as well:
-  // https://github.com/facebook/react/pull/6020
-  /* eslint-disable camelcase */
-  unstable_handleError(error) {
-    this.componentDidCatch(error)
-  }
-  /* eslint-enable camelcase */
 
   componentDidCatch(error) {
     this.setState({

@@ -84,7 +84,9 @@ function proxyClass(InitialComponent, proxyKey) {
       Object.defineProperty(ProxyComponent, 'name', {
         value: displayName,
       })
-    } catch (err) {}
+    } catch (err) {
+      // Ignore error, it is not very important
+    }
 
     savedDescriptors = transferStaticProps(
       ProxyComponent,
