@@ -33,7 +33,7 @@ class AppContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps() {
     if (this.state.generation !== getGeneration()) {
       // Hot reload is happening.
 

@@ -68,7 +68,7 @@ const hot = sourceModule => {
     copyReactProp(WrappedComponent, ExportedComponent)
 
     // register proxy for wrapped component
-    __REACT_HOT_LOADER__.register(WrappedComponent, getDisplayName(WrappedComponent), 'RHL' + sourceModule.id);
+    __REACT_HOT_LOADER__.register(WrappedComponent, getDisplayName(WrappedComponent), `RHL${sourceModule.id}`);
 
     return ExportedComponent
   }

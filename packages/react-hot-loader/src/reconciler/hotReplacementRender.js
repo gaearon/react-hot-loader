@@ -35,7 +35,7 @@ const haveTextSimilarity = (a, b) =>
 
 const equalClasses = (a, b) => {
   const prototypeA = a.prototype
-  const prototypeB = b.prototype
+  const prototypeB = Object.getPrototypeOf(b.prototype);
 
   let hits = 0
   let misses = 0
@@ -142,11 +142,10 @@ const hotReplacementRender = (instance, stack) => {
     } else {
       // unwrap proxy
       const childType = getElementType(child)
-      const stackType = getElementType(stackChild)
 
       if (child.type === stackChild.type) {
         next(stackChild.instance)
-      } else if (isSwappable(childType, stackType)) {
+      } else if (isSwappable(childType, stackChild.type)) {
         // they are both registered, or have equal code/displayname/signature
         // TODO: one could not find proxy by proxy, only by original type
         // as result one could not use type from rendered tree to gather Id
