@@ -87,9 +87,11 @@ function patchedCreateFactory(type) {
 patchedCreateFactory.isPatchedByReactHotLoader = true
 
 function patchedChildOnly (element) {
-  return Object.assign({}, element, {
-    type: resolveType(element.type)
-  })
+  return childrenOnly(
+    Object.assign({}, element, {
+      type: resolveType(element.type)
+    })
+  )
 }
 
 if (typeof global.__REACT_HOT_LOADER__ === 'undefined') {
