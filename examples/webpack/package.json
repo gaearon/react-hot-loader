@@ -1,25 +1,9 @@
 {
-  "name": "react-hot-boilerplate",
-  "private": true,
-  "description": "Boilerplate for ReactJS project with hot code reloading",
+  "name": "hot-webpack",
+  "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server --hot"
   },
-  "homepage": "https://github.com/gaearon/react-hot-loader",
-  "repository": "https://github.com/gaearon/react-hot-loader/",
-  "license": "MIT",
-  "keywords": [
-    "react",
-    "reactjs",
-    "boilerplate",
-    "hot",
-    "reload",
-    "hmr",
-    "live",
-    "edit",
-    "webpack"
-  ],
-  "author": "Dan Abramov",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",

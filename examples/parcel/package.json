@@ -1,25 +1,9 @@
 {
-  "name": "react-hot-boilerplate",
-  "private": true,
-  "description": "Boilerplate for ReactJS project with hot code reloading",
+  "name": "hot-parcel",
+  "version": "1.0.0",
   "scripts": {
     "start": "parcel"
   },
-  "homepage": "https://github.com/gaearon/react-hot-loader",
-  "repository": "https://github.com/gaearon/react-hot-loader/",
-  "license": "MIT",
-  "keywords": [
-    "react",
-    "reactjs",
-    "boilerplate",
-    "hot",
-    "reload",
-    "hmr",
-    "live",
-    "edit",
-    "webpack"
-  ],
-  "author": "Dan Abramov",
   "devDependencies": {
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.1",
