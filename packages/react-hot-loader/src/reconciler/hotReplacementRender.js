@@ -107,6 +107,7 @@ const mergeInject = (a, b) => {
   if (b && !Array.isArray(b)) {
     return mergeInject(a, [b])
   }
+
   if (a.length !== b.length) {
     return {children: []}
   }
