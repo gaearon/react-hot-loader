@@ -1,6 +1,6 @@
 {
   "name": "react-stand-in",
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0-beta.3",
   "description": "Proxies ES6 React components without unmounting or losing their state.",
   "main": "lib/index.js",
   "homepage": "https://github.com/gaearon/react-hot-loader",
