@@ -99,7 +99,7 @@ Just add babel-loader into your webpack configuration, with RHL-only config.
 ```js
 {
   test: /\.tsx?$/,
-  loaders: [
+  use: [
     {
       loader: 'babel-loader',
       options: {
