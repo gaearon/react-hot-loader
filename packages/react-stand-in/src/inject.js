@@ -1,22 +1,27 @@
 import { isNativeFunction, reactLifeCycleMethods } from './react-utils'
 import { REGENERATE_METHOD, PREFIX, GENERATION } from './symbols'
 
-function safeConstructor(Component, lastInstance){
+function safeConstructor(Component, lastInstance) {
   try {
-    if(lastInstance) {
+    if (lastInstance) {
       return new Component(lastInstance.props, lastInstance.context)
     }
     return new Component({}, {})
   } catch (e) {
     // some components, like Redux connect could not be created without proper context
   }
-  return null;
+  return null
 }
 
-function mergeComponents(ProxyComponent, NextComponent, InitialComponent, lastInstance) {
+function mergeComponents(
+  ProxyComponent,
+  NextComponent,
+  InitialComponent,
+  lastInstance,
+) {
   const injectedCode = {}
   try {
-    const nextInstance = safeConstructor(NextComponent, lastInstance);
+    const nextInstance = safeConstructor(NextComponent, lastInstance)
 
     try {
       // bypass babel class inheritance checking
@@ -25,10 +30,10 @@ function mergeComponents(ProxyComponent, NextComponent, InitialComponent, lastIn
       // It was es6 class
     }
 
-    const proxyInstance = safeConstructor(ProxyComponent, lastInstance);
+    const proxyInstance = safeConstructor(ProxyComponent, lastInstance)
 
-    if(!nextInstance || !proxyInstance){
-      return injectedCode;
+    if (!nextInstance || !proxyInstance) {
+      return injectedCode
     }
 
     const mergedAttrs = Object.assign({}, proxyInstance, nextInstance)
@@ -58,15 +63,18 @@ function mergeComponents(ProxyComponent, NextComponent, InitialComponent, lastIn
               '. Unable to reproduce, use arrow functions instead.',
             )
           }
-          return;
+          return
         }
 
-        const nextString = String(nextAttr);
+        const nextString = String(nextAttr)
         if (nextString !== String(prevAttr)) {
           if (!hasRegenerate) {
-            if (nextString.indexOf('function') < 0 && nextString.indexOf('=>') < 0) {
+            if (
+              nextString.indexOf('function') < 0 &&
+              nextString.indexOf('=>') < 0
+            ) {
               // just copy prop over
-              injectedCode[key] = nextAttr;
+              injectedCode[key] = nextAttr
             } else {
               console.error(
                 'React-stand-in:',
@@ -116,7 +124,7 @@ function inject(target, currentGeneration, injectedMembers) {
     const hasRegenerate = !!target[REGENERATE_METHOD]
     Object.keys(injectedMembers).forEach(key => {
       try {
-        if(hasRegenerate) {
+        if (hasRegenerate) {
           target[REGENERATE_METHOD](
             key,
             `(function REACT_HOT_LOADER_SANDBOX () {
@@ -125,7 +133,7 @@ function inject(target, currentGeneration, injectedMembers) {
           }).call(this)`,
           )
         } else {
-          target[key] = injectedMembers[key];
+          target[key] = injectedMembers[key]
         }
       } catch (e) {
         console.error(

@@ -6,12 +6,13 @@ import {getDisplayName} from '../utils.dev'
 
 // some `empty` names, React can autoset display name to...
 const UNDEFINED_NAMES = {
-  'Unknown': true,
-  'Component': true,
+  Unknown: true,
+  Component: true,
 }
 
 const displayName = type => type.displayName || type.name || 'Unknown'
-const areNamesEqual = (a, b) => a === b || (UNDEFINED_NAMES[a] && UNDEFINED_NAMES[b])
+const areNamesEqual = (a, b) =>
+  a === b || (UNDEFINED_NAMES[a] && UNDEFINED_NAMES[b])
 const isReactClass = fn => fn && !!fn.render
 const isFunctional = fn => typeof fn === 'function'
 const isArray = fn => Array.isArray(fn)
@@ -23,11 +24,12 @@ const getTypeOf = type => {
 }
 
 const filterNullArray = a => {
-  if (!a) return [];
-  return a.filter(x => !!x);
+  if (!a) return []
+  return a.filter(x => !!x)
 }
 
-const getElementType = child => child.type[UNWRAP_PROXY] ? child.type[UNWRAP_PROXY]() : child.type;
+const getElementType = child =>
+  child.type[UNWRAP_PROXY] ? child.type[UNWRAP_PROXY]() : child.type
 
 const haveTextSimilarity = (a, b) =>
   // equal or slight changed
@@ -35,7 +37,7 @@ const haveTextSimilarity = (a, b) =>
 
 const equalClasses = (a, b) => {
   const prototypeA = a.prototype
-  const prototypeB = Object.getPrototypeOf(b.prototype);
+  const prototypeB = Object.getPrototypeOf(b.prototype)
 
   let hits = 0
   let misses = 0
@@ -82,6 +84,10 @@ const render = component => {
     return []
   }
   if (isReactClass(component)) {
+    if (component.componentWillUpdate) {
+      // force-refresh component (bypass redux renderedComponent)
+      component.componentWillUpdate()
+    }
     return component.render()
   }
   if (isArray(component)) {
@@ -124,7 +130,18 @@ const hotReplacementRender = (instance, stack) => {
 
   flow.forEach((child, index) => {
     const stackChild = children[index]
-    const next = instance => hotReplacementRender(instance, stackChild)
+    const next = instance => {
+      // copy over props as long new component may be hidden inside them
+      // child does not have all props, as long some of them can be calculated on componentMount.
+      const props = {...instance.props};
+      for (const key in child.props) {
+        if (child.props[key]) {
+          props[key] = child.props[key];
+        }
+      }
+      instance.props = props;
+      hotReplacementRender(instance, stackChild)
+    }
 
     // text node
     if (typeof child !== 'object' || !child.type || !stackChild.instance) {
@@ -135,7 +152,9 @@ const hotReplacementRender = (instance, stack) => {
       next(
         // move types from render to the instances of hydrated tree
         mergeInject(
-          filterNullArray(asArray(child.props ? child.props.children : child.children)),
+          filterNullArray(
+            asArray(child.props ? child.props.children : child.children),
+          ),
           stackChild.instance.children,
         ),
       )
@@ -147,8 +166,6 @@ const hotReplacementRender = (instance, stack) => {
         next(stackChild.instance)
       } else if (isSwappable(childType, stackChild.type)) {
         // they are both registered, or have equal code/displayname/signature
-        // TODO: one could not find proxy by proxy, only by original type
-        // as result one could not use type from rendered tree to gather Id
 
         // update proxy using internal PROXY_KEY
         updateProxyById(stackChild.instance[PROXY_KEY], childType)
@@ -174,6 +191,6 @@ export default (instance, stack) => {
     __REACT_HOT_LOADER__.disableComponentProxy = true
     hotReplacementRender(instance, stack)
   } finally {
-   __REACT_HOT_LOADER__.disableComponentProxy = false
+    __REACT_HOT_LOADER__.disableComponentProxy = false
   }
 }

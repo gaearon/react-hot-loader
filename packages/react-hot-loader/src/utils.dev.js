@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import hoistNonReactStatic from 'hoist-non-react-statics'
 import AppContainer from './AppContainer.dev'
-import {getProxyByType} from './reconciler/proxies'
+import { getProxyByType } from './reconciler/proxies'
 
 export const getDisplayName = WrappedComponent =>
   WrappedComponent.displayName || WrappedComponent.name || 'Component'
@@ -68,7 +68,11 @@ const hot = sourceModule => {
     copyReactProp(WrappedComponent, ExportedComponent)
 
     // register proxy for wrapped component
-    __REACT_HOT_LOADER__.register(WrappedComponent, getDisplayName(WrappedComponent), `RHL${sourceModule.id}`);
+    __REACT_HOT_LOADER__.register(
+      WrappedComponent,
+      getDisplayName(WrappedComponent),
+      `RHL${sourceModule.id}`,
+    )
 
     return ExportedComponent
   }
@@ -76,4 +80,4 @@ const hot = sourceModule => {
 
 const areComponentsEqual = (a, b) => getProxyByType(a) === getProxyByType(b)
 
-export {hot, areComponentsEqual}
+export { hot, areComponentsEqual }

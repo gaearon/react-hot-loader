@@ -1,12 +1,14 @@
 import { Component } from 'react'
 import transferStaticProps from './staticProps'
-import {GENERATION, PROXY_KEY, UNWRAP_PROXY} from './symbols'
+import { GENERATION, PROXY_KEY, UNWRAP_PROXY } from './symbols'
 import { getDisplayName, isReactClass } from './react-utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 
 const proxies = new WeakMap()
 
-function proxyClass(InitialComponent, proxyKey) {
+const passThought = a => a
+
+function proxyClass(InitialComponent, proxyKey, wrapResult = passThought) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
   const existingProxy = proxies.get(InitialComponent)
@@ -41,23 +43,24 @@ function proxyClass(InitialComponent, proxyKey) {
       // every class shall evolve from a base class
       inject(this, proxyGeneration, injectedMembers)
 
-      lastInstance = this;
+      lastInstance = this
     }
 
     // for beta testing only
-    componentWillUnmount(){
-      if(!isFunctionalComponent) {
-        if(CurrentComponent.prototype.componentWillUnmount) {
-          CurrentComponent.prototype.componentWillUnmount.call(this);
+    componentWillUnmount() {
+      if (!isFunctionalComponent) {
+        if (CurrentComponent.prototype.componentWillUnmount) {
+          CurrentComponent.prototype.componentWillUnmount.call(this)
         }
       }
     }
 
     render() {
       inject(this, proxyGeneration, injectedMembers)
-      return isFunctionalComponent
+      const result = isFunctionalComponent
         ? CurrentComponent(this.props, this.context)
         : CurrentComponent.prototype.render.call(this)
+      return wrapResult(result)
     }
   }
 
@@ -73,7 +76,8 @@ function proxyClass(InitialComponent, proxyKey) {
     return CurrentComponent.toString()
   }
 
-  ProxyComponent[UNWRAP_PROXY] = getCurrent;
+  ProxyComponent[UNWRAP_PROXY] = getCurrent
+  ProxyComponent.RHL_PROXY_ID = proxyKey
 
   function update(NextComponent) {
     if (typeof NextComponent !== 'function') {
@@ -128,7 +132,7 @@ function proxyClass(InitialComponent, proxyKey) {
           ProxyComponent,
           NextComponent,
           InitialComponent,
-          lastInstance
+          lastInstance,
         )
       }
     }
