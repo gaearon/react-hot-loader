@@ -1,5 +1,5 @@
 {
-  "name": "hot-webpack",
+  "name": "hot-webpack-modern",
   "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server --hot"
