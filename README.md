@@ -163,12 +163,6 @@ const element = <Component />
 areComponentsEqual(element.type, Component) // true
 ```
 
-## Starter Kit
-
-This
-[boilerplate](https://github.com/gaearon/react-hot-loader/tree/master/boilerplate)
-is the most basic config following getting started sections.
-
 ## Migrating from v3
 
 ### AppContainer vs hot
@@ -249,14 +243,14 @@ from your Webpack config.
 
 On code replace you are replacing the old code by a new one. You should not use
 the old code, as thus allow RHL to safely modify it. See
-[`react-stand-in`](https://github.com/gaearon/react-hot-loader/tree/master/packages/react-stand-in)
+[`react-stand-in`](https://github.com/gaearon/react-hot-loader/tree/next/packages/react-stand-in)
 for more details.
 
 ### New Components keep executing the old code
 
 There is no way to hot-update constructor code, as result even new components
 will be born as the first ones, and then grow into the last ones. See
-[`react-stand-in`](https://github.com/gaearon/react-hot-loader/tree/master/packages/react-stand-in)
+[`react-stand-in`](https://github.com/gaearon/react-hot-loader/tree/next/packages/react-stand-in)
 for more details.
 
 ### Decorators
@@ -269,8 +263,8 @@ unexpected way. Please report.
 If it doesn't work, in 99% cases it's a configuration issue. A missing option, a
 wrong path or port. Webpack is very strict about configuration, and the best way
 to find out what's wrong is to compare your project to an already working setup,
-such as
-**[boilerplate](https://github.com/gaearon/react-hot-loader/tree/master/boilerplate)**,
+check out
+**[examples](https://github.com/gaearon/react-hot-loader/tree/next/examples)**,
 bit by bit.
 
 If something doesn't work, in 99% cases it's an issue with your code - Component
@@ -278,7 +272,7 @@ doesn't got registered, due to HOC or Decorator around it, which making it
 invisible to Babel plugin, or Webpack loader.
 
 We're also gathering
-**[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)**
+**[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/next/docs/Troubleshooting.md)**
 so send a PR if you have a lesson to share!
 
 ## License
@@ -292,7 +286,7 @@ MIT
 [version-badge]: https://img.shields.io/npm/v/react-hot-loader.svg?style=flat-square
 [package]: https://www.npmjs.com/package/react-hot-loader
 [license-badge]: https://img.shields.io/npm/l/react-hot-loader.svg?style=flat-square
-[license]: https://github.com/gaearon/react-hot-loader/blob/master/LICENSE
+[license]: https://github.com/gaearon/react-hot-loader/blob/next/LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [prs]: http://makeapullrequest.com
 [chat]: https://gitter.im/gaearon/react-hot-loader
