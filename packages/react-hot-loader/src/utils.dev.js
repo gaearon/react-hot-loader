@@ -15,25 +15,20 @@ const copyReactProp = (source, target) => {
 }
 
 const makeHotExport = (sourceModule, getInstances) => {
-  const updateInstances = () => {
-    getInstances().forEach(inst => inst.forceUpdate())
-  }
-
-  const thenUpdateInstances = () => Promise.resolve(true).then(updateInstances)
+  const updateInstances = () =>
+    setTimeout(() => getInstances().forEach(inst => inst.forceUpdate()))
 
   if (sourceModule.hot) {
-    sourceModule.hot.accept(() => {
-      // Mark as self-accepted for Webpack
-      // Update instances for Parcel
-      thenUpdateInstances()
-    })
+    // Mark as self-accepted for Webpack
+    // Update instances for Parcel
+    sourceModule.hot.accept(updateInstances)
 
     // Webpack way
     if (sourceModule.hot.addStatusHandler) {
       if (sourceModule.hot.status() === 'idle') {
         sourceModule.hot.addStatusHandler(status => {
           if (status === 'apply') {
-            thenUpdateInstances()
+            updateInstances()
           }
         })
       }
