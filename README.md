@@ -35,7 +35,7 @@ npm install react-hot-loader@next
 }
 ```
 
-2. Setup `react-hot-loader` to update your application when its code updates.
+2. Setup `react-hot-loader` in your App:
 
 ```js
 // ./containers/App.js
