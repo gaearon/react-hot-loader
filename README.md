@@ -17,7 +17,7 @@ Watch
 ## Install
 
 ```
-npm install react-hot-loader
+npm install react-hot-loader@next
 ```
 
 > Note: You can safely install react-hot-loader as a regular dependency instead
