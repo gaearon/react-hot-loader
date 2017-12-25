@@ -35,7 +35,7 @@ npm install react-hot-loader@next
 }
 ```
 
-2. Setup `react-hot-loader` in your App:
+2. Mark your root application as _hot-exported_:
 
 ```js
 // ./containers/App.js
@@ -59,45 +59,37 @@ webpack-dev-server --hot
 
 ### Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app)
 
-* Run `npm run eject`
-* Install React Hot Loader (`npm install --save-dev react-hot-loader`)
-* In `config/webpack.config.dev.js`:
+1. Run `npm run eject`
+2. Install React Hot Loader (`npm install --save-dev react-hot-loader`)
+3. In `config/webpack.config.dev.js`, add `'react-hot-loader/babel'` to Babel
+   loader configuration. The loader should now look like:
 
-  1. Add `'react-hot-loader/patch'` to entry array (anywhere before
-     `paths.appIndexJs`). It should now look like (excluding comments):
-
-  ```js
+```js
   {
-    entry: [
-      'react-hot-loader/patch',
-      require.resolve('react-dev-utils/webpackHotDevClient'),
-      require.resolve('./polyfills'),
-      paths.appIndexJs,
-    ],
+    test: /\.(js|jsx)$/,
+    include: paths.appSrc,
+    loader: require.resolve('babel-loader'),
+    options: {
+      // This is a feature of `babel-loader` for Webpack (not Babel itself).
+      // It enables caching results in ./node_modules/.cache/babel-loader/
+      // directory for faster rebuilds.
+      cacheDirectory: true,
+      plugins: ['react-hot-loader/babel'],
+    },
   }
-  ```
+```
 
-  2. Add `'react-hot-loader/babel'` to Babel loader configuration. The loader
-     should now look like:
+4. Mark your App (`src/index.js`) as _hot-exported_:
 
-  ```js
-    // Process JS with Babel.
-    {
-      test: /\.(js|jsx)$/,
-      include: paths.appSrc,
-      loader: require.resolve('babel-loader'),
-      options: {
-        // This is a feature of `babel-loader` for Webpack (not Babel itself).
-        // It enables caching results in ./node_modules/.cache/babel-loader/
-        // directory for faster rebuilds.
-        cacheDirectory: true,
-        plugins: ['react-hot-loader/babel'],
-      },
-    }
-  ```
+```js
+// ./containers/App.js
+import React from 'react'
+import { hot } from 'react-hot-loader'
 
-* Mark your App (`src/index.js`) as _hot-exported_ (see step 4 of Getting
-  Started).
+const App = () => <div>Hello World!</div>
+
+export default hot(module)(App)
+```
 
 ### TypeScript
 
