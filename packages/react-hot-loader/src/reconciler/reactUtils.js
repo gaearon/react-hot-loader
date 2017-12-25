@@ -1,7 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 
 export const getReactInstance = instance =>
-  instance._reactInternalFiber || instance._reactInternalInstance
+  instance._reactInternalFiber ||
+  instance._reactInternalInstance ||
+  instance._instance
 
 export const getReactComponent = instance =>
   typeof instance.type === 'function' && instance.stateNode

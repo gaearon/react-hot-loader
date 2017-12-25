@@ -1,6 +1,5 @@
 import global from 'global'
 import React from 'react'
-import { REGENERATE_METHOD } from 'react-stand-in'
 import { didUpdate } from './updateCounter'
 import {
   updateProxyById,
@@ -44,11 +43,10 @@ function resolveType(type) {
     return type
   }
 
-  const couldWrapWithProxy =
-    !type.prototype ||
-    !type.prototype.render ||
-    type.prototype[REGENERATE_METHOD]
-
+  // always could...
+  const couldWrapWithProxy = true;
+  
+  // is proxing is disabled - do not create auto proxies, but use the old ones
   const proxy =
     !disableComponentProxy && couldWrapWithProxy
       ? createProxyForType(type)
@@ -62,6 +60,7 @@ function resolveType(type) {
 }
 
 const { createElement: originalCreateElement } = React
+const childrenOnly = React.Children.only
 
 function patchedCreateElement(type, ...args) {
   // Trick React into rendering a proxy so that
@@ -84,8 +83,17 @@ function patchedCreateFactory(type) {
 
 patchedCreateFactory.isPatchedByReactHotLoader = true
 
+function patchedChildOnly(element) {
+  return childrenOnly(
+    Object.assign({}, element, {
+      type: resolveType(element.type),
+    }),
+  )
+}
+
 if (typeof global.__REACT_HOT_LOADER__ === 'undefined') {
   React.createElement = patchedCreateElement
   React.createFactory = patchedCreateFactory
+  React.Children.only = patchedChildOnly
   global.__REACT_HOT_LOADER__ = hooks
 }

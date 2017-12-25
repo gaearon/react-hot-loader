@@ -2,25 +2,34 @@
 
 import { getReactInstance, getReactComponent } from './reactUtils'
 
-function pushState(stack, instance) {
+function pushState(stack, instance, element) {
   stack.type = instance.type
   stack.tag = instance.tag
   stack.children = []
-  stack.instance = getReactComponent(instance) || stack
+  stack.instance = element || getReactComponent(instance) || stack
 }
 
 // these function might be obsolete
 function traverseRenderedChildren(internalInstance, stack) {
-  pushState(stack, internalInstance)
+  if (internalInstance._currentElement) {
+    pushState(
+      stack,
+      internalInstance._currentElement,
+      internalInstance._instance,
+    )
+  }
 
   if (internalInstance._renderedComponent) {
     const childStack = {}
     traverseRenderedChildren(internalInstance._renderedComponent, childStack)
     stack.children.push(childStack)
-  } else {
-    internalInstance._renderedChildren.forEach(child => {
+  } else if (internalInstance._renderedChildren) {
+    Object.keys(internalInstance._renderedChildren).forEach(key => {
       const childStack = {}
-      traverseRenderedChildren(child, childStack)
+      traverseRenderedChildren(
+        internalInstance._renderedChildren[key],
+        childStack,
+      )
       stack.children.push(childStack)
     })
   }
