@@ -1,5 +1,9 @@
 ## Changelog
 
+### 4.0.0-beta.3
+
+* Use setTimeout to tick (#726)
+
 ### 4.0.0-beta.2
 
 * Bunch of fixes (#725)
