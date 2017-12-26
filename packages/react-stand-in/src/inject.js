@@ -38,6 +38,9 @@ function mergeComponents(
 
     const mergedAttrs = Object.assign({}, proxyInstance, nextInstance)
     const hasRegenerate = proxyInstance[REGENERATE_METHOD]
+    const ownKeys = Reflect.ownKeys(
+      Object.getPrototypeOf(ProxyComponent.prototype),
+    )
     Object.keys(mergedAttrs).forEach(key => {
       if (key.startsWith(PREFIX)) return
       const nextAttr = nextInstance[key]
@@ -45,13 +48,13 @@ function mergeComponents(
       if (prevAttr && nextAttr) {
         if (isNativeFunction(nextAttr) || isNativeFunction(prevAttr)) {
           // this is bound method
-          if (
-            nextAttr.length === prevAttr.length &&
-            ProxyComponent.prototype[key]
-          ) {
-            injectedCode[
+          const isSameArity = nextAttr.length === prevAttr.length
+          const existsInPrototype =
+            ownKeys.indexOf(key) >= 0 || ProxyComponent.prototype[key]
+          if (isSameArity && existsInPrototype) {
+            injectedCode[key] = `Object.getPrototypeOf(this)['${
               key
-            ] = `Object.getPrototypeOf(this)['${key}'].bind(this)`
+            }'].bind(this)`
           } else {
             console.error(
               'React-stand-in:',
@@ -61,6 +64,9 @@ function mergeComponents(
               key,
               nextAttr,
               '. Unable to reproduce, use arrow functions instead.',
+              `(arity: ${nextAttr.length}/${prevAttr.length}, proto: ${
+                existsInPrototype ? 'yes' : 'no'
+              }`,
             )
           }
           return
@@ -98,18 +104,29 @@ function mergeComponents(
   return injectedCode
 }
 
+function areDescriptorEqual(a, b) {
+  for (const key in a) {
+    if (String(a[key]) !== String(b[key])) {
+      return false
+    }
+  }
+  return true
+}
+
 function checkLifeCycleMethods(ProxyComponent, NextComponent) {
   try {
-    const p1 = ProxyComponent.prototype
+    const p1 = Object.getPrototypeOf(ProxyComponent.prototype)
     const p2 = NextComponent.prototype
     reactLifeCycleMethods.forEach(key => {
-      if (String(p1[key]) !== String(p2[key])) {
+      const d1 = Object.getOwnPropertyDescriptor(p1, key) || { value: p1[key] }
+      const d2 = Object.getOwnPropertyDescriptor(p2, key) || { value: p2[key] }
+      if (!areDescriptorEqual(d1, d2)) {
         console.error(
           'React-stand-in:',
           'You did update',
           ProxyComponent.name,
           's lifecycle method',
-          p2[key],
+          key,
           '. Unable to repeat',
         )
       }
