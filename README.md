@@ -57,29 +57,11 @@ webpack-dev-server --hot
 
 ## Recipes
 
-### Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app)
+### [create-react-app](https://github.com/facebookincubator/create-react-app)
 
-1. Run `npm run eject`
-2. Install React Hot Loader (`npm install --save-dev react-hot-loader`)
-3. In `config/webpack.config.dev.js`, add `'react-hot-loader/babel'` to Babel
-   loader configuration. The loader should now look like:
+1. Install React Hot Loader (`npm install --save-dev react-hot-loader`)
 
-```js
-  {
-    test: /\.(js|jsx)$/,
-    include: paths.appSrc,
-    loader: require.resolve('babel-loader'),
-    options: {
-      // This is a feature of `babel-loader` for Webpack (not Babel itself).
-      // It enables caching results in ./node_modules/.cache/babel-loader/
-      // directory for faster rebuilds.
-      cacheDirectory: true,
-      plugins: ['react-hot-loader/babel'],
-    },
-  }
-```
-
-4. Mark your App (`src/index.js`) as _hot-exported_:
+2. Mark your App (`src/index.js`) as _hot-exported_:
 
 ```js
 // ./containers/App.js
