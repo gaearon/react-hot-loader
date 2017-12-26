@@ -4,8 +4,7 @@
     "dev": "yarn build && lerna-watch",
     "prebuild": "rm -rf packages/*/lib",
     "build": "lerna-build",
-    "ci":
-      "lerna bootstrap && yarn build && yarn lint && yarn test --coverage && codecov",
+    "ci": "lerna bootstrap && yarn build && yarn lint && yarn test --coverage && codecov",
     "format": "prettier --write \"**/*.{js,md,ts,json}\" *.{js,md,ts,json}",
     "lint": "eslint .",
     "test": "yarn test:es2015 && yarn test:modern",
@@ -15,7 +14,7 @@
   "devDependencies": {
     "babel-cli": "^6.7.5",
     "babel-core": "^6.7.6",
-    "babel-eslint": "^8.1.0",
+    "babel-eslint": "^8.1.2",
     "babel-jest": "^22.0.4",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -50,8 +49,13 @@
     "node": ">= 6"
   },
   "jest": {
-    "moduleDirectories": ["node_modules", "<rootDir>"],
-    "setupFiles": ["<rootDir>/testConfig/setupTests.js"],
+    "moduleDirectories": [
+      "node_modules",
+      "<rootDir>"
+    ],
+    "setupFiles": [
+      "<rootDir>/testConfig/setupTests.js"
+    ],
     "transform": {
       "^.+\\.js$": "<rootDir>/testConfig/babel.js"
     }
