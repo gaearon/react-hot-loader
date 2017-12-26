@@ -283,3 +283,7 @@ modules with `hot` exported components – functions, constants, anything NOT RE
 #### RHL is not working for Electon or Parcel
 
 `hot` function is not tested in these environments, yet. Please use `old school` AppContainer and setup HRM manually.
+
+#### RHL is not working with Webpack DLL
+
+React Hot Loader rely on a Babel transformation that register all exports in a global. That's why dependencies included in [Webpack DLL](https://webpack.js.org/plugins/dll-plugin/#dllplugin) will not work.
