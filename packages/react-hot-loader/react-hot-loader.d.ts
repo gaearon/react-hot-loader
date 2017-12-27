@@ -10,7 +10,6 @@ declare module 'react-hot-loader' {
     errorReporter?:
       | React.ComponentClass<ErrorReporterProps>
       | React.StatelessComponent<ErrorReporterProps>
-    warnings?: boolean
   }
 
   export class AppContainer extends React.Component<

@@ -9,10 +9,6 @@ class AppContainer extends React.Component {
   constructor(props) {
     super(props)
 
-    if (typeof __REACT_HOT_LOADER__ !== 'undefined') {
-      __REACT_HOT_LOADER__.warnings = props.warnings
-    }
-
     this.state = {
       error: null,
       generation: 0,
@@ -88,11 +84,6 @@ AppContainer.propTypes = {
     return undefined
   },
   errorReporter: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  warnings: PropTypes.bool,
-}
-
-AppContainer.defaultProps = {
-  warnings: true,
 }
 
 export default AppContainer

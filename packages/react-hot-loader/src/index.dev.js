@@ -1,5 +1,5 @@
 export { default as AppContainer } from './AppContainer.dev'
-export { hot, areComponentsEqual } from './utils.dev'
+export * from './utils.dev'
 
 export default function warnAboutIncorrectUsage(arg) {
   if (this && this.callback) {

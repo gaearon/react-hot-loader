@@ -84,7 +84,7 @@ describe('reconciler', () => {
       )
 
       const wrapper = mount(
-        <AppContainer warnings={false}>
+        <AppContainer>
           <App />
         </AppContainer>,
       )

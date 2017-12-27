@@ -145,26 +145,6 @@ function runAllTests(useWeakMap) {
       }
     })
 
-    it("doesn't report disabled warnings", () => {
-      const f1 = () => <div>123</div>
-      const dynamic = () => () => <div>123</div>
-      const spy = jest.spyOn(console, 'warn').mockImplementation(() => {})
-
-      try {
-        RHL.warnings = false
-
-        RHL.register(f1, 'f1', '/wow/test.js')
-        React.createElement(dynamic())
-        RHL.register(f1, 'f1', '/wow/test.js')
-        React.createElement(dynamic())
-
-        expect(console.warn.mock.calls.length).toBe(0)
-      } finally {
-        spy.mockRestore()
-        delete RHL.warnings
-      }
-    })
-
     it('resolves registered types by their last ID', () => {
       RHL.register(A1, 'a', 'test.js')
       const A = <A1 />.type

@@ -275,6 +275,16 @@ We're also gathering
 **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/next/docs/Troubleshooting.md)**
 so send a PR if you have a lesson to share!
 
+### Activate debug mode
+
+Debug mode adds additional warnings and can tells you why React Hot Loader is
+not working properly in your application.
+
+```js
+import { configure } from 'react-hot-loader'
+configure({ debug: true })
+```
+
 ## License
 
 MIT
