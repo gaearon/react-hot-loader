@@ -44,8 +44,8 @@ function resolveType(type) {
   }
 
   // always could...
-  const couldWrapWithProxy = true;
-  
+  const couldWrapWithProxy = true
+
   // is proxing is disabled - do not create auto proxies, but use the old ones
   const proxy =
     !disableComponentProxy && couldWrapWithProxy

@@ -49,9 +49,9 @@ function mergeComponents(
             nextAttr.length === prevAttr.length &&
             ProxyComponent.prototype[key]
           ) {
-            injectedCode[key] = `Object.getPrototypeOf(this)['${
+            injectedCode[
               key
-            }'].bind(this)`
+            ] = `Object.getPrototypeOf(this)['${key}'].bind(this)`
           } else {
             console.error(
               'React-stand-in:',

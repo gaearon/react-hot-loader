@@ -39,4 +39,3 @@ For now, you can keep using 1.x.
 
 This project is based on the
 [code written by @syranide](https://github.com/gaearon/react-hot-api/commit/b3d6059a17407ef44765814ce06b36716d110041).
-
