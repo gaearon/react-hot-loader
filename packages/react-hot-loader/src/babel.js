@@ -32,7 +32,16 @@ module.exports = function plugin(args) {
     `
   var UNUSED = (function () {
     if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-      return;
+      var global = typeof window !== 'undefined' ? window :
+        typeof global !== 'undefined' ? global : {};
+
+      global.__REACT_HOT_LOADER__ = {
+        __registeredComponents: [],
+        reset: function () {},
+        register: function (id, name, filename) {
+          global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+        }
+      };
     }
 
     REGISTRATIONS

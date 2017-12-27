@@ -4,7 +4,13 @@ module.exports = {
   rules: {
     'no-underscore-dangle': [
       'error',
-      { allow: ['__REACT_HOT_LOADER__', '__standin_getCurrent'] },
+      {
+        allow: [
+          '__REACT_HOT_LOADER__',
+          '__standin_getCurrent',
+          '__registeredComponents',
+        ],
+      },
     ],
     'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-plusplus': 'off',

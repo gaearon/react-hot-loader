@@ -34,7 +34,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -73,7 +80,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -137,7 +151,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -201,7 +222,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -240,7 +268,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -281,7 +316,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -323,7 +365,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -362,7 +411,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -407,7 +463,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -450,7 +513,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -491,7 +561,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -528,7 +605,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -567,7 +651,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -611,7 +702,14 @@ var Foo = function () {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -637,7 +735,14 @@ Foo.bar = function (a, b) {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -717,7 +822,14 @@ exports.default = _default;
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(A, \\"A\\", __FILENAME__);
@@ -762,7 +874,14 @@ exports.default = _default;
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Counter, \\"Counter\\", __FILENAME__);
@@ -791,7 +910,14 @@ function spread() {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(spread, \\"spread\\", __FILENAME__);
@@ -813,7 +939,14 @@ exports.default = _default2;
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(_default, \\"_default\\", __FILENAME__);
@@ -845,7 +978,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -871,7 +1011,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -897,7 +1044,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -925,7 +1079,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -953,7 +1114,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -981,7 +1149,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -1009,7 +1184,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -1035,7 +1217,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -1067,7 +1256,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -1099,7 +1295,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -1129,7 +1332,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -1155,7 +1365,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -1183,7 +1400,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -1215,7 +1439,14 @@ class Foo {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -1237,7 +1468,14 @@ Foo.bar = (a, b) => {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
@@ -1293,7 +1531,14 @@ exports.default = _default;
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(A, \\"A\\", __FILENAME__);
@@ -1331,7 +1576,14 @@ exports.default = _default;
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(Counter, \\"Counter\\", __FILENAME__);
@@ -1356,7 +1608,14 @@ function spread(...args) {
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(spread, \\"spread\\", __FILENAME__);
@@ -1378,7 +1637,14 @@ exports.default = _default2;
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    global.__REACT_HOT_LOADER__ = {
+      __registeredComponents: [],
+      reset: function () {},
+      register: function (id, name, filename) {
+        global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
+      }
+    };
   }
 
   __REACT_HOT_LOADER__.register(_default, \\"_default\\", __FILENAME__);
