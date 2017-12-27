@@ -2,11 +2,13 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "changelog": "conventional-changelog -i CHANGELOG.md --same-file -p angular && conventional-github-releaser -p angular",
     "ci": "yarn bootstrap && yarn build && yarn lint && yarn test --coverage && codecov",
     "dev": "yarn bootstrap && yarn build && lerna-watch",
     "build": "lerna-build",
     "format": "prettier --write \"**/*.{js,md,ts,json}\" *.{js,md,ts,json}",
     "lint": "eslint .",
+    "prepublishOnly": "yarn build",
     "prebuild": "rm -rf packages/*/lib",
     "precommit": "lint-staged",
     "test": "yarn test:es2015 && yarn test:modern",
@@ -14,7 +16,10 @@
     "test:modern": "BABEL_TARGET=modern jest"
   },
   "lint-staged": {
-    "*.{js,md,ts,json}": ["prettier --write", "git add"]
+    "*.{js,md,ts,json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
@@ -28,6 +33,8 @@
     "babel-preset-react": "^6.5.0",
     "cd": "^0.3.3",
     "codecov": "^3.0.0",
+    "conventional-changelog": "^1.1.7",
+    "conventional-github-releaser": "^2.0.0",
     "create-react-class": "^15.6.2",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-15": "^1.0.5",
