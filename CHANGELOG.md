@@ -1,5 +1,9 @@
 ## Changelog
 
+### 4.0.0-beta.4
+
+* Handle terminal node in stack (#728)
+
 ### 4.0.0-beta.3
 
 * Use setTimeout to tick (#726)
