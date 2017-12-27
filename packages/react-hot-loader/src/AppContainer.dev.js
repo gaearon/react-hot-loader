@@ -59,9 +59,7 @@ class AppContainer extends React.Component {
   }
 
   componentDidCatch(error) {
-    this.setState({
-      error,
-    })
+    this.setState({ error })
   }
 
   render() {
