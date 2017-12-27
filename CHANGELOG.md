@@ -1,11 +1,20 @@
+<a name="4.0.0-beta.6"></a>
+
+# [4.0.0-beta.6](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.5...v4.0.0-beta.6) (2017-12-27)
+
+Same as 4.0.0-beta.5, fix build problem.
+
 <a name="4.0.0-beta.5"></a>
 
 # [4.0.0-beta.5](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.4...v4.0.0-beta.5) (2017-12-27)
 
 ### Bug Fixes
 
-* improve decorators support (autobind) ([56883c9](https://github.com/gaearon/react-hot-loader/commit/56883c9))
-* support nested children ([#735](https://github.com/gaearon/react-hot-loader/issues/735)) ([5c81655](https://github.com/gaearon/react-hot-loader/commit/5c81655))
+* improve decorators support (autobind)
+  ([56883c9](https://github.com/gaearon/react-hot-loader/commit/56883c9))
+* support nested children
+  ([#735](https://github.com/gaearon/react-hot-loader/issues/735))
+  ([5c81655](https://github.com/gaearon/react-hot-loader/commit/5c81655))
 
 # Manual changelog
 
