@@ -1,6 +1,7 @@
 {
   "name": "hot-parcel",
   "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "start": "parcel"
   },
