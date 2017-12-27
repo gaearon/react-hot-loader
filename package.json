@@ -1,8 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "ci": "lerna bootstrap && yarn build && yarn lint && yarn test --coverage && codecov",
-    "dev": "yarn build && lerna-watch",
+    "bootstrap": "lerna bootstrap",
+    "ci": "yarn bootstrap && yarn build && yarn lint && yarn test --coverage && codecov",
+    "dev": "yarn bootstrap && yarn build && lerna-watch",
     "build": "lerna-build",
     "format": "prettier --write \"**/*.{js,md,ts,json}\" *.{js,md,ts,json}",
     "lint": "eslint .",
