@@ -47,7 +47,7 @@ const App = () => <div>Hello World!</div>
 export default hot(module)(App)
 ```
 
-> Note: does nothing in production mode, just passes App thought.
+> Note: does nothing in production mode, just passes App through.
 
 3. [Run Webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
 
