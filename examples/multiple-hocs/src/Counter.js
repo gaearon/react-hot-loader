@@ -7,7 +7,10 @@ const Counter = r.compose(
   r.withState('count', 'setCount', 0),
   r.lifecycle({
     componentDidMount() {
-      this.interval = setInterval(() => this.props.setCount(this.props.count + 1), 200)
+      this.interval = setInterval(
+        () => this.props.setCount(this.props.count + 1),
+        200,
+      )
     },
 
     componentWillUnmount() {
