@@ -12,10 +12,6 @@ npm install react-hot-loader
 
 Mark a component as hot.
 
-Available options are:
-
-* `warnings`: Enable some warnings (default to `true`)
-
 ```js
 import { hot } from 'react-hot-loader'
 

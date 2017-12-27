@@ -30,7 +30,7 @@ const hooks = {
     resetProxies(useWeakMap)
   },
 
-  warnings: true,
+  debug: false,
   disableComponentProxy: false,
 }
 

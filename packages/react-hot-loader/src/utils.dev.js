@@ -36,7 +36,7 @@ const makeHotExport = (sourceModule, getInstances) => {
   }
 }
 
-const hot = sourceModule => {
+export const hot = sourceModule => {
   let instances = []
   makeHotExport(sourceModule, () => instances)
   // TODO: Ensure that all exports from this file are react components.
@@ -73,6 +73,9 @@ const hot = sourceModule => {
   }
 }
 
-const areComponentsEqual = (a, b) => getProxyByType(a) === getProxyByType(b)
+export const areComponentsEqual = (a, b) =>
+  getProxyByType(a) === getProxyByType(b)
 
-export { hot, areComponentsEqual }
+export const configure = ({ debug }) => {
+  __REACT_HOT_LOADER__.debug = debug
+}

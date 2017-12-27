@@ -199,7 +199,7 @@ const hotReplacementRender = (instance, stack) => {
         updateProxyById(stackChild.instance[PROXY_KEY], childType)
 
         next(stackChild.instance)
-      } else if (__REACT_HOT_LOADER__.warnings) {
+      } else if (__REACT_HOT_LOADER__.debug) {
         console.warn(
           `React-hot-loader: a ${getDisplayName(
             childType,
