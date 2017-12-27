@@ -1,8 +1,8 @@
-import {PROXY_KEY, UNWRAP_PROXY} from 'react-stand-in'
+import { PROXY_KEY, UNWRAP_PROXY } from 'react-stand-in'
 import levenshtein from 'fast-levenshtein'
-import {getIdByType, updateProxyById} from './proxies'
-import {updateInstance} from './reactUtils'
-import {getDisplayName} from '../utils.dev'
+import { getIdByType, updateProxyById } from './proxies'
+import { updateInstance } from './reactUtils'
+import { getDisplayName } from '../utils.dev'
 
 // some `empty` names, React can autoset display name to...
 const UNDEFINED_NAMES = {
@@ -27,6 +27,16 @@ const filterNullArray = a => {
   if (!a) return []
   return a.filter(x => !!x)
 }
+
+const unflatten = a =>
+  a.reduce((acc, a) => {
+    if (Array.isArray(a)) {
+      acc.push(...unflatten(a))
+    } else {
+      acc.push(a)
+    }
+    return acc
+  }, [])
 
 const getElementType = child =>
   child.type[UNWRAP_PROXY] ? child.type[UNWRAP_PROXY]() : child.type
@@ -100,6 +110,25 @@ const render = component => {
   return []
 }
 
+const NO_CHILDREN = { children: [] }
+const mapChildren = (children, instances) => ({
+  children: children.map((child, index) => {
+    if (typeof child !== 'object') {
+      return child
+    }
+    if (Array.isArray(child)) {
+      return {
+        type: null,
+        ...mapChildren(child, instances[index].children),
+      }
+    }
+    return {
+      ...instances[index],
+      type: child.type,
+    }
+  }),
+})
+
 const mergeInject = (a, b) => {
   if (a && !Array.isArray(a)) {
     return mergeInject([a], b)
@@ -108,44 +137,42 @@ const mergeInject = (a, b) => {
     return mergeInject(a, [b])
   }
 
-  if (!a || !b || a.length !== b.length) {
-    return {children: []}
+  if (!a || !b) {
+    return NO_CHILDREN
   }
-  return {
-    children: a.map((child, index) => {
-      if (typeof child !== 'object') {
-        return child
-      }
-      return {
-        ...b[index],
-        type: child.type,
-      }
-    }),
+  if (a.length === b.length) {
+    return mapChildren(a, b)
   }
+  const flatA = unflatten(a)
+  const flatB = unflatten(b)
+  if (flatA.length === flatB.length) {
+    return mapChildren(flatA, flatB)
+  }
+  return NO_CHILDREN
 }
 
 const hotReplacementRender = (instance, stack) => {
   const flow = filterNullArray(asArray(render(instance)))
 
-  const {children} = stack
+  const { children } = stack
 
   flow.forEach((child, index) => {
     const stackChild = children[index]
     const next = instance => {
       // copy over props as long new component may be hidden inside them
       // child does not have all props, as long some of them can be calculated on componentMount.
-      const props = {...instance.props};
+      const props = { ...instance.props }
       for (const key in child.props) {
         if (child.props[key]) {
-          props[key] = child.props[key];
+          props[key] = child.props[key]
         }
       }
-      instance.props = props;
+      instance.props = props
       hotReplacementRender(instance, stackChild)
     }
 
     // text node
-    if (typeof child !== 'object' || !child.type || !stackChild.instance) {
+    if (typeof child !== 'object' || !stackChild.instance) {
       return
     }
 

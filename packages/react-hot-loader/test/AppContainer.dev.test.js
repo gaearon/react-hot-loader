@@ -21,12 +21,14 @@ function runAllTests(useWeakMap) {
     describe('with class root', () => {
       it('renders children', () => {
         const spy = jest.fn()
+
         class App extends Component {
           render() {
             spy()
             return <div>hey</div>
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
@@ -52,6 +54,7 @@ function runAllTests(useWeakMap) {
             return <div>hey</div>
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
@@ -72,6 +75,7 @@ function runAllTests(useWeakMap) {
               return <div>ho</div>
             }
           }
+
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
         }
@@ -93,6 +97,7 @@ function runAllTests(useWeakMap) {
             return <div>hey</div>
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const element = <App />
@@ -110,6 +115,7 @@ function runAllTests(useWeakMap) {
               return <div>ho</div>
             }
           }
+
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: element })
         }
@@ -131,6 +137,7 @@ function runAllTests(useWeakMap) {
             return <div>hey</div>
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const element = <App />
@@ -147,6 +154,7 @@ function runAllTests(useWeakMap) {
               return <div>ho</div>
             }
           }
+
           RHL.register(App, 'App', 'test.js')
           wrapper = mount(<AppContainer>{element}</AppContainer>)
         }
@@ -170,6 +178,7 @@ function runAllTests(useWeakMap) {
             return <div>old render + {this.state.value} state</div>
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
@@ -194,6 +203,7 @@ function runAllTests(useWeakMap) {
               return <div>new render + {this.state.value} state</div>
             }
           }
+
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
         }
@@ -226,6 +236,7 @@ function runAllTests(useWeakMap) {
             )
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
@@ -261,6 +272,7 @@ function runAllTests(useWeakMap) {
               )
             }
           }
+
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
         }
@@ -295,6 +307,7 @@ function runAllTests(useWeakMap) {
             )
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
@@ -328,6 +341,7 @@ function runAllTests(useWeakMap) {
             __reactstandin__regenerateByEval(key, code) {
               this[key] = eval(code)
             }
+
             /* eslint-enable */
 
             render() {
@@ -338,6 +352,7 @@ function runAllTests(useWeakMap) {
               )
             }
           }
+
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
         }
@@ -373,6 +388,7 @@ function runAllTests(useWeakMap) {
             )
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
@@ -406,6 +422,7 @@ function runAllTests(useWeakMap) {
             __reactstandin__regenerateByEval(key, code) {
               this[key] = eval(code)
             }
+
             /* eslint-enable */
 
             render() {
@@ -416,6 +433,7 @@ function runAllTests(useWeakMap) {
               )
             }
           }
+
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
         }
@@ -448,6 +466,7 @@ function runAllTests(useWeakMap) {
             )
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const wrapper = mount(
@@ -480,6 +499,7 @@ function runAllTests(useWeakMap) {
             __reactstandin__regenerateByEval(key, code) {
               this[key] = eval(code)
             }
+
             /* eslint-enable */
 
             render() {
@@ -490,6 +510,7 @@ function runAllTests(useWeakMap) {
               )
             }
           }
+
           RHL.register(App, 'App', 'test.js')
           wrapper.setProps({ children: <App /> })
         }
@@ -525,6 +546,7 @@ function runAllTests(useWeakMap) {
               )
             }
           }
+
           RHL.register(App, 'App', 'test.js')
 
           const wrapper = mount(
@@ -555,6 +577,7 @@ function runAllTests(useWeakMap) {
               __reactstandin__regenerateByEval(key, code) {
                 this[key] = eval(code)
               }
+
               /* eslint-enable */
 
               render() {
@@ -565,6 +588,7 @@ function runAllTests(useWeakMap) {
                 )
               }
             }
+
             RHL.register(App, 'App', 'test.js')
             wrapper.setProps({ children: <App /> })
           }
@@ -1056,6 +1080,7 @@ function runAllTests(useWeakMap) {
             return <div>old render + {this.state.value} state</div>
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const Root = () => <App />
@@ -1083,6 +1108,7 @@ function runAllTests(useWeakMap) {
               return <div>new render + {this.state.value} state</div>
             }
           }
+
           RHL.register(App, 'App', 'test.js')
 
           const Root = () => <App />
@@ -1094,15 +1120,86 @@ function runAllTests(useWeakMap) {
       })
     })
 
+    it('hot-reloads nested children without losing state', () => {
+      const onUnmount = jest.fn()
+      let child = 1
+
+      function getChild() {
+        if (child === 1) {
+          return class Child extends Component {
+            componentWillUnmount() {
+              onUnmount()
+            }
+
+            render() {
+              return <div>old child</div>
+            }
+          }
+        }
+        return class Child extends Component {
+          componentWillUnmount() {
+            // onUnmount();
+          }
+
+          render() {
+            return <div>new child</div>
+          }
+        }
+      }
+
+      class Layout extends Component {
+        render() {
+          return (
+            <div>
+              <h1>TEST</h1>
+              {this.props.children}
+            </div>
+          )
+        }
+      }
+
+      class App extends Component {
+        render() {
+          const Child = getChild()
+          return (
+            <Layout>
+              <Child />
+              <Child />
+            </Layout>
+          )
+        }
+      }
+
+      const Root = () => <App />
+      RHL.register(Root, 'Root', 'test.js')
+      RHL.register(App, 'App', 'test.js')
+
+      const wrapper = mount(
+        <AppContainer>
+          <Root />
+        </AppContainer>,
+      )
+
+      expect(onUnmount).toHaveBeenCalledTimes(0)
+
+      child = 2
+      wrapper.setProps({ children: <Root /> })
+      expect(onUnmount).toHaveBeenCalledTimes(0)
+
+      expect(wrapper.text()).toBe('TESTnew childnew child')
+    })
+
     describe('with HOC-wrapped root', () => {
       it('renders children', () => {
         const spy = jest.fn()
+
         class App extends React.Component {
           render() {
             spy()
             return <div>hey</div>
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
@@ -1121,12 +1218,14 @@ function runAllTests(useWeakMap) {
 
       it('force updates the tree on receiving new children', () => {
         const spy = jest.fn()
+
         class App extends React.Component {
           render() {
             spy()
             return <div>hey</div>
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
@@ -1146,6 +1245,7 @@ function runAllTests(useWeakMap) {
               return <div>ho</div>
             }
           }
+
           RHL.register(App, 'App', 'test.js')
 
           const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
@@ -1196,12 +1296,14 @@ function runAllTests(useWeakMap) {
 
       it('renders latest children on receiving cached never-rendered children', () => {
         const spy = jest.fn()
+
         class App extends React.Component {
           render() {
             spy()
             return <div>hey</div>
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
@@ -1217,6 +1319,7 @@ function runAllTests(useWeakMap) {
               return <div>ho</div>
             }
           }
+
           RHL.register(App, 'App', 'test.js')
 
           const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
@@ -1247,6 +1350,7 @@ function runAllTests(useWeakMap) {
             )
           }
         }
+
         RHL.register(App, 'App', 'test.js')
 
         const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
@@ -1278,6 +1382,7 @@ function runAllTests(useWeakMap) {
               )
             }
           }
+
           RHL.register(App, 'App', 'test.js')
 
           const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
