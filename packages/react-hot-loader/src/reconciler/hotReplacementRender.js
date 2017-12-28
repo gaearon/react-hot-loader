@@ -15,6 +15,8 @@ const areNamesEqual = (a, b) =>
   a === b || (UNDEFINED_NAMES[a] && UNDEFINED_NAMES[b])
 const isReactClass = fn => fn && !!fn.render
 const isFunctional = fn => typeof fn === 'function'
+const isConnectedComponent = fn =>
+  typeof fn.version !== 'undefined' && fn.setWrappedInstance
 const isArray = fn => Array.isArray(fn)
 const asArray = a => (isArray(a) ? a : [a])
 const getTypeOf = type => {
@@ -97,7 +99,7 @@ const render = component => {
     return []
   }
   if (isReactClass(component)) {
-    if (component.componentWillUpdate) {
+    if (component.componentWillUpdate && isConnectedComponent(component)) {
       // force-refresh component (bypass redux renderedComponent)
       component.componentWillUpdate()
     }
