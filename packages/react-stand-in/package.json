@@ -12,5 +12,8 @@
   ],
   "keywords": [
     "react-proxy"
-  ]
+  ],
+  "dependencies": {
+    "shallowequal": "^1.0.2"
+  }
 }

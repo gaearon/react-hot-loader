@@ -1,17 +1,16 @@
 import { Component } from 'react'
-import transferStaticProps from './staticProps'
-import { GENERATION, PROXY_KEY, UNWRAP_PROXY } from './symbols'
-import { getDisplayName, isReactClass } from './react-utils'
+import transferStaticProps from './transferStaticProps'
+import { GENERATION, PROXY_KEY, UNWRAP_PROXY } from './constants'
+import { getDisplayName, isReactClass, identity } from './utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 
 const proxies = new WeakMap()
 
-const passThought = a => a
-
-function proxyClass(InitialComponent, proxyKey, wrapResult = passThought) {
+function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
   const existingProxy = proxies.get(InitialComponent)
+
   if (existingProxy) {
     return existingProxy
   }
@@ -22,7 +21,7 @@ function proxyClass(InitialComponent, proxyKey, wrapResult = passThought) {
   let proxyGeneration = 0
   let isFunctionalComponent = !isReactClass(InitialComponent)
 
-  const StatelessProxyComponent = class StatelessProxyComponent extends Component {
+  class StatelessProxyComponent extends Component {
     render() {
       return CurrentComponent(this.props, this.context)
     }
@@ -34,12 +33,14 @@ function proxyClass(InitialComponent, proxyKey, wrapResult = passThought) {
 
   let lastInstance = null
 
-  const ProxyComponent = class extends InitialParent {
+  class ProxyComponent extends InitialParent {
     constructor(props, context) {
       super(props, context)
+
       this[GENERATION] = 0
       this[PROXY_KEY] = proxyKey
-      // as long we cant override constructor
+
+      // As long we can't override constructor
       // every class shall evolve from a base class
       inject(this, proxyGeneration, injectedMembers)
 
@@ -57,9 +58,11 @@ function proxyClass(InitialComponent, proxyKey, wrapResult = passThought) {
 
     render() {
       inject(this, proxyGeneration, injectedMembers)
+
       const result = isFunctionalComponent
         ? CurrentComponent(this.props, this.context)
         : CurrentComponent.prototype.render.call(this)
+
       return wrapResult(result)
     }
   }
@@ -153,4 +156,4 @@ function proxyClass(InitialComponent, proxyKey, wrapResult = passThought) {
   return proxy
 }
 
-export default proxyClass
+export default createClassProxy

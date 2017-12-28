@@ -1,3 +1,5 @@
+import shallowEqual from 'shallowequal'
+
 const RESERVED_STATICS = [
   'length',
   'displayName',
@@ -9,47 +11,28 @@ const RESERVED_STATICS = [
   'valueOf',
 ]
 
-function isEqualDescriptor(a, b) {
-  if (!a && !b) {
-    return true
-  }
-  if (!a || !b) {
-    return false
-  }
-  for (const key in a) {
-    if (a[key] !== b[key]) {
-      return false
-    }
-  }
-  return true
-}
-
 function transferStaticProps(
   ProxyComponent,
   savedDescriptors,
   PreviousComponent,
   NextComponent,
 ) {
-  if (ProxyComponent) {
-    Object.getOwnPropertyNames(ProxyComponent).forEach(key => {
-      if (RESERVED_STATICS.indexOf(key) > -1) {
-        return
-      }
+  Object.getOwnPropertyNames(ProxyComponent).forEach(key => {
+    if (RESERVED_STATICS.indexOf(key) !== -1) {
+      return
+    }
 
-      const prevDescriptor = Object.getOwnPropertyDescriptor(
-        ProxyComponent,
-        key,
-      )
-      const savedDescriptor = savedDescriptors[key]
+    const prevDescriptor = Object.getOwnPropertyDescriptor(ProxyComponent, key)
+    const savedDescriptor = savedDescriptors[key]
 
-      if (!isEqualDescriptor(prevDescriptor, savedDescriptor)) {
-        Object.defineProperty(NextComponent, key, prevDescriptor)
-      }
-    })
-  }
+    if (!shallowEqual(prevDescriptor, savedDescriptor)) {
+      Object.defineProperty(NextComponent, key, prevDescriptor)
+    }
+  })
+
   // Copy newly defined static methods and properties
   Object.getOwnPropertyNames(NextComponent).forEach(key => {
-    if (RESERVED_STATICS.indexOf(key) > -1) {
+    if (RESERVED_STATICS.indexOf(key) !== -1) {
       return
     }
 
@@ -61,10 +44,9 @@ function transferStaticProps(
     if (
       prevDescriptor &&
       savedDescriptor &&
-      !isEqualDescriptor(savedDescriptor, prevDescriptor)
+      !shallowEqual(savedDescriptor, prevDescriptor)
     ) {
       Object.defineProperty(NextComponent, key, prevDescriptor)
-      // Object.defineProperty(ProxyComponent, key, prevDescriptor);
       return
     }
 
@@ -77,13 +59,14 @@ function transferStaticProps(
       ...Object.getOwnPropertyDescriptor(NextComponent, key),
       configurable: true,
     }
+
     savedDescriptors[key] = nextDescriptor
     Object.defineProperty(ProxyComponent, key, nextDescriptor)
   })
 
   // Remove static methods and properties that are no longer defined
   Object.getOwnPropertyNames(ProxyComponent).forEach(key => {
-    if (RESERVED_STATICS.indexOf(key) > -1) {
+    if (RESERVED_STATICS.indexOf(key) !== -1) {
       return
     }
     // Skip statics that exist on the next class
@@ -105,7 +88,7 @@ function transferStaticProps(
     if (
       prevDescriptor &&
       savedDescriptor &&
-      !isEqualDescriptor(savedDescriptor, prevDescriptor)
+      !shallowEqual(savedDescriptor, prevDescriptor)
     ) {
       return
     }
