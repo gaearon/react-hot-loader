@@ -3,6 +3,7 @@ import transferStaticProps from './transferStaticProps'
 import { GENERATION, PROXY_KEY, UNWRAP_PROXY } from './constants'
 import { getDisplayName, isReactClass, identity } from './utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
+import config from './config'
 
 const proxies = new WeakMap()
 
@@ -75,8 +76,12 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     return CurrentComponent
   }
 
-  ProxyComponent.toString = function toString() {
-    return CurrentComponent.toString()
+  try {
+    ProxyComponent.toString = function toString() {
+      return CurrentComponent.toString()
+    }
+  } catch (error) {
+    config.logger.warn('Error while wrapping `toString`', error)
   }
 
   ProxyComponent[UNWRAP_PROXY] = getCurrent
@@ -114,8 +119,8 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       Object.defineProperty(ProxyComponent, 'name', {
         value: displayName,
       })
-    } catch (err) {
-      // Ignore error, it is not very important
+    } catch (error) {
+      config.logger.warn('Error while wrapping `displayName`', error)
     }
 
     savedDescriptors = transferStaticProps(
