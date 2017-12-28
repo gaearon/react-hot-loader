@@ -6,8 +6,9 @@ import { mount, configure } from 'enzyme'
 import '../src/patch.dev'
 import AppContainer from '../src/AppContainer.dev'
 import { didUpdate } from '../src/updateCounter'
-import hydrate from '../src/reconciler/reactHydrate'
+import getReactStack from '../src/internal/getReactStack'
 import { areComponentsEqual } from '../src/utils.dev'
+import RHL from '../src/reactHotLoader'
 
 configure({ adapter: new Adapter() })
 
@@ -224,7 +225,7 @@ describe('reconciler', () => {
       const Transform = ({ children }) => <section>42 + {children}</section>
       const One = ({ children }) => <section>1 == {children(1)}</section>
 
-      __REACT_HOT_LOADER__.disableComponentProxy = true
+      RHL.disableComponentProxy = true
       const wrapper = mount(
         <AppContainer reconciler>
           <div>
@@ -245,8 +246,8 @@ describe('reconciler', () => {
           </div>
         </AppContainer>,
       )
-      __REACT_HOT_LOADER__.disableComponentProxy = false
-      const { instance, children } = hydrate(wrapper.instance())
+      RHL.disableComponentProxy = false
+      const { instance, children } = getReactStack(wrapper.instance())
       expect(children).toMatchSnapshot()
       expect(instance).not.toBe(null)
     })

@@ -1,17 +1,9 @@
-let config = {}
-
-export const reportError = (...args) => {
-  if (config.errorReporter) {
-    return config.errorReporter(...args)
-  }
-  return console.error(...args)
+const config = {
+  logger: console,
 }
 
-const configure = newconfig => {
-  config = {
-    ...config,
-    ...newconfig,
-  }
+export const setConfig = obj => {
+  Object.assign(config, obj)
 }
 
-export default configure
+export default config

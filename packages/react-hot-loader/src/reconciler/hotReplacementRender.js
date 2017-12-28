@@ -1,8 +1,8 @@
 import { PROXY_KEY, UNWRAP_PROXY } from 'react-stand-in'
 import levenshtein from 'fast-levenshtein'
 import { getIdByType, updateProxyById } from './proxies'
-import { updateInstance } from './reactUtils'
-import { getDisplayName } from '../utils.dev'
+import { updateInstance, getComponentDisplayName } from '../internal/reactUtils'
+import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
 
 // some `empty` names, React can autoset display name to...
@@ -11,7 +11,6 @@ const UNDEFINED_NAMES = {
   Component: true,
 }
 
-const displayName = type => type.displayName || type.name || 'Unknown'
 const areNamesEqual = (a, b) =>
   a === b || (UNDEFINED_NAMES[a] && UNDEFINED_NAMES[b])
 const isReactClass = fn => fn && !!fn.render
@@ -79,11 +78,14 @@ const isSwappable = (a, b) => {
     return false
   }
   if (isReactClass(a.prototype)) {
-    return areNamesEqual(displayName(a), displayName(b)) && equalClasses(a, b)
+    return (
+      areNamesEqual(getComponentDisplayName(a), getComponentDisplayName(b)) &&
+      equalClasses(a, b)
+    )
   }
   if (isFunctional(a)) {
     return (
-      areNamesEqual(displayName(a), displayName(b)) &&
+      areNamesEqual(getComponentDisplayName(a), getComponentDisplayName(b)) &&
       haveTextSimilarity(String(a), String(b))
     )
   }
@@ -149,7 +151,12 @@ const mergeInject = (a, b, instance) => {
   if (flatA.length === flatB.length) {
     return mapChildren(flatA, flatB)
   }
-  logger(`React-hot-loader: unable to merge `, a, 'and children of ', instance)
+  logger.warn(
+    `React-hot-loader: unable to merge `,
+    a,
+    'and children of ',
+    instance,
+  )
   return NO_CHILDREN
 }
 
@@ -202,11 +209,13 @@ const hotReplacementRender = (instance, stack) => {
         updateProxyById(stackChild.instance[PROXY_KEY], childType)
 
         next(stackChild.instance)
-      } else if (__REACT_HOT_LOADER__.debug) {
-        logger(
-          `React-hot-loader: a ${getDisplayName(
+      } else if (reactHotLoader.debug) {
+        logger.warn(
+          `React-hot-loader: a ${getComponentDisplayName(
             childType,
-          )} was found where a ${getDisplayName(stackChild)} was expected.
+          )} was found where a ${getComponentDisplayName(
+            stackChild,
+          )} was expected.
           ${childType}`,
         )
       }
@@ -219,9 +228,9 @@ const hotReplacementRender = (instance, stack) => {
 export default (instance, stack) => {
   try {
     // disable reconciler to prevent upcoming components from proxying.
-    __REACT_HOT_LOADER__.disableComponentProxy = true
+    reactHotLoader.disableComponentProxy = true
     hotReplacementRender(instance, stack)
   } finally {
-    __REACT_HOT_LOADER__.disableComponentProxy = false
+    reactHotLoader.disableComponentProxy = false
   }
 }

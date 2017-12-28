@@ -253,11 +253,6 @@ will be born as the first ones, and then grow into the last ones. See
 [`react-stand-in`](https://github.com/gaearon/react-hot-loader/tree/next/packages/react-stand-in)
 for more details.
 
-### Decorators
-
-Some decorators may not work, as long they can alter the base class in a
-unexpected way. Please report.
-
 ## Troubleshooting
 
 If it doesn't work, in 99% cases it's a configuration issue. A missing option, a
@@ -275,14 +270,14 @@ We're also gathering
 **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/next/docs/Troubleshooting.md)**
 so send a PR if you have a lesson to share!
 
-### Activate debug mode
+### Switch into debug mode
 
 Debug mode adds additional warnings and can tells you why React Hot Loader is
 not working properly in your application.
 
 ```js
-import { configure } from 'react-hot-loader'
-configure({ debug: true })
+import { setConfig } from 'react-hot-loader'
+setConfig({ logLevel: 'debug' })
 ```
 
 ## License

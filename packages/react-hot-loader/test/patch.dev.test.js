@@ -2,10 +2,9 @@
 
 import React from 'react'
 import '../lib/patch.dev'
+import RHL from '../lib/reactHotLoader'
 
-const RHL = global.__REACT_HOT_LOADER__
-
-__REACT_HOT_LOADER__.disableComponentProxy = true
+RHL.disableComponentProxy = true
 
 function A1() {}
 function A2() {}

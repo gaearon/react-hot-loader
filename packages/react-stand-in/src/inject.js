@@ -1,18 +1,12 @@
-import { isNativeFunction, reactLifeCycleMethods } from './react-utils'
-import { REGENERATE_METHOD, PREFIX, GENERATION } from './symbols'
-import { reportError } from './config'
-
-function safeConstructor(Component, lastInstance) {
-  try {
-    if (lastInstance) {
-      return new Component(lastInstance.props, lastInstance.context)
-    }
-    return new Component({}, {})
-  } catch (e) {
-    // some components, like Redux connect could not be created without proper context
-  }
-  return null
-}
+import {
+  isNativeFunction,
+  reactLifeCycleMountMethods,
+  safeReactConstructor,
+  getOwnKeys,
+  shallowStringsEqual,
+} from './utils'
+import { REGENERATE_METHOD, PREFIX, GENERATION } from './constants'
+import config from './config'
 
 function mergeComponents(
   ProxyComponent,
@@ -22,26 +16,24 @@ function mergeComponents(
 ) {
   const injectedCode = {}
   try {
-    const nextInstance = safeConstructor(NextComponent, lastInstance)
+    const nextInstance = safeReactConstructor(NextComponent, lastInstance)
 
     try {
-      // bypass babel class inheritance checking
+      // Bypass babel class inheritance checking
       InitialComponent.prototype = NextComponent.prototype
     } catch (e) {
-      // It was es6 class
+      // It was ES6 class
     }
 
-    const proxyInstance = safeConstructor(ProxyComponent, lastInstance)
+    const proxyInstance = safeReactConstructor(ProxyComponent, lastInstance)
 
     if (!nextInstance || !proxyInstance) {
       return injectedCode
     }
 
-    const mergedAttrs = Object.assign({}, proxyInstance, nextInstance)
+    const mergedAttrs = { ...proxyInstance, ...nextInstance }
     const hasRegenerate = proxyInstance[REGENERATE_METHOD]
-    const ownKeys = Reflect.ownKeys(
-      Object.getPrototypeOf(ProxyComponent.prototype),
-    )
+    const ownKeys = getOwnKeys(Object.getPrototypeOf(ProxyComponent.prototype))
     Object.keys(mergedAttrs).forEach(key => {
       if (key.startsWith(PREFIX)) return
       const nextAttr = nextInstance[key]
@@ -58,7 +50,7 @@ function mergeComponents(
                 key
               ] = `Object.getPrototypeOf(this)['${key}'].bind(this)`
             } else {
-              reportError(
+              config.logger.warn(
                 'React-stand-in:,',
                 'Non-controlled class',
                 ProxyComponent.name,
@@ -69,7 +61,7 @@ function mergeComponents(
               )
             }
           } else {
-            reportError(
+            config.logger.warn(
               'React-stand-in:',
               'Updated class ',
               ProxyComponent.name,
@@ -95,7 +87,7 @@ function mergeComponents(
               // just copy prop over
               injectedCode[key] = nextAttr
             } else {
-              reportError(
+              config.logger.warn(
                 'React-stand-in:',
                 ' Updated class ',
                 ProxyComponent.name,
@@ -112,29 +104,20 @@ function mergeComponents(
       }
     })
   } catch (e) {
-    reportError('React-stand-in:', e)
+    config.logger.warn('React-stand-in:', e)
   }
   return injectedCode
-}
-
-function areDescriptorEqual(a, b) {
-  for (const key in a) {
-    if (String(a[key]) !== String(b[key])) {
-      return false
-    }
-  }
-  return true
 }
 
 function checkLifeCycleMethods(ProxyComponent, NextComponent) {
   try {
     const p1 = Object.getPrototypeOf(ProxyComponent.prototype)
     const p2 = NextComponent.prototype
-    reactLifeCycleMethods.forEach(key => {
+    reactLifeCycleMountMethods.forEach(key => {
       const d1 = Object.getOwnPropertyDescriptor(p1, key) || { value: p1[key] }
       const d2 = Object.getOwnPropertyDescriptor(p2, key) || { value: p2[key] }
-      if (!areDescriptorEqual(d1, d2)) {
-        reportError(
+      if (!shallowStringsEqual(d1, d2)) {
+        config.logger.warn(
           'React-stand-in:',
           'You did update',
           ProxyComponent.name,
@@ -166,13 +149,13 @@ function inject(target, currentGeneration, injectedMembers) {
           target[key] = injectedMembers[key]
         }
       } catch (e) {
-        reportError(
+        config.logger.warn(
           'React-stand-in: Failed to regenerate method ',
           key,
           ' of class ',
           target,
         )
-        reportError('got error', e)
+        config.logger.warn('got error', e)
       }
     })
 

@@ -1,7 +1,3 @@
-import createClassProxy from './createClassProxy'
-import configure from './config'
-
-export * from './symbols'
-export { configure }
-
-export default createClassProxy
+export * from './constants'
+export { default } from './createClassProxy'
+export { setConfig } from './config'

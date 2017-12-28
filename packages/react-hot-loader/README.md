@@ -24,10 +24,6 @@ export default hot(module)(App)
 
 Mark application as hot reloadable. Prefer using `hot` helper.
 
-Available props are:
-
-* `warnings`: Enable some warnings (default to `true`)
-
 ```js
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -66,4 +62,18 @@ import Component1 from './Component1'
 import Component2 from './Component2'
 
 areComponentsEqual(Component1, Component2) // true or false
+```
+
+### setConfig(config)
+
+Set a new configuration for React Hot Loader.
+
+Available options are:
+
+* `logLevel`: specify log level, default to `"error"`, available values are: `['debug', 'log', 'warn', 'error']`
+
+```js
+import { setConfig } from 'react-hot-loader'
+
+setConfig({ logLevel: 'debug' })
 ```
