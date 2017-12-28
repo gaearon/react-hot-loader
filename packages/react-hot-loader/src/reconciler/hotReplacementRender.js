@@ -151,7 +151,12 @@ const mergeInject = (a, b, instance) => {
   if (flatA.length === flatB.length) {
     return mapChildren(flatA, flatB)
   }
-  logger(`React-hot-loader: unable to merge `, a, 'and children of ', instance)
+  logger.warn(
+    `React-hot-loader: unable to merge `,
+    a,
+    'and children of ',
+    instance,
+  )
   return NO_CHILDREN
 }
 
@@ -205,7 +210,7 @@ const hotReplacementRender = (instance, stack) => {
 
         next(stackChild.instance)
       } else if (reactHotLoader.debug) {
-        logger(
+        logger.warn(
           `React-hot-loader: a ${getComponentDisplayName(
             childType,
           )} was found where a ${getComponentDisplayName(
@@ -223,9 +228,9 @@ const hotReplacementRender = (instance, stack) => {
 export default (instance, stack) => {
   try {
     // disable reconciler to prevent upcoming components from proxying.
-    reactHotLoader.config.disableComponentProxy = true
+    reactHotLoader.disableComponentProxy = true
     hotReplacementRender(instance, stack)
   } finally {
-    reactHotLoader.config.disableComponentProxy = false
+    reactHotLoader.disableComponentProxy = false
   }
 }

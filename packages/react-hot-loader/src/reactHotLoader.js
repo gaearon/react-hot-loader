@@ -59,7 +59,7 @@ const reactHotLoader = {
         // This will update the proxy if it's for a known type.
         const resolvedType = resolveType(
           type,
-          reactHotLoader.config.disableComponentProxy,
+          reactHotLoader.disableComponentProxy,
         )
         return originalCreateElement(resolvedType, ...args)
       }
@@ -88,9 +88,10 @@ const reactHotLoader = {
     reactHotLoader.reset()
   },
 
+  disableComponentProxy: false,
+
   config: {
-    debug: false,
-    disableComponentProxy: false,
+    logLevel: 'error',
   },
 }
 

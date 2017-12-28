@@ -225,7 +225,7 @@ describe('reconciler', () => {
       const Transform = ({ children }) => <section>42 + {children}</section>
       const One = ({ children }) => <section>1 == {children(1)}</section>
 
-      RHL.config.disableComponentProxy = true
+      RHL.disableComponentProxy = true
       const wrapper = mount(
         <AppContainer reconciler>
           <div>
@@ -246,7 +246,7 @@ describe('reconciler', () => {
           </div>
         </AppContainer>,
       )
-      RHL.config.disableComponentProxy = false
+      RHL.disableComponentProxy = false
       const { instance, children } = getReactStack(wrapper.instance())
       expect(children).toMatchSnapshot()
       expect(instance).not.toBe(null)

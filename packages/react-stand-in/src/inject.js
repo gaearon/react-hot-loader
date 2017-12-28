@@ -6,7 +6,7 @@ import {
   shallowStringsEqual,
 } from './utils'
 import { REGENERATE_METHOD, PREFIX, GENERATION } from './constants'
-import { reportError } from './errorReporter'
+import config from './config'
 
 function mergeComponents(
   ProxyComponent,
@@ -50,7 +50,7 @@ function mergeComponents(
                 key
               ] = `Object.getPrototypeOf(this)['${key}'].bind(this)`
             } else {
-              reportError(
+              config.logger.warn(
                 'React-stand-in:,',
                 'Non-controlled class',
                 ProxyComponent.name,
@@ -61,7 +61,7 @@ function mergeComponents(
               )
             }
           } else {
-            reportError(
+            config.logger.warn(
               'React-stand-in:',
               'Updated class ',
               ProxyComponent.name,
@@ -87,7 +87,7 @@ function mergeComponents(
               // just copy prop over
               injectedCode[key] = nextAttr
             } else {
-              reportError(
+              config.logger.warn(
                 'React-stand-in:',
                 ' Updated class ',
                 ProxyComponent.name,
@@ -104,7 +104,7 @@ function mergeComponents(
       }
     })
   } catch (e) {
-    reportError('React-stand-in:', e)
+    config.logger.warn('React-stand-in:', e)
   }
   return injectedCode
 }
@@ -117,7 +117,7 @@ function checkLifeCycleMethods(ProxyComponent, NextComponent) {
       const d1 = Object.getOwnPropertyDescriptor(p1, key) || { value: p1[key] }
       const d2 = Object.getOwnPropertyDescriptor(p2, key) || { value: p2[key] }
       if (!shallowStringsEqual(d1, d2)) {
-        reportError(
+        config.logger.warn(
           'React-stand-in:',
           'You did update',
           ProxyComponent.name,
@@ -149,13 +149,13 @@ function inject(target, currentGeneration, injectedMembers) {
           target[key] = injectedMembers[key]
         }
       } catch (e) {
-        reportError(
+        config.logger.warn(
           'React-stand-in: Failed to regenerate method ',
           key,
           ' of class ',
           target,
         )
-        reportError('got error', e)
+        config.logger.warn('got error', e)
       }
     })
 

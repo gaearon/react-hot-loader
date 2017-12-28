@@ -1,2 +1,2 @@
 export const areComponentsEqual = (a, b) => a === b
-export const configure = () => {}
+export const setConfig = () => {}

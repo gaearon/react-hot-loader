@@ -4,6 +4,6 @@ import reactHotLoader from './reactHotLoader'
 export const areComponentsEqual = (a, b) =>
   getProxyByType(a) === getProxyByType(b)
 
-export const configure = config => {
+export const setConfig = config => {
   Object.assign(reactHotLoader.config, config)
 }

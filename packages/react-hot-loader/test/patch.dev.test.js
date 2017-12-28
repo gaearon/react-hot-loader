@@ -4,7 +4,7 @@ import React from 'react'
 import '../lib/patch.dev'
 import RHL from '../lib/reactHotLoader'
 
-RHL.config.disableComponentProxy = true
+RHL.disableComponentProxy = true
 
 function A1() {}
 function A2() {}
