@@ -31,10 +31,12 @@ module.exports = function plugin(args) {
   const buildTagger = template(
     `
   var UNUSED = (function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-      return;
+    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+    var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+    if(!__REACT_HOT_LOADER__){     
+       return;
     }
-
+    
     REGISTRATIONS
   })();
   `,

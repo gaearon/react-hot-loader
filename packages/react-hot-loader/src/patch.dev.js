@@ -97,3 +97,4 @@ if (typeof global.__REACT_HOT_LOADER__ === 'undefined') {
   React.Children.only = patchedChildOnly
   global.__REACT_HOT_LOADER__ = hooks
 }
+export default hooks

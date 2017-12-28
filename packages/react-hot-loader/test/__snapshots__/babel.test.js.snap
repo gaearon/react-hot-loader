@@ -33,7 +33,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -72,7 +76,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -136,7 +144,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -200,7 +212,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -239,7 +255,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -280,7 +300,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -322,7 +346,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -361,7 +389,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -406,7 +438,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -449,7 +485,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -490,7 +530,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -527,7 +571,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -566,7 +614,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -610,7 +662,11 @@ var Foo = function () {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -636,7 +692,11 @@ Foo.bar = function (a, b) {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -716,7 +776,11 @@ exports.default = _default;
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -761,7 +825,11 @@ exports.default = _default;
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -790,7 +858,11 @@ function spread() {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -812,7 +884,11 @@ exports.default = _default2;
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -844,7 +920,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -870,7 +950,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -896,7 +980,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -924,7 +1012,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -952,7 +1044,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -980,7 +1076,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1008,7 +1108,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1034,7 +1138,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1066,7 +1174,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1098,7 +1210,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1128,7 +1244,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1154,7 +1274,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1182,7 +1306,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1214,7 +1342,11 @@ class Foo {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1236,7 +1368,11 @@ Foo.bar = (a, b) => {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1292,7 +1428,11 @@ exports.default = _default;
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1330,7 +1470,11 @@ exports.default = _default;
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1355,7 +1499,11 @@ function spread(...args) {
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 
@@ -1377,7 +1525,11 @@ exports.default = _default2;
 ;
 
 var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+  var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+
+  if (!__REACT_HOT_LOADER__) {
     return;
   }
 

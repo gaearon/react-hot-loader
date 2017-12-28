@@ -12,8 +12,8 @@
     "prebuild": "rm -rf packages/*/lib",
     "precommit": "lint-staged",
     "test": "yarn test:es2015 && yarn test:modern",
-    "test:es2015": "BABEL_TARGET=es2015 jest",
-    "test:modern": "BABEL_TARGET=modern jest"
+    "test:es2015": "BABEL_TARGET=es2015 jest --no-cache",
+    "test:modern": "BABEL_TARGET=modern jest --no-cache"
   },
   "lint-staged": {
     "*.{js,md,ts,json}": [
