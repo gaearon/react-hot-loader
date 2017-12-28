@@ -31,19 +31,11 @@ module.exports = function plugin(args) {
   const buildTagger = template(
     `
   var UNUSED = (function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-      var global = typeof window !== 'undefined' ? window :
-        typeof global !== 'undefined' ? global : {};
-
-      global.__REACT_HOT_LOADER__ = {
-        __registeredComponents: [],
-        reset: function () {},
-        register: function (id, name, filename) {
-          global.__REACT_HOT_LOADER__.__registeredComponents.push([id, name, filename]);
-        }
-      };
+    var __REACT_HOT_LOADER__ = global.__REACT_HOT_LOADER__ || require('react-hot-loader/patch').default;
+    if(!__REACT_HOT_LOADER__){     
+       return;
     }
-
+    
     REGISTRATIONS
   })();
   `,

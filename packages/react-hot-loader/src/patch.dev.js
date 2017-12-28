@@ -91,22 +91,10 @@ function patchedChildOnly(element) {
   )
 }
 
-if (
-  typeof global.__REACT_HOT_LOADER__ === 'undefined' ||
-  global.__REACT_HOT_LOADER__.__registeredComponents
-) {
+if (typeof global.__REACT_HOT_LOADER__ === 'undefined') {
   React.createElement = patchedCreateElement
   React.createFactory = patchedCreateFactory
   React.Children.only = patchedChildOnly
-
-  if (
-    typeof global.__REACT_HOT_LOADER__ !== 'undefined' &&
-    global.__REACT_HOT_LOADER__.__registeredComponents
-  ) {
-    global.__REACT_HOT_LOADER__.__registeredComponents.forEach(args =>
-      hooks.register.apply(null, args),
-    )
-  }
-
   global.__REACT_HOT_LOADER__ = hooks
 }
+export default hooks
