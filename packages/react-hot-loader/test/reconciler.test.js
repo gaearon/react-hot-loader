@@ -1,8 +1,7 @@
 /* eslint-env jest */
 
 import React, { Component } from 'react'
-import Adapter from 'enzyme-adapter-react-16'
-import { mount, configure } from 'enzyme'
+import { mount } from 'enzyme'
 import '../src/patch.dev'
 import AppContainer from '../src/AppContainer.dev'
 import { didUpdate } from '../src/updateCounter'
@@ -10,15 +9,18 @@ import getReactStack from '../src/internal/getReactStack'
 import { areComponentsEqual } from '../src/utils.dev'
 import RHL from '../src/reactHotLoader'
 
-configure({ adapter: new Adapter() })
-
-const createTestDouble = (render, name, key) => {
+const spyComponent = (render, displayName, key) => {
   const mounted = jest.fn()
   const unmounted = jest.fn()
+  const willUpdate = jest.fn()
 
   class TestingComponent extends Component {
     componentWillMount() {
       mounted()
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+      willUpdate(nextProps, nextState, this.props, this.state)
     }
 
     componentWillUnmount() {
@@ -36,11 +38,13 @@ const createTestDouble = (render, name, key) => {
     }
   }
 
-  if (name) {
-    TestingComponent.displayName = name
+  if (displayName) {
+    TestingComponent.displayName = displayName
   }
+
   return {
     Component: TestingComponent,
+    willUpdate,
     mounted,
     unmounted,
     key,
@@ -50,38 +54,36 @@ const createTestDouble = (render, name, key) => {
 describe('reconciler', () => {
   describe('Application', () => {
     it('should regenerate internal component', () => {
-      const ComponentRoot = createTestDouble(
+      const root = spyComponent(
         ({ children }) => <div>{children}</div>,
         'root',
         'root',
       )
 
-      const Component1 = createTestDouble(
+      const first = spyComponent(
         ({ children }) => <b>{children}</b>,
         'test',
         '1',
       )
-      const Component2 = createTestDouble(() => <u>REPLACED</u>, 'test', '2')
-      const Component3 = createTestDouble(
-        () => <u>NEW ONE</u>,
-        'somethingElse',
-        '3',
-      )
+      const second = spyComponent(() => <u>REPLACED</u>, 'test', '2')
+      const third = spyComponent(() => <u>NEW ONE</u>, 'somethingElse', '3')
 
-      let currentComponent = Component1
+      let currentComponent = first
+      const currentProps = {}
+
       const ComponentSwap = props => {
         const { Component } = currentComponent
         return (
           <blockquote>
-            <Component {...props} />
+            <Component {...props} {...currentProps} />
           </blockquote>
         )
       }
 
       const App = () => (
-        <ComponentRoot.Component>
+        <root.Component>
           <ComponentSwap>42</ComponentSwap>
-        </ComponentRoot.Component>
+        </root.Component>
       )
 
       const wrapper = mount(
@@ -91,56 +93,65 @@ describe('reconciler', () => {
       )
 
       // mount and perform first checks
-      expect(wrapper.find(<Component1.Component />.type).length).toBe(1)
-      expect(ComponentRoot.mounted).toHaveBeenCalledTimes(1)
-      expect(Component1.mounted).toHaveBeenCalledTimes(1)
+      expect(wrapper.find(<first.Component />.type).length).toBe(1)
+      expect(root.mounted).toHaveBeenCalledTimes(1)
+      expect(first.mounted).toHaveBeenCalledTimes(1)
 
       // replace with `the same` component
-      currentComponent = Component2
+      currentComponent = second
       // they are different
-      expect(
-        areComponentsEqual(Component1.Component, Component2.Component),
-      ).toBe(false)
+      expect(areComponentsEqual(first.Component, second.Component)).toBe(false)
+
+      currentProps.newProp = true
       didUpdate()
       wrapper.setProps({ update: 'now' })
       // not react-stand-in merge them together
-      expect(
-        areComponentsEqual(Component1.Component, Component2.Component),
-      ).toBe(true)
-      expect(wrapper.find(<Component1.Component />.type).length).toBe(1)
-      expect(wrapper.find(<Component2.Component />.type).length).toBe(1)
+      expect(areComponentsEqual(first.Component, second.Component)).toBe(true)
+      expect(wrapper.find(<first.Component />.type).length).toBe(1)
+      expect(wrapper.find(<second.Component />.type).length).toBe(1)
 
-      expect(ComponentRoot.mounted).toHaveBeenCalledTimes(1)
-      expect(Component1.unmounted).toHaveBeenCalledTimes(0)
-      expect(Component2.mounted).toHaveBeenCalledTimes(0)
+      expect(root.mounted).toHaveBeenCalledTimes(1)
+      expect(first.unmounted).toHaveBeenCalledTimes(0)
+      expect(second.mounted).toHaveBeenCalledTimes(0)
+      expect(second.willUpdate).toHaveBeenCalledTimes(2)
+      expect(second.willUpdate.mock.calls[0]).toEqual([
+        { children: '42' },
+        null,
+        { children: '42' },
+        null,
+      ])
+      expect(second.willUpdate.mock.calls[1]).toEqual([
+        { children: '42', newProp: true },
+        null,
+        { children: '42' },
+        null,
+      ])
 
       // replace with a different component
-      currentComponent = Component3
+      currentComponent = third
       didUpdate()
       wrapper.setProps({ update: 'now' })
-      expect(wrapper.find(<Component3.Component />.type).length).toBe(1)
-      // Component1 will never be unmounted
-      expect(Component1.unmounted).toHaveBeenCalledTimes(0)
-      expect(Component2.unmounted).toHaveBeenCalledTimes(1)
-      expect(Component3.mounted).toHaveBeenCalledTimes(1)
+      expect(wrapper.find(<third.Component />.type).length).toBe(1)
+      // first will never be unmounted
+      expect(first.unmounted).toHaveBeenCalledTimes(0)
+      expect(second.unmounted).toHaveBeenCalledTimes(1)
+      expect(third.mounted).toHaveBeenCalledTimes(1)
 
-      expect(
-        areComponentsEqual(Component1.Component, Component3.Component),
-      ).toBe(false)
-      expect(
-        areComponentsEqual(Component2.Component, Component3.Component),
-      ).toBe(false)
+      expect(areComponentsEqual(first.Component, third.Component)).toBe(false)
+      expect(areComponentsEqual(second.Component, third.Component)).toBe(false)
     })
 
     it('should regenerate internal component', () => {
-      const Component1 = createTestDouble(
+      const first = spyComponent(
         ({ children }) => <b>{children}</b>,
         'test',
         '1',
       )
-      const Component2 = createTestDouble(() => <u>REPLACED</u>, 'test', '2')
 
-      let currentComponent = Component1
+      const second = spyComponent(() => <u>REPLACED</u>, 'test', '2')
+
+      let currentComponent = first
+
       const ComponentSwap = props => {
         const { Component } = currentComponent
         return (
@@ -160,32 +171,32 @@ describe('reconciler', () => {
       )
 
       const wrapper = mount(
-        <AppContainer reconciler>
+        <AppContainer>
           <App />
         </AppContainer>,
       )
 
-      currentComponent = Component2
+      currentComponent = second
       didUpdate()
       wrapper.setProps({ update: 'now' })
 
-      expect(Component1.unmounted).toHaveBeenCalledTimes(0)
-      expect(Component2.mounted).toHaveBeenCalledTimes(0)
+      expect(first.unmounted).toHaveBeenCalledTimes(0)
+      expect(second.mounted).toHaveBeenCalledTimes(0)
     })
 
     it('should handle function as a child', () => {
-      const Component1 = createTestDouble(
+      const first = spyComponent(
         ({ children }) => <b>{children(0)}</b>,
         'test',
         '1',
       )
-      const Component2 = createTestDouble(
+      const second = spyComponent(
         ({ children }) => <u>{children(1)}</u>,
         'test',
         '2',
       )
 
-      let currentComponent = Component1
+      let currentComponent = first
       const ComponentSwap = props => {
         const { Component } = currentComponent
         return (
@@ -203,19 +214,19 @@ describe('reconciler', () => {
       )
 
       const wrapper = mount(
-        <AppContainer reconciler>
+        <AppContainer>
           <App />
         </AppContainer>,
       )
 
       expect(wrapper.text()).toContain(42)
 
-      currentComponent = Component2
+      currentComponent = second
       didUpdate()
       wrapper.setProps({ update: 'now' })
 
-      expect(Component1.unmounted).toHaveBeenCalledTimes(0)
-      expect(Component2.mounted).toHaveBeenCalledTimes(0)
+      expect(first.unmounted).toHaveBeenCalledTimes(0)
+      expect(second.mounted).toHaveBeenCalledTimes(0)
       expect(wrapper.text()).toContain(43)
     })
   })
@@ -227,7 +238,7 @@ describe('reconciler', () => {
 
       RHL.disableComponentProxy = true
       const wrapper = mount(
-        <AppContainer reconciler>
+        <AppContainer>
           <div>
             <div>
               <Transform>
