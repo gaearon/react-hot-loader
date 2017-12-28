@@ -253,11 +253,6 @@ will be born as the first ones, and then grow into the last ones. See
 [`react-stand-in`](https://github.com/gaearon/react-hot-loader/tree/next/packages/react-stand-in)
 for more details.
 
-### Decorators
-
-Some decorators may not work, as long they can alter the base class in a
-unexpected way. Please report.
-
 ## Troubleshooting
 
 If it doesn't work, in 99% cases it's a configuration issue. A missing option, a

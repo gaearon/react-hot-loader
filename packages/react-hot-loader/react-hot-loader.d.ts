@@ -48,7 +48,7 @@ declare module 'react-hot-loader' {
      * Specify loglLevel, default to 'error', set it to false to disable logs.
      * Available levels: ['debug', 'log', 'warn', 'error']
      */
-    logLevel?: boolean
+    logLevel?: string
   }
   /**
    * Confugures how React Hot Loader works
