@@ -1,5 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 
+export const getComponentDisplayName = type =>
+  type.displayName || type.name || 'Unknown'
+
 export const getReactInstance = instance =>
   instance._reactInternalFiber ||
   instance._reactInternalInstance ||

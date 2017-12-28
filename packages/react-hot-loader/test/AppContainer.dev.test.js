@@ -2,15 +2,10 @@
 
 import React, { Component } from 'react'
 import createReactClass from 'create-react-class'
-import Adapter from 'enzyme-adapter-react-16'
-import { mount, configure } from 'enzyme'
+import { mount } from 'enzyme'
 import { mapProps } from 'recompose'
-import '../lib/patch.dev'
 import AppContainer from '../lib/AppContainer.dev'
-
-configure({ adapter: new Adapter() })
-
-const RHL = global.__REACT_HOT_LOADER__
+import RHL from '../lib/reactHotLoader'
 
 function runAllTests(useWeakMap) {
   describe(`<AppContainer /> [useWeakMap == ${useWeakMap}]`, () => {

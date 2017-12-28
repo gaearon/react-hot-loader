@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { getGeneration } from './updateCounter'
-import hydrate from './reconciler/reactHydrate'
+import getReactStack from './internal/getReactStack'
 import hotReplacementRender from './reconciler/hotReplacementRender'
 import './patch.dev'
 
@@ -15,20 +15,6 @@ class AppContainer extends React.Component {
     }
   }
 
-  componentDidMount() {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-      console.error(
-        'React Hot Loader: It appears that "react-hot-loader/patch" ' +
-          'did not run immediately before the app started. Make sure that it ' +
-          'runs before any other code. For example, if you use Webpack, ' +
-          'you can add "react-hot-loader/patch" as the very first item to the ' +
-          '"entry" array in its config. Alternatively, you can add ' +
-          'require("react-hot-loader/patch") as the very first line ' +
-          'in the application code, before any other imports.',
-      )
-    }
-  }
-
   componentWillReceiveProps() {
     if (this.state.generation !== getGeneration()) {
       // Hot reload is happening.
@@ -39,7 +25,7 @@ class AppContainer extends React.Component {
       })
 
       // perform sandboxed render to find similarities between new and old code
-      hotReplacementRender(this, hydrate(this))
+      hotReplacementRender(this, getReactStack(this))
     }
   }
 
