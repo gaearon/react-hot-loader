@@ -3,6 +3,7 @@ import levenshtein from 'fast-levenshtein'
 import { getIdByType, updateProxyById } from './proxies'
 import { updateInstance } from './reactUtils'
 import { getDisplayName } from '../utils.dev'
+import logger from '../logger'
 
 // some `empty` names, React can autoset display name to...
 const UNDEFINED_NAMES = {
@@ -129,7 +130,7 @@ const mapChildren = (children, instances) => ({
   }),
 })
 
-const mergeInject = (a, b) => {
+const mergeInject = (a, b, instance) => {
   if (a && !Array.isArray(a)) {
     return mergeInject([a], b)
   }
@@ -148,6 +149,7 @@ const mergeInject = (a, b) => {
   if (flatA.length === flatB.length) {
     return mapChildren(flatA, flatB)
   }
+  logger(`React-hot-loader: unable to merge `, a, 'and children of ', instance)
   return NO_CHILDREN
 }
 
@@ -184,6 +186,7 @@ const hotReplacementRender = (instance, stack) => {
             asArray(child.props ? child.props.children : child.children),
           ),
           stackChild.instance.children,
+          stackChild.instance,
         ),
       )
     } else {
@@ -200,7 +203,7 @@ const hotReplacementRender = (instance, stack) => {
 
         next(stackChild.instance)
       } else if (__REACT_HOT_LOADER__.debug) {
-        console.warn(
+        logger(
           `React-hot-loader: a ${getDisplayName(
             childType,
           )} was found where a ${getDisplayName(stackChild)} was expected.

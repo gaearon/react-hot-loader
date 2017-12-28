@@ -1,5 +1,6 @@
 import { isNativeFunction, reactLifeCycleMethods } from './react-utils'
 import { REGENERATE_METHOD, PREFIX, GENERATION } from './symbols'
+import { reportError } from './config'
 
 function safeConstructor(Component, lastInstance) {
   try {
@@ -52,11 +53,23 @@ function mergeComponents(
           const existsInPrototype =
             ownKeys.indexOf(key) >= 0 || ProxyComponent.prototype[key]
           if (isSameArity && existsInPrototype) {
-            injectedCode[key] = `Object.getPrototypeOf(this)['${
-              key
-            }'].bind(this)`
+            if (hasRegenerate) {
+              injectedCode[
+                key
+              ] = `Object.getPrototypeOf(this)['${key}'].bind(this)`
+            } else {
+              reportError(
+                'React-stand-in:,',
+                'Non-controlled class',
+                ProxyComponent.name,
+                'contains a new native or bound function ',
+                key,
+                nextAttr,
+                '. Unable to reproduce',
+              )
+            }
           } else {
-            console.error(
+            reportError(
               'React-stand-in:',
               'Updated class ',
               ProxyComponent.name,
@@ -82,7 +95,7 @@ function mergeComponents(
               // just copy prop over
               injectedCode[key] = nextAttr
             } else {
-              console.error(
+              reportError(
                 'React-stand-in:',
                 ' Updated class ',
                 ProxyComponent.name,
@@ -99,7 +112,7 @@ function mergeComponents(
       }
     })
   } catch (e) {
-    console.error('React-stand-in:', e)
+    reportError('React-stand-in:', e)
   }
   return injectedCode
 }
@@ -121,7 +134,7 @@ function checkLifeCycleMethods(ProxyComponent, NextComponent) {
       const d1 = Object.getOwnPropertyDescriptor(p1, key) || { value: p1[key] }
       const d2 = Object.getOwnPropertyDescriptor(p2, key) || { value: p2[key] }
       if (!areDescriptorEqual(d1, d2)) {
-        console.error(
+        reportError(
           'React-stand-in:',
           'You did update',
           ProxyComponent.name,
@@ -153,13 +166,13 @@ function inject(target, currentGeneration, injectedMembers) {
           target[key] = injectedMembers[key]
         }
       } catch (e) {
-        console.error(
+        reportError(
           'React-stand-in: Failed to regenerate method ',
           key,
           ' of class ',
           target,
         )
-        console.error('got error', e)
+        reportError('got error', e)
       }
     })
 

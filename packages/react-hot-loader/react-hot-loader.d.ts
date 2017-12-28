@@ -42,4 +42,17 @@ declare module 'react-hot-loader' {
     typeA: React.ComponentType<T>,
     typeB: React.ComponentType<T>,
   ): boolean
+
+  export interface ConfigureFlags {
+    /**
+     * enabled debug mode.
+     * Will report about any problems during hot-reload process.
+     */
+    debug?: boolean
+  }
+  /**
+   * Confugures how React Hot Loader works
+   * @param {Flags} flag
+   */
+  export function configure(flag: ConfigureFlags): void
 }
