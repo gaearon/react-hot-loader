@@ -1,3 +1,17 @@
+<a name="4.0.0-beta.7"></a>
+
+# [4.0.0-beta.7](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.6...v4.0.0-beta.7) (2017-12-29)
+
+### Bug Fixes
+
+* handle async loading of patch ([#739](https://github.com/gaearon/react-hot-loader/issues/739)) ([af8bd4b](https://github.com/gaearon/react-hot-loader/commit/af8bd4b))
+* **react-hot-loader:** fix componentWillUpdate ([95a9e79](https://github.com/gaearon/react-hot-loader/commit/95a9e79))
+* use safe defineProperty ([f901192](https://github.com/gaearon/react-hot-loader/commit/f901192))
+
+### Features
+
+* replace warnings by `configure({ debug: true })` ([4f079c6](https://github.com/gaearon/react-hot-loader/commit/4f079c6))
+
 <a name="4.0.0-beta.6"></a>
 
 # [4.0.0-beta.6](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.5...v4.0.0-beta.6) (2017-12-27)
