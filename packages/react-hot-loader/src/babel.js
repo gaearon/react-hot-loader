@@ -20,25 +20,25 @@ module.exports = function plugin(args) {
   const { types: t, template } = args
 
   const buildRegistration = template(
-    '__REACT_HOT_LOADER__.register(ID, NAME, FILENAME);',
+    'RHL.register(ID, NAME, FILENAME);',
     templateOptions,
   )
-
+  const headerTemplate = template("require('react-hot-loader/patch');")
   const evalTemplate = template('this[key]=eval(code);', templateOptions)
 
   // We're making the IIFE we insert at the end of the file an unused variable
   // because it otherwise breaks the output of the babel-node REPL (#359).
   const buildTagger = template(
     `
-  var UNUSED = (function () {
-    var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
-    var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-    if (!__REACT_HOT_LOADER__) {
-      return;
-    }
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-    REGISTRATIONS
-  })();
+  if (!RHL) {
+    return;
+  }
+
+  REGISTRATIONS
+})();
   `,
     templateOptions,
   )
@@ -106,6 +106,7 @@ module.exports = function plugin(args) {
 
       Program: {
         enter({ node, scope }, { file }) {
+          node.body.unshift(headerTemplate())
           node[REGISTRATIONS] = [] // eslint-disable-line no-param-reassign
 
           // Everything in the top level scope, when reasonable,
@@ -126,19 +127,14 @@ module.exports = function plugin(args) {
           /* eslint-enable */
         },
 
-        exit({ node, scope }) {
+        exit({ node }) {
           const registrations = node[REGISTRATIONS]
           node[REGISTRATIONS] = null // eslint-disable-line no-param-reassign
 
           // Inject the generated tagging code at the very end
           // so that it is as minimally intrusive as possible.
           node.body.push(t.emptyStatement())
-          node.body.push(
-            buildTagger({
-              UNUSED: scope.generateUidIdentifier(),
-              REGISTRATIONS: registrations,
-            }),
-          )
+          node.body.push(buildTagger({ REGISTRATIONS: registrations }))
           node.body.push(t.emptyStatement())
         },
       },
