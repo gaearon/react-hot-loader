@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "changelog": "conventional-changelog -i CHANGELOG.md --same-file -p angular && conventional-github-releaser -p angular",
+    "changelog": "conventional-changelog -p angular && conventional-github-releaser -p angular",
     "ci": "yarn bootstrap && yarn build && yarn lint && yarn test --coverage && codecov",
     "dev": "yarn bootstrap && yarn build && lerna-watch",
     "build": "lerna-build",
