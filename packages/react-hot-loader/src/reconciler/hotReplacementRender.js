@@ -97,10 +97,6 @@ const render = component => {
     return []
   }
   if (isReactClass(component)) {
-    if (component.componentWillUpdate) {
-      // force-refresh component (bypass redux renderedComponent)
-      component.componentWillUpdate()
-    }
     return component.render()
   }
   if (isArray(component)) {
@@ -170,13 +166,17 @@ const hotReplacementRender = (instance, stack) => {
     const next = instance => {
       // copy over props as long new component may be hidden inside them
       // child does not have all props, as long some of them can be calculated on componentMount.
-      const props = { ...instance.props }
+      const nextProps = { ...instance.props }
       for (const key in child.props) {
         if (child.props[key]) {
-          props[key] = child.props[key]
+          nextProps[key] = child.props[key]
         }
       }
-      instance.props = props
+      if (isReactClass(instance) && instance.componentWillUpdate) {
+        // Force-refresh component (bypass redux renderedComponent)
+        instance.componentWillUpdate(nextProps, instance.state)
+      }
+      instance.props = nextProps
       hotReplacementRender(instance, stackChild)
     }
 
