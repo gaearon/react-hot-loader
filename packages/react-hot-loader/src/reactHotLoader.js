@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+import { isCompositeComponent } from './internal/reactUtils'
 import { didUpdate } from './updateCounter'
 import {
   updateProxyById,
@@ -6,14 +8,10 @@ import {
   createProxyForType,
 } from './reconciler/proxies'
 
-function resolveType(type, disableComponentProxy) {
-  // We only care about composite components
-  if (typeof type !== 'function') {
-    return type
-  }
+function resolveType(type) {
+  if (!isCompositeComponent(type)) return type
 
-  // is proxing is disabled - do not create auto proxies, but use the old ones
-  const proxy = disableComponentProxy
+  const proxy = reactHotLoader.disableProxyCreation
     ? getProxyByType(type)
     : createProxyForType(type)
 
@@ -22,22 +20,21 @@ function resolveType(type, disableComponentProxy) {
 
 const reactHotLoader = {
   register(type, uniqueLocalName, fileName) {
-    didUpdate()
-
-    if (typeof type !== 'function') {
-      return
+    if (
+      isCompositeComponent(type) &&
+      typeof uniqueLocalName === 'string' &&
+      uniqueLocalName &&
+      typeof fileName === 'string' &&
+      fileName
+    ) {
+      didUpdate()
+      updateProxyById(`${fileName}#${uniqueLocalName}`, type)
     }
-    if (!uniqueLocalName || !fileName) {
-      return
-    }
-    if (typeof uniqueLocalName !== 'string' || typeof fileName !== 'string') {
-      return
-    }
-
-    updateProxyById(`${fileName}#${uniqueLocalName}`, type)
   },
 
-  reset: resetProxies,
+  reset() {
+    resetProxies()
+  },
 
   patch(React) {
     if (!React.createElement.isPatchedByReactHotLoader) {
@@ -48,7 +45,7 @@ const reactHotLoader = {
         // This will update the proxy if it's for a known type.
         const resolvedType = resolveType(
           type,
-          reactHotLoader.disableComponentProxy,
+          reactHotLoader.disableProxyCreation,
         )
         return originalCreateElement(resolvedType, ...args)
       }
@@ -69,15 +66,15 @@ const reactHotLoader = {
 
     if (!React.Children.only.isPatchedByReactHotLoader) {
       const originalChildrenOnly = React.Children.only
-      React.Children.only = element =>
-        originalChildrenOnly({ ...element, type: resolveType(element.type) })
+      React.Children.only = children =>
+        originalChildrenOnly({ ...children, type: resolveType(children.type) })
       React.Children.only.isPatchedByReactHotLoader = true
     }
 
     reactHotLoader.reset()
   },
 
-  disableComponentProxy: false,
+  disableProxyCreation: false,
 
   config: {
     logLevel: 'error',

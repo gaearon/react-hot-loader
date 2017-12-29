@@ -238,9 +238,9 @@ const hotReplacementRender = (instance, stack) => {
 export default (instance, stack) => {
   try {
     // disable reconciler to prevent upcoming components from proxying.
-    reactHotLoader.disableComponentProxy = true
+    reactHotLoader.disableProxyCreation = true
     hotReplacementRender(instance, stack)
   } finally {
-    reactHotLoader.disableComponentProxy = false
+    reactHotLoader.disableProxyCreation = false
   }
 }

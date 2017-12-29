@@ -1,5 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
+export const isCompositeComponent = type => typeof type === 'function'
+
 export const getComponentDisplayName = type =>
   type.displayName || type.name || 'Component'
 

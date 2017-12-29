@@ -1,156 +1,152 @@
 /* eslint-env jest */
-
 import React from 'react'
-import '../lib/patch.dev'
-import RHL from '../lib/reactHotLoader'
-
-RHL.disableComponentProxy = true
-
-function A1() {}
-function A2() {}
-function A3() {}
-function B1() {}
-function B2() {}
+import { PROXY_KEY, UNWRAP_PROXY } from 'react-stand-in'
+import { mount } from 'enzyme'
+import { getGeneration } from '../src/updateCounter'
+import reactHotLoader from '../src/reactHotLoader'
 
 describe('reactHotLoader', () => {
-  beforeEach(() => RHL.reset())
+  let Div
+  let Span
 
-  it('is identity for unrecognized types', () => {
-    expect(<div />.type).toBe('div')
-    expect(<A1 />.type).toBe(A1)
+  beforeEach(() => {
+    Div = () => <div />
+    Span = () => <span />
+    reactHotLoader.patch(React)
+    reactHotLoader.reset()
   })
 
-  it('report proxy named duplicates', () => {
-    const createUniqueComponent = variable => () => <div>123{variable}</div>
-    const f1 = createUniqueComponent(1)
-    const f2 = createUniqueComponent(2)
-    f2.displayName = 'another'
+  describe('#patch', () => {
+    let OriginalReactMock
+    let ReactMock
 
-    const spy = jest.spyOn(console, 'warn').mockImplementation(() => {})
-
-    try {
-      RHL.register(createUniqueComponent, 'f1', '/wow/test.js')
-      React.createElement(f1)
-      React.createElement(f1)
-      expect(console.warn.mock.calls.length).toBe(0)
-      RHL.register(createUniqueComponent, 'f1', '/wow/test.js')
-      React.createElement(f2)
-      expect(console.warn.mock.calls.length).toBe(0)
-    } finally {
-      spy.mockRestore()
-    }
-  })
-
-  it('resolves registered types by their last ID', () => {
-    RHL.register(A1, 'a', 'test.js')
-    const A = <A1 />.type
-    expect(A).not.toBe(A1)
-    expect(A).toBeInstanceOf(Function)
-    expect(<A />.type).toBe(A)
-
-    RHL.register(A2, 'a', 'test.js')
-    expect(<A1 />.type).toBe(A)
-    expect(<A2 />.type).toBe(A)
-    expect(<A />.type).toBe(A)
-
-    RHL.register(A3, 'a', 'test.js')
-    expect(<A1 />.type).toBe(A)
-    expect(<A2 />.type).toBe(A)
-    expect(<A3 />.type).toBe(A)
-    expect(<A />.type).toBe(A)
-
-    RHL.register(B1, 'b', 'test.js')
-    const B = <B1 />.type
-    expect(<A1 />.type).toBe(A)
-    expect(<A2 />.type).toBe(A)
-    expect(<A3 />.type).toBe(A)
-    expect(<A />.type).toBe(A)
-    expect(<B1 />.type).toBe(B)
-    expect(<B />.type).toBe(B)
-
-    RHL.register(B2, 'b', 'test.js')
-    expect(<A1 />.type).toBe(A)
-    expect(<A2 />.type).toBe(A)
-    expect(<A3 />.type).toBe(A)
-    expect(<A />.type).toBe(A)
-    expect(<B1 />.type).toBe(B)
-    expect(<B2 />.type).toBe(B)
-    expect(<B />.type).toBe(B)
-  })
-
-  it('works with reexported types', () => {
-    RHL.register(A1, 'a', 'test.js')
-    RHL.register(A1, 'x', 'test2.js')
-
-    const A = <A1 />.type
-    expect(A.type).not.toBe(A1)
-    expect(A).toBeInstanceOf(Function)
-    expect(<A />.type).toBe(A)
-
-    RHL.register(A2, 'a', 'test.js')
-    RHL.register(A2, 'x', 'test2.js')
-    expect(<A1 />.type).toBe(A)
-    expect(<A2 />.type).toBe(A)
-    expect(<A />.type).toBe(A)
-  })
-
-  it('passes props through', () => {
-    expect(<div x={42} y="lol" />.props).toEqual({
-      x: 42,
-      y: 'lol',
-    })
-    expect(<A1 x={42} y="lol" />.props).toEqual({
-      x: 42,
-      y: 'lol',
+    beforeEach(() => {
+      OriginalReactMock = {
+        createElement: jest.fn(),
+        createFactory: jest.fn(),
+        Children: {
+          only: jest.fn(x => x),
+        },
+      }
+      ReactMock = { ...OriginalReactMock }
     })
 
-    RHL.register(B1, 'b', 'test.js')
-    expect(<B1 x={42} y="lol" />.props).toEqual({
-      x: 42,
-      y: 'lol',
+    it('should patch all methods', () => {
+      reactHotLoader.patch(ReactMock)
+      expect(ReactMock.createElement.isPatchedByReactHotLoader).toBe(true)
+      expect(ReactMock.createFactory.isPatchedByReactHotLoader).toBe(true)
+      expect(ReactMock.Children.only.isPatchedByReactHotLoader).toBe(true)
     })
-    RHL.register(B2, 'b', 'test.js')
-    expect(<B2 x={42} y="lol" />.props).toEqual({
-      x: 42,
-      y: 'lol',
+
+    describe('#createElement', () => {
+      it('should create a proxy and call original method with it', () => {
+        reactHotLoader.patch(ReactMock)
+        ReactMock.createElement(Div, { foo: 'bar' })
+        const DivProxy = OriginalReactMock.createElement.mock.calls[0][0]
+        expect(DivProxy[PROXY_KEY]).toBeDefined()
+      })
+    })
+
+    describe('#createFactory', () => {
+      it('should create a factory that returns proxy', () => {
+        reactHotLoader.patch(ReactMock)
+        const dummyFactory = ReactMock.createFactory(Div)
+        dummyFactory({ foo: 'bar' })
+        const DivProxy = OriginalReactMock.createElement.mock.calls[0][0]
+        expect(DivProxy[PROXY_KEY]).toBeDefined()
+      })
+    })
+
+    describe('#Children.only', () => {
+      it('should returns a proxy', () => {
+        reactHotLoader.patch(ReactMock)
+        const children = { type: Div, props: { foo: 'bar' } }
+        const result = ReactMock.Children.only(children)
+        const DivProxy = result.type
+        expect(DivProxy[PROXY_KEY]).toBeDefined()
+      })
     })
   })
 
-  it('passes children through', () => {
-    expect(
-      (
-        <div>
-          {'Hi'}
-          {'Bye'}
-        </div>
-      ).props.children,
-    ).toEqual(['Hi', 'Bye'])
-    expect(
-      (
-        <A1>
-          {'Hi'}
-          {'Bye'}
-        </A1>
-      ).props.children,
-    ).toEqual(['Hi', 'Bye'])
+  describe('#reset', () => {
+    it('should reset all proxies', () => {
+      const proxyElement = React.createElement(Div, { foo: 'bar' })
+      const secondProxyElement = React.createElement(Div, { foo: 'bar' })
+      expect(proxyElement.type[PROXY_KEY]).toBe(
+        secondProxyElement.type[PROXY_KEY],
+      )
 
-    RHL.register(B1, 'b', 'test.js')
-    expect(
-      (
-        <B1>
-          {'Hi'}
-          {'Bye'}
-        </B1>
-      ).props.children,
-    ).toEqual(['Hi', 'Bye'])
-    RHL.register(B2, 'b', 'test.js')
-    expect(
-      (
-        <B2>
-          {'Hi'}
-          {'Bye'}
-        </B2>
-      ).props.children,
-    ).toEqual(['Hi', 'Bye'])
+      // After that, a new proxy key should be generated
+      // meaning that a new proxy has been created
+      reactHotLoader.reset()
+      const thirdProxyElement = React.createElement(Div, { foo: 'bar' })
+      expect(proxyElement.type[PROXY_KEY]).not.toBe(
+        thirdProxyElement.type[PROXY_KEY],
+      )
+    })
+  })
+
+  describe('#disableProxyCreation', () => {
+    afterEach(() => {
+      reactHotLoader.disableProxyCreation = false
+    })
+
+    it('should disable the creation of proxy', () => {
+      reactHotLoader.disableProxyCreation = true
+      const proxyElement = React.createElement(Div, { foo: 'bar' })
+      expect(proxyElement.type[PROXY_KEY]).not.toBeDefined()
+    })
+
+    it('should still be possible to get existing proxies', () => {
+      React.createElement(Div, { foo: 'bar' })
+      reactHotLoader.disableProxyCreation = true
+      const proxyElement = React.createElement(Div, { foo: 'bar' })
+      expect(proxyElement.type[PROXY_KEY]).toBeDefined()
+    })
+  })
+
+  describe('#register', () => {
+    it('should increment update counter', () => {
+      const oldGeneration = getGeneration()
+      reactHotLoader.register(Div, 'Div', 'reactHotLoader.test.js')
+      expect(getGeneration()).toBe(oldGeneration + 1)
+    })
+
+    it('should ignore dom elements and incomplete signature', () => {
+      reactHotLoader.register(Div, 'Div', 'reactHotLoader.test.js')
+      reactHotLoader.register('div', 'Div', 'reactHotLoader.test.js')
+      reactHotLoader.register(Span, 'Div')
+      reactHotLoader.register(Span, '')
+      reactHotLoader.register(Span, '', '')
+      const proxyElement = React.createElement(Div)
+      expect(proxyElement.type[UNWRAP_PROXY]()).toBe(Div)
+    })
+
+    it('should update proxy', () => {
+      reactHotLoader.register(Div, 'Div', 'reactHotLoader.test.js')
+      const proxyElement = React.createElement(Div)
+      expect(proxyElement.type[UNWRAP_PROXY]()).toBe(Div)
+
+      reactHotLoader.register(Span, 'Div', 'reactHotLoader.test.js')
+      expect(proxyElement.type[UNWRAP_PROXY]()).toBe(Span)
+    })
+
+    it('should result into shadowing the original component', () => {
+      // Registering Div
+      reactHotLoader.register(Div, 'Div', 'reactHotLoader.test.js')
+
+      // Creating a Div element, proxy of Div is used
+      let proxyElement = React.createElement(Div)
+      let wrapper = mount(proxyElement)
+      expect(wrapper.html()).toBe('<div></div>')
+
+      // Register the same component but with a Span
+      reactHotLoader.register(Span, 'Div', 'reactHotLoader.test.js')
+
+      // Creating a Div element, proxy of Span is used
+      proxyElement = React.createElement(Div)
+      wrapper = mount(proxyElement)
+      expect(wrapper.html()).toBe('<span></span>')
+    })
   })
 })
