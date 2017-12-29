@@ -12,20 +12,12 @@ function resolveType(type, disableComponentProxy) {
     return type
   }
 
-  // always could...
-  const couldWrapWithProxy = true
-
   // is proxing is disabled - do not create auto proxies, but use the old ones
-  const proxy =
-    !disableComponentProxy && couldWrapWithProxy
-      ? createProxyForType(type)
-      : getProxyByType(type)
+  const proxy = disableComponentProxy
+    ? getProxyByType(type)
+    : createProxyForType(type)
 
-  if (!proxy) {
-    return type
-  }
-
-  return proxy.get()
+  return proxy ? proxy.get() : type
 }
 
 const reactHotLoader = {
@@ -41,14 +33,11 @@ const reactHotLoader = {
     if (typeof uniqueLocalName !== 'string' || typeof fileName !== 'string') {
       return
     }
-    const id = fileName + '#' + uniqueLocalName // eslint-disable-line prefer-template
 
-    updateProxyById(id, type)
+    updateProxyById(`${fileName}#${uniqueLocalName}`, type)
   },
 
-  reset(useWeakMap) {
-    resetProxies(useWeakMap)
-  },
+  reset: resetProxies,
 
   patch(React) {
     if (!React.createElement.isPatchedByReactHotLoader) {
