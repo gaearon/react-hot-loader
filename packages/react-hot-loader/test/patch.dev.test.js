@@ -23,59 +23,6 @@ function runAllTests(useWeakMap) {
       expect(<A1 />.type).toBe(A1)
     })
 
-    it.skip('ignores late registrations', () => {
-      function Kanye() {}
-      function Kanye2() {}
-
-      React.createElement(Kanye)
-
-      // By this time we have to assume the user might have rendered it.
-      // It's unsafe to resolve it to a different type afterwards,
-      // or we may cause an existing component to unmount unpredictably.
-      // https://github.com/gaearon/react-hot-loader/issues/241
-
-      const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
-      try {
-        RHL.register(Kanye, 'Yeezy', '/wow/test.js')
-        expect(console.error.mock.calls.length).toBe(1)
-        expect(console.error.mock.calls[0][0]).toBe(
-          'React Hot Loader: Yeezy in /wow/test.js will not hot reload ' +
-            'correctly because test.js uses <Yeezy /> during ' +
-            'module definition. For hot reloading to work, move Yeezy ' +
-            'into a separate file and import it from test.js.',
-        )
-        expect(<Kanye />.type).toBe(Kanye)
-        expect(<Kanye2 />.type).toBe(Kanye2)
-
-        RHL.register(Kanye2, 'Yeezy', '/wow/test.js')
-        expect(console.error.mock.calls.length).toBe(1)
-        expect(<Kanye />.type).toBe(Kanye)
-        expect(<Kanye2 />.type).toBe(Kanye2)
-      } finally {
-        spy.mockRestore()
-      }
-    })
-
-    it.skip('report proxy duplicates', () => {
-      const createUniqueComponent = variable => () => <div>123{variable}</div>
-      const f1 = createUniqueComponent(1)
-      const f2 = createUniqueComponent(2)
-
-      const spy = jest.spyOn(console, 'warn').mockImplementation(() => {})
-
-      try {
-        RHL.register(createUniqueComponent, 'f1', '/wow/test.js')
-        React.createElement(f1)
-        React.createElement(f1)
-        expect(console.warn.mock.calls.length).toBe(0)
-        RHL.register(createUniqueComponent, 'f1', '/wow/test.js')
-        React.createElement(f2)
-        expect(console.warn.mock.calls.length).toBe(1)
-      } finally {
-        spy.mockRestore()
-      }
-    })
-
     it('report proxy named duplicates', () => {
       const createUniqueComponent = variable => () => <div>123{variable}</div>
       const f1 = createUniqueComponent(1)
@@ -92,53 +39,6 @@ function runAllTests(useWeakMap) {
         RHL.register(createUniqueComponent, 'f1', '/wow/test.js')
         React.createElement(f2)
         expect(console.warn.mock.calls.length).toBe(0)
-      } finally {
-        spy.mockRestore()
-      }
-    })
-
-    it.skip('report proxy failures', () => {
-      const f1 = () => <div>234</div>
-      const f2 = () => <div>123</div>
-      const f3 = () => <div>123</div>
-      const f4 = () => <div>123</div>
-
-      const dynamic = () => () => <div>123</div>
-
-      const spy = jest.spyOn(console, 'warn').mockImplementation(() => {})
-
-      try {
-        RHL.register(f1, 'f1', '/wow/test.js')
-
-        // emulate `static` components from node_modules
-        React.createElement(f1)
-        React.createElement(f1)
-        expect(console.warn.mock.calls.length).toBe(0)
-        React.createElement(f2)
-        React.createElement(f2)
-        React.createElement(f3)
-        React.createElement(f3)
-
-        expect(console.warn.mock.calls.length).toBe(0)
-
-        // emulate uncatched non-static component
-        React.createElement(dynamic())
-        expect(console.warn.mock.calls.length).toBe(0)
-        React.createElement(dynamic())
-        expect(console.warn.mock.calls.length).toBe(0)
-
-        // emulate HMR
-        RHL.register(f4, 'f1', '/wow/test.js')
-
-        const signature = dynamic()
-        React.createElement(signature)
-        expect(console.warn.mock.calls.length).toBe(1)
-        expect(console.warn.mock.calls[0][0]).toBe(
-          'React Hot Loader: this component is not accepted by Hot Loader. \n' +
-            'Please check is it extracted as a top level class, a function or a variable. \n' +
-            'Click below to reveal the source location: \n',
-        )
-        expect(console.warn.mock.calls[0][1]).toBe(signature)
       } finally {
         spy.mockRestore()
       }
