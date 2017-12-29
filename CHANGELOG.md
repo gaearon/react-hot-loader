@@ -1,3 +1,11 @@
+<a name="4.0.0-beta.8"></a>
+
+# [4.0.0-beta.8](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.7...v4.0.0-beta.8) (2017-12-29)
+
+### Bug Fixes
+
+* **react-hot-loader:** fix missing export ([239ca5d](https://github.com/gaearon/react-hot-loader/commit/239ca5d))
+
 <a name="4.0.0-beta.7"></a>
 
 # [4.0.0-beta.7](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.6...v4.0.0-beta.7) (2017-12-29)
