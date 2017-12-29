@@ -39,24 +39,19 @@ const reactHotLoader = {
   patch(React) {
     if (!React.createElement.isPatchedByReactHotLoader) {
       const originalCreateElement = React.createElement
-      React.createElement = (type, ...args) => {
-        // Trick React into rendering a proxy so that
-        // its state is preserved when the class changes.
-        // This will update the proxy if it's for a known type.
-        const resolvedType = resolveType(
-          type,
-          reactHotLoader.disableProxyCreation,
-        )
-        return originalCreateElement(resolvedType, ...args)
-      }
+      // Trick React into rendering a proxy so that
+      // its state is preserved when the class changes.
+      // This will update the proxy if it's for a known type.
+      React.createElement = (type, ...args) =>
+        originalCreateElement(resolveType(type), ...args)
       React.createElement.isPatchedByReactHotLoader = true
     }
 
     if (!React.createFactory.isPatchedByReactHotLoader) {
+      // Patch React.createFactory to use patched createElement
+      // because the original implementation uses the internal,
+      // unpatched ReactElement.createElement
       React.createFactory = type => {
-        // Patch React.createFactory to use patched createElement
-        // because the original implementation uses the internal,
-        // unpatched ReactElement.createElement
         const factory = React.createElement.bind(null, type)
         factory.type = type
         return factory
@@ -66,6 +61,7 @@ const reactHotLoader = {
 
     if (!React.Children.only.isPatchedByReactHotLoader) {
       const originalChildrenOnly = React.Children.only
+      // Use the same trick as React.createElement
       React.Children.only = children =>
         originalChildrenOnly({ ...children, type: resolveType(children.type) })
       React.Children.only.isPatchedByReactHotLoader = true
