@@ -63,7 +63,7 @@ function hydrateTree(root) {
   return stack
 }
 
-export default function getReactStack(instance) {
+function getReactStack(instance) {
   const root = getReactInstance(instance)
   if (typeof root.tag !== 'number') {
     // Traverse stack-based React tree.
@@ -71,3 +71,5 @@ export default function getReactStack(instance) {
   }
   return hydrateTree(root)
 }
+
+export default getReactStack

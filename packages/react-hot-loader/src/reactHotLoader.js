@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+import { isCompositeComponent } from './internal/reactUtils'
 import { didUpdate } from './updateCounter'
 import {
   updateProxyById,
@@ -6,71 +8,50 @@ import {
   createProxyForType,
 } from './reconciler/proxies'
 
-function resolveType(type, disableComponentProxy) {
-  // We only care about composite components
-  if (typeof type !== 'function') {
-    return type
-  }
+function resolveType(type) {
+  if (!isCompositeComponent(type)) return type
 
-  // always could...
-  const couldWrapWithProxy = true
+  const proxy = reactHotLoader.disableProxyCreation
+    ? getProxyByType(type)
+    : createProxyForType(type)
 
-  // is proxing is disabled - do not create auto proxies, but use the old ones
-  const proxy =
-    !disableComponentProxy && couldWrapWithProxy
-      ? createProxyForType(type)
-      : getProxyByType(type)
-
-  if (!proxy) {
-    return type
-  }
-
-  return proxy.get()
+  return proxy ? proxy.get() : type
 }
 
 const reactHotLoader = {
   register(type, uniqueLocalName, fileName) {
-    didUpdate()
-
-    if (typeof type !== 'function') {
-      return
+    if (
+      isCompositeComponent(type) &&
+      typeof uniqueLocalName === 'string' &&
+      uniqueLocalName &&
+      typeof fileName === 'string' &&
+      fileName
+    ) {
+      didUpdate()
+      updateProxyById(`${fileName}#${uniqueLocalName}`, type)
     }
-    if (!uniqueLocalName || !fileName) {
-      return
-    }
-    if (typeof uniqueLocalName !== 'string' || typeof fileName !== 'string') {
-      return
-    }
-    const id = fileName + '#' + uniqueLocalName // eslint-disable-line prefer-template
-
-    updateProxyById(id, type)
   },
 
-  reset(useWeakMap) {
-    resetProxies(useWeakMap)
+  reset() {
+    resetProxies()
   },
 
   patch(React) {
     if (!React.createElement.isPatchedByReactHotLoader) {
       const originalCreateElement = React.createElement
-      React.createElement = (type, ...args) => {
-        // Trick React into rendering a proxy so that
-        // its state is preserved when the class changes.
-        // This will update the proxy if it's for a known type.
-        const resolvedType = resolveType(
-          type,
-          reactHotLoader.disableComponentProxy,
-        )
-        return originalCreateElement(resolvedType, ...args)
-      }
+      // Trick React into rendering a proxy so that
+      // its state is preserved when the class changes.
+      // This will update the proxy if it's for a known type.
+      React.createElement = (type, ...args) =>
+        originalCreateElement(resolveType(type), ...args)
       React.createElement.isPatchedByReactHotLoader = true
     }
 
     if (!React.createFactory.isPatchedByReactHotLoader) {
+      // Patch React.createFactory to use patched createElement
+      // because the original implementation uses the internal,
+      // unpatched ReactElement.createElement
       React.createFactory = type => {
-        // Patch React.createFactory to use patched createElement
-        // because the original implementation uses the internal,
-        // unpatched ReactElement.createElement
         const factory = React.createElement.bind(null, type)
         factory.type = type
         return factory
@@ -80,15 +61,16 @@ const reactHotLoader = {
 
     if (!React.Children.only.isPatchedByReactHotLoader) {
       const originalChildrenOnly = React.Children.only
-      React.Children.only = element =>
-        originalChildrenOnly({ ...element, type: resolveType(element.type) })
+      // Use the same trick as React.createElement
+      React.Children.only = children =>
+        originalChildrenOnly({ ...children, type: resolveType(children.type) })
       React.Children.only.isPatchedByReactHotLoader = true
     }
 
     reactHotLoader.reset()
   },
 
-  disableComponentProxy: false,
+  disableProxyCreation: false,
 
   config: {
     logLevel: 'error',

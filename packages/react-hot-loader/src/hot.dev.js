@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import hoistNonReactStatic from 'hoist-non-react-statics'
+import { getComponentDisplayName } from './internal/reactUtils'
 import AppContainer from './AppContainer.dev'
 import reactHotLoader from './reactHotLoader'
 
-const getDisplayName = WrappedComponent =>
-  WrappedComponent.displayName || WrappedComponent.name || 'Component'
-
 const createHoc = (SourceComponent, TargetComponent) => {
   hoistNonReactStatic(TargetComponent, SourceComponent)
-  TargetComponent.displayName = `HotExported${getDisplayName(SourceComponent)}`
+  TargetComponent.displayName = `HotExported${getComponentDisplayName(
+    SourceComponent,
+  )}`
   return TargetComponent
 }
 
@@ -43,7 +43,7 @@ const hot = sourceModule => {
     // register proxy for wrapped component
     reactHotLoader.register(
       WrappedComponent,
-      getDisplayName(WrappedComponent),
+      getComponentDisplayName(WrappedComponent),
       `RHL${sourceModule.id}`,
     )
 
