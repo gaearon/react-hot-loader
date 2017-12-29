@@ -2,7 +2,7 @@
 /* eslint-disable react/no-render-return-value */
 import React from 'react'
 import { createMounter, ensureNoWarnings } from './helper'
-import createProxy from '../lib'
+import createProxy, { setConfig } from '../lib'
 
 const createFixtures = () => ({
   modern: {
@@ -71,7 +71,16 @@ describe('consistency', () => {
       let Bar
       let Baz
       let Foo
+      let logger
+
       beforeEach(() => {
+        logger = {
+          debug: jest.fn(),
+          log: jest.fn(),
+          warn: jest.fn(),
+          error: jest.fn(),
+        }
+        setConfig({ logger })
         ;({ Bar, Baz, Foo } = createFixtures()[type])
       })
 
@@ -171,6 +180,19 @@ describe('consistency', () => {
         expect(BarProxy).toBe(BazProxy)
         expect(barInstance.constructor).toBe(BazProxy)
         expect(barInstance instanceof BazProxy).toBe(true)
+      })
+
+      it('replaces toString (if readable)', () => {
+        const barProxy = createProxy(Bar, 'bar')
+        const BarProxy = barProxy.get()
+        expect(BarProxy.toString()).toMatch(/^(class|function) Bar/)
+
+        Object.defineProperty(Foo, 'toString', {
+          configurable: false,
+          value: Foo.toString,
+          writable: false,
+        })
+        createProxy(Foo, 'foo')
       })
 
       it('sets up displayName from displayName or name', () => {

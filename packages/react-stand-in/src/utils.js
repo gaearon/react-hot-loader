@@ -1,3 +1,5 @@
+import config from './config'
+
 export function getDisplayName(Component) {
   const displayName = Component.displayName || Component.name
   return displayName && displayName !== 'ReactComponent'
@@ -56,4 +58,23 @@ export function shallowStringsEqual(a, b) {
     }
   }
   return true
+}
+
+export function deepPrototypeUpdate(dest, source) {
+  const deepDest = Object.getPrototypeOf(dest)
+  const deepSrc = Object.getPrototypeOf(source)
+  if (deepDest && deepSrc && deepSrc !== deepDest) {
+    deepPrototypeUpdate(deepDest, deepSrc)
+  }
+  if (source.prototype && source.prototype !== dest.prototype) {
+    dest.prototype = source.prototype
+  }
+}
+
+export function safeDefineProperty(target, key, props) {
+  try {
+    Object.defineProperty(target, key, props)
+  } catch (e) {
+    config.logger.warn('Error while wrapping', key, ' -> ', e)
+  }
 }

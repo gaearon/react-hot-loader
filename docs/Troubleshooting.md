@@ -287,3 +287,27 @@ modules with `hot` exported components – functions, constants, anything NOT RE
 #### RHL is not working with Webpack DLL
 
 React Hot Loader rely on a Babel transformation that register all exports in a global. That's why dependencies included in [Webpack DLL](https://webpack.js.org/plugins/dll-plugin/#dllplugin) will not work.
+
+#### React-hot-loader: fatal error caused by XXX - no instrumentation found.
+
+React-hot-loader found an Element without instrumentation due to a wrong configuration.
+To fix this issue - just require RHL before React.
+
+Example of a wrong configuration:
+
+```js
+import * as React from 'react'
+import { hot } from 'react-hot-loader' // React is not patched
+```
+
+Example of correct configurations:
+
+```js
+import { hot } from 'react-hot-loader'
+import * as React from 'react' // React is now patched
+```
+
+```js
+import React from 'react'
+import { hot } from 'react-hot-loader' // React is now patched
+```

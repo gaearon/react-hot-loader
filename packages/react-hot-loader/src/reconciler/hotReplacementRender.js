@@ -199,6 +199,16 @@ const hotReplacementRender = (instance, stack) => {
     } else {
       // unwrap proxy
       const childType = getElementType(child)
+      if (!stackChild.type[PROXY_KEY]) {
+        /* eslint-disable no-console */
+        logger.error(
+          'React-hot-loader: fatal error caused by ',
+          stackChild.type,
+          ' - no instrumentation found. ',
+          'Please require react-hot-loader before React. More in troubleshooting.',
+        )
+        throw new Error('React-hot-loader: wrong configuration')
+      }
 
       if (child.type === stackChild.type) {
         next(stackChild.instance)
@@ -206,7 +216,7 @@ const hotReplacementRender = (instance, stack) => {
         // they are both registered, or have equal code/displayname/signature
 
         // update proxy using internal PROXY_KEY
-        updateProxyById(stackChild.instance[PROXY_KEY], childType)
+        updateProxyById(stackChild.type[PROXY_KEY], childType)
 
         next(stackChild.instance)
       } else if (reactHotLoader.debug) {
