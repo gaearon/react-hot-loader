@@ -4,6 +4,7 @@ import {
   safeReactConstructor,
   getOwnKeys,
   shallowStringsEqual,
+  deepPrototypeUpdate,
 } from './utils'
 import { REGENERATE_METHOD, PREFIX, GENERATION } from './constants'
 import config from './config'
@@ -20,7 +21,7 @@ function mergeComponents(
 
     try {
       // Bypass babel class inheritance checking
-      InitialComponent.prototype = NextComponent.prototype
+      deepPrototypeUpdate(InitialComponent, NextComponent)
     } catch (e) {
       // It was ES6 class
     }

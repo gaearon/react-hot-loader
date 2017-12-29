@@ -1,7 +1,7 @@
+import { hot } from 'react-hot-loader'
 import * as React from 'react'
 import styled from 'styled-components'
 import emoStyled from 'react-emotion'
-import { hot } from 'react-hot-loader'
 import Counter from './Counter'
 
 const BigText = styled.div`
@@ -9,7 +9,7 @@ const BigText = styled.div`
 `
 
 const SmallText = emoStyled('div')`
-  font-size: 12px;
+  font-size: 22px;
 `
 
 const App = () => (

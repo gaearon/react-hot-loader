@@ -1,4 +1,6 @@
 import shallowEqual from 'shallowequal'
+import { safeDefineProperty } from './utils'
+import { PROXY_KEY, UNWRAP_PROXY } from './constants'
 
 const RESERVED_STATICS = [
   'length',
@@ -9,6 +11,8 @@ const RESERVED_STATICS = [
   'prototype',
   'toString',
   'valueOf',
+  PROXY_KEY,
+  UNWRAP_PROXY,
 ]
 
 function transferStaticProps(
@@ -26,7 +30,7 @@ function transferStaticProps(
     const savedDescriptor = savedDescriptors[key]
 
     if (!shallowEqual(prevDescriptor, savedDescriptor)) {
-      Object.defineProperty(NextComponent, key, prevDescriptor)
+      safeDefineProperty(NextComponent, key, prevDescriptor)
     }
   })
 
@@ -46,12 +50,12 @@ function transferStaticProps(
       savedDescriptor &&
       !shallowEqual(savedDescriptor, prevDescriptor)
     ) {
-      Object.defineProperty(NextComponent, key, prevDescriptor)
+      safeDefineProperty(NextComponent, key, prevDescriptor)
       return
     }
 
     if (prevDescriptor && !savedDescriptor) {
-      Object.defineProperty(ProxyComponent, key, prevDescriptor)
+      safeDefineProperty(ProxyComponent, key, prevDescriptor)
       return
     }
 
@@ -61,7 +65,7 @@ function transferStaticProps(
     }
 
     savedDescriptors[key] = nextDescriptor
-    Object.defineProperty(ProxyComponent, key, nextDescriptor)
+    safeDefineProperty(ProxyComponent, key, nextDescriptor)
   })
 
   // Remove static methods and properties that are no longer defined
@@ -93,7 +97,7 @@ function transferStaticProps(
       return
     }
 
-    Object.defineProperty(ProxyComponent, key, {
+    safeDefineProperty(ProxyComponent, key, {
       value: undefined,
     })
   })

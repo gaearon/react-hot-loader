@@ -1,7 +1,12 @@
 import { Component } from 'react'
 import transferStaticProps from './transferStaticProps'
 import { GENERATION, PROXY_KEY, UNWRAP_PROXY } from './constants'
-import { getDisplayName, isReactClass, identity } from './utils'
+import {
+  getDisplayName,
+  isReactClass,
+  identity,
+  safeDefineProperty,
+} from './utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 
 const proxies = new WeakMap()
@@ -38,7 +43,6 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       super(props, context)
 
       this[GENERATION] = 0
-      this[PROXY_KEY] = proxyKey
 
       // As long we can't override constructor
       // every class shall evolve from a base class
@@ -75,12 +79,28 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     return CurrentComponent
   }
 
-  ProxyComponent.toString = function toString() {
-    return CurrentComponent.toString()
-  }
+  safeDefineProperty(ProxyComponent, UNWRAP_PROXY, {
+    configurable: false,
+    writable: false,
+    enumerable: false,
+    value: getCurrent,
+  })
 
-  ProxyComponent[UNWRAP_PROXY] = getCurrent
-  ProxyComponent.RHL_PROXY_ID = proxyKey
+  safeDefineProperty(ProxyComponent, PROXY_KEY, {
+    configurable: false,
+    writable: false,
+    enumerable: false,
+    value: proxyKey,
+  })
+
+  safeDefineProperty(ProxyComponent, 'toString', {
+    configurable: true,
+    writable: false,
+    enumerable: false,
+    value: function toString() {
+      return String(CurrentComponent)
+    },
+  })
 
   function update(NextComponent) {
     if (typeof NextComponent !== 'function') {
@@ -110,13 +130,9 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     const displayName = getDisplayName(CurrentComponent)
     ProxyComponent.displayName = displayName
 
-    try {
-      Object.defineProperty(ProxyComponent, 'name', {
-        value: displayName,
-      })
-    } catch (err) {
-      // Ignore error, it is not very important
-    }
+    safeDefineProperty(ProxyComponent, 'name', {
+      value: displayName,
+    })
 
     savedDescriptors = transferStaticProps(
       ProxyComponent,
