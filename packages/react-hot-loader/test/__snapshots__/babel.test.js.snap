@@ -35,13 +35,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -78,13 +78,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -146,13 +146,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -214,13 +214,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -257,13 +257,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -302,13 +302,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -348,13 +348,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -391,13 +391,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -440,13 +440,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -487,13 +487,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -532,13 +532,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -573,13 +573,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -616,13 +616,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -664,13 +664,13 @@ var Foo = function () {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -694,13 +694,13 @@ Foo.bar = function (a, b) {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -778,18 +778,18 @@ exports.default = _default;
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(A, \\"A\\", __FILENAME__);
-  RHL.register(B, \\"B\\", __FILENAME__);
-  RHL.register(C, \\"C\\", __FILENAME__);
-  RHL.register(D, \\"D\\", __FILENAME__);
-  RHL.register(E, \\"E\\", __FILENAME__);
-  RHL.register(_default, \\"default\\", __FILENAME__);
+  reactHotLoader.register(A, \\"A\\", __FILENAME__);
+  reactHotLoader.register(B, \\"B\\", __FILENAME__);
+  reactHotLoader.register(C, \\"C\\", __FILENAME__);
+  reactHotLoader.register(D, \\"D\\", __FILENAME__);
+  reactHotLoader.register(E, \\"E\\", __FILENAME__);
+  reactHotLoader.register(_default, \\"default\\", __FILENAME__);
 })();
 
 ;"
@@ -822,14 +822,14 @@ exports.default = _default;
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Counter, \\"Counter\\", __FILENAME__);
-  RHL.register(_default, \\"default\\", __FILENAME__);
+  reactHotLoader.register(Counter, \\"Counter\\", __FILENAME__);
+  reactHotLoader.register(_default, \\"default\\", __FILENAME__);
 })();
 
 ;"
@@ -855,13 +855,13 @@ function spread() {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(spread, \\"spread\\", __FILENAME__);
+  reactHotLoader.register(spread, \\"spread\\", __FILENAME__);
 })();
 
 ;"
@@ -882,14 +882,14 @@ exports.default = _default2;
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(_default, \\"_default\\", __FILENAME__);
-  RHL.register(_default2, \\"default\\", __FILENAME__);
+  reactHotLoader.register(_default, \\"_default\\", __FILENAME__);
+  reactHotLoader.register(_default2, \\"default\\", __FILENAME__);
 })();
 
 ;"
@@ -917,13 +917,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -947,13 +947,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -977,13 +977,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1009,13 +1009,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1041,13 +1041,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1073,13 +1073,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1105,13 +1105,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1135,13 +1135,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1171,13 +1171,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1207,13 +1207,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1241,13 +1241,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1271,13 +1271,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1303,13 +1303,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1339,13 +1339,13 @@ class Foo {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1365,13 +1365,13 @@ Foo.bar = (a, b) => {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+  reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
 })();
 
 ;"
@@ -1425,18 +1425,18 @@ exports.default = _default;
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(A, \\"A\\", __FILENAME__);
-  RHL.register(B, \\"B\\", __FILENAME__);
-  RHL.register(C, \\"C\\", __FILENAME__);
-  RHL.register(D, \\"D\\", __FILENAME__);
-  RHL.register(E, \\"E\\", __FILENAME__);
-  RHL.register(_default, \\"default\\", __FILENAME__);
+  reactHotLoader.register(A, \\"A\\", __FILENAME__);
+  reactHotLoader.register(B, \\"B\\", __FILENAME__);
+  reactHotLoader.register(C, \\"C\\", __FILENAME__);
+  reactHotLoader.register(D, \\"D\\", __FILENAME__);
+  reactHotLoader.register(E, \\"E\\", __FILENAME__);
+  reactHotLoader.register(_default, \\"default\\", __FILENAME__);
 })();
 
 ;"
@@ -1463,14 +1463,14 @@ exports.default = _default;
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(Counter, \\"Counter\\", __FILENAME__);
-  RHL.register(_default, \\"default\\", __FILENAME__);
+  reactHotLoader.register(Counter, \\"Counter\\", __FILENAME__);
+  reactHotLoader.register(_default, \\"default\\", __FILENAME__);
 })();
 
 ;"
@@ -1492,13 +1492,13 @@ function spread(...args) {
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(spread, \\"spread\\", __FILENAME__);
+  reactHotLoader.register(spread, \\"spread\\", __FILENAME__);
 })();
 
 ;"
@@ -1519,14 +1519,14 @@ exports.default = _default2;
 ;
 
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
-  RHL.register(_default, \\"_default\\", __FILENAME__);
-  RHL.register(_default2, \\"default\\", __FILENAME__);
+  reactHotLoader.register(_default, \\"_default\\", __FILENAME__);
+  reactHotLoader.register(_default2, \\"default\\", __FILENAME__);
 })();
 
 ;"
