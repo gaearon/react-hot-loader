@@ -20,7 +20,7 @@ module.exports = function plugin(args) {
   const { types: t, template } = args
 
   const buildRegistration = template(
-    'RHL.register(ID, NAME, FILENAME);',
+    'reactHotLoader.register(ID, NAME, FILENAME);',
     templateOptions,
   )
   const headerTemplate = template("require('react-hot-loader/patch');")
@@ -31,9 +31,9 @@ module.exports = function plugin(args) {
   const buildTagger = template(
     `
 (function () {
-  var RHL = require('react-hot-loader/patch').default;
+  var reactHotLoader = require('react-hot-loader/patch').default;
 
-  if (!RHL) {
+  if (!reactHotLoader) {
     return;
   }
 
