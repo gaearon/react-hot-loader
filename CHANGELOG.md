@@ -1,3 +1,11 @@
+<a name="4.0.0-beta.11"></a>
+
+# [4.0.0-beta.11](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.10...v4.0.0-beta.11) (2017-12-30)
+
+### Bug Fixes
+
+* **build:** fix builded files ([f4aa275](https://github.com/gaearon/react-hot-loader/commit/f4aa275))
+
 <a name="4.0.0-beta.10"></a>
 
 # [4.0.0-beta.10](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.9...v4.0.0-beta.10) (2017-12-30)
