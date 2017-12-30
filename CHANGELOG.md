@@ -1,3 +1,11 @@
+<a name="4.0.0-beta.10"></a>
+
+# [4.0.0-beta.10](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.9...v4.0.0-beta.10) (2017-12-30)
+
+### Bug Fixes
+
+* **babel:** do not use capital letters ([#754](https://github.com/gaearon/react-hot-loader/issues/754)) ([bf48675](https://github.com/gaearon/react-hot-loader/commit/bf48675)), closes [#753](https://github.com/gaearon/react-hot-loader/issues/753)
+
 <a name="4.0.0-beta.9"></a>
 
 # [4.0.0-beta.9](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.8...v4.0.0-beta.9) (2017-12-30)
