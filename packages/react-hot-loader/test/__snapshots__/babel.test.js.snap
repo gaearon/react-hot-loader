@@ -7,6 +7,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
+require('react-hot-loader/patch');
+
 var Foo = function () {
   function Foo() {
     var _arguments = arguments;
@@ -32,17 +34,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -53,6 +53,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -75,17 +77,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -98,6 +98,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step(\\"next\\", value); }, function (err) { step(\\"throw\\", err); }); } } return step(\\"next\\"); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -143,17 +145,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -166,6 +166,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step(\\"next\\", value); }, function (err) { step(\\"throw\\", err); }); } } return step(\\"next\\"); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -211,17 +213,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -232,6 +232,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -254,17 +256,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -275,6 +275,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -299,17 +301,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -320,6 +320,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -345,17 +347,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -366,6 +366,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -388,17 +390,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -409,6 +409,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -437,17 +439,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -458,6 +458,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -484,17 +486,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -505,6 +505,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -529,17 +531,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -550,6 +550,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -570,17 +572,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -591,6 +591,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -613,17 +615,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -634,6 +634,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function () {
   function Foo() {
@@ -661,17 +663,15 @@ var Foo = function () {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -680,6 +680,8 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 "\\"use strict\\";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Foo = function Foo() {
   _classCallCheck(this, Foo);
@@ -691,17 +693,15 @@ Foo.bar = function (a, b) {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -723,6 +723,8 @@ var _leftPad2 = _interopRequireDefault(_leftPad);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var A = 42;
 function B() {
@@ -775,27 +777,20 @@ var _default = React.createClass({
 exports.default = _default;
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(A, \\"A\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(B, \\"B\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(C, \\"C\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(D, \\"D\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(E, \\"E\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(_default, \\"default\\", __FILENAME__);
-}();
+  RHL.register(A, \\"A\\", __FILENAME__);
+  RHL.register(B, \\"B\\", __FILENAME__);
+  RHL.register(C, \\"C\\", __FILENAME__);
+  RHL.register(D, \\"D\\", __FILENAME__);
+  RHL.register(E, \\"E\\", __FILENAME__);
+  RHL.register(_default, \\"default\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -808,6 +803,8 @@ Object.defineProperty(exports, \\"__esModule\\", {
 });
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+require('react-hot-loader/patch');
 
 var Counter = function Counter() {
   _classCallCheck(this, Counter);
@@ -824,19 +821,16 @@ var _default = function _default() {
 exports.default = _default;
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Counter, \\"Counter\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(_default, \\"default\\", __FILENAME__);
-}();
+  RHL.register(Counter, \\"Counter\\", __FILENAME__);
+  RHL.register(_default, \\"default\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -848,6 +842,9 @@ Object.defineProperty(exports, \\"__esModule\\", {
   value: true
 });
 exports.spread = spread;
+
+require('react-hot-loader/patch');
+
 function spread() {
   for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
@@ -857,17 +854,15 @@ function spread() {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(spread, \\"spread\\", __FILENAME__);
-}();
+  RHL.register(spread, \\"spread\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -878,30 +873,32 @@ exports[`Targetting "es2015" tags potential React components name clash.js 1`] =
 Object.defineProperty(exports, \\"__esModule\\", {
   value: true
 });
+
+require('react-hot-loader/patch');
+
 var _default = 10;
 var _default2 = 42;
 exports.default = _default2;
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, \\"_default\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(_default2, \\"default\\", __FILENAME__);
-}();
+  RHL.register(_default, \\"_default\\", __FILENAME__);
+  RHL.register(_default2, \\"default\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods arguments.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -919,23 +916,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods arrow function in constructor.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -949,23 +946,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods async functions expression body.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -979,23 +976,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods async functions.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -1011,23 +1008,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods block body.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -1043,23 +1040,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods default params.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -1075,23 +1072,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods destructured params.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -1107,23 +1104,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods expression body.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -1137,23 +1134,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods nested arguments.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -1173,23 +1170,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods nested new.target.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -1209,23 +1206,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods new.target.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -1243,23 +1240,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods not a function.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -1273,23 +1270,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods not an arrow function.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -1305,23 +1302,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods same name as class method.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {
   constructor() {
@@ -1341,23 +1338,23 @@ class Foo {
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
 
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods static property.js 1`] = `
 "\\"use strict\\";
+
+require('react-hot-loader/patch');
 
 class Foo {}
 
@@ -1367,17 +1364,15 @@ Foo.bar = (a, b) => {
 
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Foo, \\"Foo\\", __FILENAME__);
-}();
+  RHL.register(Foo, \\"Foo\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -1395,6 +1390,8 @@ var _leftPad = require(\\"left-pad\\");
 var _leftPad2 = _interopRequireDefault(_leftPad);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+require('react-hot-loader/patch');
 
 const A = 42;
 function B() {
@@ -1427,27 +1424,20 @@ const _default = React.createClass({
 exports.default = _default;
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(A, \\"A\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(B, \\"B\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(C, \\"C\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(D, \\"D\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(E, \\"E\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(_default, \\"default\\", __FILENAME__);
-}();
+  RHL.register(A, \\"A\\", __FILENAME__);
+  RHL.register(B, \\"B\\", __FILENAME__);
+  RHL.register(C, \\"C\\", __FILENAME__);
+  RHL.register(D, \\"D\\", __FILENAME__);
+  RHL.register(E, \\"E\\", __FILENAME__);
+  RHL.register(_default, \\"default\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -1458,6 +1448,9 @@ exports[`Targetting "modern" tags potential React components counter.js 1`] = `
 Object.defineProperty(exports, \\"__esModule\\", {
   value: true
 });
+
+require('react-hot-loader/patch');
+
 class Counter {}
 
 const _default = () => React.createElement(
@@ -1469,19 +1462,16 @@ const _default = () => React.createElement(
 exports.default = _default;
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Counter, \\"Counter\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(_default, \\"default\\", __FILENAME__);
-}();
+  RHL.register(Counter, \\"Counter\\", __FILENAME__);
+  RHL.register(_default, \\"default\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -1493,22 +1483,23 @@ Object.defineProperty(exports, \\"__esModule\\", {
   value: true
 });
 exports.spread = spread;
+
+require('react-hot-loader/patch');
+
 function spread(...args) {
   return args.push(1);
 }
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(spread, \\"spread\\", __FILENAME__);
-}();
+  RHL.register(spread, \\"spread\\", __FILENAME__);
+})();
 
 ;"
 `;
@@ -1519,24 +1510,24 @@ exports[`Targetting "modern" tags potential React components name clash.js 1`] =
 Object.defineProperty(exports, \\"__esModule\\", {
   value: true
 });
+
+require('react-hot-loader/patch');
+
 const _default = 10;
 const _default2 = 42;
 exports.default = _default2;
 ;
 
-var _temp = function () {
-  var global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+(function () {
+  var RHL = require('react-hot-loader/patch').default;
 
-  var __REACT_HOT_LOADER__ = require('react-hot-loader/patch').default;
-
-  if (!__REACT_HOT_LOADER__) {
+  if (!RHL) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, \\"_default\\", __FILENAME__);
-
-  __REACT_HOT_LOADER__.register(_default2, \\"default\\", __FILENAME__);
-}();
+  RHL.register(_default, \\"_default\\", __FILENAME__);
+  RHL.register(_default2, \\"default\\", __FILENAME__);
+})();
 
 ;"
 `;
