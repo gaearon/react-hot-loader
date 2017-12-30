@@ -1,11 +1,9 @@
 /* eslint-disable react/prop-types */
 
-import React, { Component } from 'react'
+import React from 'react'
 
-class AppContainer extends Component {
-  render() {
-    return React.Children.only(this.props.children)
-  }
+function AppContainer(props) {
+  return React.Children.only(props.children)
 }
 
 export default AppContainer

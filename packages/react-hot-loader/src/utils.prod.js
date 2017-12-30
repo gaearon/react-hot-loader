@@ -1,2 +1,4 @@
-export const areComponentsEqual = (a, b) => a === b
-export const setConfig = () => {}
+export const areComponentsEqual = function(a, b) {
+  return a === b
+}
+export const setConfig = function() {}
