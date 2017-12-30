@@ -1,3 +1,11 @@
+<a name="4.0.0-beta.9"></a>
+
+# [4.0.0-beta.9](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.8...v4.0.0-beta.9) (2017-12-30)
+
+### Bug Fixes
+
+* **react-hot-loader:** require `react-hot-loader/patch` in each file ([3038538](https://github.com/gaearon/react-hot-loader/commit/3038538)), closes [#750](https://github.com/gaearon/react-hot-loader/issues/750)
+
 <a name="4.0.0-beta.8"></a>
 
 # [4.0.0-beta.8](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.7...v4.0.0-beta.8) (2017-12-29)
