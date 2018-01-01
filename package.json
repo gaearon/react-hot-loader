@@ -48,7 +48,7 @@
     "husky": "^0.14.3",
     "jest": "^22.0.4",
     "lerna": "^2.4.0",
-    "lerna-tools": "^0.0.3",
+    "lerna-tools": "^1.0.0",
     "lint-staged": "^6.0.0",
     "mocha": "^4.0.1",
     "prettier": "^1.9.2",

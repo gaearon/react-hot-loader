@@ -1,0 +1,4 @@
+{
+  "babelrc": false,
+  "presets": [["env", { "loose": true }], "react"]
+}
