@@ -1,3 +1,11 @@
+<a name="4.0.0-beta.12"></a>
+
+# [4.0.0-beta.12](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.11...v4.0.0-beta.12) (2018-01-02)
+
+### Bug Fixes
+
+* target ES5 for production code ([b1d6d05](https://github.com/gaearon/react-hot-loader/commit/b1d6d05)), closes [#758](https://github.com/gaearon/react-hot-loader/issues/758)
+
 <a name="4.0.0-beta.11"></a>
 
 # [4.0.0-beta.11](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.10...v4.0.0-beta.11) (2017-12-30)
