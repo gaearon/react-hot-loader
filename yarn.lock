@@ -3656,9 +3656,9 @@ left-pad@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/left-pad/-/left-pad-1.2.0.tgz#d30a73c6b8201d8f7d8e7956ba9616087a68e0ee"
 
-lerna-tools@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/lerna-tools/-/lerna-tools-0.0.3.tgz#8c012d9345a7885ae253bce74ebb0cd72f266782"
+lerna-tools@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/lerna-tools/-/lerna-tools-1.0.0.tgz#137bf98cd34e51289e779dcca61bc77162400fcf"
   dependencies:
     chalk "^2.1.0"
     glob "^7.1.2"
