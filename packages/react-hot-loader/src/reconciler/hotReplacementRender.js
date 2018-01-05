@@ -181,7 +181,7 @@ const hotReplacementRender = (instance, stack) => {
     }
 
     // text node
-    if (typeof child !== 'object' || !stackChild.instance) {
+    if (typeof child !== 'object' || !stackChild || !stackChild.instance) {
       return
     }
 

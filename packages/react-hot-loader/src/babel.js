@@ -23,7 +23,13 @@ module.exports = function plugin(args) {
     'reactHotLoader.register(ID, NAME, FILENAME);',
     templateOptions,
   )
-  const headerTemplate = template("require('react-hot-loader/patch');")
+  const headerTemplate = template(
+    `(function(){ 
+       var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+       moduleEntry && moduleEntry.enter(module);
+     })()`,
+    templateOptions,
+  )
   const evalTemplate = template('this[key]=eval(code);', templateOptions)
 
   // We're making the IIFE we insert at the end of the file an unused variable
@@ -31,13 +37,15 @@ module.exports = function plugin(args) {
   const buildTagger = template(
     `
 (function () {
-  var reactHotLoader = require('react-hot-loader/patch').default;
+  var { default: reactHotLoader, moduleEntry } = require('react-hot-loader/patch');  
 
   if (!reactHotLoader) {
     return;
   }
-
+  
   REGISTRATIONS
+  
+  moduleEntry.leave(module);
 })();
   `,
     templateOptions,
