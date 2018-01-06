@@ -24,10 +24,10 @@ module.exports = function plugin(args) {
     templateOptions,
   )
   const headerTemplate = template(
-    `(function(){ 
+    `(function () {
        var moduleEntry = require('react-hot-loader/patch').moduleEntry;
        moduleEntry && moduleEntry.enter(module);
-     })()`,
+     }())`,
     templateOptions,
   )
   const evalTemplate = template('this[key]=eval(code);', templateOptions)
@@ -37,16 +37,17 @@ module.exports = function plugin(args) {
   const buildTagger = template(
     `
 (function () {
-  var { default: reactHotLoader, moduleEntry } = require('react-hot-loader/patch');  
+  var reactHotLoader = require('react-hot-loader/patch').default;
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
   }
-  
+
   REGISTRATIONS
-  
+
   moduleEntry.leave(module);
-})();
+}());
   `,
     templateOptions,
   )

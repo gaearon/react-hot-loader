@@ -3,6 +3,9 @@ import React from 'react'
 import { mount } from 'enzyme'
 import moduleEntry, { isModuleOpened } from '../src/hotModule'
 import hot from '../src/hot.dev'
+import logger from '../src/logger'
+
+jest.mock('../src/logger')
 
 describe('module.hot', () => {
   describe('moduleEntry', () => {
@@ -74,7 +77,7 @@ describe('module.hot', () => {
       wrapper.unmount()
     })
 
-    it('should triggen error in unmount in opened state', () => {
+    it('should trigger error in unmount in opened state', () => {
       const module = {
         id: 'error42',
       }
@@ -83,6 +86,12 @@ describe('module.hot', () => {
       const HotComponent = hot(module)(Component)
       const wrapper = mount(<HotComponent />)
       wrapper.unmount()
+      expect(logger.error).toHaveBeenCalledTimes(1)
+      expect(logger.error)
+        .toHaveBeenCalledWith(`React-hot-loader: Detected AppContainer unmount on module 'error42' update.
+Did you use "hot(Component)" and "ReactDOM.render()" in the same file?
+"hot(Component)" shall only be used as export.
+Please refer to "Getting Started" (https://github.com/gaearon/react-hot-loader/).`)
     })
   })
 })

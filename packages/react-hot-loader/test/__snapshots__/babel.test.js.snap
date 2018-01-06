@@ -39,10 +39,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -90,10 +89,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -166,10 +164,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -242,10 +239,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -293,10 +289,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -346,10 +341,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -400,10 +394,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -451,10 +444,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -508,10 +500,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -563,10 +554,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -616,10 +606,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -665,10 +654,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -716,10 +704,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -772,10 +759,9 @@ var Foo = function () {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -810,10 +796,9 @@ Foo.bar = function (a, b) {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -902,10 +887,9 @@ exports.default = _default;
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -954,10 +938,9 @@ exports.default = _default;
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -995,10 +978,9 @@ function spread() {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1030,10 +1012,9 @@ exports.default = _default2;
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1073,10 +1054,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1111,10 +1091,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1149,10 +1128,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1189,10 +1167,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1229,10 +1206,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1269,10 +1245,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1309,10 +1284,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1347,10 +1321,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1391,10 +1364,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1435,10 +1407,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1477,10 +1448,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1515,10 +1485,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1555,10 +1524,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1599,10 +1567,9 @@ class Foo {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1633,10 +1600,9 @@ Foo.bar = (a, b) => {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1701,10 +1667,9 @@ exports.default = _default;
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1747,10 +1712,9 @@ exports.default = _default;
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1784,10 +1748,9 @@ function spread(...args) {
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;
@@ -1819,10 +1782,9 @@ exports.default = _default2;
 ;
 
 (function () {
-  var {
-    default: reactHotLoader,
-    moduleEntry
-  } = require('react-hot-loader/patch');
+  var reactHotLoader = require('react-hot-loader/patch').default;
+
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
 
   if (!reactHotLoader) {
     return;

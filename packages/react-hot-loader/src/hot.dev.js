@@ -4,6 +4,7 @@ import { getComponentDisplayName } from './internal/reactUtils'
 import AppContainer from './AppContainer.dev'
 import reactHotLoader from './reactHotLoader'
 import { isModuleOpened } from './hotModule'
+import logger from './logger'
 
 const createHoc = (SourceComponent, TargetComponent) => {
   hoistNonReactStatic(TargetComponent, SourceComponent)
@@ -58,13 +59,13 @@ const hot = sourceModule => {
         componentWillUnmount() {
           if (isModuleOpened(sourceModule)) {
             const componentName = getComponentDisplayName(WrappedComponent)
-            console.error(
+            logger.error(
               `React-hot-loader: Detected AppContainer unmount on module '${
                 sourceModule.id
-              }' update.
-              Did you use {hot} on a ${componentName} in the same file with 'render' from 'react-dom'?
-              {hot} shall only be used to mark _exports_, better - default export only. 
-              Never use it on imports or arbitrary variables.`,
+              }' update.\n` +
+                `Did you use "hot(${componentName})" and "ReactDOM.render()" in the same file?\n` +
+                `"hot(${componentName})" shall only be used as export.\n` +
+                `Please refer to "Getting Started" (https://github.com/gaearon/react-hot-loader/).`,
             )
           }
           instances = instances.filter(a => a !== this)
