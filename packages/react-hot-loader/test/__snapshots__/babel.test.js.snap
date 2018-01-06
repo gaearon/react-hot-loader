@@ -7,7 +7,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -37,11 +41,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -54,7 +61,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -80,11 +91,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -99,7 +113,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -148,11 +166,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -167,7 +188,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -216,11 +241,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -233,7 +261,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -259,11 +291,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -276,7 +311,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -304,11 +343,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -321,7 +363,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -350,11 +396,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -367,7 +416,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -393,11 +446,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -410,7 +466,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -442,11 +502,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -459,7 +522,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -489,11 +556,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -506,7 +576,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -534,11 +608,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -551,7 +628,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -575,11 +656,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -592,7 +676,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -618,11 +706,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -635,7 +726,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function () {
   function Foo() {
@@ -666,11 +761,14 @@ var Foo = function () {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -681,7 +779,11 @@ exports[`Targetting "es2015" copies arrow function body block onto hidden class 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Foo = function Foo() {
   _classCallCheck(this, Foo);
@@ -696,11 +798,14 @@ Foo.bar = function (a, b) {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -724,7 +829,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var A = 42;
 function B() {
@@ -780,6 +889,8 @@ exports.default = _default;
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
@@ -790,6 +901,7 @@ exports.default = _default;
   reactHotLoader.register(D, \\"D\\", __FILENAME__);
   reactHotLoader.register(E, \\"E\\", __FILENAME__);
   reactHotLoader.register(_default, \\"default\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -804,7 +916,11 @@ Object.defineProperty(exports, \\"__esModule\\", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var Counter = function Counter() {
   _classCallCheck(this, Counter);
@@ -824,12 +940,15 @@ exports.default = _default;
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Counter, \\"Counter\\", __FILENAME__);
   reactHotLoader.register(_default, \\"default\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -843,7 +962,11 @@ Object.defineProperty(exports, \\"__esModule\\", {
 });
 exports.spread = spread;
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 function spread() {
   for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -857,11 +980,14 @@ function spread() {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(spread, \\"spread\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -874,7 +1000,11 @@ Object.defineProperty(exports, \\"__esModule\\", {
   value: true
 });
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 var _default = 10;
 var _default2 = 42;
@@ -884,12 +1014,15 @@ exports.default = _default2;
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(_default, \\"_default\\", __FILENAME__);
   reactHotLoader.register(_default2, \\"default\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -898,7 +1031,11 @@ exports.default = _default2;
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods arguments.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -919,11 +1056,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -932,7 +1072,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods arrow function in constructor.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -949,11 +1093,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -962,7 +1109,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods async functions expression body.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -979,11 +1130,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -992,7 +1146,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods async functions.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -1011,11 +1169,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1024,7 +1185,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods block body.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -1043,11 +1208,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1056,7 +1224,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods default params.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -1075,11 +1247,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1088,7 +1263,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods destructured params.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -1107,11 +1286,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1120,7 +1302,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods expression body.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -1137,11 +1323,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1150,7 +1339,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods nested arguments.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -1173,11 +1366,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1186,7 +1382,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods nested new.target.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -1209,11 +1409,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1222,7 +1425,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods new.target.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -1243,11 +1450,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1256,7 +1466,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods not a function.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -1273,11 +1487,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1286,7 +1503,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods not an arrow function.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -1305,11 +1526,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1318,7 +1542,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods same name as class method.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {
   constructor() {
@@ -1341,11 +1569,14 @@ class Foo {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1354,7 +1585,11 @@ class Foo {
 exports[`Targetting "modern" copies arrow function body block onto hidden class methods static property.js 1`] = `
 "\\"use strict\\";
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Foo {}
 
@@ -1367,11 +1602,14 @@ Foo.bar = (a, b) => {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1391,7 +1629,11 @@ var _leftPad2 = _interopRequireDefault(_leftPad);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 const A = 42;
 function B() {
@@ -1427,6 +1669,8 @@ exports.default = _default;
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
@@ -1437,6 +1681,7 @@ exports.default = _default;
   reactHotLoader.register(D, \\"D\\", __FILENAME__);
   reactHotLoader.register(E, \\"E\\", __FILENAME__);
   reactHotLoader.register(_default, \\"default\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1449,7 +1694,11 @@ Object.defineProperty(exports, \\"__esModule\\", {
   value: true
 });
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 class Counter {}
 
@@ -1465,12 +1714,15 @@ exports.default = _default;
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Counter, \\"Counter\\", __FILENAME__);
   reactHotLoader.register(_default, \\"default\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1484,7 +1736,11 @@ Object.defineProperty(exports, \\"__esModule\\", {
 });
 exports.spread = spread;
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 function spread(...args) {
   return args.push(1);
@@ -1494,11 +1750,14 @@ function spread(...args) {
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(spread, \\"spread\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
@@ -1511,7 +1770,11 @@ Object.defineProperty(exports, \\"__esModule\\", {
   value: true
 });
 
-require('react-hot-loader/patch');
+(function () {
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
+  moduleEntry && moduleEntry.enter(module);
+})();
 
 const _default = 10;
 const _default2 = 42;
@@ -1521,12 +1784,15 @@ exports.default = _default2;
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
 
+  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(_default, \\"_default\\", __FILENAME__);
   reactHotLoader.register(_default2, \\"default\\", __FILENAME__);
+  moduleEntry.leave(module);
 })();
 
 ;"
