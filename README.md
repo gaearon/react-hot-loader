@@ -78,7 +78,8 @@ render(App)
 // Webpack Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./containers/App', () => {
-    render(App)
+    const nextApp = require('./containers/App');
+    render(nextApp);
   })
 }
 ```
