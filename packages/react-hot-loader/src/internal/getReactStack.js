@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 
-import { getReactInstance, getReactComponent } from './reactUtils'
+import { getInternalInstance, getPublicInstance } from './reactUtils'
 
 function pushState(stack, instance, element) {
   stack.type = instance.type
   stack.tag = instance.tag
   stack.children = []
-  stack.instance = element || getReactComponent(instance) || stack
+  stack.instance = element || getPublicInstance(instance) || stack
 }
 
 // these function might be obsolete
@@ -64,7 +64,7 @@ function hydrateTree(root) {
 }
 
 function getReactStack(instance) {
-  const root = getReactInstance(instance)
+  const root = getInternalInstance(instance)
   if (typeof root.tag !== 'number') {
     // Traverse stack-based React tree.
     return hydrateStack(instance)

@@ -3,7 +3,7 @@ import hoistNonReactStatic from 'hoist-non-react-statics'
 import { getComponentDisplayName } from './internal/reactUtils'
 import AppContainer from './AppContainer.dev'
 import reactHotLoader from './reactHotLoader'
-import { isModuleOpened } from './hotModule'
+import { isOpened as isModuleOpened } from './global/modules'
 import logger from './logger'
 
 const createHoc = (SourceComponent, TargetComponent) => {

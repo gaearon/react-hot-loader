@@ -1,10 +1,8 @@
-/* eslint-env jest */
-
 import React, { Component } from 'react'
 import { mount } from 'enzyme'
 import '../src/patch.dev'
 import AppContainer from '../src/AppContainer.dev'
-import { didUpdate } from '../src/updateCounter'
+import { increment as incrementGeneration } from '../src/global/generation'
 import getReactStack from '../src/internal/getReactStack'
 import { areComponentsEqual } from '../src/utils.dev'
 import RHL from '../src/reactHotLoader'
@@ -103,7 +101,7 @@ describe('reconciler', () => {
       expect(areComponentsEqual(first.Component, second.Component)).toBe(false)
 
       currentProps.newProp = true
-      didUpdate()
+      incrementGeneration()
       wrapper.setProps({ update: 'now' })
       // not react-stand-in merge them together
       expect(areComponentsEqual(first.Component, second.Component)).toBe(true)
@@ -129,7 +127,7 @@ describe('reconciler', () => {
 
       // replace with a different component
       currentComponent = third
-      didUpdate()
+      incrementGeneration()
       wrapper.setProps({ update: 'now' })
       expect(wrapper.find(<third.Component />.type).length).toBe(1)
       // first will never be unmounted
@@ -177,7 +175,7 @@ describe('reconciler', () => {
       )
 
       currentComponent = second
-      didUpdate()
+      incrementGeneration()
       wrapper.setProps({ update: 'now' })
 
       expect(first.unmounted).toHaveBeenCalledTimes(0)
@@ -222,7 +220,7 @@ describe('reconciler', () => {
       expect(wrapper.text()).toContain(42)
 
       currentComponent = second
-      didUpdate()
+      incrementGeneration()
       wrapper.setProps({ update: 'now' })
 
       expect(first.unmounted).toHaveBeenCalledTimes(0)

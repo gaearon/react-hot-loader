@@ -1,8 +1,7 @@
-/* eslint-env jest */
 import React from 'react'
 import { PROXY_KEY, UNWRAP_PROXY } from 'react-stand-in'
 import { mount } from 'enzyme'
-import { getGeneration } from '../src/updateCounter'
+import { get as getGeneration } from '../src/global/generation'
 import reactHotLoader from '../src/reactHotLoader'
 
 describe('reactHotLoader', () => {

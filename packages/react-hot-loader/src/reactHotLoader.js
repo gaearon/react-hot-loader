@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { isCompositeComponent } from './internal/reactUtils'
-import { didUpdate } from './updateCounter'
+import { increment as incrementGeneration } from './global/generation'
 import {
   updateProxyById,
   resetProxies,
@@ -27,7 +27,7 @@ const reactHotLoader = {
       typeof fileName === 'string' &&
       fileName
     ) {
-      didUpdate()
+      incrementGeneration()
       updateProxyById(`${fileName}#${uniqueLocalName}`, type)
     }
   },

@@ -1,9 +1,8 @@
-/* eslint-env jest */
 import React from 'react'
 import reactHotLoader from '../src/reactHotLoader'
 import patchExport from '../src/patch.dev'
 
-describe('patch', () => {
+describe('patch (dev)', () => {
   it('should export reactHotLoader', () => {
     expect(patchExport).toBe(reactHotLoader)
   })

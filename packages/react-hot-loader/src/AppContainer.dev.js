@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getGeneration } from './updateCounter'
+import { get as getGeneration } from './global/generation'
 import getReactStack from './internal/getReactStack'
 import hotReplacementRender from './reconciler/hotReplacementRender'
 import './patch.dev'
