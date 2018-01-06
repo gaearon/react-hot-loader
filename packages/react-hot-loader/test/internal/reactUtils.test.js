@@ -4,7 +4,6 @@ import {
   isCompositeComponent,
   getComponentDisplayName,
   getInternalInstance,
-  getPublicInstance,
   updateInstance,
 } from '../../src/internal/reactUtils'
 
@@ -54,22 +53,13 @@ describe('reactUtils', () => {
         }
       }
       mount(<Component />)
-      expect(getInternalInstance(instance).constructor.name).toBe('FiberNode')
-    })
-  })
-
-  describe('#getPublicInstance', () => {
-    it('should return internal component', () => {
-      let instance
-      class Component extends React.Component {
-        render() {
-          instance = this
-          return null
-        }
+      if (React.version === '16') {
+        expect(getInternalInstance(instance).constructor.name).toBe('FiberNode')
+      } else if (React.version === '15') {
+        expect(getInternalInstance(instance).constructor.name).toBe(
+          'ReactCompositeComponentWrapper',
+        )
       }
-      mount(<Component />)
-      const internalInstance = getInternalInstance(instance)
-      expect(getPublicInstance(internalInstance)).toBe(instance)
     })
   })
 

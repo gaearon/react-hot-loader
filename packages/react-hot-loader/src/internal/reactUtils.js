@@ -6,15 +6,9 @@ export const getComponentDisplayName = type =>
   type.displayName || type.name || 'Component'
 
 export const getInternalInstance = instance =>
-  instance._reactInternalFiber ||
-  instance._reactInternalInstance ||
-  instance._instance ||
+  instance._reactInternalFiber || // React 16
+  instance._reactInternalInstance || // React 15
   null
-
-export const getPublicInstance = internalInstance =>
-  typeof internalInstance.type === 'function'
-    ? internalInstance.stateNode
-    : null
 
 export const updateInstance = instance => {
   const { updater, forceUpdate } = instance

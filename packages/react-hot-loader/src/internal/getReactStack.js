@@ -1,75 +1,19 @@
 /* eslint-disable no-underscore-dangle */
 
-import { getInternalInstance, getPublicInstance } from './reactUtils'
-
-function pushState(stack, instance, element) {
-  stack.type = instance.type
-  stack.tag = instance.tag
-  stack.children = []
-  stack.instance = element || getPublicInstance(instance) || stack
-}
-
-// these function might be obsolete
-function traverseRenderedChildren(internalInstance, stack) {
-  if (internalInstance._currentElement) {
-    pushState(
-      stack,
-      internalInstance._currentElement,
-      internalInstance._instance,
-    )
-  }
-
-  if (internalInstance._renderedComponent) {
-    const childStack = {}
-    traverseRenderedChildren(internalInstance._renderedComponent, childStack)
-    stack.children.push(childStack)
-  } else if (internalInstance._renderedChildren) {
-    Object.keys(internalInstance._renderedChildren).forEach(key => {
-      const childStack = {}
-      traverseRenderedChildren(
-        internalInstance._renderedChildren[key],
-        childStack,
-      )
-      stack.children.push(childStack)
-    })
-  }
-}
-
-function hydrateStack(instance) {
-  const internalInstance = instance._reactInternalInstance
-  const stack = {}
-  traverseRenderedChildren(internalInstance, stack)
-  return stack
-}
-
-function traverseTree(root, stack) {
-  pushState(stack, root)
-  const node = root
-  if (node.child) {
-    let { child } = node
-    do {
-      const childStack = {}
-      traverseTree(child, childStack)
-      stack.children.push(childStack)
-      child = child.sibling
-    } while (child)
-  }
-}
-
-// modern react tree
-function hydrateTree(root) {
-  const stack = {}
-  traverseTree(root, stack)
-  return stack
-}
+import hydrateFiberStack from './stack/hydrateFiberStack'
+import hydrateLegacyStack from './stack/hydrateLegacyStack'
+import { getInternalInstance } from './reactUtils'
 
 function getReactStack(instance) {
-  const root = getInternalInstance(instance)
-  if (typeof root.tag !== 'number') {
-    // Traverse stack-based React tree.
-    return hydrateStack(instance)
+  const rootNode = getInternalInstance(instance)
+  const stack = {}
+  const isFiber = typeof rootNode.tag === 'number'
+  if (isFiber) {
+    hydrateFiberStack(rootNode, stack)
+  } else {
+    hydrateLegacyStack(rootNode, stack)
   }
-  return hydrateTree(root)
+  return stack
 }
 
 export default getReactStack
