@@ -3,7 +3,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "changelog": "conventional-changelog -p angular -r2 -i CHANGELOG.md -s --no-output-unreleased && conventional-github-releaser -p angular",
-    "ci": "yarn bootstrap && yarn build && yarn lint && yarn test --coverage && codecov",
+    "ci": "scripts/ci.sh",
     "dev": "yarn bootstrap && yarn build && lerna-watch",
     "build": "lerna-build",
     "format": "prettier --write \"**/*.{js,md,ts,json}\" *.{js,md,ts,json}",

@@ -1,13 +1,9 @@
-/* eslint-env jest */
-
 import React, { Component } from 'react'
 import { mount } from 'enzyme'
 import '../src/patch.dev'
 import AppContainer from '../src/AppContainer.dev'
-import { didUpdate } from '../src/updateCounter'
-import getReactStack from '../src/internal/getReactStack'
+import { increment as incrementGeneration } from '../src/global/generation'
 import { areComponentsEqual } from '../src/utils.dev'
-import RHL from '../src/reactHotLoader'
 
 const spyComponent = (render, displayName, key) => {
   const mounted = jest.fn()
@@ -103,7 +99,7 @@ describe('reconciler', () => {
       expect(areComponentsEqual(first.Component, second.Component)).toBe(false)
 
       currentProps.newProp = true
-      didUpdate()
+      incrementGeneration()
       wrapper.setProps({ update: 'now' })
       // not react-stand-in merge them together
       expect(areComponentsEqual(first.Component, second.Component)).toBe(true)
@@ -129,7 +125,7 @@ describe('reconciler', () => {
 
       // replace with a different component
       currentComponent = third
-      didUpdate()
+      incrementGeneration()
       wrapper.setProps({ update: 'now' })
       expect(wrapper.find(<third.Component />.type).length).toBe(1)
       // first will never be unmounted
@@ -177,7 +173,7 @@ describe('reconciler', () => {
       )
 
       currentComponent = second
-      didUpdate()
+      incrementGeneration()
       wrapper.setProps({ update: 'now' })
 
       expect(first.unmounted).toHaveBeenCalledTimes(0)
@@ -222,45 +218,12 @@ describe('reconciler', () => {
       expect(wrapper.text()).toContain(42)
 
       currentComponent = second
-      didUpdate()
+      incrementGeneration()
       wrapper.setProps({ update: 'now' })
 
       expect(first.unmounted).toHaveBeenCalledTimes(0)
       expect(second.mounted).toHaveBeenCalledTimes(0)
       expect(wrapper.text()).toContain(43)
-    })
-  })
-
-  describe('hydrate', () => {
-    it('should hydrate', () => {
-      const Transform = ({ children }) => <section>42 + {children}</section>
-      const One = ({ children }) => <section>1 == {children(1)}</section>
-
-      RHL.disableProxyCreation = true
-      const wrapper = mount(
-        <AppContainer>
-          <div>
-            <div>
-              <Transform>
-                <div>
-                  <div>42</div>
-                </div>
-              </Transform>
-            </div>
-            <div>
-              <One>{one => one}</One>
-            </div>
-            <div>
-              the lazy brown fox
-              <p>jumped over the hedge</p>
-            </div>
-          </div>
-        </AppContainer>,
-      )
-      RHL.disableProxyCreation = false
-      const { instance, children } = getReactStack(wrapper.instance())
-      expect(children).toMatchSnapshot()
-      expect(instance).not.toBe(null)
     })
   })
 })

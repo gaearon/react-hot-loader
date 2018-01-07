@@ -5,13 +5,10 @@ export const isCompositeComponent = type => typeof type === 'function'
 export const getComponentDisplayName = type =>
   type.displayName || type.name || 'Component'
 
-export const getReactInstance = instance =>
-  instance._reactInternalFiber ||
-  instance._reactInternalInstance ||
-  instance._instance
-
-export const getReactComponent = instance =>
-  typeof instance.type === 'function' && instance.stateNode
+export const getInternalInstance = instance =>
+  instance._reactInternalFiber || // React 16
+  instance._reactInternalInstance || // React 15
+  null
 
 export const updateInstance = instance => {
   const { updater, forceUpdate } = instance

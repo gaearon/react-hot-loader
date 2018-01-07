@@ -25,8 +25,8 @@ module.exports = function plugin(args) {
   )
   const headerTemplate = template(
     `(function () {
-       var moduleEntry = require('react-hot-loader/patch').moduleEntry;
-       moduleEntry && moduleEntry.enter(module);
+       var enterModule = require('react-hot-loader/patch').enterModule;
+       enterModule && enterModule(module);
      }())`,
     templateOptions,
   )
@@ -38,7 +38,7 @@ module.exports = function plugin(args) {
     `
 (function () {
   var reactHotLoader = require('react-hot-loader/patch').default;
-  var moduleEntry = require('react-hot-loader/patch').moduleEntry;
+  var leaveModule = require('react-hot-loader/patch').leaveModule;
 
   if (!reactHotLoader) {
     return;
@@ -46,7 +46,7 @@ module.exports = function plugin(args) {
 
   REGISTRATIONS
 
-  moduleEntry.leave(module);
+  leaveModule(module);
 }());
   `,
     templateOptions,
