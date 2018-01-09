@@ -1,3 +1,11 @@
+<a name="4.0.0-beta.13"></a>
+
+# [4.0.0-beta.13](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.12...v4.0.0-beta.13) (2018-01-09)
+
+### Features
+
+* **react-hot-loader:** detect wrong usage of `hot` ([#766](https://github.com/gaearon/react-hot-loader/issues/766)) ([b9738c7](https://github.com/gaearon/react-hot-loader/commit/b9738c7)), closes [#765](https://github.com/gaearon/react-hot-loader/issues/765)
+
 <a name="4.0.0-beta.12"></a>
 
 # [4.0.0-beta.12](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.11...v4.0.0-beta.12) (2018-01-02)
