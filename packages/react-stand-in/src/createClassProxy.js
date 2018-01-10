@@ -63,10 +63,13 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     render() {
       inject(this, proxyGeneration, injectedMembers)
 
-      const result = isFunctionalComponent
+      let result = isFunctionalComponent
         ? CurrentComponent(this.props, this.context)
         : CurrentComponent.prototype.render.call(this)
-
+      
+      if (!!result && !result.$$typeof && result.render){
+        result = result.render()
+      }
       return wrapResult(result)
     }
   }
