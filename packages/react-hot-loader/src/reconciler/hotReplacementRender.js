@@ -111,7 +111,7 @@ const render = component => {
 
 const NO_CHILDREN = { children: [] }
 const mapChildren = (children, instances) => ({
-  children: children.map((child, index) => {
+  children: children.filter(c => c).map((child, index) => {
     if (typeof child !== 'object') {
       return child
     }
