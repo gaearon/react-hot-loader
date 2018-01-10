@@ -1,15 +1,31 @@
-import { Component } from 'react'
+import { Component, createElement } from 'react'
 import transferStaticProps from './transferStaticProps'
 import { GENERATION, PROXY_KEY, UNWRAP_PROXY } from './constants'
 import {
   getDisplayName,
   isReactClass,
+  isReactElement,
   identity,
   safeDefineProperty,
 } from './utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 
 const proxies = new WeakMap()
+
+function Dereference(props) {
+  // copy over pros
+  const classInstance = props.standin_classInstance
+  classInstance.props = props
+  return classInstance
+}
+Dereference.DO_NOT_HOT_RELOAD = true
+
+function wrapWithStateless(classInstance, props) {
+  return createElement(Dereference, {
+    ...props,
+    standin_classInstance: classInstance,
+  })
+}
 
 function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
   // Prevent double wrapping.
@@ -66,6 +82,10 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       const result = isFunctionalComponent
         ? CurrentComponent(this.props, this.context)
         : CurrentComponent.prototype.render.call(this)
+
+      if (!isReactElement(result)) {
+        return wrapResult(wrapWithStateless(result, this.props))
+      }
 
       return wrapResult(result)
     }

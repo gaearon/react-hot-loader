@@ -44,6 +44,8 @@ export function isNativeFunction(fn) {
 
 export const identity = a => a
 
+export const isReactElement = el => el && typeof el === 'object' && el.type
+
 export function getOwnKeys(target) {
   return [
     ...Object.getOwnPropertyNames(target),
