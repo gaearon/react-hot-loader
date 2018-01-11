@@ -229,6 +229,8 @@ Provided by collaborators:
 
 Provided by community:
 
+* [react-pwa-hot-ssr-loadable](https://github.com/alexnoz/react-pwa-hot-ssr-loadable) (Progressive Web Application,
+  HMR, Server Side Rendering, Code Splitting, SCSS modules, react-router)
 * [react-kit](https://github.com/thomasthiebaud/react-kit) (webpack v2, redux,
   react-router v4, code splitting, jest, saga, reselect)
 * [hapi-react-hot-loader-example](https://github.com/codeBelt/hapi-react-hot-loader-example)
