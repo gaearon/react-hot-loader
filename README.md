@@ -150,7 +150,7 @@ const AsyncHello = loadable(() => import('./Hello.js'))
 // Hello.js
 import { hot } from 'react-hot-loader'
 const Hello = () => 'Hello'
-export default hot(module)(MyComponent) // <-- the only change to do
+export default hot(module)(Hello) // <-- the only change to do
 ```
 
 ### Checking Element `type`s
