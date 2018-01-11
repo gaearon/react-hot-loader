@@ -44,7 +44,44 @@ export function isNativeFunction(fn) {
 
 export const identity = a => a
 
-export const isReactElement = el => el && typeof el === 'object' && el.type
+export const isReactIndeterminateResult = el =>
+  el && typeof el === 'object' && !el.type && el.render
+export const doesSupportClasses = (function() {
+  try {
+    eval('class Test {}')
+    return true
+  } catch (e) {
+    return false
+  }
+})()
+
+const ES6ProxyComponentFactory = eval(`
+(function (InitialParent, postConstructionAction) { 
+    return class ProxyComponent extends InitialParent {
+        constructor(props, context) {
+          super(props, context)
+          postConstructionAction.call(this);
+        }        
+    }
+})
+`)
+
+const ES5ProxyComponentFactory = function(
+  InitialParent,
+  postConstructionAction,
+) {
+  function ProxyComponent(props, context) {
+    InitialParent.call(this, props, context)
+    postConstructionAction.call(this)
+  }
+  ProxyComponent.prototype = Object.create(InitialParent.prototype)
+  Object.setPrototypeOf(ProxyComponent, InitialParent)
+  return ProxyComponent
+}
+
+export const proxyClassCreator = doesSupportClasses
+  ? ES6ProxyComponentFactory
+  : ES5ProxyComponentFactory
 
 export function getOwnKeys(target) {
   return [

@@ -4,9 +4,10 @@ import { GENERATION, PROXY_KEY, UNWRAP_PROXY } from './constants'
 import {
   getDisplayName,
   isReactClass,
-  isReactElement,
+  isReactIndeterminateResult,
   identity,
   safeDefineProperty,
+  proxyClassCreator,
 } from './utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 
@@ -42,54 +43,36 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
   let proxyGeneration = 0
   let isFunctionalComponent = !isReactClass(InitialComponent)
 
-  class StatelessProxyComponent extends Component {
-    render() {
-      return CurrentComponent(this.props, this.context)
-    }
-  }
-
-  const InitialParent = isFunctionalComponent
-    ? StatelessProxyComponent
-    : InitialComponent
-
   let lastInstance = null
+  const InitialParent = isFunctionalComponent ? Component : InitialComponent
 
-  class ProxyComponent extends InitialParent {
-    constructor(props, context) {
-      super(props, context)
+  function postConstructionAction() {
+    this[GENERATION] = 0
 
-      this[GENERATION] = 0
+    // As long we can't override constructor
+    // every class shall evolve from a base class
+    inject(this, proxyGeneration, injectedMembers)
 
-      // As long we can't override constructor
-      // every class shall evolve from a base class
-      inject(this, proxyGeneration, injectedMembers)
-
-      lastInstance = this
-    }
-
-    // for beta testing only
-    componentWillUnmount() {
-      if (!isFunctionalComponent) {
-        if (CurrentComponent.prototype.componentWillUnmount) {
-          CurrentComponent.prototype.componentWillUnmount.call(this)
-        }
-      }
-    }
-
-    render() {
-      inject(this, proxyGeneration, injectedMembers)
-
-      const result = isFunctionalComponent
-        ? CurrentComponent(this.props, this.context)
-        : CurrentComponent.prototype.render.call(this)
-
-      if (!isReactElement(result)) {
-        return wrapResult(wrapWithStateless(result, this.props))
-      }
-
-      return wrapResult(result)
-    }
+    lastInstance = this
   }
+
+  function proxiedRender() {
+    inject(this, proxyGeneration, injectedMembers)
+
+    const result = isFunctionalComponent
+      ? CurrentComponent(this.props, this.context)
+      : CurrentComponent.prototype.render.call(this)
+
+    if (isFunctionalComponent && isReactIndeterminateResult(result)) {
+      return wrapResult(wrapWithStateless(result, this.props))
+    }
+
+    return wrapResult(result)
+  }
+
+  let ProxyComponent = proxyClassCreator(InitialParent, postConstructionAction)
+
+  ProxyComponent.prototype.render = proxiedRender
 
   function get() {
     return ProxyComponent
@@ -162,7 +145,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     )
 
     if (isFunctionalComponent) {
-      ProxyComponent.prototype.prototype = StatelessProxyComponent.prototype
+      // nothing
     } else {
       checkLifeCycleMethods(ProxyComponent, NextComponent)
       Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
