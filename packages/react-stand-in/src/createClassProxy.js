@@ -13,21 +13,6 @@ import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 
 const proxies = new WeakMap()
 
-function Dereference(props) {
-  // copy over pros
-  const classInstance = props.standin_classInstance
-  classInstance.props = props
-  return classInstance
-}
-Dereference.DO_NOT_HOT_RELOAD = true
-
-function wrapWithStateless(classInstance, props) {
-  return createElement(Dereference, {
-    ...props,
-    standin_classInstance: classInstance,
-  })
-}
-
 function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
@@ -63,11 +48,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       ? CurrentComponent(this.props, this.context)
       : CurrentComponent.prototype.render.call(this)
 
-    if (isFunctionalComponent && isReactIndeterminateResult(result)) {
-      return wrapResult(wrapWithStateless(result, this.props))
-    }
-
-    return wrapResult(result)
+    return wrapResult(result, this.props, this.context)
   }
 
   let ProxyComponent = proxyClassCreator(InitialParent, postConstructionAction)

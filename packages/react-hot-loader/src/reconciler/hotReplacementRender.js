@@ -4,6 +4,7 @@ import { getIdByType, updateProxyById } from './proxies'
 import { updateInstance, getComponentDisplayName } from '../internal/reactUtils'
 import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
+import { INDETERMINATE } from '../internal/Indeterminate'
 
 // some `empty` names, React can autoset display name to...
 const UNDEFINED_NAMES = {
@@ -167,7 +168,8 @@ const hotReplacementRender = (instance, stack) => {
       // copy over props as long new component may be hidden inside them
       // child does not have all props, as long some of them can be calculated on componentMount.
       const nextProps = { ...instance.props }
-      for (const key in child.props) {
+      const childProps = child.props || {}
+      for (const key in childProps) {
         if (child.props[key]) {
           nextProps[key] = child.props[key]
         }
@@ -177,7 +179,7 @@ const hotReplacementRender = (instance, stack) => {
         instance.componentWillUpdate(nextProps, instance.state)
       }
       instance.props = nextProps
-      hotReplacementRender(instance, stackChild)
+      hotReplacementRender(childProps[INDETERMINATE] || instance, stackChild)
     }
 
     // text node

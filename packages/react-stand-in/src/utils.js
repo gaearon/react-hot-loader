@@ -44,8 +44,6 @@ export function isNativeFunction(fn) {
 
 export const identity = a => a
 
-export const isReactIndeterminateResult = el =>
-  el && typeof el === 'object' && !el.type && el.render
 export const doesSupportClasses = (function() {
   try {
     eval('class Test {}')
