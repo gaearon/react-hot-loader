@@ -35,7 +35,7 @@ npm install react-hot-loader@next
 }
 ```
 
-2. Mark your root application as _hot-exported_:
+2. Mark your root component as _hot-exported_:
 
 ```js
 // ./containers/App.js
@@ -46,6 +46,10 @@ const App = () => <div>Hello World!</div>
 
 export default hot(module)(App)
 ```
+`Hot` accepts only React Component (Stateful or Stateless), resulting the `HotExported` variant of it.
+The `hot` function will setup current module to _self-accept_ itself on reload, and will __ignore__ all the changes, made for non-React components.
+You may mark as much modules as you want. But `HotExportedComponent` __should be the only used export__ of a _hot_-module. 
+> Note: Please note how often we have used `exported` keyword. `hot` is for exports.
 
 > Note: does nothing in production mode, just passes App through.
 
@@ -91,6 +95,10 @@ const App = () => <div>Hello World!</div>
 export default hot(module)(App)
 ```
 
+### Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app) without ejecting
+Users [reports](https://github.com/gaearon/react-hot-loader/pull/729#issuecomment-354097936), that it is possible to use [react-app-rewire-hot-loader](https://github.com/cdharris/react-app-rewire-hot-loader) to setup React-hot-loader without ejecting.
+Follow [these code examples](https://github.com/Grimones/cra-rhl/commit/4ed74af2dc649301695f67df05a12f210fb7820c) to repeat the approach.
+
 ### TypeScript
 
 When using TypeScript, Babel is not required, but RHL will not work without it.
@@ -128,7 +136,7 @@ each module so you might not need source maps at all.
 As long most of modern react-component-loader
 ([loadable-components](https://github.com/smooth-code/loadable-components/),
 [react-loadable](https://github.com/thejameskyle/react-loadable), and so on)
-does not, and should not support RHL, just mark export of exported component as
+does not, and should not support RHL, just mark export of the imported component as
 `hotExported`.
 
 Example using
@@ -142,7 +150,7 @@ const AsyncHello = loadable(() => import('./Hello.js'))
 // Hello.js
 import { hot } from 'react-hot-loader'
 const Hello = () => 'Hello'
-export default hot(module)(MyComponent)
+export default hot(module)(Hello) // <-- the only change to do
 ```
 
 ### Checking Element `type`s
