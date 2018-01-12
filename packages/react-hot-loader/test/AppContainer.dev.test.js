@@ -1340,7 +1340,7 @@ describe(`AppContainer (dev)`, () => {
 
         // How it works. IndeterminateComponent calculates return value once.
         expect(wrapper.text()).toBe('hey 44 new')
-        expect(spy).toHaveBeenCalledTimes(1) // called during reconciler, has no effect on result
+        expect(spy).toHaveBeenCalledTimes(0) // never gets called
 
         // How it should work
         //expect(wrapper.text()).toBe('ho 45 new');

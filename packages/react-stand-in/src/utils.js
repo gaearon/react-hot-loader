@@ -54,13 +54,13 @@ export const doesSupportClasses = (function() {
 })()
 
 const ES6ProxyComponentFactory = eval(`
-(function (InitialParent, postConstructionAction) { 
-    return class ProxyComponent extends InitialParent {
-        constructor(props, context) {
-          super(props, context)
-          postConstructionAction.call(this);
-        }        
+(function(InitialParent, postConstructionAction) {
+  return class ProxyComponent extends InitialParent {
+    constructor(props, context) {
+      super(props, context)
+      postConstructionAction.call(this)
     }
+  }
 })
 `)
 
@@ -76,6 +76,9 @@ const ES5ProxyComponentFactory = function(
   Object.setPrototypeOf(ProxyComponent, InitialParent)
   return ProxyComponent
 }
+
+export const isReactIndeterminateResult = el =>
+  el && typeof el === 'object' && !el.type && el.render
 
 export const proxyClassCreator = doesSupportClasses
   ? ES6ProxyComponentFactory

@@ -1,6 +1,5 @@
 import createProxy, { setConfig } from 'react-stand-in'
 import logger from '../logger'
-import processIndeterminate from '../internal/Indeterminate'
 
 let proxiesByID
 let idsByType
@@ -15,7 +14,7 @@ export const getIdByType = type => idsByType.get(type)
 
 export const getProxyByType = type => proxiesByID[getIdByType(type)]
 
-const autoWrapper = (element, props) => {
+const autoWrapper = element => {
   // post wrap on post render
   if (!element) {
     return element
@@ -32,7 +31,7 @@ const autoWrapper = (element, props) => {
       }
     }
   }
-  return processIndeterminate(element, props)
+  return element
 }
 
 export const updateProxyById = (id, type) => {
