@@ -968,7 +968,7 @@ describe(`AppContainer (dev)`, () => {
       )
       expect(wrapper.find('App').length).toBe(1)
       expect(wrapper.contains(<div>hey</div>)).toBe(true)
-      expect(spy).toHaveBeenCalledTimes(2)
+      expect(spy).toHaveBeenCalledTimes(1)
     })
 
     it('force updates the tree on receiving new children', () => {
@@ -985,7 +985,7 @@ describe(`AppContainer (dev)`, () => {
           <App />
         </AppContainer>,
       )
-      expect(spy).toHaveBeenCalledTimes(2)
+      expect(spy).toHaveBeenCalledTimes(1)
 
       {
         const App = () => {
@@ -996,7 +996,7 @@ describe(`AppContainer (dev)`, () => {
         wrapper.setProps({ children: <App /> })
       }
 
-      expect(spy).toHaveBeenCalledTimes(2 + 2)
+      expect(spy).toHaveBeenCalledTimes(1 + 2)
       expect(wrapper.contains(<div>ho</div>)).toBe(true)
     })
 
@@ -1015,7 +1015,7 @@ describe(`AppContainer (dev)`, () => {
           <App />
         </AppContainer>,
       )
-      expect(firstSpy).toHaveBeenCalledTimes(2)
+      expect(firstSpy).toHaveBeenCalledTimes(1)
 
       const secondSpy = jest.fn()
 
@@ -1028,7 +1028,7 @@ describe(`AppContainer (dev)`, () => {
         wrapper.setProps({ children: <App /> })
       }
 
-      expect(firstSpy).toHaveBeenCalledTimes(2)
+      expect(firstSpy).toHaveBeenCalledTimes(1)
       expect(secondSpy).toHaveBeenCalledTimes(2)
       expect(wrapper.contains(<div>second</div>)).toBe(true)
     })
@@ -1054,7 +1054,7 @@ describe(`AppContainer (dev)`, () => {
         wrapper = mount(<AppContainer>{element}</AppContainer>)
       }
 
-      expect(spy).toHaveBeenCalledTimes(2)
+      expect(spy).toHaveBeenCalledTimes(1)
       expect(wrapper.contains(<div>ho</div>)).toBe(true)
     })
 
@@ -1267,7 +1267,7 @@ describe(`AppContainer (dev)`, () => {
           <Enhanced n={3} />
         </AppContainer>,
       )
-      expect(firstSpy).toHaveBeenCalledTimes(2)
+      expect(firstSpy).toHaveBeenCalledTimes(1)
 
       const secondSpy = jest.fn()
       {
@@ -1282,7 +1282,7 @@ describe(`AppContainer (dev)`, () => {
         wrapper.setProps({ children: <Enhanced n={3} /> })
       }
 
-      expect(firstSpy).toHaveBeenCalledTimes(2)
+      expect(firstSpy).toHaveBeenCalledTimes(1)
       expect(secondSpy).toHaveBeenCalledTimes(2)
       expect(wrapper.contains(<div>second</div>)).toBe(true)
     })

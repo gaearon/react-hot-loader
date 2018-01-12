@@ -40,12 +40,23 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     lastInstance = this
   }
 
+  let hasInitialResult = false
+  let initialResult = null
+
   function proxiedRender() {
     inject(this, proxyGeneration, injectedMembers)
 
-    const result = isFunctionalComponent
-      ? CurrentComponent(this.props, this.context)
-      : CurrentComponent.prototype.render.call(this)
+    let result
+
+    if (hasInitialResult) {
+      result = initialResult
+      hasInitialResult = false
+      initialResult = null
+    } else if (isFunctionalComponent) {
+      result = CurrentComponent(this.props, this.context)
+    } else {
+      result = CurrentComponent.prototype.render.call(this)
+    }
 
     return wrapResult(result)
   }
@@ -79,6 +90,11 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
         postConstructionAction,
       )
       ActualProxyComponent.prototype.render = proxiedRender
+
+      // Cache the initial result so we don't call the component function a
+      // second time for the initial render.
+      hasInitialResult = true
+      initialResult = result
 
       return new ActualProxyComponent(props, context)
     }
