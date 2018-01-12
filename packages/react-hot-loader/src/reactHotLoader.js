@@ -1,5 +1,4 @@
 /* eslint-disable no-use-before-define */
-import { DO_NOT_PROXY_KEY } from 'react-stand-in'
 import { isCompositeComponent } from './internal/reactUtils'
 import { increment as incrementGeneration } from './global/generation'
 import {
@@ -10,7 +9,7 @@ import {
 } from './reconciler/proxies'
 
 function resolveType(type) {
-  if (!isCompositeComponent(type) || type[DO_NOT_PROXY_KEY]) return type
+  if (!isCompositeComponent(type)) return type
 
   const proxy = reactHotLoader.disableProxyCreation
     ? getProxyByType(type)

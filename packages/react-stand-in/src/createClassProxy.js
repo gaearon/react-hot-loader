@@ -1,4 +1,4 @@
-import { Component, createElement } from 'react'
+import { Component } from 'react'
 import transferStaticProps from './transferStaticProps'
 import { GENERATION, PROXY_KEY, UNWRAP_PROXY } from './constants'
 import {
@@ -29,7 +29,6 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
   let isFunctionalComponent = !isReactClass(InitialComponent)
 
   let lastInstance = null
-  const InitialParent = isFunctionalComponent ? Component : InitialComponent
 
   function postConstructionAction() {
     this[GENERATION] = 0
@@ -48,12 +47,42 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       ? CurrentComponent(this.props, this.context)
       : CurrentComponent.prototype.render.call(this)
 
-    return wrapResult(result, this.props, this.context)
+    return wrapResult(result)
   }
 
-  let ProxyComponent = proxyClassCreator(InitialParent, postConstructionAction)
+  let ProxyComponent
+  let ActualProxyComponent = null
 
-  ProxyComponent.prototype.render = proxiedRender
+  if (!isFunctionalComponent) {
+    ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
+    ProxyComponent.prototype.render = proxiedRender
+
+    ActualProxyComponent = ProxyComponent
+  } else {
+    // This function only gets called for the initial mount. The actual
+    // rendered component instance will be the return value.
+    ProxyComponent = function(props, context) {
+      const result = CurrentComponent(props, context)
+
+      // This is a Relay-style container constructor. We can't do the prototype-
+      // style wrapping for this as we do elsewhere, so just we just pass it
+      // through as-is.
+      if (isReactIndeterminateResult(result)) {
+        ActualProxyComponent = null
+        return result
+      }
+
+      // Otherwise, it's a normal functional component. Build the real proxy
+      // and use it going forward.
+      ActualProxyComponent = proxyClassCreator(
+        Component,
+        postConstructionAction,
+      )
+      ActualProxyComponent.prototype.render = proxiedRender
+
+      return new ActualProxyComponent(props, context)
+    }
+  }
 
   function get() {
     return ProxyComponent
@@ -125,14 +154,17 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       NextComponent,
     )
 
-    if (isFunctionalComponent) {
+    if (isFunctionalComponent || !ActualProxyComponent) {
       // nothing
     } else {
-      checkLifeCycleMethods(ProxyComponent, NextComponent)
-      Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
+      checkLifeCycleMethods(ActualProxyComponent, NextComponent)
+      Object.setPrototypeOf(
+        ActualProxyComponent.prototype,
+        NextComponent.prototype,
+      )
       if (proxyGeneration > 1) {
         injectedMembers = mergeComponents(
-          ProxyComponent,
+          ActualProxyComponent,
           NextComponent,
           InitialComponent,
           lastInstance,

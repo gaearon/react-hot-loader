@@ -1,10 +1,9 @@
-import { PROXY_KEY, DO_NOT_PROXY_KEY, UNWRAP_PROXY } from 'react-stand-in'
+import { PROXY_KEY, UNWRAP_PROXY } from 'react-stand-in'
 import levenshtein from 'fast-levenshtein'
 import { getIdByType, updateProxyById } from './proxies'
 import { updateInstance, getComponentDisplayName } from '../internal/reactUtils'
 import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
-import { INDETERMINATE } from '../internal/Indeterminate'
 
 // some `empty` names, React can autoset display name to...
 const UNDEFINED_NAMES = {
@@ -168,8 +167,7 @@ const hotReplacementRender = (instance, stack) => {
       // copy over props as long new component may be hidden inside them
       // child does not have all props, as long some of them can be calculated on componentMount.
       const nextProps = { ...instance.props }
-      const childProps = child.props || {}
-      for (const key in childProps) {
+      for (const key in child.props) {
         if (child.props[key]) {
           nextProps[key] = child.props[key]
         }
@@ -179,7 +177,7 @@ const hotReplacementRender = (instance, stack) => {
         instance.componentWillUpdate(nextProps, instance.state)
       }
       instance.props = nextProps
-      hotReplacementRender(childProps[INDETERMINATE] || instance, stackChild)
+      hotReplacementRender(instance, stackChild)
     }
 
     // text node
@@ -201,11 +199,7 @@ const hotReplacementRender = (instance, stack) => {
     } else {
       // unwrap proxy
       const childType = getElementType(child)
-
-      // force-no-proxy
-      if (stackChild.type[DO_NOT_PROXY_KEY]) {
-        next(stackChild.instance)
-      } else if (!stackChild.type[PROXY_KEY]) {
+      if (!stackChild.type[PROXY_KEY]) {
         /* eslint-disable no-console */
         logger.error(
           'React-hot-loader: fatal error caused by ',
@@ -214,7 +208,9 @@ const hotReplacementRender = (instance, stack) => {
           'Please require react-hot-loader before React. More in troubleshooting.',
         )
         throw new Error('React-hot-loader: wrong configuration')
-      } else if (child.type === stackChild.type) {
+      }
+
+      if (child.type === stackChild.type) {
         next(stackChild.instance)
       } else if (isSwappable(childType, stackChild.type)) {
         // they are both registered, or have equal code/displayname/signature
