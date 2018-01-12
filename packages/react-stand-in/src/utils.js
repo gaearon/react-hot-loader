@@ -54,13 +54,13 @@ export const doesSupportClasses = (function() {
 })()
 
 const ES6ProxyComponentFactory = eval(`
-(function (InitialParent, postConstructionAction) {
-    return class ProxyComponent extends InitialParent {
-        constructor(props, context) {
-          super(props, context)
-          postConstructionAction.call(this);
-        }
+(function(InitialParent, postConstructionAction) {
+  return class ProxyComponent extends InitialParent {
+    constructor(props, context) {
+      super(props, context)
+      postConstructionAction.call(this)
     }
+  }
 })
 `)
 
