@@ -1,3 +1,4 @@
+/* eslint-disable no-eval, func-names */
 import config from './config'
 
 export function getDisplayName(Component) {

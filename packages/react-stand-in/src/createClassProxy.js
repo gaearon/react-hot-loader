@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import transferStaticProps from './transferStaticProps'
-import { GENERATION, PROXY_KEY, UNWRAP_PROXY } from './constants'
+import { GENERATION, PROXY_KEY, UNWRAP_PROXY, CACHED_RESULT } from './constants'
 import {
   getDisplayName,
   isReactClass,
@@ -40,18 +40,14 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     lastInstance = this
   }
 
-  let hasInitialResult = false
-  let initialResult = null
-
   function proxiedRender() {
     inject(this, proxyGeneration, injectedMembers)
 
     let result
 
-    if (hasInitialResult) {
-      result = initialResult
-      hasInitialResult = false
-      initialResult = null
+    if (this[CACHED_RESULT]) {
+      result = this[CACHED_RESULT]
+      delete this[CACHED_RESULT]
     } else if (isFunctionalComponent) {
       result = CurrentComponent(this.props, this.context)
     } else {
@@ -61,68 +57,66 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     return wrapResult(result)
   }
 
-  let ProxyComponent
-  let ActualProxyComponent = null
+  let ProxyFacade
+  let ProxyComponent = null
 
   if (!isFunctionalComponent) {
     ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
     ProxyComponent.prototype.render = proxiedRender
 
-    ActualProxyComponent = ProxyComponent
+    ProxyFacade = ProxyComponent
   } else {
     // This function only gets called for the initial mount. The actual
     // rendered component instance will be the return value.
-    ProxyComponent = function(props, context) {
+    ProxyFacade = function(props, context) {
+      // eslint-disable-line func-names
       const result = CurrentComponent(props, context)
 
       // This is a Relay-style container constructor. We can't do the prototype-
       // style wrapping for this as we do elsewhere, so just we just pass it
       // through as-is.
       if (isReactIndeterminateResult(result)) {
-        ActualProxyComponent = null
+        ProxyComponent = null
         return result
       }
 
       // Otherwise, it's a normal functional component. Build the real proxy
       // and use it going forward.
-      ActualProxyComponent = proxyClassCreator(
-        Component,
-        postConstructionAction,
-      )
-      ActualProxyComponent.prototype.render = proxiedRender
+      ProxyComponent = proxyClassCreator(Component, postConstructionAction)
+      ProxyComponent.prototype.render = proxiedRender
+
+      const determinateResult = new ProxyComponent(props, context)
 
       // Cache the initial result so we don't call the component function a
       // second time for the initial render.
-      hasInitialResult = true
-      initialResult = result
-
-      return new ActualProxyComponent(props, context)
+      determinateResult[CACHED_RESULT] = result
+      return determinateResult
     }
   }
 
   function get() {
-    return ProxyComponent
+    return ProxyFacade
   }
 
   function getCurrent() {
     return CurrentComponent
   }
 
-  safeDefineProperty(ProxyComponent, UNWRAP_PROXY, {
+  safeDefineProperty(ProxyFacade, UNWRAP_PROXY, {
     configurable: false,
     writable: false,
     enumerable: false,
     value: getCurrent,
   })
 
-  safeDefineProperty(ProxyComponent, PROXY_KEY, {
+  safeDefineProperty(ProxyFacade, PROXY_KEY, {
     configurable: false,
     writable: false,
     enumerable: false,
     value: proxyKey,
   })
 
-  safeDefineProperty(ProxyComponent, 'toString', {
+  safeDefineProperty(ProxyFacade, 'toString', {
     configurable: true,
     writable: false,
     enumerable: false,
@@ -157,30 +151,27 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
 
     // Try to infer displayName
     const displayName = getDisplayName(CurrentComponent)
-    ProxyComponent.displayName = displayName
+    ProxyFacade.displayName = displayName
 
     safeDefineProperty(ProxyComponent, 'name', {
       value: displayName,
     })
 
     savedDescriptors = transferStaticProps(
-      ProxyComponent,
+      ProxyFacade,
       savedDescriptors,
       PreviousComponent,
       NextComponent,
     )
 
-    if (isFunctionalComponent || !ActualProxyComponent) {
+    if (isFunctionalComponent || !ProxyComponent) {
       // nothing
     } else {
-      checkLifeCycleMethods(ActualProxyComponent, NextComponent)
-      Object.setPrototypeOf(
-        ActualProxyComponent.prototype,
-        NextComponent.prototype,
-      )
+      checkLifeCycleMethods(ProxyComponent, NextComponent)
+      Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
       if (proxyGeneration > 1) {
         injectedMembers = mergeComponents(
-          ActualProxyComponent,
+          ProxyComponent,
           NextComponent,
           InitialComponent,
           lastInstance,
@@ -192,7 +183,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
   update(InitialComponent)
 
   const proxy = { get, update }
-  proxies.set(ProxyComponent, proxy)
+  proxies.set(ProxyFacade, proxy)
 
   Object.defineProperty(proxy, UNWRAP_PROXY, {
     configurable: false,
