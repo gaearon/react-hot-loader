@@ -62,7 +62,14 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
 
   if (!isFunctionalComponent) {
     ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
-    ProxyComponent.prototype.render = proxiedRender
+    safeDefineProperty(ProxyComponent.prototype, 'render', {
+      configurable: false,
+      writable: false,
+      enumerable: false,
+      value: proxiedRender,
+    })
+
+    // ProxyComponent.prototype.render = proxiedRender
 
     ProxyFacade = ProxyComponent
   } else {
