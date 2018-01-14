@@ -1,3 +1,14 @@
+<a name="4.0.0-beta.14"></a>
+
+# [4.0.0-beta.14](https://github.com/theKashey/react-hot-loader/compare/v4.0.0-beta.13...v4.0.0-beta.14) (2018-01-14)
+
+<a name="4.0.0-beta.14"></a>
+
+# [4.0.0-beta.14](https://github.com/theKashey/react-hot-loader/compare/v4.0.0-beta.13...v4.0.0-beta.14) (2018-01-14)
+
+* **react-hot-loader:** support IE11 ([#772](https://github.com/gaearon/react-hot-loader/issues/772))
+* **react-stand-in:** support Relay Classis/Modern([#775](https://github.com/gaearon/react-hot-loader/issues/775))
+
 <a name="4.0.0-beta.13"></a>
 
 # [4.0.0-beta.13](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.12...v4.0.0-beta.13) (2018-01-09)
