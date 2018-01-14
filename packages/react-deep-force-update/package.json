@@ -1,6 +1,6 @@
 {
   "name": "react-deep-force-update",
-  "version": "4.0.0-beta.13",
+  "version": "4.0.0-beta.14",
   "description": "Force-updates React component tree recursively",
   "main": "lib/index.js",
   "homepage": "https://github.com/gaearon/react-hot-loader",
