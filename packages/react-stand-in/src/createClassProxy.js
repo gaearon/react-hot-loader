@@ -4,12 +4,14 @@ import { GENERATION, PROXY_KEY, UNWRAP_PROXY, CACHED_RESULT } from './constants'
 import {
   getDisplayName,
   isReactClass,
-  isReactIndeterminateResult,
+  isReactComponentInstance,
   identity,
   safeDefineProperty,
   proxyClassCreator,
 } from './utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
+
+const has = Object.prototype.hasOwnProperty
 
 const proxies = new WeakMap()
 
@@ -45,7 +47,9 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
 
     let result
 
-    if (this[CACHED_RESULT]) {
+    // We need to use hasOwnProperty here, as the cached result is a React node
+    // and can be null or some other falsy value.
+    if (has.call(this, CACHED_RESULT)) {
       result = this[CACHED_RESULT]
       delete this[CACHED_RESULT]
     } else if (isFunctionalComponent) {
@@ -62,14 +66,13 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
 
   if (!isFunctionalComponent) {
     ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
+
     safeDefineProperty(ProxyComponent.prototype, 'render', {
       configurable: false,
       writable: false,
       enumerable: false,
       value: proxiedRender,
     })
-
-    // ProxyComponent.prototype.render = proxiedRender
 
     ProxyFacade = ProxyComponent
   } else {
@@ -82,7 +85,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       // This is a Relay-style container constructor. We can't do the prototype-
       // style wrapping for this as we do elsewhere, so just we just pass it
       // through as-is.
-      if (isReactIndeterminateResult(result)) {
+      if (isReactComponentInstance(result)) {
         ProxyComponent = null
         return result
       }
@@ -90,12 +93,15 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       // Otherwise, it's a normal functional component. Build the real proxy
       // and use it going forward.
       ProxyComponent = proxyClassCreator(Component, postConstructionAction)
+
+      // We don't need to use safeDefineProperty here, as we control the entire
+      // class hierarchy.
       ProxyComponent.prototype.render = proxiedRender
 
       const determinateResult = new ProxyComponent(props, context)
 
-      // Cache the initial result so we don't call the component function a
-      // second time for the initial render.
+      // Cache the initial render result so we don't call the component function
+      // a second time for the initial render.
       determinateResult[CACHED_RESULT] = result
       return determinateResult
     }

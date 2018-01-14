@@ -78,7 +78,7 @@ const ES5ProxyComponentFactory = function(
   return ProxyComponent
 }
 
-export const isReactIndeterminateResult = el =>
+export const isReactComponentInstance = el =>
   el && typeof el === 'object' && !el.type && el.render
 
 export const proxyClassCreator = doesSupportClasses

@@ -971,6 +971,23 @@ describe(`AppContainer (dev)`, () => {
       expect(spy).toHaveBeenCalledTimes(1)
     })
 
+    it('renders falsy children', () => {
+      const spy = jest.fn()
+      const App = () => {
+        spy()
+        return null
+      }
+      RHL.register(App, 'App', 'test.js')
+
+      const wrapper = mount(
+        <AppContainer>
+          <App />
+        </AppContainer>,
+      )
+      expect(wrapper.find('App').length).toBe(1)
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+
     it('force updates the tree on receiving new children', () => {
       const spy = jest.fn()
 
