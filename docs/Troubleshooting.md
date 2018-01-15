@@ -11,7 +11,7 @@ Know a problem? Feel free to send a PR with edits.
 
 ![](http://i.imgur.com/oOc0ikV.png)
 
-If you don't see some of the messages, or some of the requests, or if some of the requests fail, this is a symptom of an incorrect configuration. Comparing your setup with [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) may help you find the mistake.
+If you don't see some of the messages, or some of the requests, or if some of the requests fail, this may be a symptom of an incorrect configuration. Comparing your setup with [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) may help you find the mistake. If hot loading appears to be working but you still do not see all of the above messages, you may need to check your dev server's [clientLogLevel](https://webpack.js.org/configuration/dev-server/#devserver-clientloglevel) setting. Depending on what it is set to, you may not see all of these messages, so you may need to adjust this setting to ensure that your configuration is correct.
 
 ##### Common TypeScript Mistake
 
