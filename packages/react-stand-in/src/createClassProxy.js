@@ -15,6 +15,14 @@ const has = Object.prototype.hasOwnProperty
 
 const proxies = new WeakMap()
 
+const defineClassMember = (Class, methodName, methodBody) =>
+  safeDefineProperty(Class.prototype, methodName, {
+    configurable: true,
+    writable: true,
+    enumerable: false,
+    value: methodBody,
+  })
+
 function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
@@ -42,8 +50,21 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     lastInstance = this
   }
 
-  function proxiedRender() {
+  function proxiedUpdate() {
     inject(this, proxyGeneration, injectedMembers)
+  }
+
+  function componentWillReceiveProps(...rest) {
+    // will be triggered on hotReplacementRender, first in a row.
+    proxiedUpdate.call(this)
+    const superMethod = CurrentComponent.prototype.componentWillReceiveProps
+    if (superMethod) {
+      superMethod.apply(this, rest)
+    }
+  }
+
+  function proxiedRender() {
+    proxiedUpdate.call(this)
 
     let result
 
@@ -67,12 +88,12 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
   if (!isFunctionalComponent) {
     ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
 
-    safeDefineProperty(ProxyComponent.prototype, 'render', {
-      configurable: false,
-      writable: false,
-      enumerable: false,
-      value: proxiedRender,
-    })
+    defineClassMember(ProxyComponent, 'render', proxiedRender)
+    defineClassMember(
+      ProxyComponent,
+      'componentWillReceiveProps',
+      componentWillReceiveProps,
+    )
 
     ProxyFacade = ProxyComponent
   } else {
@@ -80,6 +101,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     // rendered component instance will be the return value.
     ProxyFacade = function(props, context) {
       // eslint-disable-line func-names
+
       const result = CurrentComponent(props, context)
 
       // This is a Relay-style container constructor. We can't do the prototype-
@@ -94,9 +116,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       // and use it going forward.
       ProxyComponent = proxyClassCreator(Component, postConstructionAction)
 
-      // We don't need to use safeDefineProperty here, as we control the entire
-      // class hierarchy.
-      ProxyComponent.prototype.render = proxiedRender
+      defineClassMember(ProxyComponent, 'render', proxiedRender)
 
       const determinateResult = new ProxyComponent(props, context)
 
@@ -198,7 +218,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
   const proxy = { get, update }
   proxies.set(ProxyFacade, proxy)
 
-  Object.defineProperty(proxy, UNWRAP_PROXY, {
+  safeDefineProperty(proxy, UNWRAP_PROXY, {
     configurable: false,
     writable: false,
     enumerable: false,
