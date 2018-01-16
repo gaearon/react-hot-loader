@@ -1,6 +1,9 @@
-<a name="4.0.0-beta.14"></a>
+<a name="4.0.0-beta.15"></a>
 
-# [4.0.0-beta.14](https://github.com/theKashey/react-hot-loader/compare/v4.0.0-beta.13...v4.0.0-beta.14) (2018-01-14)
+# [4.0.0-beta.15](https://github.com/theKashey/react-hot-loader/compare/v4.0.0-beta.14...v4.0.0-beta.15) (2018-01-16)
+
+* **react-deep-force-update:** remove from the project
+* **react-stand-in:** fix MobX (Cannot assign to read only property 'render', [#796](https://github.com/gaearon/react-hot-loader/issues/796))
 
 <a name="4.0.0-beta.14"></a>
 
