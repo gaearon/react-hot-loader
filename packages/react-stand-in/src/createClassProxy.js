@@ -54,14 +54,21 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     inject(this, proxyGeneration, injectedMembers)
   }
 
-  function componentWillReceiveProps(...rest) {
-    // will be triggered on hotReplacementRender, first in a row.
-    proxiedUpdate.call(this)
-    const superMethod = CurrentComponent.prototype.componentWillReceiveProps
-    if (superMethod) {
-      superMethod.apply(this, rest)
+  function lifeCycleWrapperFactory(wrapperName) {
+    return function wrappedMethod(...rest) {
+      proxiedUpdate.call(this)
+      return (
+        !isFunctionalComponent &&
+        CurrentComponent.prototype[wrapperName] &&
+        CurrentComponent.prototype[wrapperName].apply(this, rest)
+      )
     }
   }
+
+  const componentWillReceiveProps = lifeCycleWrapperFactory(
+    'componentWillReceiveProps',
+  )
+  const componentWillUpdate = lifeCycleWrapperFactory('componentWillUpdate')
 
   function proxiedRender() {
     proxiedUpdate.call(this)
@@ -82,26 +89,31 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     return wrapResult(result)
   }
 
+  const defineProxyMethods = Proxy => {
+    defineClassMember(Proxy, 'render', proxiedRender)
+    defineClassMember(
+      Proxy,
+      'componentWillReceiveProps',
+      componentWillReceiveProps,
+    )
+    defineClassMember(Proxy, 'componentWillUpdate', componentWillUpdate)
+  }
+
   let ProxyFacade
   let ProxyComponent = null
 
   if (!isFunctionalComponent) {
     ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
 
-    defineClassMember(ProxyComponent, 'render', proxiedRender)
-    defineClassMember(
-      ProxyComponent,
-      'componentWillReceiveProps',
-      componentWillReceiveProps,
-    )
+    defineProxyMethods(ProxyComponent)
 
     ProxyFacade = ProxyComponent
   } else {
     // This function only gets called for the initial mount. The actual
     // rendered component instance will be the return value.
-    ProxyFacade = function(props, context) {
-      // eslint-disable-line func-names
 
+    // eslint-disable-next-line func-names
+    ProxyFacade = function(props, context) {
       const result = CurrentComponent(props, context)
 
       // This is a Relay-style container constructor. We can't do the prototype-
@@ -116,7 +128,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       // and use it going forward.
       ProxyComponent = proxyClassCreator(Component, postConstructionAction)
 
-      defineClassMember(ProxyComponent, 'render', proxiedRender)
+      defineProxyMethods(ProxyComponent)
 
       const determinateResult = new ProxyComponent(props, context)
 

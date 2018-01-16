@@ -1400,6 +1400,62 @@ describe(`AppContainer (dev)`, () => {
       expect(wrapper.contains(<div>ho</div>)).toBe(true)
     })
 
+    it('hot-reloads children with overriden render', () => {
+      class App extends Component {
+        constructor() {
+          super()
+          this.secret = 1
+          this.superSecret = 42
+        }
+
+        componentWillMount() {
+          const oldRender = this.render.bind(this)
+          this.render = () => {
+            this.superSecret = this.secret + 1
+            return <div>PATCHED + {oldRender()}</div>
+          }
+        }
+
+        render() {
+          return <div>{this.superSecret}</div>
+        }
+      }
+
+      RHL.register(App, 'App', 'test.js')
+
+      const MiddleApp = () => (
+        <div>
+          <App />
+        </div>
+      )
+
+      const wrapper = mount(
+        <AppContainer>
+          <MiddleApp />
+        </AppContainer>,
+      )
+      expect(wrapper.text()).toBe('PATCHED + 2')
+
+      {
+        class App2 extends Component {
+          constructor() {
+            super()
+            this.secret = 2
+          }
+
+          render() {
+            return <div>{this.superSecret * 2} v2</div>
+          }
+        }
+
+        RHL.register(App2, 'App', 'test.js')
+
+        wrapper.setProps({ children: <MiddleApp /> })
+      }
+
+      expect(wrapper.update().text()).toBe('PATCHED + 6 v2')
+    })
+
     it('hot-reloads children without losing state', () => {
       class App extends Component {
         constructor(props) {
