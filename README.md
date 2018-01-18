@@ -35,6 +35,8 @@ npm install react-hot-loader@next
 }
 ```
 
+> Note: use `.compilerc` in case of Electron
+
 2. Mark your root component as _hot-exported_:
 
 ```js
@@ -46,9 +48,13 @@ const App = () => <div>Hello World!</div>
 
 export default hot(module)(App)
 ```
+
+Do not use `hot` if you are using **parcel** bundler. It was designed for webpack.
+
 `Hot` accepts only React Component (Stateful or Stateless), resulting the `HotExported` variant of it.
-The `hot` function will setup current module to _self-accept_ itself on reload, and will __ignore__ all the changes, made for non-React components.
-You may mark as much modules as you want. But `HotExportedComponent` __should be the only used export__ of a _hot_-module. 
+The `hot` function will setup current module to _self-accept_ itself on reload, and will **ignore** all the changes, made for non-React components.
+You may mark as much modules as you want. But `HotExportedComponent` **should be the only used export** of a _hot_-module.
+
 > Note: Please note how often we have used `exported` keyword. `hot` is for exports.
 
 > Note: does nothing in production mode, just passes App through.
@@ -96,6 +102,7 @@ export default hot(module)(App)
 ```
 
 ### Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app) without ejecting
+
 Users [reports](https://github.com/gaearon/react-hot-loader/pull/729#issuecomment-354097936), that it is possible to use [react-app-rewire-hot-loader](https://github.com/cdharris/react-app-rewire-hot-loader) to setup React-hot-loader without ejecting.
 Follow [these code examples](https://github.com/Grimones/cra-rhl/commit/4ed74af2dc649301695f67df05a12f210fb7820c) to repeat the approach.
 
@@ -119,6 +126,26 @@ Just add babel-loader into your webpack configuration, with RHL-only config.
   ],
 }
 ```
+
+### Parcel Bundler
+
+Parcel's HRM is a bit different.
+
+* Do not use `hot` (v4) to make Components hot-reloadable.
+* Use `AppContainer` + `module.hot.accept` (v3), follow the version 3 guide lines.
+
+Do the same for any other bundler or framework. `hot` is not a silver bullet. Sometimes it may break the stuff.
+If something is not working (absolutely) - remove the `hot`.
+
+### Electron
+
+To enable HRM on webpack, just enable it
+
+```js
+enableLiveReload({ strategy: 'react-hmr' })
+```
+
+Example - https://github.com/rllola/hmr-example-issue-2/blob/master/src/index.js
 
 ### Source Maps
 
