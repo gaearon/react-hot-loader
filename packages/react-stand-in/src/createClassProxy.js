@@ -198,9 +198,11 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
     const displayName = getDisplayName(CurrentComponent)
     ProxyFacade.displayName = displayName
 
-    safeDefineProperty(ProxyComponent, 'name', {
-      value: displayName,
-    })
+    if (ProxyComponent) {
+      safeDefineProperty(ProxyComponent, 'name', {
+        value: displayName,
+      })
+    }
 
     savedDescriptors = transferStaticProps(
       ProxyFacade,

@@ -151,12 +151,20 @@ const mergeInject = (a, b, instance) => {
   if (flatA.length === flatB.length) {
     return mapChildren(flatA, flatB)
   }
-  logger.warn(
-    `React-hot-loader: unable to merge `,
-    a,
-    'and children of ',
-    instance,
-  )
+  if (
+    flatB.length === 0 &&
+    flatA.length === 1 &&
+    typeof flatA[0] !== 'object'
+  ) {
+    // terminal node
+  } else {
+    logger.warn(
+      `React-hot-loader: unable to merge `,
+      a,
+      'and children of ',
+      instance,
+    )
+  }
   return NO_CHILDREN
 }
 
