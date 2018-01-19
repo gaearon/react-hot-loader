@@ -164,9 +164,8 @@ const transformFlowNode = flow =>
   flow.reduce((acc, node) => {
     if (isFragmentNode(node) && node.props && node.props.children) {
       return [...acc, ...node.props.children]
-    } else {
-      return [...acc, node]
     }
+    return [...acc, node]
   }, [])
 
 const hotReplacementRender = (instance, stack) => {
