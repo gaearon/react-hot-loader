@@ -46,9 +46,11 @@ const App = () => <div>Hello World!</div>
 
 export default hot(module)(App)
 ```
+
 `Hot` accepts only React Component (Stateful or Stateless), resulting the `HotExported` variant of it.
-The `hot` function will setup current module to _self-accept_ itself on reload, and will __ignore__ all the changes, made for non-React components.
-You may mark as much modules as you want. But `HotExportedComponent` __should be the only used export__ of a _hot_-module. 
+The `hot` function will setup current module to _self-accept_ itself on reload, and will **ignore** all the changes, made for non-React components.
+You may mark as much modules as you want. But `HotExportedComponent` **should be the only used export** of a _hot_-module.
+
 > Note: Please note how often we have used `exported` keyword. `hot` is for exports.
 
 > Note: does nothing in production mode, just passes App through.
@@ -96,6 +98,7 @@ export default hot(module)(App)
 ```
 
 ### Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app) without ejecting
+
 Users [reports](https://github.com/gaearon/react-hot-loader/pull/729#issuecomment-354097936), that it is possible to use [react-app-rewire-hot-loader](https://github.com/cdharris/react-app-rewire-hot-loader) to setup React-hot-loader without ejecting.
 Follow [these code examples](https://github.com/Grimones/cra-rhl/commit/4ed74af2dc649301695f67df05a12f210fb7820c) to repeat the approach.
 
