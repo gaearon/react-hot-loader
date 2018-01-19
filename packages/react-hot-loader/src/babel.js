@@ -115,7 +115,6 @@ module.exports = function plugin(args) {
 
       Program: {
         enter({ node, scope }, { file }) {
-          node.body.unshift(headerTemplate())
           node[REGISTRATIONS] = [] // eslint-disable-line no-param-reassign
 
           // Everything in the top level scope, when reasonable,
@@ -140,11 +139,15 @@ module.exports = function plugin(args) {
           const registrations = node[REGISTRATIONS]
           node[REGISTRATIONS] = null // eslint-disable-line no-param-reassign
 
-          // Inject the generated tagging code at the very end
-          // so that it is as minimally intrusive as possible.
-          node.body.push(t.emptyStatement())
-          node.body.push(buildTagger({ REGISTRATIONS: registrations }))
-          node.body.push(t.emptyStatement())
+          // inject the code only if applicable
+          if (registrations.length) {
+            node.body.unshift(headerTemplate())
+            // Inject the generated tagging code at the very end
+            // so that it is as minimally intrusive as possible.
+            node.body.push(t.emptyStatement())
+            node.body.push(buildTagger({ REGISTRATIONS: registrations }))
+            node.body.push(t.emptyStatement())
+          }
         },
       },
       Class(classPath) {
