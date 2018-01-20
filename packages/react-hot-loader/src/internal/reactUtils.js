@@ -1,3 +1,4 @@
+import React from 'react'
 /* eslint-disable no-underscore-dangle */
 
 export const isCompositeComponent = type => typeof type === 'function'
@@ -18,3 +19,6 @@ export const updateInstance = instance => {
     updater.enqueueForceUpdate(instance)
   }
 }
+
+export const isFragmentNode = ({ type }) =>
+  React.Fragment && type === React.Fragment

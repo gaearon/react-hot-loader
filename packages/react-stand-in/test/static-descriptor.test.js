@@ -222,3 +222,18 @@ describe('static descriptor', () => {
     })
   })
 })
+
+describe('static functional descriptor', () => {
+  it('shout pass propTypes', () => {
+    const TestComponent = ({ property }) => <div>{property}</div>
+    TestComponent.propTypes = {
+      property: 42,
+    }
+    TestComponent.displayName = 'Testing'
+    const proxy = createProxy(TestComponent)
+    const Proxy = proxy.get()
+
+    expect(Proxy.propTypes.property).toBe(42)
+    expect(Proxy.displayName).toBe('Testing')
+  })
+})

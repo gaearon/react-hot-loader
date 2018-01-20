@@ -1456,6 +1456,79 @@ describe(`AppContainer (dev)`, () => {
       expect(wrapper.update().text()).toBe('PATCHED + 6 v2')
     })
 
+    it('hot-reloads children inside Fragments', () => {
+      if (React.version.startsWith('16')) {
+        const unmount = jest.fn()
+        class InnerComponent extends Component {
+          componentWillUnmount() {
+            unmount()
+          }
+
+          render() {
+            return <div>OldInnerComponent</div>
+          }
+        }
+        InnerComponent.displayName = 'InnerComponent'
+
+        const InnerItem = () => (
+          <React.Fragment>
+            -1-<InnerComponent />
+          </React.Fragment>
+        )
+        RHL.register(InnerItem, 'InnerItem', 'test.js')
+
+        const Item = () => (
+          <React.Fragment>
+            <li>1</li>
+            <li>
+              <InnerItem />
+            </li>
+            <li>3</li>
+          </React.Fragment>
+        )
+        //
+        const App = () => (
+          <ul>
+            <Item />
+          </ul>
+        )
+
+        const wrapper = mount(
+          <AppContainer>
+            <App />
+          </AppContainer>,
+        )
+
+        expect(wrapper.update().text()).toBe('1-1-OldInnerComponent3')
+        {
+          class InnerComponent extends Component {
+            componentWillUnmount() {
+              unmount()
+            }
+
+            render() {
+              return <div>NewInnerComponent</div>
+            }
+          }
+          InnerComponent.displayName = 'InnerComponent'
+
+          const InnerItem = () => (
+            <React.Fragment>
+              -2-<InnerComponent />
+            </React.Fragment>
+          )
+          RHL.register(InnerItem, 'InnerItem', 'test.js')
+
+          wrapper.setProps({ children: <App /> })
+        }
+        expect(unmount).toHaveBeenCalledTimes(0)
+        expect(wrapper.update().text()).toBe('1-2-NewInnerComponent3')
+      } else {
+        // React 15 is always ok
+        expect(true).toBe(true)
+      }
+    })
+
     it('hot-reloads children without losing state', () => {
       class App extends Component {
         constructor(props) {

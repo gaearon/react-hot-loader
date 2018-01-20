@@ -1,7 +1,11 @@
 import { PROXY_KEY, UNWRAP_PROXY } from 'react-stand-in'
 import levenshtein from 'fast-levenshtein'
 import { getIdByType, updateProxyById } from './proxies'
-import { updateInstance, getComponentDisplayName } from '../internal/reactUtils'
+import {
+  updateInstance,
+  getComponentDisplayName,
+  isFragmentNode,
+} from '../internal/reactUtils'
 import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
 
@@ -147,17 +151,33 @@ const mergeInject = (a, b, instance) => {
   if (flatA.length === flatB.length) {
     return mapChildren(flatA, flatB)
   }
-  logger.warn(
-    `React-hot-loader: unable to merge `,
-    a,
-    'and children of ',
-    instance,
-  )
+  if (
+    flatB.length === 0 &&
+    flatA.length === 1 &&
+    typeof flatA[0] !== 'object'
+  ) {
+    // terminal node
+  } else {
+    logger.warn(
+      `React-hot-loader: unable to merge `,
+      a,
+      'and children of ',
+      instance,
+    )
+  }
   return NO_CHILDREN
 }
 
+const transformFlowNode = flow =>
+  flow.reduce((acc, node) => {
+    if (isFragmentNode(node) && node.props && node.props.children) {
+      return [...acc, ...node.props.children]
+    }
+    return [...acc, node]
+  }, [])
+
 const hotReplacementRender = (instance, stack) => {
-  const flow = filterNullArray(asArray(render(instance)))
+  const flow = transformFlowNode(filterNullArray(asArray(render(instance))))
 
   const { children } = stack
 
