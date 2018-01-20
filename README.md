@@ -35,6 +35,8 @@ npm install react-hot-loader@next
 }
 ```
 
+> Note: use `.compilerc` in case of Electron
+
 2. Mark your root component as _hot-exported_:
 
 ```js
@@ -46,6 +48,8 @@ const App = () => <div>Hello World!</div>
 
 export default hot(module)(App)
 ```
+
+Do not use `hot` if you are using **parcel** bundler. It was designed for webpack.
 
 `Hot` accepts only React Component (Stateful or Stateless), resulting the `HotExported` variant of it.
 The `hot` function will setup current module to _self-accept_ itself on reload, and will **ignore** all the changes, made for non-React components.
@@ -122,6 +126,26 @@ Just add babel-loader into your webpack configuration, with RHL-only config.
   ],
 }
 ```
+
+### Parcel Bundler
+
+Parcel's HRM is a bit different.
+
+* Do not use `hot` (v4) to make Components hot-reloadable.
+* Use `AppContainer` + `module.hot.accept` (v3), follow the version 3 guide lines.
+
+Do the same for any other bundler or framework. `hot` is not a silver bullet. Sometimes it may break the stuff.
+If something is not working (absolutely) - remove the `hot`.
+
+### Electron
+
+To enable HRM on webpack, just enable it
+
+```js
+enableLiveReload({ strategy: 'react-hmr' })
+```
+
+Example - https://github.com/rllola/hmr-example-issue-2/blob/master/src/index.js
 
 ### Source Maps
 

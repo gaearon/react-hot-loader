@@ -6,6 +6,11 @@ import reactHotLoader from './reactHotLoader'
 import { isOpened as isModuleOpened } from './global/modules'
 import logger from './logger'
 
+/* eslint-disable camelcase, no-undef */
+const requireIndirect =
+  typeof __webpack_require__ !== 'undefined' ? __webpack_require__ : require
+/* eslint-enable */
+
 const createHoc = (SourceComponent, TargetComponent) => {
   hoistNonReactStatic(TargetComponent, SourceComponent)
   TargetComponent.displayName = `HotExported${getComponentDisplayName(
@@ -16,7 +21,16 @@ const createHoc = (SourceComponent, TargetComponent) => {
 
 const makeHotExport = (sourceModule, getInstances) => {
   const updateInstances = () =>
-    setTimeout(() => getInstances().forEach(inst => inst.forceUpdate()))
+    setTimeout(() => {
+      if (sourceModule.id) {
+        try {
+          requireIndirect(sourceModule.id)
+        } catch (e) {
+          // just swallow
+        }
+      }
+      getInstances().forEach(inst => inst.forceUpdate())
+    })
 
   if (sourceModule.hot) {
     // Mark as self-accepted for Webpack

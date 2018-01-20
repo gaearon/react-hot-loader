@@ -225,7 +225,7 @@ describe('static descriptor', () => {
 
 describe('static functional descriptor', () => {
   it('shout pass propTypes', () => {
-    const TestComponent = () => <div />
+    const TestComponent = ({ property }) => <div>{property}</div>
     TestComponent.propTypes = {
       property: 42,
     }
