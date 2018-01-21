@@ -1,3 +1,14 @@
+<a name="4.0.0-beta.16"></a>
+
+# [4.0.0-beta.16](https://github.com/theKashey/react-hot-loader/compare/v4.0.0-beta.15-1...v4.0.0-beta.16) (2018-01-21)
+
+* **react-hot-loader:** Hard code consts from stand-in [#807](https://github.com/gaearon/react-hot-loader/issues/807))
+* **react-hot-loader:** Support React 16 Fragments [#799](https://github.com/gaearon/react-hot-loader/issues/799))
+* **react-hot-loader:** Suppress some warnings [#804](https://github.com/gaearon/react-hot-loader/issues/804))
+* **react-hot-loader:** Better Electron support [#794](https://github.com/gaearon/react-hot-loader/issues/794))
+
+* **react-stand-in:** Fix IE11 regression (again)
+
 <a name="4.0.0-beta.15"></a>
 
 # [4.0.0-beta.15](https://github.com/theKashey/react-hot-loader/compare/v4.0.0-beta.14...v4.0.0-beta.15) (2018-01-16)
