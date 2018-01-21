@@ -13,8 +13,8 @@
     "prebuild": "rm -rf packages/*/lib",
     "precommit": "lint-staged",
     "test": "yarn test:es2015 && yarn test:modern",
-    "test:es2015": "BABEL_TARGET=es2015 jest --no-cache",
-    "test:modern": "BABEL_TARGET=modern jest --no-cache"
+    "test:es2015": "cross-env BABEL_TARGET=es2015 jest --no-cache",
+    "test:modern": "cross-env BABEL_TARGET=modern jest --no-cache"
   },
   "lint-staged": {
     "*.{js,md,ts,json}": [
@@ -37,6 +37,7 @@
     "conventional-changelog-cli": "^1.3.5",
     "conventional-github-releaser": "^2.0.0",
     "create-react-class": "^15.6.2",
+    "cross-env": "^5.1.3",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-15": "^1.0.5",
     "enzyme-adapter-react-16": "^1.1.1",
