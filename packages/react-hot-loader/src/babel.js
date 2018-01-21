@@ -1,4 +1,4 @@
-const { REGENERATE_METHOD } = require('react-stand-in')
+import { REGENERATE_METHOD } from './internal/constants'
 
 const templateOptions = {
   placeholderPattern: /^([A-Z0-9]+)([A-Z0-9_]+)$/,
