@@ -21,7 +21,7 @@ TARGETS.forEach(target => {
             const actual = transformFileSync(fixtureFile, getOptions(target))
               .code
             const codeWithoutFilename = actual.replace(
-              new RegExp(`["']${fixtureFile}["']`, 'g'),
+              new RegExp(`["']${fixtureFile.replace(/\\/g, '/')}["']`, 'g'),
               '__FILENAME__',
             )
             expect(trim(codeWithoutFilename)).toMatchSnapshot()
@@ -39,7 +39,7 @@ TARGETS.forEach(target => {
             const actual = transformFileSync(fixtureFile, getOptions(target))
               .code
             const codeWithoutFilename = actual.replace(
-              new RegExp(`["']${fixtureFile}["']`, 'g'),
+              new RegExp(`["']${fixtureFile.replace(/\\/g, '/')}["']`, 'g'),
               '__FILENAME__',
             )
             expect(trim(codeWithoutFilename)).toMatchSnapshot()
