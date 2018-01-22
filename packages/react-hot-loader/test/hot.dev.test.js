@@ -1,6 +1,10 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { enter as enterModule } from '../src/global/modules'
+import {
+  enter as enterModule,
+  leave as leaveModule,
+  isOpened,
+} from '../src/global/modules'
 import hot from '../src/hot.dev'
 import logger from '../src/logger'
 
@@ -70,5 +74,32 @@ describe('hot (dev)', () => {
 Did you use "hot(Component)" and "ReactDOM.render()" in the same file?
 "hot(Component)" shall only be used as export.
 Please refer to "Getting Started" (https://github.com/gaearon/react-hot-loader/).`)
+  })
+
+  it('it should track module state', () => {
+    const sourceModule = { id: 'module42' }
+    expect(isOpened(sourceModule)).toBe(false)
+    enterModule(sourceModule)
+    expect(isOpened(sourceModule)).toBe(true)
+    enterModule(sourceModule)
+    expect(isOpened(sourceModule)).toBe(true)
+    //
+    leaveModule(sourceModule)
+    expect(isOpened(sourceModule)).toBe(false)
+    leaveModule(sourceModule)
+    expect(isOpened(sourceModule)).toBe(false)
+  })
+
+  it('it should stand wrong module definition', () => {
+    const sourceModule = {}
+    expect(isOpened(sourceModule)).toBe(false)
+    enterModule(sourceModule)
+    expect(isOpened(sourceModule)).toBe(false)
+    leaveModule(sourceModule)
+    expect(isOpened(sourceModule)).toBe(false)
+
+    enterModule()
+    isOpened()
+    leaveModule()
   })
 })
