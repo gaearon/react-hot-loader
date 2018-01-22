@@ -198,6 +198,18 @@ const element = <Component />
 areComponentsEqual(element.type, Component) // true
 ```
 
+### Webpack ExtractTextPlugin & CommonModulePlugin
+
+Webpack ExtractTextPlugin is not compatible with these two plugins. The solution is simple, disable them in development:
+
+```js
+// Example for ExtractTextPlugin
+new ExtractTextPlugin({
+  filename: 'styles/[name].[contenthash].css',
+  disable: NODE_ENV !== 'production',
+})
+```
+
 ## Migrating from v3
 
 ### AppContainer vs hot
