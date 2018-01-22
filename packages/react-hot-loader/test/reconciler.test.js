@@ -4,6 +4,10 @@ import '../src/patch.dev'
 import AppContainer from '../src/AppContainer.dev'
 import { increment as incrementGeneration } from '../src/global/generation'
 import { areComponentsEqual } from '../src/utils.dev'
+import logger from '../src/logger'
+import reactHotLoader from '../src/reactHotLoader'
+
+jest.mock('../src/logger')
 
 const spyComponent = (render, displayName, key) => {
   const mounted = jest.fn()
@@ -27,6 +31,7 @@ const spyComponent = (render, displayName, key) => {
     __reactstandin__regenerateByEval(key, code) {
       this[key] = eval(code)
     }
+
     /* eslint-enable */
 
     render() {
@@ -224,6 +229,37 @@ describe('reconciler', () => {
       expect(first.unmounted).toHaveBeenCalledTimes(0)
       expect(second.mounted).toHaveBeenCalledTimes(0)
       expect(wrapper.text()).toContain(43)
+    })
+
+    it('should handle error on render', () => {
+      const App = () => <div>Normal application</div>
+      reactHotLoader.register(App, 'App', 'test.js')
+
+      const TestCase = props => (
+        <AppContainer>
+          <App {...props} />
+        </AppContainer>
+      )
+
+      const wrapper = mount(<TestCase />)
+
+      {
+        const App = ({ update = '42' }) => (
+          <div>
+            Normal application{' '}
+            <span>{update ? update.not.existing : '42'}</span>
+          </div>
+        )
+        reactHotLoader.register(App, 'App', 'test.js')
+
+        expect(() => wrapper.setProps({ children: <App /> })).toThrow()
+        expect(reactHotLoader.disableProxyCreation).toBe(false)
+      }
+
+      expect(logger.warn).toHaveBeenCalledWith(
+        `React-hot-loader: reconcilation failed due to error`,
+        expect.any(Error),
+      )
     })
   })
 })
