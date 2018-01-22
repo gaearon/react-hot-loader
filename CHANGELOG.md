@@ -1,3 +1,16 @@
+<a name="4.0.0-beta.17"></a>
+
+# [4.0.0-beta.17](https://github.com/gaearon/react-hot-loader/compare/4.0.0-beta.16...v4.0.0-beta.17) (2018-01-22)
+
+### Features
+
+* remove useless dependencies ([e1b83e5](https://github.com/gaearon/react-hot-loader/commit/e1b83e5)), closes [#808](https://github.com/gaearon/react-hot-loader/issues/808)
+
+### Bug Fixes
+
+* warn about errors [#814](https://github.com/gaearon/react-hot-loader/issues/814)
+* handle wrong module [#813](https://github.com/gaearon/react-hot-loader/issues/#813)
+
 <a name="4.0.0-beta.16"></a>
 
 # [4.0.0-beta.16](https://github.com/theKashey/react-hot-loader/compare/v4.0.0-beta.15-1...v4.0.0-beta.16) (2018-01-21)
