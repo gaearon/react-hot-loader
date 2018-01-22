@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import logger from './logger'
 import { get as getGeneration } from './global/generation'
 import getReactStack from './internal/getReactStack'
 import hotReplacementRender from './reconciler/hotReplacementRender'
@@ -41,6 +42,7 @@ class AppContainer extends React.Component {
   }
 
   componentDidCatch(error) {
+    logger.error(error)
     this.setState({ error })
   }
 
@@ -48,10 +50,7 @@ class AppContainer extends React.Component {
     const { error } = this.state
 
     if (this.props.errorReporter && error) {
-      console.error(error)
       return <this.props.errorReporter error={error} />
-    } else if (error) {
-      console.error(error)
     }
 
     return React.Children.only(this.props.children)

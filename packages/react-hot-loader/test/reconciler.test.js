@@ -231,35 +231,45 @@ describe('reconciler', () => {
       expect(wrapper.text()).toContain(43)
     })
 
-    it('should handle error on render', () => {
-      const App = () => <div>Normal application</div>
-      reactHotLoader.register(App, 'App', 'test.js')
+    describe('when an error occurs in render', () => {
+      beforeEach(() => {
+        jest.spyOn(console, 'error').mockImplementation(() => {})
+      })
 
-      const TestCase = props => (
-        <AppContainer>
-          <App {...props} />
-        </AppContainer>
-      )
+      afterEach(() => {
+        console.error.mockRestore()
+      })
 
-      const wrapper = mount(<TestCase />)
-
-      {
-        const App = ({ update = '42' }) => (
-          <div>
-            Normal application{' '}
-            <span>{update ? update.not.existing : '42'}</span>
-          </div>
-        )
+      it('should catch error', () => {
+        const App = () => <div>Normal application</div>
         reactHotLoader.register(App, 'App', 'test.js')
 
-        expect(() => wrapper.setProps({ children: <App /> })).toThrow()
-        expect(reactHotLoader.disableProxyCreation).toBe(false)
-      }
+        const TestCase = () => (
+          <AppContainer>
+            <App active />
+          </AppContainer>
+        )
 
-      expect(logger.warn).toHaveBeenCalledWith(
-        `React-hot-loader: reconcilation failed due to error`,
-        expect.any(Error),
-      )
+        const wrapper = mount(<TestCase />)
+
+        {
+          const App = ({ active }) => (
+            <div>
+              Normal application
+              <span>{active ? active.not.existing : null}</span>
+            </div>
+          )
+          reactHotLoader.register(App, 'App', 'test.js')
+
+          expect(() => wrapper.setProps({ children: <App /> })).toThrow()
+          expect(reactHotLoader.disableProxyCreation).toBe(false)
+        }
+
+        expect(logger.warn).toHaveBeenCalledWith(
+          `React-hot-loader: reconcilation failed due to error`,
+          expect.any(Error),
+        )
+      })
     })
   })
 })

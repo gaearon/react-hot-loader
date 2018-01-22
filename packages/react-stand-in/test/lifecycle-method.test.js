@@ -1,7 +1,13 @@
 /* eslint-env jest */
 import React, { Component } from 'react'
 import { createMounter } from './helper'
-import createProxy from '../lib'
+import createProxy, { setConfig } from '../lib'
+
+setConfig({
+  logger: {
+    warn: jest.fn(),
+  },
+})
 
 describe('lifecycle method', () => {
   const { mount } = createMounter()
