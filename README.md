@@ -198,6 +198,18 @@ const element = <Component />
 areComponentsEqual(element.type, Component) // true
 ```
 
+### Webpack ExtractTextPlugin & CommonModulePlugin
+
+Webpack ExtractTextPlugin is not compatible with these two plugins. The solution is simple, disable them in development:
+
+```js
+// Example for ExtractTextPlugin
+new ExtractTextPlugin({
+  filename: 'styles/[name].[contenthash].css',
+  disable: NODE_ENV !== 'production',
+})
+```
+
 ## Migrating from v3
 
 ### AppContainer vs hot
@@ -271,6 +283,24 @@ ReactDOM.render(<App />, document.getElementById('root'))
 
 Code is automatically patched, you can safely remove `react-hot-loader/patch`
 from your Webpack config.
+
+### Error reporter is gone
+
+React supports error handling out of the box since v16 using `componentDidCatch`. You can create your own [Error Boundary](https://reactjs.org/docs/error-boundaries.html#introducing-error-boundaries) and install it after `hot` has been applied:
+
+```js
+import React from 'react'
+import { hot } from 'react-hot-loader'
+import ErrorBoundary from './ErrorBoundary'
+
+const App = () => (
+  <ErrorBoundary>
+    <div>Hello world!</div>
+  </ErrorBoundary>
+)
+
+export default hot(module)(App)
+```
 
 ## Known limitations and side effects
 
