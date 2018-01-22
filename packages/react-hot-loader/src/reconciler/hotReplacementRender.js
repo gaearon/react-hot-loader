@@ -260,6 +260,8 @@ export default (instance, stack) => {
     // disable reconciler to prevent upcoming components from proxying.
     reactHotLoader.disableProxyCreation = true
     hotReplacementRender(instance, stack)
+  } catch (e) {
+    logger.warn('React-hot-loader: reconcilation failed due to error', e)
   } finally {
     reactHotLoader.disableProxyCreation = false
   }
