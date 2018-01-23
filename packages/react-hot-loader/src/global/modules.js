@@ -2,6 +2,17 @@ import logger from '../logger'
 
 const openedModules = {}
 
+const hotModules = {}
+
+const createHotModule = () => ({ instances: [], updateTimeout: 0 })
+
+export const hotModule = moduleId => {
+  if (!hotModules[moduleId]) {
+    hotModules[moduleId] = createHotModule()
+  }
+  return hotModules[moduleId]
+}
+
 export const isOpened = sourceModule =>
   sourceModule && !!openedModules[sourceModule.id]
 

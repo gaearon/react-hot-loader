@@ -3,7 +3,7 @@ import hoistNonReactStatic from 'hoist-non-react-statics'
 import { getComponentDisplayName } from './internal/reactUtils'
 import AppContainer from './AppContainer.dev'
 import reactHotLoader from './reactHotLoader'
-import { isOpened as isModuleOpened } from './global/modules'
+import { isOpened as isModuleOpened, hotModule } from './global/modules'
 import logger from './logger'
 
 /* eslint-disable camelcase, no-undef */
@@ -19,18 +19,19 @@ const createHoc = (SourceComponent, TargetComponent) => {
   return TargetComponent
 }
 
-const makeHotExport = (sourceModule, getInstances) => {
-  const updateInstances = () =>
-    setTimeout(() => {
-      if (sourceModule.id) {
-        try {
-          requireIndirect(sourceModule.id)
-        } catch (e) {
-          // just swallow
-        }
+const makeHotExport = sourceModule => {
+  const updateInstances = () => {
+    const module = hotModule(sourceModule.id)
+    clearTimeout(module.updateTimeout)
+    module.updateTimeout = setTimeout(() => {
+      try {
+        requireIndirect(sourceModule.id)
+      } catch (e) {
+        // just swallow
       }
-      getInstances().forEach(inst => inst.forceUpdate())
+      module.instances.forEach(inst => inst.forceUpdate())
     })
+  }
 
   if (sourceModule.hot) {
     // Mark as self-accepted for Webpack
@@ -51,8 +52,16 @@ const makeHotExport = (sourceModule, getInstances) => {
 }
 
 const hot = sourceModule => {
-  let instances = []
-  makeHotExport(sourceModule, () => instances)
+  if (!sourceModule || !sourceModule.id) {
+    // this is fatal
+    throw new Error(
+      'React-hot-loader: `hot` could not found the `id` property in the `module` you have provided',
+    )
+  }
+  const moduleId = sourceModule.id
+  const module = hotModule(moduleId)
+  makeHotExport(sourceModule)
+
   // TODO: Ensure that all exports from this file are react components.
 
   return WrappedComponent => {
@@ -60,29 +69,27 @@ const hot = sourceModule => {
     reactHotLoader.register(
       WrappedComponent,
       getComponentDisplayName(WrappedComponent),
-      `RHL${sourceModule.id}`,
+      `RHL${moduleId}`,
     )
 
     return createHoc(
       WrappedComponent,
       class ExportedComponent extends Component {
         componentWillMount() {
-          instances.push(this)
+          module.instances.push(this)
         }
 
         componentWillUnmount() {
           if (isModuleOpened(sourceModule)) {
             const componentName = getComponentDisplayName(WrappedComponent)
             logger.error(
-              `React-hot-loader: Detected AppContainer unmount on module '${
-                sourceModule.id
-              }' update.\n` +
+              `React-hot-loader: Detected AppContainer unmount on module '${moduleId}' update.\n` +
                 `Did you use "hot(${componentName})" and "ReactDOM.render()" in the same file?\n` +
                 `"hot(${componentName})" shall only be used as export.\n` +
                 `Please refer to "Getting Started" (https://github.com/gaearon/react-hot-loader/).`,
             )
           }
-          instances = instances.filter(a => a !== this)
+          module.instances = module.instances.filter(a => a !== this)
         }
 
         render() {
