@@ -1,12 +1,9 @@
-import createProxy, { setConfig } from 'react-stand-in'
-import logger from '../logger'
+import createProxy from 'react-stand-in'
 
 let proxiesByID
 let idsByType
 
 let elementCount = 0
-
-setConfig({ logger })
 
 const generateTypeId = () => `auto-${elementCount++}`
 
