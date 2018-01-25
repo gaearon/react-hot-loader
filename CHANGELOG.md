@@ -1,3 +1,11 @@
+<a name="4.0.0-beta.18"></a>
+
+# [4.0.0-beta.18](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.17...v4.0.0-beta.18) (2018-01-25)
+
+### Bug Fixes
+
+* break cyclic dependency ([#822](https://github.com/gaearon/react-hot-loader/issues/822)) ([328d793](https://github.com/gaearon/react-hot-loader/commit/328d793)), closes [#820](https://github.com/gaearon/react-hot-loader/issues/820)
+
 <a name="4.0.0-beta.17"></a>
 
 # [4.0.0-beta.17](https://github.com/gaearon/react-hot-loader/compare/4.0.0-beta.16...v4.0.0-beta.17) (2018-01-22)
