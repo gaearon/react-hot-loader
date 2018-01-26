@@ -178,7 +178,9 @@ each module so you might not need source maps at all.
 
 React Native
 **[supports hot reloading natively](https://facebook.github.io/react-native/blog/2016/03/24/introducing-hot-reloading.html)**
-as of version 0.22.
+as of version 0.22.  
+
+Using React Hot Loader with React Native can cause unexpected issues (see [#824](/../../issues/824)) and is not recommended.
 
 ## Adding a custom error reporter
 
