@@ -9,7 +9,7 @@ const Async = () => <AsyncComponent importer={importer} />
 
 const App = () => (
   <h1>
-    <p>{42}!</p>
+    <p>{40}!</p>
     <Counter />
     <Async />
     <Portal />

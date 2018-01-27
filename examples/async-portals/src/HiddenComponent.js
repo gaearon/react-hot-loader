@@ -1,7 +1,7 @@
 import React from 'react'
 import Counter from './Counter'
 
-const hidden = (function() {
+const hidden = function() {
   return {
     counter: () => (
       <div>
@@ -9,6 +9,6 @@ const hidden = (function() {
       </div>
     ),
   }
-})()
+}
 
 export default hidden

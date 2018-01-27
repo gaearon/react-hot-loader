@@ -4,6 +4,9 @@ const RAND = Math.round(Math.random() * 1000)
 
 class Counter extends React.Component {
   state = { count: 0 }
+  gen = 0
+
+  catch = 42
 
   componentDidMount() {
     this.setState({
@@ -16,7 +19,11 @@ class Counter extends React.Component {
   }
 
   render() {
-    return this.state.count
+    return (
+      <span>
+        +{this.state.count}:{this.gen++}
+      </span>
+    )
   }
 }
 

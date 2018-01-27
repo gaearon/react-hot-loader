@@ -2,17 +2,19 @@ import React from 'react'
 import { Portal } from 'react-portal'
 import hidden from './HiddenComponent'
 
+const Hidden = hidden()
+
 const APortal = () => (
   <Portal>
     This is a async portal
-    <hidden.counter />
+    <Hidden.counter />
   </Portal>
 )
 
 export default () => (
   <div>
     ASYNC
-    <hidden.counter />
+    <Hidden.counter />
     and <APortal />
   </div>
 )

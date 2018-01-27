@@ -1,10 +1,17 @@
 import React from 'react'
 import { Portal } from 'react-portal'
-import Hidden from './HiddenComponent'
+import hidden from './HiddenComponent'
+
+const Hidden = hidden()
+
+const InPortal = ({ children }) => <div> + {children}</div>
+InPortal.catch = 42
 
 export default () => (
   <Portal>
-    This is a first portal
-    <Hidden.counter />
+    <InPortal>
+      This is a first portal
+      <Hidden.counter />
+    </InPortal>
   </Portal>
 )
