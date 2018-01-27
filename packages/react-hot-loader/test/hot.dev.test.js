@@ -8,6 +8,7 @@ import {
 } from '../src/global/modules'
 import hot from '../src/hot.dev'
 import logger from '../src/logger'
+import { increment as incrementGeneration } from '../src/global/generation'
 
 jest.mock('../src/logger')
 
@@ -63,7 +64,7 @@ describe('hot (dev)', () => {
     wrapper.unmount()
   })
 
-  it('should redraw component on HRM', done => {
+  it.only('should redraw component on HRM', done => {
     const callbacks = []
     const sourceModule = {
       id: 'error42',
@@ -89,6 +90,7 @@ describe('hot (dev)', () => {
     expect(spy).toHaveBeenCalledTimes(1)
 
     expect(callbacks.length).toBe(2)
+    incrementGeneration()
     callbacks.forEach(cb => cb())
     expect(spy).toHaveBeenCalledTimes(1)
     setTimeout(() => {

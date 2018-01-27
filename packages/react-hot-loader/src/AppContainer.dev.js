@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import logger from './logger'
 import { get as getGeneration } from './global/generation'
-import getReactStack from './internal/getReactStack'
-import hotReplacementRender from './reconciler/hotReplacementRender'
+import { renderReconciler } from './reconciler/proxyAdapter'
+import { flushScheduledUpdates } from './reconciler'
 import './patch.dev'
 
 class AppContainer extends React.Component {
@@ -26,7 +26,9 @@ class AppContainer extends React.Component {
       })
 
       // perform sandboxed render to find similarities between new and old code
-      hotReplacementRender(this, getReactStack(this))
+      renderReconciler(this, true)
+      // it is possible to flush update out of render cycle
+      flushScheduledUpdates()
     }
   }
 
