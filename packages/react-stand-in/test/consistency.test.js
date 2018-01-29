@@ -17,6 +17,7 @@ const createFixtures = () => ({
       __reactstandin__regenerateByEval(key, code) {
         this[key] = eval(code)
       }
+
       /* eslint-enable */
 
       render() {
@@ -35,6 +36,7 @@ const createFixtures = () => ({
       __reactstandin__regenerateByEval(key, code) {
         this[key] = eval(code)
       }
+
       /* eslint-enable */
 
       render() {
@@ -53,6 +55,7 @@ const createFixtures = () => ({
       __reactstandin__regenerateByEval(key, code) {
         this[key] = eval(code)
       }
+
       /* eslint-enable */
 
       render() {
@@ -213,6 +216,29 @@ describe('consistency', () => {
         const Proxy = proxy.get()
 
         expect(Proxy.prototype instanceof Bar).toBe(true)
+      })
+
+      it('should return Class for Stateless component', () => {
+        const StatelessComponent = () => 42
+        const proxy = createProxy(StatelessComponent)
+        const Proxy = proxy.get()
+
+        expect(Proxy.prototype instanceof React.Component).toBe(false)
+        const instance = Proxy() // this is function
+        expect(instance.render()).toBe(42)
+      })
+
+      it('should return Instance for Stateless component in non compact mode', () => {
+        setConfig({ reactHotLoader: { compat: true } })
+        const StatelessComponent = () => 42
+        const proxy = createProxy(StatelessComponent)
+        const Proxy = proxy.get()
+
+        expect(Proxy.prototype instanceof React.Component).toBe(true)
+        expect(() => Proxy()).toThrow() // this is class
+        const instance = new Proxy()
+        expect(instance.render()).toBe(42)
+        setConfig({ reactHotLoader: {} })
       })
     })
   })

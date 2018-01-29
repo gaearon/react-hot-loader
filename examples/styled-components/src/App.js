@@ -15,21 +15,27 @@ const SmallText = emoStyled('div')`
 const indirect = {
   element: () => (
     <SmallText>
-      hidden2 <Counter />
+      hidden <Counter />
     </SmallText>
   ),
 }
+
+const Instanced = () => new Counter()
 
 const aNumber = 10
 
 const App = () => (
   <h1>
-    <BigText>1.Hello, world!! {aNumber} </BigText>
+    <BigText>1.Hello, world {aNumber} </BigText>
     <br />
-    <SmallText>2.Hello, world---.</SmallText>
+    <SmallText>2.Hello, world.</SmallText>
     <br />
-    <Counter />
+    Counter: <Counter /> <br />
+    Hidden:
     <indirect.element />
+    <br />
+    Instanced: <Instanced />
+    <br />
   </h1>
 )
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import reactHotLoader from './reactHotLoader'
+import './utils.dev'
 
 reactHotLoader.patch(React)
 

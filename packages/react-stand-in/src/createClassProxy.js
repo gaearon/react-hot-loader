@@ -9,6 +9,7 @@ import {
   safeDefineProperty,
   proxyClassCreator,
 } from './utils'
+import config from './config'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 
 const has = Object.prototype.hasOwnProperty
@@ -86,6 +87,21 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       result = CurrentComponent.prototype.render.call(this)
     }
 
+    if (isReactComponentInstance(result)) {
+      console.error(
+        'React-hot-loader: ',
+        InitialComponent,
+        'returned an instance',
+        result,
+        'as result.',
+        'You have to disable compat mode to let React-hot-loader handle this.',
+        'setConfig({compat: false}))',
+      )
+      throw new Error(
+        'React-hot-loader: an instance were returned from a render function. Configuration change required',
+      )
+    }
+
     return wrapResult(result)
   }
 
@@ -102,8 +118,14 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
   let ProxyFacade
   let ProxyComponent = null
 
-  if (!isFunctionalComponent) {
-    ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
+  if (
+    !isFunctionalComponent ||
+    (config.reactHotLoader && config.reactHotLoader.compat)
+  ) {
+    ProxyComponent = proxyClassCreator(
+      isFunctionalComponent ? Component : InitialComponent,
+      postConstructionAction,
+    )
 
     defineProxyMethods(ProxyComponent)
 
