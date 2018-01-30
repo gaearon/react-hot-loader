@@ -218,7 +218,8 @@ describe('consistency', () => {
         expect(Proxy.prototype instanceof Bar).toBe(true)
       })
 
-      it('should return Class for Stateless component', () => {
+      it('should return Function for Stateless component when IndeterminateComponent allowed', () => {
+        setConfig({ statelessIndeterminateComponent: true })
         const StatelessComponent = () => 42
         const proxy = createProxy(StatelessComponent)
         const Proxy = proxy.get()
@@ -226,10 +227,10 @@ describe('consistency', () => {
         expect(Proxy.prototype instanceof React.Component).toBe(false)
         const instance = Proxy() // this is function
         expect(instance.render()).toBe(42)
+        setConfig({ statelessIndeterminateComponent: false })
       })
 
-      it('should return Instance for Stateless component in non compact mode', () => {
-        setConfig({ reactHotLoader: { compat: true } })
+      it('should return Class for Stateless component by default', () => {
         const StatelessComponent = () => 42
         const proxy = createProxy(StatelessComponent)
         const Proxy = proxy.get()
@@ -238,7 +239,6 @@ describe('consistency', () => {
         expect(() => Proxy()).toThrow() // this is class
         const instance = new Proxy()
         expect(instance.render()).toBe(42)
-        setConfig({ reactHotLoader: {} })
       })
     })
   })

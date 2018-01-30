@@ -1327,7 +1327,7 @@ describe(`AppContainer (dev)`, () => {
     it('support indeterminateComponent', () => {
       const spy = jest.fn()
 
-      setConfig({ compat: false })
+      setConfig({ statelessIndeterminateComponent: true })
 
       const AnotherComponent = () => <div>old</div>
 
@@ -1379,7 +1379,7 @@ describe(`AppContainer (dev)`, () => {
         expect(wrapper.text()).toBe('hey 44 new')
         expect(spy).toHaveBeenCalledTimes(0) // never gets called
 
-        setConfig({ compat: true })
+        setConfig({ statelessIndeterminateComponent: false })
         // How it should work
         // expect(wrapper.text()).toBe('ho 45 new');
         // expect(spy).toHaveBeenCalledTimes(2);

@@ -39,6 +39,6 @@ const App = () => (
   </h1>
 )
 
-setConfig({ logLevel: 'debug' })
+setConfig({ logLevel: 'debug', statelessIndeterminateComponent: true })
 
 export default hot(module)(App)

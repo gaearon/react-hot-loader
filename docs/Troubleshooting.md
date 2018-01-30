@@ -325,5 +325,5 @@ Buy default RHL will produce more simply and compatible code, but non-compact mo
 
 ```js
 import { setConfig } from 'react-hot-loader'
-setConfig({ compat: false })
+setConfig({ statelessIndeterminateComponent: true })
 ```
