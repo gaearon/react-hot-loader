@@ -16,12 +16,9 @@
     "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
-    "emotion": "^8.0.12",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-emotion": "^8.0.12",
     "react-hot-loader": "next",
-    "react-portal": "^4.1.2",
-    "styled-components": "^2.4.0"
+    "react-portal": "^4.1.2"
   }
 }

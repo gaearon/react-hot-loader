@@ -64,7 +64,7 @@ describe('hot (dev)', () => {
     wrapper.unmount()
   })
 
-  it.only('should redraw component on HRM', done => {
+  it('should redraw component on HRM', done => {
     const callbacks = []
     const sourceModule = {
       id: 'error42',

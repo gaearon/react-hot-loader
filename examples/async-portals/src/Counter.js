@@ -6,8 +6,6 @@ class Counter extends React.Component {
   state = { count: 0 }
   gen = 0
 
-  catch = 42
-
   componentDidMount() {
     this.setState({
       count: RAND,
@@ -19,9 +17,10 @@ class Counter extends React.Component {
   }
 
   render() {
+    // gen should change. count - no.
     return (
       <span>
-        +{this.state.count}:{this.gen++}
+        {this.state.count}:{this.gen++}
       </span>
     )
   }

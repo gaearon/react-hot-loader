@@ -5,7 +5,6 @@ import hidden from './HiddenComponent'
 const Hidden = hidden()
 
 const InPortal = ({ children }) => <div> + {children}</div>
-InPortal.catch = 42
 
 export default () => (
   <Portal>
