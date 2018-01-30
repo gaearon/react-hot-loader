@@ -5,6 +5,7 @@ import { mount } from 'enzyme'
 import { mapProps } from 'recompose'
 import AppContainer from '../lib/AppContainer.dev'
 import RHL from '../lib/reactHotLoader'
+import { setConfig } from '../lib/utils.dev'
 
 describe(`AppContainer (dev)`, () => {
   beforeEach(() => {
@@ -1304,8 +1305,29 @@ describe(`AppContainer (dev)`, () => {
       expect(wrapper.contains(<div>second</div>)).toBe(true)
     })
 
+    it('should throw in compat mode', () => {
+      class CurrentApp extends Component {
+        render() {
+          return <div>42</div>
+        }
+      }
+
+      const IndeterminateComponent = (props, context) =>
+        new CurrentApp(props, context)
+
+      expect(() =>
+        mount(
+          <AppContainer>
+            <IndeterminateComponent n={42} />
+          </AppContainer>,
+        ).toThrow(),
+      )
+    })
+
     it('support indeterminateComponent', () => {
       const spy = jest.fn()
+
+      setConfig({ statelessIndeterminateComponent: true })
 
       const AnotherComponent = () => <div>old</div>
 
@@ -1357,6 +1379,7 @@ describe(`AppContainer (dev)`, () => {
         expect(wrapper.text()).toBe('hey 44 new')
         expect(spy).toHaveBeenCalledTimes(0) // never gets called
 
+        setConfig({ statelessIndeterminateComponent: false })
         // How it should work
         // expect(wrapper.text()).toBe('ho 45 new');
         // expect(spy).toHaveBeenCalledTimes(2);

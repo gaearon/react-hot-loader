@@ -9,6 +9,7 @@ import {
   safeDefineProperty,
   proxyClassCreator,
 } from './utils'
+import config from './config'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 
 const has = Object.prototype.hasOwnProperty
@@ -86,7 +87,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       result = CurrentComponent.prototype.render.call(this)
     }
 
-    return wrapResult(result)
+    return wrapResult.call(this, result)
   }
 
   const defineProxyMethods = Proxy => {
@@ -102,8 +103,11 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
   let ProxyFacade
   let ProxyComponent = null
 
-  if (!isFunctionalComponent) {
-    ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
+  if (!isFunctionalComponent || !config.statelessIndeterminateComponent) {
+    ProxyComponent = proxyClassCreator(
+      isFunctionalComponent ? Component : InitialComponent,
+      postConstructionAction,
+    )
 
     defineProxyMethods(ProxyComponent)
 

@@ -311,3 +311,19 @@ import * as React from 'react' // React is now patched
 import React from 'react'
 import { hot } from 'react-hot-loader' // React is now patched
 ```
+
+#### React-hot-loader: an instance were returned from a render function. Configuration change required
+
+React-hot-loader runs in "compatibility" mode by default. This disables some workarounds you possible might need.
+
+* **Enable** compat mode if you are using something like `react-async-bootstrapper`(react-async-component)
+* **Disable** compat mode if you are using `Relay`.
+
+There is **no** way to use them simultaneously.
+
+Buy default RHL will produce more simply and compatible code, but non-compact mode is absolutely legit for React 15+.
+
+```js
+import { setConfig } from 'react-hot-loader'
+setConfig({ statelessIndeterminateComponent: true })
+```

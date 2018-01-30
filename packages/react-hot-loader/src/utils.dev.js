@@ -1,9 +1,6 @@
 import { getProxyByType } from './reconciler/proxies'
-import reactHotLoader from './reactHotLoader'
-import logger from './logger'
-import { setConfig as setProxyConfig } from 'react-stand-in'
-
-setProxyConfig({ logger })
+import config from './config'
+import { setConfig as configureStandin } from './reconciler/standInAdapter'
 
 const getProxyOrType = type => {
   const proxy = getProxyByType(type)
@@ -13,4 +10,5 @@ const getProxyOrType = type => {
 export const areComponentsEqual = (a, b) =>
   getProxyOrType(a) === getProxyOrType(b)
 
-export const setConfig = config => Object.assign(reactHotLoader.config, config)
+export const setConfig = newConfig =>
+  configureStandin(Object.assign(config, newConfig))

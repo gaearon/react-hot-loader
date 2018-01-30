@@ -74,6 +74,7 @@ const reactHotLoader = {
 
   config: {
     logLevel: 'error',
+    compat: true,
   },
 }
 
