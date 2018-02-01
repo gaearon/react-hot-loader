@@ -14,6 +14,7 @@ function mergeComponents(
   NextComponent,
   InitialComponent,
   lastInstance,
+  injectedMembers,
 ) {
   const injectedCode = {}
   try {
@@ -79,7 +80,11 @@ function mergeComponents(
         }
 
         const nextString = String(nextAttr)
-        if (nextString !== String(prevAttr)) {
+        const injectedBefore = injectedMembers[key]
+        if (
+          nextString !== String(prevAttr) ||
+          (injectedBefore && nextString !== String(injectedBefore))
+        ) {
           if (!hasRegenerate) {
             if (
               nextString.indexOf('function') < 0 &&
