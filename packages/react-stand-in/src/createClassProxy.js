@@ -188,7 +188,6 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
 
     isFunctionalComponent = !isReactClass(NextComponent)
     proxyGeneration++
-    injectedMembers = {}
 
     // Save the next constructor so we call it
     const PreviousComponent = CurrentComponent
@@ -222,6 +221,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
           NextComponent,
           InitialComponent,
           lastInstance,
+          injectedMembers,
         )
       }
     }

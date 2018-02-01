@@ -214,6 +214,57 @@ describe('consistency', () => {
 
         expect(Proxy.prototype instanceof Bar).toBe(true)
       })
+
+      it('should revert arrow member change', () => {
+        /* eslint-disable */
+        class BaseClass extends React.Component {
+          arrow = () => 42
+
+          render() {
+            return this.arrow()
+          }
+
+          __reactstandin__regenerateByEval(key, code) {
+            this[key] = eval(code)
+          }
+        }
+
+        class Update1Class extends React.Component {
+          arrow = () => 43
+
+          render() {
+            return this.arrow()
+          }
+
+          __reactstandin__regenerateByEval(key, code) {
+            this[key] = eval(code)
+          }
+        }
+
+        class Update2Class extends React.Component {
+          arrow = () => 42
+
+          render() {
+            return this.arrow()
+          }
+
+          __reactstandin__regenerateByEval(key, code) {
+            this[key] = eval(code)
+          }
+        }
+        /* eslint-enable */
+
+        const proxy = createProxy(BaseClass)
+        const Proxy = proxy.get()
+        const instance = new Proxy()
+        expect(instance.render()).toBe(42)
+
+        proxy.update(Update1Class)
+        expect(instance.render()).toBe(43)
+
+        proxy.update(Update2Class)
+        expect(instance.render()).toBe(42)
+      })
     })
   })
 
