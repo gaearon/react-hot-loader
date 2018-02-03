@@ -1,3 +1,13 @@
+<a name="4.0.0-beta.19"></a>
+
+# [4.0.0-beta.19](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.18...v4.0.0-beta.19) (2018-02-03)
+
+### Bug Fixes
+
+* **areComponentsEqual:** fix behaviour ([#829](https://github.com/gaearon/react-hot-loader/issues/829)) ([d4dcd07](https://github.com/gaearon/react-hot-loader/commit/d4dcd07))
+* **prop-types:** add prop-types as dependency ([#823](https://github.com/gaearon/react-hot-loader/issues/823)) ([c2b7c3c](https://github.com/gaearon/react-hot-loader/commit/c2b7c3c))
+* regenerate overriden members ([#837](https://github.com/gaearon/react-hot-loader/issues/837)) ([39d4f5b](https://github.com/gaearon/react-hot-loader/commit/39d4f5b)), closes [#836](https://github.com/gaearon/react-hot-loader/issues/836)
+
 <a name="4.0.0-beta.18"></a>
 
 # [4.0.0-beta.18](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.17...v4.0.0-beta.18) (2018-01-25)
