@@ -1370,13 +1370,26 @@ conventional-changelog-angular@^1.5.2:
     compare-func "^1.3.1"
     q "^1.4.1"
 
+conventional-changelog-angular@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-angular/-/conventional-changelog-angular-1.6.1.tgz#e1434d017c854032b272f690424a8c0ca16dc318"
+  dependencies:
+    compare-func "^1.3.1"
+    q "^1.4.1"
+
 conventional-changelog-atom@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/conventional-changelog-atom/-/conventional-changelog-atom-0.1.2.tgz#12595ad5267a6937c34cf900281b1c65198a4c63"
   dependencies:
     q "^1.4.1"
 
-conventional-changelog-cli@^1.3.2, conventional-changelog-cli@^1.3.5:
+conventional-changelog-atom@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-atom/-/conventional-changelog-atom-0.2.0.tgz#72f18e5c74e3d8807411252fe013818ddffa7157"
+  dependencies:
+    q "^1.4.1"
+
+conventional-changelog-cli@^1.3.2:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/conventional-changelog-cli/-/conventional-changelog-cli-1.3.5.tgz#46c51496216b7406588883defa6fac589e9bb31e"
   dependencies:
@@ -1386,9 +1399,25 @@ conventional-changelog-cli@^1.3.2, conventional-changelog-cli@^1.3.5:
     meow "^3.7.0"
     tempfile "^1.1.1"
 
+conventional-changelog-cli@^1.3.8:
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-cli/-/conventional-changelog-cli-1.3.8.tgz#3b3f3591cb8d1f154bdb28e1819c5fcd8d967536"
+  dependencies:
+    add-stream "^1.0.0"
+    conventional-changelog "^1.1.10"
+    lodash "^4.1.0"
+    meow "^3.7.0"
+    tempfile "^1.1.1"
+
 conventional-changelog-codemirror@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/conventional-changelog-codemirror/-/conventional-changelog-codemirror-0.2.1.tgz#299a4f7147baf350e6c8158fc54954a291c5cc09"
+  dependencies:
+    q "^1.4.1"
+
+conventional-changelog-codemirror@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-codemirror/-/conventional-changelog-codemirror-0.3.0.tgz#4dd8abb9f521a638cab49f683496c26b8a5c6d31"
   dependencies:
     q "^1.4.1"
 
@@ -1410,9 +1439,33 @@ conventional-changelog-core@^1.9.3:
     read-pkg-up "^1.0.1"
     through2 "^2.0.0"
 
+conventional-changelog-core@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-core/-/conventional-changelog-core-2.0.0.tgz#1bdf7d21f3d066427ff9e07db0a2c5dd60015b9f"
+  dependencies:
+    conventional-changelog-writer "^3.0.0"
+    conventional-commits-parser "^2.1.0"
+    dateformat "^1.0.12"
+    get-pkg-repo "^1.0.0"
+    git-raw-commits "^1.3.0"
+    git-remote-origin-url "^2.0.0"
+    git-semver-tags "^1.3.0"
+    lodash "^4.0.0"
+    normalize-package-data "^2.3.5"
+    q "^1.4.1"
+    read-pkg "^1.1.0"
+    read-pkg-up "^1.0.1"
+    through2 "^2.0.0"
+
 conventional-changelog-ember@^0.2.9:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/conventional-changelog-ember/-/conventional-changelog-ember-0.2.9.tgz#8ec73cc054e3ab064667fb1feb52fe8ef1b16438"
+  dependencies:
+    q "^1.4.1"
+
+conventional-changelog-ember@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-ember/-/conventional-changelog-ember-0.3.1.tgz#bc71dc0a57e5c7ed0bf0538c32e44220691871d1"
   dependencies:
     q "^1.4.1"
 
@@ -1422,9 +1475,21 @@ conventional-changelog-eslint@^0.2.1:
   dependencies:
     q "^1.4.1"
 
+conventional-changelog-eslint@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-eslint/-/conventional-changelog-eslint-1.0.0.tgz#c63cd9d6f09d4e204530ae7369d7a20a167bc6bc"
+  dependencies:
+    q "^1.4.1"
+
 conventional-changelog-express@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/conventional-changelog-express/-/conventional-changelog-express-0.2.1.tgz#838d9e1e6c9099703b150b9c19aa2d781742bd6c"
+  dependencies:
+    q "^1.4.1"
+
+conventional-changelog-express@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-express/-/conventional-changelog-express-0.3.0.tgz#5ed006f48682d8615ee0ab5f53cacb26fbd3e1c8"
   dependencies:
     q "^1.4.1"
 
@@ -1447,12 +1512,34 @@ conventional-changelog-jshint@^0.2.1:
     compare-func "^1.3.1"
     q "^1.4.1"
 
+conventional-changelog-jshint@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-jshint/-/conventional-changelog-jshint-0.3.0.tgz#0393fd468113baf73cba911d17c5826423366a28"
+  dependencies:
+    compare-func "^1.3.1"
+    q "^1.4.1"
+
 conventional-changelog-writer@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/conventional-changelog-writer/-/conventional-changelog-writer-2.0.2.tgz#b5857ded1b001daf9a78b9cd40926f45c134949b"
   dependencies:
     compare-func "^1.3.1"
     conventional-commits-filter "^1.1.0"
+    dateformat "^1.0.11"
+    handlebars "^4.0.2"
+    json-stringify-safe "^5.0.1"
+    lodash "^4.0.0"
+    meow "^3.3.0"
+    semver "^5.0.1"
+    split "^1.0.0"
+    through2 "^2.0.0"
+
+conventional-changelog-writer@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-writer/-/conventional-changelog-writer-3.0.0.tgz#e106154ed94341e387d717b61be2181ff53254cc"
+  dependencies:
+    compare-func "^1.3.1"
+    conventional-commits-filter "^1.1.1"
     dateformat "^1.0.11"
     handlebars "^4.0.2"
     json-stringify-safe "^5.0.1"
@@ -1477,6 +1564,21 @@ conventional-changelog@^1.1.0, conventional-changelog@^1.1.7:
     conventional-changelog-jscs "^0.1.0"
     conventional-changelog-jshint "^0.2.1"
 
+conventional-changelog@^1.1.10:
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/conventional-changelog/-/conventional-changelog-1.1.10.tgz#d9bb3aad9086152d283e4707fb45a5b7a28e9e98"
+  dependencies:
+    conventional-changelog-angular "^1.6.1"
+    conventional-changelog-atom "^0.2.0"
+    conventional-changelog-codemirror "^0.3.0"
+    conventional-changelog-core "^2.0.0"
+    conventional-changelog-ember "^0.3.1"
+    conventional-changelog-eslint "^1.0.0"
+    conventional-changelog-express "^0.3.0"
+    conventional-changelog-jquery "^0.1.0"
+    conventional-changelog-jscs "^0.1.0"
+    conventional-changelog-jshint "^0.3.0"
+
 conventional-commits-filter@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/conventional-commits-filter/-/conventional-commits-filter-1.1.0.tgz#1fc29af30b5edab76f54e229c411b0c663d0f9eb"
@@ -1484,9 +1586,28 @@ conventional-commits-filter@^1.1.0:
     is-subset "^0.1.1"
     modify-values "^1.0.0"
 
+conventional-commits-filter@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/conventional-commits-filter/-/conventional-commits-filter-1.1.1.tgz#72172319c0c88328a015b30686b55527b3a5e54a"
+  dependencies:
+    is-subset "^0.1.1"
+    modify-values "^1.0.0"
+
 conventional-commits-parser@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/conventional-commits-parser/-/conventional-commits-parser-2.0.1.tgz#1f15ce6b844f7ca41495c8190c0833c30b8b1693"
+  dependencies:
+    JSONStream "^1.0.4"
+    is-text-path "^1.0.0"
+    lodash "^4.2.1"
+    meow "^3.3.0"
+    split2 "^2.0.0"
+    through2 "^2.0.0"
+    trim-off-newlines "^1.0.0"
+
+conventional-commits-parser@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/conventional-commits-parser/-/conventional-commits-parser-2.1.0.tgz#9b4b7c91124bf2a1a9a2cc1c72760d382cbbb229"
   dependencies:
     JSONStream "^1.0.4"
     is-text-path "^1.0.0"
@@ -1559,9 +1680,9 @@ create-error-class@^3.0.0:
   dependencies:
     capture-stack-trace "^1.0.0"
 
-create-react-class@^15.6.2:
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.2.tgz#cf1ed15f12aad7f14ef5f2dfe05e6c42f91ef02a"
+create-react-class@^15.6.3:
+  version "15.6.3"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   dependencies:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
@@ -1776,13 +1897,7 @@ doctrine@1.5.0:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-doctrine@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.0.2.tgz#68f96ce8efc56cc42651f1faadb4f175273b0075"
-  dependencies:
-    esutils "^2.0.2"
-
-doctrine@^2.1.0:
+doctrine@^2.0.2, doctrine@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.1.0.tgz#5cd01fc101621b42c4cd7f5d1a66243716d3f39d"
   dependencies:
@@ -2026,13 +2141,13 @@ eslint-plugin-jsx-a11y@^6.0.3:
     emoji-regex "^6.1.0"
     jsx-ast-utils "^2.0.0"
 
-eslint-plugin-react@^7.4.0:
-  version "7.5.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.5.1.tgz#52e56e8d80c810de158859ef07b880d2f56ee30b"
+eslint-plugin-react@^7.6.1:
+  version "7.6.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.6.1.tgz#5d0e908be599f0c02fbf4eef0c7ed6f29dff7633"
   dependencies:
-    doctrine "^2.0.0"
+    doctrine "^2.0.2"
     has "^1.0.1"
-    jsx-ast-utils "^2.0.0"
+    jsx-ast-utils "^2.0.1"
     prop-types "^15.6.0"
 
 eslint-restricted-globals@^0.1.1:
@@ -2050,9 +2165,9 @@ eslint-visitor-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
 
-eslint@^4.16.0:
-  version "4.16.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.16.0.tgz#934ada9e98715e1d7bbfd6f6f0519ed2fab35cc1"
+eslint@^4.17.0:
+  version "4.17.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.17.0.tgz#dc24bb51ede48df629be7031c71d9dc0ee4f3ddf"
   dependencies:
     ajv "^5.3.0"
     babel-code-frame "^6.22.0"
@@ -2538,6 +2653,13 @@ git-remote-origin-url@^2.0.0:
 git-semver-tags@^1.0.0, git-semver-tags@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/git-semver-tags/-/git-semver-tags-1.2.3.tgz#188b453882bf9d7a23afd31baba537dab7388d5d"
+  dependencies:
+    meow "^3.3.0"
+    semver "^5.0.1"
+
+git-semver-tags@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/git-semver-tags/-/git-semver-tags-1.3.0.tgz#b154833a6ab5c360c0ad3b1aa9b8f12ea06de919"
   dependencies:
     meow "^3.3.0"
     semver "^5.0.1"
@@ -3642,7 +3764,7 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jsx-ast-utils@^2.0.0:
+jsx-ast-utils@^2.0.0, jsx-ast-utils@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-2.0.1.tgz#e801b1b39985e20fffc87b40e3748080e2dcac7f"
   dependencies:
@@ -3753,9 +3875,9 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-lint-staged@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-6.0.1.tgz#855f2993ab4a265430e2fd9828427e648d65e6b4"
+lint-staged@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-6.1.0.tgz#28f600c10a6cbd249ceb003118a1552e53544a93"
   dependencies:
     app-root-path "^2.0.0"
     chalk "^2.1.0"
