@@ -15,6 +15,11 @@ const has = Object.prototype.hasOwnProperty
 
 const proxies = new WeakMap()
 
+const defaultRenderOptions = {
+  preRender: identity,
+  postRender: (target, result) => result,
+}
+
 const defineClassMember = (Class, methodName, methodBody) =>
   safeDefineProperty(Class.prototype, methodName, {
     configurable: true,
@@ -23,7 +28,11 @@ const defineClassMember = (Class, methodName, methodBody) =>
     value: methodBody,
   })
 
-function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
+function createClassProxy(InitialComponent, proxyKey, options) {
+  const renderOptions = {
+    ...defaultRenderOptions,
+    ...options,
+  }
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
   const existingProxy = proxies.get(InitialComponent)
@@ -72,6 +81,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
 
   function proxiedRender() {
     proxiedUpdate.call(this)
+    renderOptions.preRender(this)
 
     let result
 
@@ -86,7 +96,7 @@ function createClassProxy(InitialComponent, proxyKey, wrapResult = identity) {
       result = CurrentComponent.prototype.render.call(this)
     }
 
-    return wrapResult(result)
+    return renderOptions.postRender(this, result)
   }
 
   const defineProxyMethods = Proxy => {

@@ -142,7 +142,7 @@ describe('reconciler', () => {
       expect(areComponentsEqual(second.Component, third.Component)).toBe(false)
     })
 
-    it('should regenerate internal component', () => {
+    it('should regenerate internal component without AppContainer', () => {
       const first = spyComponent(
         ({ children }) => <b>{children}</b>,
         'test',
@@ -172,14 +172,18 @@ describe('reconciler', () => {
       )
 
       const wrapper = mount(
-        <AppContainer>
-          <App />
-        </AppContainer>,
+        //<AppContainer>
+        <App />,
+        //</AppContainer>,
       )
+
+      expect(wrapper.html()).not.toContain('REPLACED')
 
       currentComponent = second
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
+
+      expect(wrapper.html()).toContain('REPLACED')
 
       expect(first.unmounted).toHaveBeenCalledTimes(0)
       expect(second.mounted).toHaveBeenCalledTimes(0)

@@ -5,6 +5,7 @@ import { mount } from 'enzyme'
 import { mapProps } from 'recompose'
 import AppContainer from '../lib/AppContainer.dev'
 import RHL from '../lib/reactHotLoader'
+import { increment as incrementGeneration } from '../lib/global/generation'
 
 describe(`AppContainer (dev)`, () => {
   beforeEach(() => {
@@ -1193,6 +1194,8 @@ describe(`AppContainer (dev)`, () => {
     expect(onUnmount).toHaveBeenCalledTimes(0)
 
     child = 2
+    // emulate HRM
+    incrementGeneration()
     wrapper.setProps({ children: <Root /> })
     expect(onUnmount).toHaveBeenCalledTimes(0)
 
@@ -1459,6 +1462,7 @@ describe(`AppContainer (dev)`, () => {
     it('hot-reloads children inside Fragments', () => {
       if (React.version.startsWith('16')) {
         const unmount = jest.fn()
+
         class InnerComponent extends Component {
           componentWillUnmount() {
             unmount()
@@ -1468,6 +1472,7 @@ describe(`AppContainer (dev)`, () => {
             return <div>OldInnerComponent</div>
           }
         }
+
         InnerComponent.displayName = 'InnerComponent'
 
         const InnerItem = () => (
@@ -1510,6 +1515,7 @@ describe(`AppContainer (dev)`, () => {
               return <div>NewInnerComponent</div>
             }
           }
+
           InnerComponent.displayName = 'InnerComponent'
 
           const InnerItem = () => (

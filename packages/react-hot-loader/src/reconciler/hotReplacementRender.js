@@ -176,6 +176,23 @@ const transformFlowNode = flow =>
     return [...acc, node]
   }, [])
 
+let scheduledUpdates = []
+let scheduledUpdate = 0
+
+export const flushScheduledUpdates = () => {
+  const instances = scheduledUpdates
+  scheduledUpdates = []
+  scheduledUpdate = 0
+  instances.forEach(instance => updateInstance(instance))
+}
+
+const scheduleInstanceUpdate = instance => {
+  scheduledUpdates.push(instance)
+  if (!scheduledUpdate) {
+    scheduledUpdate = setTimeout(flushScheduledUpdates)
+  }
+}
+
 const hotReplacementRender = (instance, stack) => {
   const flow = transformFlowNode(filterNullArray(asArray(render(instance))))
 
@@ -202,6 +219,19 @@ const hotReplacementRender = (instance, stack) => {
 
     // text node
     if (typeof child !== 'object' || !stackChild || !stackChild.instance) {
+      return
+    }
+
+    if (typeof child.type !== typeof stackChild.type) {
+      // Portals could generate undefined !== null
+      if (child.type && stackChild.type) {
+        logger.warn(
+          'React-hot-loader: got ',
+          child.type,
+          'instead of',
+          stackChild.type,
+        )
+      }
       return
     }
 
@@ -250,7 +280,7 @@ const hotReplacementRender = (instance, stack) => {
         )
       }
 
-      updateInstance(stackChild.instance)
+      scheduleInstanceUpdate(stackChild.instance)
     }
   })
 }

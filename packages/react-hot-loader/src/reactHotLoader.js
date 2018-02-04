@@ -7,6 +7,7 @@ import {
   getProxyByType,
   createProxyForType,
 } from './reconciler/proxies'
+import './reconciler/proxyAdapter'
 
 function resolveType(type) {
   if (!isCompositeComponent(type)) return type
