@@ -14,7 +14,6 @@ const getOptions = target => {
         plugins: [
           'transform-class-properties',
           'transform-object-rest-spread',
-          path.resolve(__dirname, '../packages/react-hot-loader/lib/babel'),
         ],
       }
     case TARGET_MODERN:
@@ -34,7 +33,6 @@ const getOptions = target => {
         plugins: [
           'transform-class-properties',
           'transform-object-rest-spread',
-          path.resolve(__dirname, '../packages/react-hot-loader/lib/babel'),
         ],
       }
     default:

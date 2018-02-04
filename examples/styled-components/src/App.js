@@ -20,13 +20,13 @@ const indirect = {
   ),
 }
 
-const aNumber = 10
+const aNumber = 100500
 
 const App = () => (
   <h1>
     <BigText>1.Hello, world!! {aNumber} </BigText>
     <br />
-    <SmallText>2.Hello, world---.</SmallText>
+    <SmallText>2.Hello, world.</SmallText>
     <br />
     <Counter />
     <indirect.element />
