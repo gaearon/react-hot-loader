@@ -1,3 +1,7 @@
+<a name="4.0.0-beta.20"></a>
+
+# [4.0.0-beta.20](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.19...v4.0.0-beta.20) (2018-02-04)
+
 <a name="4.0.0-beta.19"></a>
 
 # [4.0.0-beta.19](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.18...v4.0.0-beta.19) (2018-02-03)
