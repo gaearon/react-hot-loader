@@ -1,3 +1,11 @@
+<a name="4.0.0-beta.21"></a>
+
+# [4.0.0-beta.21](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.20...v4.0.0-beta.21) (2018-02-05)
+
+### Bug Fixes
+
+* fix proxy adapter ([#842](https://github.com/gaearon/react-hot-loader/issues/842)) ([9bb8251](https://github.com/gaearon/react-hot-loader/commit/9bb8251))
+
 <a name="4.0.0-beta.20"></a>
 
 # [4.0.0-beta.20](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.19...v4.0.0-beta.20) (2018-02-04)
