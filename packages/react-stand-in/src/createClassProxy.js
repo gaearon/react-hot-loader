@@ -17,7 +17,7 @@ const proxies = new WeakMap()
 
 const defaultRenderOptions = {
   preRender: identity,
-  postRender: (target, result) => result,
+  postRender: result => result,
 }
 
 const defineClassMember = (Class, methodName, methodBody) =>
@@ -96,7 +96,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       result = CurrentComponent.prototype.render.call(this)
     }
 
-    return renderOptions.postRender(this, result)
+    return renderOptions.postRender(result)
   }
 
   const defineProxyMethods = Proxy => {

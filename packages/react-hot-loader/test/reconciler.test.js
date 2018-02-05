@@ -172,9 +172,9 @@ describe('reconciler', () => {
       )
 
       const wrapper = mount(
-        //<AppContainer>
+        // <AppContainer> - ensure no AppContainer present
         <App />,
-        //</AppContainer>,
+        // </AppContainer>,
       )
 
       expect(wrapper.html()).not.toContain('REPLACED')
