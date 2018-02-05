@@ -19,7 +19,7 @@ export const renderReconciler = (target, force) => {
   target[RENDERED_GENERATION] = currentGeneration
 }
 
-export const proxyWrapper = (target, element) => {
+export const proxyWrapper = element => {
   // post wrap on post render
   if (!element) {
     return element
