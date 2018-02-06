@@ -6,6 +6,7 @@ import {
   isOpened,
   hotModule,
 } from '../src/global/modules'
+import '../src/index.dev'
 import hot from '../src/hot.dev'
 import logger from '../src/logger'
 import { increment as incrementGeneration } from '../src/global/generation'
@@ -94,8 +95,10 @@ describe('hot (dev)', () => {
     callbacks.forEach(cb => cb())
     expect(spy).toHaveBeenCalledTimes(1)
     setTimeout(() => {
-      expect(spy).toHaveBeenCalledTimes(3)
-      done()
+      setTimeout(() => {
+        expect(spy).toHaveBeenCalledTimes(3)
+        done()
+      }, 1)
     }, 1)
   })
 
