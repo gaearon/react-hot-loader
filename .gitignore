@@ -1,4 +1,4 @@
-node_modules
-lib
-coverage
+node_modules/
+dist/
+coverage/
 .DS_Store
