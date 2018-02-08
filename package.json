@@ -16,6 +16,7 @@
     "lint": "eslint .",
     "prepublishOnly": "yarn build",
     "prebuild": "rm -rf dist",
+    "postinstall": "yarn build",
     "precommit": "lint-staged",
     "test": "yarn test:es2015 && yarn test:modern",
     "test:es2015": "cross-env BABEL_TARGET=es2015 jest --no-cache",
