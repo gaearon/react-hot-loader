@@ -125,8 +125,13 @@ const mapChildren = (children, instances) => ({
         ...mapChildren(child, instances[index].children),
       }
     }
+    const instanceLine = instances[index]
+    const oldChildren = asArray(instanceLine.children || [])
+    const newChildren = asArray((child.props && child.props.children) || [])
+    const nextChildren = mapChildren(newChildren, oldChildren)
     return {
-      ...instances[index],
+      ...instanceLine,
+      children: nextChildren,
       type: child.type,
     }
   }),
