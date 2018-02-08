@@ -108,6 +108,11 @@ describe('reactHotLoader', () => {
     it('should increment update counter', () => {
       const oldGeneration = getGeneration()
       reactHotLoader.register(Div, 'Div', 'reactHotLoader.test.js')
+      // new thing, no change
+      expect(getGeneration()).toBe(oldGeneration + 0)
+
+      reactHotLoader.register(Div, 'Div', 'reactHotLoader.test.js')
+      // replacement!
       expect(getGeneration()).toBe(oldGeneration + 1)
     })
 
