@@ -15,7 +15,7 @@ const SmallText = emoStyled('div')`
 const indirect = {
   element: () => (
     <SmallText>
-      hidden2 <Counter />
+      hidden <Counter />
     </SmallText>
   ),
 }
@@ -24,12 +24,13 @@ const aNumber = 100500
 
 const App = () => (
   <h1>
-    <BigText>1.Hello, world!! {aNumber} </BigText>
+    <BigText>1.Hello, world! {aNumber} </BigText>
     <br />
     <SmallText>2.Hello, world.</SmallText>
     <br />
     <Counter />
     <indirect.element />
+    {aNumber % 2 && <indirect.element />}
   </h1>
 )
 
