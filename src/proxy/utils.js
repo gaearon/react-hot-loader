@@ -44,10 +44,11 @@ export function isNativeFunction(fn) {
 }
 
 export const identity = a => a
+const indirectEval = str => [window.eval][0](str)
 
 export const doesSupportClasses = (function() {
   try {
-    eval('class Test {}')
+    indirectEval('class Test {}')
     return true
   } catch (e) {
     return false
@@ -56,7 +57,7 @@ export const doesSupportClasses = (function() {
 
 const ES6ProxyComponentFactory =
   doesSupportClasses &&
-  eval(`
+  indirectEval(`
 (function(InitialParent, postConstructionAction) {
   return class ProxyComponent extends InitialParent {
     constructor(props, context) {
