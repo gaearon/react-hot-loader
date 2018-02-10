@@ -1,7 +1,6 @@
 set -e
 
-echo "Bootstraping project"
-yarn bootstrap
+echo "Building project"
 yarn build
 echo "\n\n"
 
