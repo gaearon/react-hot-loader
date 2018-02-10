@@ -5,6 +5,7 @@ import {
   updateProxyById,
   resetProxies,
   getProxyByType,
+  getProxyById,
   createProxyForType,
 } from './reconciler/proxies'
 
@@ -27,8 +28,14 @@ const reactHotLoader = {
       typeof fileName === 'string' &&
       fileName
     ) {
-      incrementGeneration()
-      updateProxyById(`${fileName}#${uniqueLocalName}`, type)
+      const id = `${fileName}#${uniqueLocalName}`
+
+      if (getProxyById(id)) {
+        // component got replaced. Need to reconsile
+        incrementGeneration()
+      }
+
+      updateProxyById(id, type)
     }
   },
 

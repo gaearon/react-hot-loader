@@ -125,8 +125,18 @@ const mapChildren = (children, instances) => ({
         ...mapChildren(child, instances[index].children),
       }
     }
+    const instanceLine = instances[index] || {}
+    const oldChildren = asArray(instanceLine.children || [])
+    const newChildren = asArray((child.props && child.props.children) || [])
+    const nextChildren =
+      oldChildren.length && mapChildren(newChildren, oldChildren)
     return {
-      ...instances[index],
+      ...instanceLine,
+      // actually child merge is needed only for TAGs, and usually don't work for Components.
+      // the children from an instance or rendered children
+      // while children from a props is just a props.
+      // they could not exists. they could differ.
+      ...(nextChildren ? { children: nextChildren } : {}),
       type: child.type,
     }
   }),
@@ -146,7 +156,17 @@ const mergeInject = (a, b, instance) => {
   if (a.length === b.length) {
     return mapChildren(a, b)
   }
-  const flatA = unflatten(a)
+
+  // in some cases (no confidence here) B could contain A except null children
+  // in some cases - could not.
+  // this depends on React version and the way you build component.
+
+  const nonNullA = filterNullArray(a)
+  if (nonNullA.length === b.length) {
+    return mapChildren(nonNullA, b)
+  }
+
+  const flatA = unflatten(nonNullA)
   const flatB = unflatten(b)
   if (flatA.length === flatB.length) {
     return mapChildren(flatA, flatB)
@@ -239,9 +259,7 @@ const hotReplacementRender = (instance, stack) => {
       next(
         // move types from render to the instances of hydrated tree
         mergeInject(
-          filterNullArray(
-            asArray(child.props ? child.props.children : child.children),
-          ),
+          asArray(child.props ? child.props.children : child.children),
           stackChild.instance.children,
           stackChild.instance,
         ),

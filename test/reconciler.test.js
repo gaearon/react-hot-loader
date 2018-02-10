@@ -12,6 +12,7 @@ const spyComponent = (render, displayName, key) => {
   const mounted = jest.fn()
   const unmounted = jest.fn()
   const willUpdate = jest.fn()
+  const rendered = jest.fn()
 
   class TestingComponent extends Component {
     componentWillMount() {
@@ -34,6 +35,7 @@ const spyComponent = (render, displayName, key) => {
     /* eslint-enable */
 
     render() {
+      rendered()
       return render(this.props)
     }
   }
@@ -48,6 +50,7 @@ const spyComponent = (render, displayName, key) => {
     mounted,
     unmounted,
     key,
+    rendered,
   }
 }
 
@@ -186,6 +189,40 @@ describe('reconciler', () => {
 
       expect(first.unmounted).toHaveBeenCalledTimes(0)
       expect(second.mounted).toHaveBeenCalledTimes(0)
+    })
+
+    it('should use new children branch during reconcile', () => {
+      const First = spyComponent(() => <u>1</u>, 'test', '1')
+      const Second = spyComponent(() => <u>2</u>, 'test', '2')
+
+      const App = ({ second }) => (
+        <div>
+          <div>
+            <First.Component />
+            {second && <Second.Component />}
+          </div>
+        </div>
+      )
+
+      const Mounter = ({ second }) => <App second={second} />
+
+      const wrapper = mount(<Mounter second />)
+
+      expect(First.rendered).toHaveBeenCalledTimes(1)
+      expect(Second.rendered).toHaveBeenCalledTimes(1)
+
+      incrementGeneration()
+      wrapper.setProps({ update: 'now' })
+      expect(First.rendered).toHaveBeenCalledTimes(3)
+      expect(Second.rendered).toHaveBeenCalledTimes(3)
+
+      incrementGeneration()
+      wrapper.setProps({ second: false })
+      expect(First.rendered).toHaveBeenCalledTimes(5)
+      expect(Second.rendered).toHaveBeenCalledTimes(3)
+
+      expect(First.unmounted).toHaveBeenCalledTimes(0)
+      expect(Second.unmounted).toHaveBeenCalledTimes(1)
     })
 
     it('should handle function as a child', () => {

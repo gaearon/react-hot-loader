@@ -10,7 +10,8 @@ const generateTypeId = () => `auto-${elementCount++}`
 
 export const getIdByType = type => idsByType.get(type)
 
-export const getProxyByType = type => proxiesByID[getIdByType(type)]
+export const getProxyById = id => proxiesByID[id]
+export const getProxyByType = type => getProxyById(getIdByType(type))
 
 export const setStandInOptions = options => {
   renderOptions = options
