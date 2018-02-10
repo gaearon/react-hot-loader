@@ -1,3 +1,5 @@
+set -e
+
 echo "Bootstraping project"
 yarn bootstrap
 yarn build
