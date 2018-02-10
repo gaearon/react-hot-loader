@@ -44,7 +44,7 @@ export function isNativeFunction(fn) {
 }
 
 export const identity = a => a
-const indirectEval = str => [window.eval][0](str)
+const indirectEval = eval
 
 export const doesSupportClasses = (function() {
   try {
