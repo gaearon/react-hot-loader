@@ -1,3 +1,19 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="4.0.0-beta.22"></a>
+
+# [4.0.0-beta.22](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.21...v4.0.0-beta.22) (2018-02-10)
+
+### Bug Fixes
+
+* fix reconciler warnings ([#852](https://github.com/gaearon/react-hot-loader/issues/852)) ([963677f](https://github.com/gaearon/react-hot-loader/commit/963677f)), closes [#843](https://github.com/gaearon/react-hot-loader/issues/843)
+
+### Features
+
+* ship flat bundles ([#844](https://github.com/gaearon/react-hot-loader/issues/844)) ([7580552](https://github.com/gaearon/react-hot-loader/commit/7580552))
+
 <a name="4.0.0-beta.21"></a>
 
 # [4.0.0-beta.21](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.20...v4.0.0-beta.21) (2018-02-05)
