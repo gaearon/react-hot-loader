@@ -9,6 +9,7 @@
   "license": "MIT",
   "author": "Dan Abramov",
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "build": "rollup -c",
     "changelog": "conventional-changelog -p angular -r2 -i CHANGELOG.md -s --no-output-unreleased && conventional-github-releaser -p angular",
     "ci": "scripts/ci.sh",
@@ -73,6 +74,8 @@
     "eslint-plugin-react": "^7.6.1",
     "husky": "^0.14.3",
     "jest": "^22.1.4",
+    "lerna": "^2.8.0",
+    "lerna-tools": "^1.0.0",
     "lint-staged": "^6.1.0",
     "prettier": "^1.10.2",
     "react": "^16.2.0",

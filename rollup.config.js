@@ -35,15 +35,14 @@ const getConfig = (input, dist, env) => ({
 })
 
 export default [
-  getConfig(
-    'src/index.dev.js',
-    'dist/react-hot-loader.development.js',
-    'development',
-  ),
+  getConfig('src/index.dev.js', 
+  'dist/react-hot-loader.development.js', 
+  'development'
+),
   getConfig(
     'src/index.prod.js',
-    'dist/react-hot-loader.production.min.js',
-    'production',
+    'dist/react-hot-loader.production.min.js', 
+    'production'
   ),
   getConfig('src/babel.dev.js', 'dist/babel.development.js', 'development'),
   getConfig('src/babel.prod.js', 'dist/babel.production.min.js', 'production'),
