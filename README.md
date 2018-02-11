@@ -229,8 +229,7 @@ Provided by collaborators:
 
 Provided by community:
 
-* [react-kit](https://github.com/thomasthiebaud/react-kit) (webpack v2, redux,
-  react-router v4, code splitting, jest, saga, reselect)
+* [react-kit](https://github.com/thomasthiebaud/react-kit) (React Hot Loader 4, Webpack v3, React Router 4, Redux, Async Component Code Splitting, Redux Saga)
 * [hapi-react-hot-loader-example](https://github.com/codeBelt/hapi-react-hot-loader-example)
   (ES2015, Universal (SSR), React Hot Loader 3, React Router 4, Redux, Redux
   Saga, Redux Form, Async Component Code Splitting, Hapi, Webpack 3)
