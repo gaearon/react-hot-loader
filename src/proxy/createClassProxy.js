@@ -205,7 +205,13 @@ function createClassProxy(InitialComponent, proxyKey, options) {
 
     // Try to infer displayName
     const displayName = getDisplayName(CurrentComponent)
-    ProxyFacade.displayName = displayName
+
+    safeDefineProperty(ProxyFacade, 'displayName', {
+      configurable: true,
+      writable: false,
+      enumerable: true,
+      value: displayName,
+    })
 
     if (ProxyComponent) {
       safeDefineProperty(ProxyComponent, 'name', {
