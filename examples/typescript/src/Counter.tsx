@@ -9,10 +9,18 @@ class Counter extends React.Component<{}, { count: number }> {
   }
 
   componentDidMount() {
-    this.interval = setInterval(
+    this.interval = window.setInterval(
       () => this.setState(prevState => ({ count: prevState.count + 1 })),
       200,
     )
+  }
+
+  generateString1() {
+    return "1";
+  }
+
+  generateString2 = ()  => {
+    return "1";
   }
 
   componentWillUnmount() {
@@ -20,7 +28,7 @@ class Counter extends React.Component<{}, { count: number }> {
   }
 
   render() {
-    return this.state.count
+    return <span>{this.state.count} - {this.generateString1()} - {this.generateString2()}</span>
   }
 }
 
