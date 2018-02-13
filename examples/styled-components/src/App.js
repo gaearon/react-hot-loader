@@ -30,7 +30,12 @@ const App = () => (
     <br />
     <Counter />
     <indirect.element />
-    {aNumber % 2 && <indirect.element />}
+    <div>
+      {[
+        <span key={1}>depend on aNumber - </span>,
+        aNumber % 2 && <indirect.element key="2" />,
+      ]}
+    </div>
   </h1>
 )
 

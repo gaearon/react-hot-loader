@@ -225,6 +225,35 @@ describe('reconciler', () => {
       expect(Second.unmounted).toHaveBeenCalledTimes(1)
     })
 
+    it('should handle child mounting', () => {
+      const First = spyComponent(() => <u>1</u>, 'test', '1')
+      const Second = spyComponent(() => <u>2</u>, 'test', '2')
+      const Third = spyComponent(() => <u>2</u>, 'test', '2')
+      const App = ({ first, second, third }) => (
+        <div>
+          {first && <First.Component />}
+          {second && [
+            <div key="1" />,
+            <Second.Component key="2" />,
+            <div key="3" />,
+            third && <Third.Component key="4" />,
+          ]}
+        </div>
+      )
+
+      const wrapper = mount(<App />)
+      incrementGeneration()
+      wrapper.setProps({ first: true })
+      incrementGeneration()
+      wrapper.setProps({ second: true })
+      incrementGeneration()
+      wrapper.setProps({ third: true })
+
+      expect(First.rendered).toHaveBeenCalledTimes(5)
+      expect(Second.rendered).toHaveBeenCalledTimes(3)
+      expect(Third.rendered).toHaveBeenCalledTimes(1)
+    })
+
     it('should handle function as a child', () => {
       const first = spyComponent(
         ({ children }) => <b>{children(0)}</b>,
