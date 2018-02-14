@@ -1,22 +1,37 @@
 import reactHotLoader from '../reactHotLoader'
 import { get as getGeneration } from '../global/generation'
 import { getProxyByType, setStandInOptions } from './proxies'
-import reconcileHotReplacement from './index'
+import reconcileHotReplacement, { flushScheduledUpdates } from './index'
 
 export const RENDERED_GENERATION = 'REACT_HOT_LOADER_RENDERED_GENERATION'
 
 export const renderReconciler = (target, force) => {
   // we are not inside parent reconcilation
   const currentGeneration = getGeneration()
+  const componentGeneration = target[RENDERED_GENERATION]
+
+  target[RENDERED_GENERATION] = currentGeneration
+
   if (!reactHotLoader.disableProxyCreation) {
     if (
-      (target[RENDERED_GENERATION] || force) &&
-      target[RENDERED_GENERATION] !== currentGeneration
+      (componentGeneration || force) &&
+      componentGeneration !== currentGeneration
     ) {
       reconcileHotReplacement(target)
+      return true
     }
   }
-  target[RENDERED_GENERATION] = currentGeneration
+  return false
+}
+
+function asyncReconciledRender(target) {
+  renderReconciler(target, false)
+}
+
+function syncReconciledRender(target) {
+  if (renderReconciler(target, false)) {
+    flushScheduledUpdates()
+  }
 }
 
 export const proxyWrapper = element => {
@@ -40,6 +55,7 @@ export const proxyWrapper = element => {
 }
 
 setStandInOptions({
-  preRender: renderReconciler,
-  postRender: proxyWrapper,
+  componentWillReceiveProps: syncReconciledRender,
+  componentWillRender: asyncReconciledRender,
+  componentDidRender: proxyWrapper,
 })

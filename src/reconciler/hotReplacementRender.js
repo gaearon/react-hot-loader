@@ -1,5 +1,5 @@
 import levenshtein from 'fast-levenshtein'
-import { PROXY_KEY, UNWRAP_PROXY } from '../proxy'
+import { PROXY_IS_MOUNTED, PROXY_KEY, UNWRAP_PROXY } from '../proxy'
 import { getIdByType, updateProxyById } from './proxies'
 import {
   updateInstance,
@@ -206,7 +206,9 @@ export const flushScheduledUpdates = () => {
   const instances = scheduledUpdates
   scheduledUpdates = []
   scheduledUpdate = 0
-  instances.forEach(instance => updateInstance(instance))
+  instances.forEach(
+    instance => instance[PROXY_IS_MOUNTED] && updateInstance(instance),
+  )
 }
 
 const scheduleInstanceUpdate = instance => {

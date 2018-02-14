@@ -213,13 +213,13 @@ describe('reconciler', () => {
 
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
-      expect(First.rendered).toHaveBeenCalledTimes(3)
-      expect(Second.rendered).toHaveBeenCalledTimes(3)
+      expect(First.rendered).toHaveBeenCalledTimes(4)
+      expect(Second.rendered).toHaveBeenCalledTimes(4)
 
       incrementGeneration()
       wrapper.setProps({ second: false })
-      expect(First.rendered).toHaveBeenCalledTimes(5)
-      expect(Second.rendered).toHaveBeenCalledTimes(3)
+      expect(First.rendered).toHaveBeenCalledTimes(7)
+      expect(Second.rendered).toHaveBeenCalledTimes(4)
 
       expect(First.unmounted).toHaveBeenCalledTimes(0)
       expect(Second.unmounted).toHaveBeenCalledTimes(1)
@@ -242,13 +242,18 @@ describe('reconciler', () => {
       )
 
       const wrapper = mount(<App />)
+      expect(First.rendered).toHaveBeenCalledTimes(0)
+
       incrementGeneration()
       wrapper.setProps({ first: true })
+      expect(First.rendered).toHaveBeenCalledTimes(1) // 1. prev state was empty == no need to reconcile
+
       incrementGeneration()
       wrapper.setProps({ second: true })
-      incrementGeneration()
-      wrapper.setProps({ third: true })
+      expect(First.rendered).toHaveBeenCalledTimes(4) // +3 (reconcile + update + render)
+      expect(Second.rendered).toHaveBeenCalledTimes(2) // (update from first + render)
 
+      wrapper.setProps({ third: true })
       expect(First.rendered).toHaveBeenCalledTimes(5)
       expect(Second.rendered).toHaveBeenCalledTimes(3)
       expect(Third.rendered).toHaveBeenCalledTimes(1)

@@ -1,6 +1,6 @@
 import getReactStack from '../internal/getReactStack'
 import hotReplacementRender, {
-  flushScheduledUpdates,
+  flushScheduledUpdates
 } from './hotReplacementRender'
 
 const reconcileHotReplacement = ReactInstance =>
