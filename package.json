@@ -89,6 +89,9 @@
     "rollup-plugin-uglify": "^3.0.0",
     "standard-version": "^4.3.0"
   },
+  "peerDependencies": {
+    "react": "^15.0.0 || ^16.0.0"
+  },
   "dependencies": {
     "fast-levenshtein": "^2.0.6",
     "global": "^4.3.0",
