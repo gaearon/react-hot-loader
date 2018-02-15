@@ -87,8 +87,8 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     }
   }
 
-  const componentWillMount = lifeCycleWrapperFactory(
-    'componentWillMount',
+  const componentDidMount = lifeCycleWrapperFactory(
+    'componentDidMount',
     target => {
       target[PROXY_IS_MOUNTED] = true
     },
@@ -127,7 +127,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
   const defineProxyMethods = Proxy => {
     defineClassMembers(Proxy, {
       render: proxiedRender,
-      componentWillMount,
+      componentDidMount,
       componentWillReceiveProps,
       componentWillUnmount,
     })
