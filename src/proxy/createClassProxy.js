@@ -24,7 +24,7 @@ const proxies = new WeakMap()
 const blackListedClassMembers = [
   'constructor',
   'render',
-  'componentWillMount',
+  'componentDidMount',
   'componentWillReceiveProps',
   'componentWillUnmount',
 

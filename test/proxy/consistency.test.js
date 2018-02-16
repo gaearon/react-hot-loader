@@ -278,7 +278,7 @@ describe('consistency', () => {
           'methodA',
           'methodB',
           'render',
-          'componentWillMount',
+          'componentDidMount',
           'componentWillReceiveProps',
           'componentWillUnmount',
         ])
