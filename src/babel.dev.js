@@ -135,7 +135,7 @@ module.exports = function plugin(args) {
           node[REGISTRATIONS] = null // eslint-disable-line no-param-reassign
 
           // inject the code only if applicable
-          if (registrations.length) {
+          if (registrations && registrations.length) {
             node.body.unshift(headerTemplate())
             // Inject the generated tagging code at the very end
             // so that it is as minimally intrusive as possible.
