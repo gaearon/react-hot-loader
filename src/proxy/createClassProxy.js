@@ -1,6 +1,12 @@
 import { Component } from 'react'
 import transferStaticProps from './transferStaticProps'
-import { GENERATION, PROXY_KEY, UNWRAP_PROXY, CACHED_RESULT } from './constants'
+import {
+  GENERATION,
+  PROXY_KEY,
+  UNWRAP_PROXY,
+  CACHED_RESULT,
+  PROXY_IS_MOUNTED,
+} from './constants'
 import {
   getDisplayName,
   isReactClass,
@@ -16,8 +22,9 @@ const has = Object.prototype.hasOwnProperty
 const proxies = new WeakMap()
 
 const defaultRenderOptions = {
-  preRender: identity,
-  postRender: result => result,
+  componentWillReceiveProps: identity,
+  componentWillRender: identity,
+  componentDidRender: result => result,
 }
 
 const defineClassMember = (Class, methodName, methodBody) =>
@@ -27,6 +34,11 @@ const defineClassMember = (Class, methodName, methodBody) =>
     enumerable: false,
     value: methodBody,
   })
+
+const defineClassMembers = (Class, methods) =>
+  Object.keys(methods).forEach(methodName =>
+    defineClassMember(Class, methodName, methods[methodName]),
+  )
 
 function createClassProxy(InitialComponent, proxyKey, options) {
   const renderOptions = {
@@ -63,9 +75,10 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     inject(this, proxyGeneration, injectedMembers)
   }
 
-  function lifeCycleWrapperFactory(wrapperName) {
+  function lifeCycleWrapperFactory(wrapperName, sideEffect = identity) {
     return function wrappedMethod(...rest) {
       proxiedUpdate.call(this)
+      sideEffect(this)
       return (
         !isFunctionalComponent &&
         CurrentComponent.prototype[wrapperName] &&
@@ -74,14 +87,26 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     }
   }
 
+  const componentDidMount = lifeCycleWrapperFactory(
+    'componentDidMount',
+    target => {
+      target[PROXY_IS_MOUNTED] = true
+    },
+  )
   const componentWillReceiveProps = lifeCycleWrapperFactory(
     'componentWillReceiveProps',
+    renderOptions.componentWillReceiveProps,
   )
-  const componentWillUpdate = lifeCycleWrapperFactory('componentWillUpdate')
+  const componentWillUnmount = lifeCycleWrapperFactory(
+    'componentWillUnmount',
+    target => {
+      target[PROXY_IS_MOUNTED] = false
+    },
+  )
 
   function proxiedRender() {
     proxiedUpdate.call(this)
-    renderOptions.preRender(this)
+    renderOptions.componentWillRender(this)
 
     let result
 
@@ -96,17 +121,16 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       result = CurrentComponent.prototype.render.call(this)
     }
 
-    return renderOptions.postRender(result)
+    return renderOptions.componentDidRender(result)
   }
 
   const defineProxyMethods = Proxy => {
-    defineClassMember(Proxy, 'render', proxiedRender)
-    defineClassMember(
-      Proxy,
-      'componentWillReceiveProps',
+    defineClassMembers(Proxy, {
+      render: proxiedRender,
+      componentDidMount,
       componentWillReceiveProps,
-    )
-    defineClassMember(Proxy, 'componentWillUpdate', componentWillUpdate)
+      componentWillUnmount,
+    })
   }
 
   let ProxyFacade
@@ -205,7 +229,13 @@ function createClassProxy(InitialComponent, proxyKey, options) {
 
     // Try to infer displayName
     const displayName = getDisplayName(CurrentComponent)
-    ProxyFacade.displayName = displayName
+
+    safeDefineProperty(ProxyFacade, 'displayName', {
+      configurable: true,
+      writable: false,
+      enumerable: true,
+      value: displayName,
+    })
 
     if (ProxyComponent) {
       safeDefineProperty(ProxyComponent, 'name', {

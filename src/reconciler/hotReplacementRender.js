@@ -1,5 +1,5 @@
 import levenshtein from 'fast-levenshtein'
-import { PROXY_KEY, UNWRAP_PROXY } from '../proxy'
+import { PROXY_IS_MOUNTED, PROXY_KEY, UNWRAP_PROXY } from '../proxy'
 import { getIdByType, updateProxyById } from './proxies'
 import {
   updateInstance,
@@ -119,17 +119,20 @@ const mapChildren = (children, instances) => ({
     if (typeof child !== 'object') {
       return child
     }
+    const instanceLine = instances[index] || {}
+    const oldChildren = asArray(instanceLine.children || [])
+
     if (Array.isArray(child)) {
       return {
         type: null,
-        ...mapChildren(child, instances[index].children),
+        ...mapChildren(child, oldChildren),
       }
     }
-    const instanceLine = instances[index] || {}
-    const oldChildren = asArray(instanceLine.children || [])
+
     const newChildren = asArray((child.props && child.props.children) || [])
     const nextChildren =
       oldChildren.length && mapChildren(newChildren, oldChildren)
+
     return {
       ...instanceLine,
       // actually child merge is needed only for TAGs, and usually don't work for Components.
@@ -203,7 +206,9 @@ export const flushScheduledUpdates = () => {
   const instances = scheduledUpdates
   scheduledUpdates = []
   scheduledUpdate = 0
-  instances.forEach(instance => updateInstance(instance))
+  instances.forEach(
+    instance => instance[PROXY_IS_MOUNTED] && updateInstance(instance),
+  )
 }
 
 const scheduleInstanceUpdate = instance => {

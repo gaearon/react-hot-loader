@@ -127,6 +127,19 @@ Just add babel-loader into your webpack configuration, with RHL-only config.
 }
 ```
 
+You **also have to modify tsconfig**
+
+```json
+{
+   ...
+   "module": "commonjs", // module should be commonjs, as long "imports" in TS and Babel works differently.
+   "target": "es6", // target should be es6, or RHL will be unable to change some class members
+   ...
+}
+```
+
+Yet again - module = es6 **will not work**.
+
 ### Parcel Bundler
 
 Parcel's HRM is a bit different.

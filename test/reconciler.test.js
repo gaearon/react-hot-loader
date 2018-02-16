@@ -213,16 +213,50 @@ describe('reconciler', () => {
 
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
-      expect(First.rendered).toHaveBeenCalledTimes(3)
-      expect(Second.rendered).toHaveBeenCalledTimes(3)
+      expect(First.rendered).toHaveBeenCalledTimes(4)
+      expect(Second.rendered).toHaveBeenCalledTimes(4)
 
       incrementGeneration()
       wrapper.setProps({ second: false })
-      expect(First.rendered).toHaveBeenCalledTimes(5)
-      expect(Second.rendered).toHaveBeenCalledTimes(3)
+      expect(First.rendered).toHaveBeenCalledTimes(7)
+      expect(Second.rendered).toHaveBeenCalledTimes(4)
 
       expect(First.unmounted).toHaveBeenCalledTimes(0)
       expect(Second.unmounted).toHaveBeenCalledTimes(1)
+    })
+
+    it('should handle child mounting', () => {
+      const First = spyComponent(() => <u>1</u>, 'test', '1')
+      const Second = spyComponent(() => <u>2</u>, 'test', '2')
+      const Third = spyComponent(() => <u>2</u>, 'test', '2')
+      const App = ({ first, second, third }) => (
+        <div>
+          {first && <First.Component />}
+          {second && [
+            <div key="1" />,
+            <Second.Component key="2" />,
+            <div key="3" />,
+            third && <Third.Component key="4" />,
+          ]}
+        </div>
+      )
+
+      const wrapper = mount(<App />)
+      expect(First.rendered).toHaveBeenCalledTimes(0)
+
+      incrementGeneration()
+      wrapper.setProps({ first: true })
+      expect(First.rendered).toHaveBeenCalledTimes(1) // 1. prev state was empty == no need to reconcile
+
+      incrementGeneration()
+      wrapper.setProps({ second: true })
+      expect(First.rendered).toHaveBeenCalledTimes(4) // +3 (reconcile + update + render)
+      expect(Second.rendered).toHaveBeenCalledTimes(2) // (update from first + render)
+
+      wrapper.setProps({ third: true })
+      expect(First.rendered).toHaveBeenCalledTimes(5)
+      expect(Second.rendered).toHaveBeenCalledTimes(3)
+      expect(Third.rendered).toHaveBeenCalledTimes(1)
     })
 
     it('should handle function as a child', () => {

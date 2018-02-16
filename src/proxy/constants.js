@@ -4,3 +4,4 @@ export const GENERATION = `${PREFIX}proxyGeneration`
 export const REGENERATE_METHOD = `${PREFIX}regenerateByEval`
 export const UNWRAP_PROXY = `${PREFIX}getCurrent`
 export const CACHED_RESULT = `${PREFIX}cachedResult`
+export const PROXY_IS_MOUNTED = `${PREFIX}isMounted`
