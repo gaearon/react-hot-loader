@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0-beta.23"></a>
+
+# [4.0.0-beta.23](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.22...v4.0.0-beta.23) (2018-02-18)
+
+### Bug Fixes
+
+* disable RHL when HMR is not activated ([#863](https://github.com/gaearon/react-hot-loader/issues/863)) ([ffe0035](https://github.com/gaearon/react-hot-loader/commit/ffe0035))
+* fix various bugs ([#857](https://github.com/gaearon/react-hot-loader/issues/857)) ([8fa1d42](https://github.com/gaearon/react-hot-loader/commit/8fa1d42)), closes [#845](https://github.com/gaearon/react-hot-loader/issues/845) [#843](https://github.com/gaearon/react-hot-loader/issues/843)
+* transfer original prototype methods ([#859](https://github.com/gaearon/react-hot-loader/issues/859)) ([0b7997f](https://github.com/gaearon/react-hot-loader/commit/0b7997f)), closes [#845](https://github.com/gaearon/react-hot-loader/issues/845) [#843](https://github.com/gaearon/react-hot-loader/issues/843) [#858](https://github.com/gaearon/react-hot-loader/issues/858)
+
 <a name="4.0.0-beta.22"></a>
 
 # [4.0.0-beta.22](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.21...v4.0.0-beta.22) (2018-02-10)
