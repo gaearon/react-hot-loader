@@ -221,7 +221,7 @@ areComponentsEqual(element.type, Component) // true
 
 ### Webpack ExtractTextPlugin & CommonModulePlugin
 
-Webpack ExtractTextPlugin is not compatible with these two plugins. The solution is simple, disable them in development:
+React Hot Loader is not compatible with these two webpack plugins. The solution is simple, disable them in development:
 
 ```js
 // Example for ExtractTextPlugin
