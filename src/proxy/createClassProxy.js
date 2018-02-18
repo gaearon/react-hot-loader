@@ -21,6 +21,17 @@ const has = Object.prototype.hasOwnProperty
 
 const proxies = new WeakMap()
 
+const blackListedClassMembers = [
+  'constructor',
+  'render',
+  'componentDidMount',
+  'componentWillReceiveProps',
+  'componentWillUnmount',
+
+  'getInitialState',
+  'getDefaultProps',
+]
+
 const defaultRenderOptions = {
   componentWillReceiveProps: identity,
   componentWillRender: identity,
@@ -72,7 +83,9 @@ function createClassProxy(InitialComponent, proxyKey, options) {
   }
 
   function proxiedUpdate() {
-    inject(this, proxyGeneration, injectedMembers)
+    if (this) {
+      inject(this, proxyGeneration, injectedMembers)
+    }
   }
 
   function lifeCycleWrapperFactory(wrapperName, sideEffect = identity) {
@@ -86,6 +99,24 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       )
     }
   }
+
+  function methodWrapperFactory(wrapperName, realMethod) {
+    return function wrappedMethod(...rest) {
+      return realMethod.apply(this, rest)
+    }
+  }
+
+  const fakeBasePrototype = Base =>
+    Object.getOwnPropertyNames(Base)
+      .filter(key => !blackListedClassMembers.includes(key))
+      .filter(key => {
+        const descriptor = Object.getOwnPropertyDescriptor(Base, key)
+        return typeof descriptor.value === 'function'
+      })
+      .reduce((acc, key) => {
+        acc[key] = methodWrapperFactory(key, Base[key])
+        return acc
+      }, {})
 
   const componentDidMount = lifeCycleWrapperFactory(
     'componentDidMount',
@@ -124,8 +155,9 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     return renderOptions.componentDidRender(result)
   }
 
-  const defineProxyMethods = Proxy => {
+  const defineProxyMethods = (Proxy, Base = {}) => {
     defineClassMembers(Proxy, {
+      ...fakeBasePrototype(Base),
       render: proxiedRender,
       componentDidMount,
       componentWillReceiveProps,
@@ -139,7 +171,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
   if (!isFunctionalComponent) {
     ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
 
-    defineProxyMethods(ProxyComponent)
+    defineProxyMethods(ProxyComponent, InitialComponent.prototype)
 
     ProxyFacade = ProxyComponent
   } else {
@@ -255,6 +287,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     } else {
       checkLifeCycleMethods(ProxyComponent, NextComponent)
       Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
+      defineProxyMethods(ProxyComponent, NextComponent.prototype)
       if (proxyGeneration > 1) {
         injectedMembers = mergeComponents(
           ProxyComponent,

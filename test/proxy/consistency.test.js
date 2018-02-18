@@ -257,6 +257,32 @@ describe('consistency', () => {
         proxy.update(Update2Class)
         expect(instance.render()).toBe(42)
       })
+
+      it('should stand-for all class members', () => {
+        class Initial {
+          constructor() {
+            this.methodB = this.methodB.bind(this)
+          }
+
+          methodA() {}
+
+          methodB() {}
+
+          render() {}
+        }
+
+        const proxy = createProxy(Initial)
+        const Class = proxy.get()
+        expect(Object.getOwnPropertyNames(Class.prototype)).toEqual([
+          'constructor',
+          'methodA',
+          'methodB',
+          'render',
+          'componentDidMount',
+          'componentWillReceiveProps',
+          'componentWillUnmount',
+        ])
+      })
     })
   })
 
