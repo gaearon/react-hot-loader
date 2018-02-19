@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0-rc.0"></a>
+
+# [4.0.0-rc.0](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.23...v4.0.0-rc.0) (2018-02-19)
+
 <a name="4.0.0-beta.23"></a>
 
 # [4.0.0-beta.23](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.22...v4.0.0-beta.23) (2018-02-18)
