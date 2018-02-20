@@ -401,14 +401,14 @@ export default hot(module)(App)
 
 On code replace you are replacing the old code by a new one. You should not use
 the old code, as thus allow RHL to safely modify it. See
-[`react-stand-in`](https://github.com/gaearon/react-hot-loader/tree/next/packages/react-stand-in)
+[`proxy`](https://github.com/gaearon/react-hot-loader/tree/next/src/proxy)
 for more details.
 
 ### New Components keep executing the old code
 
 There is no way to hot-update constructor code, as result even new components
 will be born as the first ones, and then grow into the last ones. See
-[`react-stand-in`](https://github.com/gaearon/react-hot-loader/tree/next/packages/react-stand-in)
+[`proxy`](https://github.com/gaearon/react-hot-loader/tree/next/src/proxy)
 for more details.
 
 ## Troubleshooting
