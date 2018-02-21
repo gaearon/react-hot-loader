@@ -108,7 +108,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
 
   const fakeBasePrototype = Base =>
     Object.getOwnPropertyNames(Base)
-      .filter(key => !blackListedClassMembers.includes(key))
+      .filter(key => blackListedClassMembers.indexOf(key) === -1)
       .filter(key => {
         const descriptor = Object.getOwnPropertyDescriptor(Base, key)
         return typeof descriptor.value === 'function'
