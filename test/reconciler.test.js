@@ -213,12 +213,50 @@ describe('reconciler', () => {
 
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
-      expect(First.rendered).toHaveBeenCalledTimes(4)
-      expect(Second.rendered).toHaveBeenCalledTimes(4)
+      expect(First.rendered).toHaveBeenCalledTimes(3)
+      expect(Second.rendered).toHaveBeenCalledTimes(3)
 
       incrementGeneration()
       wrapper.setProps({ second: false })
-      expect(First.rendered).toHaveBeenCalledTimes(7)
+      expect(First.rendered).toHaveBeenCalledTimes(5)
+      expect(Second.rendered).toHaveBeenCalledTimes(4)
+
+      expect(First.unmounted).toHaveBeenCalledTimes(0)
+      expect(Second.unmounted).toHaveBeenCalledTimes(1)
+    })
+
+    it('should use new children branch during reconcile for full components', () => {
+      const First = spyComponent(() => <u>1</u>, 'test', '1')
+      const Second = spyComponent(() => <u>2</u>, 'test', '2')
+
+      const Section = ({ children }) => <div>{children}</div>
+
+      const App = ({ second }) => (
+        <div>
+          <div>
+            <Section>
+              <First.Component />
+              {second && <Second.Component />}
+            </Section>
+          </div>
+        </div>
+      )
+
+      const Mounter = ({ second }) => <App second={second} />
+
+      const wrapper = mount(<Mounter second />)
+
+      expect(First.rendered).toHaveBeenCalledTimes(1)
+      expect(Second.rendered).toHaveBeenCalledTimes(1)
+
+      incrementGeneration()
+      wrapper.setProps({ update: 'now' })
+      expect(First.rendered).toHaveBeenCalledTimes(3)
+      expect(Second.rendered).toHaveBeenCalledTimes(3)
+
+      incrementGeneration()
+      wrapper.setProps({ second: false })
+      expect(First.rendered).toHaveBeenCalledTimes(5)
       expect(Second.rendered).toHaveBeenCalledTimes(4)
 
       expect(First.unmounted).toHaveBeenCalledTimes(0)
