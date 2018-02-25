@@ -129,17 +129,19 @@ const mapChildren = (children, instances) => ({
       }
     }
 
-    const newChildren = asArray((child.props && child.props.children) || [])
+    const newChildren = asArray(
+      (child.props && child.props.children) || child.children || [],
+    )
     const nextChildren =
       oldChildren.length && mapChildren(newChildren, oldChildren)
 
     return {
       ...instanceLine,
-      // actually child merge is needed only for TAGs, and usually don't work for Components.
+      // actually child merge is needed only for "HTML TAG"s, and usually don't work for Components.
       // the children from an instance or rendered children
       // while children from a props is just a props.
       // they could not exists. they could differ.
-      ...(nextChildren ? { children: nextChildren } : {}),
+      ...(nextChildren || {}),
       type: child.type,
     }
   }),
