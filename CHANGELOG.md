@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0"></a>
+
+# [4.0.0](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-rc.0...v4.0.0) (2018-02-27)
+
+### Bug Fixes
+
+* proper children reconcile for nested tags, fixes [#869](https://github.com/gaearon/react-hot-loader/issues/869) ([#871](https://github.com/gaearon/react-hot-loader/issues/871)) ([2de4e58](https://github.com/gaearon/react-hot-loader/commit/2de4e58))
+
 <a name="4.0.0-rc.0"></a>
 
 # [4.0.0-rc.0](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-beta.23...v4.0.0-rc.0) (2018-02-19)
