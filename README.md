@@ -17,7 +17,7 @@ Watch
 ## Install
 
 ```
-npm install react-hot-loader@next
+npm install react-hot-loader
 ```
 
 > Note: You can safely install react-hot-loader as a regular dependency instead
@@ -35,12 +35,10 @@ npm install react-hot-loader@next
 }
 ```
 
-> Note: use `.compilerc` in case of Electron
-
 2. Mark your root component as _hot-exported_:
 
 ```js
-// ./containers/App.js
+// App.js
 import React from 'react'
 import { hot } from 'react-hot-loader'
 
@@ -48,16 +46,6 @@ const App = () => <div>Hello World!</div>
 
 export default hot(module)(App)
 ```
-
-Do not use `hot` if you are using **parcel** bundler. It was designed for webpack.
-
-`Hot` accepts only React Component (Stateful or Stateless), resulting the `HotExported` variant of it.
-The `hot` function will setup current module to _self-accept_ itself on reload, and will **ignore** all the changes, made for non-React components.
-You may mark as much modules as you want. But `HotExportedComponent` **should be the only used export** of a _hot_-module.
-
-> Note: Please note how often we have used `exported` keyword. `hot` is for exports.
-
-> Note: does nothing in production mode, just passes App through.
 
 3. [Run Webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
 
@@ -103,13 +91,13 @@ export default hot(module)(App)
 
 ### Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app) without ejecting
 
-Users [reports](https://github.com/gaearon/react-hot-loader/pull/729#issuecomment-354097936), that it is possible to use [react-app-rewire-hot-loader](https://github.com/cdharris/react-app-rewire-hot-loader) to setup React-hot-loader without ejecting.
+Users [report](https://github.com/gaearon/react-hot-loader/pull/729#issuecomment-354097936), that it is possible to use [react-app-rewire-hot-loader](https://github.com/cdharris/react-app-rewire-hot-loader) to setup React-hot-loader without ejecting.
 Follow [these code examples](https://github.com/Grimones/cra-rhl/commit/4ed74af2dc649301695f67df05a12f210fb7820c) to repeat the approach.
 
 ### TypeScript
 
-When using TypeScript, Babel is not required, but RHL will not work without it.
-Just add babel-loader into your webpack configuration, with RHL-only config.
+When using TypeScript, Babel is not required, but React Hot Loader will not work without it.
+Just add `babel-loader` into your Webpack configuration, with React Hot Loader plugin.
 
 ```js
 {
@@ -127,38 +115,44 @@ Just add babel-loader into your webpack configuration, with RHL-only config.
 }
 ```
 
-You **also have to modify tsconfig**
+You **also have to modify your `tsconfig.json`**:
 
 ```json
+// tsconfig.json
 {
-   ...
-   "module": "commonjs", // module should be commonjs, as long "imports" in TS and Babel works differently.
-   "target": "es6", // target should be es6, or RHL will be unable to change some class members
-   ...
+  "module": "commonjs",
+  "target": "es6"
 }
 ```
 
 Yet again - module = es6 **will not work**.
 
-### Parcel Bundler
+e also have a [full example running TypeScript + React Hot Loader](https://github.com/gaearon/react-hot-loader/tree/master/examples/typescript).
 
-Parcel's HRM is a bit different.
+### Parcel
 
-* Do not use `hot` (v4) to make Components hot-reloadable.
-* Use `AppContainer` + `module.hot.accept` (v3), follow the version 3 guide lines.
+Parcel supports Hot Module Reloading out of the box, just follow step 1 and 2 of [Getting Started](https://github.com/gaearon/react-hot-loader/tree/master#getting-started).
 
-Do the same for any other bundler or framework. `hot` is not a silver bullet. Sometimes it may break the stuff.
-If something is not working (absolutely) - remove the `hot`.
+We also have a [full example running Parcel + React Hot Loader](https://github.com/gaearon/react-hot-loader/tree/master/examples/parcel).
 
 ### Electron
 
-To enable HRM on webpack, just enable it
+1. Add `react-hot-loader/babel` to your `.compilerc`:
+
+```js
+// .compilerc
+{
+  "plugins": ["react-hot-loader/babel"]
+}
+```
+
+2. Enable Live Reload in the project
 
 ```js
 enableLiveReload({ strategy: 'react-hmr' })
 ```
 
-Example - https://github.com/rllola/hmr-example-issue-2/blob/master/src/index.js
+See a [complete example](https://github.com/rllola/hmr-example-issue-2/blob/master/src/index.js).
 
 ### Source Maps
 
@@ -181,11 +175,10 @@ Using React Hot Loader with React Native can cause unexpected issues (see #824) 
 
 ### Code Splitting
 
-As long most of modern react-component-loader
-([loadable-components](https://github.com/smooth-code/loadable-components/),
-[react-loadable](https://github.com/thejameskyle/react-loadable), and so on)
-does not, and should not support RHL, just mark export of the imported component as
-`hotExported`.
+Most of modern React component-loader libraries ([loadable-components](https://github.com/smooth-code/loadable-components/),
+[react-loadable](https://github.com/thejameskyle/react-loadable)...) are compatible with React Hot Loader.
+
+You have to mark your "loaded components" as _hot-exported_.
 
 Example using
 [loadable-components](https://github.com/smooth-code/loadable-components/):
@@ -219,12 +212,11 @@ const element = <Component />
 areComponentsEqual(element.type, Component) // true
 ```
 
-### Webpack ExtractTextPlugin & CommonModulePlugin
+### Webpack ExtractTextPlugin
 
-Webpack ExtractTextPlugin is not compatible with these two plugins. The solution is simple, disable them in development:
+Webpack ExtractTextPlugin is not compatible with React Hot Loader. Please disable it in development:
 
 ```js
-// Example for ExtractTextPlugin
 new ExtractTextPlugin({
   filename: 'styles/[name].[contenthash].css',
   disable: NODE_ENV !== 'production',
@@ -397,19 +389,20 @@ export default hot(module)(App)
 
 ## Known limitations and side effects
 
-### The original class got updated
+### Not about `hot`
 
-On code replace you are replacing the old code by a new one. You should not use
-the old code, as thus allow RHL to safely modify it. See
-[`react-stand-in`](https://github.com/gaearon/react-hot-loader/tree/next/packages/react-stand-in)
-for more details.
+`hot` accepts only React Component (Stateful or Stateless), resulting the `HotExported` variant of it.
+The `hot` function will setup current module to _self-accept_ itself on reload, and will **ignore** all the changes, made for non-React components.
+You may mark as much modules as you want. But `HotExportedComponent` **should be the only used export** of a _hot_-module.
+
+> Note: Please note how often we have used `exported` keyword. `hot` is for exports.
+
+> Note: does nothing in production mode, just passes App through.
 
 ### New Components keep executing the old code
 
 There is no way to hot-update constructor code, as result even new components
-will be born as the first ones, and then grow into the last ones. See
-[`react-stand-in`](https://github.com/gaearon/react-hot-loader/tree/next/packages/react-stand-in)
-for more details.
+will be born as the first ones, and then grow into the last ones. As of today, this issue cannot be solved.
 
 ## Troubleshooting
 
@@ -417,7 +410,7 @@ If it doesn't work, in 99% cases it's a configuration issue. A missing option, a
 wrong path or port. Webpack is very strict about configuration, and the best way
 to find out what's wrong is to compare your project to an already working setup,
 check out
-**[examples](https://github.com/gaearon/react-hot-loader/tree/next/examples)**,
+**[examples](https://github.com/gaearon/react-hot-loader/tree/master/examples)**,
 bit by bit.
 
 If something doesn't work, in 99% cases it's an issue with your code - Component
