@@ -418,7 +418,7 @@ doesn't got registered, due to HOC or Decorator around it, which making it
 invisible to Babel plugin, or Webpack loader.
 
 We're also gathering
-**[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/next/docs/Troubleshooting.md)**
+**[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)**
 so send a PR if you have a lesson to share!
 
 ### Switch into debug mode
