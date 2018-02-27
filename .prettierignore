@@ -1,2 +1,9 @@
-test/__babel_fixtures__
-test/__snapshots__
+__babel_fixtures__/
+__snapshots__/
+node_modules/
+dist/
+package.json
+babel.js
+index.js
+patch.js
+rollup.config.js

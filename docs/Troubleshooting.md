@@ -11,33 +11,33 @@ Know a problem? Feel free to send a PR with edits.
 
 ![](http://i.imgur.com/oOc0ikV.png)
 
-If you don't see some of the messages, or some of the requests, or if some of the requests fail, this is a symptom of an incorrect configuration. Comparing your setup with [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) may help you find the mistake.
+If you don't see some of the messages, or some of the requests, or if some of the requests fail, this may be a symptom of an incorrect configuration. Comparing your setup with [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate) may help you find the mistake. If hot loading appears to be working but you still do not see all of the above messages, you may need to check your dev server's [clientLogLevel](https://webpack.js.org/configuration/dev-server/#devserver-clientloglevel) setting. Depending on what it is set to, you may not see all of these messages, so you may need to adjust this setting to ensure that your configuration is correct.
 
 ##### Common TypeScript Mistake
 
 If you're a TypeScript user then to get set up with HMR then it's not unusual to alias `module` as an `any` like so:
 
 ```ts
-const anyModule = module as any;
+const anyModule = module as any
 if (anyModule.hot) {
-    anyModule.hot.accept('./app', () => render(App));
+  anyModule.hot.accept('./app', () => render(App))
 }
 ```
 
-**DON'T DO THIS.** It will result in full page reloads each time you make a change.  Instead do something like this:
+**DON'T DO THIS.** It will result in full page reloads each time you make a change. Instead do something like this:
 
 ```ts
 if ((module as any).hot) {
-  (module as any).hot.accept('./app', () => render(App));
+  ;(module as any).hot.accept('./app', () => render(App))
 }
 ```
 
 or this:
 
 ```ts
-declare const module: any;
+declare const module: any
 if (module.hot) {
-    module.hot.accept('./app', () => render(App));
+  module.hot.accept('./app', () => render(App))
 }
 ```
 
@@ -49,7 +49,7 @@ Then you should see the expected messages / get the expected behaviour:
 [HMR] App is up to date.
 ```
 
----------
+---
 
 ### Can't Build
 
@@ -67,7 +67,7 @@ If you're using React Hot Loader together with [Babel](https://babeljs.io/) (ex 
   { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], include: path.join(__dirname, 'src') }
 ```
 
-Webpack applies `loaders` right to left, and we need to feed Babel's *output* to React Hot Loader, not vice versa.
+Webpack applies `loaders` right to left, and we need to feed Babel's _output_ to React Hot Loader, not vice versa.
 
 #### Error: Invalid path './' (or similar)
 
@@ -91,7 +91,7 @@ If you used WebpackDevServer CLI mode and after switching to Node it crashes wit
 
 Most likely you used `npm link` to use a development version of a package in a different folder, and React Hot Loader processed it by mistake. You should use [`include` in loader configuration](https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js#L22) to only opt-in your app's files to processing.
 
----------
+---
 
 ### Page Throws an Error
 
@@ -103,7 +103,7 @@ Most likely you used `npm link` to use a development version of a package in a d
 
 Make sure you have `exclude: /node_modules/` or, better, `include: path.join(__dirname, 'src')` (path depends on your application) in loader configuration [just like on this line](https://github.com/gaearon/react-hot-boilerplate/blob/fbdbd93956241320bc3960d350c4dd0030cc6e84/webpack.config.js#L27). You never need to process `node_modules` with React Hot Loader. If you use other loaders such as `jsx?harmony` or `babel`, most likely they **also** need to have `include` specified.
 
----------
+---
 
 ### Can't Hot Reload
 
@@ -127,7 +127,7 @@ If you're trying to access Webpack Dev Server from a URL served on another port,
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   hot: true,
-  headers: { 'Access-Control-Allow-Origin': '*' }
+  headers: { 'Access-Control-Allow-Origin': '*' },
 })
 ```
 
@@ -137,10 +137,9 @@ new WebpackDevServer(webpack(config), {
 entry: [
   'webpack-dev-server/client?http://localhost:3000', // WebpackDevServer host and port
   'webpack/hot/only-dev-server',
-  './src/app'
+  './src/app',
 ]
 ```
-
 
 #### The following modules couldn't be hot updated: (They would need a full reload!)
 
@@ -183,7 +182,7 @@ The entry points that don't have `webpack/hot/only-dev-server` (or `webpack/hot/
 
 #### Syntax error: Unexpected token <
 
-If you combine WebpackDevServer with an existing server like Express and get this error message on hot updates, it is because Webpack is configured to request hot updates *from the current hostname*. So if your Express server is on `8000` and `publicPath` in Webpack config is `/build/`, it will request hot updates from `http://localhost:8000/build/`, which in your case is served by Express. Instead, you need to set `publicPath` to point to the port where WebpackDevServer is running. For example, it could be `http://localhost:9000/build/`.
+If you combine WebpackDevServer with an existing server like Express and get this error message on hot updates, it is because Webpack is configured to request hot updates _from the current hostname_. So if your Express server is on `8000` and `publicPath` in Webpack config is `/build/`, it will request hot updates from `http://localhost:8000/build/`, which in your case is served by Express. Instead, you need to set `publicPath` to point to the port where WebpackDevServer is running. For example, it could be `http://localhost:9000/build/`.
 
 #### Not enough watchers
 
@@ -203,7 +202,7 @@ Now, take a look at the path where they are requested. Webpack uses `output.publ
 
 Normally you want it to be `'/'` if you're serving scripts from root, something like `'/scripts/'` if you have a virtual path for scripts, and something like `'http://localhost:port/scripts/` if you're using Webpack only for scripts but have another primary server like Express. **This config variable must also match `publicPath` option specified when creating `WebpackDevServer` instance.** [Take a look at React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js#L6) to get an idea.
 
----------------
+---
 
 ### Misc
 
@@ -221,17 +220,17 @@ Also make sure you have these plugins in production config:
 // removes a lot of debugging code in React
 new webpack.DefinePlugin({
   'process.env': {
-    'NODE_ENV': JSON.stringify('production')
-  }
+    NODE_ENV: JSON.stringify('production'),
+  },
 }),
-// keeps hashes consistent between compilations
-new webpack.optimize.OccurrenceOrderPlugin(),
-// minifies your code
-new webpack.optimize.UglifyJsPlugin({
-  compressor: {
-    warnings: false
-  }
-})
+  // keeps hashes consistent between compilations
+  new webpack.optimize.OccurrenceOrderPlugin(),
+  // minifies your code
+  new webpack.optimize.UglifyJsPlugin({
+    compressor: {
+      warnings: false,
+    },
+  })
 ```
 
 Oh, and don't forget to remove `devtool: 'eval'` from a production config. Otherwise Uglify won't uglify anything at all.
@@ -241,51 +240,74 @@ Oh, and don't forget to remove `devtool: 'eval'` from a production config. Other
 The problem is that by default **WebpackDevServer** doesn't deal with HTML5 History correctly and the server won't route the url as it should. You can fix this issue by setting `historyApiFallback: true`. Here's a full example:
 
 ```js
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
+var webpack = require('webpack')
+var WebpackDevServer = require('webpack-dev-server')
 
-var config = require('./webpack.config');
+var config = require('./webpack.config')
 
-var port = 4000;
-var ip = '0.0.0.0';
+var port = 4000
+var ip = '0.0.0.0'
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   historyApiFallback: true,
-}).listen(port, ip, function (err) {
-  if(err) {
-    return console.log(err);
+}).listen(port, ip, function(err) {
+  if (err) {
+    return console.log(err)
   }
 
-  console.log('Listening at ' + ip + ':' + port);
-});
+  console.log('Listening at ' + ip + ':' + port)
+})
 ```
 
 After this you should be able to access your SPA via any url that has been defined in it.
 
-#### React Hot Loader: this component is not accepted by Hot Loader
+#### React-hot-loader: a Unknown was found where a Unknown was expected.
 
-The problem is that React Hot Loader could not replace the `old` version of some Component, by the new one.
-The reason is always the same - React Hot Loader can't understand that old and new is the same Component.
+The problem is that after hot module update some branches of React Tree differs from the previous versions.
+As result React-hot-loader will not update these branches at all, and you may lose internal components state.
 
-Why? The Component is not extracted as a top level variable. And only such Components React Hot Loader can digest.
+The `equality` of Components are defined as:
+
+1. They have same variable names in the same files. Ie they are both MyComponent from MyComponent.js
+2. They have same displayName and similar code.
+   > Note: similar code is not _equal_ code. RHL will stand some small changes in code, or even adding a new method in class.
+
+#### Not all of my code got updated.
+
+Hot module replacement is a tricky thing. Just double check that you are not exporting anything else from the
+modules with `hot` exported components – functions, constants, anything NOT REACT.
+
+`hot` function setups module self-acceptance. And it may be a dangerous thing.
+
+#### RHL is not working for Electon or Parcel
+
+`hot` function is not tested in these environments, yet. Please use `old school` AppContainer and setup HRM manually.
+
+#### RHL is not working with Webpack DLL
+
+React Hot Loader rely on a Babel transformation that register all exports in a global. That's why dependencies included in [Webpack DLL](https://webpack.js.org/plugins/dll-plugin/#dllplugin) will not work.
+
+#### React-hot-loader: fatal error caused by XXX - no instrumentation found.
+
+React-hot-loader found an Element without instrumentation due to a wrong configuration.
+To fix this issue - just require RHL before React.
+
+Example of a wrong configuration:
+
 ```js
- const SuperComponent = 
-     connect()(         <-- last HoC
-       withSomeStuff(   <-- first HoC
-         Component      <-- a real component
-       )
-     );
+import * as React from 'react'
+import { hot } from 'react-hot-loader' // React is not patched
 ```
-SuperComponent is a top-level variable. And Component is. But withSomeStuff will also produce a (temporal) Component, absolutely invisible to React Hot Loader.
 
-Solution
+Example of correct configurations:
+
 ```js
- const WithSomeStuffComponent = withSomeStuff(Component);
- const SuperComponent = connect()(WithSomeStuffComponent);
-```  
-So yes - it is __absolutely__ impossible to use functional composition and React Hot Loader.
-All temporal variables, steps, spare parts __must__ be separated.
+import { hot } from 'react-hot-loader'
+import * as React from 'react' // React is now patched
+```
 
-PS: it is possible to create a babel plugin, which will extract all the things. But who will create it?
- 
+```js
+import React from 'react'
+import { hot } from 'react-hot-loader' // React is now patched
+```

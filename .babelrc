@@ -1,9 +1,18 @@
 {
-  "presets": ["env", "react"],
-  "plugins": ["transform-class-properties"],
-  "env": {
-    "test": {
-      "plugins": ["transform-class-properties", "./lib/babel"]
-    }
-  }
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "loose": true
+      }
+    ],
+    "react"
+  ],
+  "plugins": [
+
+    ["transform-class-properties", { "loose": true }],
+    "transform-object-rest-spread",
+    "dynamic-import-node"
+  ]
 }
