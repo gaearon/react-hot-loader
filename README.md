@@ -127,7 +127,7 @@ You **also have to modify your `tsconfig.json`**:
 
 Yet again - module = es6 **will not work**.
 
-e also have a [full example running TypeScript + React Hot Loader](https://github.com/gaearon/react-hot-loader/tree/master/examples/typescript).
+We also have a [full example running TypeScript + React Hot Loader](https://github.com/gaearon/react-hot-loader/tree/master/examples/typescript).
 
 ### Parcel
 
