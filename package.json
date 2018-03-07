@@ -19,7 +19,8 @@
     "release": "standard-version -p && conventional-github-releaser -p angular",
     "test": "yarn test:es2015 && yarn test:modern",
     "test:es2015": "cross-env BABEL_TARGET=es2015 jest --no-cache",
-    "test:modern": "cross-env BABEL_TARGET=modern jest --no-cache"
+    "test:modern": "cross-env BABEL_TARGET=modern jest --no-cache",
+    "postinstall": "opencollective postinstall"
   },
   "lint-staged": {
     "*.{js,md,ts,json}": [
@@ -96,6 +97,7 @@
     "fast-levenshtein": "^2.0.6",
     "global": "^4.3.0",
     "hoist-non-react-statics": "^2.5.0",
+    "opencollective": "^1.0.3",
     "prop-types": "^15.6.0",
     "shallowequal": "^1.0.2"
   },
@@ -113,5 +115,9 @@
     "transform": {
       "^.+\\.js$": "<rootDir>/testConfig/babel.js"
     }
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/react-hot-loader"
   }
 }
