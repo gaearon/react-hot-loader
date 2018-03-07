@@ -5,6 +5,8 @@
 [![MIT License][license-badge]][license]
 
 [![PRs Welcome][prs-badge]][prs] [![Chat][chat-badge]][chat]
+[![Backers on Open Collective][oc-backer-badge]](#backers)
+[![Sponsors on Open Collective][oc-sponsor-badge]](#sponsors) 
 
 [![Watch on GitHub][github-watch-badge]][github-watch]
 [![Star on GitHub][github-star-badge]][github-star]
@@ -431,6 +433,35 @@ import { setConfig } from 'react-hot-loader'
 setConfig({ logLevel: 'debug' })
 ```
 
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+[![contributors][oc-contributors-img]]('graphs/contributors')
+
+## Backers
+
+Thank you to all our backers! 🙏 [Become a backer]([oc-backer-link])
+[![backers][oc-backer-img]][oc-backer-link]
+
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor][oc-sponsor-link]]
+
+<a href="https://opencollective.com/react-hot-loader/sponsor/0/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/react-hot-loader/sponsor/1/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/react-hot-loader/sponsor/2/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/react-hot-loader/sponsor/3/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/react-hot-loader/sponsor/4/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/react-hot-loader/sponsor/5/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/react-hot-loader/sponsor/6/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/react-hot-loader/sponsor/7/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/react-hot-loader/sponsor/8/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/react-hot-loader/sponsor/9/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/9/avatar.svg"></a>
+
+
+
 ## License
 
 MIT
@@ -451,3 +482,9 @@ MIT
 [github-watch]: https://github.com/gaearon/react-hot-loader/watchers
 [github-star-badge]: https://img.shields.io/github/stars/gaearon/react-hot-loader.svg?style=social
 [github-star]: https://github.com/gaearon/react-hot-loader/stargazers
+[oc-backer-badge]: https://opencollective.com/react-hot-loader/backers/badge.svg
+[oc-sponsor-badge]: https://opencollective.com/react-hot-loader/sponsors/badge.svg
+[oc-contributors-img]:https://opencollective.com/react-hot-loader/contributors.svg?width=890&button=false
+[oc-backer-img]: https://opencollective.com/react-hot-loader/backers.svg?width=890
+[oc-backer-link]:https://opencollective.com/react-hot-loader#backers
+[oc-sponsor-link]: https://opencollective.com/react-hot-loader#sponsor
