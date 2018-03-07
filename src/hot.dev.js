@@ -55,7 +55,7 @@ const hot = sourceModule => {
   if (!sourceModule || !sourceModule.id) {
     // this is fatal
     throw new Error(
-      'React-hot-loader: `hot` could not found the `id` property in the `module` you have provided',
+      'React-hot-loader: `hot` could not find the `id` property in the `module` you have provided',
     )
   }
   const moduleId = sourceModule.id
