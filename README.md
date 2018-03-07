@@ -435,19 +435,17 @@ setConfig({ logLevel: 'debug' })
 
 ## Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+This project exists thanks to all the people who contribute. [Contribute](CONTRIBUTING.md).
 [![contributors][oc-contributors-img]]('graphs/contributors')
 
 ## Backers
 
-Thank you to all our backers! 🙏 [Become a backer]([oc-backer-link])
+Thank you to all our backers! 🙏 [Become a backer][oc-backer-link]
 [![backers][oc-backer-img]][oc-backer-link]
-
-
 
 ## Sponsors
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor][oc-sponsor-link]]
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor][oc-sponsor-link]
 
 <a href="https://opencollective.com/react-hot-loader/sponsor/0/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/react-hot-loader/sponsor/1/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/1/avatar.svg"></a>
@@ -484,7 +482,7 @@ MIT
 [github-star]: https://github.com/gaearon/react-hot-loader/stargazers
 [oc-backer-badge]: https://opencollective.com/react-hot-loader/backers/badge.svg
 [oc-sponsor-badge]: https://opencollective.com/react-hot-loader/sponsors/badge.svg
-[oc-contributors-img]:https://opencollective.com/react-hot-loader/contributors.svg?width=890&button=false
+[oc-contributors-img]: https://opencollective.com/react-hot-loader/contributors.svg?width=890&button=false
 [oc-backer-img]: https://opencollective.com/react-hot-loader/backers.svg?width=890
-[oc-backer-link]:https://opencollective.com/react-hot-loader#backers
+[oc-backer-link]: https://opencollective.com/react-hot-loader#backers
 [oc-sponsor-link]: https://opencollective.com/react-hot-loader#sponsor
