@@ -27,6 +27,7 @@ const blackListedClassMembers = [
   'componentDidMount',
   'componentWillReceiveProps',
   'componentWillUnmount',
+  'hotComponentRender',
 
   'getInitialState',
   'getDefaultProps',
@@ -135,10 +136,10 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     },
   )
 
-  function proxiedRender() {
-    proxiedUpdate.call(this)
+  function hotComponentRender() {
+    // repeating subrender call to keep RENDERED_GENERATION up to date
     renderOptions.componentWillRender(this)
-
+    proxiedUpdate.call(this)
     let result
 
     // We need to use hasOwnProperty here, as the cached result is a React node
@@ -155,10 +156,16 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     return renderOptions.componentDidRender(result)
   }
 
+  function proxiedRender() {
+    renderOptions.componentWillRender(this)
+    return hotComponentRender.call(this)
+  }
+
   const defineProxyMethods = (Proxy, Base = {}) => {
     defineClassMembers(Proxy, {
       ...fakeBasePrototype(Base),
       render: proxiedRender,
+      hotComponentRender,
       componentDidMount,
       componentWillReceiveProps,
       componentWillUnmount,
