@@ -101,7 +101,11 @@ const render = component => {
     return []
   }
   if (isReactClass(component)) {
-    return component.render()
+    // not calling real render method to prevent call recursion.
+    // stateless componets does not have hotComponentRender
+    return component.hotComponentRender
+      ? component.hotComponentRender()
+      : component.render()
   }
   if (isArray(component)) {
     return component.map(render)
