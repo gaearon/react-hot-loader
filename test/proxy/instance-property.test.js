@@ -3,7 +3,7 @@ import React from 'react'
 import { ensureNoWarnings, createMounter } from './helper'
 import createProxy from '../../src/proxy'
 
-const fixtures = {
+const fixtures = () => ({
   modern: {
     InstanceProperty: class InstanceProperty extends React.Component {
       answer = 42
@@ -79,7 +79,7 @@ const fixtures = {
       }
     },
   },
-}
+})
 
 describe('instance property', () => {
   ensureNoWarnings()
@@ -91,7 +91,7 @@ describe('instance property', () => {
         InstanceProperty,
         InstancePropertyUpdate,
         InstancePropertyRemoval,
-      } = fixtures[type]
+      } = fixtures()[type]
 
       it('is available on proxy class instance', () => {
         const proxy = createProxy(InstanceProperty)
@@ -158,7 +158,7 @@ describe('instance property', () => {
     // })
 
     it('show use the underlayer top value', () => {
-      const proxy = createProxy(fixtures.modern.InstancePropertyFromContext)
+      const proxy = createProxy(fixtures().modern.InstancePropertyFromContext)
       const Proxy = proxy.get()
       const wrapper = mount(<Proxy />)
       expect(wrapper.text()).toBe('42')

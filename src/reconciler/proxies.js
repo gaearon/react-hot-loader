@@ -1,4 +1,5 @@
 import createProxy from '../proxy'
+import { resetClassProxies } from '../proxy/createClassProxy'
 
 let proxiesByID
 let idsByType
@@ -35,6 +36,7 @@ export const createProxyForType = type =>
 export const resetProxies = () => {
   proxiesByID = {}
   idsByType = new WeakMap()
+  resetClassProxies()
 }
 
 resetProxies()

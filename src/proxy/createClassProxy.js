@@ -19,7 +19,11 @@ import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 
 const has = Object.prototype.hasOwnProperty
 
-const proxies = new WeakMap()
+let proxies = new WeakMap()
+
+export const resetClassProxies = () => {
+  proxies = new WeakMap()
+}
 
 const blackListedClassMembers = [
   'constructor',
@@ -174,6 +178,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
 
   let ProxyFacade
   let ProxyComponent = null
+  let proxy
 
   if (!isFunctionalComponent) {
     ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
@@ -255,9 +260,10 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     // Prevent proxy cycles
     const existingProxy = proxies.get(NextComponent)
     if (existingProxy) {
-      update(existingProxy[UNWRAP_PROXY]())
       return
     }
+
+    proxies.set(NextComponent, proxy)
 
     isFunctionalComponent = !isReactClass(NextComponent)
     proxyGeneration++
@@ -309,7 +315,9 @@ function createClassProxy(InitialComponent, proxyKey, options) {
 
   update(InitialComponent)
 
-  const proxy = { get, update }
+  proxy = { get, update }
+
+  proxies.set(InitialComponent, proxy)
   proxies.set(ProxyFacade, proxy)
 
   safeDefineProperty(proxy, UNWRAP_PROXY, {
