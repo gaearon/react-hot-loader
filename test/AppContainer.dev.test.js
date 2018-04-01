@@ -1202,6 +1202,55 @@ describe(`AppContainer (dev)`, () => {
     expect(wrapper.text()).toBe('TESTnew childnew child')
   })
 
+  it('renders children with chunked re-register', () => {
+    const spy = jest.fn()
+
+    class App extends Component {
+      componentWillUnmount() {
+        spy()
+      }
+
+      render() {
+        return <div>I AM CHILD</div>
+      }
+    }
+
+    RHL.reset()
+    RHL.register(App, 'App1', 'test.js')
+    RHL.register(App, 'App2', 'test.js')
+
+    const wrapper = mount(
+      <AppContainer>
+        <App />
+      </AppContainer>,
+    )
+    expect(spy).not.toHaveBeenCalled()
+    wrapper.setProps({ children: <App /> })
+    expect(spy).not.toHaveBeenCalled()
+    RHL.register(App, 'App3', 'test.js')
+    wrapper.setProps({ children: <App /> })
+    expect(spy).not.toHaveBeenCalled()
+
+    {
+      class App extends Component {
+        componentWillUnmount() {
+          spy()
+        }
+
+        render() {
+          return <div>I AM NEW CHILD</div>
+        }
+      }
+      RHL.register(App, 'App3', 'test.js')
+      wrapper.setProps({ children: <App /> })
+      expect(spy).not.toHaveBeenCalled()
+
+      RHL.register(App, 'App4', 'test.js')
+      wrapper.setProps({ children: <App /> })
+      expect(spy).not.toHaveBeenCalled()
+    }
+  })
+
   describe('with HOC-wrapped root', () => {
     it('renders children', () => {
       const spy = jest.fn()

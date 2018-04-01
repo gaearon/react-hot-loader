@@ -149,6 +149,12 @@ describe('consistency', () => {
         expect(proxy.get()).toBe(Proxy)
       })
 
+      it('prevents double proxy creation', () => {
+        const proxy1 = createProxy(Bar)
+        const proxy2 = createProxy(Bar)
+        expect(proxy1.get()).toBe(proxy2.get())
+      })
+
       it('prevents mutually recursive proxy cycle', () => {
         const barProxy = createProxy(Bar)
         const BarProxy = barProxy.get()

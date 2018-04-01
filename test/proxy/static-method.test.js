@@ -2,8 +2,9 @@
 import React from 'react'
 import { ensureNoWarnings, createMounter } from './helper'
 import createProxy from '../../src/proxy'
+import reactHotLoader from '../../src/reactHotLoader'
 
-const fixtures = {
+const fixtures = () => ({
   modern: {
     StaticMethod: class StaticMethod extends React.Component {
       static getAnswer() {
@@ -31,19 +32,21 @@ const fixtures = {
       }
     },
   },
-}
+})
 
 describe('static method', () => {
   ensureNoWarnings()
   const { mount } = createMounter()
 
-  Object.keys(fixtures).forEach(type => {
+  Object.keys(fixtures()).forEach(type => {
     describe(type, () => {
       const {
         StaticMethod,
         StaticMethodUpdate,
         StaticMethodRemoval,
-      } = fixtures[type]
+      } = fixtures()[type]
+
+      beforeEach(() => reactHotLoader.reset())
 
       it('is available on proxy class instance', () => {
         const proxy = createProxy(StaticMethod)
