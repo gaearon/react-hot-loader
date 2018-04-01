@@ -64,7 +64,7 @@ describe('reconciler', () => {
       )
 
       const first = spyComponent(
-        ({ children }) => <b>{children}</b>,
+        ({ children }) => <b>FIRST {children}</b>,
         'test',
         '1',
       )
@@ -73,12 +73,16 @@ describe('reconciler', () => {
 
       let currentComponent = first
       const currentProps = {}
+      let renderTick = 0
 
       const ComponentSwap = props => {
-        const { Component } = currentComponent
+        const { Component, key } = currentComponent
         return (
           <blockquote>
-            <Component {...props} {...currentProps} />
+            <Component {...props} {...currentProps} keyId={key} />
+            <div>
+              {key} + {renderTick++}
+            </div>
           </blockquote>
         )
       }
@@ -88,6 +92,7 @@ describe('reconciler', () => {
           <ComponentSwap>42</ComponentSwap>
         </root.Component>
       )
+      App.contextTypes = {}
 
       const wrapper = mount(
         <AppContainer>
@@ -99,6 +104,7 @@ describe('reconciler', () => {
       expect(wrapper.find(<first.Component />.type).length).toBe(1)
       expect(root.mounted).toHaveBeenCalledTimes(1)
       expect(first.mounted).toHaveBeenCalledTimes(1)
+      expect(wrapper.text()).toMatch(/FIRST/)
 
       // replace with `the same` component
       currentComponent = second
@@ -112,21 +118,26 @@ describe('reconciler', () => {
       expect(areComponentsEqual(first.Component, second.Component)).toBe(true)
       expect(wrapper.find(<first.Component />.type).length).toBe(1)
       expect(wrapper.find(<second.Component />.type).length).toBe(1)
+      expect(wrapper.text()).not.toMatch(/FIRST/)
+      expect(wrapper.text()).toMatch(/REPLACED/)
 
       expect(root.mounted).toHaveBeenCalledTimes(1)
       expect(first.unmounted).toHaveBeenCalledTimes(0)
       expect(second.mounted).toHaveBeenCalledTimes(0)
       expect(second.willUpdate).toHaveBeenCalledTimes(2)
+
+      // what props should be used? Look like the new ones
       expect(second.willUpdate.mock.calls[0]).toEqual([
-        { children: '42' },
+        { children: '42', newProp: true, keyId: '2' },
         null,
-        { children: '42' },
+        { children: '42', keyId: '1' },
         null,
       ])
+
       expect(second.willUpdate.mock.calls[1]).toEqual([
-        { children: '42', newProp: true },
+        { children: '42', newProp: true, keyId: '2' },
         null,
-        { children: '42' },
+        expect.any(Object), // Flake in React 15. Should be { children: '42', keyId: "1" },
         null,
       ])
 
@@ -134,6 +145,7 @@ describe('reconciler', () => {
       currentComponent = third
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
+
       expect(wrapper.find(<third.Component />.type).length).toBe(1)
       // first will never be unmounted
       expect(first.unmounted).toHaveBeenCalledTimes(0)
@@ -205,6 +217,7 @@ describe('reconciler', () => {
       )
 
       const Mounter = ({ second }) => <App second={second} />
+      Mounter.contextTypes = {}
 
       const wrapper = mount(<Mounter second />)
 
@@ -218,8 +231,8 @@ describe('reconciler', () => {
 
       incrementGeneration()
       wrapper.setProps({ second: false })
-      expect(First.rendered).toHaveBeenCalledTimes(5)
-      expect(Second.rendered).toHaveBeenCalledTimes(4)
+      expect(First.rendered).toHaveBeenCalledTimes(6)
+      expect(Second.rendered).toHaveBeenCalledTimes(3)
 
       expect(First.unmounted).toHaveBeenCalledTimes(0)
       expect(Second.unmounted).toHaveBeenCalledTimes(1)
@@ -243,6 +256,7 @@ describe('reconciler', () => {
       )
 
       const Mounter = ({ second }) => <App second={second} />
+      Mounter.contextTypes = {}
 
       const wrapper = mount(<Mounter second />)
 
@@ -251,12 +265,12 @@ describe('reconciler', () => {
 
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
-      expect(First.rendered).toHaveBeenCalledTimes(3)
-      expect(Second.rendered).toHaveBeenCalledTimes(3)
+      expect(First.rendered).toHaveBeenCalledTimes(4)
+      expect(Second.rendered).toHaveBeenCalledTimes(4)
 
       incrementGeneration()
       wrapper.setProps({ second: false })
-      expect(First.rendered).toHaveBeenCalledTimes(5)
+      expect(First.rendered).toHaveBeenCalledTimes(7)
       expect(Second.rendered).toHaveBeenCalledTimes(4)
 
       expect(First.unmounted).toHaveBeenCalledTimes(0)
@@ -278,6 +292,8 @@ describe('reconciler', () => {
           ]}
         </div>
       )
+
+      App.contextTypes = {}
 
       const wrapper = mount(<App />)
       expect(First.rendered).toHaveBeenCalledTimes(0)
