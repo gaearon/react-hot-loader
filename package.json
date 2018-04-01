@@ -19,8 +19,7 @@
     "release": "standard-version -p && conventional-github-releaser -p angular",
     "test": "yarn test:es2015 && yarn test:modern",
     "test:es2015": "cross-env BABEL_TARGET=es2015 jest --no-cache",
-    "test:modern": "cross-env BABEL_TARGET=modern jest --no-cache",
-    "postinstall": "opencollective postinstall"
+    "test:modern": "cross-env BABEL_TARGET=modern jest --no-cache"
   },
   "lint-staged": {
     "*.{js,md,ts,json}": [
@@ -74,7 +73,6 @@
     "husky": "^0.14.3",
     "jest": "^22.3.0",
     "lint-staged": "^6.1.1",
-    "opencollective": "^1.0.3",
     "prettier": "^1.10.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
