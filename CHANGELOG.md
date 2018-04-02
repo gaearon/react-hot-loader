@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.1"></a>
+
+## [4.0.1](https://github.com/gaearon/react-hot-loader/compare/v4.0.0...v4.0.1) (2018-04-01)
+
+### Bug Fixes
+
+* fix double proxy registration ([#915](https://github.com/gaearon/react-hot-loader/issues/915)) ([f8532df](https://github.com/gaearon/react-hot-loader/commit/f8532df)), closes [#912](https://github.com/gaearon/react-hot-loader/issues/912)
+* replace `.includes` by `.indexOf` (IE11 fix) ([#906](https://github.com/gaearon/react-hot-loader/issues/906)) ([87ad586](https://github.com/gaearon/react-hot-loader/commit/87ad586))
+* break render recursion (MobX fix) ([#889](https://github.com/gaearon/react-hot-loader/issues/889)) ([33f2376](https://github.com/gaearon/react-hot-loader/commit/33f2376))
+
+### Docs
+
+* Improve TypeScript documentation ([#914](https://github.com/gaearon/react-hot-loader/issues/914)) ([d3b91de](https://github.com/gaearon/react-hot-loader/commit/d3b91de))
+
 <a name="4.0.0"></a>
 
 # [4.0.0](https://github.com/gaearon/react-hot-loader/compare/v4.0.0-rc.0...v4.0.0) (2018-02-27)

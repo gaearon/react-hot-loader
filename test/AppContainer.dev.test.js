@@ -1355,6 +1355,55 @@ describe(`AppContainer (dev)`, () => {
     expect(wrapper.text()).toBe('TESTb spyb spy')
   })
 
+  it('renders children with chunked re-register', () => {
+    const spy = jest.fn()
+
+    class App extends Component {
+      componentWillUnmount() {
+        spy()
+      }
+
+      render() {
+        return <div>I AM CHILD</div>
+      }
+    }
+
+    RHL.reset()
+    RHL.register(App, 'App1', 'test.js')
+    RHL.register(App, 'App2', 'test.js')
+
+    const wrapper = mount(
+      <AppContainer>
+        <App />
+      </AppContainer>,
+    )
+    expect(spy).not.toHaveBeenCalled()
+    wrapper.setProps({ children: <App /> })
+    expect(spy).not.toHaveBeenCalled()
+    RHL.register(App, 'App3', 'test.js')
+    wrapper.setProps({ children: <App /> })
+    expect(spy).not.toHaveBeenCalled()
+
+    {
+      class App extends Component {
+        componentWillUnmount() {
+          spy()
+        }
+
+        render() {
+          return <div>I AM NEW CHILD</div>
+        }
+      }
+      RHL.register(App, 'App3', 'test.js')
+      wrapper.setProps({ children: <App /> })
+      expect(spy).not.toHaveBeenCalled()
+
+      RHL.register(App, 'App4', 'test.js')
+      wrapper.setProps({ children: <App /> })
+      expect(spy).not.toHaveBeenCalled()
+    }
+  })
+
   describe('test similarity', () => {
     describe('unmounts nested in mixed condition', () => {
       /* eslint-disable */
@@ -1370,7 +1419,7 @@ describe(`AppContainer (dev)`, () => {
         }
       }
 
-      let ChildBase, ChildB, ChildC, ChildD, ChildE
+      let ChildBase, ChildB, ChildC, ChildD, ChildE, ChildF
 
       const generateChilds = () => {
         ChildBase = class ChildA extends Component {
@@ -1442,13 +1491,23 @@ describe(`AppContainer (dev)`, () => {
             }
           }
         }
+
+        {
+          ChildF = function ChildA() {
+            return (
+              <div>
+                b <MountSpy />
+              </div>
+            )
+          }
+        }
       }
 
       /* eslint-enable */
 
-      const expectUnmounts = [false, false, true, true]
+      const expectUnmounts = [false, false, true, true, false]
       generateChilds()
-      ;[ChildB, ChildC, ChildD, ChildE].forEach((Replace, index) => {
+      ;[ChildB, ChildC, ChildD, ChildE, ChildF].forEach((Replace, index) => {
         const expectUnmount = expectUnmounts[index]
         it(`${expectUnmount ? 'expect unmount' : 'keep'} for ${index}`, () => {
           generateChilds() // renegerate base

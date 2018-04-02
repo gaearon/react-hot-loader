@@ -6,7 +6,7 @@
 
 [![PRs Welcome][prs-badge]][prs] [![Chat][chat-badge]][chat]
 [![Backers on Open Collective][oc-backer-badge]](#backers)
-[![Sponsors on Open Collective][oc-sponsor-badge]](#sponsors) 
+[![Sponsors on Open Collective][oc-sponsor-badge]](#sponsors)
 
 [![Watch on GitHub][github-watch-badge]][github-watch]
 [![Star on GitHub][github-star-badge]][github-star]
@@ -28,7 +28,7 @@ npm install react-hot-loader
 
 ## Getting started
 
-1. Add `react-hot-loader/babel` to your `.babelrc`:
+1.  Add `react-hot-loader/babel` to your `.babelrc`:
 
 ```js
 // .babelrc
@@ -37,7 +37,7 @@ npm install react-hot-loader
 }
 ```
 
-2. Mark your root component as _hot-exported_:
+2.  Mark your root component as _hot-exported_:
 
 ```js
 // App.js
@@ -49,7 +49,7 @@ const App = () => <div>Hello World!</div>
 export default hot(module)(App)
 ```
 
-3. [Run Webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
+3.  [Run Webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
 
 ```sh
 webpack-dev-server --hot
@@ -59,10 +59,10 @@ webpack-dev-server --hot
 
 ### Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app)
 
-1. Run `npm run eject`
-2. Install React Hot Loader (`npm install --save-dev react-hot-loader`)
-3. In `config/webpack.config.dev.js`, add `'react-hot-loader/babel'` to Babel
-   loader configuration. The loader should now look like:
+1.  Run `npm run eject`
+2.  Install React Hot Loader (`npm install --save-dev react-hot-loader`)
+3.  In `config/webpack.config.dev.js`, add `'react-hot-loader/babel'` to Babel
+    loader configuration. The loader should now look like:
 
 ```js
   {
@@ -79,7 +79,7 @@ webpack-dev-server --hot
   }
 ```
 
-4. Mark your App (`src/index.js`) as _hot-exported_:
+4.  Mark your App (`src/index.js`) as _hot-exported_:
 
 ```js
 // ./containers/App.js
@@ -98,8 +98,12 @@ Follow [these code examples](https://github.com/Grimones/cra-rhl/commit/4ed74af2
 
 ### TypeScript
 
-When using TypeScript, Babel is not required, but React Hot Loader will not work without it.
+When using TypeScript, Babel is not required, but React Hot Loader will not work (properly) without it.
 Just add `babel-loader` into your Webpack configuration, with React Hot Loader plugin.
+
+There is 2 different ways to do it.
+
+##### Add babel AFTER typescript.
 
 ```js
 {
@@ -117,7 +121,7 @@ Just add `babel-loader` into your Webpack configuration, with React Hot Loader p
 }
 ```
 
-You **also have to modify your `tsconfig.json`**:
+In this case you have to modify your `tsconfig.json`, and compile to ES6 mode, as long React-Hot-Loader babel plugin could not understand ES5 code.
 
 ```json
 // tsconfig.json
@@ -127,7 +131,29 @@ You **also have to modify your `tsconfig.json`**:
 }
 ```
 
-Yet again - module = es6 **will not work**.
+##### Add babel BEFORE typescript (preferred)
+
+```js
+{
+  test: /\.tsx?$/,
+  use: [
+    'ts-loader', // (or awesome-typescript-loader)
+    {
+      loader: 'babel-loader',
+      options: {
+        plugins: [
+          '@babel/plugin-syntax-typescript',
+          '@babel/plugin-syntax-decorators',
+          '@babel/plugin-syntax-jsx',
+          'react-hot-loader/babel',
+        ],
+      },
+    }
+  ],
+}
+```
+
+In this case you can compile to ES5. More about [typescript and react-hot-loader](https://github.com/gaearon/react-hot-loader/issues/884)
 
 We also have a [full example running TypeScript + React Hot Loader](https://github.com/gaearon/react-hot-loader/tree/master/examples/typescript).
 
@@ -139,7 +165,7 @@ We also have a [full example running Parcel + React Hot Loader](https://github.c
 
 ### Electron
 
-1. Add `react-hot-loader/babel` to your `.compilerc`:
+1.  Add `react-hot-loader/babel` to your `.compilerc`:
 
 ```js
 // .compilerc
@@ -148,7 +174,7 @@ We also have a [full example running Parcel + React Hot Loader](https://github.c
 }
 ```
 
-2. Enable Live Reload in the project
+2.  Enable Live Reload in the project
 
 ```js
 enableLiveReload({ strategy: 'react-hmr' })
@@ -457,8 +483,6 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://opencollective.com/react-hot-loader/sponsor/7/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/7/avatar.svg"></a>
 <a href="https://opencollective.com/react-hot-loader/sponsor/8/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/8/avatar.svg"></a>
 <a href="https://opencollective.com/react-hot-loader/sponsor/9/website" target="_blank"><img src="https://opencollective.com/react-hot-loader/sponsor/9/avatar.svg"></a>
-
-
 
 ## License
 

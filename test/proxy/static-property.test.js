@@ -4,8 +4,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ensureNoWarnings, createMounter } from './helper'
 import createProxy from '../../src/proxy'
+import reactHotLoader from '../../src/reactHotLoader'
 
-const fixtures = {
+const fixtures = () => ({
   modern: {
     StaticProperty: class StaticProperty extends React.Component {
       static answer = 42
@@ -65,13 +66,13 @@ const fixtures = {
       }
     },
   },
-}
+})
 
 describe('static property', () => {
   ensureNoWarnings()
   const { mount } = createMounter()
 
-  Object.keys(fixtures).forEach(type => {
+  Object.keys(fixtures()).forEach(type => {
     describe(type, () => {
       const {
         StaticProperty,
@@ -79,7 +80,9 @@ describe('static property', () => {
         StaticPropertyRemoval,
         WithPropTypes,
         WithPropTypesUpdate,
-      } = fixtures[type]
+      } = fixtures()[type]
+
+      beforeEach(() => reactHotLoader.reset())
 
       it('is available on proxy class instance', () => {
         const proxy = createProxy(StaticProperty)
