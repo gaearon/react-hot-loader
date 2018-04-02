@@ -1202,6 +1202,80 @@ describe(`AppContainer (dev)`, () => {
     expect(wrapper.text()).toBe('TESTnew childnew child')
   })
 
+  it('hot-reloads nested SFC children without losing state', () => {
+    const onUnmount = jest.fn()
+
+    class MountSpy extends Component {
+      componentWillUnmount() {
+        onUnmount()
+      }
+
+      render() {
+        return <div>spy</div>
+      }
+    }
+
+    let child = 1
+    const childA = () => (
+      <div>
+        a <MountSpy />
+      </div>
+    )
+    const childB = () => (
+      <div>
+        b <MountSpy />
+      </div>
+    )
+
+    function getChild() {
+      return child === 1 ? childA : childB
+    }
+
+    class Layout extends Component {
+      render() {
+        return (
+          <div>
+            <h1>TEST</h1>
+            {this.props.children}
+          </div>
+        )
+      }
+    }
+
+    class App extends Component {
+      render() {
+        const Child = getChild()
+        return (
+          <Layout>
+            <Child />
+            <Child />
+          </Layout>
+        )
+      }
+    }
+
+    const Root = () => <App />
+    RHL.register(Root, 'Root', 'test.js')
+    RHL.register(App, 'App', 'test.js')
+
+    const wrapper = mount(
+      <AppContainer>
+        <Root />
+      </AppContainer>,
+    )
+
+    expect(onUnmount).toHaveBeenCalledTimes(0)
+    expect(wrapper.text()).toBe('TESTa spya spy')
+
+    child = 2
+    // emulate HRM
+    incrementGeneration()
+    wrapper.setProps({ children: <Root /> })
+    expect(onUnmount).toHaveBeenCalledTimes(0)
+
+    expect(wrapper.text()).toBe('TESTb spyb spy')
+  })
+
   describe('with HOC-wrapped root', () => {
     it('renders children', () => {
       const spy = jest.fn()
@@ -1308,62 +1382,67 @@ describe(`AppContainer (dev)`, () => {
     })
 
     it('support indeterminateComponent', () => {
-      const spy = jest.fn()
+      ;[false, true].forEach(withContext => {
+        const spy = jest.fn()
 
-      const AnotherComponent = () => <div>old</div>
+        const AnotherComponent = () => <div>old</div>
 
-      class App extends React.Component {
-        render() {
-          return (
-            <div>
-              hey {this.props.n} <AnotherComponent />
-            </div>
-          )
-        }
-      }
-
-      let CurrentApp = App
-
-      RHL.register(AnotherComponent, 'AnotherComponent', 'test.js')
-      RHL.register(App, 'App', 'test.js')
-
-      // return rendered component from a stateless
-      const IndeterminateComponent = (props, context) =>
-        new CurrentApp(props, context)
-      // return <CurrentApp {...props} />
-
-      const RootApp = props => <IndeterminateComponent {...props} />
-
-      const wrapper = mount(
-        <AppContainer>
-          <RootApp n={42} />
-        </AppContainer>,
-      )
-      expect(wrapper.text()).toBe('hey 42 old')
-      {
-        class App2 extends React.Component {
+        class App extends React.Component {
           render() {
-            spy()
-            return <div>ho {this.props.n + 1}</div>
+            return (
+              <div>
+                hey {this.props.n} <AnotherComponent />
+              </div>
+            )
           }
         }
 
-        RHL.register(App2, 'App', 'test.js')
-        CurrentApp = App2
+        let CurrentApp = App
 
-        const AnotherComponent = () => <div>new</div>
         RHL.register(AnotherComponent, 'AnotherComponent', 'test.js')
+        RHL.register(App, 'App', 'test.js')
 
-        wrapper.setProps({ update: true, children: <RootApp n={44} /> })
+        // return rendered component from a stateless
+        const IndeterminateComponent = (props, context) =>
+          new CurrentApp(props, context)
 
-        // How it works. IndeterminateComponent calculates return value once.
-        expect(wrapper.text()).toBe('hey 44 new')
-        expect(spy).toHaveBeenCalledTimes(0) // never gets called
+        if (withContext) {
+          IndeterminateComponent.contextTypes = {}
+        }
 
-        // How it should work
-        // expect(wrapper.text()).toBe('ho 45 new');
-        // expect(spy).toHaveBeenCalledTimes(2);
-      }
+        const RootApp = props => <IndeterminateComponent {...props} />
+
+        const wrapper = mount(
+          <AppContainer>
+            <RootApp n={42} />
+          </AppContainer>,
+        )
+        expect(wrapper.text()).toBe('hey 42 old')
+        {
+          class App2 extends React.Component {
+            render() {
+              spy()
+              return <div>ho {this.props.n + 1}</div>
+            }
+          }
+
+          RHL.register(App2, 'App', 'test.js')
+          CurrentApp = App2
+
+          const AnotherComponent = () => <div>new</div>
+          RHL.register(AnotherComponent, 'AnotherComponent', 'test.js')
+
+          wrapper.setProps({ update: true, children: <RootApp n={44} /> })
+
+          // How it works. IndeterminateComponent calculates return value once.
+          expect(wrapper.text()).toBe('hey 44 new')
+          expect(spy).toHaveBeenCalledTimes(0) // never gets called
+
+          // How it should work
+          // expect(wrapper.text()).toBe('ho 45 new');
+          // expect(spy).toHaveBeenCalledTimes(2);
+        }
+      })
     })
 
     it('renders latest children on receiving cached never-rendered children', () => {

@@ -87,9 +87,12 @@ const isSwappable = (a, b) => {
       equalClasses(a, b)
     )
   }
+
   if (isFunctional(a)) {
+    const nameA = getComponentDisplayName(a)
     return (
-      areNamesEqual(getComponentDisplayName(a), getComponentDisplayName(b)) &&
+      (areNamesEqual(nameA, getComponentDisplayName(b)) &&
+        nameA !== 'Component') ||
       haveTextSimilarity(String(a), String(b))
     )
   }

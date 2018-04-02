@@ -5,7 +5,7 @@ export function getDisplayName(Component) {
   const displayName = Component.displayName || Component.name
   return displayName && displayName !== 'ReactComponent'
     ? displayName
-    : 'Unknown'
+    : 'Component'
 }
 
 export const reactLifeCycleMountMethods = [
