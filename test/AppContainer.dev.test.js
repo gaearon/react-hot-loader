@@ -1276,6 +1276,214 @@ describe(`AppContainer (dev)`, () => {
     expect(wrapper.text()).toBe('TESTb spyb spy')
   })
 
+  it('unmounts nested in mixed condition', () => {
+    const onUnmount = jest.fn()
+
+    class MountSpy extends Component {
+      componentWillUnmount() {
+        onUnmount()
+      }
+
+      render() {
+        return <div>spy</div>
+      }
+    }
+
+    let child = 1
+    const childA = () => (
+      <div>
+        a <MountSpy />
+      </div>
+    )
+
+    class ChildB extends Component {
+      render() {
+        return (
+          <div>
+            b <MountSpy />
+          </div>
+        )
+      }
+    }
+
+    function getChild() {
+      return child === 1 ? childA : ChildB
+    }
+
+    class Layout extends Component {
+      render() {
+        return (
+          <div>
+            <h1>TEST</h1>
+            {this.props.children}
+          </div>
+        )
+      }
+    }
+
+    class App extends Component {
+      render() {
+        const Child = getChild()
+        return (
+          <Layout>
+            <Child />
+            <Child />
+          </Layout>
+        )
+      }
+    }
+
+    const Root = () => <App />
+    RHL.register(Root, 'Root', 'test.js')
+    RHL.register(App, 'App', 'test.js')
+
+    const wrapper = mount(
+      <AppContainer>
+        <Root />
+      </AppContainer>,
+    )
+
+    expect(onUnmount).toHaveBeenCalledTimes(0)
+    expect(wrapper.text()).toBe('TESTa spya spy')
+
+    child = 2
+    // emulate HRM
+    incrementGeneration()
+    wrapper.setProps({ children: <Root /> })
+    expect(onUnmount).toHaveBeenCalledTimes(2)
+
+    expect(wrapper.text()).toBe('TESTb spyb spy')
+  })
+
+  describe('test similarity', () => {
+    describe('unmounts nested in mixed condition', () => {
+      /* eslint-disable */
+      let onUnmount = jest.fn()
+
+      class MountSpy extends Component {
+        componentWillUnmount() {
+          onUnmount()
+        }
+
+        render() {
+          return <div>spy</div>
+        }
+      }
+
+      let ChildBase, ChildB, ChildC, ChildD, ChildE
+
+      const generateChilds = () => {
+        ChildBase = class ChildA extends Component {
+          render() {
+            return (
+              <div>
+                b <MountSpy />
+              </div>
+            )
+          }
+        }
+
+        {
+          ChildB = class ChildA extends Component {
+            render() {
+              return (
+                <div>
+                  NOT A BIG CHANGE! <MountSpy />
+                </div>
+              )
+            }
+          }
+        }
+
+        {
+          ChildC = class ChildA extends Component {
+            componentWillUnmount() {
+              // some data
+            }
+
+            render() {
+              return (
+                <div>
+                  b <MountSpy />
+                </div>
+              )
+            }
+          }
+        }
+
+        {
+          ChildD = class ChildA extends Component {
+            componentWillUnmount() {
+              // some data
+            }
+
+            componentWillMount() {
+              // some data
+            }
+
+            render() {
+              return (
+                <div>
+                  BIG CHANGE! <MountSpy />
+                </div>
+              )
+            }
+          }
+        }
+
+        {
+          ChildE = class ChildA extends Component {
+            render() {
+              return (
+                <div>
+                  SUPER <b>MEGA</b> <i>UBER</i> PUPER BIG CHANGE! <MountSpy />
+                </div>
+              )
+            }
+          }
+        }
+      }
+
+      /* eslint-enable */
+
+      const expectUnmounts = [false, false, true, true]
+      generateChilds()
+      ;[ChildB, ChildC, ChildD, ChildE].forEach((Replace, index) => {
+        const expectUnmount = expectUnmounts[index]
+        it(`${expectUnmount ? 'expect unmount' : 'keep'} for ${index}`, () => {
+          generateChilds() // renegerate base
+          onUnmount = jest.fn()
+          let Child = ChildBase
+
+          class App extends Component {
+            render() {
+              return (
+                <div>
+                  <Child />
+                </div>
+              )
+            }
+          }
+
+          const wrapper = mount(
+            <AppContainer>
+              <App />
+            </AppContainer>,
+          )
+          expect(onUnmount).toHaveBeenCalledTimes(0)
+
+          // Replace.name=Child.name;
+          Child = Replace
+
+          incrementGeneration()
+          wrapper.setProps({ children: <App /> })
+
+          expect(onUnmount).toHaveBeenCalledTimes(expectUnmount ? 1 : 0)
+        })
+      })
+    })
+  })
+
   describe('with HOC-wrapped root', () => {
     it('renders children', () => {
       const spy = jest.fn()

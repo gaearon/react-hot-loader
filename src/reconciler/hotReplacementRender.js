@@ -56,7 +56,7 @@ const equalClasses = (a, b) => {
   let hits = 0
   let misses = 0
   Object.getOwnPropertyNames(prototypeA).forEach(key => {
-    if (typeof prototypeA[key] === 'function') {
+    if (typeof prototypeA[key] === 'function' && key !== 'constructor') {
       if (
         haveTextSimilarity(String(prototypeA[key]), String(prototypeB[key]))
       ) {
