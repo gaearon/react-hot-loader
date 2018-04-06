@@ -1202,6 +1202,159 @@ describe(`AppContainer (dev)`, () => {
     expect(wrapper.text()).toBe('TESTnew childnew child')
   })
 
+  it('hot-reloads nested SFC children without losing state', () => {
+    const onUnmount = jest.fn()
+
+    class MountSpy extends Component {
+      componentWillUnmount() {
+        onUnmount()
+      }
+
+      render() {
+        return <div>spy</div>
+      }
+    }
+
+    let child = 1
+    const childA = () => (
+      <div>
+        a <MountSpy />
+      </div>
+    )
+    const childB = () => (
+      <div>
+        b <MountSpy />
+      </div>
+    )
+
+    function getChild() {
+      return child === 1 ? childA : childB
+    }
+
+    class Layout extends Component {
+      render() {
+        return (
+          <div>
+            <h1>TEST</h1>
+            {this.props.children}
+          </div>
+        )
+      }
+    }
+
+    class App extends Component {
+      render() {
+        const Child = getChild()
+        return (
+          <Layout>
+            <Child />
+            <Child />
+          </Layout>
+        )
+      }
+    }
+
+    const Root = () => <App />
+    RHL.register(Root, 'Root', 'test.js')
+    RHL.register(App, 'App', 'test.js')
+
+    const wrapper = mount(
+      <AppContainer>
+        <Root />
+      </AppContainer>,
+    )
+
+    expect(onUnmount).toHaveBeenCalledTimes(0)
+    expect(wrapper.text()).toBe('TESTa spya spy')
+
+    child = 2
+    // emulate HRM
+    incrementGeneration()
+    wrapper.setProps({ children: <Root /> })
+    expect(onUnmount).toHaveBeenCalledTimes(0)
+
+    expect(wrapper.text()).toBe('TESTb spyb spy')
+  })
+
+  it('unmounts nested in mixed condition', () => {
+    const onUnmount = jest.fn()
+
+    class MountSpy extends Component {
+      componentWillUnmount() {
+        onUnmount()
+      }
+
+      render() {
+        return <div>spy</div>
+      }
+    }
+
+    let child = 1
+    const childA = () => (
+      <div>
+        a <MountSpy />
+      </div>
+    )
+
+    class ChildB extends Component {
+      render() {
+        return (
+          <div>
+            b <MountSpy />
+          </div>
+        )
+      }
+    }
+
+    function getChild() {
+      return child === 1 ? childA : ChildB
+    }
+
+    class Layout extends Component {
+      render() {
+        return (
+          <div>
+            <h1>TEST</h1>
+            {this.props.children}
+          </div>
+        )
+      }
+    }
+
+    class App extends Component {
+      render() {
+        const Child = getChild()
+        return (
+          <Layout>
+            <Child />
+            <Child />
+          </Layout>
+        )
+      }
+    }
+
+    const Root = () => <App />
+    RHL.register(Root, 'Root', 'test.js')
+    RHL.register(App, 'App', 'test.js')
+
+    const wrapper = mount(
+      <AppContainer>
+        <Root />
+      </AppContainer>,
+    )
+
+    expect(onUnmount).toHaveBeenCalledTimes(0)
+    expect(wrapper.text()).toBe('TESTa spya spy')
+
+    child = 2
+    // emulate HRM
+    incrementGeneration()
+    wrapper.setProps({ children: <Root /> })
+    expect(onUnmount).toHaveBeenCalledTimes(2)
+
+    expect(wrapper.text()).toBe('TESTb spyb spy')
+  })
+
   it('renders children with chunked re-register', () => {
     const spy = jest.fn()
 
@@ -1249,6 +1402,145 @@ describe(`AppContainer (dev)`, () => {
       wrapper.setProps({ children: <App /> })
       expect(spy).not.toHaveBeenCalled()
     }
+  })
+
+  describe('test similarity', () => {
+    describe('unmounts nested in mixed condition', () => {
+      /* eslint-disable */
+      let onUnmount = jest.fn()
+
+      class MountSpy extends Component {
+        componentWillUnmount() {
+          onUnmount()
+        }
+
+        render() {
+          return <div>spy</div>
+        }
+      }
+
+      let ChildBase, ChildB, ChildC, ChildD, ChildE, ChildF
+
+      const generateChilds = () => {
+        ChildBase = class ChildA extends Component {
+          render() {
+            return (
+              <div>
+                b <MountSpy />
+              </div>
+            )
+          }
+        }
+
+        {
+          ChildB = class ChildA extends Component {
+            render() {
+              return (
+                <div>
+                  NOT A BIG CHANGE! <MountSpy />
+                </div>
+              )
+            }
+          }
+        }
+
+        {
+          ChildC = class ChildA extends Component {
+            componentWillUnmount() {
+              // some data
+            }
+
+            render() {
+              return (
+                <div>
+                  b <MountSpy />
+                </div>
+              )
+            }
+          }
+        }
+
+        {
+          ChildD = class ChildA extends Component {
+            componentWillUnmount() {
+              // some data
+            }
+
+            componentWillMount() {
+              // some data
+            }
+
+            render() {
+              return (
+                <div>
+                  BIG CHANGE! <MountSpy />
+                </div>
+              )
+            }
+          }
+        }
+
+        {
+          ChildE = class ChildA extends Component {
+            render() {
+              return (
+                <div>
+                  SUPER <b>MEGA</b> <i>UBER</i> PUPER BIG CHANGE! <MountSpy />
+                </div>
+              )
+            }
+          }
+        }
+
+        {
+          ChildF = function ChildA() {
+            return (
+              <div>
+                b <MountSpy />
+              </div>
+            )
+          }
+        }
+      }
+
+      /* eslint-enable */
+
+      const expectUnmounts = [false, false, true, true, false]
+      generateChilds()
+      ;[ChildB, ChildC, ChildD, ChildE, ChildF].forEach((Replace, index) => {
+        const expectUnmount = expectUnmounts[index]
+        it(`${expectUnmount ? 'expect unmount' : 'keep'} for ${index}`, () => {
+          generateChilds() // renegerate base
+          onUnmount = jest.fn()
+          let Child = ChildBase
+
+          class App extends Component {
+            render() {
+              return (
+                <div>
+                  <Child />
+                </div>
+              )
+            }
+          }
+
+          const wrapper = mount(
+            <AppContainer>
+              <App />
+            </AppContainer>,
+          )
+          expect(onUnmount).toHaveBeenCalledTimes(0)
+
+          // Replace.name=Child.name;
+          Child = Replace
+
+          incrementGeneration()
+          wrapper.setProps({ children: <App /> })
+
+          expect(onUnmount).toHaveBeenCalledTimes(expectUnmount ? 1 : 0)
+        })
+      })
+    })
   })
 
   describe('with HOC-wrapped root', () => {
@@ -1357,62 +1649,67 @@ describe(`AppContainer (dev)`, () => {
     })
 
     it('support indeterminateComponent', () => {
-      const spy = jest.fn()
+      ;[false, true].forEach(withContext => {
+        const spy = jest.fn()
 
-      const AnotherComponent = () => <div>old</div>
+        const AnotherComponent = () => <div>old</div>
 
-      class App extends React.Component {
-        render() {
-          return (
-            <div>
-              hey {this.props.n} <AnotherComponent />
-            </div>
-          )
-        }
-      }
-
-      let CurrentApp = App
-
-      RHL.register(AnotherComponent, 'AnotherComponent', 'test.js')
-      RHL.register(App, 'App', 'test.js')
-
-      // return rendered component from a stateless
-      const IndeterminateComponent = (props, context) =>
-        new CurrentApp(props, context)
-      // return <CurrentApp {...props} />
-
-      const RootApp = props => <IndeterminateComponent {...props} />
-
-      const wrapper = mount(
-        <AppContainer>
-          <RootApp n={42} />
-        </AppContainer>,
-      )
-      expect(wrapper.text()).toBe('hey 42 old')
-      {
-        class App2 extends React.Component {
+        class App extends React.Component {
           render() {
-            spy()
-            return <div>ho {this.props.n + 1}</div>
+            return (
+              <div>
+                hey {this.props.n} <AnotherComponent />
+              </div>
+            )
           }
         }
 
-        RHL.register(App2, 'App', 'test.js')
-        CurrentApp = App2
+        let CurrentApp = App
 
-        const AnotherComponent = () => <div>new</div>
         RHL.register(AnotherComponent, 'AnotherComponent', 'test.js')
+        RHL.register(App, 'App', 'test.js')
 
-        wrapper.setProps({ update: true, children: <RootApp n={44} /> })
+        // return rendered component from a stateless
+        const IndeterminateComponent = (props, context) =>
+          new CurrentApp(props, context)
 
-        // How it works. IndeterminateComponent calculates return value once.
-        expect(wrapper.text()).toBe('hey 44 new')
-        expect(spy).toHaveBeenCalledTimes(0) // never gets called
+        if (withContext) {
+          IndeterminateComponent.contextTypes = {}
+        }
 
-        // How it should work
-        // expect(wrapper.text()).toBe('ho 45 new');
-        // expect(spy).toHaveBeenCalledTimes(2);
-      }
+        const RootApp = props => <IndeterminateComponent {...props} />
+
+        const wrapper = mount(
+          <AppContainer>
+            <RootApp n={42} />
+          </AppContainer>,
+        )
+        expect(wrapper.text()).toBe('hey 42 old')
+        {
+          class App2 extends React.Component {
+            render() {
+              spy()
+              return <div>ho {this.props.n + 1}</div>
+            }
+          }
+
+          RHL.register(App2, 'App', 'test.js')
+          CurrentApp = App2
+
+          const AnotherComponent = () => <div>new</div>
+          RHL.register(AnotherComponent, 'AnotherComponent', 'test.js')
+
+          wrapper.setProps({ update: true, children: <RootApp n={44} /> })
+
+          // How it works. IndeterminateComponent calculates return value once.
+          expect(wrapper.text()).toBe('hey 44 new')
+          expect(spy).toHaveBeenCalledTimes(0) // never gets called
+
+          // How it should work
+          // expect(wrapper.text()).toBe('ho 45 new');
+          // expect(spy).toHaveBeenCalledTimes(2);
+        }
+      })
     })
 
     it('renders latest children on receiving cached never-rendered children', () => {

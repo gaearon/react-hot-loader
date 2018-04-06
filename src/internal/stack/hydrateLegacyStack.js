@@ -4,6 +4,15 @@ function pushState(stack, type, instance) {
   stack.type = type
   stack.children = []
   stack.instance = instance || stack
+
+  if (typeof type === 'function' && type.isStatelessFunctionalProxy) {
+    // In React 15 SFC is wrapped by component. We have to detect our proxies and change the way it works
+    stack.instance = {
+      SFC_fake: true,
+      props: {},
+      render: () => type(stack.instance.props),
+    }
+  }
 }
 
 function hydrateLegacyStack(node, stack) {

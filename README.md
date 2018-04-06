@@ -28,7 +28,7 @@ npm install react-hot-loader
 
 ## Getting started
 
-1. Add `react-hot-loader/babel` to your `.babelrc`:
+1.  Add `react-hot-loader/babel` to your `.babelrc`:
 
 ```js
 // .babelrc
@@ -37,7 +37,7 @@ npm install react-hot-loader
 }
 ```
 
-2. Mark your root component as _hot-exported_:
+2.  Mark your root component as _hot-exported_:
 
 ```js
 // App.js
@@ -49,7 +49,7 @@ const App = () => <div>Hello World!</div>
 export default hot(module)(App)
 ```
 
-3. [Run Webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
+3.  [Run Webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
 
 ```sh
 webpack-dev-server --hot
@@ -59,10 +59,10 @@ webpack-dev-server --hot
 
 ### Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app)
 
-1. Run `npm run eject`
-2. Install React Hot Loader (`npm install --save-dev react-hot-loader`)
-3. In `config/webpack.config.dev.js`, add `'react-hot-loader/babel'` to Babel
-   loader configuration. The loader should now look like:
+1.  Run `npm run eject`
+2.  Install React Hot Loader (`npm install --save-dev react-hot-loader`)
+3.  In `config/webpack.config.dev.js`, add `'react-hot-loader/babel'` to Babel
+    loader configuration. The loader should now look like:
 
 ```js
   {
@@ -79,7 +79,7 @@ webpack-dev-server --hot
   }
 ```
 
-4. Mark your App (`src/index.js`) as _hot-exported_:
+4.  Mark your App (`src/index.js`) as _hot-exported_:
 
 ```js
 // ./containers/App.js
@@ -165,7 +165,7 @@ We also have a [full example running Parcel + React Hot Loader](https://github.c
 
 ### Electron
 
-1. Add `react-hot-loader/babel` to your `.compilerc`:
+1.  Add `react-hot-loader/babel` to your `.compilerc`:
 
 ```js
 // .compilerc
@@ -174,7 +174,7 @@ We also have a [full example running Parcel + React Hot Loader](https://github.c
 }
 ```
 
-2. Enable Live Reload in the project
+2.  Enable Live Reload in the project
 
 ```js
 enableLiveReload({ strategy: 'react-hmr' })

@@ -56,7 +56,7 @@ const equalClasses = (a, b) => {
   let hits = 0
   let misses = 0
   Object.getOwnPropertyNames(prototypeA).forEach(key => {
-    if (typeof prototypeA[key] === 'function') {
+    if (typeof prototypeA[key] === 'function' && key !== 'constructor') {
       if (
         haveTextSimilarity(String(prototypeA[key]), String(prototypeB[key]))
       ) {
@@ -87,9 +87,12 @@ const isSwappable = (a, b) => {
       equalClasses(a, b)
     )
   }
+
   if (isFunctional(a)) {
+    const nameA = getComponentDisplayName(a)
     return (
-      areNamesEqual(getComponentDisplayName(a), getComponentDisplayName(b)) &&
+      (areNamesEqual(nameA, getComponentDisplayName(b)) &&
+        nameA !== 'Component') ||
       haveTextSimilarity(String(a), String(b))
     )
   }
@@ -140,6 +143,7 @@ const mapChildren = (children, instances) => ({
       oldChildren.length && mapChildren(newChildren, oldChildren)
 
     return {
+      nextProps: child.props,
       ...instanceLine,
       // actually child merge is needed only for "HTML TAG"s, and usually don't work for Components.
       // the children from an instance or rendered children
@@ -234,12 +238,12 @@ const hotReplacementRender = (instance, stack) => {
     const next = instance => {
       // copy over props as long new component may be hidden inside them
       // child does not have all props, as long some of them can be calculated on componentMount.
-      const nextProps = { ...instance.props }
-      for (const key in child.props) {
-        if (child.props[key]) {
-          nextProps[key] = child.props[key]
-        }
+      const nextProps = {
+        ...instance.props,
+        ...(child.nextProps || {}),
+        ...(child.props || {}),
       }
+
       if (isReactClass(instance) && instance.componentWillUpdate) {
         // Force-refresh component (bypass redux renderedComponent)
         instance.componentWillUpdate(nextProps, instance.state)

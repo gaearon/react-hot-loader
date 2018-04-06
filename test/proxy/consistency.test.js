@@ -293,6 +293,38 @@ describe('consistency', () => {
     })
   })
 
+  describe('proxy creation', () => {
+    it('should wrap Component by Proxy', () => {
+      class App extends React.Component {
+        render() {
+          return <div />
+        }
+      }
+      const Proxy = createProxy(App).get()
+      const instance = mount(<Proxy />).instance()
+      expect(instance instanceof App).toBe(true)
+    })
+
+    it('should wrap SFC by SFC', () => {
+      const App = () => <div />
+
+      const Proxy = createProxy(App).get()
+      expect('isStatelessFunctionalProxy' in Proxy).toBe(false)
+      mount(<Proxy />).instance()
+      expect(Proxy.isStatelessFunctionalProxy).toBe(true)
+    })
+
+    it('should wrap SFC with Context by Proxy', () => {
+      const App = () => <div />
+      App.contextTypes = {}
+
+      const Proxy = createProxy(App).get()
+      expect('isStatelessFunctionalProxy' in Proxy).toBe(false)
+      mount(<Proxy />).instance()
+      expect(Proxy.isStatelessFunctionalProxy).toBe(false)
+    })
+  })
+
   describe('modern only', () => {
     it('sets up the constructor name from initial name', () => {
       const { Bar, Baz } = createFixtures().modern
