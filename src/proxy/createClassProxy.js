@@ -28,6 +28,7 @@ export const resetClassProxies = () => {
 const blackListedClassMembers = [
   'constructor',
   'render',
+  'componentWillMount',
   'componentDidMount',
   'componentWillReceiveProps',
   'componentWillUnmount',

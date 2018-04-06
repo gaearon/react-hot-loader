@@ -75,7 +75,7 @@ const hot = sourceModule => {
     return createHoc(
       WrappedComponent,
       class ExportedComponent extends Component {
-        componentWillMount() {
+        componentDidMount() {
           module.instances.push(this)
         }
 
