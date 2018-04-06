@@ -37,6 +37,7 @@ describe(`AppContainer (dev)`, () => {
 
     it('force updates the tree on receiving new children', () => {
       const spy = jest.fn()
+      const spy2 = jest.fn()
 
       class App extends Component {
         shouldComponentUpdate() {
@@ -66,6 +67,7 @@ describe(`AppContainer (dev)`, () => {
 
           render() {
             spy()
+            spy2()
             return <div>ho</div>
           }
         }
@@ -75,7 +77,9 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(spy).toHaveBeenCalledTimes(3)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
+      expect(spy2).toHaveBeenCalledTimes(2)
+
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
     })
 
     it('force updates the tree on receiving cached children', () => {
@@ -115,7 +119,7 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(spy).toHaveBeenCalledTimes(3)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
     })
 
     it('renders latest children on receiving cached never-rendered children', () => {
@@ -653,7 +657,7 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(spy).toHaveBeenCalledTimes(1 + 2)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
     })
 
     it('force updates the tree on receiving cached children', () => {
@@ -691,7 +695,7 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(spy).toHaveBeenCalledTimes(1 + 2)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
     })
 
     it('renders latest children on receiving cached never-rendered children', () => {
@@ -830,7 +834,7 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(spy).toHaveBeenCalledTimes(1 + 2)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
     })
 
     it('force updates the tree on receiving cached children', () => {
@@ -869,7 +873,7 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(spy).toHaveBeenCalledTimes(1 + 2)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
     })
 
     it('renders latest children on receiving cached never-rendered children', () => {

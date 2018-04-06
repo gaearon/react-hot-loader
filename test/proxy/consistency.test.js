@@ -286,7 +286,7 @@ describe('consistency', () => {
           'render',
           'hotComponentRender',
           'componentDidMount',
-          'componentWillReceiveProps',
+          'componentDidUpdate',
           'componentWillUnmount',
         ])
       })

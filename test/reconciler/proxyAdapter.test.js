@@ -1,8 +1,11 @@
 /* eslint-env browser */
 import { proxyWrapper } from '../../src/reconciler/proxyAdapter'
 import * as proxies from '../../src/reconciler/proxies'
+import reactHotLoader from '../../src/reactHotLoader'
+import { unscheduleUpdate } from '../../src/reconciler/hotReplacementRender'
 
 jest.mock('../../src/reconciler/proxies')
+jest.mock('../../src/reconciler/hotReplacementRender')
 
 proxies.getProxyByType.mockReturnValue({ get: () => 'proxy' })
 
@@ -26,5 +29,17 @@ describe(`proxyAdapter`, () => {
       type: 'proxy',
       prop: 42,
     })
+  })
+
+  it('should remove rendered proxy', () => {
+    const object = {}
+    unscheduleUpdate.mockClear()
+    reactHotLoader.disableProxyCreation = 1
+    proxyWrapper.call(object)
+    expect(unscheduleUpdate).not.toHaveBeenCalled()
+
+    reactHotLoader.disableProxyCreation = 0
+    proxyWrapper.call(object)
+    expect(unscheduleUpdate).toHaveBeenCalledWith(object)
   })
 })

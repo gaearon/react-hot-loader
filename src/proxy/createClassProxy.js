@@ -38,8 +38,8 @@ const blackListedClassMembers = [
 ]
 
 const defaultRenderOptions = {
-  componentWillReceiveProps: identity,
   componentWillRender: identity,
+  componentDidUpdate: result => result,
   componentDidRender: result => result,
 }
 
@@ -129,9 +129,9 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       target[PROXY_IS_MOUNTED] = true
     },
   )
-  const componentWillReceiveProps = lifeCycleWrapperFactory(
-    'componentWillReceiveProps',
-    renderOptions.componentWillReceiveProps,
+  const componentDidUpdate = lifeCycleWrapperFactory(
+    'componentDidUpdate',
+    renderOptions.componentDidUpdate,
   )
   const componentWillUnmount = lifeCycleWrapperFactory(
     'componentWillUnmount',
@@ -157,7 +157,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       result = CurrentComponent.prototype.render.call(this)
     }
 
-    return renderOptions.componentDidRender(result)
+    return renderOptions.componentDidRender.call(this, result)
   }
 
   function proxiedRender() {
@@ -171,7 +171,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       render: proxiedRender,
       hotComponentRender,
       componentDidMount,
-      componentWillReceiveProps,
+      componentDidUpdate,
       componentWillUnmount,
     })
   }

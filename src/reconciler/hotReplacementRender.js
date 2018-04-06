@@ -221,6 +221,10 @@ export const flushScheduledUpdates = () => {
   )
 }
 
+export const unscheduleUpdate = instance => {
+  scheduledUpdates = scheduledUpdates.filter(inst => inst !== instance)
+}
+
 const scheduleInstanceUpdate = instance => {
   scheduledUpdates.push(instance)
   if (!scheduledUpdate) {

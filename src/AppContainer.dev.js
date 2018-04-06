@@ -15,20 +15,15 @@ class AppContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps() {
-    if (this.state.generation !== getGeneration()) {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.generation !== getGeneration()) {
       // Hot reload is happening.
-
-      this.setState({
+      return {
         error: null,
         generation: getGeneration(),
-      })
-
-      // perform sandboxed render to find similarities between new and old code
-      renderReconciler(this, true)
-      // it is possible to flush update out of render cycle
-      flushScheduledUpdates()
+      }
     }
+    return null
   }
 
   shouldComponentUpdate(prevProps, prevState) {
