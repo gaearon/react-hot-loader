@@ -280,7 +280,7 @@ modules with `hot` exported components – functions, constants, anything NOT RE
 
 `hot` function setups module self-acceptance. And it may be a dangerous thing.
 
-#### RHL is not working for Electon or Parcel
+#### RHL is not working for Electron or Parcel
 
 `hot` function is not tested in these environments, yet. Please use `old school` AppContainer and setup HRM manually.
 
