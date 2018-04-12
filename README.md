@@ -101,7 +101,7 @@ Follow [these code examples](https://github.com/Grimones/cra-rhl/commit/4ed74af2
 When using TypeScript, Babel is not required, but React Hot Loader will not work (properly) without it.
 Just add `babel-loader` into your Webpack configuration, with React Hot Loader plugin.
 
-There is 2 different ways to do it.
+There are 2 different ways to do it.
 
 ##### Add babel AFTER typescript.
 
@@ -121,7 +121,7 @@ There is 2 different ways to do it.
 }
 ```
 
-In this case you have to modify your `tsconfig.json`, and compile to ES6 mode, as long React-Hot-Loader babel plugin could not understand ES5 code.
+In this case you have to modify your `tsconfig.json`, and compile to ES6 mode, as long as React-Hot-Loader babel plugin does not understand ES5 code.
 
 ```json
 // tsconfig.json
@@ -190,7 +190,7 @@ emitted to hide hot reloading code.
 Source maps slow down your project. Use `devtool: 'eval'` for best build
 performance.
 
-Hot reloading code is just one line in the beginning and one line in the end of
+Hot reloading code is just one line in the beginning and one line at the end of
 each module so you might not need source maps at all.
 
 ## React Native
@@ -421,11 +421,11 @@ export default hot(module)(App)
 
 `hot` accepts only React Component (Stateful or Stateless), resulting the `HotExported` variant of it.
 The `hot` function will setup current module to _self-accept_ itself on reload, and will **ignore** all the changes, made for non-React components.
-You may mark as much modules as you want. But `HotExportedComponent` **should be the only used export** of a _hot_-module.
+You may mark as many modules as you want. But `HotExportedComponent` **should be the only used export** of a _hot_-module.
 
 > Note: Please note how often we have used `exported` keyword. `hot` is for exports.
 
-> Note: does nothing in production mode, just passes App through.
+> Note: Does nothing in production mode, just passes App through.
 
 ### New Components keep executing the old code
 
@@ -442,7 +442,7 @@ check out
 bit by bit.
 
 If something doesn't work, in 99% cases it's an issue with your code - Component
-doesn't got registered, due to HOC or Decorator around it, which making it
+doesn't got registered, due to HOC or Decorator around it, which is making it
 invisible to Babel plugin, or Webpack loader.
 
 We're also gathering
