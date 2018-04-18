@@ -18,7 +18,9 @@ const logger = {
     }
   },
   error(...args) {
-    if (['debug', 'log', 'warn', 'error'].indexOf(configuration.logLevel) !== -1) {
+    if (
+      ['debug', 'log', 'warn', 'error'].indexOf(configuration.logLevel) !== -1
+    ) {
       console.error(...args)
     }
   },

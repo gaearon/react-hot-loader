@@ -269,9 +269,9 @@ As result React-hot-loader will not update these branches at all, and you may lo
 
 The `equality` of Components are defined as:
 
-1. They have same variable names in the same files. Ie they are both MyComponent from MyComponent.js
-2. They have same displayName and similar code.
-   > Note: similar code is not _equal_ code. RHL will stand some small changes in code, or even adding a new method in class.
+1.  They have same variable names in the same files. Ie they are both MyComponent from MyComponent.js
+2.  They have same displayName and similar code.
+    > Note: similar code is not _equal_ code. RHL will stand some small changes in code, or even adding a new method in class.
 
 #### Not all of my code got updated.
 

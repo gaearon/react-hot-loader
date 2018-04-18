@@ -18,13 +18,13 @@ React Hot Loader version:
 
 Run these commands in the project folder and fill in their results:
 
-1. `node -v`:
-2. `npm -v`:
+1.  `node -v`:
+2.  `npm -v`:
 
 Then, specify:
 
-1. Operating system:
-2. Browser and version:
+1.  Operating system:
+2.  Browser and version:
 
 ### Reproducible Demo
 
