@@ -8,7 +8,7 @@ function pushState(stack, type, instance) {
   if (typeof type === 'function' && type.isStatelessFunctionalProxy) {
     // In React 15 SFC is wrapped by component. We have to detect our proxies and change the way it works
     stack.instance = {
-      SFC_fake: true,
+      SFC_fake: type,
       props: {},
       render: () => type(stack.instance.props),
     }

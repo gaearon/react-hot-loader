@@ -15,6 +15,13 @@ const UNDEFINED_NAMES = {
   Component: true,
 }
 
+let renderStack = []
+
+const stackReport = () => {
+  const rev = renderStack.slice().reverse()
+  logger.warn('in', rev[0].name, rev)
+}
+
 const areNamesEqual = (a, b) =>
   a === b || (UNDEFINED_NAMES[a] && UNDEFINED_NAMES[b])
 const isReactClass = fn => fn && !!fn.render
@@ -105,7 +112,7 @@ const render = component => {
   }
   if (isReactClass(component)) {
     // not calling real render method to prevent call recursion.
-    // stateless componets does not have hotComponentRender
+    // stateless components does not have hotComponentRender
     return component.hotComponentRender
       ? component.hotComponentRender()
       : component.render()
@@ -123,7 +130,7 @@ const render = component => {
 const NO_CHILDREN = { children: [] }
 const mapChildren = (children, instances) => ({
   children: children.filter(c => c).map((child, index) => {
-    if (typeof child !== 'object') {
+    if (typeof child !== 'object' || child.isMerged) {
       return child
     }
     const instanceLine = instances[index] || {}
@@ -140,10 +147,13 @@ const mapChildren = (children, instances) => ({
       (child.props && child.props.children) || child.children || [],
     )
     const nextChildren =
-      oldChildren.length && mapChildren(newChildren, oldChildren)
+      child.type !== 'function' &&
+      oldChildren.length &&
+      mapChildren(newChildren, oldChildren)
 
     return {
       nextProps: child.props,
+      isMerged: true,
       ...instanceLine,
       // actually child merge is needed only for "HTML TAG"s, and usually don't work for Components.
       // the children from an instance or rendered children
@@ -197,6 +207,7 @@ const mergeInject = (a, b, instance) => {
       'and children of ',
       instance,
     )
+    stackReport()
   }
   return NO_CHILDREN
 }
@@ -221,6 +232,10 @@ export const flushScheduledUpdates = () => {
   )
 }
 
+export const unscheduleUpdate = instance => {
+  scheduledUpdates = scheduledUpdates.filter(inst => inst !== instance)
+}
+
 const scheduleInstanceUpdate = instance => {
   scheduledUpdates.push(instance)
   if (!scheduledUpdate) {
@@ -229,6 +244,14 @@ const scheduleInstanceUpdate = instance => {
 }
 
 const hotReplacementRender = (instance, stack) => {
+  if (isReactClass(instance)) {
+    const type = getElementType(stack)
+    renderStack.push({
+      name: getComponentDisplayName(type),
+      type,
+      props: stack.instance.props,
+    })
+  }
   const flow = transformFlowNode(filterNullArray(asArray(render(instance))))
 
   const { children } = stack
@@ -266,6 +289,7 @@ const hotReplacementRender = (instance, stack) => {
           'instead of',
           stackChild.type,
         )
+        stackReport()
       }
       return
     }
@@ -290,6 +314,7 @@ const hotReplacementRender = (instance, stack) => {
           ' - no instrumentation found. ',
           'Please require react-hot-loader before React. More in troubleshooting.',
         )
+        stackReport()
         throw new Error('React-hot-loader: wrong configuration')
       }
 
@@ -311,17 +336,23 @@ const hotReplacementRender = (instance, stack) => {
           )} was expected.
           ${childType}`,
         )
+        stackReport()
       }
 
       scheduleInstanceUpdate(stackChild.instance)
     }
   })
+
+  if (isReactClass(instance)) {
+    renderStack.pop()
+  }
 }
 
 export default (instance, stack) => {
   try {
     // disable reconciler to prevent upcoming components from proxying.
     reactHotLoader.disableProxyCreation = true
+    renderStack = []
     hotReplacementRender(instance, stack)
   } catch (e) {
     logger.warn('React-hot-loader: reconcilation failed due to error', e)

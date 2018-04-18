@@ -11,6 +11,7 @@ const RESERVED_STATICS = [
   'prototype',
   'toString',
   'valueOf',
+  'isStatelessFunctionalProxy',
   PROXY_KEY,
   UNWRAP_PROXY,
 ]

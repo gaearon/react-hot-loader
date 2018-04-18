@@ -28,6 +28,7 @@ export const resetClassProxies = () => {
 const blackListedClassMembers = [
   'constructor',
   'render',
+  'componentWillMount',
   'componentDidMount',
   'componentWillReceiveProps',
   'componentWillUnmount',
@@ -38,8 +39,8 @@ const blackListedClassMembers = [
 ]
 
 const defaultRenderOptions = {
-  componentWillReceiveProps: identity,
   componentWillRender: identity,
+  componentDidUpdate: result => result,
   componentDidRender: result => result,
 }
 
@@ -55,6 +56,14 @@ const defineClassMembers = (Class, methods) =>
   Object.keys(methods).forEach(methodName =>
     defineClassMember(Class, methodName, methods[methodName]),
   )
+
+const setSFPFlag = (component, flag) =>
+  safeDefineProperty(component, 'isStatelessFunctionalProxy', {
+    configurable: false,
+    writable: false,
+    enumerable: false,
+    value: flag,
+  })
 
 function createClassProxy(InitialComponent, proxyKey, options) {
   const renderOptions = {
@@ -129,9 +138,9 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       target[PROXY_IS_MOUNTED] = true
     },
   )
-  const componentWillReceiveProps = lifeCycleWrapperFactory(
-    'componentWillReceiveProps',
-    renderOptions.componentWillReceiveProps,
+  const componentDidUpdate = lifeCycleWrapperFactory(
+    'componentDidUpdate',
+    renderOptions.componentDidUpdate,
   )
   const componentWillUnmount = lifeCycleWrapperFactory(
     'componentWillUnmount',
@@ -157,7 +166,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       result = CurrentComponent.prototype.render.call(this)
     }
 
-    return renderOptions.componentDidRender(result)
+    return renderOptions.componentDidRender.call(this, result)
   }
 
   function proxiedRender() {
@@ -171,7 +180,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       render: proxiedRender,
       hotComponentRender,
       componentDidMount,
-      componentWillReceiveProps,
+      componentDidUpdate,
       componentWillUnmount,
     })
   }
@@ -196,10 +205,13 @@ function createClassProxy(InitialComponent, proxyKey, options) {
 
       // simple SFC
       if (!CurrentComponent.contextTypes) {
-        ProxyFacade.isStatelessFunctionalProxy = true
+        if (!ProxyFacade.isStatelessFunctionalProxy) {
+          setSFPFlag(ProxyFacade, true)
+        }
+
         return renderOptions.componentDidRender(result)
       }
-      ProxyFacade.isStatelessFunctionalProxy = false
+      setSFPFlag(ProxyFacade, false)
 
       // This is a Relay-style container constructor. We can't do the prototype-
       // style wrapping for this as we do elsewhere, so just we just pass it

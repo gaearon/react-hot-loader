@@ -1,34 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { polyfill } from 'react-lifecycles-compat'
 import logger from './logger'
 import { get as getGeneration } from './global/generation'
-import { renderReconciler } from './reconciler/proxyAdapter'
-import { flushScheduledUpdates } from './reconciler'
 
 class AppContainer extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      error: null,
-      generation: 0,
-    }
-  }
-
-  componentWillReceiveProps() {
-    if (this.state.generation !== getGeneration()) {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.generation !== getGeneration()) {
       // Hot reload is happening.
-
-      this.setState({
+      return {
         error: null,
         generation: getGeneration(),
-      })
-
-      // perform sandboxed render to find similarities between new and old code
-      renderReconciler(this, true)
-      // it is possible to flush update out of render cycle
-      flushScheduledUpdates()
+      }
     }
+    return null
+  }
+
+  state = {
+    error: null,
+    // eslint-disable-next-line react/no-unused-state
+    generation: 0,
   }
 
   shouldComponentUpdate(prevProps, prevState) {
@@ -71,5 +62,7 @@ AppContainer.propTypes = {
   },
   errorReporter: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 }
+
+polyfill(AppContainer)
 
 export default AppContainer

@@ -146,7 +146,7 @@ describe('reconciler', () => {
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
 
-      expect(wrapper.find(<third.Component />.type).length).toBe(1)
+      expect(wrapper.update().find(<third.Component />.type).length).toBe(1)
       // first will never be unmounted
       expect(first.unmounted).toHaveBeenCalledTimes(0)
       expect(second.unmounted).toHaveBeenCalledTimes(1)
@@ -231,7 +231,7 @@ describe('reconciler', () => {
 
       incrementGeneration()
       wrapper.setProps({ second: false })
-      expect(First.rendered).toHaveBeenCalledTimes(6)
+      expect(First.rendered).toHaveBeenCalledTimes(5)
       expect(Second.rendered).toHaveBeenCalledTimes(3)
 
       expect(First.unmounted).toHaveBeenCalledTimes(0)
@@ -265,29 +265,29 @@ describe('reconciler', () => {
 
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
-      expect(First.rendered).toHaveBeenCalledTimes(4)
-      expect(Second.rendered).toHaveBeenCalledTimes(4)
+      expect(First.rendered).toHaveBeenCalledTimes(3)
+      expect(Second.rendered).toHaveBeenCalledTimes(3)
 
       incrementGeneration()
       wrapper.setProps({ second: false })
-      expect(First.rendered).toHaveBeenCalledTimes(7)
-      expect(Second.rendered).toHaveBeenCalledTimes(4)
+      expect(First.rendered).toHaveBeenCalledTimes(5)
+      expect(Second.rendered).toHaveBeenCalledTimes(3)
 
       expect(First.unmounted).toHaveBeenCalledTimes(0)
       expect(Second.unmounted).toHaveBeenCalledTimes(1)
     })
 
     it('should handle child mounting', () => {
-      const First = spyComponent(() => <u>1</u>, 'test', '1')
-      const Second = spyComponent(() => <u>2</u>, 'test', '2')
-      const Third = spyComponent(() => <u>2</u>, 'test', '2')
+      const First = spyComponent(() => <u>test1</u>, 'test1', '1')
+      const Second = spyComponent(() => <u>test2</u>, 'test2', '2')
+      const Third = spyComponent(() => <u>test3</u>, 'test3', '3')
       const App = ({ first, second, third }) => (
         <div>
           {first && <First.Component />}
           {second && [
-            <div key="1" />,
+            <div key="1">start</div>,
             <Second.Component key="2" />,
-            <div key="3" />,
+            <div key="3">middle</div>,
             third && <Third.Component key="4" />,
           ]}
         </div>
@@ -304,13 +304,15 @@ describe('reconciler', () => {
 
       incrementGeneration()
       wrapper.setProps({ second: true })
-      expect(First.rendered).toHaveBeenCalledTimes(4) // +3 (reconcile + update + render)
-      expect(Second.rendered).toHaveBeenCalledTimes(2) // (update from first + render)
+      expect(First.rendered).toHaveBeenCalledTimes(3) // +3 (reconcile + update + render)
+      expect(Second.rendered).toHaveBeenCalledTimes(1) // (update from first + render)
 
       wrapper.setProps({ third: true })
-      expect(First.rendered).toHaveBeenCalledTimes(5)
-      expect(Second.rendered).toHaveBeenCalledTimes(3)
+      expect(First.rendered).toHaveBeenCalledTimes(4)
+      expect(Second.rendered).toHaveBeenCalledTimes(2)
       expect(Third.rendered).toHaveBeenCalledTimes(1)
+
+      expect(wrapper.update().html()).toMatch(/test3/)
     })
 
     it('should handle function as a child', () => {
@@ -357,6 +359,47 @@ describe('reconciler', () => {
       expect(first.unmounted).toHaveBeenCalledTimes(0)
       expect(second.mounted).toHaveBeenCalledTimes(0)
       expect(wrapper.text()).toContain(43)
+    })
+
+    it('should assmeble props for nested children', () => {
+      const RenderChildren = ({ children }) => <div>{children}</div>
+      const RenderProp = ({ prop }) => <div>{prop}</div>
+
+      const App = () => (
+        <RenderChildren>
+          <div>
+            <RenderChildren>
+              <div className="1">
+                <div className="1.1">
+                  <div className="1.2">
+                    <RenderProp value={42} />
+                  </div>
+                </div>
+              </div>
+              <div className="2">
+                <div className="2.1">
+                  <RenderProp value={24} />
+                </div>
+              </div>
+            </RenderChildren>
+          </div>
+        </RenderChildren>
+      )
+
+      logger.warn.mockClear()
+
+      const wrapper = mount(
+        <AppContainer>
+          <div>
+            <App />
+          </div>
+        </AppContainer>,
+      )
+
+      incrementGeneration()
+      wrapper.setProps({ update: 'now' })
+
+      expect(logger.warn).not.toHaveBeenCalled()
     })
 
     describe('when an error occurs in render', () => {

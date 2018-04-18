@@ -54,7 +54,7 @@ describe('getReactStack', () => {
       expect(stack.children).toHaveLength(2)
       function expectToBeDivStack(child) {
         expect(child.type).toBe(Div)
-        expect(child.instance.SFC_fake).toBe(true)
+        expect(child.instance.SFC_fake).toBe(Div)
         expect(child.children).toHaveLength(1)
         expect(child.children[0].type).toBe('div')
         expect(child.children[0].instance).toBeDefined()

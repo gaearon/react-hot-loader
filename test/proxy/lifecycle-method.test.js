@@ -50,7 +50,7 @@ describe('lifecycle method', () => {
       }
 
       render() {
-        return <div>{this.superSecret * 2}</div>
+        return <div>!{this.superSecret * 5}</div>
       }
     }
     return { App1, App2 }
@@ -63,7 +63,7 @@ describe('lifecycle method', () => {
     return testFabric(methodName)(Component, patchedRender, spy)
   }
 
-  it('handle componentWillMount', () => {
+  it('handle componentWillMount', done => {
     const spy = jest.fn()
     const { App1, App2 } = getTestClass('componentWillMount', spy)
 
@@ -78,7 +78,11 @@ describe('lifecycle method', () => {
     proxy.update(App2)
     wrapper.instance().forceUpdate()
     expect(spy).toHaveBeenCalledTimes(1)
-    expect(wrapper.text()).toContain('PATCHED + 6')
+    // first render before hot render
+    expect(wrapper.text()).toContain('PATCHED + !10')
+    wrapper.instance().forceUpdate()
+    expect(wrapper.text()).toContain('PATCHED + !15')
+    done()
   })
 
   it('handle componentDidMount', () => {
@@ -96,6 +100,9 @@ describe('lifecycle method', () => {
     proxy.update(App2)
     wrapper.instance().forceUpdate()
     expect(spy).toHaveBeenCalledTimes(1)
-    expect(wrapper.text()).toContain('PATCHED + 6')
+    // first render before hot render
+    expect(wrapper.text()).toContain('PATCHED + !10')
+    wrapper.instance().forceUpdate()
+    expect(wrapper.text()).toContain('PATCHED + !15')
   })
 })

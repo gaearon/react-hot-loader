@@ -97,6 +97,7 @@
     "global": "^4.3.0",
     "hoist-non-react-statics": "^2.5.0",
     "prop-types": "^15.6.1",
+    "react-lifecycles-compat": "^2.0.0",
     "shallowequal": "^1.0.2"
   },
   "engines": {
