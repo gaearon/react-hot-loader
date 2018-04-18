@@ -7,7 +7,7 @@ function pushStack(stack, node) {
 
   if (!stack.instance) {
     stack.instance = {
-      SFC_fake: true,
+      SFC_fake: stack.type,
       props: {},
       render: () => stack.type(stack.instance.props),
     }

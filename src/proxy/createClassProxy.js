@@ -57,6 +57,14 @@ const defineClassMembers = (Class, methods) =>
     defineClassMember(Class, methodName, methods[methodName]),
   )
 
+const setSFPFlag = (component, flag) =>
+  safeDefineProperty(component, 'isStatelessFunctionalProxy', {
+    configurable: false,
+    writable: false,
+    enumerable: false,
+    value: flag,
+  })
+
 function createClassProxy(InitialComponent, proxyKey, options) {
   const renderOptions = {
     ...defaultRenderOptions,
@@ -197,10 +205,13 @@ function createClassProxy(InitialComponent, proxyKey, options) {
 
       // simple SFC
       if (!CurrentComponent.contextTypes) {
-        ProxyFacade.isStatelessFunctionalProxy = true
+        if (!ProxyFacade.isStatelessFunctionalProxy) {
+          setSFPFlag(ProxyFacade, true)
+        }
+
         return renderOptions.componentDidRender(result)
       }
-      ProxyFacade.isStatelessFunctionalProxy = false
+      setSFPFlag(ProxyFacade, false)
 
       // This is a Relay-style container constructor. We can't do the prototype-
       // style wrapping for this as we do elsewhere, so just we just pass it
