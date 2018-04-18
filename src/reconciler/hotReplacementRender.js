@@ -130,7 +130,7 @@ const render = component => {
 const NO_CHILDREN = { children: [] }
 const mapChildren = (children, instances) => ({
   children: children.filter(c => c).map((child, index) => {
-    if (typeof child !== 'object') {
+    if (typeof child !== 'object' || child.isMerged) {
       return child
     }
     const instanceLine = instances[index] || {}
@@ -147,10 +147,13 @@ const mapChildren = (children, instances) => ({
       (child.props && child.props.children) || child.children || [],
     )
     const nextChildren =
-      oldChildren.length && mapChildren(newChildren, oldChildren)
+      child.type !== 'function' &&
+      oldChildren.length &&
+      mapChildren(newChildren, oldChildren)
 
     return {
       nextProps: child.props,
+      isMerged: true,
       ...instanceLine,
       // actually child merge is needed only for "HTML TAG"s, and usually don't work for Components.
       // the children from an instance or rendered children
@@ -246,7 +249,7 @@ const hotReplacementRender = (instance, stack) => {
     renderStack.push({
       name: getComponentDisplayName(type),
       type,
-      props: stack.props,
+      props: stack.instance.props,
     })
   }
   const flow = transformFlowNode(filterNullArray(asArray(render(instance))))
