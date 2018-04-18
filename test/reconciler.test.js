@@ -361,6 +361,47 @@ describe('reconciler', () => {
       expect(wrapper.text()).toContain(43)
     })
 
+    it('should assmeble props for nested children', () => {
+      const RenderChildren = ({ children }) => <div>{children}</div>
+      const RenderProp = ({ prop }) => <div>{prop}</div>
+
+      const App = () => (
+        <RenderChildren>
+          <div>
+            <RenderChildren>
+              <div className="1">
+                <div className="1.1">
+                  <div className="1.2">
+                    <RenderProp value={42} />
+                  </div>
+                </div>
+              </div>
+              <div className="2">
+                <div className="2.1">
+                  <RenderProp value={24} />
+                </div>
+              </div>
+            </RenderChildren>
+          </div>
+        </RenderChildren>
+      )
+
+      logger.warn.mockClear()
+
+      const wrapper = mount(
+        <AppContainer>
+          <div>
+            <App />
+          </div>
+        </AppContainer>,
+      )
+
+      incrementGeneration()
+      wrapper.setProps({ update: 'now' })
+
+      expect(logger.warn).not.toHaveBeenCalled()
+    })
+
     describe('when an error occurs in render', () => {
       beforeEach(() => {
         jest.spyOn(console, 'error').mockImplementation(() => {})
