@@ -147,8 +147,9 @@ function inject(target, currentGeneration, injectedMembers) {
           target[REGENERATE_METHOD](
             key,
             `(function REACT_HOT_LOADER_SANDBOX () {
-          var _this = this; // common babel transpile
+          var _this  = this; // common babel transpile
           var _this2 = this; // common babel transpile
+          var _this3 = this; // common babel transpile
           return ${injectedMembers[key]};
           }).call(this)`,
           )
