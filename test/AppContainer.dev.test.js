@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import createReactClass from 'create-react-class'
 import { mount } from 'enzyme'
 import { mapProps } from 'recompose'
+import { polyfill } from 'react-lifecycles-compat'
 import { AppContainer } from '../src/index.dev'
 import RHL from '../src/reactHotLoader'
 import { increment as incrementGeneration } from '../src/global/generation'
@@ -1398,6 +1399,7 @@ describe(`AppContainer (dev)`, () => {
           return <div>I AM NEW CHILD</div>
         }
       }
+
       RHL.register(App, 'App3', 'test.js')
       wrapper.setProps({ children: <App /> })
       expect(spy).not.toHaveBeenCalled()
@@ -1945,6 +1947,28 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(wrapper.text()).toBe('new render + old state + 20')
+    })
+
+    it('should work with react-lifecycle-compact', () => {
+      class Component extends React.Component {
+        static getDerivedStateFromProps() {
+          return {}
+        }
+      }
+
+      /* eslint-disable no-underscore-dangle */
+      polyfill(Component)
+      expect(
+        Component.prototype.componentWillReceiveProps
+          .__suppressDeprecationWarning,
+      ).toBe(true)
+
+      const Proxy = <Component />.type
+      expect(
+        Proxy.prototype.componentWillReceiveProps.__suppressDeprecationWarning,
+      ).toBe(true)
+
+      /* eslint-enable */
     })
   })
 })

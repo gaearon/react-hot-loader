@@ -65,6 +65,32 @@ const setSFPFlag = (component, flag) =>
     value: flag,
   })
 
+const copyMethodDescriptors = (target, source) => {
+  if (source) {
+    // it is possible to use `function-double` to construct an ideal clone, but does not make a sence
+    const keys = Object.getOwnPropertyNames(source)
+
+    keys.forEach(key =>
+      safeDefineProperty(
+        target,
+        key,
+        Object.getOwnPropertyDescriptor(source, key),
+      ),
+    )
+
+    safeDefineProperty(target, 'toString', {
+      configurable: true,
+      writable: false,
+      enumerable: false,
+      value: function toString() {
+        return String(source)
+      },
+    })
+  }
+
+  return target
+}
+
 function createClassProxy(InitialComponent, proxyKey, options) {
   const renderOptions = {
     ...defaultRenderOptions,
@@ -103,7 +129,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
   }
 
   function lifeCycleWrapperFactory(wrapperName, sideEffect = identity) {
-    return function wrappedMethod(...rest) {
+    return copyMethodDescriptors(function wrappedMethod(...rest) {
       proxiedUpdate.call(this)
       sideEffect(this)
       return (
@@ -111,13 +137,13 @@ function createClassProxy(InitialComponent, proxyKey, options) {
         CurrentComponent.prototype[wrapperName] &&
         CurrentComponent.prototype[wrapperName].apply(this, rest)
       )
-    }
+    }, InitialComponent.prototype && InitialComponent.prototype[wrapperName])
   }
 
   function methodWrapperFactory(wrapperName, realMethod) {
-    return function wrappedMethod(...rest) {
+    return copyMethodDescriptors(function wrappedMethod(...rest) {
       return realMethod.apply(this, rest)
-    }
+    }, realMethod)
   }
 
   const fakeBasePrototype = Base =>

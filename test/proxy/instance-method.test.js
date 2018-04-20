@@ -138,4 +138,33 @@ describe('instance method', () => {
       })
     })
   })
+
+  it('passes methods props thought', () => {
+    const injectedMethod = (a, b) => this[24 + a + b]
+
+    injectedMethod.staticProp = 'magic'
+
+    class App extends React.Component {
+      method() {
+        return 42
+      }
+    }
+
+    App.prototype.injectedMethod = injectedMethod
+
+    const app1 = new App()
+
+    expect(app1.injectedMethod).toBe(injectedMethod)
+    expect(app1.injectedMethod.staticProp).toBe('magic')
+    expect(String(app1.injectedMethod)).toBe(String(injectedMethod))
+
+    const Proxy = createProxy(App).get()
+
+    const app2 = new Proxy()
+
+    expect(app2.injectedMethod).not.toBe(injectedMethod)
+    expect(app2.injectedMethod.staticProp).toBe('magic')
+    expect(app2.injectedMethod.length).toBe(2)
+    expect(String(app2.injectedMethod)).toBe(String(injectedMethod))
+  })
 })
