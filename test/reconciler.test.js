@@ -363,7 +363,23 @@ describe('reconciler', () => {
 
     it('should assmeble props for nested children', () => {
       const RenderChildren = ({ children }) => <div>{children}</div>
-      const RenderProp = ({ prop }) => <div>{prop}</div>
+      const RenderProp = jest
+        .fn()
+        .mockImplementation(({ prop }) => <div>{prop}</div>)
+      const DefaultProp = jest.fn().mockImplementation(({ prop }) => (
+        <div>
+          {prop ? (
+            <div>42</div>
+          ) : (
+            <div>
+              <div>24</div>
+            </div>
+          )}
+        </div>
+      ))
+      DefaultProp.defaultProps = {
+        prop: 'defaultValue',
+      }
 
       const App = () => (
         <RenderChildren>
@@ -379,6 +395,7 @@ describe('reconciler', () => {
               <div className="2">
                 <div className="2.1">
                   <RenderProp value={24} />
+                  <DefaultProp />
                 </div>
               </div>
             </RenderChildren>
@@ -398,6 +415,16 @@ describe('reconciler', () => {
 
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
+
+      expect(RenderProp).toHaveBeenCalledTimes(4)
+      expect(RenderProp.mock.calls[0][0]).toEqual({ value: 42 })
+      expect(RenderProp.mock.calls[1][0]).toEqual({ value: 24 })
+      expect(RenderProp.mock.calls[2][0]).toEqual({ value: 42 })
+      expect(RenderProp.mock.calls[3][0]).toEqual({ value: 24 })
+
+      expect(DefaultProp).toHaveBeenCalledTimes(2)
+      expect(DefaultProp.mock.calls[0][0]).toEqual({ prop: 'defaultValue' })
+      expect(DefaultProp.mock.calls[1][0]).toEqual({ prop: 'defaultValue' })
 
       expect(logger.warn).not.toHaveBeenCalled()
     })
