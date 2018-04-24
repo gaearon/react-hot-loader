@@ -1829,7 +1829,10 @@ describe(`AppContainer (dev)`, () => {
 
         const InnerItem = () => (
           <React.Fragment>
+            {false && <div>hole</div>}
             -1-<InnerComponent />
+            {false && <div>hole</div>}
+            -3-<InnerComponent />
           </React.Fragment>
         )
         RHL.register(InnerItem, 'InnerItem', 'test.js')
@@ -1856,7 +1859,9 @@ describe(`AppContainer (dev)`, () => {
           </AppContainer>,
         )
 
-        expect(wrapper.update().text()).toBe('1-1-OldInnerComponent3')
+        expect(wrapper.update().text()).toBe(
+          '1-1-OldInnerComponent-3-OldInnerComponent3',
+        )
         {
           class InnerComponent extends Component {
             componentWillUnmount() {
@@ -1872,7 +1877,10 @@ describe(`AppContainer (dev)`, () => {
 
           const InnerItem = () => (
             <React.Fragment>
+              {false && <div>hole</div>}
               -2-<InnerComponent />
+              {false && <div>hole</div>}
+              -3-<InnerComponent />
             </React.Fragment>
           )
           RHL.register(InnerItem, 'InnerItem', 'test.js')
@@ -1880,7 +1888,9 @@ describe(`AppContainer (dev)`, () => {
           wrapper.setProps({ children: <App /> })
         }
         expect(unmount).toHaveBeenCalledTimes(0)
-        expect(wrapper.update().text()).toBe('1-2-NewInnerComponent3')
+        expect(wrapper.update().text()).toBe(
+          '1-2-NewInnerComponent-3-NewInnerComponent3',
+        )
       } else {
         // React 15 is always ok
         expect(true).toBe(true)
