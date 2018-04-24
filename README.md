@@ -462,7 +462,7 @@ setConfig({ logLevel: 'debug' })
 ## Contributors
 
 This project exists thanks to all the people who contribute. [Contribute](CONTRIBUTING.md).
-[![contributors][oc-contributors-img]]('graphs/contributors')
+[![contributors][oc-contributors-img]](https://github.com/gaearon/react-hot-loader/graphs/contributors)
 
 ## Backers
 
