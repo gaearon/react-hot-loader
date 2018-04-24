@@ -9,7 +9,27 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 * condition render in Fragments [#942](https://github.com/gaearon/react-hot-loader/issues/942) ([#943](https://github.com/gaearon/react-hot-loader/issues/943)) ([2549a18](https://github.com/gaearon/react-hot-loader/commit/2549a18))
+
+<a name="4.1.1"></a>
+
+## [4.1.1](https://github.com/gaearon/react-hot-loader/compare/4.1.0...4.1.1) (2018-04-24)
+
+### Bug Fixes
+
 * Proxy should keep methods own props. [#918](https://github.com/gaearon/react-hot-loader/issues/918) ([a84dcd0](https://github.com/gaearon/react-hot-loader/commit/a84dcd0))
+
+<a name="4.1.0"></a>
+
+## [4.1.0](https://github.com/gaearon/react-hot-loader/compare/4.0.1...4.1.0) (2018-04-18)
+
+### Features
+
+* 🚀 React 16.3 support  ([#918](https://github.com/gaearon/react-hot-loader/issues/918))
+* 🧙🏻‍♂️ StatelessFunctionComponents are not wrapped by Stateful components anymore ([#873](https://github.com/gaearon/react-hot-loader/issues/873))
+* 🧠Improved TypeScript support (no more than documentation)  ([#884](https://github.com/gaearon/react-hot-loader/issues/884))
+
+### Bug Fixes
+*  support babel temporal `_this3` ([#928](https://github.com/gaearon/react-hot-loader/issues/928))
 
 <a name="4.0.1"></a>
 

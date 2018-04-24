@@ -7,3 +7,4 @@ babel.js
 index.js
 patch.js
 rollup.config.js
+CHANGELOG.md
