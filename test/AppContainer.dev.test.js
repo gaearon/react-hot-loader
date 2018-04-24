@@ -1,5 +1,5 @@
 /* eslint-env browser */
-import React, { Component } from 'react'
+import React, { Component, PureComponent } from 'react'
 import createReactClass from 'create-react-class'
 import { mount } from 'enzyme'
 import { mapProps } from 'recompose'
@@ -517,6 +517,66 @@ describe(`AppContainer (dev)`, () => {
       wrapper.find('span').simulate('click')
       expect(spy).toHaveBeenCalledWith('bar')
       expect(wrapper.text()).toBe('new render + old state')
+    })
+
+    it('replaces PureComponent', () => {
+      const spy = jest.fn()
+
+      class Pure extends PureComponent {
+        componentWillUnmount() {
+          spy()
+        }
+        render() {
+          return <span>I am old</span>
+        }
+      }
+
+      RHL.register(Pure, 'Pure', 'test.js')
+
+      class RenderFn extends PureComponent {
+        render() {
+          const { _children, v } = this.props
+          return _children()(v)
+        }
+      }
+
+      const innerRenderFn = v => <Pure v={v} />
+      const renderFn = () => innerRenderFn
+
+      class App extends PureComponent {
+        render() {
+          return (
+            <div>
+              <RenderFn value={42} _children={renderFn} />
+            </div>
+          )
+        }
+      }
+
+      const wrapper = mount(
+        <AppContainer>
+          <App />
+        </AppContainer>,
+      )
+      expect(wrapper.text()).toBe('I am old')
+
+      {
+        class Pure extends PureComponent {
+          componentWillUnmount() {
+            spy()
+          }
+          render() {
+            return <span>I am new</span>
+          }
+        }
+
+        RHL.register(Pure, 'Pure', 'test.js')
+
+        wrapper.setProps({ children: <App /> })
+      }
+
+      expect(wrapper.text()).toBe('I am new')
+      expect(spy).not.toHaveBeenCalled()
     })
 
     it(
