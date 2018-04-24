@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.1.2"></a>
+
+## [4.1.2](https://github.com/gaearon/react-hot-loader/compare/4.1.0...4.1.2) (2018-04-24)
+
+### Bug Fixes
+
+* condition render in Fragments [#942](https://github.com/gaearon/react-hot-loader/issues/942) ([#943](https://github.com/gaearon/react-hot-loader/issues/943)) ([2549a18](https://github.com/gaearon/react-hot-loader/commit/2549a18))
+* Proxy should keep methods own props. [#918](https://github.com/gaearon/react-hot-loader/issues/918) ([a84dcd0](https://github.com/gaearon/react-hot-loader/commit/a84dcd0))
+
 <a name="4.0.1"></a>
 
 ## [4.0.1](https://github.com/gaearon/react-hot-loader/compare/v4.0.0...v4.0.1) (2018-04-01)
