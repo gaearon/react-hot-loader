@@ -81,15 +81,15 @@ function mergeComponents(
 
         const nextString = String(nextAttr)
         const injectedBefore = injectedMembers[key]
+        const isFunction =
+          nextString.indexOf('function') >= 0 || nextString.indexOf('=>') >= 0
         if (
           nextString !== String(prevAttr) ||
-          (injectedBefore && nextString !== String(injectedBefore))
+          (injectedBefore && nextString !== String(injectedBefore)) ||
+          isFunction
         ) {
           if (!hasRegenerate) {
-            if (
-              nextString.indexOf('function') < 0 &&
-              nextString.indexOf('=>') < 0
-            ) {
+            if (!isFunction) {
               // just copy prop over
               injectedCode[key] = nextAttr
             } else {
@@ -106,6 +106,8 @@ function mergeComponents(
           } else {
             injectedCode[key] = nextAttr
           }
+        } else {
+          // key was skipped
         }
       }
     })
