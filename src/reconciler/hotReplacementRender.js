@@ -215,7 +215,7 @@ const mergeInject = (a, b, instance) => {
 const transformFlowNode = flow =>
   flow.reduce((acc, node) => {
     if (isFragmentNode(node) && node.props && node.props.children) {
-      return [...acc, ...filterNullArray(node.props.children)]
+      return [...acc, ...filterNullArray(asArray(node.props.children))]
     }
     return [...acc, node]
   }, [])
