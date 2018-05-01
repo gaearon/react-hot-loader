@@ -172,7 +172,20 @@ module.exports = function plugin(args) {
             [t.identifier('key'), t.identifier('code')],
             t.blockStatement([evalTemplate()]),
           )
+
           classBody.pushContainer('body', regenerateMethod)
+
+          classBody.get('body').forEach(path => {
+            const { node } = path
+
+            if (node.key.name === REGENERATE_METHOD) {
+              path.addComment('leading', ' @ts-ignore', true)
+              path
+                .get('body')
+                .get('body')[0]
+                .addComment('leading', ' @ts-ignore', true)
+            }
+          })
         }
       },
     },

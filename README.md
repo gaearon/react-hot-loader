@@ -112,7 +112,7 @@ There are 2 different ways to do it.
     {
       loader: 'babel-loader',
       options: {
-        babelrc: true,
+        babelrc: false,
         plugins: ['react-hot-loader/babel'],
       },
     },
@@ -131,7 +131,23 @@ In this case you have to modify your `tsconfig.json`, and compile to ES6 mode, a
 }
 ```
 
-##### Add babel BEFORE typescript (preferred)
+As long you cannot ship ES6 to production, you can create a `tsconfig.dev.json`, "extend" the base tsconfig and use "dev" config in dev webpack build
+. Details
+for [ts-loader](https://github.com/TypeStrong/ts-loader#configfile-string-defaulttsconfigjson)
+, for [awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript-loader#configfilename-string-defaulttsconfigjson).
+
+```json
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "target": "es6"
+  }
+}
+```
+
+##### Add babel BEFORE typescript
+
+> Note: this way requires babel 7 and [babel-loader@^8.0.0](https://github.com/babel/babel-loader#install)
 
 ```js
 {
