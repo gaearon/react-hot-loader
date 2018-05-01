@@ -43,6 +43,17 @@ const reactHotLoader = {
     resetProxies()
   },
 
+  inject(target, symbol = 'h') {
+    const createElement = target[symbol]
+    target[symbol] = (type, ...args) =>
+      createElement(resolveType(type), ...args)
+    return target[symbol]
+  },
+
+  resolveType(type) {
+    return resolveType(type)
+  },
+
   patch(React) {
     if (!React.createElement.isPatchedByReactHotLoader) {
       const originalCreateElement = React.createElement

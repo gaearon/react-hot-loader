@@ -1,6 +1,9 @@
-import React from 'react'
+import { h, render, Component } from 'preact'
 
-class Counter extends React.Component {
+// Tell Babel to transform JSX into h() calls:
+/** @jsx h */
+
+class Counter extends Component {
   state = { count: 0 }
 
   componentDidMount() {
@@ -15,7 +18,7 @@ class Counter extends React.Component {
   }
 
   render() {
-    return this.state.count
+    return <div>10:{this.state.count}</div>
   }
 }
 

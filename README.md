@@ -193,6 +193,29 @@ performance.
 Hot reloading code is just one line in the beginning and one line at the end of
 each module so you might not need source maps at all.
 
+## Preact
+
+React-hot-loader should work out of the box with `preact-compact`, but, in case of pure preact, you will need
+to configure it:
+
+* create configuration file (setupHotLoader.js)
+
+```js
+import reactHotLoader from 'react-hot-loader'
+import preact from 'preact'
+
+reactHotLoader.inject(preact, 'h') // inject RHL into `h` on `preact`.
+```
+
+* import configuration file before any other Component.
+
+#### Preact limitations
+
+* react-hot-loader would work with `react-compact` or `preact.h` as JSX settings, but in case of [named import](https://github.com/developit/preact#named)("{h}") - would not.
+* HOCs and Decorators as not supported yet. For Preact React-Hot-Loader v4 behave as v3.
+
+Probaly
+
 ## React Native
 
 React Native
