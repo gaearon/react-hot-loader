@@ -264,6 +264,46 @@ describe('consistency', () => {
         expect(instance.render()).toBe(42)
       })
 
+      it('should reflect external dependencies', () => {
+        /* eslint-disable */
+        const externalValue = 42
+        class BaseClass extends React.Component {
+          arrow = () => externalValue
+
+          render() {
+            return this.arrow()
+          }
+
+          __reactstandin__regenerateByEval(key, code) {
+            this[key] = eval(code)
+          }
+        }
+
+        const proxy = createProxy(BaseClass)
+        const Proxy = proxy.get()
+        const instance = new Proxy()
+        expect(instance.render()).toBe(42)
+
+        {
+          const externalValue = 24
+          class Update1Class extends React.Component {
+            arrow = () => externalValue
+
+            render() {
+              return this.arrow()
+            }
+
+            __reactstandin__regenerateByEval(key, code) {
+              this[key] = eval(code)
+            }
+          }
+          proxy.update(Update1Class)
+        }
+        /* eslint-enable */
+
+        expect(instance.render()).toBe(24)
+      })
+
       it('should stand-for all class members', () => {
         class Initial {
           constructor() {
