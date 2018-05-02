@@ -193,7 +193,7 @@ performance.
 Hot reloading code is just one line in the beginning and one line at the end of
 each module so you might not need source maps at all.
 
-## React Native
+### React Native
 
 React Native
 **[supports hot reloading natively](https://facebook.github.io/react-native/blog/2016/03/24/introducing-hot-reloading.html)**
