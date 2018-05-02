@@ -4,7 +4,7 @@ import { h, render, Component } from 'preact'
 /** @jsx h */
 
 class Counter extends Component {
-  state = { count: 0 }
+  state = { count: Math.round(Math.random() * 10) }
 
   componentDidMount() {
     this.interval = setInterval(
@@ -18,7 +18,7 @@ class Counter extends Component {
   }
 
   render() {
-    return <div>10:{this.state.count}</div>
+    return <div>100:{this.state.count}:1</div>
   }
 }
 
