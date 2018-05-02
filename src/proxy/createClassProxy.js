@@ -225,40 +225,47 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     // This function only gets called for the initial mount. The actual
     // rendered component instance will be the return value.
 
-    // eslint-disable-next-line func-names
-    ProxyFacade = function(props, context) {
-      const result = CurrentComponent(props, context)
-
-      // simple SFC
-      if (!CurrentComponent.contextTypes) {
-        if (!ProxyFacade.isStatelessFunctionalProxy) {
-          setSFPFlag(ProxyFacade, true)
-        }
-
-        return renderOptions.componentDidRender(result)
-      }
-      setSFPFlag(ProxyFacade, false)
-
-      // This is a Relay-style container constructor. We can't do the prototype-
-      // style wrapping for this as we do elsewhere, so just we just pass it
-      // through as-is.
-      if (isReactComponentInstance(result)) {
-        ProxyComponent = null
-        return result
-      }
-
-      // Otherwise, it's a normal functional component. Build the real proxy
-      // and use it going forward.
+    if (1) {
       ProxyComponent = proxyClassCreator(Component, postConstructionAction)
 
       defineProxyMethods(ProxyComponent)
+      ProxyFacade = ProxyComponent
+    } else {
+      // eslint-disable-next-line func-names
+      ProxyFacade = function(props, context) {
+        const result = CurrentComponent(props, context)
 
-      const determinateResult = new ProxyComponent(props, context)
+        // simple SFC
+        if (0 && !CurrentComponent.contextTypes) {
+          if (!ProxyFacade.isStatelessFunctionalProxy) {
+            setSFPFlag(ProxyFacade, true)
+          }
 
-      // Cache the initial render result so we don't call the component function
-      // a second time for the initial render.
-      determinateResult[CACHED_RESULT] = result
-      return determinateResult
+          return renderOptions.componentDidRender(result)
+        }
+        setSFPFlag(ProxyFacade, false)
+
+        // This is a Relay-style container constructor. We can't do the prototype-
+        // style wrapping for this as we do elsewhere, so just we just pass it
+        // through as-is.
+        if (isReactComponentInstance(result)) {
+          ProxyComponent = null
+          return result
+        }
+
+        // Otherwise, it's a normal functional component. Build the real proxy
+        // and use it going forward.
+        ProxyComponent = proxyClassCreator(Component, postConstructionAction)
+
+        defineProxyMethods(ProxyComponent)
+
+        const determinateResult = new ProxyComponent(props, context)
+
+        // Cache the initial render result so we don't call the component function
+        // a second time for the initial render.
+        determinateResult[CACHED_RESULT] = result
+        return determinateResult
+      }
     }
   }
 
@@ -360,7 +367,13 @@ function createClassProxy(InitialComponent, proxyKey, options) {
 
   update(InitialComponent)
 
-  proxy = { get, update }
+  const dereference = () => {
+    proxies.delete(InitialComponent)
+    proxies.delete(ProxyFacade)
+    proxies.delete(CurrentComponent)
+  }
+
+  proxy = { get, update, dereference }
 
   proxies.set(InitialComponent, proxy)
   proxies.set(ProxyFacade, proxy)
