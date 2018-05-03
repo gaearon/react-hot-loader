@@ -145,6 +145,8 @@ for [ts-loader](https://github.com/TypeStrong/ts-loader#configfile-string-defaul
 }
 ```
 
+Keep in mind - awesome-typescript-loader [has a built in feature](https://github.com/s-panferov/awesome-typescript-loader#usebabel-boolean-defaultfalse) (`useBabel`) to _babelify_ result.
+
 ##### Add babel BEFORE typescript
 
 > Note: this way requires babel 7 and [babel-loader@^8.0.0](https://github.com/babel/babel-loader#install)
