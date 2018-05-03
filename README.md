@@ -203,24 +203,35 @@ Using React Hot Loader with React Native can cause unexpected issues (see #824) 
 
 ### Code Splitting
 
-Most of modern React component-loader libraries ([loadable-components](https://github.com/smooth-code/loadable-components/),
-[react-loadable](https://github.com/thejameskyle/react-loadable)...) are compatible with React Hot Loader.
+Most of modern React component-loader libraries are not "100%" compatible with React-Hot-Loader, as long
+they load deferred component on `componentWillMount`, but never reload it again.
+As result - you can update the code, webpack will ship that code the the client, but nothing will be updated.
 
-You have to mark your "loaded components" as _hot-exported_.
+In this case, you have to setup "reloading" by your self - you have to mark your "loaded components" as _hot-exported_.
 
-Example using
-[loadable-components](https://github.com/smooth-code/loadable-components/):
+Example using [react-async-component](https://github.com/ctrlplusb/react-async-component)...)
 
 ```js
 // AsyncHello.js
-import loadable from 'loadable-components'
-const AsyncHello = loadable(() => import('./Hello.js'))
+import asyncComponent from 'react-async-component'
+const AsyncHello = asyncComponent({
+  resolve: () => import('./Hello.js'),
+})
 
 // Hello.js
 import { hot } from 'react-hot-loader'
 const Hello = () => 'Hello'
-export default hot(module)(Hello) // <-- the only change to do
+export default hot(module)(Hello) // <-- module will reload itself
 ```
+
+Marking component as `hot` will make it self-reloadable. But this require altering your code, and sometimes
+is not possible.
+
+For a better expirence you could use more React-Hot-Loader "compatible" loaders:
+
+* [loadable-components](https://github.com/smooth-code/loadable-components/) - always reloads and preloads component in development.
+* [react-imported-component](https://github.com/theKashey/react-imported-component) - reloads component on HMR (React 16.3 compatible).
+* [react-universal-component](https://github.com/faceyspacey/react-universal-component) - reloads component on HMR.
 
 ### Checking Element `type`s
 
