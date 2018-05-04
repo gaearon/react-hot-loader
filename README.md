@@ -434,16 +434,16 @@ will be born as the first ones, and then grow into the last ones. As of today, t
 
 ## Troubleshooting
 
-If it doesn't work, in 99% cases it's a configuration issue. A missing option, a
+If it doesn't work, in 99% of cases it's a configuration issue. A missing option, a
 wrong path or port. Webpack is very strict about configuration, and the best way
 to find out what's wrong is to compare your project to an already working setup,
 check out
 **[examples](https://github.com/gaearon/react-hot-loader/tree/master/examples)**,
 bit by bit.
 
-If something doesn't work, in 99% cases it's an issue with your code - Component
-doesn't got registered, due to HOC or Decorator around it, which is making it
-invisible to Babel plugin, or Webpack loader.
+If something doesn't work, in 99% of cases it's an issue with your code. The Component
+didn't get registered, due to HOC or Decorator around it, which is making it
+invisible to the Babel plugin or Webpack loader.
 
 We're also gathering
 **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)**
