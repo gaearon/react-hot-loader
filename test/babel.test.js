@@ -5,7 +5,7 @@ import { transformFileSync } from 'babel-core'
 import { getOptions, TARGETS } from '../testConfig/babel'
 /* eslint-enable import/no-unresolved, import/extensions */
 
-const babelPlugin = path.resolve(__dirname, '../babel')
+const babelPlugin = path.resolve(__dirname, '../src/babel.dev')
 
 const FIXTURES_DIR = path.join(__dirname, '__babel_fixtures__')
 
@@ -18,44 +18,46 @@ function addRHLPlugin(babel) {
   return babel
 }
 
-TARGETS.forEach(target => {
-  describe(`Targetting "${target}"`, () => {
-    describe('tags potential React components', () => {
-      fs.readdirSync(FIXTURES_DIR).forEach(fixtureName => {
-        const fixtureFile = path.join(FIXTURES_DIR, fixtureName)
-        if (fs.statSync(fixtureFile).isFile()) {
-          it(fixtureName.split('-').join(' '), () => {
-            const actual = transformFileSync(
-              fixtureFile,
-              addRHLPlugin(getOptions(target)),
-            ).code
-            const codeWithoutFilename = actual.replace(
-              new RegExp(`["']${fixtureFile.replace(/\\/g, '/')}["']`, 'g'),
-              '__FILENAME__',
-            )
-            expect(trim(codeWithoutFilename)).toMatchSnapshot()
-          })
-        }
+describe('babel', () => {
+  TARGETS.forEach(target => {
+    describe(`Targetting "${target}"`, () => {
+      describe('tags potential React components', () => {
+        fs.readdirSync(FIXTURES_DIR).forEach(fixtureName => {
+          const fixtureFile = path.join(FIXTURES_DIR, fixtureName)
+          if (fs.statSync(fixtureFile).isFile()) {
+            it(fixtureName.split('-').join(' '), () => {
+              const actual = transformFileSync(
+                fixtureFile,
+                addRHLPlugin(getOptions(target)),
+              ).code
+              const codeWithoutFilename = actual.replace(
+                new RegExp(`["']${fixtureFile.replace(/\\/g, '/')}["']`, 'g'),
+                '__FILENAME__',
+              )
+              expect(trim(codeWithoutFilename)).toMatchSnapshot()
+            })
+          }
+        })
       })
-    })
 
-    describe('copies arrow function body block onto hidden class methods', () => {
-      const fixturesDir = path.join(FIXTURES_DIR, 'class-properties')
-      fs.readdirSync(fixturesDir).forEach(fixtureName => {
-        const fixtureFile = path.join(fixturesDir, fixtureName)
-        if (fs.statSync(fixtureFile).isFile()) {
-          it(fixtureName.split('-').join(' '), () => {
-            const actual = transformFileSync(
-              fixtureFile,
-              addRHLPlugin(getOptions(target)),
-            ).code
-            const codeWithoutFilename = actual.replace(
-              new RegExp(`["']${fixtureFile.replace(/\\/g, '/')}["']`, 'g'),
-              '__FILENAME__',
-            )
-            expect(trim(codeWithoutFilename)).toMatchSnapshot()
-          })
-        }
+      describe('copies arrow function body block onto hidden class methods', () => {
+        const fixturesDir = path.join(FIXTURES_DIR, 'class-properties')
+        fs.readdirSync(fixturesDir).forEach(fixtureName => {
+          const fixtureFile = path.join(fixturesDir, fixtureName)
+          if (fs.statSync(fixtureFile).isFile()) {
+            it(fixtureName.split('-').join(' '), () => {
+              const actual = transformFileSync(
+                fixtureFile,
+                addRHLPlugin(getOptions(target)),
+              ).code
+              const codeWithoutFilename = actual.replace(
+                new RegExp(`["']${fixtureFile.replace(/\\/g, '/')}["']`, 'g'),
+                '__FILENAME__',
+              )
+              expect(trim(codeWithoutFilename)).toMatchSnapshot()
+            })
+          }
+        })
       })
     })
   })
