@@ -262,8 +262,8 @@ const hotReplacementRender = (instance, stack) => {
       // copy over props as long new component may be hidden inside them
       // child does not have all props, as long some of them can be calculated on componentMount.
       const nextProps = {
-        ...instance.props,
         ...(child.nextProps || {}),
+        ...instance.props,
         ...(child.props || {}),
       }
 
