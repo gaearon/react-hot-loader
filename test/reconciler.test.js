@@ -128,7 +128,7 @@ describe('reconciler', () => {
 
       // what props should be used? Look like the new ones
       expect(second.willUpdate.mock.calls[0]).toEqual([
-        { children: '42', newProp: true, keyId: '2' },
+        { children: '42', keyId: '1' },
         null,
         { children: '42', keyId: '1' },
         null,
@@ -137,7 +137,7 @@ describe('reconciler', () => {
       expect(second.willUpdate.mock.calls[1]).toEqual([
         { children: '42', newProp: true, keyId: '2' },
         null,
-        expect.any(Object), // Flake in React 15. Should be { children: '42', keyId: "1" },
+        { children: '42', keyId: '1' },
         null,
       ])
 

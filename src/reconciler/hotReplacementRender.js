@@ -261,18 +261,20 @@ const hotReplacementRender = (instance, stack) => {
     const next = instance => {
       // copy over props as long new component may be hidden inside them
       // child does not have all props, as long some of them can be calculated on componentMount.
+      const realProps = instance.props
       const nextProps = {
-        ...instance.props,
+        ...realProps,
         ...(child.nextProps || {}),
         ...(child.props || {}),
       }
 
       if (isReactClass(instance) && instance.componentWillUpdate) {
         // Force-refresh component (bypass redux renderedComponent)
-        instance.componentWillUpdate(nextProps, instance.state)
+        instance.componentWillUpdate({ ...realProps }, instance.state)
       }
       instance.props = nextProps
       hotReplacementRender(instance, stackChild)
+      instance.props = realProps
     }
 
     // text node
