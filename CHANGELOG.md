@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.1.3"></a>
+## [4.1.3](https://github.com/gaearon/react-hot-loader/compare/v4.1.2...v4.1.3) (2018-05-08)
+
+
+### Bug Fixes
+
+* always update bound functions. [#949](https://github.com/gaearon/react-hot-loader/issues/949) ([7819c71](https://github.com/gaearon/react-hot-loader/commit/7819c71))
+* Fragment with a single element. fixes [#956](https://github.com/gaearon/react-hot-loader/issues/956) ([7e80881](https://github.com/gaearon/react-hot-loader/commit/7e80881))
+* props merge order. [#967](https://github.com/gaearon/react-hot-loader/issues/967) ([#968](https://github.com/gaearon/react-hot-loader/issues/968)) ([1f8adb9](https://github.com/gaearon/react-hot-loader/commit/1f8adb9))
+
+
+
 <a name="4.1.2"></a>
 
 ## [4.1.2](https://github.com/gaearon/react-hot-loader/compare/4.1.0...4.1.2) (2018-04-24)
