@@ -128,7 +128,7 @@ describe('reconciler', () => {
 
       // what props should be used? Look like the new ones
       expect(second.willUpdate.mock.calls[0]).toEqual([
-        { children: '42', newProp: true, keyId: '2' },
+        { children: '42', newProp: true, keyId: '1' },
         null,
         { children: '42', keyId: '1' },
         null,
