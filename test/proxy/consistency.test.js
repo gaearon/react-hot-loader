@@ -250,7 +250,6 @@ describe('consistency', () => {
             this[key] = eval(code)
           }
         }
-        /* eslint-enable */
 
         const proxy = createProxy(BaseClass)
         const Proxy = proxy.get()
@@ -258,10 +257,14 @@ describe('consistency', () => {
         expect(instance.render()).toBe(42)
 
         proxy.update(Update1Class)
+        new Proxy() // side effect
         expect(instance.render()).toBe(43)
 
         proxy.update(Update2Class)
+        new Proxy() // side effect
+
         expect(instance.render()).toBe(42)
+        /* eslint-enable */
       })
 
       it('should reflect external dependencies', () => {
@@ -298,6 +301,7 @@ describe('consistency', () => {
             }
           }
           proxy.update(Update1Class)
+          new Proxy()
         }
         /* eslint-enable */
 
@@ -362,6 +366,80 @@ describe('consistency', () => {
       expect('isStatelessFunctionalProxy' in Proxy).toBe(false)
       mount(<Proxy />).instance()
       expect(Proxy.isStatelessFunctionalProxy).toBe(false)
+    })
+
+    it('should not update not constructed Proxies', () => {
+      const spy1 = jest.fn()
+      const spy2 = jest.fn()
+      class App extends React.Component {
+        constructor() {
+          super()
+          spy1()
+        }
+        render() {
+          return <div />
+        }
+      }
+
+      const proxy = createProxy(App)
+      expect(spy1).not.toHaveBeenCalled()
+      expect(spy1).not.toHaveBeenCalled()
+      {
+        class App extends React.Component {
+          constructor() {
+            super()
+            spy2()
+          }
+          render() {
+            return <div />
+          }
+        }
+        proxy.update(App)
+
+        expect(spy1).not.toHaveBeenCalled()
+        expect(spy1).not.toHaveBeenCalled()
+
+        const Proxy = proxy.get()
+        mount(<Proxy />)
+
+        expect(spy1).toHaveBeenCalled()
+        expect(spy1).toHaveBeenCalled()
+      }
+    })
+
+    it('should update constructed Proxies', () => {
+      const spy1 = jest.fn()
+      const spy2 = jest.fn()
+      class App extends React.Component {
+        constructor() {
+          super()
+          spy1()
+        }
+        render() {
+          return <div />
+        }
+      }
+
+      const proxy = createProxy(App)
+      const Proxy = proxy.get()
+      mount(<Proxy />)
+      expect(spy1).toHaveBeenCalled()
+      expect(spy2).not.toHaveBeenCalled()
+      {
+        class App extends React.Component {
+          constructor() {
+            super()
+            spy2()
+          }
+          render() {
+            return <div />
+          }
+        }
+        proxy.update(App)
+
+        expect(spy1).toHaveBeenCalled()
+        expect(spy2).toHaveBeenCalled()
+      }
     })
   })
 
