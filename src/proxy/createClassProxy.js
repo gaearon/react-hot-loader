@@ -108,6 +108,8 @@ function createClassProxy(InitialComponent, proxyKey, options) {
   let savedDescriptors = {}
   let injectedMembers = {}
   let proxyGeneration = 0
+  let classUpdatePostponed = null
+  let instancesCount = 0
   let isFunctionalComponent = !isReactClass(InitialComponent)
 
   let lastInstance = null
@@ -115,11 +117,16 @@ function createClassProxy(InitialComponent, proxyKey, options) {
   function postConstructionAction() {
     this[GENERATION] = 0
 
+    lastInstance = this
+    // is there is an update pending
+    if (classUpdatePostponed) {
+      const callUpdate = classUpdatePostponed
+      classUpdatePostponed = null
+      callUpdate()
+    }
     // As long we can't override constructor
     // every class shall evolve from a base class
     inject(this, proxyGeneration, injectedMembers)
-
-    lastInstance = this
   }
 
   function proxiedUpdate() {
@@ -162,6 +169,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     'componentDidMount',
     target => {
       target[PROXY_IS_MOUNTED] = true
+      instancesCount++
     },
   )
   const componentDidUpdate = lifeCycleWrapperFactory(
@@ -172,6 +180,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     'componentWillUnmount',
     target => {
       target[PROXY_IS_MOUNTED] = false
+      instancesCount--
     },
   )
 
@@ -308,9 +317,10 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       return
     }
 
+    isFunctionalComponent = !isReactClass(NextComponent)
+
     proxies.set(NextComponent, proxy)
 
-    isFunctionalComponent = !isReactClass(NextComponent)
     proxyGeneration++
 
     // Save the next constructor so we call it
@@ -343,17 +353,26 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     if (isFunctionalComponent || !ProxyComponent) {
       // nothing
     } else {
-      checkLifeCycleMethods(ProxyComponent, NextComponent)
-      Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
-      defineProxyMethods(ProxyComponent, NextComponent.prototype)
-      if (proxyGeneration > 1) {
-        injectedMembers = mergeComponents(
-          ProxyComponent,
-          NextComponent,
-          InitialComponent,
-          lastInstance,
-          injectedMembers,
-        )
+      const classHotReplacement = () => {
+        checkLifeCycleMethods(ProxyComponent, NextComponent)
+        Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
+        defineProxyMethods(ProxyComponent, NextComponent.prototype)
+        if (proxyGeneration > 1) {
+          injectedMembers = mergeComponents(
+            ProxyComponent,
+            NextComponent,
+            InitialComponent,
+            lastInstance,
+            injectedMembers,
+          )
+        }
+      }
+
+      // Was constructed once
+      if (instancesCount > 0) {
+        classHotReplacement()
+      } else {
+        classUpdatePostponed = classHotReplacement
       }
     }
   }
