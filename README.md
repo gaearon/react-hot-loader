@@ -223,7 +223,7 @@ Using React Hot Loader with React Native can cause unexpected issues (see #824) 
 
 Most of modern React component-loader libraries are not "100%" compatible with React-Hot-Loader, as long
 they load deferred component on `componentWillMount`, but never reload it again.
-As result - you can update the code, webpack will ship that code the the client, but nothing will be updated.
+As result - you can update the code, webpack will ship that code to the client, but nothing will be updated.
 
 In this case, you have to setup "reloading" by your self - you have to mark your "loaded components" as _hot-exported_.
 
