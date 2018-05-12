@@ -221,35 +221,33 @@ Using React Hot Loader with React Native can cause unexpected issues (see #824) 
 
 ### Code Splitting
 
-Most of modern React component-loader libraries are not "100%" compatible with React-Hot-Loader, as long
-they load deferred component on `componentWillMount`, but never reload it again.
-As result - you can update the code, webpack will ship that code to the client, but nothing will be updated.
+If you want to use Code Splitting + React Hot Loader, the simplest solution is to pick one of our compatible library:
 
-In this case, you have to setup "reloading" by your self - you have to mark your "loaded components" as _hot-exported_.
+* [Loadable Components](https://github.com/smooth-code/loadable-components/)
+* [Imported Component](https://github.com/theKashey/react-imported-component)
+* [React Universal Component](https://github.com/faceyspacey/react-universal-component)
 
-Example using [react-async-component](https://github.com/ctrlplusb/react-async-component)...)
+If you use a non-friendly library like [React Loadable](https://github.com/jamiebuilds/react-loadable) you have to mark all your "loaded components" as _hot-exported_:
 
 ```js
 // AsyncHello.js
-import asyncComponent from 'react-async-component'
-const AsyncHello = asyncComponent({
-  resolve: () => import('./Hello.js'),
+import Loadable from 'react-loadable'
+
+const AsyncHello = Loadable({
+  loader: () => import('./Hello'),
 })
 
-// Hello.js
-import { hot } from 'react-hot-loader'
-const Hello = () => 'Hello'
-export default hot(module)(Hello) // <-- module will reload itself
+export default AsyncHello
 ```
 
-Marking component as `hot` will make it self-reloadable. But this require altering your code, and sometimes
-is not possible.
+```js
+// Hello.js
+import { hot } from 'react-hot-loader'
 
-For a better expirence you could use more React-Hot-Loader "compatible" loaders:
+const Hello = () => 'Hello'
 
-* [loadable-components](https://github.com/smooth-code/loadable-components/) - always reloads and preloads component in development.
-* [react-imported-component](https://github.com/theKashey/react-imported-component) - reloads component on HMR (React 16.3 compatible).
-* [react-universal-component](https://github.com/faceyspacey/react-universal-component) - reloads component on HMR.
+export default hot(module)(Hello) // <-- module will reload itself
+```
 
 ### Checking Element `type`s
 
