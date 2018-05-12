@@ -152,6 +152,9 @@ function inject(target, currentGeneration, injectedMembers) {
           var _this  = this; // common babel transpile
           var _this2 = this; // common babel transpile
           var _this3 = this; // common babel transpile
+          var _this4 = this; // common babel transpile
+          var _this5 = this; // common babel transpile
+          var _this6 = this; // common babel transpile
           return ${injectedMembers[key]};
           }).call(this)`,
           )
