@@ -227,7 +227,7 @@ If you want to use Code Splitting + React Hot Loader, the simplest solution is t
 * [Imported Component](https://github.com/theKashey/react-imported-component)
 * [React Universal Component](https://github.com/faceyspacey/react-universal-component)
 
-If you use a non-friendly library like [React Loadable](https://github.com/jamiebuilds/react-loadable) you can <s>submit an issue on the project</s> or mark all your "loaded components" as _hot-exported_:
+If you use a non-friendly library like [React Loadable](https://github.com/jamiebuilds/react-loadable) you have to mark all your "loaded components" as _hot-exported_:
 
 ```js
 // AsyncHello.js
