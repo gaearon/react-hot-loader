@@ -198,7 +198,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     } else if (isFunctionalComponent) {
       result = CurrentComponent(this.props, this.context)
     } else {
-      result = (CurrentComponent.prototype.render || this.render).call(this)
+      result = CurrentComponent.prototype.render.call(this)
     }
 
     return renderOptions.componentDidRender.call(this, result)
