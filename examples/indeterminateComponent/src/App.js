@@ -1,4 +1,4 @@
-import { hot } from 'react-hot-loader'
+import { hot, setConfig } from 'react-hot-loader'
 import * as React from 'react'
 import Counter from './Counter'
 
@@ -47,5 +47,7 @@ const App = () => (
     test#5
   </h1>
 )
+
+setConfig({ logLevel: 'debug' })
 
 export default hot(module)(App)
