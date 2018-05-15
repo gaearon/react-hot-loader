@@ -22,6 +22,8 @@ const stackReport = () => {
   logger.warn('in', rev[0].name, rev)
 }
 
+const REACT_CONTEXT_CURRENT_VALUE = '_currentValue'
+
 const areNamesEqual = (a, b) =>
   a === b || (UNDEFINED_NAMES[a] && UNDEFINED_NAMES[b])
 const isReactClass = fn => fn && !!fn.render
@@ -214,8 +216,13 @@ const mergeInject = (a, b, instance) => {
 
 const transformFlowNode = flow =>
   flow.reduce((acc, node) => {
-    if (isFragmentNode(node) && node.props && node.props.children) {
-      return [...acc, ...filterNullArray(asArray(node.props.children))]
+    if (node && isFragmentNode(node)) {
+      if (node.props && node.props.children) {
+        return [...acc, ...filterNullArray(asArray(node.props.children))]
+      }
+      if (node.children) {
+        return [...acc, ...filterNullArray(asArray(node.children))]
+      }
     }
     return [...acc, node]
   }, [])
@@ -279,6 +286,15 @@ const hotReplacementRender = (instance, stack) => {
 
     // text node
     if (typeof child !== 'object' || !stackChild || !stackChild.instance) {
+      if (stackChild && stackChild.children && stackChild.children.length) {
+        logger.error(
+          'React-hot-loader: reconciliation failed',
+          'could not dive into [',
+          child,
+          '] while some elements are still present in the tree.',
+        )
+        stackReport()
+      }
       return
     }
 
@@ -296,11 +312,20 @@ const hotReplacementRender = (instance, stack) => {
       return
     }
 
-    if (typeof child.type !== 'function') {
+    // React context consumer
+    if (child.type && typeof child.type === 'object' && child.type.Consumer) {
+      next({
+        children: (child.props ? child.props.children : child.children[0])(
+          child.type[REACT_CONTEXT_CURRENT_VALUE],
+        ),
+      })
+    } else if (typeof child.type !== 'function') {
       next(
         // move types from render to the instances of hydrated tree
         mergeInject(
-          asArray(child.props ? child.props.children : child.children),
+          transformFlowNode(
+            asArray(child.props ? child.props.children : child.children),
+          ),
           stackChild.instance.children,
           stackChild.instance,
         ),
