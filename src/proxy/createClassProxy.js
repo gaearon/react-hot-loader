@@ -16,6 +16,7 @@ import {
   proxyClassCreator,
 } from './utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
+import config from '../configuration'
 
 const has = Object.prototype.hasOwnProperty
 
@@ -239,12 +240,14 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       const result = CurrentComponent(props, context)
 
       // simple SFC
-      if (!CurrentComponent.contextTypes) {
-        if (!ProxyFacade.isStatelessFunctionalProxy) {
-          setSFPFlag(ProxyFacade, true)
-        }
+      if (config.pureSFC) {
+        if (!CurrentComponent.contextTypes) {
+          if (!ProxyFacade.isStatelessFunctionalProxy) {
+            setSFPFlag(ProxyFacade, true)
+          }
 
-        return renderOptions.componentDidRender(result)
+          return renderOptions.componentDidRender(result)
+        }
       }
       setSFPFlag(ProxyFacade, false)
 
