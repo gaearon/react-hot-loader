@@ -314,11 +314,15 @@ const hotReplacementRender = (instance, stack) => {
 
     // React context consumer
     if (child.type && typeof child.type === 'object' && child.type.Consumer) {
-      next({
-        children: (child.props ? child.props.children : child.children[0])(
-          child.type[REACT_CONTEXT_CURRENT_VALUE],
-        ),
-      })
+      try {
+        next({
+          children: (child.props ? child.props.children : child.children[0])(
+            child.type[REACT_CONTEXT_CURRENT_VALUE],
+          ),
+        })
+      } catch (e) {
+        // do nothing, yet
+      }
     } else if (typeof child.type !== 'function') {
       next(
         // move types from render to the instances of hydrated tree
