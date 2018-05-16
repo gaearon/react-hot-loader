@@ -5,6 +5,10 @@ import {
   updateInstance,
   getComponentDisplayName,
   isFragmentNode,
+  isContextConsumer,
+  isContextProvider,
+  getContextProvider,
+  CONTEXT_CURRENT_VALUE,
 } from '../internal/reactUtils'
 import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
@@ -22,7 +26,9 @@ const stackReport = () => {
   logger.warn('in', rev[0].name, rev)
 }
 
-const REACT_CONTEXT_CURRENT_VALUE = '_currentValue'
+const emptyMap = new Map()
+const stackContext = () =>
+  (renderStack[renderStack.length - 1] || {}).context || emptyMap
 
 const areNamesEqual = (a, b) =>
   a === b || (UNDEFINED_NAMES[a] && UNDEFINED_NAMES[b])
@@ -253,10 +259,12 @@ const scheduleInstanceUpdate = instance => {
 const hotReplacementRender = (instance, stack) => {
   if (isReactClass(instance)) {
     const type = getElementType(stack)
+
     renderStack.push({
       name: getComponentDisplayName(type),
       type,
       props: stack.instance.props,
+      context: stackContext(),
     })
   }
   const flow = transformFlowNode(filterNullArray(asArray(render(instance))))
@@ -312,18 +320,35 @@ const hotReplacementRender = (instance, stack) => {
       return
     }
 
-    // React context consumer
-    if (child.type && typeof child.type === 'object' && child.type.Consumer) {
+    // React context
+    if (isContextConsumer(child)) {
       try {
         next({
           children: (child.props ? child.props.children : child.children[0])(
-            child.type[REACT_CONTEXT_CURRENT_VALUE],
+            stackContext().get(child.type) || child.type[CONTEXT_CURRENT_VALUE],
           ),
         })
       } catch (e) {
         // do nothing, yet
       }
     } else if (typeof child.type !== 'function') {
+      // React
+      let childName = child.type ? getComponentDisplayName(child.type) : 'empty'
+      let extraContext = stackContext()
+
+      if (isContextProvider(child)) {
+        extraContext = new Map(extraContext)
+        extraContext.set(getContextProvider(child.type), child.props.value)
+        childName = 'ContextProvider'
+      }
+
+      renderStack.push({
+        name: childName,
+        type: child.type,
+        props: stack.instance.props,
+        context: extraContext,
+      })
+
       next(
         // move types from render to the instances of hydrated tree
         mergeInject(
@@ -334,6 +359,7 @@ const hotReplacementRender = (instance, stack) => {
           stackChild.instance,
         ),
       )
+      renderStack.pop()
     } else {
       // unwrap proxy
       const childType = getElementType(child)
