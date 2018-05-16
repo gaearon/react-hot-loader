@@ -1,0 +1,32 @@
+{
+  "presets": [
+    "@babel/preset-flow",
+    "@babel/preset-react",
+    ["@babel/preset-env", { "modules": false }]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-syntax-dynamic-import"
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "@babel/plugin-transform-modules-commonjs"
+      ]
+    },
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    },
+    "production": {
+      "plugins": [
+        "@babel/plugin-transform-react-constant-elements",
+        "@babel/plugin-transform-react-inline-elements",
+        "babel-plugin-transform-react-pure-class-to-function",
+        "babel-plugin-transform-react-remove-prop-types"
+      ]
+    }
+  }
+}

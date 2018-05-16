@@ -1,0 +1,4 @@
+[include]
+src/
+[ignore]
+.*/__tests__/.*

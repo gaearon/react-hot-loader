@@ -18,5 +18,14 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: {
+      react: path.resolve(path.join(__dirname, './node_modules/react')),
+      'babel-core': path.resolve(
+        path.join(__dirname, './node_modules/@babel/core'),
+      ),
+    },
+  },
   plugins: [new HtmlWebpackPlugin(), new webpack.NamedModulesPlugin()],
 }
