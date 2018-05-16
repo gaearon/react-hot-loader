@@ -5,6 +5,7 @@ import { increment as incrementGeneration } from '../src/global/generation'
 import { areComponentsEqual } from '../src/utils.dev'
 import logger from '../src/logger'
 import reactHotLoader from '../src/reactHotLoader'
+import configuration from '../src/configuration'
 
 jest.mock('../src/logger')
 
@@ -361,72 +362,97 @@ describe('reconciler', () => {
       expect(wrapper.text()).toContain(43)
     })
 
-    it('should assmeble props for nested children', () => {
-      const RenderChildren = ({ children }) => <div>{children}</div>
-      const RenderProp = jest
-        .fn()
-        .mockImplementation(({ prop }) => <div>{prop}</div>)
-      const DefaultProp = jest.fn().mockImplementation(({ prop }) => (
-        <div>
-          {prop ? (
-            <div>42</div>
-          ) : (
-            <div>
-              <div>24</div>
-            </div>
-          )}
-        </div>
-      ))
-      DefaultProp.defaultProps = {
-        prop: 'defaultValue',
-      }
-
-      const App = () => (
-        <RenderChildren>
+    describe('should assmeble props for nested children', () => {
+      const testSuite = () => {
+        const RenderChildren = ({ children }) => <div>{children}</div>
+        const RenderProp = jest
+          .fn()
+          .mockImplementation(({ prop }) => <div>{prop}</div>)
+        const DefaultProp = jest.fn().mockImplementation(({ prop }) => (
           <div>
-            <RenderChildren>
-              <div className="1">
-                <div className="1.1">
-                  <div className="1.2">
-                    <RenderProp value={42} />
+            {prop ? (
+              <div>42</div>
+            ) : (
+              <div>
+                <div>24</div>
+              </div>
+            )}
+          </div>
+        ))
+        DefaultProp.defaultProps = {
+          prop: 'defaultValue',
+        }
+
+        const App = () => (
+          <RenderChildren>
+            <div>
+              <RenderChildren>
+                <div className="1">
+                  <div className="1.1">
+                    <div className="1.2">
+                      <RenderProp value={42} />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="2">
-                <div className="2.1">
-                  <RenderProp value={24} />
-                  <DefaultProp />
+                <div className="2">
+                  <div className="2.1">
+                    <RenderProp value={24} />
+                    <DefaultProp />
+                  </div>
                 </div>
-              </div>
-            </RenderChildren>
-          </div>
-        </RenderChildren>
-      )
+              </RenderChildren>
+            </div>
+          </RenderChildren>
+        )
 
-      logger.warn.mockClear()
+        logger.warn.mockClear()
 
-      const wrapper = mount(
-        <AppContainer>
-          <div>
-            <App />
-          </div>
-        </AppContainer>,
-      )
+        const wrapper = mount(
+          <AppContainer>
+            <div>
+              <App />
+            </div>
+          </AppContainer>,
+        )
 
-      incrementGeneration()
-      wrapper.setProps({ update: 'now' })
+        incrementGeneration()
+        wrapper.setProps({ update: 'now' })
+        return { RenderProp, DefaultProp }
+      }
 
-      expect(RenderProp).toHaveBeenCalledTimes(4)
-      expect(RenderProp.mock.calls[0][0]).toEqual({ value: 42 })
-      expect(RenderProp.mock.calls[1][0]).toEqual({ value: 24 })
-      expect(RenderProp.mock.calls[2][0]).toEqual({ value: 42 })
-      expect(RenderProp.mock.calls[3][0]).toEqual({ value: 24 })
+      it('for Component SFC', () => {
+        const { RenderProp, DefaultProp } = testSuite()
 
-      expect(DefaultProp).toHaveBeenCalledTimes(2)
-      expect(DefaultProp.mock.calls[0][0]).toEqual({ prop: 'defaultValue' })
-      expect(DefaultProp.mock.calls[1][0]).toEqual({ prop: 'defaultValue' })
+        expect(RenderProp).toHaveBeenCalledTimes(6)
+        expect(RenderProp.mock.calls[0][0]).toEqual({ value: 42 })
+        expect(RenderProp.mock.calls[1][0]).toEqual({ value: 24 })
+        expect(RenderProp.mock.calls[2][0]).toEqual({ value: 42 })
+        expect(RenderProp.mock.calls[3][0]).toEqual({ value: 24 })
 
-      expect(logger.warn).not.toHaveBeenCalled()
+        expect(DefaultProp).toHaveBeenCalledTimes(3)
+        expect(DefaultProp.mock.calls[0][0]).toEqual({ prop: 'defaultValue' })
+        expect(DefaultProp.mock.calls[1][0]).toEqual({ prop: 'defaultValue' })
+
+        expect(logger.warn).not.toHaveBeenCalled()
+      })
+
+      it('for Pure SFC', () => {
+        configuration.pureSFC = true
+        const { RenderProp, DefaultProp } = testSuite()
+        configuration.pureSFC = false
+
+        expect(RenderProp).toHaveBeenCalledTimes(4)
+        expect(RenderProp.mock.calls[0][0]).toEqual({ value: 42 })
+        expect(RenderProp.mock.calls[1][0]).toEqual({ value: 24 })
+        expect(RenderProp.mock.calls[2][0]).toEqual({ value: 42 })
+        expect(RenderProp.mock.calls[3][0]).toEqual({ value: 24 })
+
+        expect(DefaultProp).toHaveBeenCalledTimes(2)
+        expect(DefaultProp.mock.calls[0][0]).toEqual({ prop: 'defaultValue' })
+        expect(DefaultProp.mock.calls[1][0]).toEqual({ prop: 'defaultValue' })
+
+        expect(logger.warn).not.toHaveBeenCalled()
+      })
     })
 
     describe('when an error occurs in render', () => {

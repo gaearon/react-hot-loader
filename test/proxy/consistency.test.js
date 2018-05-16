@@ -3,6 +3,7 @@
 import React from 'react'
 import { createMounter, ensureNoWarnings } from './helper'
 import createProxy from '../../src/proxy'
+import configuration from '../../src/configuration'
 
 const createFixtures = () => ({
   modern: {
@@ -349,13 +350,25 @@ describe('consistency', () => {
       expect(instance instanceof App).toBe(true)
     })
 
-    it('should wrap SFC by SFC', () => {
-      const App = () => <div />
+    describe('should wrap SFC by SFC', () => {
+      it('should wrap SFC by SFC Component', () => {
+        const App = () => <div />
 
-      const Proxy = createProxy(App).get()
-      expect('isStatelessFunctionalProxy' in Proxy).toBe(false)
-      mount(<Proxy />).instance()
-      expect(Proxy.isStatelessFunctionalProxy).toBe(true)
+        const Proxy = createProxy(App).get()
+        expect('isStatelessFunctionalProxy' in Proxy).toBe(false)
+        mount(<Proxy />).instance()
+        expect(Proxy.isStatelessFunctionalProxy).toBe(false)
+      })
+
+      it('should wrap SFC by SFC Pure', () => {
+        const App = () => <div />
+        configuration.pureSFC = true
+        const Proxy = createProxy(App).get()
+        expect('isStatelessFunctionalProxy' in Proxy).toBe(false)
+        mount(<Proxy />).instance()
+        configuration.pureSFC = false
+        expect(Proxy.isStatelessFunctionalProxy).toBe(true)
+      })
     })
 
     it('should wrap SFC with Context by Proxy', () => {

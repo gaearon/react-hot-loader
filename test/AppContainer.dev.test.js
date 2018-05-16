@@ -1970,7 +1970,13 @@ describe(`AppContainer (dev)`, () => {
         const App = () => (
           <React.Fragment>
             <button>
-              text <InnerComponent />
+              <React.Fragment>
+                <span />
+                <span>
+                  text <InnerComponent />
+                </span>
+                <span />
+              </React.Fragment>
             </button>
           </React.Fragment>
         )
@@ -1998,7 +2004,13 @@ describe(`AppContainer (dev)`, () => {
           const App = () => (
             <React.Fragment>
               <button>
-                another text<InnerComponent />
+                <React.Fragment>
+                  <span />
+                  <span>
+                    another text <InnerComponent />
+                  </span>
+                  <span />
+                </React.Fragment>
               </button>
             </React.Fragment>
           )
@@ -2008,7 +2020,7 @@ describe(`AppContainer (dev)`, () => {
         }
 
         expect(unmount).toHaveBeenCalledTimes(0)
-        expect(wrapper.update().text()).toBe('another textinternal')
+        expect(wrapper.update().text()).toBe('another text internal')
       } else {
         // React 15 is always ok
         expect(true).toBe(true)

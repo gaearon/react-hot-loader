@@ -343,6 +343,8 @@ Set a new configuration for React Hot Loader.
 Available options are:
 
 * `logLevel`: specify log level, default to `"error"`, available values are: `['debug', 'log', 'warn', 'error']`
+* `pureSFC`: enable Stateless Functional Component. If disabled they will be converted to React Components.
+  Default value: false.
 
 ```js
 import { setConfig } from 'react-hot-loader'
