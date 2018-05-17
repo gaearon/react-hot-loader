@@ -267,6 +267,26 @@ const element = <Component />
 areComponentsEqual(element.type, Component) // true
 ```
 
+Another way - compare "rendered" element type
+
+```js
+const element = <Component />
+console.log(element.type === (<Component/>).type) // true
+
+// better - precache rendered type
+const element = <Component />
+const ComponentType = (<Component />).type
+console.log(element.type === ComponentType // true
+```
+
+Another way - compare Component name.
+> Not all components has a name
+```js
+const element = <Component />
+console.log(element.displayName === "Component") // true
+```
+
+
 ### Webpack ExtractTextPlugin
 
 Webpack ExtractTextPlugin is not compatible with React Hot Loader. Please disable it in development:
