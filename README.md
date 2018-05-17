@@ -37,7 +37,9 @@ npm install react-hot-loader
 }
 ```
 
-2.  Mark your root component as _hot-exported_:
+2.  Mark your root 
+
+onent as _hot-exported_:
 
 ```js
 // App.js
@@ -276,8 +278,9 @@ console.log(element.type === (<Component/>).type) // true
 // better - precache rendered type
 const element = <Component />
 const ComponentType = (<Component />).type
-console.log(element.type === ComponentType // true
+console.log(element.type === ComponentType) // true
 ```
+But you might have to provide all required props. See [original issue](https://github.com/gaearon/react-hot-loader/issues/304)
 
 Another way - compare Component name.
 > Not all components has a name
@@ -286,6 +289,11 @@ const element = <Component />
 console.log(element.displayName === "Component") // true
 ```
 
+For Components you might be able to use __instanceOf__ operator
+```js
+const element = <Component />
+console.log(element.type instanceOf Component) // true
+```
 
 ### Webpack ExtractTextPlugin
 
