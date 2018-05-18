@@ -338,7 +338,13 @@ const hotReplacementRender = (instance, stack) => {
 
       if (isContextProvider(child)) {
         extraContext = new Map(extraContext)
-        extraContext.set(getContextProvider(child.type), child.props.value)
+        extraContext.set(
+          getContextProvider(child.type),
+          {
+            ...(child.nextProps || {}),
+            ...(child.props || {}),
+          }.value,
+        )
         childName = 'ContextProvider'
       }
 
