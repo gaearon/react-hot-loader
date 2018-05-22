@@ -22,3 +22,15 @@ export const updateInstance = instance => {
 
 export const isFragmentNode = ({ type }) =>
   React.Fragment && type === React.Fragment
+
+const ContextType = React.createContext ? React.createContext() : null
+const ConsumerType = ContextType && ContextType.Consumer.$$typeof
+const ProviderType = ContextType && ContextType.Provider.$$typeof
+
+export const CONTEXT_CURRENT_VALUE = '_currentValue'
+
+export const isContextConsumer = ({ type }) =>
+  type && typeof type === 'object' && type.$$typeof === ConsumerType
+export const isContextProvider = ({ type }) =>
+  type && typeof type === 'object' && type.$$typeof === ProviderType
+export const getContextProvider = type => type && type._context

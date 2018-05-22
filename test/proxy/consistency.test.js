@@ -3,6 +3,7 @@
 import React from 'react'
 import { createMounter, ensureNoWarnings } from './helper'
 import createProxy from '../../src/proxy'
+import configuration from '../../src/configuration'
 
 const createFixtures = () => ({
   modern: {
@@ -250,7 +251,6 @@ describe('consistency', () => {
             this[key] = eval(code)
           }
         }
-        /* eslint-enable */
 
         const proxy = createProxy(BaseClass)
         const Proxy = proxy.get()
@@ -258,10 +258,55 @@ describe('consistency', () => {
         expect(instance.render()).toBe(42)
 
         proxy.update(Update1Class)
+        new Proxy() // side effect
         expect(instance.render()).toBe(43)
 
         proxy.update(Update2Class)
+        new Proxy() // side effect
+
         expect(instance.render()).toBe(42)
+        /* eslint-enable */
+      })
+
+      it('should reflect external dependencies', () => {
+        /* eslint-disable */
+        const externalValue = 42
+        class BaseClass extends React.Component {
+          arrow = () => externalValue
+
+          render() {
+            return this.arrow()
+          }
+
+          __reactstandin__regenerateByEval(key, code) {
+            this[key] = eval(code)
+          }
+        }
+
+        const proxy = createProxy(BaseClass)
+        const Proxy = proxy.get()
+        const instance = new Proxy()
+        expect(instance.render()).toBe(42)
+
+        {
+          const externalValue = 24
+          class Update1Class extends React.Component {
+            arrow = () => externalValue
+
+            render() {
+              return this.arrow()
+            }
+
+            __reactstandin__regenerateByEval(key, code) {
+              this[key] = eval(code)
+            }
+          }
+          proxy.update(Update1Class)
+          new Proxy()
+        }
+        /* eslint-enable */
+
+        expect(instance.render()).toBe(24)
       })
 
       it('should stand-for all class members', () => {
@@ -305,13 +350,25 @@ describe('consistency', () => {
       expect(instance instanceof App).toBe(true)
     })
 
-    it('should wrap SFC by SFC', () => {
-      const App = () => <div />
+    describe('should wrap SFC by SFC', () => {
+      it('should wrap SFC by SFC Component', () => {
+        const App = () => <div />
 
-      const Proxy = createProxy(App).get()
-      expect('isStatelessFunctionalProxy' in Proxy).toBe(false)
-      mount(<Proxy />).instance()
-      expect(Proxy.isStatelessFunctionalProxy).toBe(true)
+        const Proxy = createProxy(App).get()
+        expect('isStatelessFunctionalProxy' in Proxy).toBe(false)
+        mount(<Proxy />).instance()
+        expect(Proxy.isStatelessFunctionalProxy).toBe(false)
+      })
+
+      it('should wrap SFC by SFC Pure', () => {
+        const App = () => <div />
+        configuration.pureSFC = true
+        const Proxy = createProxy(App).get()
+        expect('isStatelessFunctionalProxy' in Proxy).toBe(false)
+        mount(<Proxy />).instance()
+        configuration.pureSFC = false
+        expect(Proxy.isStatelessFunctionalProxy).toBe(true)
+      })
     })
 
     it('should wrap SFC with Context by Proxy', () => {
@@ -322,6 +379,80 @@ describe('consistency', () => {
       expect('isStatelessFunctionalProxy' in Proxy).toBe(false)
       mount(<Proxy />).instance()
       expect(Proxy.isStatelessFunctionalProxy).toBe(false)
+    })
+
+    it('should not update not constructed Proxies', () => {
+      const spy1 = jest.fn()
+      const spy2 = jest.fn()
+      class App extends React.Component {
+        constructor() {
+          super()
+          spy1()
+        }
+        render() {
+          return <div />
+        }
+      }
+
+      const proxy = createProxy(App)
+      expect(spy1).not.toHaveBeenCalled()
+      expect(spy1).not.toHaveBeenCalled()
+      {
+        class App extends React.Component {
+          constructor() {
+            super()
+            spy2()
+          }
+          render() {
+            return <div />
+          }
+        }
+        proxy.update(App)
+
+        expect(spy1).not.toHaveBeenCalled()
+        expect(spy1).not.toHaveBeenCalled()
+
+        const Proxy = proxy.get()
+        mount(<Proxy />)
+
+        expect(spy1).toHaveBeenCalled()
+        expect(spy1).toHaveBeenCalled()
+      }
+    })
+
+    it('should update constructed Proxies', () => {
+      const spy1 = jest.fn()
+      const spy2 = jest.fn()
+      class App extends React.Component {
+        constructor() {
+          super()
+          spy1()
+        }
+        render() {
+          return <div />
+        }
+      }
+
+      const proxy = createProxy(App)
+      const Proxy = proxy.get()
+      mount(<Proxy />)
+      expect(spy1).toHaveBeenCalled()
+      expect(spy2).not.toHaveBeenCalled()
+      {
+        class App extends React.Component {
+          constructor() {
+            super()
+            spy2()
+          }
+          render() {
+            return <div />
+          }
+        }
+        proxy.update(App)
+
+        expect(spy1).toHaveBeenCalled()
+        expect(spy2).toHaveBeenCalled()
+      }
     })
   })
 

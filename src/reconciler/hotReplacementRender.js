@@ -5,6 +5,10 @@ import {
   updateInstance,
   getComponentDisplayName,
   isFragmentNode,
+  isContextConsumer,
+  isContextProvider,
+  getContextProvider,
+  CONTEXT_CURRENT_VALUE,
 } from '../internal/reactUtils'
 import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
@@ -21,6 +25,10 @@ const stackReport = () => {
   const rev = renderStack.slice().reverse()
   logger.warn('in', rev[0].name, rev)
 }
+
+const emptyMap = new Map()
+const stackContext = () =>
+  (renderStack[renderStack.length - 1] || {}).context || emptyMap
 
 const areNamesEqual = (a, b) =>
   a === b || (UNDEFINED_NAMES[a] && UNDEFINED_NAMES[b])
@@ -214,8 +222,13 @@ const mergeInject = (a, b, instance) => {
 
 const transformFlowNode = flow =>
   flow.reduce((acc, node) => {
-    if (isFragmentNode(node) && node.props && node.props.children) {
-      return [...acc, ...filterNullArray(node.props.children)]
+    if (node && isFragmentNode(node)) {
+      if (node.props && node.props.children) {
+        return [...acc, ...filterNullArray(asArray(node.props.children))]
+      }
+      if (node.children) {
+        return [...acc, ...filterNullArray(asArray(node.children))]
+      }
     }
     return [...acc, node]
   }, [])
@@ -246,10 +259,12 @@ const scheduleInstanceUpdate = instance => {
 const hotReplacementRender = (instance, stack) => {
   if (isReactClass(instance)) {
     const type = getElementType(stack)
+
     renderStack.push({
       name: getComponentDisplayName(type),
       type,
       props: stack.instance.props,
+      context: stackContext(),
     })
   }
   const flow = transformFlowNode(filterNullArray(asArray(render(instance))))
@@ -261,22 +276,33 @@ const hotReplacementRender = (instance, stack) => {
     const next = instance => {
       // copy over props as long new component may be hidden inside them
       // child does not have all props, as long some of them can be calculated on componentMount.
+      const realProps = instance.props
       const nextProps = {
-        ...instance.props,
+        ...realProps,
         ...(child.nextProps || {}),
         ...(child.props || {}),
       }
 
       if (isReactClass(instance) && instance.componentWillUpdate) {
         // Force-refresh component (bypass redux renderedComponent)
-        instance.componentWillUpdate(nextProps, instance.state)
+        instance.componentWillUpdate({ ...realProps }, instance.state)
       }
       instance.props = nextProps
       hotReplacementRender(instance, stackChild)
+      instance.props = realProps
     }
 
     // text node
     if (typeof child !== 'object' || !stackChild || !stackChild.instance) {
+      if (stackChild && stackChild.children && stackChild.children.length) {
+        logger.error(
+          'React-hot-loader: reconciliation failed',
+          'could not dive into [',
+          child,
+          '] while some elements are still present in the tree.',
+        )
+        stackReport()
+      }
       return
     }
 
@@ -294,15 +320,52 @@ const hotReplacementRender = (instance, stack) => {
       return
     }
 
-    if (typeof child.type !== 'function') {
+    // React context
+    if (isContextConsumer(child)) {
+      try {
+        next({
+          children: (child.props ? child.props.children : child.children[0])(
+            stackContext().get(child.type) || child.type[CONTEXT_CURRENT_VALUE],
+          ),
+        })
+      } catch (e) {
+        // do nothing, yet
+      }
+    } else if (typeof child.type !== 'function') {
+      // React
+      let childName = child.type ? getComponentDisplayName(child.type) : 'empty'
+      let extraContext = stackContext()
+
+      if (isContextProvider(child)) {
+        extraContext = new Map(extraContext)
+        extraContext.set(
+          getContextProvider(child.type),
+          {
+            ...(child.nextProps || {}),
+            ...(child.props || {}),
+          }.value,
+        )
+        childName = 'ContextProvider'
+      }
+
+      renderStack.push({
+        name: childName,
+        type: child.type,
+        props: stack.instance.props,
+        context: extraContext,
+      })
+
       next(
         // move types from render to the instances of hydrated tree
         mergeInject(
-          asArray(child.props ? child.props.children : child.children),
+          transformFlowNode(
+            asArray(child.props ? child.props.children : child.children),
+          ),
           stackChild.instance.children,
           stackChild.instance,
         ),
       )
+      renderStack.pop()
     } else {
       // unwrap proxy
       const childType = getElementType(child)

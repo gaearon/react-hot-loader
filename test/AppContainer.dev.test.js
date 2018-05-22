@@ -210,6 +210,87 @@ describe(`AppContainer (dev)`, () => {
       expect(wrapper.text()).toBe('new render + old state')
     })
 
+    it('Could handle render as a prop', () => {
+      const spy = jest.fn()
+
+      /* eslint-disable */
+      class SubApp extends Component {
+        componentWillUnmount() {
+          spy('SubApp1')
+        }
+
+        render = function() {
+          return <span>works</span>
+        }
+      }
+
+      class App extends Component {
+        componentWillUnmount() {
+          spy('App1')
+        }
+
+        __reactstandin__regenerateByEval(key, code) {
+          this[key] = eval(code)
+        }
+
+        render = function() {
+          return (
+            <span>
+              <SubApp /> before
+            </span>
+          )
+        }
+      }
+      /* eslint-enable */
+
+      const Indirect = ({ App }) => (
+        <AppContainer>
+          <App />
+        </AppContainer>
+      )
+
+      const wrapper = mount(<Indirect App={App} />)
+      expect(wrapper.text()).toBe('works before')
+
+      {
+        /* eslint-disable */
+        class SubApp extends Component {
+          componentWillUnmount() {
+            spy('SubApp2')
+          }
+
+          render = function() {
+            return <span>works</span>
+          }
+        }
+
+        class App extends Component {
+          componentWillUnmount() {
+            spy('App2')
+          }
+
+          __reactstandin__regenerateByEval(key, code) {
+            this[key] = eval(code)
+          }
+
+          render = function() {
+            return (
+              <span>
+                <SubApp /> after
+              </span>
+            )
+          }
+        }
+        /* eslint-enable */
+
+        incrementGeneration()
+        wrapper.setProps({ App })
+      }
+
+      expect(wrapper.text()).toBe('works after')
+      expect(spy).not.toHaveBeenCalled()
+    })
+
     it('replaces children class methods', () => {
       const spy = jest.fn()
 
@@ -1871,6 +1952,81 @@ describe(`AppContainer (dev)`, () => {
       expect(wrapper.update().text()).toBe('PATCHED + 6 v2')
     })
 
+    it('hot-reloads children inside simple Fragments', () => {
+      if (React.version.startsWith('16')) {
+        const unmount = jest.fn()
+
+        class InnerComponent extends Component {
+          componentWillUnmount() {
+            unmount()
+          }
+
+          render() {
+            return <span>internal</span>
+          }
+        }
+        InnerComponent.displayName = 'InnerComponent'
+
+        const App = () => (
+          <React.Fragment>
+            <button>
+              <React.Fragment>
+                <span />
+                <span>
+                  text <InnerComponent />
+                </span>
+                <span />
+              </React.Fragment>
+            </button>
+          </React.Fragment>
+        )
+
+        RHL.register(App, 'App', 'test.js')
+
+        const wrapper = mount(
+          <AppContainer>
+            <App />
+          </AppContainer>,
+        )
+
+        {
+          class InnerComponent extends Component {
+            componentWillUnmount() {
+              unmount()
+            }
+
+            render() {
+              return <span>internal</span>
+            }
+          }
+          InnerComponent.displayName = 'InnerComponent'
+
+          const App = () => (
+            <React.Fragment>
+              <button>
+                <React.Fragment>
+                  <span />
+                  <span>
+                    another text <InnerComponent />
+                  </span>
+                  <span />
+                </React.Fragment>
+              </button>
+            </React.Fragment>
+          )
+          RHL.register(App, 'App', 'test.js')
+
+          wrapper.setProps({ children: <App /> })
+        }
+
+        expect(unmount).toHaveBeenCalledTimes(0)
+        expect(wrapper.update().text()).toBe('another text internal')
+      } else {
+        // React 15 is always ok
+        expect(true).toBe(true)
+      }
+    })
+
     it('hot-reloads children inside Fragments', () => {
       if (React.version.startsWith('16')) {
         const unmount = jest.fn()
@@ -1904,6 +2060,9 @@ describe(`AppContainer (dev)`, () => {
               <InnerItem />
             </li>
             <li>3</li>
+            <React.Fragment>
+              <span>F</span>
+            </React.Fragment>
           </React.Fragment>
         )
         //
@@ -1920,7 +2079,7 @@ describe(`AppContainer (dev)`, () => {
         )
 
         expect(wrapper.update().text()).toBe(
-          '1-1-OldInnerComponent-3-OldInnerComponent3',
+          '1-1-OldInnerComponent-3-OldInnerComponent3F',
         )
         {
           class InnerComponent extends Component {
@@ -1941,6 +2100,9 @@ describe(`AppContainer (dev)`, () => {
               -2-<InnerComponent />
               {false && <div>hole</div>}
               -3-<InnerComponent />
+              <React.Fragment>
+                <span>*</span>
+              </React.Fragment>
             </React.Fragment>
           )
           RHL.register(InnerItem, 'InnerItem', 'test.js')
@@ -1949,7 +2111,7 @@ describe(`AppContainer (dev)`, () => {
         }
         expect(unmount).toHaveBeenCalledTimes(0)
         expect(wrapper.update().text()).toBe(
-          '1-2-NewInnerComponent-3-NewInnerComponent3',
+          '1-2-NewInnerComponent-3-NewInnerComponent*3F', // it should not be so!
         )
       } else {
         // React 15 is always ok

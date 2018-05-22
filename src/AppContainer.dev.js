@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { polyfill } from 'react-lifecycles-compat'
+import defaultPolyfill, { polyfill } from 'react-lifecycles-compat'
 import logger from './logger'
 import { get as getGeneration } from './global/generation'
 
@@ -63,6 +63,8 @@ AppContainer.propTypes = {
   errorReporter: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 }
 
-polyfill(AppContainer)
+//  trying first react-lifecycles-compat.polyfill, then trying react-lifecycles-compat, which could be .default
+const realPolyfill = polyfill || defaultPolyfill
+realPolyfill(AppContainer)
 
 export default AppContainer

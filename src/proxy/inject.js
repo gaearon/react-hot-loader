@@ -81,15 +81,15 @@ function mergeComponents(
 
         const nextString = String(nextAttr)
         const injectedBefore = injectedMembers[key]
+        const isFunction =
+          nextString.indexOf('function') >= 0 || nextString.indexOf('=>') >= 0
         if (
           nextString !== String(prevAttr) ||
-          (injectedBefore && nextString !== String(injectedBefore))
+          (injectedBefore && nextString !== String(injectedBefore)) ||
+          isFunction
         ) {
           if (!hasRegenerate) {
-            if (
-              nextString.indexOf('function') < 0 &&
-              nextString.indexOf('=>') < 0
-            ) {
+            if (!isFunction) {
               // just copy prop over
               injectedCode[key] = nextAttr
             } else {
@@ -106,6 +106,8 @@ function mergeComponents(
           } else {
             injectedCode[key] = nextAttr
           }
+        } else {
+          // key was skipped
         }
       }
     })
@@ -150,6 +152,9 @@ function inject(target, currentGeneration, injectedMembers) {
           var _this  = this; // common babel transpile
           var _this2 = this; // common babel transpile
           var _this3 = this; // common babel transpile
+          var _this4 = this; // common babel transpile
+          var _this5 = this; // common babel transpile
+          var _this6 = this; // common babel transpile
           return ${injectedMembers[key]};
           }).call(this)`,
           )

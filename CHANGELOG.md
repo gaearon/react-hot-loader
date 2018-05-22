@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.2.0"></a>
+## [4.2.0](https://github.com/gaearon/react-hot-loader/compare/v4.1.3...v4.2.0) (2018-05-16)
+
+## Changes
+ * Stateless Components will be converted to React.Component ones (as they were prior 4.1.0) [#977](https://github.com/gaearon/react-hot-loader/pull/977)
+
+## Features
+ * Basic support for React 16 Context [#979](https://github.com/gaearon/react-hot-loader/issues/979)
+
+## Bug fixes
+ * pure components wont update [#959](https://github.com/gaearon/react-hot-loader/issues/959), [#944](https://github.com/gaearon/react-hot-loader/issues/944)
+ * better babel compliance ("this5"), [#969](https://github.com/gaearon/react-hot-loader/issues/969)
+ * sideeffect-less updates [#970](https://github.com/gaearon/react-hot-loader/pull/970)
+ * render as a class property [#924](https://github.com/gaearon/react-hot-loader/issues/924)
+ * issues around reactLifecyclesCompat.polyfill [#951](https://github.com/gaearon/react-hot-loader/issues/951)
+ * more examples and test cases
+ * multiple reconsilation related bug fixes
+
+<a name="4.1.3"></a>
+## [4.1.3](https://github.com/gaearon/react-hot-loader/compare/v4.1.2...v4.1.3) (2018-05-08)
+
+
+### Bug Fixes
+
+* always update bound functions. [#949](https://github.com/gaearon/react-hot-loader/issues/949) ([7819c71](https://github.com/gaearon/react-hot-loader/commit/7819c71))
+* Fragment with a single element. fixes [#956](https://github.com/gaearon/react-hot-loader/issues/956) ([7e80881](https://github.com/gaearon/react-hot-loader/commit/7e80881))
+* props merge order. [#967](https://github.com/gaearon/react-hot-loader/issues/967) ([#968](https://github.com/gaearon/react-hot-loader/issues/968)) ([1f8adb9](https://github.com/gaearon/react-hot-loader/commit/1f8adb9))
+
+
+
 <a name="4.1.2"></a>
 
 ## [4.1.2](https://github.com/gaearon/react-hot-loader/compare/4.1.0...4.1.2) (2018-04-24)
