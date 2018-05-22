@@ -43,11 +43,10 @@ const reactHotLoader = {
     resetProxies()
   },
 
-  inject(target, symbol = 'h') {
-    const createElement = target[symbol]
-    target[symbol] = (type, ...args) =>
-      createElement(resolveType(type), ...args)
-    return target[symbol]
+  preact(instance) {
+    instance.options.vnode = vnode => {
+      vnode.nodeName = resolveType(vnode.nodeName)
+    }
   },
 
   resolveType(type) {

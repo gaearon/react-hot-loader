@@ -360,7 +360,13 @@ function createClassProxy(InitialComponent, proxyKey, options) {
 
   update(InitialComponent)
 
-  proxy = { get, update }
+  const dereference = () => {
+    proxies.delete(InitialComponent)
+    proxies.delete(ProxyFacade)
+    proxies.delete(CurrentComponent)
+  }
+
+  proxy = { get, update, dereference }
 
   proxies.set(InitialComponent, proxy)
   proxies.set(ProxyFacade, proxy)

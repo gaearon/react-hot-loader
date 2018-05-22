@@ -112,7 +112,7 @@ There are 2 different ways to do it.
     {
       loader: 'babel-loader',
       options: {
-        babelrc: true,
+        babelrc: false,
         plugins: ['react-hot-loader/babel'],
       },
     },
@@ -131,7 +131,25 @@ In this case you have to modify your `tsconfig.json`, and compile to ES6 mode, a
 }
 ```
 
-##### Add babel BEFORE typescript (preferred)
+As long you cannot ship ES6 to production, you can create a `tsconfig.dev.json`, "extend" the base tsconfig and use "dev" config in dev webpack build
+. Details
+for [ts-loader](https://github.com/TypeStrong/ts-loader#configfile-string-defaulttsconfigjson)
+, for [awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript-loader#configfilename-string-defaulttsconfigjson).
+
+```json
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "target": "es6"
+  }
+}
+```
+
+Keep in mind - awesome-typescript-loader [has a built in feature](https://github.com/s-panferov/awesome-typescript-loader#usebabel-boolean-defaultfalse) (`useBabel`) to _babelify_ result.
+
+##### Add babel BEFORE typescript
+
+> Note: this way requires babel 7 and [babel-loader@^8.0.0](https://github.com/babel/babel-loader#install)
 
 ```js
 {
@@ -204,17 +222,14 @@ to configure it:
 import reactHotLoader from 'react-hot-loader'
 import preact from 'preact'
 
-reactHotLoader.inject(preact, 'h') // inject RHL into `h` on `preact`.
+reactHotLoader.preact(preact)
 ```
 
-* import configuration file before any other Component.
+* dont forget to import it
 
 #### Preact limitations
 
-* react-hot-loader would work with `react-compact` or `preact.h` as JSX settings, but in case of [named import](https://github.com/developit/preact#named)("{h}") - would not.
 * HOCs and Decorators as not supported yet. For Preact React-Hot-Loader v4 behave as v3.
-
-Probaly
 
 ## React Native
 
@@ -226,23 +241,32 @@ Using React Hot Loader with React Native can cause unexpected issues (see #824) 
 
 ### Code Splitting
 
-Most of modern React component-loader libraries ([loadable-components](https://github.com/smooth-code/loadable-components/),
-[react-loadable](https://github.com/thejameskyle/react-loadable)...) are compatible with React Hot Loader.
+If you want to use Code Splitting + React Hot Loader, the simplest solution is to pick one of our compatible library:
 
-You have to mark your "loaded components" as _hot-exported_.
+* [Loadable Components](https://github.com/smooth-code/loadable-components/)
+* [Imported Component](https://github.com/theKashey/react-imported-component)
+* [React Universal Component](https://github.com/faceyspacey/react-universal-component)
 
-Example using
-[loadable-components](https://github.com/smooth-code/loadable-components/):
+If you use a non-friendly library like [React Loadable](https://github.com/jamiebuilds/react-loadable) you have to mark all your "loaded components" as _hot-exported_:
 
 ```js
 // AsyncHello.js
-import loadable from 'loadable-components'
-const AsyncHello = loadable(() => import('./Hello.js'))
+import Loadable from 'react-loadable'
 
+const AsyncHello = Loadable({
+  loader: () => import('./Hello'),
+})
+
+export default AsyncHello
+```
+
+```js
 // Hello.js
 import { hot } from 'react-hot-loader'
+
 const Hello = () => 'Hello'
-export default hot(module)(Hello) // <-- the only change to do
+
+export default hot(module)(Hello) // <-- module will reload itself
 ```
 
 ### Checking Element `type`s
@@ -261,6 +285,27 @@ React Hot Loader exposes a function `areComponentsEqual` to make it possible:
 import { areComponentsEqual } from 'react-hot-loader'
 const element = <Component />
 areComponentsEqual(element.type, Component) // true
+```
+
+Another way - compare "rendered" element type
+
+```js
+const element = <Component />
+console.log(element.type === (<Component/>).type) // true
+
+// better - precache rendered type
+const element = <Component />
+const ComponentType = (<Component />).type
+console.log(element.type === ComponentType // true
+```
+
+Another way - compare Component name.
+
+> Not all components has a name
+
+```js
+const element = <Component />
+console.log(element.displayName === 'Component') // true
 ```
 
 ### Webpack ExtractTextPlugin
@@ -339,6 +384,8 @@ Set a new configuration for React Hot Loader.
 Available options are:
 
 * `logLevel`: specify log level, default to `"error"`, available values are: `['debug', 'log', 'warn', 'error']`
+* `pureSFC`: enable Stateless Functional Component. If disabled they will be converted to React Components.
+  Default value: false.
 
 ```js
 import { setConfig } from 'react-hot-loader'
@@ -457,16 +504,16 @@ will be born as the first ones, and then grow into the last ones. As of today, t
 
 ## Troubleshooting
 
-If it doesn't work, in 99% cases it's a configuration issue. A missing option, a
+If it doesn't work, in 99% of cases it's a configuration issue. A missing option, a
 wrong path or port. Webpack is very strict about configuration, and the best way
 to find out what's wrong is to compare your project to an already working setup,
 check out
 **[examples](https://github.com/gaearon/react-hot-loader/tree/master/examples)**,
 bit by bit.
 
-If something doesn't work, in 99% cases it's an issue with your code - Component
-doesn't got registered, due to HOC or Decorator around it, which is making it
-invisible to Babel plugin, or Webpack loader.
+If something doesn't work, in 99% of cases it's an issue with your code. The Component
+didn't get registered, due to HOC or Decorator around it, which is making it
+invisible to the Babel plugin or Webpack loader.
 
 We're also gathering
 **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)**
