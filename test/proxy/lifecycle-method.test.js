@@ -105,4 +105,52 @@ describe('lifecycle method', () => {
     wrapper.instance().forceUpdate()
     expect(wrapper.text()).toContain('PATCHED + !15')
   })
+
+  it('handle dynamic method creation', () => {
+    class App1 extends Component {
+      method1 = () => 41 + this.var1
+
+      var1 = 1
+
+      render() {
+        return <div>{this.method1()}</div>
+      }
+    }
+
+    class App2 extends Component {
+      method2 = () => 22 + this.var2
+
+      var2 = 2
+
+      /* eslint-disable */
+      __reactstandin__regenerateByEval(key, code) {
+        this[key] = eval(code)
+      }
+      /* eslint-enable */
+
+      render() {
+        return (
+          <div>
+            {this.method1()} + {this.method2()}
+          </div>
+        )
+      }
+    }
+
+    const proxy = createProxy(App1)
+    const Proxy = proxy.get()
+
+    const wrapper = mount(<Controller Proxy={Proxy} />)
+
+    expect(wrapper.text()).toContain('42')
+
+    proxy.update(App2)
+    wrapper.instance().forceUpdate()
+
+    // first render before hot render
+    expect(wrapper.text()).toContain('42')
+    wrapper.instance().forceUpdate()
+    // both methods expected to be present
+    expect(wrapper.text()).toContain('42 + 24')
+  })
 })
