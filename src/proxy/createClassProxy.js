@@ -226,12 +226,21 @@ function createClassProxy(InitialComponent, proxyKey, options) {
   let proxy
 
   if (!isFunctionalComponent) {
+    // Component
     ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
 
     defineProxyMethods(ProxyComponent, InitialComponent.prototype)
 
     ProxyFacade = ProxyComponent
+  } else if (!config.allowSFC) {
+    // SFC Converted to component. Does not support returning precreated instances from render.
+    ProxyComponent = proxyClassCreator(Component, postConstructionAction)
+
+    defineProxyMethods(ProxyComponent)
+    ProxyFacade = ProxyComponent
   } else {
+    // SFC
+
     // This function only gets called for the initial mount. The actual
     // rendered component instance will be the return value.
 
@@ -239,7 +248,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     ProxyFacade = function(props, context) {
       const result = CurrentComponent(props, context)
 
-      // simple SFC
+      // simple SFC, could continue to be SFC
       if (config.pureSFC) {
         if (!CurrentComponent.contextTypes) {
           if (!ProxyFacade.isStatelessFunctionalProxy) {

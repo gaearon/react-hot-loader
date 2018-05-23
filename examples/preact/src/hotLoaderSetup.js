@@ -1,4 +1,4 @@
-import reactHotLoader from 'react-hot-loader'
+import reactHotLoader, { setConfig } from 'react-hot-loader'
 import preact from 'preact'
 
-reactHotLoader.inject(preact, 'h')
+reactHotLoader.preact(preact)

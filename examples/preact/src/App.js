@@ -5,7 +5,7 @@ import { Internal } from './Internal'
 
 const App = () => (
   <h1>
-    Hello, world!!<br />
+    Hello, world<br />
     <Internal />
     <br />
     <Counter />

@@ -8,6 +8,7 @@ import {
   getProxyById,
   createProxyForType,
 } from './reconciler/proxies'
+import { preactAdapter } from './adapters/preact'
 
 function resolveType(type) {
   if (!isCompositeComponent(type)) return type
@@ -44,9 +45,7 @@ const reactHotLoader = {
   },
 
   preact(instance) {
-    instance.options.vnode = vnode => {
-      vnode.nodeName = resolveType(vnode.nodeName)
-    }
+    preactAdapter(instance, resolveType)
   },
 
   resolveType(type) {
