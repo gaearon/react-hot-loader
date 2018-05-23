@@ -271,21 +271,34 @@ Another way - compare "rendered" element type
 
 ```js
 const element = <Component />
-console.log(element.type === (<Component/>).type) // true
+console.log(element.type === <Component />.type) // true
 
 // better - precache rendered type
 const element = <Component />
-const ComponentType = (<Component />).type
-console.log(element.type === ComponentType // true
+const ComponentType = <Component />.type
+console.log(element.type === ComponentType) // true
 ```
+
+But you might have to provide all required props. See [original issue](https://github.com/gaearon/react-hot-loader/issues/304).
+This is most reliable way to compare components, but it will not work with required props.
 
 Another way - compare Component name.
-> Not all components has a name
+
+> Not all components has a name. **In production displayName could not exists.**
+
 ```js
 const element = <Component />
-console.log(element.displayName === "Component") // true
+console.log(element.displayName === 'Component') // true
 ```
 
+For Components you might be able to use **instanceof** operator
+
+```js
+const element = <Component />
+console.log(element.type instanceof Component) // true
+```
+
+This is something we did not solve yet.
 
 ### Webpack ExtractTextPlugin
 
