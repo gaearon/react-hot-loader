@@ -40,13 +40,13 @@ function mergeComponents(
       if (key.startsWith(PREFIX)) return
       const nextAttr = nextInstance[key]
       const prevAttr = proxyInstance[key]
-      if (prevAttr && nextAttr) {
+      if (nextAttr) {
         if (isNativeFunction(nextAttr) || isNativeFunction(prevAttr)) {
           // this is bound method
           const isSameArity = nextAttr.length === prevAttr.length
           const existsInPrototype =
             ownKeys.indexOf(key) >= 0 || ProxyComponent.prototype[key]
-          if (isSameArity && existsInPrototype) {
+          if ((isSameArity || !prevAttr) && existsInPrototype) {
             if (hasRegenerate) {
               injectedCode[
                 key
@@ -109,6 +109,10 @@ function mergeComponents(
         } else {
           // key was skipped
         }
+      } else {
+        // key does not exists anymore
+        // we could not delete it, yet #840
+        // injectedCode[key] = null;
       }
     })
   } catch (e) {
