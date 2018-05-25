@@ -422,6 +422,8 @@ describe('reconciler', () => {
 
       it('for Component SFC', () => {
         const { RenderProp, DefaultProp } = testSuite()
+        const Comp = () => <div />
+        expect(<Comp />.type.prototype.render).not.toBeDefined()
 
         expect(RenderProp).toHaveBeenCalledTimes(6)
         expect(RenderProp.mock.calls[0][0]).toEqual({ value: 42 })
@@ -439,6 +441,8 @@ describe('reconciler', () => {
       it('for Pure SFC', () => {
         configuration.pureSFC = true
         const { RenderProp, DefaultProp } = testSuite()
+        const Comp = () => <div />
+        expect(<Comp />.type.prototype.render).not.toBeDefined()
         configuration.pureSFC = false
 
         expect(RenderProp).toHaveBeenCalledTimes(4)
@@ -448,6 +452,26 @@ describe('reconciler', () => {
         expect(RenderProp.mock.calls[3][0]).toEqual({ value: 24 })
 
         expect(DefaultProp).toHaveBeenCalledTimes(2)
+        expect(DefaultProp.mock.calls[0][0]).toEqual({ prop: 'defaultValue' })
+        expect(DefaultProp.mock.calls[1][0]).toEqual({ prop: 'defaultValue' })
+
+        expect(logger.warn).not.toHaveBeenCalled()
+      })
+
+      it('for SFC disabled', () => {
+        configuration.allowSFC = false
+        const { RenderProp, DefaultProp } = testSuite()
+        const Comp = () => <div />
+        expect(<Comp />.type.prototype.render).toBeDefined()
+        configuration.allowSFC = true
+
+        expect(RenderProp).toHaveBeenCalledTimes(6)
+        expect(RenderProp.mock.calls[0][0]).toEqual({ value: 42 })
+        expect(RenderProp.mock.calls[1][0]).toEqual({ value: 24 })
+        expect(RenderProp.mock.calls[2][0]).toEqual({ value: 42 })
+        expect(RenderProp.mock.calls[3][0]).toEqual({ value: 24 })
+
+        expect(DefaultProp).toHaveBeenCalledTimes(3)
         expect(DefaultProp.mock.calls[0][0]).toEqual({ prop: 'defaultValue' })
         expect(DefaultProp.mock.calls[1][0]).toEqual({ prop: 'defaultValue' })
 

@@ -7,12 +7,20 @@ import { getInternalInstance } from './reactUtils'
 function getReactStack(instance) {
   const rootNode = getInternalInstance(instance)
   const stack = {}
-  const isFiber = typeof rootNode.tag === 'number'
-  if (isFiber) {
-    hydrateFiberStack(rootNode, stack)
+  if (rootNode) {
+    // React stack
+    const isFiber = typeof rootNode.tag === 'number'
+    if (isFiber) {
+      hydrateFiberStack(rootNode, stack)
+    } else {
+      hydrateLegacyStack(rootNode, stack)
+    }
   } else {
-    hydrateLegacyStack(rootNode, stack)
+    // Non-React stack
+    // preact? // inferno?
+    // there is no known VDOM to get stack from
   }
+
   return stack
 }
 

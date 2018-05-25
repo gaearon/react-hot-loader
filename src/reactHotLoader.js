@@ -8,6 +8,7 @@ import {
   getProxyById,
   createProxyForType,
 } from './reconciler/proxies'
+import { preactAdapter } from './adapters/preact'
 
 function resolveType(type) {
   if (!isCompositeComponent(type)) return type
@@ -41,6 +42,14 @@ const reactHotLoader = {
 
   reset() {
     resetProxies()
+  },
+
+  preact(instance) {
+    preactAdapter(instance, resolveType)
+  },
+
+  resolveType(type) {
+    return resolveType(type)
   },
 
   patch(React) {
