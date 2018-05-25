@@ -320,6 +320,30 @@ console.log(element.type instanceof Component) // true
 
 This is something we did not solve yet.
 
+#### Disabling type change
+
+It is possible to disable React-Hot-Loader for a specific component, especially to
+enable common way to type comparison.
+
+```js
+import { cold } from 'react-hot-loader';
+
+cold(SomeComponent) // this component will ignored by React-Hot-Loader
+<SomeComponent />.type === SomeComponent // true
+```
+
+##### Experimental
+
+_Cold_ all components from node_modules. Will not work for HOC or dynamically created Components.
+
+```js
+import { setConfig, cold } from 'react-hot-loader'
+setConfig({
+  onComponentRegister: (type, name, file) =>
+    file.indexOf('node_modules') > 0 && cold(type),
+})
+```
+
 ### Webpack ExtractTextPlugin
 
 Webpack ExtractTextPlugin is not compatible with React Hot Loader. Please disable it in development:

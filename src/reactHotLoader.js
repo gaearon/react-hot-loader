@@ -7,11 +7,15 @@ import {
   getProxyByType,
   getProxyById,
   createProxyForType,
+  isTypeBlacklisted,
 } from './reconciler/proxies'
+import configuration from './configuration'
+import logger from './logger'
+
 import { preactAdapter } from './adapters/preact'
 
 function resolveType(type) {
-  if (!isCompositeComponent(type)) return type
+  if (!isCompositeComponent(type) || isTypeBlacklisted(type)) return type
 
   const proxy = reactHotLoader.disableProxyCreation
     ? getProxyByType(type)
@@ -32,11 +36,25 @@ const reactHotLoader = {
       const id = `${fileName}#${uniqueLocalName}`
 
       if (getProxyById(id)) {
-        // component got replaced. Need to reconsile
+        // component got replaced. Need to reconcile
         incrementGeneration()
       }
 
+      if (configuration.onComponentRegister) {
+        configuration.onComponentRegister(type, uniqueLocalName, fileName)
+      }
+
       updateProxyById(id, type)
+
+      if (isTypeBlacklisted(type)) {
+        logger.error(
+          'React-hot-loader: Cold component',
+          uniqueLocalName,
+          'at',
+          fileName,
+          'has been updated',
+        )
+      }
     }
   },
 

@@ -1,4 +1,4 @@
-import { getProxyByType } from './reconciler/proxies'
+import { blacklistByType, getProxyByType } from './reconciler/proxies'
 import { hotComponentCompare } from './reconciler/hotReplacementRender'
 import configuration from './configuration'
 
@@ -12,5 +12,7 @@ export const areComponentsEqual = (a, b) =>
 
 export const compareOrSwap = (oldType, newType) =>
   hotComponentCompare(oldType, newType)
+
+export const cold = type => blacklistByType(type)
 
 export const setConfig = config => Object.assign(configuration, config)
