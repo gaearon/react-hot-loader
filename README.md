@@ -49,7 +49,7 @@ const App = () => <div>Hello World!</div>
 export default hot(module)(App)
 ```
 
-3.  [Run Webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
+3.  [Run webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
 
 ```sh
 webpack-dev-server --hot
@@ -70,7 +70,7 @@ webpack-dev-server --hot
     include: paths.appSrc,
     loader: require.resolve('babel-loader'),
     options: {
-      // This is a feature of `babel-loader` for Webpack (not Babel itself).
+      // This is a feature of `babel-loader` for webpack (not Babel itself).
       // It enables caching results in ./node_modules/.cache/babel-loader/
       // directory for faster rebuilds.
       cacheDirectory: true,
@@ -99,7 +99,7 @@ Follow [these code examples](https://github.com/Grimones/cra-rhl/commit/4ed74af2
 ### TypeScript
 
 When using TypeScript, Babel is not required, but React Hot Loader will not work (properly) without it.
-Just add `babel-loader` into your Webpack configuration, with React Hot Loader plugin.
+Just add `babel-loader` into your webpack configuration, with React Hot Loader plugin.
 
 There are 2 different ways to do it.
 
@@ -309,9 +309,9 @@ console.log(element.type instanceof Component) // true
 
 This is something we did not solve yet.
 
-### Webpack ExtractTextPlugin
+### webpack ExtractTextPlugin
 
-Webpack ExtractTextPlugin is not compatible with React Hot Loader. Please disable it in development:
+webpack ExtractTextPlugin is not compatible with React Hot Loader. Please disable it in development:
 
 ```js
 new ExtractTextPlugin({
@@ -355,7 +355,7 @@ const render = Component => {
 
 render(App)
 
-// Webpack Hot Module Replacement API
+// webpack Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./containers/App', () => {
     // if you are using harmony modules ({modules:false})
@@ -431,7 +431,7 @@ const render = Component => {
 
 render(App)
 
-// Webpack Hot Module Replacement API
+// webpack Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./containers/App', () => {
     // if you are using harmony modules ({modules:false})
@@ -466,7 +466,7 @@ ReactDOM.render(<App />, document.getElementById('root'))
 ### No patch required
 
 Code is automatically patched, you can safely remove `react-hot-loader/patch`
-from your Webpack config.
+from your webpack config.
 
 ### Error reporter is gone
 
@@ -506,7 +506,7 @@ will be born as the first ones, and then grow into the last ones. As of today, t
 ## Troubleshooting
 
 If it doesn't work, in 99% of cases it's a configuration issue. A missing option, a
-wrong path or port. Webpack is very strict about configuration, and the best way
+wrong path or port. webpack is very strict about configuration, and the best way
 to find out what's wrong is to compare your project to an already working setup,
 check out
 **[examples](https://github.com/gaearon/react-hot-loader/tree/master/examples)**,
@@ -514,7 +514,7 @@ bit by bit.
 
 If something doesn't work, in 99% of cases it's an issue with your code. The Component
 didn't get registered, due to HOC or Decorator around it, which is making it
-invisible to the Babel plugin or Webpack loader.
+invisible to the Babel plugin or webpack loader.
 
 We're also gathering
 **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)**
