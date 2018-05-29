@@ -98,82 +98,54 @@ Follow [these code examples](https://github.com/Grimones/cra-rhl/commit/4ed74af2
 
 ### TypeScript
 
-When using TypeScript, Babel is not required, but React Hot Loader will not work (properly) without it.
-Just add `babel-loader` into your webpack configuration, with React Hot Loader plugin.
+As of version 4, React Hot Loader requires you to pass your code through [Babel](http://babeljs.io/) to transform it so that it can be hot-reloaded. This can be a pain point for TypeScript users, who usually do not need to integrate Babel as part of their build process.
 
-There are 2 different ways to do it.
+Fortunately, it's simpler than it may seem! Babel will happily parse TypeScript syntax and can act as an alternative to the TypeScript compiler, so you can safely replace `ts-loader` or `awesome-typescript-loader` in your Webpack configuration with `babel-loader`. Babel won't typecheck your code, but you can use [`fork-ts-checker-webpack-plugin`](https://github.com/Realytics/fork-ts-checker-webpack-plugin) (and/or invoke `tsc --noEmit`) as part of your build process instead.
 
-##### Add babel AFTER typescript.
-
-```js
-{
-  test: /\.tsx?$/,
-  use: [
-    {
-      loader: 'babel-loader',
-      options: {
-        babelrc: false,
-        plugins: ['react-hot-loader/babel'],
-      },
-    },
-    'ts-loader', // (or awesome-typescript-loader)
-  ],
-}
-```
-
-In this case you have to modify your `tsconfig.json`, and compile to ES6 mode, as long as React-Hot-Loader babel plugin does not understand ES5 code.
-
-```json
-// tsconfig.json
-{
-  "module": "commonjs",
-  "target": "es6"
-}
-```
-
-As long you cannot ship ES6 to production, you can create a `tsconfig.dev.json`, "extend" the base tsconfig and use "dev" config in dev webpack build
-. Details
-for [ts-loader](https://github.com/TypeStrong/ts-loader#configfile-string-defaulttsconfigjson)
-, for [awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript-loader#configfilename-string-defaulttsconfigjson).
-
-```json
-{
-  "extends": "./tsconfig",
-  "compilerOptions": {
-    "target": "es6"
-  }
-}
-```
-
-Keep in mind - awesome-typescript-loader [has a built in feature](https://github.com/s-panferov/awesome-typescript-loader#usebabel-boolean-defaultfalse) (`useBabel`) to _babelify_ result.
-
-##### Add babel BEFORE typescript
-
-> Note: this way requires babel 7 and [babel-loader@^8.0.0](https://github.com/babel/babel-loader#install)
+A sample configuration:
 
 ```js
 {
-  test: /\.tsx?$/,
-  use: [
-    'ts-loader', // (or awesome-typescript-loader)
-    {
-      loader: 'babel-loader',
-      options: {
-        plugins: [
-          '@babel/plugin-syntax-typescript',
-          '@babel/plugin-syntax-decorators',
-          '@babel/plugin-syntax-jsx',
-          'react-hot-loader/babel',
-        ],
-      },
-    }
-  ],
-}
+  // ...you'll probably need to configure the usual Webpack fields like "mode" and "entry", too.
+  resolve: { extensions: [".ts", ".tsx", ".js", ".jsx"] },
+  module: {
+    rules: [
+      {
+        test: /\.(j|t)sx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            cacheDirectory: true,
+            babelrc: false,
+            presets: [
+              [
+                "@babel/preset-env",
+                { targets: { browsers: "last 2 versions" } } // or whatever your project requires
+              ],
+              "@babel/preset-typescript",
+              "@babel/preset-react"
+            ],
+            plugins: [
+              // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
+              ["@babel/plugin-proposal-decorators", { legacy: true }],
+              ["@babel/plugin-proposal-class-properties", { loose: true }],
+              "react-hot-loader/babel"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  plugins: [
+    new ForkTsCheckerWebpackPlugin()
+  ]
+};
 ```
 
-In this case you can compile to ES5. More about [typescript and react-hot-loader](https://github.com/gaearon/react-hot-loader/issues/884)
+For a full example configuration of TypeScript with React Hot Loader, check [here](https://github.com/gaearon/react-hot-loader/tree/master/examples/typescript).
 
-We also have a [full example running TypeScript + React Hot Loader](https://github.com/gaearon/react-hot-loader/tree/master/examples/typescript).
+As an alternative to this approach, it's possible to chain Webpack loaders so that your code passes through Babel and then TypeScript (or TypeScript and then Babel), but this approach is not recommended as it is more complex and may be significantly less performant. Read more [discussion here](https://github.com/gaearon/react-hot-loader/issues/884).
 
 ### Parcel
 
