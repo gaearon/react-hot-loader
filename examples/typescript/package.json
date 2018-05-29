@@ -6,21 +6,22 @@
     "start": "webpack-dev-server --hot"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.46",
-    "@babel/plugin-syntax-decorators": "^7.0.0-beta.46",
-    "@babel/plugin-syntax-jsx": "^7.0.0-beta.46",
-    "@babel/plugin-syntax-typescript": "^7.0.0-beta.46",
-    "awesome-typescript-loader": "^3.4.1",
+    "@babel/core": "^7.0.0-beta.49",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.49",
+    "@babel/plugin-proposal-decorators": "^7.0.0-beta.49",
+    "@babel/preset-env": "^7.0.0-beta.49",
+    "@babel/preset-react": "^7.0.0-beta.49",
+    "@babel/preset-typescript": "^7.0.0-beta.49",
+    "@types/react": "^16.0.31",
+    "@types/react-dom": "^16.0.3",
     "babel-loader": "^8.0.0-beta.2",
+    "fork-ts-checker-webpack-plugin": "^0.4.0",
     "html-webpack-plugin": "^2.30.1",
-    "typescript": "^2.6.2",
+    "typescript": "^2.8.3",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.0.0-beta.46",
-    "@types/react": "^16.0.31",
-    "@types/react-dom": "^16.0.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-hot-loader": "^4.1.2"
