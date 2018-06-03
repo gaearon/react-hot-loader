@@ -38,6 +38,16 @@ const reactHotLoader = {
       if (getProxyById(id)) {
         // component got replaced. Need to reconcile
         incrementGeneration()
+
+        if (isTypeBlacklisted(type)) {
+          logger.error(
+            'React-hot-loader: Cold component',
+            uniqueLocalName,
+            'at',
+            fileName,
+            'has been updated',
+          )
+        }
       }
 
       if (configuration.onComponentRegister) {
@@ -45,16 +55,6 @@ const reactHotLoader = {
       }
 
       updateProxyById(id, type)
-
-      if (isTypeBlacklisted(type)) {
-        logger.error(
-          'React-hot-loader: Cold component',
-          uniqueLocalName,
-          'at',
-          fileName,
-          'has been updated',
-        )
-      }
     }
   },
 

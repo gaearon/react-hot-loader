@@ -113,7 +113,10 @@ describe('utils (dev)', () => {
       const Component1 = () => <div>42</div>
       cold(Component1)
       reactHotLoader.register(Component1, 'Cold', 'Winter')
+      // first registration is expected
+      expect(logger.error).not.toHaveBeenCalled()
 
+      reactHotLoader.register(Component1, 'Cold', 'Winter')
       expect(logger.error).toHaveBeenCalledWith(
         `React-hot-loader: Cold component`,
         'Cold',
