@@ -2,6 +2,7 @@ import createProxy from '../proxy'
 import { resetClassProxies } from '../proxy/createClassProxy'
 
 let proxiesByID
+let blackListedProxies
 let idsByType
 
 let elementCount = 0
@@ -33,9 +34,13 @@ export const updateProxyById = (id, type) => {
 export const createProxyForType = type =>
   getProxyByType(type) || updateProxyById(generateTypeId(), type)
 
+export const isTypeBlacklisted = type => blackListedProxies.has(type)
+export const blacklistByType = type => blackListedProxies.set(type, true)
+
 export const resetProxies = () => {
   proxiesByID = {}
   idsByType = new WeakMap()
+  blackListedProxies = new WeakMap()
   resetClassProxies()
 }
 
