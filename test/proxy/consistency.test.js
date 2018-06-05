@@ -268,14 +268,35 @@ describe('consistency', () => {
         /* eslint-enable */
       })
 
-      it('should reflect external dependencies', () => {
+      it('should reflect external dependencies(broken, regression)', () => {
         /* eslint-disable */
         const externalValue = 42
+        let gen = 0
+        const generator2 = () => {
+          const g = gen++
+          return () => g
+        }
+        const generator3 = () => {
+          const g = gen++
+          return () => g
+        }
         class BaseClass extends React.Component {
-          arrow = () => externalValue
+          secret1 = 1
+          secret2 = generator2()
+          secret3 = generator3()
+          arrow1 = () => externalValue
+          arrow2 = () => this.secret1 + externalValue
 
           render() {
-            return this.arrow()
+            return (
+              this.arrow1() +
+              ':' +
+              this.arrow2() +
+              ':' +
+              this.secret2() +
+              ':' +
+              this.secret3()
+            )
           }
 
           __reactstandin__regenerateByEval(key, code) {
@@ -286,15 +307,27 @@ describe('consistency', () => {
         const proxy = createProxy(BaseClass)
         const Proxy = proxy.get()
         const instance = new Proxy()
-        expect(instance.render()).toBe(42)
+        expect(instance.render()).toBe(42 + ':' + 43 + ':' + 0 + ':' + 1)
 
         {
           const externalValue = 24
           class Update1Class extends React.Component {
-            arrow = () => externalValue
+            secret = 1
+            secret2 = generator2()
+            secret3 = generator3()
+            arrow1 = () => externalValue
+            arrow2 = () => this.secret1 + externalValue
 
             render() {
-              return this.arrow()
+              return (
+                this.arrow1() +
+                ':' +
+                this.arrow2() +
+                ':' +
+                this.secret2() +
+                ':' +
+                this.secret3()
+              )
             }
 
             __reactstandin__regenerateByEval(key, code) {
@@ -306,7 +339,13 @@ describe('consistency', () => {
         }
         /* eslint-enable */
 
-        expect(instance.render()).toBe(24)
+        // Arrow1 function refer to external variable
+        // Will not be updated
+        // while Arrow2 function will
+
+        // secret 3 should not be regenrated
+        // secret 4(this inside) should be regenrated
+        expect(instance.render()).toMatch(/([\d]+):25:0:1/)
       })
 
       it('should stand-for all class members', () => {

@@ -4,6 +4,14 @@ const templateOptions = {
   placeholderPattern: /^([A-Z0-9]+)([A-Z0-9_]+)$/,
 }
 
+/* eslint-disable */
+const shouldIgnoreFile = file =>
+  !!file
+    .split('\\')
+    .join('/')
+    .match(/node_modules\/(react|react-hot-loader)([\/]|$)/)
+/* eslint-enable */
+
 module.exports = function plugin(args) {
   // This is a Babel plugin, but the user put it in the Webpack config.
   if (this && this.callback) {
@@ -130,12 +138,16 @@ module.exports = function plugin(args) {
           /* eslint-enable */
         },
 
-        exit({ node }) {
+        exit({ node }, { file }) {
           const registrations = node[REGISTRATIONS]
           node[REGISTRATIONS] = null // eslint-disable-line no-param-reassign
 
           // inject the code only if applicable
-          if (registrations && registrations.length) {
+          if (
+            registrations &&
+            registrations.length &&
+            !shouldIgnoreFile(file.opts.filename)
+          ) {
             node.body.unshift(headerTemplate())
             // Inject the generated tagging code at the very end
             // so that it is as minimally intrusive as possible.
@@ -191,3 +203,5 @@ module.exports = function plugin(args) {
     },
   }
 }
+
+module.exports.shouldIgnoreFile = shouldIgnoreFile

@@ -265,7 +265,7 @@ reference types of elements won't work:
 
 ```js
 const element = <Component />
-console.log(element.type === Component) // false
+console.log(element.type Component) // false
 ```
 
 React Hot Loader exposes a function `areComponentsEqual` to make it possible:
@@ -309,7 +309,7 @@ console.log(element.type instanceof Component) // true
 
 This is something we did not solve yet.
 
-### webpack ExtractTextPlugin
+### Webpack ExtractTextPlugin
 
 webpack ExtractTextPlugin is not compatible with React Hot Loader. Please disable it in development:
 
@@ -317,6 +317,31 @@ webpack ExtractTextPlugin is not compatible with React Hot Loader. Please disabl
 new ExtractTextPlugin({
   filename: 'styles/[name].[contenthash].css',
   disable: NODE_ENV !== 'production',
+})
+```
+
+#### Disabling a type change (❄️)
+
+It is possible to disable React-Hot-Loader for a specific component, especially to
+enable common way to type comparison.
+
+```js
+import { cold } from 'react-hot-loader';
+
+cold(SomeComponent) // this component will ignored by React-Hot-Loader
+<SomeComponent />.type === SomeComponent // true
+```
+
+##### Disabling a type change for all node_modules
+
+You may _cold_ all components from node_modules. Will not work for HOC or dynamically created Components, but might help in most of situations, when type change
+is not welcomed, and modules are not going to hot-reload. So - it will help to handle node_modules.
+
+```js
+import { setConfig, cold } from 'react-hot-loader'
+setConfig({
+  onComponentRegister: (type, name, file) =>
+    file.indexOf('node_modules') > 0 && cold(type),
 })
 ```
 

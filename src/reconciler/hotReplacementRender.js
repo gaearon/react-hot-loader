@@ -1,6 +1,11 @@
 import levenshtein from 'fast-levenshtein'
 import { PROXY_IS_MOUNTED, PROXY_KEY, UNWRAP_PROXY } from '../proxy'
-import { getIdByType, getProxyByType, updateProxyById } from './proxies'
+import {
+  getIdByType,
+  getProxyByType,
+  isTypeBlacklisted,
+  updateProxyById,
+} from './proxies'
 import {
   updateInstance,
   getComponentDisplayName,
@@ -367,39 +372,48 @@ const hotReplacementRender = (instance, stack) => {
       )
       renderStack.pop()
     } else {
-      // unwrap proxy
-      const childType = getElementType(child)
-      if (!stackChild.type[PROXY_KEY]) {
-        /* eslint-disable no-console */
-        logger.error(
-          'React-hot-loader: fatal error caused by ',
-          stackChild.type,
-          ' - no instrumentation found. ',
-          'Please require react-hot-loader before React. More in troubleshooting.',
-        )
-        stackReport()
-        throw new Error('React-hot-loader: wrong configuration')
-      }
-
       if (child.type === stackChild.type) {
         next(stackChild.instance)
-      } else if (isSwappable(childType, stackChild.type)) {
-        // they are both registered, or have equal code/displayname/signature
-
-        // update proxy using internal PROXY_KEY
-        updateProxyById(stackChild.type[PROXY_KEY], childType)
-
-        next(stackChild.instance)
       } else {
-        logger.warn(
-          `React-hot-loader: a ${getComponentDisplayName(
-            childType,
-          )} was found where a ${getComponentDisplayName(
-            stackChild,
-          )} was expected.
+        // unwrap proxy
+        const childType = getElementType(child)
+        if (!stackChild.type[PROXY_KEY]) {
+          if (isTypeBlacklisted(stackChild.type)) {
+            logger.warn(
+              'React-hot-loader: cold element got updated ',
+              stackChild.type,
+            )
+            return
+          }
+          /* eslint-disable no-console */
+          logger.error(
+            'React-hot-loader: fatal error caused by ',
+            stackChild.type,
+            ' - no instrumentation found. ',
+            'Please require react-hot-loader before React. More in troubleshooting.',
+          )
+          stackReport()
+          throw new Error('React-hot-loader: wrong configuration')
+        }
+
+        if (isSwappable(childType, stackChild.type)) {
+          // they are both registered, or have equal code/displayname/signature
+
+          // update proxy using internal PROXY_KEY
+          updateProxyById(stackChild.type[PROXY_KEY], childType)
+
+          next(stackChild.instance)
+        } else {
+          logger.warn(
+            `React-hot-loader: a ${getComponentDisplayName(
+              childType,
+            )} was found where a ${getComponentDisplayName(
+              stackChild,
+            )} was expected.
           ${childType}`,
-        )
-        stackReport()
+          )
+          stackReport()
+        }
       }
 
       scheduleInstanceUpdate(stackChild.instance)
