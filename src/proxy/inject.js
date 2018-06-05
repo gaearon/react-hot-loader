@@ -81,12 +81,13 @@ function mergeComponents(
 
         const nextString = String(nextAttr)
         const injectedBefore = injectedMembers[key]
-        const isFunction =
-          nextString.indexOf('function') >= 0 || nextString.indexOf('=>') >= 0
+        const isArrow = nextString.indexOf('=>') >= 0
+        const isFunction = nextString.indexOf('function') >= 0 || isArrow
+        const referToThis = nextString.indexOf('this') >= 0
         if (
           nextString !== String(prevAttr) ||
           (injectedBefore && nextString !== String(injectedBefore)) ||
-          isFunction
+          (isArrow && referToThis)
         ) {
           if (!hasRegenerate) {
             if (!isFunction) {
@@ -150,15 +151,13 @@ function inject(target, currentGeneration, injectedMembers) {
     Object.keys(injectedMembers).forEach(key => {
       try {
         if (hasRegenerate) {
+          const usedThis =
+            String(injectedMembers[key]).match(/_this([\d])/gi) || []
           target[REGENERATE_METHOD](
             key,
             `(function REACT_HOT_LOADER_SANDBOX () {
-          var _this  = this; // common babel transpile
-          var _this2 = this; // common babel transpile
-          var _this3 = this; // common babel transpile
-          var _this4 = this; // common babel transpile
-          var _this5 = this; // common babel transpile
-          var _this6 = this; // common babel transpile
+          ${usedThis.map(name => `var ${name} = this;`)}
+
           return ${injectedMembers[key]};
           }).call(this)`,
           )
