@@ -3,6 +3,7 @@ import fs from 'fs'
 import { transformFileSync } from 'babel-core'
 /* eslint-disable import/no-unresolved, import/extensions */
 import { getOptions, TARGETS } from '../testConfig/babel'
+import plugin from '../src/babel.dev'
 /* eslint-enable import/no-unresolved, import/extensions */
 
 const babelPlugin = path.resolve(__dirname, '../src/babel.dev')
@@ -59,6 +60,28 @@ describe('babel', () => {
           }
         })
       })
+    })
+  })
+
+  describe('babel helpers', () => {
+    const { shouldIgnoreFile } = plugin
+    it('should ignore react and hot-loader', () => {
+      expect(shouldIgnoreFile('node_modules/react')).toBe(true)
+      expect(shouldIgnoreFile('node_modules\\react')).toBe(true)
+      expect(shouldIgnoreFile('node_modules/react/xyz')).toBe(true)
+
+      expect(shouldIgnoreFile('node_modules/react-hot-loader')).toBe(true)
+      expect(shouldIgnoreFile('node_modules/react-hot-loader/xyz')).toBe(true)
+    })
+
+    it('should pass all other files', () => {
+      expect(shouldIgnoreFile('react')).toBe(false)
+      expect(shouldIgnoreFile('node_modules/react-select')).toBe(false)
+      expect(shouldIgnoreFile('node_modules\\react-select')).toBe(false)
+      expect(shouldIgnoreFile('some_modules/react/xyz')).toBe(false)
+
+      expect(shouldIgnoreFile('node_modules/react-cold-loader')).toBe(false)
+      expect(shouldIgnoreFile('react-hot-loader.js')).toBe(false)
     })
   })
 })
