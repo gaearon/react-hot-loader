@@ -49,7 +49,7 @@ const App = () => <div>Hello World!</div>
 export default hot(module)(App)
 ```
 
-3.  [Run Webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
+3.  [Run webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
 
 ```sh
 webpack-dev-server --hot
@@ -70,7 +70,7 @@ webpack-dev-server --hot
     include: paths.appSrc,
     loader: require.resolve('babel-loader'),
     options: {
-      // This is a feature of `babel-loader` for Webpack (not Babel itself).
+      // This is a feature of `babel-loader` for webpack (not Babel itself).
       // It enables caching results in ./node_modules/.cache/babel-loader/
       // directory for faster rebuilds.
       cacheDirectory: true,
@@ -99,7 +99,7 @@ Follow [these code examples](https://github.com/Grimones/cra-rhl/commit/4ed74af2
 ### TypeScript
 
 When using TypeScript, Babel is not required, but React Hot Loader will not work (properly) without it.
-Just add `babel-loader` into your Webpack configuration, with React Hot Loader plugin.
+Just add `babel-loader` into your webpack configuration, with React Hot Loader plugin.
 
 There are 2 different ways to do it.
 
@@ -183,22 +183,11 @@ We also have a [full example running Parcel + React Hot Loader](https://github.c
 
 ### Electron
 
-1.  Add `react-hot-loader/babel` to your `.compilerc`:
+You need something to mark your modules as hot in order to use React Hot Loader.
 
-```js
-// .compilerc
-{
-  "plugins": ["react-hot-loader/babel"]
-}
-```
+One way of doing this with Electron is to simply use webpack like any web-based project might do and the general guide above describes. See also [this example Electron app](https://github.com/s-h-a-d-o-w/rhl-electron-quick-start)
 
-2.  Enable Live Reload in the project
-
-```js
-enableLiveReload({ strategy: 'react-hmr' })
-```
-
-See a [complete example](https://github.com/rllola/hmr-example-issue-2/blob/master/src/index.js).
+A webpack-less way of doing it to use `electron-compile` (which is also used by [`electron-forge`](https://electronforge.io)) - see [this example](https://github.com/rllola/hmr-example-issue-2). While it requires less configuration, something to keep in mind is that `electron-compile`'s HMR will always reload all modules, regardless of what was actually edited.
 
 ### Source Maps
 
@@ -276,7 +265,7 @@ reference types of elements won't work:
 
 ```js
 const element = <Component />
-console.log(element.type === Component) // false
+console.log(element.type Component) // false
 ```
 
 React Hot Loader exposes a function `areComponentsEqual` to make it possible:
@@ -320,7 +309,18 @@ console.log(element.type instanceof Component) // true
 
 This is something we did not solve yet.
 
-#### Disabling type change
+### Webpack ExtractTextPlugin
+
+webpack ExtractTextPlugin is not compatible with React Hot Loader. Please disable it in development:
+
+```js
+new ExtractTextPlugin({
+  filename: 'styles/[name].[contenthash].css',
+  disable: NODE_ENV !== 'production',
+})
+```
+
+#### Disabling a type change (❄️)
 
 It is possible to disable React-Hot-Loader for a specific component, especially to
 enable common way to type comparison.
@@ -332,26 +332,16 @@ cold(SomeComponent) // this component will ignored by React-Hot-Loader
 <SomeComponent />.type === SomeComponent // true
 ```
 
-##### Experimental
+##### Disabling a type change for all node_modules
 
-_Cold_ all components from node_modules. Will not work for HOC or dynamically created Components.
+You may _cold_ all components from node_modules. Will not work for HOC or dynamically created Components, but might help in most of situations, when type change
+is not welcomed, and modules are not going to hot-reload. So - it will help to handle node_modules.
 
 ```js
 import { setConfig, cold } from 'react-hot-loader'
 setConfig({
   onComponentRegister: (type, name, file) =>
     file.indexOf('node_modules') > 0 && cold(type),
-})
-```
-
-### Webpack ExtractTextPlugin
-
-Webpack ExtractTextPlugin is not compatible with React Hot Loader. Please disable it in development:
-
-```js
-new ExtractTextPlugin({
-  filename: 'styles/[name].[contenthash].css',
-  disable: NODE_ENV !== 'production',
 })
 ```
 
@@ -390,7 +380,7 @@ const render = Component => {
 
 render(App)
 
-// Webpack Hot Module Replacement API
+// webpack Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./containers/App', () => {
     // if you are using harmony modules ({modules:false})
@@ -466,7 +456,7 @@ const render = Component => {
 
 render(App)
 
-// Webpack Hot Module Replacement API
+// webpack Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./containers/App', () => {
     // if you are using harmony modules ({modules:false})
@@ -501,7 +491,7 @@ ReactDOM.render(<App />, document.getElementById('root'))
 ### No patch required
 
 Code is automatically patched, you can safely remove `react-hot-loader/patch`
-from your Webpack config.
+from your webpack config.
 
 ### Error reporter is gone
 
@@ -541,7 +531,7 @@ will be born as the first ones, and then grow into the last ones. As of today, t
 ## Troubleshooting
 
 If it doesn't work, in 99% of cases it's a configuration issue. A missing option, a
-wrong path or port. Webpack is very strict about configuration, and the best way
+wrong path or port. webpack is very strict about configuration, and the best way
 to find out what's wrong is to compare your project to an already working setup,
 check out
 **[examples](https://github.com/gaearon/react-hot-loader/tree/master/examples)**,
@@ -549,7 +539,7 @@ bit by bit.
 
 If something doesn't work, in 99% of cases it's an issue with your code. The Component
 didn't get registered, due to HOC or Decorator around it, which is making it
-invisible to the Babel plugin or Webpack loader.
+invisible to the Babel plugin or webpack loader.
 
 We're also gathering
 **[Troubleshooting Recipes](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md)**
