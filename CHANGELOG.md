@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.3.0"></a>
+# [4.3.0](https://github.com/gaearon/react-hot-loader/compare/v4.2.0...v4.3.0) (2018-06-05)
+
+
+### Bug Fixes
+
+* Context Provider could crash due update, [#944](https://github.com/gaearon/react-hot-loader/issues/944) ([b0e2b5b](https://github.com/gaearon/react-hot-loader/commit/b0e2b5b))
+* RHL babel plugin will ignore react and react-hot-loader, fixes [#900](https://github.com/gaearon/react-hot-loader/issues/900) ([e90a25c](https://github.com/gaearon/react-hot-loader/commit/e90a25c))
+* RHL should add new class methods ([111d56e](https://github.com/gaearon/react-hot-loader/commit/111d56e))
+* Multiple problems with methods update. Revert behavior back to v4.1.2 [#1001](https://github.com/gaearon/react-hot-loader/issues/1001)
+
+### Features
+
+* Preact support [#952](https://github.com/gaearon/react-hot-loader/issues/952) ([2b40f57](https://github.com/gaearon/react-hot-loader/commit/2b40f57))
+* Cold components [#991](https://github.com/gaearon/react-hot-loader/issues/991) ([9bcff36](https://github.com/gaearon/react-hot-loader/commit/9bcff36))
+
+
+
 <a name="4.2.0"></a>
 ## [4.2.0](https://github.com/gaearon/react-hot-loader/compare/v4.1.3...v4.2.0) (2018-05-16)
 
