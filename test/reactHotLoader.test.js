@@ -112,6 +112,11 @@ describe('reactHotLoader', () => {
       expect(getGeneration()).toBe(oldGeneration + 0)
 
       reactHotLoader.register(Div, 'Div', 'reactHotLoader.test.js')
+      // no replacement
+      expect(getGeneration()).toBe(oldGeneration + 0)
+
+      const NewDiv = () => <div />
+      reactHotLoader.register(NewDiv, 'Div', 'reactHotLoader.test.js')
       // replacement!
       expect(getGeneration()).toBe(oldGeneration + 1)
     })

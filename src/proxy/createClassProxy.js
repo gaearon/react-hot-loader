@@ -397,7 +397,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     proxies.delete(CurrentComponent)
   }
 
-  proxy = { get, update, dereference }
+  proxy = { get, update, dereference, getCurrent: () => CurrentComponent }
 
   proxies.set(InitialComponent, proxy)
   proxies.set(ProxyFacade, proxy)

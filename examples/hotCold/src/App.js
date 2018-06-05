@@ -30,7 +30,8 @@ const App = () => (
     <br />
     <Counter />
     <indirect.element />
-    {Counter === <Counter />.type ? 'Counter is cold' : 'Counter is hot'}
+    {Counter === <Counter />.type ? 'Counter is cold' : 'Counter is hot'}{' '}
+    (should be cold!)
     <div>
       {[
         <span key={1}>depend on aNumber - </span>,

@@ -111,12 +111,15 @@ describe('utils (dev)', () => {
 
     it('should report on cold update', () => {
       const Component1 = () => <div>42</div>
+      const Component2 = () => <div>42</div>
       cold(Component1)
+      // cold(Component2)
+      reactHotLoader.register(Component1, 'Cold', 'Winter')
       reactHotLoader.register(Component1, 'Cold', 'Winter')
       // first registration is expected
       expect(logger.error).not.toHaveBeenCalled()
 
-      reactHotLoader.register(Component1, 'Cold', 'Winter')
+      reactHotLoader.register(Component2, 'Cold', 'Winter')
       expect(logger.error).toHaveBeenCalledWith(
         `React-hot-loader: Cold component`,
         'Cold',

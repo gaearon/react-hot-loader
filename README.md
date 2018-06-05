@@ -324,6 +324,7 @@ new ExtractTextPlugin({
 
 It is possible to disable React-Hot-Loader for a specific component, especially to
 enable common way to type comparison.
+See #991 for the idea behind ⛄️, and #304 about "type comparison" problem.
 
 ```js
 import { cold } from 'react-hot-loader';
@@ -332,10 +333,15 @@ cold(SomeComponent) // this component will ignored by React-Hot-Loader
 <SomeComponent />.type === SomeComponent // true
 ```
 
+If you will update `cold` component React-Hot-Loader will complain (on error level), and then
+React will cold-replace Component with a internal state lose.
+
+> Reach-Hot-Loader: cold element got updated
+
 ##### Disabling a type change for all node_modules
 
-You may _cold_ all components from node_modules. Will not work for HOC or dynamically created Components, but might help in most of situations, when type change
-is not welcomed, and modules are not going to hot-reload. So - it will help to handle node_modules.
+You may _cold_ all components from node_modules. This will not work for HOC(like Redux) or dynamically created Components, but might help in most of situations, when type changes
+are not welcomed, and modules are not expected to change.
 
 ```js
 import { setConfig, cold } from 'react-hot-loader'
@@ -344,6 +350,10 @@ setConfig({
     file.indexOf('node_modules') > 0 && cold(type),
 })
 ```
+
+! To be able to "cold" components from 'node_modules' you have to apply babel to node_modules, while this
+folder is usually excluded.
+You may add one more babel-loader, with only one React-Hot-Loader plugin inside to solve this.
 
 ## API
 

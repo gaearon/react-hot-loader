@@ -34,12 +34,13 @@ const reactHotLoader = {
       fileName
     ) {
       const id = `${fileName}#${uniqueLocalName}`
+      const proxy = getProxyById(id)
 
-      if (getProxyById(id)) {
+      if (proxy && proxy.getCurrent() !== type) {
         // component got replaced. Need to reconcile
         incrementGeneration()
 
-        if (isTypeBlacklisted(type)) {
+        if (isTypeBlacklisted(type) || isTypeBlacklisted(proxy.getCurrent())) {
           logger.error(
             'React-hot-loader: Cold component',
             uniqueLocalName,
