@@ -19,7 +19,7 @@ const createHoc = (SourceComponent, TargetComponent) => {
   return TargetComponent
 }
 
-const makeHotExport = sourceModule => {
+const makeHotExport = (sourceModule, options) => {
   const updateInstances = () => {
     const module = hotModule(sourceModule.id)
     clearTimeout(module.updateTimeout)
@@ -42,8 +42,14 @@ const makeHotExport = sourceModule => {
     if (sourceModule.hot.addStatusHandler) {
       if (sourceModule.hot.status() === 'idle') {
         sourceModule.hot.addStatusHandler(status => {
+          if (options && options.beforeUpdate) {
+            options.beforeUpdate(status)
+          }
           if (status === 'apply') {
             updateInstances()
+          }
+          if (options && options.afterUpdate) {
+            options.afterUpdate(status)
           }
         })
       }
@@ -51,7 +57,7 @@ const makeHotExport = sourceModule => {
   }
 }
 
-const hot = sourceModule => {
+const hot = (sourceModule, options) => {
   if (!sourceModule || !sourceModule.id) {
     // this is fatal
     throw new Error(
@@ -60,7 +66,7 @@ const hot = sourceModule => {
   }
   const moduleId = sourceModule.id
   const module = hotModule(moduleId)
-  makeHotExport(sourceModule)
+  makeHotExport(sourceModule, options)
 
   // TODO: Ensure that all exports from this file are react components.
 
