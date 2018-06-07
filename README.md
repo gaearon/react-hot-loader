@@ -185,7 +185,7 @@ We also have a [full example running Parcel + React Hot Loader](https://github.c
 
 You need something to mark your modules as hot in order to use React Hot Loader.
 
-One way of doing this with Electron is to simply use webpack like any web-based project might do and the general guide above describes. See also [this example Electron app](https://github.com/s-h-a-d-o-w/rhl-electron-quick-start)
+One way of doing this with Electron is to simply use webpack like any web-based project might do and the general guide above describes. See also [this example Electron app](https://github.com/s-h-a-d-o-w/rhl-electron-quick-start).
 
 A webpack-less way of doing it to use `electron-compile` (which is also used by [`electron-forge`](https://electronforge.io)) - see [this example](https://github.com/rllola/hmr-example-issue-2). While it requires less configuration, something to keep in mind is that `electron-compile`'s HMR will always reload all modules, regardless of what was actually edited.
 
