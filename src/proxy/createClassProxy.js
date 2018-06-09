@@ -265,6 +265,16 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       // through as-is.
       if (isReactComponentInstance(result)) {
         ProxyComponent = null
+
+        // Relay lazily sets statics like getDerivedStateFromProps on initial
+        // render in lazy construction, so we need to do the same here.
+        transferStaticProps(
+          ProxyFacade,
+          savedDescriptors,
+          null,
+          CurrentComponent,
+        )
+
         return result
       }
 
