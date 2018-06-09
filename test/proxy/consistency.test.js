@@ -18,6 +18,7 @@ const createFixtures = () => ({
       __reactstandin__regenerateByEval(key, code) {
         this[key] = eval(code)
       }
+
       /* eslint-enable */
 
       render() {
@@ -36,6 +37,7 @@ const createFixtures = () => ({
       __reactstandin__regenerateByEval(key, code) {
         this[key] = eval(code)
       }
+
       /* eslint-enable */
 
       render() {
@@ -54,6 +56,7 @@ const createFixtures = () => ({
       __reactstandin__regenerateByEval(key, code) {
         this[key] = eval(code)
       }
+
       /* eslint-enable */
 
       render() {
@@ -214,6 +217,29 @@ describe('consistency', () => {
         expect(Proxy.prototype instanceof Bar).toBe(true)
       })
 
+      it('should transparently pass arguments to the render function', () => {
+        const spy = jest.fn()
+
+        class Foo extends React.Component {
+          render(...args) {
+            spy(...args)
+            return null
+          }
+        }
+
+        const proxy = createProxy(Foo)
+        const Proxy = proxy.get()
+        const instance = new Proxy()
+        const props = {}
+        const state = {}
+        instance.render(props, state)
+        expect(spy).toHaveBeenCalledWith(props, state)
+        instance.render(1, 2)
+        expect(spy).toHaveBeenCalledWith(1, 2)
+        instance.render(0)
+        expect(spy).toHaveBeenCalledWith(0)
+      })
+
       it('should revert arrow member change', () => {
         /* eslint-disable */
         class BaseClass extends React.Component {
@@ -280,6 +306,7 @@ describe('consistency', () => {
           const g = gen++
           return () => g
         }
+
         class BaseClass extends React.Component {
           secret1 = 1
           secret2 = generator2()
@@ -311,6 +338,7 @@ describe('consistency', () => {
 
         {
           const externalValue = 24
+
           class Update1Class extends React.Component {
             secret = 1
             secret2 = generator2()
@@ -334,6 +362,7 @@ describe('consistency', () => {
               this[key] = eval(code)
             }
           }
+
           proxy.update(Update1Class)
           new Proxy()
         }
@@ -384,6 +413,7 @@ describe('consistency', () => {
           return <div />
         }
       }
+
       const Proxy = createProxy(App).get()
       const instance = mount(<Proxy />).instance()
       expect(instance instanceof App).toBe(true)
@@ -423,11 +453,13 @@ describe('consistency', () => {
     it('should not update not constructed Proxies', () => {
       const spy1 = jest.fn()
       const spy2 = jest.fn()
+
       class App extends React.Component {
         constructor() {
           super()
           spy1()
         }
+
         render() {
           return <div />
         }
@@ -442,10 +474,12 @@ describe('consistency', () => {
             super()
             spy2()
           }
+
           render() {
             return <div />
           }
         }
+
         proxy.update(App)
 
         expect(spy1).not.toHaveBeenCalled()
@@ -462,11 +496,13 @@ describe('consistency', () => {
     it('should update constructed Proxies', () => {
       const spy1 = jest.fn()
       const spy2 = jest.fn()
+
       class App extends React.Component {
         constructor() {
           super()
           spy1()
         }
+
         render() {
           return <div />
         }
@@ -483,10 +519,12 @@ describe('consistency', () => {
             super()
             spy2()
           }
+
           render() {
             return <div />
           }
         }
+
         proxy.update(App)
 
         expect(spy1).toHaveBeenCalled()
