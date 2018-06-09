@@ -1802,10 +1802,14 @@ describe(`AppContainer (dev)`, () => {
         const AnotherComponent = () => <div>old</div>
 
         class App extends React.Component {
+          static getDerivedStateFromProps({ n }) {
+            return { n }
+          }
+
           render() {
             return (
               <div>
-                hey {this.props.n} <AnotherComponent />
+                hey {this.state.n} <AnotherComponent />
               </div>
             )
           }
@@ -1817,8 +1821,12 @@ describe(`AppContainer (dev)`, () => {
         RHL.register(App, 'App', 'test.js')
 
         // return rendered component from a stateless
-        const IndeterminateComponent = (props, context) =>
-          new CurrentApp(props, context)
+        const IndeterminateComponent = (props, context) => {
+          const instance = new CurrentApp(props, context)
+          IndeterminateComponent.getDerivedStateFromProps =
+            CurrentApp.getDerivedStateFromProps
+          return instance
+        }
 
         if (withContext) {
           IndeterminateComponent.contextTypes = {}
@@ -1834,9 +1842,13 @@ describe(`AppContainer (dev)`, () => {
         expect(wrapper.text()).toBe('hey 42 old')
         {
           class App2 extends React.Component {
+            static getDerivedStateFromProps({ n }) {
+              return { n }
+            }
+
             render() {
               spy()
-              return <div>ho {this.props.n + 1}</div>
+              return <div>ho {this.state.n + 1}</div>
             }
           }
 
