@@ -1815,6 +1815,12 @@ describe(`AppContainer (dev)`, () => {
           }
         }
 
+        // Can't always run polyfill, as running polyfill in React 16 will make
+        // this test case pass even without the fix.
+        if (React.version.startsWith('15')) {
+          polyfill(App)
+        }
+
         let CurrentApp = App
 
         RHL.register(AnotherComponent, 'AnotherComponent', 'test.js')
@@ -1850,6 +1856,10 @@ describe(`AppContainer (dev)`, () => {
               spy()
               return <div>ho {this.state.n + 1}</div>
             }
+          }
+
+          if (React.version.startsWith('15')) {
+            polyfill(App2)
           }
 
           RHL.register(App2, 'App', 'test.js')
