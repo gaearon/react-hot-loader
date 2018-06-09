@@ -152,7 +152,7 @@ function inject(target, currentGeneration, injectedMembers) {
       try {
         if (hasRegenerate) {
           const usedThis =
-            String(injectedMembers[key]).match(/_this([\d])/gi) || []
+            String(injectedMembers[key]).match(/_this([\d]+)/gi) || []
           target[REGENERATE_METHOD](
             key,
             `(function REACT_HOT_LOADER_SANDBOX () {

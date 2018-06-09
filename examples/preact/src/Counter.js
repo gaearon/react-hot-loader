@@ -17,8 +17,8 @@ class Counter extends Component {
     clearInterval(this.interval)
   }
 
-  render() {
-    return <div>10:{this.state.count}</div>
+  render(props, state) {
+    return <div>10:{state.count}</div>
   }
 }
 

@@ -199,15 +199,19 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     } else if (isFunctionalComponent) {
       result = CurrentComponent(this.props, this.context)
     } else {
-      result = (CurrentComponent.prototype.render || this.render).call(this)
+      result = (CurrentComponent.prototype.render || this.render).apply(
+        this,
+        // eslint-disable-next-line prefer-rest-params
+        arguments,
+      )
     }
 
     return renderOptions.componentDidRender.call(this, result)
   }
 
-  function proxiedRender() {
+  function proxiedRender(...args) {
     renderOptions.componentWillRender(this)
-    return hotComponentRender.call(this)
+    return hotComponentRender.call(this, ...args)
   }
 
   const defineProxyMethods = (Proxy, Base = {}) => {
