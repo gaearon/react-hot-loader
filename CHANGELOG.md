@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.3.1"></a>
+## [4.3.1](https://github.com/gaearon/react-hot-loader/compare/4.3.0...4.3.1) (2018-06-09)
+
+
+### Bug Fixes
+
+* Preact could pass arguments to the render, fix [#1013](https://github.com/gaearon/react-hot-loader/issues/1013) ([605da10](https://github.com/gaearon/react-hot-loader/commit/605da10))
+* Support _this10 and over ([bb47ca4](https://github.com/gaearon/react-hot-loader/commit/bb47ca4))
+* Handle lazy indeterminate static properties(Relay) [#1014](https://github.com/gaearon/react-hot-loader/pull/1014)
+
+
+
 <a name="4.3.0"></a>
 # [4.3.0](https://github.com/gaearon/react-hot-loader/compare/v4.2.0...v4.3.0) (2018-06-05)
 
