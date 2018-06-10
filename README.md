@@ -202,7 +202,7 @@ each module so you might not need source maps at all.
 
 ## Preact
 
-React-hot-loader should work out of the box with `preact-compact`, but, in case of pure preact, you will need
+React-hot-loader should work out of the box with `preact-compat`, but, in case of pure preact, you will need
 to configure it:
 
 * create configuration file (setupHotLoader.js)
