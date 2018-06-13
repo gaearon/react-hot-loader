@@ -30,6 +30,17 @@ declare module 'react-hot-loader' {
   ): <T = React.ComponentType<any>>(Component: T) => T
 
   /**
+   * Marks component as `cold`, and making it invisible for React-Hot-Loader.
+   * Any changes to that component will cause local state loss.
+   * @param {React.ComponentType} component to chill
+   * @return {React.ComponentType} component, as it was passed in.
+   *
+   * @example marks some component as cold
+   * export default cold(MyComponent)
+   */
+  export function cold<T = React.ComponentType<any>>(component: T): T
+
+  /**
    * Tests are types of two components equal
    * @param {Component} typeA
    * @param {Component} typeB
@@ -49,6 +60,19 @@ declare module 'react-hot-loader' {
      * Available levels: ['debug', 'log', 'warn', 'error']
      */
     logLevel?: string
+
+    /**
+     *
+     * @param {any} type being registered. This could be ANY top level variable among project.
+     * @param {string} uniqueLocalName - variable name
+     * @param {string} fileName - origin file
+     * @return {any}
+     */
+    onComponentRegister?: (
+      type: any,
+      uniqueLocalName: string,
+      fileName: string,
+    ) => any
   }
   /**
    * Confugures how React Hot Loader works
