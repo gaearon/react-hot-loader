@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.3.2"></a>
+## [4.3.2](https://github.com/gaearon/react-hot-loader/compare/4.3.1...4.3.2) (2018-06-13)
+
+### Bug Fixes
+* Add cold API to TypeScript definitions
+
 <a name="4.3.1"></a>
 ## [4.3.1](https://github.com/gaearon/react-hot-loader/compare/4.3.0...4.3.1) (2018-06-09)
 
