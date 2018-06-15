@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.3.3"></a>
+## [4.3.3](https://github.com/gaearon/react-hot-loader/compare/4.3.1...4.3.3) (2018-06-15)
+
+
+### Bug Fixes
+
+* add _this to sandbox variables, [#1020](https://github.com/gaearon/react-hot-loader/issues/1020) ([e5284ab](https://github.com/gaearon/react-hot-loader/commit/e5284ab))
+
+
+
 <a name="4.3.2"></a>
 ## [4.3.2](https://github.com/gaearon/react-hot-loader/compare/4.3.1...4.3.2) (2018-06-13)
 
