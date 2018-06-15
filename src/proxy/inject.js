@@ -156,6 +156,7 @@ function inject(target, currentGeneration, injectedMembers) {
           target[REGENERATE_METHOD](
             key,
             `(function REACT_HOT_LOADER_SANDBOX () {
+          var _this  = this; // common babel transpile
           ${usedThis.map(name => `var ${name} = this;`)}
 
           return ${injectedMembers[key]};
