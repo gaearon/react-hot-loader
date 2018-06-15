@@ -2141,6 +2141,83 @@ describe(`AppContainer (dev)`, () => {
       }
     })
 
+    it('hot-reloads children inside Context', () => {
+      if (React.version.startsWith('16')) {
+        const unmount = jest.fn()
+        const context = React.createContext()
+
+        class InnerComponent extends Component {
+          componentWillUnmount() {
+            unmount()
+          }
+
+          render() {
+            return <div>OldInnerComponent</div>
+          }
+        }
+
+        const InnerSFC = ({ children }) => <div> old:{children}</div>
+
+        RHL.register(InnerComponent, 'InnerComponent', 'test.js')
+        RHL.register(InnerSFC, 'InnerSFC', 'test.js')
+
+        InnerComponent.displayName = 'InnerComponent'
+
+        const InnerItem = () => (
+          <context.Consumer>
+            {value =>
+              value === 42 ? (
+                <InnerSFC>
+                  <InnerComponent />
+                </InnerSFC>
+              ) : (
+                <div>fail</div>
+              )
+            }
+          </context.Consumer>
+        )
+
+        //
+        const App = () => (
+          <context.Provider value={42}>
+            <InnerItem />
+          </context.Provider>
+        )
+
+        const wrapper = mount(
+          <AppContainer>
+            <App />
+          </AppContainer>,
+        )
+
+        expect(wrapper.update().text()).toBe('OldInnerComponent')
+        {
+          class InnerComponent extends Component {
+            componentWillUnmount() {
+              unmount()
+            }
+
+            render() {
+              return <div>NewInnerComponent</div>
+            }
+          }
+
+          const InnerSFC = ({ children }) => <div> new:{children}</div>
+
+          InnerComponent.displayName = 'InnerComponent'
+          RHL.register(InnerComponent, 'InnerComponent', 'test.js')
+          RHL.register(InnerSFC, 'InnerSFC', 'test.js')
+
+          wrapper.setProps({ children: <App /> })
+        }
+        expect(unmount).toHaveBeenCalledTimes(0)
+        expect(wrapper.update().text()).toBe('NewInnerComponent')
+      } else {
+        // React 15 is always ok
+        expect(true).toBe(true)
+      }
+    })
+
     it('hot-reloads children without losing state', () => {
       class App extends Component {
         constructor(props) {
