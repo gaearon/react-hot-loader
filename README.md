@@ -143,7 +143,7 @@ A sample configuration:
 };
 ```
 
-For a full example configuration of TypeScript with React Hot Loader, check [here](https://github.com/gaearon/react-hot-loader/tree/master/examples/typescript).
+For a full example configuration of TypeScript with React Hot Loader and newest beta version of Babel, check [here](https://github.com/gaearon/react-hot-loader/tree/master/examples/typescript).
 
 As an alternative to this approach, it's possible to chain Webpack loaders so that your code passes through Babel and then TypeScript (or TypeScript and then Babel), but this approach is not recommended as it is more complex and may be significantly less performant. Read more [discussion here](https://github.com/gaearon/react-hot-loader/issues/884).
 
