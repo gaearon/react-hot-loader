@@ -5,46 +5,54 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 module.exports = {
-  entry: ['./src/index'],
+  mode: 'development',
+  entry: {
+    vendor: [
+      // Required to support async/await
+      '@babel/polyfill',
+    ],
+    main: [
+      './src/index',
+    ],
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].js',
   },
   devtool: false,
+  resolve: { extensions: [".ts", ".tsx", ".js", ".jsx"] },
   module: {
     rules: [
       {
         test: /\.(j|t)sx?$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
             cacheDirectory: true,
             babelrc: false,
             presets: [
               [
-                '@babel/preset-env',
-                { targets: { browsers: 'last 2 versions' } },
+                "@babel/preset-env",
+                { targets: { browsers: "last 2 versions" } } // or whatever your project requires
               ],
-              '@babel/preset-typescript',
-              '@babel/preset-react',
+              "@babel/preset-typescript",
+              "@babel/preset-react"
             ],
             plugins: [
-              ['@babel/plugin-proposal-decorators', { legacy: true }],
-              ['@babel/plugin-proposal-class-properties', { loose: true }],
-              'react-hot-loader/babel',
-            ],
-          },
-        },
-      },
-    ],
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+              // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
+              ["@babel/plugin-proposal-decorators", { legacy: true }],
+              ["@babel/plugin-proposal-class-properties", { loose: true }],
+              "react-hot-loader/babel",
+            ]
+          }
+        }
+      }
+    ]
   },
   plugins: [
-    new HtmlWebpackPlugin(),
-    new webpack.NamedModulesPlugin(),
     new ForkTsCheckerWebpackPlugin(),
-  ],
+    new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin(),
+  ]
 }

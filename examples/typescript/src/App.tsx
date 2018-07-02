@@ -3,10 +3,14 @@ import * as React from 'react'
 import Counter from './Counter'
 
 const App = () => (
-  <h1>
-    Hello, world.<br />
+  <div>
+    <h1>Hello, world.</ h1>
     <Counter />
-  </h1>
+  </div>
 )
+
+;(async ()=>{
+  console.log('You have async support if you read this instead of "ReferenceError: regeneratorRuntime is not defined" error.');
+})()
 
 export default hot(module)(App)
