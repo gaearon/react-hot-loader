@@ -1,0 +1,32 @@
+{
+  "name": "hot-react-loadable",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server --hot"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
+  },
+  "dependencies": {
+    "emotion": "^8.0.12",
+    "loadable-components": "^2.2.2",
+    "react": "^16.4.1",
+    "react-async-component": "^2.0.0",
+    "react-dom": "^16.4.1",
+    "react-emotion": "^8.0.12",
+    "react-hot-loader": "^4.1.1",
+    "react-imported-component": "^4.6.2",
+    "react-loadable": "^5.4.0",
+    "react-remock": "^0.2.1",
+    "react-universal-component": "^2.9.0",
+    "styled-components": "^2.4.0"
+  }
+}

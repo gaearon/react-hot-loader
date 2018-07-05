@@ -235,15 +235,17 @@ If you want to use Code Splitting + React Hot Loader, the simplest solution is t
 * [Loadable Components](https://github.com/smooth-code/loadable-components/)
 * [Imported Component](https://github.com/theKashey/react-imported-component)
 * [React Universal Component](https://github.com/faceyspacey/react-universal-component)
+* [React-Loadable](https://github.com/jamiebuilds/react-loadable)
 
-If you use a non-friendly library like [React Loadable](https://github.com/jamiebuilds/react-loadable) you have to mark all your "loaded components" as _hot-exported_:
+If you use a non-yet-friendly library, like [react-async-component](github.com/ctrlplusb/react-async-component) you have to mark all your "loaded components" as _hot-exported_:
 
 ```js
 // AsyncHello.js
-import Loadable from 'react-loadable'
+import { asyncComponent } from 'react-async-component'
 
-const AsyncHello = Loadable({
-  loader: () => import('./Hello'),
+// asyncComponent could not `hot-reload` itself.
+const AsyncHello = asyncComponent({
+  resolve: () => import('./Hello'),
 })
 
 export default AsyncHello
