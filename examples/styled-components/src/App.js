@@ -20,6 +20,13 @@ const indirect = {
   ),
 }
 
+const indirectStyled = {
+  DS: styled.div`
+    border: 1px solid #f00;
+  `,
+  DE: emoStyled('div')`border: 1px solid #F00`,
+}
+
 const aNumber = 100500
 
 const App = () => (
@@ -30,6 +37,14 @@ const App = () => (
     <br />
     <Counter />
     <indirect.element />
+    <indirectStyled.DS>
+      {' '}
+      indirect DS <Counter />{' '}
+    </indirectStyled.DS>
+    <indirectStyled.DE>
+      {' '}
+      indirect DE <Counter />{' '}
+    </indirectStyled.DE>
     <div>
       {[
         <span key={1}>depend on aNumber - </span>,

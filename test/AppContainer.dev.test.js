@@ -263,6 +263,7 @@ describe(`AppContainer (dev)`, () => {
             return <span>works</span>
           }
         }
+        SubApp.displayName = 'SubApp'
 
         class App extends Component {
           componentWillUnmount() {
@@ -281,6 +282,7 @@ describe(`AppContainer (dev)`, () => {
             )
           }
         }
+        App.displayName = 'App'
         /* eslint-enable */
 
         incrementGeneration()
@@ -1652,7 +1654,7 @@ describe(`AppContainer (dev)`, () => {
 
       /* eslint-enable */
 
-      const expectUnmounts = [false, false, true, true, false]
+      const expectUnmounts = [false, false, true, true, true]
       generateChilds()
       ;[ChildB, ChildC, ChildD, ChildE, ChildF].forEach((Replace, index) => {
         const expectUnmount = expectUnmounts[index]

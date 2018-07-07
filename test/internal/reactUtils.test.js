@@ -5,9 +5,33 @@ import {
   getComponentDisplayName,
   getInternalInstance,
   updateInstance,
+  isReactClass,
+  isReactClassInstance,
 } from '../../src/internal/reactUtils'
 
 describe('reactUtils', () => {
+  describe('isReact', () => {
+    it('isReactClass', () => {
+      class C1 extends React.Component {}
+      class C2 extends C1 {}
+      const F1 = () => 42
+
+      expect(isReactClass(F1)).toBe(false)
+      expect(isReactClass(C1)).toBe(true)
+      expect(isReactClass(C2)).toBe(true)
+    })
+
+    it('isReactClassInstance', () => {
+      class C1 extends React.Component {}
+      class C2 extends C1 {}
+      const F1 = function F1() {}
+
+      expect(isReactClassInstance(new F1())).toBe(false)
+      expect(isReactClassInstance(new C1())).toBe(true)
+      expect(isReactClassInstance(new C2())).toBe(true)
+    })
+  })
+
   describe('#isCompositeComponent', () => {
     it('should return true if this is a composite component', () => {
       const FunctionalComponent = () => null

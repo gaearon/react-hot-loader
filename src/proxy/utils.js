@@ -1,30 +1,6 @@
 /* eslint-disable no-eval, func-names */
 import logger from '../logger'
 
-export function getDisplayName(Component) {
-  const displayName = Component.displayName || Component.name
-  return displayName && displayName !== 'ReactComponent'
-    ? displayName
-    : 'Component'
-}
-
-export const reactLifeCycleMountMethods = [
-  'componentWillMount',
-  'componentDidMount',
-]
-
-export function isReactClass(Component) {
-  return (
-    Component.prototype &&
-    (Component.prototype.isReactComponent ||
-      Component.prototype.componentWillMount ||
-      Component.prototype.componentWillUnmount ||
-      Component.prototype.componentDidMount ||
-      Component.prototype.componentDidUnmount ||
-      Component.prototype.render)
-  )
-}
-
 export function safeReactConstructor(Component, lastInstance) {
   try {
     if (lastInstance) {
@@ -80,9 +56,6 @@ const ES5ProxyComponentFactory = function(
   Object.setPrototypeOf(ProxyComponent, InitialParent)
   return ProxyComponent
 }
-
-export const isReactComponentInstance = el =>
-  el && typeof el === 'object' && !el.type && el.render
 
 export const proxyClassCreator = doesSupportClasses
   ? ES6ProxyComponentFactory

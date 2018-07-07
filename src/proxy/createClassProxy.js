@@ -7,16 +7,14 @@ import {
   CACHED_RESULT,
   PROXY_IS_MOUNTED,
 } from './constants'
-import {
-  getDisplayName,
-  isReactClass,
-  isReactComponentInstance,
-  identity,
-  safeDefineProperty,
-  proxyClassCreator,
-} from './utils'
+import { identity, safeDefineProperty, proxyClassCreator } from './utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
 import config from '../configuration'
+import {
+  getComponentDisplayName,
+  isReactClass,
+  isReactClassInstance,
+} from '../internal/reactUtils'
 
 const has = Object.prototype.hasOwnProperty
 
@@ -267,7 +265,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       // This is a Relay-style container constructor. We can't do the prototype-
       // style wrapping for this as we do elsewhere, so just we just pass it
       // through as-is.
-      if (isReactComponentInstance(result)) {
+      if (isReactClassInstance(result)) {
         ProxyComponent = null
 
         // Relay lazily sets statics like getDerivedStateFromProps on initial
@@ -354,7 +352,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     CurrentComponent = NextComponent
 
     // Try to infer displayName
-    const displayName = getDisplayName(CurrentComponent)
+    const displayName = getComponentDisplayName(CurrentComponent)
 
     safeDefineProperty(ProxyFacade, 'displayName', {
       configurable: true,

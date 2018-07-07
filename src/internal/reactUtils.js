@@ -3,8 +3,37 @@ import React from 'react'
 
 export const isCompositeComponent = type => typeof type === 'function'
 
-export const getComponentDisplayName = type =>
-  type.displayName || type.name || 'Component'
+export const getComponentDisplayName = type => {
+  const displayName = type.displayName || type.name
+  return displayName && displayName !== 'ReactComponent'
+    ? displayName
+    : 'Component'
+}
+
+export const reactLifeCycleMountMethods = [
+  'componentWillMount',
+  'componentDidMount',
+]
+
+export function isReactClass(Component) {
+  return !!(
+    Component.prototype &&
+    (React.Component.prototype.isPrototypeOf(Component.prototype) ||
+      // react 14 support
+      Component.prototype.isReactComponent ||
+      Component.prototype.componentWillMount ||
+      Component.prototype.componentWillUnmount ||
+      Component.prototype.componentDidMount ||
+      Component.prototype.componentDidUnmount ||
+      Component.prototype.render)
+  )
+}
+
+export function isReactClassInstance(Component) {
+  return (
+    Component && isReactClass({ prototype: Object.getPrototypeOf(Component) })
+  )
+}
 
 export const getInternalInstance = instance =>
   instance._reactInternalFiber || // React 16
