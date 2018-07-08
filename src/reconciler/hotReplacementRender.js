@@ -13,6 +13,8 @@ import {
   isContextConsumer,
   isContextProvider,
   getContextProvider,
+  isReactClass,
+  isReactClassInstance,
   CONTEXT_CURRENT_VALUE,
 } from '../internal/reactUtils'
 import reactHotLoader from '../reactHotLoader'
@@ -34,10 +36,11 @@ const stackReport = () => {
 const emptyMap = new Map()
 const stackContext = () =>
   (renderStack[renderStack.length - 1] || {}).context || emptyMap
-
 const areNamesEqual = (a, b) =>
   a === b || (UNDEFINED_NAMES[a] && UNDEFINED_NAMES[b])
-const isReactClass = fn => fn && !!fn.render
+const shouldUseRenderMethod = fn =>
+  fn && (isReactClassInstance(fn) || fn.SFC_fake)
+
 const isFunctional = fn => typeof fn === 'function'
 const isArray = fn => Array.isArray(fn)
 const asArray = a => (isArray(a) ? a : [a])
@@ -75,8 +78,10 @@ const equalClasses = (a, b) => {
 
   let hits = 0
   let misses = 0
+  let comparisons = 0
   Object.getOwnPropertyNames(prototypeA).forEach(key => {
     if (typeof prototypeA[key] === 'function' && key !== 'constructor') {
+      comparisons++
       if (
         haveTextSimilarity(String(prototypeA[key]), String(prototypeB[key]))
       ) {
@@ -90,10 +95,10 @@ const equalClasses = (a, b) => {
     }
   })
   // allow to add or remove one function
-  return hits > 0 && misses <= 1
+  return (hits > 0 && misses <= 1) || comparisons === 0
 }
 
-const isSwappable = (a, b) => {
+export const areSwappable = (a, b) => {
   // both are registered components
   if (getIdByType(b) && getIdByType(a) === getIdByType(b)) {
     return true
@@ -101,7 +106,7 @@ const isSwappable = (a, b) => {
   if (getTypeOf(a) !== getTypeOf(b)) {
     return false
   }
-  if (isReactClass(a.prototype)) {
+  if (isReactClass(a)) {
     return (
       areNamesEqual(getComponentDisplayName(a), getComponentDisplayName(b)) &&
       equalClasses(a, b)
@@ -123,7 +128,7 @@ const render = component => {
   if (!component) {
     return []
   }
-  if (isReactClass(component)) {
+  if (shouldUseRenderMethod(component)) {
     // not calling real render method to prevent call recursion.
     // stateless components does not have hotComponentRender
     return component.hotComponentRender
@@ -262,7 +267,7 @@ const scheduleInstanceUpdate = instance => {
 }
 
 const hotReplacementRender = (instance, stack) => {
-  if (isReactClass(instance)) {
+  if (isReactClassInstance(instance)) {
     const type = getElementType(stack)
 
     renderStack.push({
@@ -288,7 +293,7 @@ const hotReplacementRender = (instance, stack) => {
         ...(child.props || {}),
       }
 
-      if (isReactClass(instance) && instance.componentWillUpdate) {
+      if (isReactClassInstance(instance) && instance.componentWillUpdate) {
         // Force-refresh component (bypass redux renderedComponent)
         instance.componentWillUpdate({ ...realProps }, instance.state)
       }
@@ -396,7 +401,7 @@ const hotReplacementRender = (instance, stack) => {
           throw new Error('React-hot-loader: wrong configuration')
         }
 
-        if (isSwappable(childType, stackChild.type)) {
+        if (areSwappable(childType, stackChild.type)) {
           // they are both registered, or have equal code/displayname/signature
 
           // update proxy using internal PROXY_KEY
@@ -420,7 +425,7 @@ const hotReplacementRender = (instance, stack) => {
     }
   })
 
-  if (isReactClass(instance)) {
+  if (isReactClassInstance(instance)) {
     renderStack.pop()
   }
 }
@@ -430,7 +435,7 @@ export const hotComponentCompare = (oldType, newType) => {
     return true
   }
 
-  if (isSwappable(newType, oldType)) {
+  if (areSwappable(newType, oldType)) {
     getProxyByType(newType[UNWRAP_PROXY]()).dereference()
     updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
     updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())

@@ -1,11 +1,11 @@
 import {
   isNativeFunction,
-  reactLifeCycleMountMethods,
   safeReactConstructor,
   getOwnKeys,
   shallowStringsEqual,
   deepPrototypeUpdate,
 } from './utils'
+import { reactLifeCycleMountMethods } from '../internal/reactUtils'
 import { REGENERATE_METHOD, PREFIX, GENERATION } from './constants'
 import logger from '../logger'
 
