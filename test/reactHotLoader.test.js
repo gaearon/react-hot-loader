@@ -140,6 +140,18 @@ describe('reactHotLoader', () => {
       expect(proxyElement.type[UNWRAP_PROXY]()).toBe(Span)
     })
 
+    it('should not double-proxy', () => {
+      const Component1 = () => <div>42</div>
+      const Element1 = <Component1 />
+      const Type1 = Element1.type
+      const Element2 = <Type1 />
+      const Element3 = React.Children.only(Element1)
+      const Element4 = React.cloneElement(Element1)
+      expect(Element1.type).toBe(Element2.type)
+      expect(Element1.type).toBe(Element3.type)
+      expect(Element1.type).toBe(Element4.type)
+    })
+
     it('should result into shadowing the original component', () => {
       // Registering Div
       reactHotLoader.register(Div, 'Div', 'reactHotLoader.test.js')

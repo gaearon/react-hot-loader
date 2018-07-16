@@ -1,4 +1,4 @@
-import createProxy from '../proxy'
+import createProxy, { PROXY_KEY } from '../proxy'
 import { resetClassProxies } from '../proxy/createClassProxy'
 
 let proxiesByID
@@ -11,6 +11,7 @@ let renderOptions = {}
 const generateTypeId = () => `auto-${elementCount++}`
 
 export const getIdByType = type => idsByType.get(type)
+export const isProxyType = type => type[PROXY_KEY]
 
 export const getProxyById = id => proxiesByID[id]
 export const getProxyByType = type => getProxyById(getIdByType(type))
