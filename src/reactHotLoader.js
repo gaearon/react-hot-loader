@@ -4,6 +4,7 @@ import { increment as incrementGeneration } from './global/generation'
 import {
   updateProxyById,
   resetProxies,
+  isProxyType,
   getProxyByType,
   getProxyById,
   createProxyForType,
@@ -15,7 +16,12 @@ import logger from './logger'
 import { preactAdapter } from './adapters/preact'
 
 function resolveType(type) {
-  if (!isCompositeComponent(type) || isTypeBlacklisted(type)) return type
+  if (
+    !isCompositeComponent(type) ||
+    isTypeBlacklisted(type) ||
+    isProxyType(type)
+  )
+    return type
 
   const proxy = reactHotLoader.disableProxyCreation
     ? getProxyByType(type)
