@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.3.4"></a>
+## [4.3.4](https://github.com/gaearon/react-hot-loader/compare/v4.3.3...v4.3.4) (2018-07-25)
+
+
+### Bug Fixes
+
+* element could be double-proxied ([#1033](https://github.com/gaearon/react-hot-loader/pull/1033))
+* Components, not directly inherited from React.Components, like StyledComponents, are not working ([#1031](https://github.com/gaearon/react-hot-loader/pull/1031)) 
+
+
+
 <a name="4.3.3"></a>
 ## [4.3.3](https://github.com/gaearon/react-hot-loader/compare/4.3.1...4.3.3) (2018-06-15)
 
