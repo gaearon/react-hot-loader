@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "parcel"
+    "start": "parcel index.html"
   },
   "devDependencies": {
     "babel-plugin-transform-class-properties": "^6.24.1",
