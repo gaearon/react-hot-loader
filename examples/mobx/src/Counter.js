@@ -4,10 +4,10 @@ import { observer } from 'mobx-react'
 import { observable } from 'mobx'
 
 class Counter extends React.Component {
-  state = { count: 0 }
+  state = { count: Math.round(Math.random() * 1000) }
 
   componentDidMount() {
-    this.interval = setInterval(this.increment, 200)
+    //this.interval = setInterval(this.increment, 200)
   }
 
   componentWillUnmount() {
@@ -39,7 +39,7 @@ class Comp extends Component {
   render() {
     const { prop1 } = this.state.obsObj || {}
     return (
-      <div style={{ border: '1px solid red' }}>
+      <div style={{ border: '10px solid red' }}>
         {prop1}
         <Counter />
       </div>
