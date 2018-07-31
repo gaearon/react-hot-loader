@@ -103,7 +103,7 @@ Most likely you used `npm link` to use a development version of a package in a d
 
 Make sure you have `exclude: /node_modules/` or, better, `include: path.join(__dirname, 'src')` (path depends on your application) in loader configuration [just like on this line](https://github.com/gaearon/react-hot-boilerplate/blob/fbdbd93956241320bc3960d350c4dd0030cc6e84/webpack.config.js#L27). You never need to process `node_modules` with React Hot Loader. If you use other loaders such as `jsx?harmony` or `babel`, most likely they **also** need to have `include` specified.
 
-If you're sure you aren't processing `node_modules`, check that the file throwing this error does not declare any local variables named `process` or `process.env`.
+If you're sure you aren't processing `node_modules`, check that the file throwing this error does not declare any local variables named `process`.
 
 ---
 
