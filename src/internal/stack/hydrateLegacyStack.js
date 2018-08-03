@@ -20,13 +20,17 @@ function hydrateLegacyStack(node, stack) {
     pushState(stack, node._currentElement.type, node._instance || stack)
   }
 
+  const childStack = {
+    type: null,
+    children: [],
+    instance: null,
+  }
+
   if (node._renderedComponent) {
-    const childStack = {}
     hydrateLegacyStack(node._renderedComponent, childStack)
     stack.children.push(childStack)
   } else if (node._renderedChildren) {
     Object.keys(node._renderedChildren).forEach(key => {
-      const childStack = {}
       hydrateLegacyStack(node._renderedChildren[key], childStack)
       stack.children.push(childStack)
     })
