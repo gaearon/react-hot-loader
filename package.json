@@ -104,6 +104,7 @@
     "node": ">= 6"
   },
   "jest": {
+    "testURL": "http://localhost/",
     "moduleDirectories": [
       "node_modules",
       "<rootDir>"
