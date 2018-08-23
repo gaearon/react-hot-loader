@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.3.5"></a>
+## [4.3.5](https://github.com/gaearon/react-hot-loader/compare/4.3.4...4.3.5) (2018-08-23)
+
+
+### Bug Fixes
+
+* dont hot-swap registered components, [#1050](https://github.com/gaearon/react-hot-loader/issues/1050) ([cf165a6](https://github.com/gaearon/react-hot-loader/commit/cf165a6))
+* use the same conditions for index and patch ([f67d5b9](https://github.com/gaearon/react-hot-loader/commit/f67d5b9))
+
+
+
 <a name="4.3.4"></a>
 ## [4.3.4](https://github.com/gaearon/react-hot-loader/compare/v4.3.3...v4.3.4) (2018-07-25)
 
