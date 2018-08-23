@@ -3,6 +3,7 @@ import { PROXY_IS_MOUNTED, PROXY_KEY, UNWRAP_PROXY } from '../proxy'
 import {
   getIdByType,
   getProxyByType,
+  isRegisteredComponent,
   isTypeBlacklisted,
   updateProxyById,
 } from './proxies'
@@ -99,7 +100,7 @@ const equalClasses = (a, b) => {
 }
 
 export const areSwappable = (a, b) => {
-  // both are registered components
+  // both are registered components and have the same name
   if (getIdByType(b) && getIdByType(a) === getIdByType(b)) {
     return true
   }
@@ -401,7 +402,12 @@ const hotReplacementRender = (instance, stack) => {
           throw new Error('React-hot-loader: wrong configuration')
         }
 
-        if (areSwappable(childType, stackChild.type)) {
+        if (
+          isRegisteredComponent(childType) ||
+          isRegisteredComponent(stackChild.type)
+        ) {
+          // one of elements are registered via babel plugin, and should not be handled by hot swap
+        } else if (areSwappable(childType, stackChild.type)) {
           // they are both registered, or have equal code/displayname/signature
 
           // update proxy using internal PROXY_KEY

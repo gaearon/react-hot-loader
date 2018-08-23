@@ -9,6 +9,7 @@ import {
   getProxyById,
   createProxyForType,
   isTypeBlacklisted,
+  registerComponent,
 } from './reconciler/proxies'
 import configuration from './configuration'
 import logger from './logger'
@@ -62,6 +63,7 @@ const reactHotLoader = {
       }
 
       updateProxyById(id, type)
+      registerComponent(type)
     }
   },
 

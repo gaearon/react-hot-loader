@@ -157,6 +157,54 @@ describe('reconciler', () => {
       expect(areComponentsEqual(second.Component, third.Component)).toBe(false)
     })
 
+    it('should hot-swap only internal components', () => {
+      let An0
+      let An1
+      let Bn0
+      let Bn1
+      let App
+      {
+        const A = () => <div>A</div>
+        const B = () => <div>A</div>
+        App = () => (
+          <div>
+            <A />
+            <B />
+          </div>
+        )
+        An0 = A
+        Bn0 = B
+        reactHotLoader.register(App, 'App', 'test-hot-swap.js')
+        reactHotLoader.register(B, 'B0', 'test-hot-swap.js')
+      }
+      const wrapper = mount(
+        <div>
+          <App />
+        </div>,
+      )
+      {
+        const A = () => <div>A</div>
+        const B = () => <div>A</div>
+        App = () => (
+          <div>
+            <A />
+            <B />
+          </div>
+        )
+        An1 = A
+        Bn1 = B
+        reactHotLoader.register(App, 'App', 'test-hot-swap.js')
+        reactHotLoader.register(B, 'B1', 'test-hot-swap.js')
+      }
+      incrementGeneration()
+      wrapper.setProps({ update: 'now' })
+
+      // A-s are similar, and got merged
+      expect(<An0 />.type).toEqual(<An1 />.type)
+      // B-s are simlar, but known to be different types - not merged
+      expect(<Bn0 />.type).not.toEqual(<Bn1 />.type)
+    })
+
     it('should regenerate internal component without AppContainer', () => {
       const first = spyComponent(
         ({ children }) => <b>{children}</b>,

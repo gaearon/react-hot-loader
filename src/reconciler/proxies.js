@@ -3,6 +3,7 @@ import { resetClassProxies } from '../proxy/createClassProxy'
 
 let proxiesByID
 let blackListedProxies
+let registeredComponents
 let idsByType
 
 let elementCount = 0
@@ -15,6 +16,9 @@ export const isProxyType = type => type[PROXY_KEY]
 
 export const getProxyById = id => proxiesByID[id]
 export const getProxyByType = type => getProxyById(getIdByType(type))
+
+export const registerComponent = type => registeredComponents.set(type, 1)
+export const isRegisteredComponent = type => registeredComponents.has(type)
 
 export const setStandInOptions = options => {
   renderOptions = options
@@ -42,6 +46,7 @@ export const resetProxies = () => {
   proxiesByID = {}
   idsByType = new WeakMap()
   blackListedProxies = new WeakMap()
+  registeredComponents = new WeakMap()
   resetClassProxies()
 }
 
