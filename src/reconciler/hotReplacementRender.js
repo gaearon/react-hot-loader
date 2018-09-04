@@ -81,11 +81,16 @@ const equalClasses = (a, b) => {
   let misses = 0
   let comparisons = 0
   Object.getOwnPropertyNames(prototypeA).forEach(key => {
-    if (typeof prototypeA[key] === 'function' && key !== 'constructor') {
+    const descriptorA = Object.getOwnPropertyDescriptor(prototypeA, key)
+    const valueA =
+      descriptorA && (descriptorA.value || descriptorA.get || descriptorA.set)
+    const descriptorB = Object.getOwnPropertyDescriptor(prototypeB, key)
+    const valueB =
+      descriptorB && (descriptorB.value || descriptorB.get || descriptorB.set)
+
+    if (typeof valueA === 'function' && key !== 'constructor') {
       comparisons++
-      if (
-        haveTextSimilarity(String(prototypeA[key]), String(prototypeB[key]))
-      ) {
+      if (haveTextSimilarity(String(valueA), String(valueB))) {
         hits++
       } else {
         misses++
