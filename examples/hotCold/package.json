@@ -18,6 +18,7 @@
   "dependencies": {
     "emotion": "^8.0.12",
     "react": "^16.3.2",
+    "react-circle": "^1.1.1",
     "react-dom": "^16.2.0",
     "react-emotion": "^8.0.12",
     "react-hot-loader": "^4.2.0",

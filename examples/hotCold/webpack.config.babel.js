@@ -25,6 +25,15 @@ module.exports = {
         include: /node_modules/,
         test: /\.js$/,
         use: {
+          loader: 'react-hot-loader/webpack',
+        },
+      },
+      /*
+      // babel is an option, but slow option
+      {
+        include: /node_modules/,
+        test: /\.js$/,
+        use: {
           loader: 'babel-loader',
           options: {
             // plugins: ['react-hot-loader/babel'] // <<----- you need this
@@ -33,6 +42,7 @@ module.exports = {
           },
         },
       },
+      /* */
     ],
   },
   resolve: {
