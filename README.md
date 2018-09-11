@@ -79,7 +79,7 @@ webpack-dev-server --hot
   }
 ```
 
-4.  Mark your App (`src/index.js`) as _hot-exported_:
+4.  Mark your App (`src/App.js`) as _hot-exported_:
 
 ```js
 // ./containers/App.js
