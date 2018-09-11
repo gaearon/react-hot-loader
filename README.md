@@ -239,7 +239,7 @@ reference types of elements won't work:
 
 ```js
 const element = <Component />
-console.log(element.type Component) // false
+console.log(element.type === Component) // false
 ```
 
 React Hot Loader exposes a function `areComponentsEqual` to make it possible:
