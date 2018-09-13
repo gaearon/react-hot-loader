@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.3.7"></a>
+## [4.3.7](https://github.com/gaearon/react-hot-loader/compare/v4.3.6...v4.3.7) (2018-09-13)
+
+
+### Bug Fixes
+
+* babel 7 compatibility. [#1043](https://github.com/gaearon/react-hot-loader/issues/1043) ([acad937](https://github.com/gaearon/react-hot-loader/commit/acad937))
+
+
+
 <a name="4.3.6"></a>
 ## [4.3.6](https://github.com/gaearon/react-hot-loader/compare/v4.3.5...v4.3.6) (2018-09-04)
 
