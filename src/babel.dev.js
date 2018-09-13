@@ -82,53 +82,20 @@ module.exports = function plugin(args) {
     }
   }
 
-  const REGISTRATIONS = Symbol('registrations')
   return {
     visitor: {
-      ExportDefaultDeclaration(path, state) {
-        const { file } = state
-        // Default exports with names are going
-        // to be in scope anyway so no need to bother.
-        if (path.node.declaration.id) {
-          return
-        }
-
-        // Move export default right hand side to a variable
-        // so we can later refer to it and tag it with __source.
-        const id = path.scope.generateUidIdentifier('default')
-        const expression = t.isExpression(path.node.declaration)
-          ? path.node.declaration
-          : t.toExpression(path.node.declaration)
-        path.insertBefore(
-          t.variableDeclaration('const', [
-            t.variableDeclarator(id, expression),
-          ]),
-        )
-        path.node.declaration = id // eslint-disable-line no-param-reassign
-
-        // It won't appear in scope.bindings
-        // so we'll manually remember it exists.
-        state[REGISTRATIONS].push(
-          buildRegistration({
-            ID: id,
-            NAME: t.stringLiteral('default'),
-            FILENAME: t.stringLiteral(file.opts.filename),
-          }),
-        )
-      },
-
+      // using program to replace imports before "dynamic-import-node"
+      // see: https://jamie.build/babel-plugin-ordering.html
       Program: {
-        enter({ scope }, state) {
-          const { file } = state
-          state[REGISTRATIONS] = [] // eslint-disable-line no-param-reassign
+        enter(programPath, { file }) {
+          const registrations = []
+          const { scope, node } = programPath
 
-          // Everything in the top level scope, when reasonable,
-          // is going to get tagged with __source.
           /* eslint-disable guard-for-in,no-restricted-syntax */
           for (const id in scope.bindings) {
             const binding = scope.bindings[id]
             if (shouldRegisterBinding(binding)) {
-              state[REGISTRATIONS].push(
+              registrations.push(
                 buildRegistration({
                   ID: binding.identifier,
                   NAME: t.stringLiteral(id),
@@ -138,19 +105,84 @@ module.exports = function plugin(args) {
             }
           }
           /* eslint-enable */
-        },
 
-        exit({ node }, state) {
-          const { file } = state
-          const registrations = state[REGISTRATIONS]
-          delete state[REGISTRATIONS] // eslint-disable-line no-param-reassign
+          programPath.traverse({
+            ExportDefaultDeclaration(path) {
+              // Default exports with names are going
+              // to be in scope anyway so no need to bother.
+              if (path.node.declaration.id) {
+                return
+              }
 
-          // inject the code only if applicable
-          if (
-            registrations &&
-            registrations.length &&
-            !shouldIgnoreFile(file.opts.filename)
-          ) {
+              // Move export default right hand side to a variable
+              // so we can later refer to it and tag it with __source.
+              const id = path.scope.generateUidIdentifier('default')
+              const expression = t.isExpression(path.node.declaration)
+                ? path.node.declaration
+                : t.toExpression(path.node.declaration)
+              path.insertBefore(
+                t.variableDeclaration('const', [
+                  t.variableDeclarator(id, expression),
+                ]),
+              )
+              path.node.declaration = id // eslint-disable-line no-param-reassign
+
+              // It won't appear in scope.bindings
+              // so we'll manually remember it exists.
+              registrations.push(
+                buildRegistration({
+                  ID: id,
+                  NAME: t.stringLiteral('default'),
+                  FILENAME: t.stringLiteral(file.opts.filename),
+                }),
+              )
+            },
+            Class(classPath) {
+              const classBody = classPath.get('body')
+              let hasRegenerateMethod = false
+              let hasMethods = false
+
+              classBody.get('body').forEach(path => {
+                const { node } = path
+
+                // don't apply transform to static class properties
+                if (node.static) {
+                  return
+                }
+
+                if (node.key.name !== REGENERATE_METHOD) {
+                  hasMethods = true
+                } else {
+                  hasRegenerateMethod = true
+                }
+              })
+
+              if (hasMethods && !hasRegenerateMethod) {
+                const regenerateMethod = t.classMethod(
+                  'method',
+                  t.identifier(REGENERATE_METHOD),
+                  [t.identifier('key'), t.identifier('code')],
+                  t.blockStatement([evalTemplate()]),
+                )
+
+                classBody.pushContainer('body', regenerateMethod)
+
+                classBody.get('body').forEach(path => {
+                  const { node } = path
+
+                  if (node.key.name === REGENERATE_METHOD) {
+                    path.addComment('leading', ' @ts-ignore', true)
+                    path
+                      .get('body')
+                      .get('body')[0]
+                      .addComment('leading', ' @ts-ignore', true)
+                  }
+                })
+              }
+            },
+          })
+
+          if (registrations.length && !shouldIgnoreFile(file.opts.filename)) {
             node.body.unshift(headerTemplate())
             // Inject the generated tagging code at the very end
             // so that it is as minimally intrusive as possible.
@@ -159,49 +191,6 @@ module.exports = function plugin(args) {
             node.body.push(t.emptyStatement())
           }
         },
-      },
-      Class(classPath) {
-        const classBody = classPath.get('body')
-        let hasRegenerateMethod = false
-        let hasMethods = false
-
-        classBody.get('body').forEach(path => {
-          const { node } = path
-
-          // don't apply transform to static class properties
-          if (node.static) {
-            return
-          }
-
-          if (node.key.name !== REGENERATE_METHOD) {
-            hasMethods = true
-          } else {
-            hasRegenerateMethod = true
-          }
-        })
-
-        if (hasMethods && !hasRegenerateMethod) {
-          const regenerateMethod = t.classMethod(
-            'method',
-            t.identifier(REGENERATE_METHOD),
-            [t.identifier('key'), t.identifier('code')],
-            t.blockStatement([evalTemplate()]),
-          )
-
-          classBody.pushContainer('body', regenerateMethod)
-
-          classBody.get('body').forEach(path => {
-            const { node } = path
-
-            if (node.key.name === REGENERATE_METHOD) {
-              path.addComment('leading', ' @ts-ignore', true)
-              path
-                .get('body')
-                .get('body')[0]
-                .addComment('leading', ' @ts-ignore', true)
-            }
-          })
-        }
       },
     },
   }
