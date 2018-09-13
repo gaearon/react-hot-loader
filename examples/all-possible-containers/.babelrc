@@ -2,7 +2,12 @@
   "presets": [
     "@babel/preset-flow",
     "@babel/preset-react",
-    ["@babel/preset-env", { "modules": false }]
+    [
+      "@babel/preset-env",
+      {
+        "modules": false
+      }
+    ]
   ],
   "plugins": [
     "@babel/plugin-proposal-class-properties",

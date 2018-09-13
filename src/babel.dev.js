@@ -85,7 +85,8 @@ module.exports = function plugin(args) {
   const REGISTRATIONS = Symbol('registrations')
   return {
     visitor: {
-      ExportDefaultDeclaration(path, { file }) {
+      ExportDefaultDeclaration(path, state) {
+        const { file } = state
         // Default exports with names are going
         // to be in scope anyway so no need to bother.
         if (path.node.declaration.id) {
@@ -107,7 +108,7 @@ module.exports = function plugin(args) {
 
         // It won't appear in scope.bindings
         // so we'll manually remember it exists.
-        path.parent[REGISTRATIONS].push(
+        state[REGISTRATIONS].push(
           buildRegistration({
             ID: id,
             NAME: t.stringLiteral('default'),
@@ -117,8 +118,9 @@ module.exports = function plugin(args) {
       },
 
       Program: {
-        enter({ node, scope }, { file }) {
-          node[REGISTRATIONS] = [] // eslint-disable-line no-param-reassign
+        enter({ scope }, state) {
+          const { file } = state
+          state[REGISTRATIONS] = [] // eslint-disable-line no-param-reassign
 
           // Everything in the top level scope, when reasonable,
           // is going to get tagged with __source.
@@ -126,7 +128,7 @@ module.exports = function plugin(args) {
           for (const id in scope.bindings) {
             const binding = scope.bindings[id]
             if (shouldRegisterBinding(binding)) {
-              node[REGISTRATIONS].push(
+              state[REGISTRATIONS].push(
                 buildRegistration({
                   ID: binding.identifier,
                   NAME: t.stringLiteral(id),
@@ -138,9 +140,10 @@ module.exports = function plugin(args) {
           /* eslint-enable */
         },
 
-        exit({ node }, { file }) {
-          const registrations = node[REGISTRATIONS]
-          node[REGISTRATIONS] = null // eslint-disable-line no-param-reassign
+        exit({ node }, state) {
+          const { file } = state
+          const registrations = state[REGISTRATIONS]
+          delete state[REGISTRATIONS] // eslint-disable-line no-param-reassign
 
           // inject the code only if applicable
           if (
