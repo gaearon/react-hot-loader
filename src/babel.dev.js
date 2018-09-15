@@ -143,7 +143,7 @@ module.exports = function plugin(args) {
         exit({ node }, state) {
           const { file } = state
           const registrations = state[REGISTRATIONS]
-          delete state[REGISTRATIONS] // eslint-disable-line no-param-reassign
+          state[REGISTRATIONS] = []
 
           // inject the code only if applicable
           if (
