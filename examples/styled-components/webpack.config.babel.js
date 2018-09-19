@@ -27,5 +27,11 @@ module.exports = {
       ),
     },
   },
-  plugins: [new HtmlWebpackPlugin(), new webpack.NamedModulesPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({
+      // uncomment this line to test RHL in "secure" env
+      // template: "index_csp.html",
+    }),
+    new webpack.NamedModulesPlugin(),
+  ],
 }
