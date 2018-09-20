@@ -1,6 +1,6 @@
 'use strict'
 
-let evalAllowed = false;
+var evalAllowed = false;
 try {
   eval('evalAllowed = true');
 } catch (e) {
@@ -8,7 +8,7 @@ try {
 }
 
 // RHL needs setPrototypeOf to operate Component inheritance, and eval to patch methods
-const platformSupported = !!Object.setPrototypeOf && evalAllowed;
+var platformSupported = !!Object.setPrototypeOf && evalAllowed;
 
 if (!module.hot || process.env.NODE_ENV === 'production' || !platformSupported) {
   if (module.hot) {
