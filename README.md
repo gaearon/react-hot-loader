@@ -94,7 +94,6 @@ export default hot(module)(App)
 ### Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app) without ejecting
 
 Users [report](https://github.com/gaearon/react-hot-loader/pull/729#issuecomment-354097936), that it is possible to use [react-app-rewire-hot-loader](https://github.com/cdharris/react-app-rewire-hot-loader) to setup React-hot-loader without ejecting.
-Follow [these code examples](https://github.com/Grimones/cra-rhl/commit/4ed74af2dc649301695f67df05a12f210fb7820c) to repeat the approach.
 
 ### TypeScript
 
