@@ -1,8 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const exclude = absPath => /node_modules/.test(absPath)
-const mode = process.env.NODE_ENV || 'development'
+const mode = 'production' //process.env.NODE_ENV || 'development'
 const production = mode === 'production'
 
 module.exports = {
@@ -32,12 +33,14 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude,
+        exclude: /node_modules/,
         use: 'babel-loader',
       },
     ],
   },
   optimization: {
+    minimizer: [new UglifyJsPlugin()],
+
     splitChunks: {
       cacheGroups: {
         commons: {
