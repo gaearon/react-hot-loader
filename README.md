@@ -79,7 +79,7 @@ webpack-dev-server --hot
   }
 ```
 
-4.  Mark your App (`src/index.js`) as _hot-exported_:
+4.  Mark your App (`src/App.js`) as _hot-exported_:
 
 ```js
 // ./containers/App.js
@@ -239,7 +239,7 @@ reference types of elements won't work:
 
 ```js
 const element = <Component />
-console.log(element.type Component) // false
+console.log(element.type === Component) // false
 ```
 
 React Hot Loader exposes a function `areComponentsEqual` to make it possible:
@@ -274,14 +274,7 @@ const element = <Component />
 console.log(element.displayName === 'Component') // true
 ```
 
-For Components you might be able to use **instanceof** operator
-
-```js
-const element = <Component />
-console.log(element.type instanceof Component) // true
-```
-
-This is something we did not solve yet.
+This is something we did not solve yet. Cold API could help keep original types.
 
 ### Webpack ExtractTextPlugin
 
@@ -497,7 +490,7 @@ export default hot(module)(App)
 
 ## Known limitations and side effects
 
-### Not about `hot`
+### Note about `hot`
 
 `hot` accepts only React Component (Stateful or Stateless), resulting the `HotExported` variant of it.
 The `hot` function will setup current module to _self-accept_ itself on reload, and will **ignore** all the changes, made for non-React components.
