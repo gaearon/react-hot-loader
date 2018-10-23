@@ -1,6 +1,6 @@
 const RHLPackage = 'react-hot-loader'
 
-function isImportFromRHL(path, name) {
+function isImportedFromRHL(path, name) {
   const binding = path.scope.getBinding(name)
   const bindingType = binding && binding.path.node.type
 
@@ -16,36 +16,69 @@ function isImportFromRHL(path, name) {
   return false
 }
 
-function isRHLContext(file) {
+function getRHLContext(file) {
   const { modules } = file.metadata
+  const context = []
 
   if (modules && Array.isArray(modules.imports)) {
     const { imports } = modules
 
     for (let i = 0; i < imports.length; i++) {
-      const { source } = imports[i]
+      const { source, specifiers } = imports[i]
 
       if (source === RHLPackage) {
-        return true
+        for (let j = 0; j < specifiers.length; j++) {
+          const specifier = specifiers[j]
+
+          if (
+            (specifier.kind === 'named' && specifier.imported === 'hot') ||
+            specifier.kind === 'namespace'
+          ) {
+            context.push(specifier)
+          }
+        }
       }
     }
   }
 
-  return false
+  return context.length ? context : null
 }
 
 export default function plugin() {
   function handleCall(path) {
     if (!this.cancel) {
-      if (
-        path.node.callee.name === 'hot' &&
-        // ensure that this is `hot` from RHL
-        isImportFromRHL(path, 'hot') &&
-        path.parent.type === 'CallExpression' &&
-        path.parent.arguments[0] &&
-        path.parent.arguments[0].type === 'Identifier'
-      ) {
-        path.parentPath.replaceWith(path.parent.arguments[0])
+      for (let i = 0; i < this.rhlContext.length; i++) {
+        const specifier = this.rhlContext[i]
+
+        if (specifier.kind === 'named') {
+          if (
+            path.node.callee.name === specifier.local &&
+            // ensure that this is `hot` from RHL
+            isImportedFromRHL(path, specifier.local) &&
+            path.parent.type === 'CallExpression' &&
+            path.parent.arguments[0] &&
+            path.parent.arguments[0].type === 'Identifier'
+          ) {
+            path.parentPath.replaceWith(path.parent.arguments[0])
+            break
+          }
+        } else if (specifier.kind === 'namespace') {
+          if (
+            path.node.callee.callee &&
+            path.node.callee.callee.type === 'MemberExpression' &&
+            path.node.callee.callee.object.type === 'Identifier' &&
+            path.node.callee.callee.object.name === specifier.local &&
+            // ensure that this is `hot` from RHL
+            isImportedFromRHL(path, specifier.local) &&
+            path.node.callee.callee.property.type === 'Identifier' &&
+            path.node.callee.callee.property.name === 'hot' &&
+            path.node.arguments[0] &&
+            path.node.arguments[0].type === 'Identifier'
+          ) {
+            path.replaceWith(path.node.arguments[0])
+            break
+          }
+        }
       }
     }
   }
@@ -53,7 +86,9 @@ export default function plugin() {
   return {
     pre() {
       // ignore files that do not use RHL
-      if (!isRHLContext(this.file)) {
+      this.rhlContext = getRHLContext(this.file)
+
+      if (!this.rhlContext) {
         this.cancel = true
       }
     },
