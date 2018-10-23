@@ -984,6 +984,32 @@ exports.default = _default;
 ;"
 `;
 
+exports[`babel Targetting "es2015" tags potential React components drop hot.prod.js 1`] = `
+"'use strict';
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactHotLoader = require('react-hot-loader');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var App = function App() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    'Hello World!'
+  );
+};
+
+exports.default = App;"
+`;
+
 exports[`babel Targetting "es2015" tags potential React components issue 246.js 1`] = `
 "\\"use strict\\";
 
@@ -1786,6 +1812,30 @@ exports.default = _default;
 })();
 
 ;"
+`;
+
+exports[`babel Targetting "modern" tags potential React components drop hot.prod.js 1`] = `
+"'use strict';
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactHotLoader = require('react-hot-loader');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const App = () => _react2.default.createElement(
+  'div',
+  null,
+  'Hello World!'
+);
+
+exports.default = App;"
 `;
 
 exports[`babel Targetting "modern" tags potential React components issue 246.js 1`] = `
