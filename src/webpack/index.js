@@ -8,7 +8,7 @@ const makeIdentitySourceMap = require('./makeIdentitySourceMap');
 let tagCommonJSExportsSource = null;
 
 function transform(source, map) {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' || source.indexOf('reactHotLoader.register') > 0) {
     return this.callback(null, source, map);
   }
   // This is a Webpack loader, but the user put it in the Babel config.

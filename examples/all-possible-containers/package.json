@@ -16,7 +16,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack -p",
-    "start": "webpack-serve --port 8090"
+    "start": "webpack-serve --port 8090 --host 0.0.0.0"
   },
   "dependencies": {
     "react": "16.3.2",
@@ -38,6 +38,7 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.13",
     "cross-env": "5.1.4",
     "html-webpack-plugin": "3.2.0",
+    "jsx-compress-loader": "^0.0.1",
     "react-hot-loader": "4.3.10",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "4.6.0",

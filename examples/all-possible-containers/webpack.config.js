@@ -3,8 +3,12 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const exclude = absPath => /node_modules/.test(absPath)
-const mode = 'production' //process.env.NODE_ENV || 'development'
+const mode = 'production'
+//process.env.NODE_ENV || 'development'
+
 const production = mode === 'production'
+
+const wcl = require('./src/wcl')
 
 module.exports = {
   mode,
@@ -33,13 +37,27 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        use: ['jsx-compress-loader'],
+      },
+      {
+        test: /\.js$/,
         exclude: /node_modules/,
-        use: 'babel-loader',
+        use: [
+          //'react-hot-loader/webpack',
+          'babel-loader',
+        ],
       },
     ],
   },
   optimization: {
-    minimizer: [new UglifyJsPlugin()],
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          toplevel: true,
+          mangle: true,
+        },
+      }),
+    ],
 
     splitChunks: {
       cacheGroups: {
@@ -55,6 +73,9 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       react: path.resolve(path.join(__dirname, './node_modules/react')),
+      'react-hot-loader': path.resolve(
+        path.join(__dirname, './node_modules/react-hot-loader'),
+      ),
       'babel-core': path.resolve(
         path.join(__dirname, './node_modules/@babel/core'),
       ),
