@@ -2,6 +2,7 @@
 import React, { Component, PureComponent } from 'react'
 import createReactClass from 'create-react-class'
 import { mount } from 'enzyme'
+import TestRenderer from 'react-test-renderer'
 import { mapProps } from 'recompose'
 import { polyfill } from 'react-lifecycles-compat'
 import { AppContainer } from '../src/index.dev'
@@ -241,6 +242,7 @@ describe(`AppContainer (dev)`, () => {
           )
         }
       }
+
       /* eslint-enable */
 
       const Indirect = ({ App }) => (
@@ -263,6 +265,7 @@ describe(`AppContainer (dev)`, () => {
             return <span>works</span>
           }
         }
+
         SubApp.displayName = 'SubApp'
 
         class App extends Component {
@@ -282,6 +285,7 @@ describe(`AppContainer (dev)`, () => {
             )
           }
         }
+
         App.displayName = 'App'
         /* eslint-enable */
 
@@ -609,6 +613,7 @@ describe(`AppContainer (dev)`, () => {
         componentWillUnmount() {
           spy()
         }
+
         render() {
           return <span>I am old</span>
         }
@@ -648,6 +653,7 @@ describe(`AppContainer (dev)`, () => {
           componentWillUnmount() {
             spy()
           }
+
           render() {
             return <span>I am new</span>
           }
@@ -659,6 +665,49 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(wrapper.text()).toBe('I am new')
+      expect(spy).not.toHaveBeenCalled()
+    })
+
+    it('replaces React.memo', () => {
+      if (!React.memo) {
+        expect(1).toBe(1)
+        return
+      }
+      const spy = jest.fn()
+
+      const Pure = React.memo(() => <span>I am old</span>)
+      RHL.register(Pure, 'Pure', 'test.js')
+
+      const RenderFn = React.memo(({ _children, v }) => _children()(v))
+
+      const innerRenderFn = v => <Pure v={v} />
+      const renderFn = () => innerRenderFn
+
+      const App = React.memo(() => (
+        <div>
+          <RenderFn value={42} _children={renderFn} />
+        </div>
+      ))
+
+      const wrapper = TestRenderer.create(
+        <AppContainer>
+          <App />
+        </AppContainer>,
+      )
+      expect(wrapper.root.findByProps({ children: 'I am old' })).toBeDefined()
+
+      {
+        const Pure = React.memo(() => <span>I am new</span>)
+
+        RHL.register(Pure, 'Pure', 'test.js')
+
+        wrapper.update(
+          <AppContainer update>
+            <App />
+          </AppContainer>,
+        )
+      }
+      expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined()
       expect(spy).not.toHaveBeenCalled()
     })
 
@@ -1989,6 +2038,7 @@ describe(`AppContainer (dev)`, () => {
             return <span>internal</span>
           }
         }
+
         InnerComponent.displayName = 'InnerComponent'
 
         const App = () => (
@@ -2023,6 +2073,7 @@ describe(`AppContainer (dev)`, () => {
               return <span>internal</span>
             }
           }
+
           InnerComponent.displayName = 'InnerComponent'
 
           const App = () => (

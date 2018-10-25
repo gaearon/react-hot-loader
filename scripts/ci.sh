@@ -22,7 +22,7 @@ echo "\n\n"
 echo "\n\n"
 
 echo "Installing React 16"
-yarn add react@16.4 react-dom@16.4 react-test-renderer@16 --pure-lockfile
+yarn add react@16 react-dom@16 react-test-renderer@16 --pure-lockfile
 echo "\n\n"
 
 echo "Running tests on React 16 - Babel ES2015"

@@ -17,6 +17,7 @@ import {
   isReactClass,
   isReactClassInstance,
   CONTEXT_CURRENT_VALUE,
+  isMemoType,
 } from '../internal/reactUtils'
 import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
@@ -336,8 +337,9 @@ const hotReplacementRender = (instance, stack) => {
       return
     }
 
-    // React context
-    if (isContextConsumer(child)) {
+    if (isMemoType(child)) {
+      next(stackChild.instance)
+    } else if (isContextConsumer(child)) {
       try {
         next({
           children: (child.props ? child.props.children : child.children[0])(

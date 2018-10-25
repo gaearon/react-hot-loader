@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { isCompositeComponent } from './internal/reactUtils'
+import { isCompositeComponent, isMemoType } from './internal/reactUtils'
 import { increment as incrementGeneration } from './global/generation'
 import {
   updateProxyById,
@@ -16,7 +16,15 @@ import logger from './logger'
 
 import { preactAdapter } from './adapters/preact'
 
-function resolveType(type) {
+const forceSimpleSFC = { proxy: { allowSFC: false } }
+
+function resolveType(type, options = {}) {
+  if (isMemoType({ type })) {
+    return {
+      ...type,
+      type: resolveType(type.type, forceSimpleSFC),
+    }
+  }
   if (
     !isCompositeComponent(type) ||
     isTypeBlacklisted(type) ||
@@ -26,13 +34,13 @@ function resolveType(type) {
 
   const proxy = reactHotLoader.disableProxyCreation
     ? getProxyByType(type)
-    : createProxyForType(type)
+    : createProxyForType(type, options)
 
   return proxy ? proxy.get() : type
 }
 
 const reactHotLoader = {
-  register(type, uniqueLocalName, fileName) {
+  register(type, uniqueLocalName, fileName, options = {}) {
     if (
       isCompositeComponent(type) &&
       typeof uniqueLocalName === 'string' &&
@@ -62,8 +70,16 @@ const reactHotLoader = {
         configuration.onComponentRegister(type, uniqueLocalName, fileName)
       }
 
-      updateProxyById(id, type)
+      updateProxyById(id, type, options)
       registerComponent(type)
+    }
+    if (isMemoType({ type })) {
+      reactHotLoader.register(
+        type.type,
+        uniqueLocalName,
+        fileName,
+        forceSimpleSFC,
+      )
     }
   },
 
