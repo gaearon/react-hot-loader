@@ -37,6 +37,10 @@ const blackListedClassMembers = [
   'getDefaultProps',
 ]
 
+const generationallyRemovedMembers = [
+  'shouldComponentUpdate'
+]
+
 const defaultRenderOptions = {
   componentWillRender: identity,
   componentDidUpdate: result => result,
@@ -379,6 +383,13 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     } else {
       const classHotReplacement = () => {
         checkLifeCycleMethods(ProxyComponent, NextComponent)
+        if (proxyGeneration > 1) {
+          generationallyRemovedMembers.forEach(methodName => {
+            if (has.call(ProxyComponent.prototype, methodName) && !has.call(NextComponent.prototype, methodName)) {
+              delete ProxyComponent.prototype[methodName];
+            }
+          })
+        }
         Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
         defineProxyMethods(ProxyComponent, NextComponent.prototype)
         if (proxyGeneration > 1) {
