@@ -6,6 +6,7 @@ import {
   UNWRAP_PROXY,
   CACHED_RESULT,
   PROXY_IS_MOUNTED,
+  PREFIX,
 } from './constants'
 import { identity, safeDefineProperty, proxyClassCreator } from './utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
@@ -37,15 +38,22 @@ const blackListedClassMembers = [
   'getDefaultProps',
 ]
 
-const generationallyRemovedMembers = [
-  'shouldComponentUpdate'
-]
-
 const defaultRenderOptions = {
   componentWillRender: identity,
   componentDidUpdate: result => result,
   componentDidRender: result => result,
 }
+
+const filteredPrototypeMethods = Proto =>
+  Object.getOwnPropertyNames(Proto).filter(prop => {
+    const descriptor = Object.getOwnPropertyDescriptor(Proto, prop)
+    return (
+      descriptor &&
+      !prop.startsWith(PREFIX) &&
+      !blackListedClassMembers.includes(prop) &&
+      typeof descriptor.value === 'function'
+    )
+  })
 
 const defineClassMember = (Class, methodName, methodBody) =>
   safeDefineProperty(Class.prototype, methodName, {
@@ -156,17 +164,11 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     }, realMethod)
   }
 
-  const fakeBasePrototype = Base =>
-    Object.getOwnPropertyNames(Base)
-      .filter(key => blackListedClassMembers.indexOf(key) === -1)
-      .filter(key => {
-        const descriptor = Object.getOwnPropertyDescriptor(Base, key)
-        return typeof descriptor.value === 'function'
-      })
-      .reduce((acc, key) => {
-        acc[key] = methodWrapperFactory(key, Base[key])
-        return acc
-      }, {})
+  const fakeBasePrototype = Proto =>
+    filteredPrototypeMethods(Proto).reduce((acc, key) => {
+      acc[key] = methodWrapperFactory(key, Proto[key])
+      return acc
+    }, {})
 
   const componentDidMount = lifeCycleWrapperFactory(
     'componentDidMount',
@@ -384,11 +386,13 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       const classHotReplacement = () => {
         checkLifeCycleMethods(ProxyComponent, NextComponent)
         if (proxyGeneration > 1) {
-          generationallyRemovedMembers.forEach(methodName => {
-            if (has.call(ProxyComponent.prototype, methodName) && !has.call(NextComponent.prototype, methodName)) {
-              delete ProxyComponent.prototype[methodName];
-            }
-          })
+          filteredPrototypeMethods(ProxyComponent.prototype).forEach(
+            methodName => {
+              if (!has.call(NextComponent.prototype, methodName)) {
+                delete ProxyComponent.prototype[methodName]
+              }
+            },
+          )
         }
         Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
         defineProxyMethods(ProxyComponent, NextComponent.prototype)
