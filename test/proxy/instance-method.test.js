@@ -133,14 +133,14 @@ describe('instance method', () => {
         const Proxy = proxy.get()
         const wrapper = mount(<Proxy />)
         expect(wrapper.text()).toEqual('Component')
-        expect(typeof wrapper.instance().shouldComponentUpdate).toBe('function')
+        expect(wrapper.instance()).toHaveProperty('shouldComponentUpdate')
 
         proxy.update(IsPureComponent)
         wrapper.instance().forceUpdate()
 
         mount(<Proxy />)
         expect(wrapper.text()).toEqual('PureComponent')
-        expect(wrapper.instance().shouldComponentUpdate).toBeUndefined()
+        expect(wrapper.instance()).not.toHaveProperty('shouldComponentUpdate')
       })
 
       it('cant handle bound methods', () => {
