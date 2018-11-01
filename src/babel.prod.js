@@ -17,25 +17,62 @@ function isImportedFromRHL(path, name) {
 }
 
 function getRHLContext(file) {
-  const { modules } = file.metadata
   const context = []
+  const imports = []
+  const { body } = file.ast.program
 
-  if (modules && Array.isArray(modules.imports)) {
-    const { imports } = modules
+  for (let i = 0; i < body.length; i++) {
+    const bodyItem = body[i]
 
-    for (let i = 0; i < imports.length; i++) {
-      const { source, specifiers } = imports[i]
+    if (bodyItem.type === 'ImportDeclaration') {
+      const { source, specifiers } = bodyItem
 
-      if (source === RHLPackage) {
-        for (let j = 0; j < specifiers.length; j++) {
-          const specifier = specifiers[j]
+      if (source.value !== RHLPackage) {
+        continue
+      }
 
-          if (
-            (specifier.kind === 'named' && specifier.imported === 'hot') ||
-            specifier.kind === 'namespace'
-          ) {
-            context.push(specifier)
-          }
+      const importData = { source: source.value, specifiers: [] }
+
+      for (let j = 0; j < specifiers.length; j++) {
+        const specifier = specifiers[j]
+
+        if (specifier.type === 'ImportNamespaceSpecifier') {
+          importData.specifiers.push({
+            kind: 'namespace',
+            local: specifier.local.name,
+          })
+        } else if (
+          specifier.type === 'ImportSpecifier' ||
+          specifier.type === 'ImportDefaultSpecifier'
+        ) {
+          importData.specifiers.push({
+            kind: 'named',
+            local: specifier.local.name,
+            imported: specifier.imported
+              ? specifier.imported.name
+              : specifier.local.name,
+          })
+        }
+      }
+
+      if (importData.specifiers.length) {
+        imports.push(importData)
+      }
+    }
+  }
+
+  for (let i = 0; i < imports.length; i++) {
+    const { source, specifiers } = imports[i]
+
+    if (source === RHLPackage) {
+      for (let j = 0; j < specifiers.length; j++) {
+        const specifier = specifiers[j]
+
+        if (
+          (specifier.kind === 'named' && specifier.imported === 'hot') ||
+          specifier.kind === 'namespace'
+        ) {
+          context.push(specifier)
         }
       }
     }
@@ -68,7 +105,7 @@ export default function plugin() {
             path.node.callee.callee.type === 'MemberExpression' &&
             path.node.callee.callee.object.type === 'Identifier' &&
             path.node.callee.callee.object.name === specifier.local &&
-            // ensure that this is `hot` from RHL
+            // ensure that this is from RHL
             isImportedFromRHL(path, specifier.local) &&
             path.node.callee.callee.property.type === 'Identifier' &&
             path.node.callee.callee.property.name === 'hot' &&

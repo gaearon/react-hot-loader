@@ -2,8 +2,10 @@ import React from 'react'
 import { hot, foo } from 'react-hot-loader'
 import { hot as namedHot, foo as namedFoo } from 'react-hot-loader'
 import { hot as namedHot2 } from 'react-hot-loader'
+import { hot as notRHLHot } from 'not-react-hot-loader'
 import * as RHL from 'react-hot-loader'
 import * as RHL2 from 'react-hot-loader'
+import * as NOTRHL from 'not-react-hot-loader'
 
 const App = () => <div>Hello World!</div>
 
@@ -14,7 +16,9 @@ const d = RHL.hot(module)(App);
 const e = RHL2.hot(module)(App);
 
 foo(module)(App);
+notRHLHot(module)(App);
 namedFoo(module)(App);
 RHL.foo(module)(App);
+NOTRHL.hot(module)(App);
 
 export { a, b, c, d, e };

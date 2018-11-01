@@ -1002,6 +1002,10 @@ var RHL = _interopRequireWildcard(_reactHotLoader);
 
 var RHL2 = _interopRequireWildcard(_reactHotLoader);
 
+var _notReactHotLoader = require('not-react-hot-loader');
+
+var NOTRHL = _interopRequireWildcard(_notReactHotLoader);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1021,8 +1025,10 @@ var d = App;
 var e = App;
 
 (0, _reactHotLoader.foo)(module)(App);
+(0, _notReactHotLoader.hot)(module)(App);
 (0, _reactHotLoader.foo)(module)(App);
 RHL.foo(module)(App);
+NOTRHL.hot(module)(App);
 
 exports.a = a;
 exports.b = b;
@@ -1853,6 +1859,10 @@ var RHL = _interopRequireWildcard(_reactHotLoader);
 
 var RHL2 = _interopRequireWildcard(_reactHotLoader);
 
+var _notReactHotLoader = require('not-react-hot-loader');
+
+var NOTRHL = _interopRequireWildcard(_notReactHotLoader);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1870,8 +1880,10 @@ const d = App;
 const e = App;
 
 (0, _reactHotLoader.foo)(module)(App);
+(0, _notReactHotLoader.hot)(module)(App);
 (0, _reactHotLoader.foo)(module)(App);
 RHL.foo(module)(App);
+NOTRHL.hot(module)(App);
 
 exports.a = a;
 exports.b = b;
