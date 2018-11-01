@@ -6,7 +6,6 @@ function isImportedFromRHL(path, name) {
 
   if (
     bindingType === 'ImportSpecifier' ||
-    bindingType === 'ImportDefaultSpecifier' ||
     bindingType === 'ImportNamespaceSpecifier'
   ) {
     const bindingParent = binding.path.parent
@@ -36,19 +35,13 @@ function getRHLContext(file) {
           kind: 'namespace',
           local: specifier.local.name,
         })
-      } else if (
-        specifier.type === 'ImportSpecifier' ||
-        specifier.type === 'ImportDefaultSpecifier'
-      ) {
+      } else if (specifier.type === 'ImportSpecifier') {
         const specifierData = {
           kind: 'named',
           local: specifier.local.name,
-          imported: specifier.imported
-            ? specifier.imported.name
-            : specifier.local.name,
         }
 
-        if (specifierData.imported === 'hot') {
+        if (specifier.imported.name === 'hot') {
           context.push(specifierData)
         }
       }
