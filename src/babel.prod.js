@@ -18,7 +18,6 @@ function isImportedFromRHL(path, name) {
 
 function getRHLContext(file) {
   const context = []
-  const importSpecifiers = []
   const { body } = file.ast.program
 
   for (let i = 0; i < body.length; i++) {
@@ -33,7 +32,7 @@ function getRHLContext(file) {
       const specifier = specifiers[j]
 
       if (specifier.type === 'ImportNamespaceSpecifier') {
-        importSpecifiers.push({
+        context.push({
           kind: 'namespace',
           local: specifier.local.name,
         })
@@ -41,25 +40,18 @@ function getRHLContext(file) {
         specifier.type === 'ImportSpecifier' ||
         specifier.type === 'ImportDefaultSpecifier'
       ) {
-        importSpecifiers.push({
+        const specifierData = {
           kind: 'named',
           local: specifier.local.name,
           imported: specifier.imported
             ? specifier.imported.name
             : specifier.local.name,
-        })
+        }
+
+        if (specifierData.imported === 'hot') {
+          context.push(specifierData)
+        }
       }
-    }
-  }
-
-  for (let j = 0; j < importSpecifiers.length; j++) {
-    const specifier = importSpecifiers[j]
-
-    if (
-      (specifier.kind === 'named' && specifier.imported === 'hot') ||
-      specifier.kind === 'namespace'
-    ) {
-      context.push(specifier)
     }
   }
 
