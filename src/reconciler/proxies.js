@@ -24,6 +24,30 @@ export const setStandInOptions = options => {
   renderOptions = options
 }
 
+export const updateFunctionProxyById = (id, type) => {
+  // Remember the ID.
+  idsByType.set(type, id)
+  const proxy = proxiesByID[id]
+  if (!proxy) {
+    proxiesByID[id] = {
+      original: type,
+      imported: new Set(),
+      get() {
+        return this.original
+      },
+      check(type) {
+        if (type && !this.imported.has(type)) {
+          this.imported.add(type)
+          type()
+        }
+      },
+    }
+  } else {
+    proxy.current = type
+  }
+  return proxiesByID[id]
+}
+
 export const updateProxyById = (id, type, options = {}) => {
   // Remember the ID.
   idsByType.set(type, id)

@@ -1,4 +1,5 @@
 /* eslint-env browser */
+import 'babel-polyfill'
 import React, { Component, PureComponent } from 'react'
 import createReactClass from 'create-react-class'
 import { mount } from 'enzyme'
@@ -709,6 +710,76 @@ describe(`AppContainer (dev)`, () => {
       }
       expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined()
       expect(spy).not.toHaveBeenCalled()
+    })
+
+    it.skip('handles react-lazy', async () => {
+      const spy = jest.fn()
+
+      class Pure extends PureComponent {
+        componentWillUnmount() {
+          spy()
+        }
+
+        render() {
+          return <span>I am old</span>
+        }
+      }
+
+      const Tmp = Pure // () => <Pure/>
+
+      const Lazy = React.lazy(() => Promise.resolve({ default: Tmp }))
+
+      RHL.register(Pure, 'Pure', 'test.js')
+      RHL.register(Lazy, 'Lazy', 'test.js')
+
+      class App extends Component {
+        render() {
+          return <Lazy />
+        }
+      }
+
+      const wrapper = TestRenderer.create(
+        <AppContainer>
+          <React.Suspense fallback="loading">
+            <App />
+          </React.Suspense>
+        </AppContainer>,
+      )
+
+      await Promise.resolve(1)
+
+      expect(spy).not.toHaveBeenCalled()
+
+      expect(wrapper.root.findByProps({ children: 'I am old' })).toBeDefined()
+
+      {
+        class Pure extends Component {
+          componentWillUnmount() {
+            spy()
+          }
+
+          render() {
+            return <span>I am new</span>
+          }
+        }
+
+        const Lazy = React.lazy(() => Promise.resolve({ default: Tmp }))
+        RHL.register(Pure, 'Pure', 'test.js')
+        RHL.register(Lazy, 'Lazy', 'test.js')
+
+        wrapper.update(
+          <AppContainer>
+            <React.Suspense fallback="loading">
+              <App />
+            </React.Suspense>
+          </AppContainer>,
+        )
+
+        await Promise.resolve(1)
+      }
+
+      expect(spy).not.toHaveBeenCalled()
+      expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined()
     })
 
     it(

@@ -1,5 +1,9 @@
 /* eslint-disable no-use-before-define */
-import { isCompositeComponent, isMemoType } from './internal/reactUtils'
+import {
+  isCompositeComponent,
+  isLazyType,
+  isMemoType,
+} from './internal/reactUtils'
 import { increment as incrementGeneration } from './global/generation'
 import {
   updateProxyById,
@@ -10,6 +14,7 @@ import {
   createProxyForType,
   isTypeBlacklisted,
   registerComponent,
+  updateFunctionProxyById,
 } from './reconciler/proxies'
 import configuration from './configuration'
 import logger from './logger'
@@ -17,8 +22,16 @@ import logger from './logger'
 import { preactAdapter } from './adapters/preact'
 
 const forceSimpleSFC = { proxy: { allowSFC: false } }
+const lazyConstructor = '_ctor'
 
 function resolveType(type, options = {}) {
+  if (isLazyType({ type })) {
+    const proxy = getProxyByType(type)
+    if (proxy) {
+      proxy.check(type[lazyConstructor])
+      return proxy.get()
+    }
+  }
   if (isMemoType({ type })) {
     return {
       ...type,
@@ -41,6 +54,7 @@ function resolveType(type, options = {}) {
 
 const reactHotLoader = {
   register(type, uniqueLocalName, fileName, options = {}) {
+    const id = `${fileName}#${uniqueLocalName}`
     if (
       isCompositeComponent(type) &&
       typeof uniqueLocalName === 'string' &&
@@ -48,7 +62,6 @@ const reactHotLoader = {
       typeof fileName === 'string' &&
       fileName
     ) {
-      const id = `${fileName}#${uniqueLocalName}`
       const proxy = getProxyById(id)
 
       if (proxy && proxy.getCurrent() !== type) {
@@ -72,6 +85,9 @@ const reactHotLoader = {
 
       updateProxyById(id, type, options)
       registerComponent(type)
+    }
+    if (isLazyType({ type })) {
+      updateFunctionProxyById(id, type)
     }
     if (isMemoType({ type })) {
       reactHotLoader.register(

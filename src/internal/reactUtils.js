@@ -56,6 +56,7 @@ const ContextType = React.createContext ? React.createContext() : null
 const ConsumerType = ContextType && ContextType.Consumer.$$typeof
 const ProviderType = ContextType && ContextType.Provider.$$typeof
 const MemoType = React.memo && React.memo(() => null).$$typeof
+const LazyType = React.lazy && React.lazy(() => null).$$typeof
 
 export const CONTEXT_CURRENT_VALUE = '_currentValue'
 
@@ -65,5 +66,7 @@ export const isContextProvider = ({ type }) =>
   type && typeof type === 'object' && type.$$typeof === ProviderType
 export const isMemoType = ({ type }) =>
   type && typeof type === 'object' && type.$$typeof === MemoType
+export const isLazyType = ({ type }) =>
+  type && typeof type === 'object' && type.$$typeof === LazyType
 
 export const getContextProvider = type => type && type._context
