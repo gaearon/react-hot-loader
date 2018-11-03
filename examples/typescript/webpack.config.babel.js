@@ -21,7 +21,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
-      'react-hot-loader': path.resolve(path.join(__dirname, './../../')),
+      'react-hot-loader': path.resolve(path.join(__dirname, './node_modules/react-hot-loader')),
       react: path.resolve(path.join(__dirname, './node_modules/react')),
     },
   },
