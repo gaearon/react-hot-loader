@@ -7,6 +7,7 @@ import plugin from '../src/babel.dev'
 /* eslint-enable import/no-unresolved, import/extensions */
 
 const babelPlugin = path.resolve(__dirname, '../src/babel.dev')
+const babelPluginProd = path.resolve(__dirname, '../src/babel.prod')
 
 const FIXTURES_DIR = path.join(__dirname, '__babel_fixtures__')
 
@@ -14,8 +15,8 @@ function trim(str) {
   return str.replace(/^\s+|\s+$/, '')
 }
 
-function addRHLPlugin(babel) {
-  babel.plugins.push(babelPlugin)
+function addRHLPlugin(babel, prod = false) {
+  babel.plugins.push(prod ? babelPluginProd : babelPlugin)
   return babel
 }
 
@@ -25,11 +26,12 @@ describe('babel', () => {
       describe('tags potential React components', () => {
         fs.readdirSync(FIXTURES_DIR).forEach(fixtureName => {
           const fixtureFile = path.join(FIXTURES_DIR, fixtureName)
+          const isForProd = fixtureName.endsWith('.prod.js')
           if (fs.statSync(fixtureFile).isFile()) {
             it(fixtureName.split('-').join(' '), () => {
               const actual = transformFileSync(
                 fixtureFile,
-                addRHLPlugin(getOptions(target)),
+                addRHLPlugin(getOptions(target), isForProd),
               ).code
               const codeWithoutFilename = actual.replace(
                 new RegExp(`["']${fixtureFile.replace(/\\/g, '/')}["']`, 'g'),

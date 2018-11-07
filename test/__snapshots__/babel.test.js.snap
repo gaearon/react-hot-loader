@@ -984,6 +984,59 @@ exports.default = _default;
 ;"
 `;
 
+exports[`babel Targetting "es2015" tags potential React components drop hot.prod.js 1`] = `
+"'use strict';
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+exports.e = exports.d = exports.c = exports.b = exports.a = undefined;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactHotLoader = require('react-hot-loader');
+
+var RHL = _interopRequireWildcard(_reactHotLoader);
+
+var RHL2 = _interopRequireWildcard(_reactHotLoader);
+
+var _notReactHotLoader = require('not-react-hot-loader');
+
+var NOTRHL = _interopRequireWildcard(_notReactHotLoader);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var App = function App() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    'Hello World!'
+  );
+};
+
+var a = App;
+var b = App;
+var c = App;
+var d = App;
+var e = App;
+
+(0, _reactHotLoader.foo)(module)(App);
+(0, _notReactHotLoader.hot)(module)(App);
+(0, _reactHotLoader.foo)(module)(App);
+RHL.foo(module)(App);
+NOTRHL.hot(module)(App);
+
+exports.a = a;
+exports.b = b;
+exports.c = c;
+exports.d = d;
+exports.e = e;"
+`;
+
 exports[`babel Targetting "es2015" tags potential React components issue 246.js 1`] = `
 "\\"use strict\\";
 
@@ -1786,6 +1839,57 @@ exports.default = _default;
 })();
 
 ;"
+`;
+
+exports[`babel Targetting "modern" tags potential React components drop hot.prod.js 1`] = `
+"'use strict';
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+exports.e = exports.d = exports.c = exports.b = exports.a = undefined;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactHotLoader = require('react-hot-loader');
+
+var RHL = _interopRequireWildcard(_reactHotLoader);
+
+var RHL2 = _interopRequireWildcard(_reactHotLoader);
+
+var _notReactHotLoader = require('not-react-hot-loader');
+
+var NOTRHL = _interopRequireWildcard(_notReactHotLoader);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const App = () => _react2.default.createElement(
+  'div',
+  null,
+  'Hello World!'
+);
+
+const a = App;
+const b = App;
+const c = App;
+const d = App;
+const e = App;
+
+(0, _reactHotLoader.foo)(module)(App);
+(0, _notReactHotLoader.hot)(module)(App);
+(0, _reactHotLoader.foo)(module)(App);
+RHL.foo(module)(App);
+NOTRHL.hot(module)(App);
+
+exports.a = a;
+exports.b = b;
+exports.c = c;
+exports.d = d;
+exports.e = e;"
 `;
 
 exports[`babel Targetting "modern" tags potential React components issue 246.js 1`] = `

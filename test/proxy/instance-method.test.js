@@ -68,6 +68,22 @@ const createFixtures = () => ({
         return <span>{this.state.counter}</span>
       }
     },
+
+    NotPureComponent: class NotPureComponent extends React.Component {
+      shouldComponentUpdate() {
+        return true
+      }
+
+      render() {
+        return <span>Component</span>
+      }
+    },
+
+    IsPureComponent: class IsPureComponent extends React.PureComponent {
+      render() {
+        return <span>PureComponent</span>
+      }
+    },
   },
 })
 
@@ -109,6 +125,22 @@ describe('instance method', () => {
         wrapper.instance().increment()
         mount(<Proxy />)
         expect(wrapper.text()).toEqual('111')
+      })
+
+      it('removes shouldComponentUpdate', () => {
+        const { IsPureComponent, NotPureComponent } = createFixtures()[type]
+        const proxy = createProxy(NotPureComponent)
+        const Proxy = proxy.get()
+        const wrapper = mount(<Proxy />)
+        expect(wrapper.text()).toEqual('Component')
+        expect(wrapper.instance()).toHaveProperty('shouldComponentUpdate')
+
+        proxy.update(IsPureComponent)
+        wrapper.instance().forceUpdate()
+
+        mount(<Proxy />)
+        expect(wrapper.text()).toEqual('PureComponent')
+        expect(wrapper.instance()).not.toHaveProperty('shouldComponentUpdate')
       })
 
       it('cant handle bound methods', () => {

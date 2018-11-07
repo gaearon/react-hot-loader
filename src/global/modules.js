@@ -21,7 +21,7 @@ export const enter = sourceModule => {
     openedModules[sourceModule.id] = true
   } else {
     logger.warn(
-      'React-hot-loader: no `module` variable found. Do you shadow system variable?',
+      'React-hot-loader: no `module` variable found. Did you shadow a system variable?',
     )
   }
 }
