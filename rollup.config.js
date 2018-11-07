@@ -16,7 +16,7 @@ const commonPlugins = [
 
 const getConfig = (input, dist, env) => ({
   input,
-  external: ['react'].concat(Object.keys(pkg.dependencies)),
+  external: ['react', 'fs', 'path'].concat(Object.keys(pkg.dependencies)),
   plugins: commonPlugins
     .concat(env ? [
       replace({
