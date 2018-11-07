@@ -50,7 +50,7 @@ export default [
   getConfig('src/babel.prod.js', 'dist/babel.production.min.js', 'production'),
 
   getConfig('src/webpack/index.js', 'dist/webpack.development.js', 'development'),
-  getConfig('src/webpack/index.js', 'dist/webpack.production.js', 'production'),
+  getConfig('src/webpack/index.js', 'dist/webpack.production.min.js', 'production'),
 
   {
     input: 'src/webpack/webpackTagCommonJSExports.js',

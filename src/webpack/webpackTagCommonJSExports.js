@@ -1,3 +1,4 @@
+/* eslint-disable global-require, import/no-unresolved */
 /* global __FILENAME__ */
 
 ;(function register() {

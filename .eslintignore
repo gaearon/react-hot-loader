@@ -6,3 +6,4 @@ examples/
 babel.js
 index.js
 patch.js
+webpack.js
