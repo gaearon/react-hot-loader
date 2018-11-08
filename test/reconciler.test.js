@@ -555,10 +555,14 @@ describe('reconciler', () => {
         const wrapper = mount(<TestCase />)
 
         {
+          const errorFn = active => {
+            if (active) throw new Error()
+            return null
+          }
           const App = ({ active }) => (
             <div>
               Normal application
-              <span>{active ? active.not.existing : null}</span>
+              <span>{errorFn(active)}</span>
             </div>
           )
           reactHotLoader.register(App, 'App', 'test.js')
@@ -568,9 +572,42 @@ describe('reconciler', () => {
         }
 
         expect(logger.warn).toHaveBeenCalledWith(
-          `React-hot-loader: reconcilation failed due to error`,
+          `React-hot-loader: run time error during reconciliation`,
           expect.any(Error),
         )
+      })
+
+      it('should catch "suspense" error, but swallow it', () => {
+        const App = () => <div>Normal application</div>
+        reactHotLoader.register(App, 'App', 'test.js')
+
+        const TestCase = () => (
+          <AppContainer>
+            <App active />
+          </AppContainer>
+        )
+
+        const wrapper = mount(<TestCase />)
+
+        {
+          const errorFn = active => {
+            if (active) throw Promise.resolve()
+            return null
+          }
+          const App = ({ active }) => (
+            <div>
+              Normal application
+              <span>{errorFn(active)}</span>
+            </div>
+          )
+          reactHotLoader.register(App, 'App', 'test.js')
+
+          expect(() => wrapper.setProps({ children: <App /> })).toThrow()
+          expect(reactHotLoader.disableProxyCreation).toBe(false)
+        }
+
+        // not stable across es5/modern build modes. Tested manually
+        // expect(logger.warn).not.toHaveBeenCalled();
       })
     })
   })

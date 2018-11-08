@@ -285,162 +285,174 @@ const hotReplacementRender = (instance, stack) => {
       context: stackContext(),
     })
   }
-  const flow = transformFlowNode(filterNullArray(asArray(render(instance))))
 
-  const { children } = stack
+  try {
+    const flow = transformFlowNode(filterNullArray(asArray(render(instance))))
 
-  flow.forEach((child, index) => {
-    const stackChild = children[index]
-    const next = instance => {
-      // copy over props as long new component may be hidden inside them
-      // child does not have all props, as long some of them can be calculated on componentMount.
-      const realProps = instance.props
-      const nextProps = {
-        ...realProps,
-        ...(child.nextProps || {}),
-        ...(child.props || {}),
-      }
+    const { children } = stack
 
-      if (isReactClassInstance(instance) && instance.componentWillUpdate) {
-        // Force-refresh component (bypass redux renderedComponent)
-        instance.componentWillUpdate({ ...realProps }, instance.state)
-      }
-      instance.props = nextProps
-      hotReplacementRender(instance, stackChild)
-      instance.props = realProps
-    }
-
-    // text node
-    if (typeof child !== 'object' || !stackChild || !stackChild.instance) {
-      if (stackChild && stackChild.children && stackChild.children.length) {
-        logger.error(
-          'React-hot-loader: reconciliation failed',
-          'could not dive into [',
-          child,
-          '] while some elements are still present in the tree.',
-        )
-        stackReport()
-      }
-      return
-    }
-
-    if (typeof child.type !== typeof stackChild.type) {
-      // Portals could generate undefined !== null
-      if (child.type && stackChild.type) {
-        logger.warn(
-          'React-hot-loader: got ',
-          child.type,
-          'instead of',
-          stackChild.type,
-        )
-        stackReport()
-      }
-      return
-    }
-
-    if (isMemoType(child) || isLazyType(child)) {
-      // force update memo children
-      scheduleInstanceUpdate(stackChild.children[0].instance)
-    }
-
-    if (isContextConsumer(child)) {
-      try {
-        next({
-          children: (child.props ? child.props.children : child.children[0])(
-            stackContext().get(child.type) || child.type[CONTEXT_CURRENT_VALUE],
-          ),
-        })
-      } catch (e) {
-        // do nothing, yet
-      }
-    } else if (typeof child.type !== 'function') {
-      // React
-      let childName = child.type ? getComponentDisplayName(child.type) : 'empty'
-      let extraContext = stackContext()
-
-      if (isContextProvider(child)) {
-        extraContext = new Map(extraContext)
-        extraContext.set(
-          getContextProvider(child.type),
-          {
-            ...(child.nextProps || {}),
-            ...(child.props || {}),
-          }.value,
-        )
-        childName = 'ContextProvider'
-      }
-
-      renderStack.push({
-        name: childName,
-        type: child.type,
-        props: stack.instance.props,
-        context: extraContext,
-      })
-
-      next(
-        // move types from render to the instances of hydrated tree
-        mergeInject(
-          transformFlowNode(
-            asArray(child.props ? child.props.children : child.children),
-          ),
-          stackChild.instance.children,
-          stackChild.instance,
-        ),
-      )
-      renderStack.pop()
-    } else {
-      if (child.type === stackChild.type) {
-        next(stackChild.instance)
-      } else {
-        // unwrap proxy
-        const childType = getElementType(child)
-        if (!stackChild.type[PROXY_KEY]) {
-          if (isTypeBlacklisted(stackChild.type)) {
-            logger.warn(
-              'React-hot-loader: cold element got updated ',
-              stackChild.type,
-            )
-            return
-          }
-          /* eslint-disable no-console */
-          logger.error(
-            'React-hot-loader: fatal error caused by ',
-            stackChild.type,
-            ' - no instrumentation found. ',
-            'Please require react-hot-loader before React. More in troubleshooting.',
-          )
-          stackReport()
-          throw new Error('React-hot-loader: wrong configuration')
+    flow.forEach((child, index) => {
+      const stackChild = children[index]
+      const next = instance => {
+        // copy over props as long new component may be hidden inside them
+        // child does not have all props, as long some of them can be calculated on componentMount.
+        const realProps = instance.props
+        const nextProps = {
+          ...realProps,
+          ...(child.nextProps || {}),
+          ...(child.props || {}),
         }
 
-        if (
-          isRegisteredComponent(childType) ||
-          isRegisteredComponent(stackChild.type)
-        ) {
-          // one of elements are registered via babel plugin, and should not be handled by hot swap
-        } else if (areSwappable(childType, stackChild.type)) {
-          // they are both registered, or have equal code/displayname/signature
+        if (isReactClassInstance(instance) && instance.componentWillUpdate) {
+          // Force-refresh component (bypass redux renderedComponent)
+          instance.componentWillUpdate({ ...realProps }, instance.state)
+        }
+        instance.props = nextProps
+        hotReplacementRender(instance, stackChild)
+        instance.props = realProps
+      }
 
-          // update proxy using internal PROXY_KEY
-          updateProxyById(stackChild.type[PROXY_KEY], childType)
+      // text node
+      if (typeof child !== 'object' || !stackChild || !stackChild.instance) {
+        if (stackChild && stackChild.children && stackChild.children.length) {
+          logger.error(
+            'React-hot-loader: reconciliation failed',
+            'could not dive into [',
+            child,
+            '] while some elements are still present in the tree.',
+          )
+          stackReport()
+        }
+        return
+      }
 
+      if (typeof child.type !== typeof stackChild.type) {
+        // Portals could generate undefined !== null
+        if (child.type && stackChild.type) {
+          logger.warn(
+            'React-hot-loader: got ',
+            child.type,
+            'instead of',
+            stackChild.type,
+          )
+          stackReport()
+        }
+        return
+      }
+
+      if (isMemoType(child) || isLazyType(child)) {
+        // force update memo children
+        scheduleInstanceUpdate(stackChild.children[0].instance)
+      }
+
+      if (isContextConsumer(child)) {
+        try {
+          next({
+            children: (child.props ? child.props.children : child.children[0])(
+              stackContext().get(child.type) ||
+                child.type[CONTEXT_CURRENT_VALUE],
+            ),
+          })
+        } catch (e) {
+          // do nothing, yet
+        }
+      } else if (typeof child.type !== 'function') {
+        // React
+        let childName = child.type
+          ? getComponentDisplayName(child.type)
+          : 'empty'
+        let extraContext = stackContext()
+
+        if (isContextProvider(child)) {
+          extraContext = new Map(extraContext)
+          extraContext.set(
+            getContextProvider(child.type),
+            {
+              ...(child.nextProps || {}),
+              ...(child.props || {}),
+            }.value,
+          )
+          childName = 'ContextProvider'
+        }
+
+        renderStack.push({
+          name: childName,
+          type: child.type,
+          props: stack.instance.props,
+          context: extraContext,
+        })
+
+        next(
+          // move types from render to the instances of hydrated tree
+          mergeInject(
+            transformFlowNode(
+              asArray(child.props ? child.props.children : child.children),
+            ),
+            stackChild.instance.children,
+            stackChild.instance,
+          ),
+        )
+        renderStack.pop()
+      } else {
+        if (child.type === stackChild.type) {
           next(stackChild.instance)
         } else {
-          logger.warn(
-            `React-hot-loader: a ${getComponentDisplayName(
-              childType,
-            )} was found where a ${getComponentDisplayName(
-              stackChild,
-            )} was expected.
-          ${childType}`,
-          )
-          stackReport()
-        }
-      }
+          // unwrap proxy
+          const childType = getElementType(child)
+          if (!stackChild.type[PROXY_KEY]) {
+            if (isTypeBlacklisted(stackChild.type)) {
+              logger.warn(
+                'React-hot-loader: cold element got updated ',
+                stackChild.type,
+              )
+              return
+            }
+            /* eslint-disable no-console */
+            logger.error(
+              'React-hot-loader: fatal error caused by ',
+              stackChild.type,
+              ' - no instrumentation found. ',
+              'Please require react-hot-loader before React. More in troubleshooting.',
+            )
+            stackReport()
+            throw new Error('React-hot-loader: wrong configuration')
+          }
 
-      scheduleInstanceUpdate(stackChild.instance)
+          if (
+            isRegisteredComponent(childType) ||
+            isRegisteredComponent(stackChild.type)
+          ) {
+            // one of elements are registered via babel plugin, and should not be handled by hot swap
+          } else if (areSwappable(childType, stackChild.type)) {
+            // they are both registered, or have equal code/displayname/signature
+
+            // update proxy using internal PROXY_KEY
+            updateProxyById(stackChild.type[PROXY_KEY], childType)
+
+            next(stackChild.instance)
+          } else {
+            logger.warn(
+              `React-hot-loader: a ${getComponentDisplayName(
+                childType,
+              )} was found where a ${getComponentDisplayName(
+                stackChild,
+              )} was expected.
+          ${childType}`,
+            )
+            stackReport()
+          }
+        }
+
+        scheduleInstanceUpdate(stackChild.instance)
+      }
+    })
+  } catch (e) {
+    if (e.then) {
+      // this is probably Suspense. Do nothing
+    } else {
+      logger.warn('React-hot-loader: run time error during reconciliation', e)
     }
-  })
+  }
 
   if (isReactClassInstance(instance)) {
     renderStack.pop()
