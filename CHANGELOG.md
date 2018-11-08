@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.3.12"></a>
+## [4.4.0](https://github.com/gaearon/react-hot-loader/compare/v4.3.11...v4.3.12) (2018-11-01)
+
+### Bug Fixes
+
+* babel plugin will remove calls to `hot` in production mode to remove side-effect on webpack [#1081](https://github.com/gaearon/react-hot-loader/pull/1081)
+* class methods, deleted on update, will be deleted from proxy [#1091](https://github.com/gaearon/react-hot-loader/pull/1091)
+
 <a name="4.3.11"></a>
 ## [4.3.11](https://github.com/gaearon/react-hot-loader/compare/v4.3.9...v4.3.11) (2018-09-20)
 

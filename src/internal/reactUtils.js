@@ -57,6 +57,7 @@ const ConsumerType = ContextType && ContextType.Consumer.$$typeof
 const ProviderType = ContextType && ContextType.Provider.$$typeof
 const MemoType = React.memo && React.memo(() => null).$$typeof
 const LazyType = React.lazy && React.lazy(() => null).$$typeof
+const ForwardType = React.forwardRef && React.forwardRef(() => null).$$typeof
 
 export const CONTEXT_CURRENT_VALUE = '_currentValue'
 
@@ -68,5 +69,7 @@ export const isMemoType = ({ type }) =>
   type && typeof type === 'object' && type.$$typeof === MemoType
 export const isLazyType = ({ type }) =>
   type && typeof type === 'object' && type.$$typeof === LazyType
+export const isForwardType = ({ type }) =>
+  type && typeof type === 'object' && type.$$typeof === ForwardType
 
 export const getContextProvider = type => type && type._context

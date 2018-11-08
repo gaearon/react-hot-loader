@@ -199,6 +199,29 @@ as of version 0.22.
 
 Using React Hot Loader with React Native can cause unexpected issues (see #824) and is not recommended.
 
+## Webpack plugin
+
+We recommend to use `babel` plugin, but there are situations when you are unable to use it.
+Then - try webpack loader (as seen in v3), but remeber - it is **not compatible** with class-based components, but
+help with TypeScript or spreading "cold API" [to all node_modules](https://github.com/gaearon/react-hot-loader#disabling-a-type-change-for-all-node_modules).
+
+> It is safe to enable this loader for all the files. But place it after babel-loader, if babel-loader is present.
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        include: /node_modules/,
+        use: ['react-hot-loader/webpack'],
+      },
+    ],
+  },
+}
+```
+
 ### Code Splitting
 
 If you want to use Code Splitting + React Hot Loader, the simplest solution is to pick one of our compatible library:
@@ -314,12 +337,48 @@ import { setConfig, cold } from 'react-hot-loader'
 setConfig({
   onComponentRegister: (type, name, file) =>
     file.indexOf('node_modules') > 0 && cold(type),
+
+  // some components are not visible as top level variables,
+  // thus its not known where they were created
+  onComponentCreate: (type, name) => file.indexOf('styled') > 0 && cold(type),
 })
 ```
 
 ! To be able to "cold" components from 'node_modules' you have to apply babel to node_modules, while this
 folder is usually excluded.
 You may add one more babel-loader, with only one React-Hot-Loader plugin inside to solve this.
+**Consider using webpack-loader** for this.
+
+##### React-Hooks
+
+React-hot-loader does not support React 16.7 Hooks at all.
+You have to
+
+* _cold_ components using hooks.
+
+```js
+import { setConfig, cold } from 'react-hot-loader'
+setConfig({
+  onComponentCreate: (type, name) =>
+    (String(type).indexOf('useState') > 0 ||
+      String(type).indexOf('useEffect') > 0) &&
+    cold(type),
+})
+```
+
+* _set a special flag_
+
+```js
+import { setConfig, cold } from 'react-hot-loader'
+setConfig({
+  onComponentCreate: (type, name) =>
+    (String(type).indexOf('useState') > 0 ||
+      String(type).indexOf('useEffect') > 0) &&
+    cold(type),
+})
+```
+
+PS: `react-emotion` would break due this operation.
 
 ## API
 

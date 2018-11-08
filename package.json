@@ -1,6 +1,6 @@
 {
   "name": "react-hot-loader",
-  "version": "4.3.11",
+  "version": "4.3.12",
   "description": "Tweak React components in real time.",
   "main": "index.js",
   "types": "react-hot-loader.d.ts",
@@ -31,6 +31,7 @@
     "dist",
     "index.js",
     "babel.js",
+    "webpack.js",
     "patch.js",
     "react-hot-loader.d.ts"
   ],
@@ -99,7 +100,8 @@
     "hoist-non-react-statics": "^2.5.0",
     "prop-types": "^15.6.1",
     "react-lifecycles-compat": "^3.0.4",
-    "shallowequal": "^1.0.2"
+    "shallowequal": "^1.0.2",
+    "source-map": "^0.7.3"
   },
   "engines": {
     "node": ">= 6"

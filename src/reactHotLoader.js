@@ -1,8 +1,11 @@
 /* eslint-disable no-use-before-define */
+import React from 'react'
 import {
   isCompositeComponent,
+  getComponentDisplayName,
   isLazyType,
   isMemoType,
+  isForwardType,
 } from './internal/reactUtils'
 import { increment as incrementGeneration } from './global/generation'
 import {
@@ -24,29 +27,45 @@ import { preactAdapter } from './adapters/preact'
 const forceSimpleSFC = { proxy: { allowSFC: false } }
 const lazyConstructor = '_ctor'
 
+const updateLazy = (target, type) => {
+  const ctor = type[lazyConstructor]
+  if (target[lazyConstructor] !== type[lazyConstructor]) {
+    ctor()
+  }
+  target[lazyConstructor] = () =>
+    ctor().then(m => {
+      const C = resolveType(m.default)
+      return {
+        default: props => <C {...props} />,
+      }
+    })
+}
+const updateMemo = (target, { type }) => {
+  target.type = resolveType(type)
+}
+const updateForward = (target, { render }) => {
+  target.render = render
+}
+
+const shouldNotPatchComponent = type =>
+  !isCompositeComponent(type) || isTypeBlacklisted(type) || isProxyType(type)
+
 function resolveType(type, options = {}) {
-  if (isLazyType({ type })) {
-    const proxy = getProxyByType(type)
-    if (proxy) {
-      proxy.check(type[lazyConstructor])
-      return proxy.get()
-    }
+  if (isLazyType({ type }) || isMemoType({ type }) || isForwardType({ type })) {
+    return getProxyByType(type) || type
   }
-  if (isMemoType({ type })) {
-    return {
-      ...type,
-      type: resolveType(type.type, forceSimpleSFC),
-    }
+
+  if (shouldNotPatchComponent(type)) return type
+
+  const existingProxy = getProxyByType(type)
+
+  if (!existingProxy && configuration.onComponentCreate) {
+    configuration.onComponentCreate(type, getComponentDisplayName(type))
+    if (shouldNotPatchComponent(type)) return type
   }
-  if (
-    !isCompositeComponent(type) ||
-    isTypeBlacklisted(type) ||
-    isProxyType(type)
-  )
-    return type
 
   const proxy = reactHotLoader.disableProxyCreation
-    ? getProxyByType(type)
+    ? existingProxy
     : createProxyForType(type, options)
 
   return proxy ? proxy.get() : type
@@ -55,6 +74,7 @@ function resolveType(type, options = {}) {
 const reactHotLoader = {
   register(type, uniqueLocalName, fileName, options = {}) {
     const id = `${fileName}#${uniqueLocalName}`
+
     if (
       isCompositeComponent(type) &&
       typeof uniqueLocalName === 'string' &&
@@ -82,20 +102,27 @@ const reactHotLoader = {
       if (configuration.onComponentRegister) {
         configuration.onComponentRegister(type, uniqueLocalName, fileName)
       }
+      if (configuration.onComponentCreate) {
+        configuration.onComponentCreate(type, getComponentDisplayName(type))
+      }
 
       updateProxyById(id, type, options)
       registerComponent(type)
     }
     if (isLazyType({ type })) {
-      updateFunctionProxyById(id, type)
+      updateFunctionProxyById(id, type, updateLazy)
+    }
+    if (isForwardType({ type })) {
+      updateFunctionProxyById(id, type, updateForward)
     }
     if (isMemoType({ type })) {
       reactHotLoader.register(
         type.type,
-        uniqueLocalName,
+        `${uniqueLocalName}:memo`,
         fileName,
         forceSimpleSFC,
       )
+      updateFunctionProxyById(id, type, updateMemo)
     }
   },
 
