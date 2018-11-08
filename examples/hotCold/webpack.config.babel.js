@@ -19,8 +19,17 @@ module.exports = {
       {
         exclude: /node_modules|packages/,
         test: /\.js$/,
-        use: 'babel-loader',
+        use: ['react-hot-loader/webpack', 'babel-loader'],
       },
+      {
+        include: /node_modules/,
+        test: /\.js$/,
+        use: {
+          loader: 'react-hot-loader/webpack',
+        },
+      },
+      /*
+      // babel is an option, but slow option
       {
         include: /node_modules/,
         test: /\.js$/,
@@ -33,6 +42,7 @@ module.exports = {
           },
         },
       },
+      /* */
     ],
   },
   resolve: {

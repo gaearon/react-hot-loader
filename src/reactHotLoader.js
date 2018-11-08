@@ -1,5 +1,8 @@
 /* eslint-disable no-use-before-define */
-import { isCompositeComponent } from './internal/reactUtils'
+import {
+  getComponentDisplayName,
+  isCompositeComponent,
+} from './internal/reactUtils'
 import { increment as incrementGeneration } from './global/generation'
 import {
   updateProxyById,
@@ -16,16 +19,21 @@ import logger from './logger'
 
 import { preactAdapter } from './adapters/preact'
 
+const shouldNotPatchComponent = type =>
+  !isCompositeComponent(type) || isTypeBlacklisted(type) || isProxyType(type)
+
 function resolveType(type) {
-  if (
-    !isCompositeComponent(type) ||
-    isTypeBlacklisted(type) ||
-    isProxyType(type)
-  )
-    return type
+  if (shouldNotPatchComponent(type)) return type
+
+  const existingProxy = getProxyByType(type)
+
+  if (!existingProxy && configuration.onComponentCreate) {
+    configuration.onComponentCreate(type, getComponentDisplayName(type))
+    if (shouldNotPatchComponent(type)) return type
+  }
 
   const proxy = reactHotLoader.disableProxyCreation
-    ? getProxyByType(type)
+    ? existingProxy
     : createProxyForType(type)
 
   return proxy ? proxy.get() : type
@@ -60,6 +68,9 @@ const reactHotLoader = {
 
       if (configuration.onComponentRegister) {
         configuration.onComponentRegister(type, uniqueLocalName, fileName)
+      }
+      if (configuration.onComponentCreate) {
+        configuration.onComponentCreate(type, getComponentDisplayName(type))
       }
 
       updateProxyById(id, type)

@@ -3252,6 +3252,10 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-circle@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-circle/-/react-circle-1.1.1.tgz#f97ccf3e2a37a91ea50280ea8262420e0d1de60c"
+
 react-dom@^16.2.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
