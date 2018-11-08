@@ -35,6 +35,7 @@
     "patch.js",
     "react-hot-loader.d.ts"
   ],
+  "sideEffects": false,
   "keywords": [
     "react",
     "javascript",
