@@ -37,7 +37,7 @@ function mergeComponents(
     const hasRegenerate = proxyInstance[REGENERATE_METHOD]
     const ownKeys = getOwnKeys(Object.getPrototypeOf(ProxyComponent.prototype))
     Object.keys(mergedAttrs).forEach(key => {
-      if (key.startsWith(PREFIX)) return
+      if (key.indexOf(PREFIX) === 0) return
       const nextAttr = nextInstance[key]
       const prevAttr = proxyInstance[key]
       if (nextAttr) {

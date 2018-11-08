@@ -49,7 +49,7 @@ const filteredPrototypeMethods = Proto =>
     const descriptor = Object.getOwnPropertyDescriptor(Proto, prop)
     return (
       descriptor &&
-      !prop.startsWith(PREFIX) &&
+      prop.indexOf(PREFIX) !== 0 &&
       !blackListedClassMembers.includes(prop) &&
       typeof descriptor.value === 'function'
     )
