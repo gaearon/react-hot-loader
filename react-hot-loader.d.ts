@@ -73,6 +73,13 @@ declare module 'react-hot-loader' {
       uniqueLocalName: string,
       fileName: string,
     ) => any
+
+    /**
+     *
+     * @param type {any} type being rendered. The first argument of React.createElement
+     * @param displayName {string} type display name (if exists)
+     */
+    onComponentCreate?: (type: any, displayName: string) => any
   }
   /**
    * Confugures how React Hot Loader works

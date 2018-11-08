@@ -199,6 +199,29 @@ as of version 0.22.
 
 Using React Hot Loader with React Native can cause unexpected issues (see #824) and is not recommended.
 
+## Webpack plugin
+
+We recommend to use `babel` plugin, but there are situations when you are unable to use it.
+Then - try webpack loader (as seen in v3), but remeber - it is **not compatible** with class-based components, but
+help with TypeScript or spreading "cold API" [to all node_modules](https://github.com/gaearon/react-hot-loader#disabling-a-type-change-for-all-node_modules).
+
+> It is safe to enable this loader for all the files. But place it after babel-loader, if babel-loader is present.
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        include: /node_modules/,
+        use: ['react-hot-loader/webpack'],
+      },
+    ],
+  },
+}
+```
+
 ### Code Splitting
 
 If you want to use Code Splitting + React Hot Loader, the simplest solution is to pick one of our compatible library:

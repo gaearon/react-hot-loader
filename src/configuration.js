@@ -10,6 +10,9 @@ const configuration = {
 
   // Hook on babel component register.
   onComponentRegister: false,
+
+  // Hook on React renders for a first time component
+  onComponentCreate: false,
 }
 
 export default configuration
