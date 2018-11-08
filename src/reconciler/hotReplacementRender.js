@@ -17,6 +17,8 @@ import {
   isReactClass,
   isReactClassInstance,
   CONTEXT_CURRENT_VALUE,
+  isMemoType,
+  isLazyType,
 } from '../internal/reactUtils'
 import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
@@ -268,7 +270,7 @@ export const unscheduleUpdate = instance => {
 const scheduleInstanceUpdate = instance => {
   scheduledUpdates.push(instance)
   if (!scheduledUpdate) {
-    scheduledUpdate = setTimeout(flushScheduledUpdates)
+    scheduledUpdate = setTimeout(flushScheduledUpdates, 4)
   }
 }
 
@@ -334,6 +336,11 @@ const hotReplacementRender = (instance, stack) => {
         stackReport()
       }
       return
+    }
+
+    if (isMemoType(child) || isLazyType(child)) {
+      // force update memo children
+      scheduleInstanceUpdate(stackChild.children[0].instance)
     }
 
     if (isContextConsumer(child)) {
