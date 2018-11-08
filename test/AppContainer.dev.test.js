@@ -669,26 +669,21 @@ describe(`AppContainer (dev)`, () => {
       expect(spy).not.toHaveBeenCalled()
     })
 
-    it('replaces React.memo', () => {
+    it('replaces React.memo', done => {
       if (!React.memo) {
         expect(1).toBe(1)
+        done()
         return
       }
-      const spy = jest.fn()
 
       const Pure = React.memo(() => <span>I am old</span>)
       RHL.register(Pure, 'Pure', 'test.js')
 
-      const RenderFn = React.memo(({ _children, v }) => _children()(v))
-
-      const innerRenderFn = v => <Pure v={v} />
-      const renderFn = () => innerRenderFn
-
-      const App = React.memo(() => (
+      const App = () => (
         <div>
-          <RenderFn value={42} _children={renderFn} />
+          <Pure />
         </div>
-      ))
+      )
 
       const wrapper = TestRenderer.create(
         <AppContainer>
@@ -708,8 +703,11 @@ describe(`AppContainer (dev)`, () => {
           </AppContainer>,
         )
       }
-      expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined()
-      expect(spy).not.toHaveBeenCalled()
+
+      setTimeout(() => {
+        expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined()
+        done()
+      }, 16)
     })
 
     it.skip('handles react-lazy', async () => {
