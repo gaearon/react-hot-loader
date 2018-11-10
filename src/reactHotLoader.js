@@ -111,9 +111,11 @@ const reactHotLoader = {
     }
     if (isLazyType({ type })) {
       updateFunctionProxyById(id, type, updateLazy)
+      incrementGeneration()
     }
     if (isForwardType({ type })) {
       updateFunctionProxyById(id, type, updateForward)
+      incrementGeneration()
     }
     if (isMemoType({ type })) {
       reactHotLoader.register(
@@ -123,6 +125,7 @@ const reactHotLoader = {
         forceSimpleSFC,
       )
       updateFunctionProxyById(id, type, updateMemo)
+      incrementGeneration()
     }
   },
 
