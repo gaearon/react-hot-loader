@@ -19,6 +19,7 @@ import {
   CONTEXT_CURRENT_VALUE,
   isMemoType,
   isLazyType,
+  isForwardType,
 } from '../internal/reactUtils'
 import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
@@ -142,6 +143,9 @@ const render = component => {
     return component.hotComponentRender
       ? component.hotComponentRender()
       : component.render()
+  }
+  if (isForwardType(component)) {
+    return component.type.render(component.props, null)
   }
   if (isArray(component)) {
     return component.map(render)
@@ -345,7 +349,9 @@ const hotReplacementRender = (instance, stack) => {
         scheduleInstanceUpdate(stackChild.children[0].instance)
       }
 
-      if (isContextConsumer(child)) {
+      if (isForwardType(child)) {
+        next(stackChild.instance)
+      } else if (isContextConsumer(child)) {
         try {
           next({
             children: (child.props ? child.props.children : child.children[0])(

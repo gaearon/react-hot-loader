@@ -710,10 +710,80 @@ describe(`AppContainer (dev)`, () => {
       }, 16)
     })
 
+    it('handles forwardRef', () => {
+      if (!React.forwardRef) {
+        expect(1).toBe(1)
+        return
+      }
+
+      const spy = jest.fn()
+
+      class MountSpy extends PureComponent {
+        static displayName = 'MountSpy'
+        componentWillUnmount() {
+          spy()
+        }
+
+        render() {
+          return <span>I am old</span>
+        }
+      }
+      const FRW = React.forwardRef(() => (
+        <span>
+          <MountSpy />
+        </span>
+      ))
+      RHL.register(FRW, 'FRW', 'test.js')
+
+      const App = () => (
+        <div>
+          <FRW prop1={1} prop2={2}>
+            children
+          </FRW>
+        </div>
+      )
+
+      const wrapper = TestRenderer.create(
+        <AppContainer>
+          <App />
+        </AppContainer>,
+      )
+      expect(wrapper.root.findByProps({ children: 'I am old' })).toBeDefined()
+
+      {
+        class MountSpy extends PureComponent {
+          static displayName = 'MountSpy'
+          componentWillUnmount() {
+            spy()
+          }
+
+          render() {
+            return <span>I am new</span>
+          }
+        }
+        const FRW = React.forwardRef(() => (
+          <span>
+            <MountSpy />
+          </span>
+        ))
+        RHL.register(FRW, 'FRW', 'test.js')
+
+        wrapper.update(
+          <AppContainer update>
+            <App update />
+          </AppContainer>,
+        )
+      }
+
+      expect(spy).not.toHaveBeenCalled()
+      expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined()
+    })
+
     it.skip('handles react-lazy', async () => {
       const spy = jest.fn()
 
-      class Pure extends PureComponent {
+      class MountSpy extends PureComponent {
+        static displayName = 'MountSpy'
         componentWillUnmount() {
           spy()
         }
@@ -723,11 +793,11 @@ describe(`AppContainer (dev)`, () => {
         }
       }
 
-      const Tmp = Pure // () => <Pure/>
+      const Tmp = MountSpy
 
       const Lazy = React.lazy(() => Promise.resolve({ default: Tmp }))
 
-      RHL.register(Pure, 'Pure', 'test.js')
+      RHL.register(MountSpy, 'Pure', 'test.js')
       RHL.register(Lazy, 'Lazy', 'test.js')
 
       class App extends Component {
@@ -751,7 +821,8 @@ describe(`AppContainer (dev)`, () => {
       expect(wrapper.root.findByProps({ children: 'I am old' })).toBeDefined()
 
       {
-        class Pure extends Component {
+        class MountSpy extends PureComponent {
+          static displayName = 'MountSpy'
           componentWillUnmount() {
             spy()
           }
@@ -762,7 +833,7 @@ describe(`AppContainer (dev)`, () => {
         }
 
         const Lazy = React.lazy(() => Promise.resolve({ default: Tmp }))
-        RHL.register(Pure, 'Pure', 'test.js')
+        RHL.register(MountSpy, 'Pure', 'test.js')
         RHL.register(Lazy, 'Lazy', 'test.js')
 
         wrapper.update(
