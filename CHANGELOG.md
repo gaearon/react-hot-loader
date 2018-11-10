@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-<a name="4.3.12"></a>
+<a name="4.4.0-1"></a>
+## 4.4.0-1 (2018-11-01)
+### Bug Fixes
+- `forwardRef` reconciliation [#1100](https://github.com/gaearon/react-hot-loader/pull/1100)
+
+<a name="4.4.0"></a>
 ## [4.4.0](https://github.com/gaearon/react-hot-loader/compare/v4.3.11...v4.3.12) (2018-11-01)
 
 
