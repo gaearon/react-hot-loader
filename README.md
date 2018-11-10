@@ -337,12 +337,48 @@ import { setConfig, cold } from 'react-hot-loader'
 setConfig({
   onComponentRegister: (type, name, file) =>
     file.indexOf('node_modules') > 0 && cold(type),
+
+  // some components are not visible as top level variables,
+  // thus its not known where they were created
+  onComponentCreate: (type, name) => file.indexOf('styled') > 0 && cold(type),
 })
 ```
 
 ! To be able to "cold" components from 'node_modules' you have to apply babel to node_modules, while this
 folder is usually excluded.
 You may add one more babel-loader, with only one React-Hot-Loader plugin inside to solve this.
+**Consider using webpack-loader** for this.
+
+##### React-Hooks
+
+React-hot-loader does not support React 16.7 Hooks at all.
+You have to
+
+* _cold_ components using hooks.
+
+```js
+import { setConfig, cold } from 'react-hot-loader'
+setConfig({
+  onComponentCreate: (type, name) =>
+    (String(type).indexOf('useState') > 0 ||
+      String(type).indexOf('useEffect') > 0) &&
+    cold(type),
+})
+```
+
+* _set a special flag_
+
+```js
+import { setConfig, cold } from 'react-hot-loader'
+setConfig({
+  onComponentCreate: (type, name) =>
+    (String(type).indexOf('useState') > 0 ||
+      String(type).indexOf('useEffect') > 0) &&
+    cold(type),
+})
+```
+
+PS: `react-emotion` would break due this operation.
 
 ## API
 

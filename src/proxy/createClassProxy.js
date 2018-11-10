@@ -102,10 +102,14 @@ const copyMethodDescriptors = (target, source) => {
   return target
 }
 
-function createClassProxy(InitialComponent, proxyKey, options) {
+function createClassProxy(InitialComponent, proxyKey, options = {}) {
   const renderOptions = {
     ...defaultRenderOptions,
     ...options,
+  }
+  const proxyConfig = {
+    ...config,
+    ...options.proxy,
   }
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
@@ -240,7 +244,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
     defineProxyMethods(ProxyComponent, InitialComponent.prototype)
 
     ProxyFacade = ProxyComponent
-  } else if (!config.allowSFC) {
+  } else if (!proxyConfig.allowSFC) {
     // SFC Converted to component. Does not support returning precreated instances from render.
     ProxyComponent = proxyClassCreator(Component, postConstructionAction)
 
@@ -257,7 +261,7 @@ function createClassProxy(InitialComponent, proxyKey, options) {
       const result = CurrentComponent(props, context)
 
       // simple SFC, could continue to be SFC
-      if (config.pureSFC) {
+      if (proxyConfig.pureSFC) {
         if (!CurrentComponent.contextTypes) {
           if (!ProxyFacade.isStatelessFunctionalProxy) {
             setSFPFlag(ProxyFacade, true)

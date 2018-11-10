@@ -24,20 +24,33 @@ export const setStandInOptions = options => {
   renderOptions = options
 }
 
-export const updateProxyById = (id, type) => {
+export const updateFunctionProxyById = (id, type, updater) => {
+  // Remember the ID.
+  idsByType.set(type, id)
+  const proxy = proxiesByID[id]
+  if (!proxy) {
+    idsByType.set(type, id)
+    proxiesByID[id] = type
+  }
+  updater(proxiesByID[id], type)
+
+  return proxiesByID[id]
+}
+
+export const updateProxyById = (id, type, options = {}) => {
   // Remember the ID.
   idsByType.set(type, id)
 
   if (!proxiesByID[id]) {
-    proxiesByID[id] = createProxy(type, id, renderOptions)
+    proxiesByID[id] = createProxy(type, id, { ...renderOptions, ...options })
   } else {
     proxiesByID[id].update(type)
   }
   return proxiesByID[id]
 }
 
-export const createProxyForType = type =>
-  getProxyByType(type) || updateProxyById(generateTypeId(), type)
+export const createProxyForType = (type, options) =>
+  getProxyByType(type) || updateProxyById(generateTypeId(), type, options)
 
 export const isTypeBlacklisted = type => blackListedProxies.has(type)
 export const blacklistByType = type => blackListedProxies.set(type, true)
