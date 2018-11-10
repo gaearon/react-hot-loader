@@ -62,14 +62,23 @@ const ForwardType = React.forwardRef && React.forwardRef(() => null).$$typeof
 export const CONTEXT_CURRENT_VALUE = '_currentValue'
 
 export const isContextConsumer = ({ type }) =>
-  type && typeof type === 'object' && type.$$typeof === ConsumerType
+  type &&
+  typeof type === 'object' &&
+  type.$$typeof === ConsumerType &&
+  ConsumerType
 export const isContextProvider = ({ type }) =>
-  type && typeof type === 'object' && type.$$typeof === ProviderType
+  type &&
+  typeof type === 'object' &&
+  type.$$typeof === ProviderType &&
+  ProviderType
 export const isMemoType = ({ type }) =>
-  type && typeof type === 'object' && type.$$typeof === MemoType
+  type && typeof type === 'object' && type.$$typeof === MemoType && MemoType
 export const isLazyType = ({ type }) =>
-  type && typeof type === 'object' && type.$$typeof === LazyType
+  type && typeof type === 'object' && type.$$typeof === LazyType && LazyType
 export const isForwardType = ({ type }) =>
-  type && typeof type === 'object' && type.$$typeof === ForwardType
+  type &&
+  typeof type === 'object' &&
+  type.$$typeof === ForwardType &&
+  ForwardType
 
 export const getContextProvider = type => type && type._context
