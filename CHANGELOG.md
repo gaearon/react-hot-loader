@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file. See [standa
 <a name="4.3.12"></a>
 ## [4.4.0](https://github.com/gaearon/react-hot-loader/compare/v4.3.11...v4.3.12) (2018-11-01)
 
+
+### Features
+* React 16.5 and React 16.6 support. forwardRef, memo, lazy [#1084](https://github.com/gaearon/react-hot-loader/pull/1084)
+* Webpack loader [#1098](https://github.com/gaearon/react-hot-loader/pull/1098)
+* mark RHL sideEffect-free in production mode [#1096](https://github.com/gaearon/react-hot-loader/pull/1096)
+* babel plugin will remove `hot` in production [#1091](https://github.com/gaearon/react-hot-loader/pull/1091)
+
 ### Bug Fixes
 
 * babel plugin will remove calls to `hot` in production mode to remove side-effect on webpack [#1081](https://github.com/gaearon/react-hot-loader/pull/1081)
