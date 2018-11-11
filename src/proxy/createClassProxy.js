@@ -181,6 +181,7 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
       instancesCount++
     },
   )
+  // eslint-disable-next-line camelcase
   const UNSAFE_componentWillUpdate = lifeCycleWrapperFactory(
     'UNSAFE_componentWillUpdate',
     () => ({}),
@@ -233,11 +234,12 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
   const defineProxyMethods = (Proxy, Base = {}) => {
     defineClassMembers(Proxy, {
       ...fakeBasePrototype(Base),
+      // eslint-disable-next-line no-nested-ternary
       ...(proxyConfig.pureRender
         ? { render: proxiedRender }
         : Base.componentWillUpdate
-          ? componentWillUpdate
-          : UNSAFE_componentWillUpdate),
+          ? { componentWillUpdate }
+          : { UNSAFE_componentWillUpdate }),
       hotComponentRender,
       componentDidMount,
       componentDidUpdate,

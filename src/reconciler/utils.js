@@ -1,7 +1,6 @@
 import levenshtein from 'fast-levenshtein'
 import { getIdByType } from './proxies'
 import { getComponentDisplayName, isReactClass } from '../internal/reactUtils'
-import { UNWRAP_PROXY } from '../proxy'
 
 // some `empty` names, React can autoset display name to...
 const UNDEFINED_NAMES = {

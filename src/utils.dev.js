@@ -1,6 +1,6 @@
 import { blacklistByType, getProxyByType } from './reconciler/proxies'
-import { hotComponentCompare } from './reconciler/hotReplacementRender'
 import configuration from './configuration'
+import { hotComponentCompare } from './reactHotLoader'
 
 const getProxyOrType = type => {
   const proxy = getProxyByType(type)

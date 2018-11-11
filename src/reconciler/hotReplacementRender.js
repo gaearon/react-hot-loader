@@ -1,6 +1,5 @@
 import { PROXY_IS_MOUNTED, PROXY_KEY, UNWRAP_PROXY } from '../proxy'
 import {
-  getProxyByType,
   isRegisteredComponent,
   isTypeBlacklisted,
   updateProxyById,
@@ -388,21 +387,6 @@ const hotReplacementRender = (instance, stack) => {
   if (isReactClassInstance(instance)) {
     renderStack.pop()
   }
-}
-
-export const hotComponentCompare = (oldType, newType) => {
-  if (oldType === newType) {
-    return true
-  }
-
-  if (areSwappable(newType, oldType)) {
-    getProxyByType(newType[UNWRAP_PROXY]()).dereference()
-    updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
-    updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())
-    return true
-  }
-
-  return false
 }
 
 export default (instance, stack) => {
