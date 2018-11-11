@@ -181,6 +181,14 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
       instancesCount++
     },
   )
+  const UNSAFE_componentWillUpdate = lifeCycleWrapperFactory(
+    'UNSAFE_componentWillUpdate',
+    () => ({}),
+  )
+  const componentWillUpdate = lifeCycleWrapperFactory(
+    'componentWillUpdate',
+    () => ({}),
+  )
   const componentDidUpdate = lifeCycleWrapperFactory(
     'componentDidUpdate',
     renderOptions.componentDidUpdate,
@@ -225,7 +233,11 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
   const defineProxyMethods = (Proxy, Base = {}) => {
     defineClassMembers(Proxy, {
       ...fakeBasePrototype(Base),
-      render: proxiedRender,
+      ...(proxyConfig.pureRender
+        ? { render: proxiedRender }
+        : Base.componentWillUpdate
+          ? componentWillUpdate
+          : UNSAFE_componentWillUpdate),
       hotComponentRender,
       componentDidMount,
       componentDidUpdate,

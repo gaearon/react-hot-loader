@@ -1,5 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React from 'react'
+import ReactDOM from 'react-dom'
 import {
   isCompositeComponent,
   getComponentDisplayName,
@@ -23,6 +24,8 @@ import configuration from './configuration'
 import logger from './logger'
 
 import { preactAdapter } from './adapters/preact'
+import { areSwappable } from './reconciler/utils'
+import { PROXY_KEY, UNWRAP_PROXY } from './proxy'
 
 const forceSimpleSFC = { proxy: { allowSFC: false } }
 const lazyConstructor = '_ctor'
@@ -30,21 +33,46 @@ const lazyConstructor = '_ctor'
 const updateLazy = (target, type) => {
   const ctor = type[lazyConstructor]
   if (target[lazyConstructor] !== type[lazyConstructor]) {
-    ctor()
+    // ctor()
   }
-  target[lazyConstructor] = () =>
-    ctor().then(m => {
-      const C = resolveType(m.default)
-      return {
-        default: props => <C {...props} />,
-      }
-    })
+  if (!target[lazyConstructor].isPatchedByReactHotLoader) {
+    target[lazyConstructor] = () =>
+      ctor().then(m => {
+        const C = resolveType(m.default)
+        return {
+          default: props => <C {...props} />,
+        }
+      })
+    target[lazyConstructor].isPatchedByReactHotLoader = true
+  }
 }
 const updateMemo = (target, { type }) => {
   target.type = resolveType(type)
 }
 const updateForward = (target, { render }) => {
   target.render = render
+}
+
+export const hotComponentCompare = (oldType, newType) => {
+  if (oldType === newType) {
+    return true
+  }
+
+  if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
+    return areSwappable(oldType.render, newType.render)
+  }
+
+  if (areSwappable(newType, oldType)) {
+    const oldProxy = getProxyByType(newType[UNWRAP_PROXY]())
+    if (oldProxy) {
+      oldProxy.dereference()
+      updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
+      updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())
+    }
+    return true
+  }
+
+  return false
 }
 
 const shouldNotPatchComponent = type =>
@@ -142,6 +170,11 @@ const reactHotLoader = {
   },
 
   patch(React) {
+    if (ReactDOM.setHotElementComparator) {
+      ReactDOM.setHotElementComparator(hotComponentCompare)
+      configuration.disableHotRenderer =
+        configuration.disableHotRendererWhenInjected
+    }
     if (!React.createElement.isPatchedByReactHotLoader) {
       const originalCreateElement = React.createElement
       // Trick React into rendering a proxy so that

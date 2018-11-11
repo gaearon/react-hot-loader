@@ -2,16 +2,17 @@
 
 const fs = require('fs');
 const path = require('path');
-const { SourceNode, SourceMapConsumer } = require('source-map');
+const {SourceNode, SourceMapConsumer} = require('source-map');
+const loaderUtils = require('loader-utils');
 const makeIdentitySourceMap = require('./makeIdentitySourceMap');
+const patch = require('./patch');
 
 let tagCommonJSExportsSource = null;
 
 function transform(source, map) {
-  if (process.env.NODE_ENV === 'production' || source.indexOf('reactHotLoader.register') > 0) {
+  if (process.env.NODE_ENV === 'production') {
     return this.callback(null, source, map);
   }
-  // This is a Webpack loader, but the user put it in the Babel config.
   if (source && source.types && source.types.IfStatement) {
     throw new Error(
       'React Hot Loader: You are erroneously trying to use a Webpack loader ' +
@@ -27,6 +28,15 @@ function transform(source, map) {
   if (this.cacheable) {
     this.cacheable();
   }
+
+  const options = Object.assign({withPatch: true}, loaderUtils.getOptions(this));
+  if (options.withPatch) {
+    source = patch(source);
+  }
+  if (source.indexOf('reactHotLoader.register') > 0) {
+    return this.callback(null, source, map);
+  }
+  // This is a Webpack loader, but the user put it in the Babel config.
 
   // Read the helper once.
   if (!tagCommonJSExportsSource) {
