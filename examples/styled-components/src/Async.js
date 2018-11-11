@@ -3,6 +3,6 @@ import Counter from './Counter'
 
 export default () => (
   <div>
-    async test <Counter />
+    async<Counter />
   </div>
 )

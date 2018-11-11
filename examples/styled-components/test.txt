@@ -1,0 +1,258 @@
+yarn run v1.10.0
+$ webpack-dev-server --hot
+[34mℹ[39m [90m｢wds｣[39m: Project is running at [1m[34mhttp://localhost:8080/[39m[22m
+[34mℹ[39m [90m｢wds｣[39m: webpack output is served from [1m[34m/[39m[22m
+[34mℹ[39m [90m｢wdm｣[39m: Hash: [1m006357f4dc6627a7c34d[39m[22m
+Version: webpack [1m4.25.1[39m[22m
+Time: [1m21656[39m[22mms
+Built at: 11/11/2018 [1m3:06:33 PM[39m[22m
+     [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+ [1m[32mbundle.js[39m[22m   2.37 MiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+[1m[32mindex.html[39m[22m  182 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+Entrypoint [1mmain[39m[22m = [1m[32mbundle.js[39m[22m
+[0] [1mmulti (webpack)-dev-server/client?http://localhost:8080 (webpack)/hot/dev-server.js ./src/index[39m[22m 52 bytes {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[[1m./node_modules/babel-polyfill/lib/index.js[39m[22m] 1.53 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[[1m./node_modules/loglevel/lib/loglevel.js[39m[22m] 9.54 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[[1m./node_modules/react-dom/index.js[39m[22m] 1.83 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[[1m./node_modules/react-hot-loader/index.js[39m[22m] 1.74 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[[1m./node_modules/react/index.js[39m[22m] 1.25 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[[1m./node_modules/strip-ansi/index.js[39m[22m] 673 bytes {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[[1m./node_modules/url/url.js[39m[22m] 26.3 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[./node_modules/webpack-dev-server/client/index.js?http://localhost:8080] [1m(webpack)-dev-server/client?http://localhost:8080[39m[22m 13.1 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[./node_modules/webpack-dev-server/client/overlay.js] [1m(webpack)-dev-server/client/overlay.js[39m[22m 6.2 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[./node_modules/webpack-dev-server/client/socket.js] [1m(webpack)-dev-server/client/socket.js[39m[22m 1.95 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[./node_modules/webpack/buildin/module.js] [1m(webpack)/buildin/module.js[39m[22m 1.59 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[./node_modules/webpack/hot sync ^\.\/log$] [1m(webpack)/hot sync nonrecursive ^\.\/log$[39m[22m 170 bytes {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[./node_modules/webpack/hot/dev-server.js] [1m(webpack)/hot/dev-server.js[39m[22m 2.42 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+[[1m./src/index.js[39m[22m] 979 bytes {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+    + 389 hidden modules
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+     1 asset
+    Entrypoint [1mundefined[39m[22m = [1m[32mindex.html[39m[22m
+    [[1m./node_modules/fast-levenshtein/levenshtein.js[39m[22m] 4.97 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/hoist-non-react-statics/index.js[39m[22m] 3.92 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/html-webpack-plugin/lib/loader.js!./node_modules/html-webpack-plugin/default_index.ejs[39m[22m] 376 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/lodash/lodash.js[39m[22m] 527 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/react-dom/cjs/react-dom.development.js[39m[22m] 603 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/react-dom/index.js[39m[22m] 1.83 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/react-hot-loader/dist/react-hot-loader.development.js[39m[22m] 60.7 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/react-hot-loader/dist/react-hot-loader.production.min.js[39m[22m] 3.19 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/react-hot-loader/index.js[39m[22m] 1.74 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/react-hot-loader/node_modules/prop-types/index.js[39m[22m] 2.38 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js[39m[22m] 7.02 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/react/index.js[39m[22m] 1.25 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [[1m./node_modules/shallowequal/index.js[39m[22m] 2.49 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [./node_modules/webpack/buildin/global.js] [1m(webpack)/buildin/global.js[39m[22m 1.29 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [./node_modules/webpack/buildin/module.js] [1m(webpack)/buildin/module.js[39m[22m 1.59 KiB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+        + 16 hidden modules
+[34mℹ[39m [90m｢wdm｣[39m: Compiled successfully.
+[34mℹ[39m [90m｢wdm｣[39m: Compiling...
+[34mℹ[39m [90m｢wdm｣[39m: Hash: [1m78ebd186cab15485fc65[39m[22m
+Version: webpack [1m4.25.1[39m[22m
+Time: [1m295[39m[22mms
+Built at: 11/11/2018 [1m3:08:23 PM[39m[22m
+                                  [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+   [1m[32m006357f4dc6627a7c34d.hot-update.json[39m[22m   46 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+   [1m[32m19fea806905f147ccd8b.hot-update.json[39m[22m   44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                              [1m[32mbundle.js[39m[22m   2.37 MiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+                             [1m[32mindex.html[39m[22m  182 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+[1m[32mmain.006357f4dc6627a7c34d.hot-update.js[39m[22m   4.46 KiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+Entrypoint [1mmain[39m[22m = [1m[32mbundle.js[39m[22m [1m[32mmain.006357f4dc6627a7c34d.hot-update.js[39m[22m
+[[1m./src/Counter.js[39m[22m] 3.79 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+    + 403 hidden modules
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+                                   [1mAsset[39m[22m      [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m19fea806905f147ccd8b.hot-update.json[39m[22m  44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+     + 1 hidden asset
+    Entrypoint [1mundefined[39m[22m = [1m[32mindex.html[39m[22m
+       31 modules
+[34mℹ[39m [90m｢wdm｣[39m: Compiled successfully.
+[34mℹ[39m [90m｢wdm｣[39m: Compiling...
+[34mℹ[39m [90m｢wdm｣[39m: Hash: [1m851c988faa6e9c243131[39m[22m
+Version: webpack [1m4.25.1[39m[22m
+Time: [1m232[39m[22mms
+Built at: 11/11/2018 [1m3:08:26 PM[39m[22m
+                                  [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+   [1m[32m78ebd186cab15485fc65.hot-update.json[39m[22m   46 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+   [1m[32m89c8e2e4fa5cc95f63f9.hot-update.json[39m[22m   44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                              [1m[32mbundle.js[39m[22m   2.37 MiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+                             [1m[32mindex.html[39m[22m  182 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+[1m[32mmain.78ebd186cab15485fc65.hot-update.js[39m[22m   4.46 KiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+Entrypoint [1mmain[39m[22m = [1m[32mbundle.js[39m[22m [1m[32mmain.78ebd186cab15485fc65.hot-update.js[39m[22m
+[[1m./src/Counter.js[39m[22m] 3.79 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+    + 403 hidden modules
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+                                   [1mAsset[39m[22m      [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m89c8e2e4fa5cc95f63f9.hot-update.json[39m[22m  44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+     + 1 hidden asset
+    Entrypoint [1mundefined[39m[22m = [1m[32mindex.html[39m[22m
+       31 modules
+[34mℹ[39m [90m｢wdm｣[39m: Compiled successfully.
+[34mℹ[39m [90m｢wdm｣[39m: Compiling...
+[34mℹ[39m [90m｢wdm｣[39m: Hash: [1mcbb8874fc92704ee057d[39m[22m
+Version: webpack [1m4.25.1[39m[22m
+Time: [1m209[39m[22mms
+Built at: 11/11/2018 [1m3:08:39 PM[39m[22m
+                                  [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+   [1m[32m15bc8662d0b00bcec074.hot-update.json[39m[22m   44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+   [1m[32m851c988faa6e9c243131.hot-update.json[39m[22m   46 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                              [1m[32mbundle.js[39m[22m   2.37 MiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+                             [1m[32mindex.html[39m[22m  182 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+[1m[32mmain.851c988faa6e9c243131.hot-update.js[39m[22m   4.46 KiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+Entrypoint [1mmain[39m[22m = [1m[32mbundle.js[39m[22m [1m[32mmain.851c988faa6e9c243131.hot-update.js[39m[22m
+[[1m./src/Counter.js[39m[22m] 3.79 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+    + 403 hidden modules
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+                                   [1mAsset[39m[22m      [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m15bc8662d0b00bcec074.hot-update.json[39m[22m  44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+     + 1 hidden asset
+    Entrypoint [1mundefined[39m[22m = [1m[32mindex.html[39m[22m
+       31 modules
+[34mℹ[39m [90m｢wdm｣[39m: Compiled successfully.
+[34mℹ[39m [90m｢wdm｣[39m: Compiling...
+[34mℹ[39m [90m｢wdm｣[39m: Hash: [1mecac474c7918f02ba327[39m[22m
+Version: webpack [1m4.25.1[39m[22m
+Time: [1m298[39m[22mms
+Built at: 11/11/2018 [1m3:08:54 PM[39m[22m
+                                  [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+   [1m[32m3a95db74e9a2a3ae7cd6.hot-update.json[39m[22m   44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                              [1m[32mbundle.js[39m[22m   2.37 MiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+   [1m[32mcbb8874fc92704ee057d.hot-update.json[39m[22m   46 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                             [1m[32mindex.html[39m[22m  182 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+[1m[32mmain.cbb8874fc92704ee057d.hot-update.js[39m[22m   4.46 KiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+Entrypoint [1mmain[39m[22m = [1m[32mbundle.js[39m[22m [1m[32mmain.cbb8874fc92704ee057d.hot-update.js[39m[22m
+[[1m./src/Counter.js[39m[22m] 3.79 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+    + 403 hidden modules
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+                                   [1mAsset[39m[22m      [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m3a95db74e9a2a3ae7cd6.hot-update.json[39m[22m  44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+     + 1 hidden asset
+    Entrypoint [1mundefined[39m[22m = [1m[32mindex.html[39m[22m
+       31 modules
+[34mℹ[39m [90m｢wdm｣[39m: Compiled successfully.
+[34mℹ[39m [90m｢wdm｣[39m: Compiling...
+[34mℹ[39m [90m｢wdm｣[39m: Hash: [1me9d7200afbcd2e1870f5[39m[22m
+Version: webpack [1m4.25.1[39m[22m
+Time: [1m263[39m[22mms
+Built at: 11/11/2018 [1m3:09:56 PM[39m[22m
+                                  [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+                              [1m[32mbundle.js[39m[22m   2.37 MiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+   [1m[32mecac474c7918f02ba327.hot-update.json[39m[22m   46 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+   [1m[32mfd0bb5ff8c47bf1cd5d9.hot-update.json[39m[22m   44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                             [1m[32mindex.html[39m[22m  182 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+[1m[32mmain.ecac474c7918f02ba327.hot-update.js[39m[22m   4.46 KiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+Entrypoint [1mmain[39m[22m = [1m[32mbundle.js[39m[22m [1m[32mmain.ecac474c7918f02ba327.hot-update.js[39m[22m
+[[1m./src/Counter.js[39m[22m] 3.79 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+    + 403 hidden modules
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+                                   [1mAsset[39m[22m      [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32mfd0bb5ff8c47bf1cd5d9.hot-update.json[39m[22m  44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+     + 1 hidden asset
+    Entrypoint [1mundefined[39m[22m = [1m[32mindex.html[39m[22m
+       31 modules
+[34mℹ[39m [90m｢wdm｣[39m: Compiled successfully.
+[34mℹ[39m [90m｢wdm｣[39m: Compiling...
+[34mℹ[39m [90m｢wdm｣[39m: Hash: [1mbec1f320a0837efb3da0[39m[22m
+Version: webpack [1m4.25.1[39m[22m
+Time: [1m288[39m[22mms
+Built at: 11/11/2018 [1m3:09:58 PM[39m[22m
+                                  [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+   [1m[32mb3417f4fcf7ba596e1c2.hot-update.json[39m[22m   44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                              [1m[32mbundle.js[39m[22m   2.37 MiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+   [1m[32me9d7200afbcd2e1870f5.hot-update.json[39m[22m   46 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                             [1m[32mindex.html[39m[22m  182 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+[1m[32mmain.e9d7200afbcd2e1870f5.hot-update.js[39m[22m   4.46 KiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+Entrypoint [1mmain[39m[22m = [1m[32mbundle.js[39m[22m [1m[32mmain.e9d7200afbcd2e1870f5.hot-update.js[39m[22m
+[[1m./src/Counter.js[39m[22m] 3.79 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+    + 403 hidden modules
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+                                   [1mAsset[39m[22m      [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32mb3417f4fcf7ba596e1c2.hot-update.json[39m[22m  44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+     + 1 hidden asset
+    Entrypoint [1mundefined[39m[22m = [1m[32mindex.html[39m[22m
+       31 modules
+[34mℹ[39m [90m｢wdm｣[39m: Compiled successfully.
+[34mℹ[39m [90m｢wdm｣[39m: Compiling...
+[34mℹ[39m [90m｢wdm｣[39m: Hash: [1mfc301bf551f077c27bd1[39m[22m
+Version: webpack [1m4.25.1[39m[22m
+Time: [1m167[39m[22mms
+Built at: 11/11/2018 [1m3:10:00 PM[39m[22m
+                                  [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+   [1m[32m80ee5db8ed7c1bb64ceb.hot-update.json[39m[22m   44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+   [1m[32mbec1f320a0837efb3da0.hot-update.json[39m[22m   46 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                              [1m[32mbundle.js[39m[22m   2.37 MiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+                             [1m[32mindex.html[39m[22m  182 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+[1m[32mmain.bec1f320a0837efb3da0.hot-update.js[39m[22m   4.46 KiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+Entrypoint [1mmain[39m[22m = [1m[32mbundle.js[39m[22m [1m[32mmain.bec1f320a0837efb3da0.hot-update.js[39m[22m
+[[1m./src/Counter.js[39m[22m] 3.79 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+    + 403 hidden modules
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+                                   [1mAsset[39m[22m      [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m80ee5db8ed7c1bb64ceb.hot-update.json[39m[22m  44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+     + 1 hidden asset
+    Entrypoint [1mundefined[39m[22m = [1m[32mindex.html[39m[22m
+       31 modules
+[34mℹ[39m [90m｢wdm｣[39m: Compiled successfully.
+[34mℹ[39m [90m｢wdm｣[39m: Compiling...
+[34mℹ[39m [90m｢wdm｣[39m: Hash: [1m31cb94d0e18e064be7ab[39m[22m
+Version: webpack [1m4.25.1[39m[22m
+Time: [1m279[39m[22mms
+Built at: 11/11/2018 [1m3:22:10 PM[39m[22m
+                                  [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+   [1m[32m4901922dbe26e0668087.hot-update.json[39m[22m   44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                              [1m[32mbundle.js[39m[22m   2.37 MiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+   [1m[32mfc301bf551f077c27bd1.hot-update.json[39m[22m   46 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                             [1m[32mindex.html[39m[22m  182 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+[1m[32mmain.fc301bf551f077c27bd1.hot-update.js[39m[22m   4.46 KiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+Entrypoint [1mmain[39m[22m = [1m[32mbundle.js[39m[22m [1m[32mmain.fc301bf551f077c27bd1.hot-update.js[39m[22m
+[[1m./src/Counter.js[39m[22m] 3.79 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+    + 403 hidden modules
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+                                   [1mAsset[39m[22m      [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m4901922dbe26e0668087.hot-update.json[39m[22m  44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+     + 1 hidden asset
+    Entrypoint [1mundefined[39m[22m = [1m[32mindex.html[39m[22m
+       31 modules
+[34mℹ[39m [90m｢wdm｣[39m: Compiled successfully.
+[34mℹ[39m [90m｢wdm｣[39m: Compiling...
+[34mℹ[39m [90m｢wdm｣[39m: Hash: [1me2ff4f950c97622cb991[39m[22m
+Version: webpack [1m4.25.1[39m[22m
+Time: [1m263[39m[22mms
+Built at: 11/11/2018 [1m3:22:17 PM[39m[22m
+                                  [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+   [1m[32m31cb94d0e18e064be7ab.hot-update.json[39m[22m   46 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                              [1m[32mbundle.js[39m[22m   2.37 MiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+   [1m[32meb04701169e1a9bd0e90.hot-update.json[39m[22m   44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                             [1m[32mindex.html[39m[22m  182 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+[1m[32mmain.31cb94d0e18e064be7ab.hot-update.js[39m[22m   4.46 KiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+Entrypoint [1mmain[39m[22m = [1m[32mbundle.js[39m[22m [1m[32mmain.31cb94d0e18e064be7ab.hot-update.js[39m[22m
+[[1m./src/Counter.js[39m[22m] 3.79 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+    + 403 hidden modules
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+                                   [1mAsset[39m[22m      [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32meb04701169e1a9bd0e90.hot-update.json[39m[22m  44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+     + 1 hidden asset
+    Entrypoint [1mundefined[39m[22m = [1m[32mindex.html[39m[22m
+       31 modules
+[34mℹ[39m [90m｢wdm｣[39m: Compiled successfully.
+[34mℹ[39m [90m｢wdm｣[39m: Compiling...
+[34mℹ[39m [90m｢wdm｣[39m: Hash: [1m520fddd3ec87a735b736[39m[22m
+Version: webpack [1m4.25.1[39m[22m
+Time: [1m280[39m[22mms
+Built at: 11/11/2018 [1m3:23:33 PM[39m[22m
+                                  [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+   [1m[32m5351166a5d285c4356bf.hot-update.json[39m[22m   44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                              [1m[32mbundle.js[39m[22m   2.37 MiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+   [1m[32me2ff4f950c97622cb991.hot-update.json[39m[22m   46 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+                             [1m[32mindex.html[39m[22m  182 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+[1m[32mmain.e2ff4f950c97622cb991.hot-update.js[39m[22m   4.46 KiB    [1mmain[39m[22m  [1m[32m[emitted][39m[22m  main
+Entrypoint [1mmain[39m[22m = [1m[32mbundle.js[39m[22m [1m[32mmain.e2ff4f950c97622cb991.hot-update.js[39m[22m
+[[1m./src/Counter.js[39m[22m] 3.79 KiB {[1m[33mmain[39m[22m}[1m[32m [built][39m[22m
+    + 403 hidden modules
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+                                   [1mAsset[39m[22m      [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m5351166a5d285c4356bf.hot-update.json[39m[22m  44 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+     + 1 hidden asset
+    Entrypoint [1mundefined[39m[22m = [1m[32mindex.html[39m[22m
+       31 modules
+[34mℹ[39m [90m｢wdm｣[39m: Compiled successfully.

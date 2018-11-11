@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import emoStyled from 'react-emotion'
 import Counter from './Counter'
 
+// const genApp = () => {
 const BigText = styled.div`
   font-size: 25px;
 `
@@ -15,7 +16,7 @@ const SmallText = emoStyled('div')`
 const indirect = {
   element: () => (
     <SmallText>
-      hidden <Counter />
+      hidden --!!-- <Counter />
     </SmallText>
   ),
 }
@@ -52,9 +53,11 @@ const App = () => (
     <br />
     <Counter />
     <Memo a1 a2 />
-    <React.Suspense fallback="loading">
-      <Async />
-    </React.Suspense>
+    <div>
+      <React.Suspense fallback="loading">
+        <Async />
+      </React.Suspense>
+    </div>
     <indirect.element />
     <indirectStyled.DS>
       {' '}
@@ -72,6 +75,11 @@ const App = () => (
     </div>
   </h1>
 )
+
+//   return App;
+// }
+//
+// const App = genApp();
 
 setConfig({ logLevel: 'debug' })
 
