@@ -1,44 +1,49 @@
 const injectionStart = {
   '16.6': [
     'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : child.elementType === element.type)',
-    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.elementType, element.type))'
+    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.elementType, element.type, updateChild(child)))'
   ],
   '16.6-compact': [
     'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:child.elementType===element.type)',
-    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.elementType,element.type))'
+    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.elementType,element.type, updateChild(child)))'
   ],
   '16.4': [
     'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : child.type === element.type) {',
-    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.type, element.type)) {'
+    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.type, element.type, updateChild(child))) {'
   ],
   '16.4-compact': [
     'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:child.type===element.type)',
-    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.type,element.type))'
+    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.type,element.type, updateChild(child)))'
   ],
 };
 
 const additional = {
   '16.6-update': [
     'if (current$$1 !== null && current$$1.elementType === element.type) {',
-    'if (current$$1 !== null && hotCompareElements(current$$1.elementType, element.type)) {'
+    'if (current$$1 !== null && hotCompareElements(current$$1.elementType, element.type, updateChild(current$$1))) {'
   ],
   '16.6-update-compact': [
     'if(current$$1!==null&&current$$1.elementType===element.type)',
-    'if(current$$1!==null&&hotCompareElements(current$$1.elementType,element.type))'
+    'if(current$$1!==null&&hotCompareElements(current$$1.elementType,element.type,updateChild(current$$1)))'
   ],
   '16.4-update': [
     'if (current !== null && current.type === element.type) {',
-    'if (current !== null && hotCompareElements(current.type, element.type)) {'
+    'if (current !== null && hotCompareElements(current.type, element.type, updateChild(current))) {'
   ],
   '16.4-update-compact': [
     'if (current!== null&&current.type===element.type)',
-    'if (current!== null&&hotCompareElements(current.type,element.type))'
+    'if (current!== null&&hotCompareElements(current.type,element.type,updateChild(current)))'
   ]
 };
 
 const defaultEnd = [
   'var ReactDOM = {',
-  `
+  `var updateChild = function (child) { return function (newType) {
+       child.type = newType; 
+       if (child.alternate) {
+        child.alternate.type = newType;
+       }
+    }};
     var hotCompareElements = function (oldType, newType) { return oldType === newType };
     var ReactDOM = {
       setHotElementComparator: function (newComparator) { hotCompareElements = newComparator }, 
@@ -47,7 +52,12 @@ const defaultEnd = [
 
 const defaultEndCompact = [
   'var ReactDOM={',
-  `
+  `var updateChild = function (child) { return function (newType) {
+       child.type = newType; 
+       if (child.alternate) {
+        child.alternate.type = newType;
+       }
+    }};
     var hotCompareElements = function (oldType, newType) { return oldType === newType };
     var ReactDOM = {
       setHotElementComparator: function (newComparator) { hotCompareElements = newComparator }, 
