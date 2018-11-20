@@ -61,6 +61,9 @@ const render = component => {
   if (!component) {
     return []
   }
+  if (component.hotComponentUpdate) {
+    component.hotComponentUpdate()
+  }
   if (shouldUseRenderMethod(component)) {
     // not calling real render method to prevent call recursion.
     // stateless components does not have hotComponentRender
@@ -270,7 +273,9 @@ const hotReplacementRender = (instance, stack) => {
 
       if (isMemoType(child) || isLazyType(child)) {
         // force update memo children
-        scheduleInstanceUpdate(stackChild.children[0].instance)
+        if (stackChild.children && stackChild.children[0]) {
+          scheduleInstanceUpdate(stackChild.children[0].instance)
+        }
       }
 
       if (isForwardType(child)) {
@@ -330,22 +335,14 @@ const hotReplacementRender = (instance, stack) => {
           // unwrap proxy
           const childType = getElementType(child)
           if (!stackChild.type[PROXY_KEY]) {
-            if (isTypeBlacklisted(stackChild.type)) {
-              logger.warn(
-                'React-hot-loader: cold element got updated ',
-                stackChild.type,
-              )
-              return
+            if (!reactHotLoader.IS_REACT_MERGE_ENABLED) {
+              if (isTypeBlacklisted(stackChild.type)) {
+                logger.warn(
+                  'React-hot-loader: cold element got updated ',
+                  stackChild.type,
+                )
+              }
             }
-            /* eslint-disable no-console */
-            logger.error(
-              'React-hot-loader: fatal error caused by ',
-              stackChild.type,
-              ' - no instrumentation found. ',
-              'Please require react-hot-loader before React. More in troubleshooting.',
-            )
-            stackReport()
-            throw new Error('React-hot-loader: wrong configuration')
           }
 
           if (

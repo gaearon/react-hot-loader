@@ -45,6 +45,12 @@ class AppContainer extends React.Component {
       return <this.props.errorReporter error={error} />
     }
 
+    if (this.hotComponentUpdate) {
+      this.hotComponentUpdate()
+    } else {
+      throw new Error('React-Hot-Loader: AppContainer should be patched')
+    }
+
     return React.Children.only(this.props.children)
   }
 }

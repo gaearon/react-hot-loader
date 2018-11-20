@@ -24,4 +24,25 @@ function getReactStack(instance) {
   return stack
 }
 
+const markUpdate = ({ fiber }) => {
+  if (!fiber) {
+    return
+  }
+  fiber.expirationTime = 1
+  if (fiber.alternate) {
+    fiber.alternate.expirationTime = 1
+  }
+  fiber.memoizedProps = Object.assign(
+    { cacheBusterProp: true },
+    fiber.memoizedProps,
+  )
+}
+
+export const deepMapUpdate = stack => {
+  markUpdate(stack)
+  if (stack.children) {
+    stack.children.forEach(deepMapUpdate)
+  }
+}
+
 export default getReactStack

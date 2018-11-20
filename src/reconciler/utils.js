@@ -22,9 +22,14 @@ const haveTextSimilarity = (a, b) =>
   // equal or slight changed
   a === b || levenshtein.get(a, b) < a.length * 0.2
 
+const getBaseProto = source =>
+  source.prototype.hotComponentRender
+    ? Object.getPrototypeOf(source.prototype)
+    : source.prototype
+
 const equalClasses = (a, b) => {
-  const prototypeA = a.prototype
-  const prototypeB = Object.getPrototypeOf(b.prototype)
+  const prototypeA = getBaseProto(a)
+  const prototypeB = getBaseProto(b)
 
   let hits = 0
   let misses = 0

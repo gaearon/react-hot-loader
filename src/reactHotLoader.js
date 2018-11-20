@@ -26,21 +26,26 @@ import logger from './logger'
 import { preactAdapter } from './adapters/preact'
 import { areSwappable } from './reconciler/utils'
 import { PROXY_KEY, UNWRAP_PROXY } from './proxy'
+import AppContainer from './AppContainer.dev'
 
-const forceSimpleSFC = { proxy: { allowSFC: false } }
+const forceSimpleSFC = { proxy: { pureSFC: true } }
 const lazyConstructor = '_ctor'
 
 const updateLazy = (target, type) => {
   const ctor = type[lazyConstructor]
   if (target[lazyConstructor] !== type[lazyConstructor]) {
-    // ctor()
+    ctor()
   }
   if (!target[lazyConstructor].isPatchedByReactHotLoader) {
     target[lazyConstructor] = () =>
       ctor().then(m => {
         const C = resolveType(m.default)
         return {
-          default: props => <C {...props} />,
+          default: props => (
+            <AppContainer>
+              <C {...props} />
+            </AppContainer>
+          ),
         }
       })
     target[lazyConstructor].isPatchedByReactHotLoader = true
@@ -53,21 +58,36 @@ const updateForward = (target, { render }) => {
   target.render = render
 }
 
-export const hotComponentCompare = (oldType, newType) => {
+export const hotComponentCompare = (oldType, newType, setNewType) => {
+  if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
+    if (areSwappable(oldType.render, newType.render)) {
+      setNewType(newType)
+      return true
+    }
+    return false
+  }
+
+  if (isMemoType({ type: oldType }) && isMemoType({ type: newType })) {
+    if (areSwappable(oldType.type, newType.type)) {
+      setNewType(newType.type)
+      return true
+    }
+    return false
+  }
+
   if (oldType === newType) {
     return true
   }
 
-  if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
-    return areSwappable(oldType.render, newType.render)
-  }
-
   if (areSwappable(newType, oldType)) {
-    const oldProxy = getProxyByType(newType[UNWRAP_PROXY]())
+    const unwrapFactory = newType[UNWRAP_PROXY]
+    const oldProxy = unwrapFactory && getProxyByType(unwrapFactory())
     if (oldProxy) {
       oldProxy.dereference()
       updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
       updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())
+    } else {
+      setNewType(newType)
     }
     return true
   }
@@ -75,17 +95,22 @@ export const hotComponentCompare = (oldType, newType) => {
   return false
 }
 
-const shouldNotPatchComponent = type =>
-  !isCompositeComponent(type) || isTypeBlacklisted(type) || isProxyType(type)
+const shouldNotPatchComponent = type => isTypeBlacklisted(type)
 
 function resolveType(type, options = {}) {
   if (isLazyType({ type }) || isMemoType({ type }) || isForwardType({ type })) {
     return getProxyByType(type) || type
   }
 
-  if (shouldNotPatchComponent(type)) return type
+  if (!isCompositeComponent(type) || isProxyType(type)) {
+    return type
+  }
 
   const existingProxy = getProxyByType(type)
+
+  if (shouldNotPatchComponent(type)) {
+    return existingProxy ? existingProxy.getCurrent() : type
+  }
 
   if (!existingProxy && configuration.onComponentCreate) {
     configuration.onComponentCreate(type, getComponentDisplayName(type))
@@ -100,6 +125,7 @@ function resolveType(type, options = {}) {
 }
 
 const reactHotLoader = {
+  IS_REACT_MERGE_ENABLED: false,
   register(type, uniqueLocalName, fileName, options = {}) {
     const id = `${fileName}#${uniqueLocalName}`
 
@@ -174,6 +200,8 @@ const reactHotLoader = {
       ReactDOM.setHotElementComparator(hotComponentCompare)
       configuration.disableHotRenderer =
         configuration.disableHotRendererWhenInjected
+
+      reactHotLoader.IS_REACT_MERGE_ENABLED = true
     }
     if (!React.createElement.isPatchedByReactHotLoader) {
       const originalCreateElement = React.createElement
@@ -183,6 +211,26 @@ const reactHotLoader = {
       React.createElement = (type, ...args) =>
         originalCreateElement(resolveType(type), ...args)
       React.createElement.isPatchedByReactHotLoader = true
+    }
+
+    if (!React.cloneElement.isPatchedByReactHotLoader) {
+      const originalCloneElement = React.cloneElement
+
+      React.cloneElement = (element, ...args) => {
+        const newType = element.type && resolveType(element.type)
+        if (newType && newType !== element.type) {
+          return originalCloneElement(
+            {
+              ...element,
+              type: newType,
+            },
+            ...args,
+          )
+        }
+        return originalCloneElement(element, ...args)
+      }
+
+      React.cloneElement.isPatchedByReactHotLoader = true
     }
 
     if (!React.createFactory.isPatchedByReactHotLoader) {

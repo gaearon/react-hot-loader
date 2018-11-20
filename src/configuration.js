@@ -5,8 +5,8 @@ const configuration = {
   // Allows using SFC without changes. leading to some components not updated
   pureSFC: false,
 
-  // keep render method unpatched, moving sideEffect to componentWillUpdate
-  pureRender: true,
+  // keep render method unpatched, moving sideEffect to componentDidUpdate
+  pureRender: false,
 
   // Allows SFC to be used, enables "intermediate" components used by Relay, should be disabled for Preact
   allowSFC: true,
@@ -22,6 +22,12 @@ const configuration = {
 
   // Hook on React renders for a first time component
   onComponentCreate: false,
+
+  // flag to completely disable RHL for SFC
+  ignoreSFC: false,
+
+  // flag to completely disable RHL for Components
+  ignoreComponents: false,
 }
 
 export default configuration
