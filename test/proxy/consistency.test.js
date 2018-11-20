@@ -392,16 +392,19 @@ describe('consistency', () => {
 
         const proxy = createProxy(Initial)
         const Class = proxy.get()
-        expect(Object.getOwnPropertyNames(Class.prototype)).toEqual([
-          'constructor',
-          'methodA',
-          'methodB',
-          'render',
-          'hotComponentRender',
-          'componentDidMount',
-          'componentDidUpdate',
-          'componentWillUnmount',
-        ])
+        expect(Object.getOwnPropertyNames(Class.prototype)).toEqual(
+          [
+            'constructor',
+            'methodA',
+            'methodB',
+            configuration.pureRender ? '' : 'render',
+            'hotComponentRender',
+            'hotComponentUpdate',
+            'componentDidMount',
+            'componentDidUpdate',
+            'componentWillUnmount',
+          ].filter(Boolean),
+        )
       })
     })
   })
@@ -426,7 +429,7 @@ describe('consistency', () => {
         const Proxy = createProxy(App).get()
         expect('isStatelessFunctionalProxy' in Proxy).toBe(false)
         mount(<Proxy />).instance()
-        expect(Proxy.isStatelessFunctionalProxy).toBe(false)
+        expect(Proxy.isStatelessFunctionalProxy).toBe(configuration.pureSFC)
       })
 
       it('should wrap SFC by SFC Pure', () => {
