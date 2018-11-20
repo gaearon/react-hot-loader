@@ -4,7 +4,10 @@ class Counter extends React.Component {
   state = { count: 0 }
 
   componentDidMount() {
-    //return;
+    if (!this.props.children) {
+      // return;
+    }
+    // return;
     this.interval = setInterval(
       () => this.setState(prevState => ({ count: prevState.count + 1 })),
       200,
@@ -16,7 +19,15 @@ class Counter extends React.Component {
   }
 
   render() {
-    return <div>!!#{this.state.count}</div>
+    return (
+      <div>
+        #{this.state.count}
+        {this.props.children &&
+          React.cloneElement(this.props.children, {
+            counter: this.state.count,
+          })}
+      </div>
+    )
   }
 }
 
