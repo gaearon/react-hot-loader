@@ -4,6 +4,7 @@ function pushStack(stack, node) {
   stack.type = node.type
   stack.children = []
   stack.instance = typeof node.type === 'function' ? node.stateNode : stack
+  stack.fiber = node
 
   if (!stack.instance) {
     stack.instance = {

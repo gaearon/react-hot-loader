@@ -1,5 +1,9 @@
 import createProxy, { PROXY_KEY } from '../proxy'
 import { resetClassProxies } from '../proxy/createClassProxy'
+import { isCompositeComponent, isReactClass } from '../internal/reactUtils'
+import configuration from '../configuration'
+
+const merge = require('lodash.merge')
 
 let proxiesByID
 let blackListedProxies
@@ -8,6 +12,8 @@ let idsByType
 
 let elementCount = 0
 let renderOptions = {}
+
+let componentOptions
 
 const generateTypeId = () => `auto-${elementCount++}`
 
@@ -42,7 +48,16 @@ export const updateProxyById = (id, type, options = {}) => {
   idsByType.set(type, id)
 
   if (!proxiesByID[id]) {
-    proxiesByID[id] = createProxy(type, id, { ...renderOptions, ...options })
+    proxiesByID[id] = createProxy(
+      type,
+      id,
+      merge(
+        {},
+        renderOptions,
+        { proxy: componentOptions.get(type) || {} },
+        options,
+      ),
+    )
   } else {
     proxiesByID[id].update(type)
   }
@@ -52,14 +67,22 @@ export const updateProxyById = (id, type, options = {}) => {
 export const createProxyForType = (type, options) =>
   getProxyByType(type) || updateProxyById(generateTypeId(), type, options)
 
-export const isTypeBlacklisted = type => blackListedProxies.has(type)
+export const isTypeBlacklisted = type =>
+  blackListedProxies.has(type) ||
+  (isCompositeComponent(type) &&
+    ((configuration.ignoreSFC && !isReactClass(type)) ||
+      (configuration.ignoreComponents && isReactClass(type))))
 export const blacklistByType = type => blackListedProxies.set(type, true)
+
+export const setComponentOptions = (component, options) =>
+  componentOptions.set(component, options)
 
 export const resetProxies = () => {
   proxiesByID = {}
   idsByType = new WeakMap()
   blackListedProxies = new WeakMap()
   registeredComponents = new WeakMap()
+  componentOptions = new WeakMap()
   resetClassProxies()
 }
 

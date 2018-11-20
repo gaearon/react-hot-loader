@@ -9,6 +9,8 @@ import { polyfill } from 'react-lifecycles-compat'
 import { AppContainer } from '../src/index.dev'
 import RHL from '../src/reactHotLoader'
 import { increment as incrementGeneration } from '../src/global/generation'
+import { configureComponent } from '../src/utils.dev'
+import configuration from '../src/configuration'
 
 describe(`AppContainer (dev)`, () => {
   beforeEach(() => {
@@ -235,7 +237,7 @@ describe(`AppContainer (dev)`, () => {
           this[key] = eval(code)
         }
 
-        render = function() {
+        render() {
           return (
             <span>
               <SubApp /> before
@@ -251,6 +253,7 @@ describe(`AppContainer (dev)`, () => {
           <App />
         </AppContainer>
       )
+      configureComponent(Indirect, { allowSFC: false })
 
       const wrapper = mount(<Indirect App={App} />)
       expect(wrapper.text()).toBe('works before')
@@ -296,6 +299,101 @@ describe(`AppContainer (dev)`, () => {
 
       expect(wrapper.text()).toBe('works after')
       expect(spy).not.toHaveBeenCalled()
+    })
+
+    it('Could handle render as a prop with Pure Render', () => {
+      const { pureRender } = configuration
+      configuration.pureRender = true
+      const spy = jest.fn()
+
+      /* eslint-disable */
+      class SubApp extends Component {
+        componentWillUnmount() {
+          spy('SubApp1')
+        }
+
+        render = function() {
+          return <span>works</span>
+        }
+      }
+
+      class App extends Component {
+        componentWillUnmount() {
+          spy('App1')
+        }
+
+        __reactstandin__regenerateByEval(key, code) {
+          this[key] = eval(code)
+        }
+
+        render() {
+          return (
+            <span>
+              <SubApp /> before
+            </span>
+          )
+        }
+      }
+
+      /* eslint-enable */
+
+      const Indirect = ({ App }) => (
+        <AppContainer>
+          <App />
+        </AppContainer>
+      )
+      configureComponent(Indirect, { allowSFC: false })
+
+      const wrapper = mount(<Indirect App={App} />)
+      expect(wrapper.text()).toBe('works before')
+      expect(<App />.type.prototype.render).toBe(App.prototype.render)
+      const originalRender = App.prototype.render
+
+      {
+        /* eslint-disable */
+        class SubApp extends Component {
+          componentWillUnmount() {
+            spy('SubApp2')
+          }
+
+          render = function() {
+            return <span>works</span>
+          }
+        }
+
+        SubApp.displayName = 'SubApp'
+
+        class App extends Component {
+          componentWillUnmount() {
+            spy('App2')
+          }
+
+          __reactstandin__regenerateByEval(key, code) {
+            this[key] = eval(code)
+          }
+
+          render() {
+            return (
+              <span>
+                <SubApp /> after
+              </span>
+            )
+          }
+        }
+
+        App.displayName = 'App'
+        /* eslint-enable */
+
+        incrementGeneration()
+        wrapper.setProps({ App })
+      }
+
+      expect(wrapper.text()).toBe('works after')
+      expect(spy).not.toHaveBeenCalled()
+      // render on App is changed by merge process. Compare with stored value
+      expect(<App />.type.prototype.render).not.toBe(originalRender)
+
+      configuration.pureRender = pureRender
     })
 
     it('replaces children class methods', () => {
@@ -1945,7 +2043,9 @@ describe(`AppContainer (dev)`, () => {
         wrapper.setProps({ children: <Enhanced n={3} /> })
       }
 
-      expect(spy).toHaveBeenCalledTimes(1 + 2)
+      if (React.memo) {
+        expect(spy).toHaveBeenCalledTimes(1 + 2)
+      }
       expect(wrapper.contains(<div>ho</div>)).toBe(true)
     })
 

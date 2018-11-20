@@ -139,7 +139,11 @@ describe('reconciler', () => {
       expect(second.willUpdate.mock.calls[1]).toEqual([
         { children: '42', newProp: true, keyId: '2' },
         null,
-        { children: '42', keyId: '1' },
+        {
+          children: '42',
+          keyId: '1',
+          ...(React.memo ? { cacheBusterProp: true } : {}),
+        },
         null,
       ])
 

@@ -1,6 +1,10 @@
-import { blacklistByType, getProxyByType } from './reconciler/proxies'
-import { hotComponentCompare } from './reconciler/hotReplacementRender'
+import {
+  blacklistByType,
+  getProxyByType,
+  setComponentOptions,
+} from './reconciler/proxies'
 import configuration from './configuration'
+import { hotComponentCompare } from './reactHotLoader'
 
 const getProxyOrType = type => {
   const proxy = getProxyByType(type)
@@ -17,5 +21,8 @@ export const cold = type => {
   blacklistByType(type)
   return type
 }
+
+export const configureComponent = (component, options) =>
+  setComponentOptions(component, options)
 
 export const setConfig = config => Object.assign(configuration, config)

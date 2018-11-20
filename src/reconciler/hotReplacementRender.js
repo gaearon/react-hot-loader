@@ -1,8 +1,5 @@
-import levenshtein from 'fast-levenshtein'
 import { PROXY_IS_MOUNTED, PROXY_KEY, UNWRAP_PROXY } from '../proxy'
 import {
-  getIdByType,
-  getProxyByType,
   isRegisteredComponent,
   isTypeBlacklisted,
   updateProxyById,
@@ -14,7 +11,6 @@ import {
   isContextConsumer,
   isContextProvider,
   getContextProvider,
-  isReactClass,
   isReactClassInstance,
   CONTEXT_CURRENT_VALUE,
   isMemoType,
@@ -23,12 +19,8 @@ import {
 } from '../internal/reactUtils'
 import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
-
-// some `empty` names, React can autoset display name to...
-const UNDEFINED_NAMES = {
-  Unknown: true,
-  Component: true,
-}
+import configuration from '../configuration'
+import { areSwappable } from './utils'
 
 let renderStack = []
 
@@ -40,19 +32,12 @@ const stackReport = () => {
 const emptyMap = new Map()
 const stackContext = () =>
   (renderStack[renderStack.length - 1] || {}).context || emptyMap
-const areNamesEqual = (a, b) =>
-  a === b || (UNDEFINED_NAMES[a] && UNDEFINED_NAMES[b])
+
 const shouldUseRenderMethod = fn =>
   fn && (isReactClassInstance(fn) || fn.SFC_fake)
 
-const isFunctional = fn => typeof fn === 'function'
-const isArray = fn => Array.isArray(fn)
-const asArray = a => (isArray(a) ? a : [a])
-const getTypeOf = type => {
-  if (isReactClass(type)) return 'ReactComponent'
-  if (isFunctional(type)) return 'StatelessFunctional'
-  return 'Fragment' // ?
-}
+const getElementType = child =>
+  child.type[UNWRAP_PROXY] ? child.type[UNWRAP_PROXY]() : child.type
 
 const filterNullArray = a => {
   if (!a) return []
@@ -69,73 +54,15 @@ const unflatten = a =>
     return acc
   }, [])
 
-const getElementType = child =>
-  child.type[UNWRAP_PROXY] ? child.type[UNWRAP_PROXY]() : child.type
-
-const haveTextSimilarity = (a, b) =>
-  // equal or slight changed
-  a === b || levenshtein.get(a, b) < a.length * 0.2
-
-const equalClasses = (a, b) => {
-  const prototypeA = a.prototype
-  const prototypeB = Object.getPrototypeOf(b.prototype)
-
-  let hits = 0
-  let misses = 0
-  let comparisons = 0
-  Object.getOwnPropertyNames(prototypeA).forEach(key => {
-    const descriptorA = Object.getOwnPropertyDescriptor(prototypeA, key)
-    const valueA =
-      descriptorA && (descriptorA.value || descriptorA.get || descriptorA.set)
-    const descriptorB = Object.getOwnPropertyDescriptor(prototypeB, key)
-    const valueB =
-      descriptorB && (descriptorB.value || descriptorB.get || descriptorB.set)
-
-    if (typeof valueA === 'function' && key !== 'constructor') {
-      comparisons++
-      if (haveTextSimilarity(String(valueA), String(valueB))) {
-        hits++
-      } else {
-        misses++
-        if (key === 'render') {
-          misses++
-        }
-      }
-    }
-  })
-  // allow to add or remove one function
-  return (hits > 0 && misses <= 1) || comparisons === 0
-}
-
-export const areSwappable = (a, b) => {
-  // both are registered components and have the same name
-  if (getIdByType(b) && getIdByType(a) === getIdByType(b)) {
-    return true
-  }
-  if (getTypeOf(a) !== getTypeOf(b)) {
-    return false
-  }
-  if (isReactClass(a)) {
-    return (
-      areNamesEqual(getComponentDisplayName(a), getComponentDisplayName(b)) &&
-      equalClasses(a, b)
-    )
-  }
-
-  if (isFunctional(a)) {
-    const nameA = getComponentDisplayName(a)
-    return (
-      (areNamesEqual(nameA, getComponentDisplayName(b)) &&
-        nameA !== 'Component') ||
-      haveTextSimilarity(String(a), String(b))
-    )
-  }
-  return false
-}
+const isArray = fn => Array.isArray(fn)
+const asArray = a => (isArray(a) ? a : [a])
 
 const render = component => {
   if (!component) {
     return []
+  }
+  if (component.hotComponentUpdate) {
+    component.hotComponentUpdate()
   }
   if (shouldUseRenderMethod(component)) {
     // not calling real render method to prevent call recursion.
@@ -346,7 +273,9 @@ const hotReplacementRender = (instance, stack) => {
 
       if (isMemoType(child) || isLazyType(child)) {
         // force update memo children
-        scheduleInstanceUpdate(stackChild.children[0].instance)
+        if (stackChild.children && stackChild.children[0]) {
+          scheduleInstanceUpdate(stackChild.children[0].instance)
+        }
       }
 
       if (isForwardType(child)) {
@@ -406,22 +335,14 @@ const hotReplacementRender = (instance, stack) => {
           // unwrap proxy
           const childType = getElementType(child)
           if (!stackChild.type[PROXY_KEY]) {
-            if (isTypeBlacklisted(stackChild.type)) {
-              logger.warn(
-                'React-hot-loader: cold element got updated ',
-                stackChild.type,
-              )
-              return
+            if (!reactHotLoader.IS_REACT_MERGE_ENABLED) {
+              if (isTypeBlacklisted(stackChild.type)) {
+                logger.warn(
+                  'React-hot-loader: cold element got updated ',
+                  stackChild.type,
+                )
+              }
             }
-            /* eslint-disable no-console */
-            logger.error(
-              'React-hot-loader: fatal error caused by ',
-              stackChild.type,
-              ' - no instrumentation found. ',
-              'Please require react-hot-loader before React. More in troubleshooting.',
-            )
-            stackReport()
-            throw new Error('React-hot-loader: wrong configuration')
           }
 
           if (
@@ -465,22 +386,10 @@ const hotReplacementRender = (instance, stack) => {
   }
 }
 
-export const hotComponentCompare = (oldType, newType) => {
-  if (oldType === newType) {
-    return true
-  }
-
-  if (areSwappable(newType, oldType)) {
-    getProxyByType(newType[UNWRAP_PROXY]()).dereference()
-    updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
-    updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())
-    return true
-  }
-
-  return false
-}
-
 export default (instance, stack) => {
+  if (configuration.disableHotRenderer) {
+    return
+  }
   try {
     // disable reconciler to prevent upcoming components from proxying.
     reactHotLoader.disableProxyCreation = true

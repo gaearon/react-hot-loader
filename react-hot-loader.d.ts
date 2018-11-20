@@ -59,7 +59,7 @@ declare module 'react-hot-loader' {
      * Specify loglLevel, default to 'error', set it to false to disable logs.
      * Available levels: ['debug', 'log', 'warn', 'error']
      */
-    logLevel?: string
+    logLevel: string
 
     /**
      *
@@ -68,7 +68,7 @@ declare module 'react-hot-loader' {
      * @param {string} fileName - origin file
      * @return {any}
      */
-    onComponentRegister?: (
+    onComponentRegister: (
       type: any,
       uniqueLocalName: string,
       fileName: string,
@@ -79,11 +79,46 @@ declare module 'react-hot-loader' {
      * @param type {any} type being rendered. The first argument of React.createElement
      * @param displayName {string} type display name (if exists)
      */
-    onComponentCreate?: (type: any, displayName: string) => any
+    onComponentCreate: (type: any, displayName: string) => any
+
+    /**
+     *  Allows using SFC without changes. leading to some components not updated
+     */
+    pureSFC: boolean
+
+    /**
+     * keep render method unpatched, moving sideEffect to componentDidUpdate
+     */
+    pureRender: boolean
+
+    /**
+     * Allows SFC to be used, enables "intermediate" components used by Relay, should be disabled for Preact
+     */
+    allowSFC: boolean
+
+    /**
+     * Disable "hot-replacement-render"
+     */
+    disableHotRenderer: boolean
+
+    /**
+     * Disable "hot-replacement-render" when injection into react-dom are made
+     */
+    disableHotRendererWhenInjected: boolean
+
+    /**
+     * flag to completely disable RHL for SFC
+     */
+    ignoreSFC: boolean
+
+    /**
+     * flag to completely disable RHL for Components
+     */
+    ignoreComponents: boolean
   }
   /**
    * Confugures how React Hot Loader works
    * @param {Config} config
    */
-  export function setConfig(config: Config): void
+  export function setConfig(config: Partial<Config>): void
 }

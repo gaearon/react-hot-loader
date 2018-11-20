@@ -26,6 +26,25 @@ npm install react-hot-loader
 > of a dev dependency as it automatically ensures it is not executed in
 > production and the footprint is minimal.
 
+## 🔥 HOT-LABS 🔥
+
+Latest (4.4.2+, beta) version of React-Hot-Loader could be quite 🔥!
+
+> RHL will patch React, React-DOM and work with fiber dirrectly
+
+* [use webpack plugin](https://github.com/gaearon/react-hot-loader#webpack-plugin) to let RHL patch React-DOM for you.
+* [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig) to `ignoreSFC:true` (this will fix `hook`)
+* [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig)set configuration to `pureRender:true` (this will remove side effect from Classes)
+
+```js
+import { setConfig } from 'react-hot-loader'
+
+setConfig({
+  ignoreSFC: true, // RHL will be __complitely__ disabled for SFC
+  pureRender: true, // RHL will not change render method
+})
+```
+
 ## Getting started
 
 1.  Add `react-hot-loader/babel` to your `.babelrc`:
@@ -351,6 +370,9 @@ You may add one more babel-loader, with only one React-Hot-Loader plugin inside 
 
 ##### React-Hooks
 
+> 🔥 HOT-LABS 🔥: You dont need this if you are using beta version of RHL,
+> and `ignoreSFC` configuration is set.
+
 React-hot-loader does not support React 16.7 Hooks at all.
 You have to
 
@@ -447,11 +469,24 @@ Available options are:
 * `logLevel`: specify log level, default to `"error"`, available values are: `['debug', 'log', 'warn', 'error']`
 * `pureSFC`: enable Stateless Functional Component. If disabled they will be converted to React Components.
   Default value: false.
+* `ignoreSFC`: skip "patch" for SFC. "Hot loading" could still work, wit webpack-patch present
+* `pureRender`: do not amend `render` method of any component.
+* for the rest see [react-hot-loader.d.ts](https://github.com/gaearon/react-hot-loader/blob/master/react-hot-loader.d.ts#L57).
 
 ```js
+// rhlConfig.js
 import { setConfig } from 'react-hot-loader'
 
 setConfig({ logLevel: 'debug' })
+```
+
+**It is important** to set configuration before any other action will take a place
+
+```js
+// index.js
+import './rhlConfig' // <-- extract configuration to a separate file, and import it in the beggining
+import React from 'react'
+....
 ```
 
 ## Migrating from v3

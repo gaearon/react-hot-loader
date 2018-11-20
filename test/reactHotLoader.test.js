@@ -22,6 +22,7 @@ describe('reactHotLoader', () => {
     beforeEach(() => {
       OriginalReactMock = {
         createElement: jest.fn(),
+        cloneElement: jest.fn(),
         createFactory: jest.fn(),
         Children: {
           only: jest.fn(x => x),
@@ -33,6 +34,7 @@ describe('reactHotLoader', () => {
     it('should patch all methods', () => {
       reactHotLoader.patch(ReactMock)
       expect(ReactMock.createElement.isPatchedByReactHotLoader).toBe(true)
+      expect(ReactMock.cloneElement.isPatchedByReactHotLoader).toBe(true)
       expect(ReactMock.createFactory.isPatchedByReactHotLoader).toBe(true)
       expect(ReactMock.Children.only.isPatchedByReactHotLoader).toBe(true)
     })
