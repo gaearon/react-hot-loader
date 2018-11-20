@@ -80,6 +80,18 @@ declare module 'react-hot-loader' {
      * @param displayName {string} type display name (if exists)
      */
     onComponentCreate?: (type: any, displayName: string) => any
+    
+    /**
+     * Allows using SFC without changes
+     * Use it with React Hooks api
+    */
+    PureSFC?: boolean
+
+    /**
+     * Allows SFC to be used, enables "intermediate" components used by Relay
+     * Should be disabled for Preact
+     */
+    allowSFC?: boolean
   }
   /**
    * Confugures how React Hot Loader works
