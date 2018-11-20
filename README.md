@@ -28,13 +28,13 @@ npm install react-hot-loader
 
 ## 🔥 HOT-LABS 🔥
 
-Latest (4.4.2+, beta) version of React-Hot-Loader could be quite 🔥!
+Latest (4.5.0+, beta) version of React-Hot-Loader could be quite 🔥!
 
-> RHL will patch React, React-DOM and work with fiber dirrectly
+> RHL will patch React, React-DOM and work with fiber directly
 
-* [use webpack plugin](https://github.com/gaearon/react-hot-loader#webpack-plugin) to let RHL patch React-DOM for you.
-* [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig) to `ignoreSFC:true` (this will fix `hook`)
-* [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig)set configuration to `pureRender:true` (this will remove side effect from Classes)
+* (required) [use webpack plugin](https://github.com/gaearon/react-hot-loader#webpack-plugin) to let RHL patch React-DOM for you.
+* (optional) [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig) to `ignoreSFC:true` (this will fix `hook`)
+* (optional) [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig)set configuration to `pureRender:true` (this will remove side effect from Classes)
 
 ```js
 import { setConfig } from 'react-hot-loader'
