@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.5.0"></a>
+# [4.5.0](https://github.com/gaearon/react-hot-loader/compare/v4.4.0...v4.5.0) (2018-11-20)
+
+
+### Bug Fixes
+
+* handle older React versions ([a03c1c3](https://github.com/gaearon/react-hot-loader/commit/a03c1c3))
+* hot-render forwardRef ([5f362ad](https://github.com/gaearon/react-hot-loader/commit/5f362ad))
+* IE11 compact, [#1099](https://github.com/gaearon/react-hot-loader/issues/1099) ([f8ef550](https://github.com/gaearon/react-hot-loader/commit/f8ef550))
+
+
+### Features
+
+* webpack patch/inject mode ([42d637b](https://github.com/gaearon/react-hot-loader/commit/42d637b))
+
+
+
 <a name="4.4.0-1"></a>
 ## 4.4.0-1 (2018-11-01)
 ### Bug Fixes
