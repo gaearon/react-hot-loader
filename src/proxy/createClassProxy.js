@@ -50,7 +50,7 @@ const filteredPrototypeMethods = Proto =>
     return (
       descriptor &&
       prop.indexOf(PREFIX) !== 0 &&
-      !blackListedClassMembers.includes(prop) &&
+      blackListedClassMembers.indexOf(prop) < 0 &&
       typeof descriptor.value === 'function'
     )
   })
@@ -181,15 +181,6 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
       instancesCount++
     },
   )
-  // eslint-disable-next-line camelcase
-  const UNSAFE_componentWillUpdate = lifeCycleWrapperFactory(
-    'UNSAFE_componentWillUpdate',
-    () => ({}),
-  )
-  const componentWillUpdate = lifeCycleWrapperFactory(
-    'componentWillUpdate',
-    () => ({}),
-  )
   const componentDidUpdate = lifeCycleWrapperFactory(
     'componentDidUpdate',
     renderOptions.componentDidUpdate,
@@ -226,6 +217,11 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     return renderOptions.componentDidRender.call(this, result)
   }
 
+  function hotComponentUpdate() {
+    renderOptions.componentWillRender(this)
+    proxiedUpdate.call(this)
+  }
+
   function proxiedRender(...args) {
     renderOptions.componentWillRender(this)
     return hotComponentRender.call(this, ...args)
@@ -235,12 +231,9 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     defineClassMembers(Proxy, {
       ...fakeBasePrototype(Base),
       // eslint-disable-next-line no-nested-ternary
-      ...(proxyConfig.pureRender
-        ? { render: proxiedRender }
-        : Base.componentWillUpdate
-          ? { componentWillUpdate }
-          : { UNSAFE_componentWillUpdate }),
+      ...(proxyConfig.pureRender ? {} : { render: proxiedRender }),
       hotComponentRender,
+      hotComponentUpdate,
       componentDidMount,
       componentDidUpdate,
       componentWillUnmount,
@@ -259,6 +252,7 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
 
     ProxyFacade = ProxyComponent
   } else if (!proxyConfig.allowSFC) {
+    proxyConfig.pureRender = false
     // SFC Converted to component. Does not support returning precreated instances from render.
     ProxyComponent = proxyClassCreator(Component, postConstructionAction)
 
@@ -274,17 +268,9 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     ProxyFacade = function(props, context) {
       const result = CurrentComponent(props, context)
 
-      // simple SFC, could continue to be SFC
-      if (proxyConfig.pureSFC) {
-        if (!CurrentComponent.contextTypes) {
-          if (!ProxyFacade.isStatelessFunctionalProxy) {
-            setSFPFlag(ProxyFacade, true)
-          }
-
-          return renderOptions.componentDidRender(result)
-        }
+      if (!result) {
+        return result
       }
-      setSFPFlag(ProxyFacade, false)
 
       // This is a Relay-style container constructor. We can't do the prototype-
       // style wrapping for this as we do elsewhere, so just we just pass it
@@ -303,6 +289,19 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
 
         return result
       }
+
+      // simple SFC, could continue to be SFC
+      if (proxyConfig.pureSFC) {
+        if (!CurrentComponent.contextTypes) {
+          if (!ProxyFacade.isStatelessFunctionalProxy) {
+            setSFPFlag(ProxyFacade, true)
+          }
+
+          return renderOptions.componentDidRender(result)
+        }
+      }
+      setSFPFlag(ProxyFacade, false)
+      proxyConfig.pureRender = false
 
       // Otherwise, it's a normal functional component. Build the real proxy
       // and use it going forward.
