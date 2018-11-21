@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.5.1"></a>
+## [4.5.1](https://github.com/gaearon/react-hot-loader/compare/v4.5.0...v4.5.1) (2018-11-21)
+
+
+### Bug Fixes
+
+* add lodash.merge as dep ([1de55d6](https://github.com/gaearon/react-hot-loader/commit/1de55d6))
+
+
+
 <a name="4.5.0"></a>
 # [4.5.0](https://github.com/gaearon/react-hot-loader/compare/v4.4.0...v4.5.0) (2018-11-20)
 
