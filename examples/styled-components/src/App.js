@@ -35,6 +35,16 @@ const aNumber = 100500
 
 const OtherComponent = () => <span>test</span>
 
+const Hook = () => {
+  const [state] = React.useState({ x: 2 })
+  return (
+    <div>
+      hook state: {state.x}
+      <Counter />
+    </div>
+  )
+}
+
 const Memo = React.memo(() => (
   <div>
     [mem <OtherComponent />
@@ -47,6 +57,7 @@ const InApp = () => (
     <BigText>
       1. Hello, world! {aNumber} <Counter />
     </BigText>
+    <Hook />
     <br />
     <SmallText>
       2.Hello, world <Counter />.

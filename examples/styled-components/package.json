@@ -19,10 +19,10 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "emotion": "^8.0.12",
-    "react": "^16.6.1",
-    "react-dom": "^16.6.1",
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2",
     "react-emotion": "^9.2.12",
-    "react-hot-loader": "^4.3.12",
+    "react-hot-loader": "^4.5.0",
     "styled-components": "^4.0.3"
   }
 }
