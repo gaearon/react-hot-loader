@@ -221,7 +221,7 @@ Using React Hot Loader with React Native can cause unexpected issues (see #824) 
 ## Webpack plugin
 
 We recommend to use `babel` plugin, but there are situations when you are unable to use it.
-Then - try webpack loader (as seen in v3), but remeber - it is **not compatible** with class-based components, but
+Then - try webpack loader (as seen in v3), but remember - it is **not compatible** with class-based components, but
 help with TypeScript or spreading "cold API" [to all node_modules](https://github.com/gaearon/react-hot-loader#disabling-a-type-change-for-all-node_modules).
 
 > It is safe to enable this loader for all the files. But place it after babel-loader, if babel-loader is present.
