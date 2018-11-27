@@ -1,8 +1,11 @@
+import path from 'path'
 import { REGENERATE_METHOD } from './internal/constants'
 
 const templateOptions = {
   placeholderPattern: /^([A-Z0-9]+)([A-Z0-9_]+)$/,
 }
+
+const getPackageAbsolutePath = () => path.resolve(`${__dirname}/..`)
 
 /* eslint-disable */
 const shouldIgnoreFile = file =>
@@ -27,13 +30,15 @@ module.exports = function plugin(args) {
   }
   const { types: t, template } = args
 
+  const packageAbsolutePath = module.exports.getPackageAbsolutePath()
+
   const buildRegistration = template(
     'reactHotLoader.register(ID, NAME, FILENAME);',
     templateOptions,
   )
   const headerTemplate = template(
     `(function () {
-       var enterModule = require('react-hot-loader').enterModule;
+       var enterModule = require('${packageAbsolutePath}').enterModule;
        enterModule && enterModule(module);
      }())`,
     templateOptions,
@@ -45,8 +50,8 @@ module.exports = function plugin(args) {
   const buildTagger = template(
     `
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = require('${packageAbsolutePath}').default;
+  var leaveModule = require('${packageAbsolutePath}').leaveModule;
 
   if (!reactHotLoader) {
     return;
@@ -208,3 +213,4 @@ module.exports = function plugin(args) {
 }
 
 module.exports.shouldIgnoreFile = shouldIgnoreFile
+module.exports.getPackageAbsolutePath = getPackageAbsolutePath

@@ -20,6 +20,13 @@ function addRHLPlugin(babel, prod = false) {
   return babel
 }
 
+const getPackageAbsolutePathSpy = jest.spyOn(plugin, 'getPackageAbsolutePath')
+getPackageAbsolutePathSpy.mockReturnValue('react-hot-loader')
+
+afterAll(() => {
+  getPackageAbsolutePathSpy.mockRestore()
+})
+
 describe('babel', () => {
   TARGETS.forEach(target => {
     describe(`Targetting "${target}"`, () => {
