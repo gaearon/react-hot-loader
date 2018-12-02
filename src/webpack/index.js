@@ -10,8 +10,10 @@ const patch = require('./patch');
 let tagCommonJSExportsSource = null;
 
 function transform(source, map) {
+  const callback = this.async();
+
   if (process.env.NODE_ENV === 'production') {
-    return this.callback(null, source, map);
+    return callback(null, source, map);
   }
   if (source && source.types && source.types.IfStatement) {
     throw new Error(
@@ -34,7 +36,7 @@ function transform(source, map) {
     source = patch(source);
   }
   if (source.indexOf('reactHotLoader.register') > 0) {
-    return this.callback(null, source, map);
+    return callback(null, source, map);
   }
   // This is a Webpack loader, but the user put it in the Babel config.
 
@@ -62,7 +64,7 @@ function transform(source, map) {
   );
 
   if (this.sourceMap === false) {
-    return this.callback(null, [
+    return callback(null, [
       source,
       appendText,
     ].join(separator));
@@ -71,13 +73,15 @@ function transform(source, map) {
   if (!map) {
     map = makeIdentitySourceMap(source, this.resourcePath); // eslint-disable-line no-param-reassign
   }
-  const node = new SourceNode(null, null, null, [
-    SourceNode.fromStringWithSourceMap(source, new SourceMapConsumer(map)),
-    new SourceNode(null, null, this.resourcePath, appendText),
-  ]).join(separator);
-
-  const result = node.toStringWithSourceMap();
-  return this.callback(null, result.code, result.map.toString());
+  const sourceMapConsumer = new SourceMapConsumer(map);
+  sourceMapConsumer.then(consumedMap => {
+    const node = new SourceNode(null, null, null, [
+      SourceNode.fromStringWithSourceMap(source, consumedMap),
+      new SourceNode(null, null, this.resourcePath, appendText),
+    ]).join(separator);
+    const result = node.toStringWithSourceMap();
+    callback(null, result.code, result.map.toString());
+  })
 }
 
 module.exports = transform;
