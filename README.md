@@ -34,13 +34,13 @@ Latest (4.5.0+, beta) version of React-Hot-Loader could be quite 🔥!
 
 * (required) [use webpack plugin](https://github.com/gaearon/react-hot-loader#webpack-plugin) to let RHL patch React-DOM for you.
 * (optional) [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig) to `ignoreSFC:true` (this will fix `hook`)
-* (optional) [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig)set configuration to `pureRender:true` (this will remove side effect from Classes)
+* (optional) [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig) set configuration to `pureRender:true` (this will remove side effect from Classes)
 
 ```js
 import { setConfig } from 'react-hot-loader'
 
 setConfig({
-  ignoreSFC: true, // RHL will be __complitely__ disabled for SFC
+  ignoreSFC: true, // RHL will be __completely__ disabled for SFC
   pureRender: true, // RHL will not change render method
 })
 ```
