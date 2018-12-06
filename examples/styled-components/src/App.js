@@ -47,7 +47,7 @@ const Hook = () => {
 
 const Memo = React.memo(() => (
   <div>
-    [mem <OtherComponent />
+    [mem 2<OtherComponent />
     <Counter /> memo]
   </div>
 ))
@@ -57,10 +57,11 @@ const InApp = () => (
     <BigText>
       1. Hello, world! {aNumber} <Counter />
     </BigText>
+    hook:
     <Hook />
     <br />
     <SmallText>
-      2.Hello, world <Counter />.
+      2.Hello, world! <Counter />.
     </SmallText>
     <br />
     <Counter />
