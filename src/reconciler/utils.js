@@ -76,9 +76,8 @@ export const areSwappable = (a, b) => {
   if (isFunctional(a)) {
     const nameA = getComponentDisplayName(a)
     return (
-      (areNamesEqual(nameA, getComponentDisplayName(b)) &&
-        nameA !== 'Component') ||
-      haveTextSimilarity(String(a), String(b))
+      areNamesEqual(nameA, getComponentDisplayName(b)) ||
+      (nameA !== 'Component' && haveTextSimilarity(String(a), String(b)))
     )
   }
   return false
