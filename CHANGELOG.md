@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.5.2"></a>
+## [4.5.2](https://github.com/gaearon/react-hot-loader/compare/v4.5.1...v4.5.2) (2018-12-06)
+
+
+### Bug Fixes
+
+* forwardRef to be remounted every frame. React-router to merge components ([3b11866](https://github.com/gaearon/react-hot-loader/commit/3b11866))
+* React-router to merge components ([f45fee0](https://github.com/gaearon/react-hot-loader/commit/f45fee0))
+* remove early reject, [#1115](https://github.com/gaearon/react-hot-loader/issues/1115) ([0a28144](https://github.com/gaearon/react-hot-loader/commit/0a28144))
+
+
+
 <a name="4.5.1"></a>
 ## [4.5.1](https://github.com/gaearon/react-hot-loader/compare/v4.5.0...v4.5.1) (2018-11-21)
 
