@@ -19,6 +19,7 @@ import {
   isTypeBlacklisted,
   registerComponent,
   updateFunctionProxyById,
+  isRegisteredComponent,
 } from './reconciler/proxies'
 import configuration from './configuration'
 import logger from './logger'
@@ -59,6 +60,17 @@ const updateForward = (target, { render }) => {
 }
 
 export const hotComponentCompare = (oldType, newType, setNewType) => {
+  if (oldType === newType) {
+    return true
+  }
+
+  if (
+    (isRegisteredComponent(oldType) || isRegisteredComponent(newType)) &&
+    resolveType(oldType) !== resolveType(newType)
+  ) {
+    return false
+  }
+
   if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
     if (areSwappable(oldType.render, newType.render)) {
       setNewType(newType)
@@ -73,10 +85,6 @@ export const hotComponentCompare = (oldType, newType, setNewType) => {
       return true
     }
     return false
-  }
-
-  if (oldType === newType) {
-    return true
   }
 
   if (areSwappable(newType, oldType)) {
@@ -142,14 +150,19 @@ const reactHotLoader = {
         // component got replaced. Need to reconcile
         incrementGeneration()
 
-        if (isTypeBlacklisted(type) || isTypeBlacklisted(proxy.getCurrent())) {
-          logger.error(
-            'React-hot-loader: Cold component',
-            uniqueLocalName,
-            'at',
-            fileName,
-            'has been updated',
-          )
+        if (!reactHotLoader.IS_REACT_MERGE_ENABLED) {
+          if (
+            isTypeBlacklisted(type) ||
+            isTypeBlacklisted(proxy.getCurrent())
+          ) {
+            logger.error(
+              'React-hot-loader: Cold component',
+              uniqueLocalName,
+              'at',
+              fileName,
+              'has been updated',
+            )
+          }
         }
       }
 
