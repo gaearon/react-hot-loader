@@ -6,6 +6,7 @@
     "start": "webpack-dev-server --hot"
   },
   "devDependencies": {
+    "@hot-loader/react-dom": "^16.7.0-alpha.2.1",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -23,7 +24,7 @@
     "react-async-component": "^2.0.0",
     "react-dom": "^16.4.1",
     "react-emotion": "^8.0.12",
-    "react-hot-loader": "^4.1.1",
+    "react-hot-loader": "^4.5.2",
     "react-imported-component": "^5.2.0",
     "react-loadable": "^5.5.0",
     "react-remock": "^0.2.1",
