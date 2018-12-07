@@ -69,32 +69,35 @@ export const hotComponentCompare = (oldType, newType, setNewType) => {
   if (oldType === newType) {
     return true
   }
+  let defaultResult = false
 
-  if (hotComparisonOpen()) {
-    if (
-      (isRegisteredComponent(oldType) || isRegisteredComponent(newType)) &&
-      resolveType(oldType) !== resolveType(newType)
-    ) {
+  if (isRegisteredComponent(oldType) || isRegisteredComponent(newType)) {
+    if (resolveType(oldType) !== resolveType(newType)) {
       return false
     }
+    defaultResult = true
+  }
 
-    if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
-      if (areSwappable(oldType.render, newType.render)) {
-        setNewType(newType)
-        return true
-      }
-      return false
+  const hotActive = hotComparisonOpen()
+
+  if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
+    if (areSwappable(oldType.render, newType.render)) {
+      hotActive && setNewType(newType)
+      return true
     }
+    return false
+  }
 
-    if (isMemoType({ type: oldType }) && isMemoType({ type: newType })) {
-      if (areSwappable(oldType.type, newType.type)) {
-        setNewType(newType.type)
-        return true
-      }
-      return false
+  if (isMemoType({ type: oldType }) && isMemoType({ type: newType })) {
+    if (areSwappable(oldType.type, newType.type)) {
+      hotActive && setNewType(newType.type)
+      return true
     }
+    return false
+  }
 
-    if (areSwappable(newType, oldType)) {
+  if (areSwappable(newType, oldType)) {
+    if (hotActive) {
       const unwrapFactory = newType[UNWRAP_PROXY]
       const oldProxy = unwrapFactory && getProxyByType(unwrapFactory())
       if (oldProxy) {
@@ -104,11 +107,11 @@ export const hotComponentCompare = (oldType, newType, setNewType) => {
       } else {
         setNewType(newType)
       }
-      return true
     }
+    return true
   }
 
-  return false
+  return defaultResult
 }
 
 const shouldNotPatchComponent = type => isTypeBlacklisted(type)
