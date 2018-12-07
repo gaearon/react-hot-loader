@@ -58,6 +58,7 @@ export const updateProxyById = (id, type, options = {}) => {
         options,
       ),
     )
+    registerComponent(proxiesByID[id].get())
   } else {
     proxiesByID[id].update(type)
   }

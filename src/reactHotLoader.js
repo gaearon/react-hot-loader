@@ -8,7 +8,11 @@ import {
   isMemoType,
   isForwardType,
 } from './internal/reactUtils'
-import { increment as incrementGeneration } from './global/generation'
+import {
+  increment as incrementGeneration,
+  hotComparisonOpen,
+  enterHotUpdate,
+} from './global/generation'
 import {
   updateProxyById,
   resetProxies,
@@ -41,6 +45,8 @@ const updateLazy = (target, type) => {
     target[lazyConstructor] = () =>
       ctor().then(m => {
         const C = resolveType(m.default)
+        // chunks has been updated - new hot loader process is taking a place
+        enterHotUpdate()
         return {
           default: props => (
             <AppContainer>
@@ -64,40 +70,42 @@ export const hotComponentCompare = (oldType, newType, setNewType) => {
     return true
   }
 
-  if (
-    (isRegisteredComponent(oldType) || isRegisteredComponent(newType)) &&
-    resolveType(oldType) !== resolveType(newType)
-  ) {
-    return false
-  }
+  if (hotComparisonOpen()) {
+    if (
+      (isRegisteredComponent(oldType) || isRegisteredComponent(newType)) &&
+      resolveType(oldType) !== resolveType(newType)
+    ) {
+      return false
+    }
 
-  if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
-    if (areSwappable(oldType.render, newType.render)) {
-      setNewType(newType)
+    if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
+      if (areSwappable(oldType.render, newType.render)) {
+        setNewType(newType)
+        return true
+      }
+      return false
+    }
+
+    if (isMemoType({ type: oldType }) && isMemoType({ type: newType })) {
+      if (areSwappable(oldType.type, newType.type)) {
+        setNewType(newType.type)
+        return true
+      }
+      return false
+    }
+
+    if (areSwappable(newType, oldType)) {
+      const unwrapFactory = newType[UNWRAP_PROXY]
+      const oldProxy = unwrapFactory && getProxyByType(unwrapFactory())
+      if (oldProxy) {
+        oldProxy.dereference()
+        updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
+        updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())
+      } else {
+        setNewType(newType)
+      }
       return true
     }
-    return false
-  }
-
-  if (isMemoType({ type: oldType }) && isMemoType({ type: newType })) {
-    if (areSwappable(oldType.type, newType.type)) {
-      setNewType(newType.type)
-      return true
-    }
-    return false
-  }
-
-  if (areSwappable(newType, oldType)) {
-    const unwrapFactory = newType[UNWRAP_PROXY]
-    const oldProxy = unwrapFactory && getProxyByType(unwrapFactory())
-    if (oldProxy) {
-      oldProxy.dereference()
-      updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
-      updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())
-    } else {
-      setNewType(newType)
-    }
-    return true
   }
 
   return false

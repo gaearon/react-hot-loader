@@ -1,5 +1,5 @@
 import reactHotLoader from '../reactHotLoader'
-import { get as getGeneration } from '../global/generation'
+import { enterHotUpdate, get as getGeneration } from '../global/generation'
 import { getProxyByType, setStandInOptions } from './proxies'
 import reconcileHotReplacement, {
   flushScheduledUpdates,
@@ -20,6 +20,7 @@ export const renderReconciler = (target, force) => {
       (componentGeneration || force) &&
       componentGeneration !== currentGeneration
     ) {
+      enterHotUpdate()
       reconcileHotReplacement(target)
       return true
     }
