@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.5.3"></a>
+## [4.5.3](https://github.com/gaearon/react-hot-loader/compare/v4.5.2...v4.5.3) (2018-12-07)
+
+
+### Bug Fixes
+
+* enable class equality, but disable class merge, when not hot ([8d214b3](https://github.com/gaearon/react-hot-loader/commit/8d214b3))
+* react-dom hot-replacement is too active ([8827a40](https://github.com/gaearon/react-hot-loader/commit/8827a40))
+
+
+
 <a name="4.5.2"></a>
 ## [4.5.2](https://github.com/gaearon/react-hot-loader/compare/v4.5.1...v4.5.2) (2018-12-06)
 
