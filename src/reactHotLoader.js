@@ -66,10 +66,7 @@ const updateForward = (target, { render }) => {
 }
 
 export const hotComponentCompare = (oldType, newType, setNewType) => {
-  if (oldType === newType) {
-    return true
-  }
-  let defaultResult = false
+  let defaultResult = oldType === newType
 
   if (isRegisteredComponent(oldType) || isRegisteredComponent(newType)) {
     if (resolveType(oldType) !== resolveType(newType)) {
@@ -81,22 +78,32 @@ export const hotComponentCompare = (oldType, newType, setNewType) => {
   const hotActive = hotComparisonOpen()
 
   if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
-    if (areSwappable(oldType.render, newType.render)) {
-      hotActive && setNewType(newType)
+    if (
+      oldType.render === newType.render ||
+      areSwappable(oldType.render, newType.render)
+    ) {
+      if (hotActive) {
+        setNewType(newType)
+      }
       return true
     }
-    return false
+    return defaultResult
   }
 
   if (isMemoType({ type: oldType }) && isMemoType({ type: newType })) {
-    if (areSwappable(oldType.type, newType.type)) {
-      hotActive && setNewType(newType.type)
+    if (
+      oldType.type === newType.type ||
+      areSwappable(oldType.type, newType.type)
+    ) {
+      if (hotActive) {
+        setNewType(newType.type)
+      }
       return true
     }
-    return false
+    return defaultResult
   }
 
-  if (areSwappable(newType, oldType)) {
+  if (newType !== oldType && areSwappable(newType, oldType)) {
     if (hotActive) {
       const unwrapFactory = newType[UNWRAP_PROXY]
       const oldProxy = unwrapFactory && getProxyByType(unwrapFactory())
@@ -184,7 +191,7 @@ const reactHotLoader = {
         configuration.onComponentCreate(type, getComponentDisplayName(type))
       }
 
-      updateProxyById(id, type, options)
+      registerComponent(updateProxyById(id, type, options).get(), 2)
       registerComponent(type)
     }
     if (isLazyType({ type })) {
