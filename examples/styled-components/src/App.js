@@ -47,7 +47,7 @@ const Hook = () => {
 
 const Memo = React.memo(() => (
   <div>
-    [mem 2<OtherComponent />
+    [mem <OtherComponent />
     <Counter /> memo]
   </div>
 ))
