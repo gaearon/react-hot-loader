@@ -80,7 +80,7 @@ function transform(source, map) {
       new SourceNode(null, null, this.resourcePath, appendText),
     ]).join(separator);
     const result = node.toStringWithSourceMap();
-    callback(null, result.code, result.map.toString());
+    callback(null, result.code, result.map.toJSON() || undefined);
   })
 }
 
