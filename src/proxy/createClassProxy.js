@@ -268,10 +268,6 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     ProxyFacade = function(props, context) {
       const result = CurrentComponent(props, context)
 
-      if (!result) {
-        return result
-      }
-
       // This is a Relay-style container constructor. We can't do the prototype-
       // style wrapping for this as we do elsewhere, so just we just pass it
       // through as-is.

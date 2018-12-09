@@ -1,5 +1,8 @@
 import React from 'react'
 
+const ComponentA = () => <div>A</div>
+const ComponentB = () => <div>B</div>
+
 class Counter extends React.Component {
   state = { count: 0 }
 
@@ -10,7 +13,7 @@ class Counter extends React.Component {
     // return;
     this.interval = setInterval(
       () => this.setState(prevState => ({ count: prevState.count + 1 })),
-      200,
+      2000,
     )
   }
 
@@ -26,6 +29,8 @@ class Counter extends React.Component {
           React.cloneElement(this.props.children, {
             counter: this.state.count,
           })}
+        {this.state.count % 2 ? 'a' : 'b'}
+        {this.state.count % 2 ? <ComponentA /> : <ComponentB />}
       </div>
     )
   }

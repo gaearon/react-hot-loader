@@ -5,9 +5,9 @@ class Counter extends React.Component {
   state = { count: 0 }
 
   componentDidMount() {
-    //
+    //return;
     this.interval = setInterval(
-      () => this.setState(prevState => ({ count: prevState.count + 1 })),
+      () => this.setState(prevState => ({ count: prevState.count + 2 })),
       200,
     )
   }
@@ -17,12 +17,7 @@ class Counter extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        1#{this.state.count}
-        <span>5</span>
-      </div>
-    )
+    return <div>2#{this.state.count}</div>
   }
 }
 

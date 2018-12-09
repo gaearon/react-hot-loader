@@ -1,7 +1,8 @@
 import { setConfig } from 'react-hot-loader'
+import ReactDOM from 'react-dom'
 
 setConfig({
-  logLevel: 'debug',
-  ignoreSFC: true,
+  ignoreSFC: !!ReactDOM.setHotElementComparator,
+  pureSFC: true,
   pureRender: true,
 })

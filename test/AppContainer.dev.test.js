@@ -818,6 +818,7 @@ describe(`AppContainer (dev)`, () => {
 
       class MountSpy extends PureComponent {
         static displayName = 'MountSpy'
+
         componentWillUnmount() {
           spy()
         }
@@ -826,6 +827,7 @@ describe(`AppContainer (dev)`, () => {
           return <span>I am old</span>
         }
       }
+
       const FRW = React.forwardRef(() => (
         <span>
           <MountSpy />
@@ -851,6 +853,7 @@ describe(`AppContainer (dev)`, () => {
       {
         class MountSpy extends PureComponent {
           static displayName = 'MountSpy'
+
           componentWillUnmount() {
             spy()
           }
@@ -859,6 +862,7 @@ describe(`AppContainer (dev)`, () => {
             return <span>I am new</span>
           }
         }
+
         const FRW = React.forwardRef(() => (
           <span>
             <MountSpy />
@@ -882,6 +886,7 @@ describe(`AppContainer (dev)`, () => {
 
       class MountSpy extends PureComponent {
         static displayName = 'MountSpy'
+
         componentWillUnmount() {
           spy()
         }
@@ -921,6 +926,7 @@ describe(`AppContainer (dev)`, () => {
       {
         class MountSpy extends PureComponent {
           static displayName = 'MountSpy'
+
           componentWillUnmount() {
             spy()
           }
@@ -1651,19 +1657,25 @@ describe(`AppContainer (dev)`, () => {
     }
 
     let child = 1
-    const childA = () => (
-      <div>
-        a <MountSpy />
-      </div>
-    )
-    const childB = () => (
-      <div>
-        b <MountSpy />
-      </div>
-    )
+    const childs = [
+      function Child() {
+        return (
+          <div>
+            a <MountSpy />
+          </div>
+        )
+      },
+      function Child() {
+        return (
+          <div>
+            b <MountSpy />
+          </div>
+        )
+      },
+    ]
 
     function getChild() {
-      return child === 1 ? childA : childB
+      return child === 1 ? childs[0] : childs[1]
     }
 
     class Layout extends Component {

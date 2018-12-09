@@ -8,7 +8,11 @@ import {
   isMemoType,
   isForwardType,
 } from './internal/reactUtils'
-import { increment as incrementGeneration } from './global/generation'
+import {
+  increment as incrementGeneration,
+  hotComparisonOpen,
+  enterHotUpdate,
+} from './global/generation'
 import {
   updateProxyById,
   resetProxies,
@@ -19,6 +23,7 @@ import {
   isTypeBlacklisted,
   registerComponent,
   updateFunctionProxyById,
+  isRegisteredComponent,
 } from './reconciler/proxies'
 import configuration from './configuration'
 import logger from './logger'
@@ -40,6 +45,8 @@ const updateLazy = (target, type) => {
     target[lazyConstructor] = () =>
       ctor().then(m => {
         const C = resolveType(m.default)
+        // chunks has been updated - new hot loader process is taking a place
+        enterHotUpdate()
         return {
           default: props => (
             <AppContainer>
@@ -59,40 +66,59 @@ const updateForward = (target, { render }) => {
 }
 
 export const hotComponentCompare = (oldType, newType, setNewType) => {
+  let defaultResult = oldType === newType
+
+  if (isRegisteredComponent(oldType) || isRegisteredComponent(newType)) {
+    if (resolveType(oldType) !== resolveType(newType)) {
+      return false
+    }
+    defaultResult = true
+  }
+
+  const hotActive = hotComparisonOpen()
+
   if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
-    if (areSwappable(oldType.render, newType.render)) {
-      setNewType(newType)
+    if (
+      oldType.render === newType.render ||
+      areSwappable(oldType.render, newType.render)
+    ) {
+      if (hotActive) {
+        setNewType(newType)
+      }
       return true
     }
-    return false
+    return defaultResult
   }
 
   if (isMemoType({ type: oldType }) && isMemoType({ type: newType })) {
-    if (areSwappable(oldType.type, newType.type)) {
-      setNewType(newType.type)
+    if (
+      oldType.type === newType.type ||
+      areSwappable(oldType.type, newType.type)
+    ) {
+      if (hotActive) {
+        setNewType(newType.type)
+      }
       return true
     }
-    return false
+    return defaultResult
   }
 
-  if (oldType === newType) {
-    return true
-  }
-
-  if (areSwappable(newType, oldType)) {
-    const unwrapFactory = newType[UNWRAP_PROXY]
-    const oldProxy = unwrapFactory && getProxyByType(unwrapFactory())
-    if (oldProxy) {
-      oldProxy.dereference()
-      updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
-      updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())
-    } else {
-      setNewType(newType)
+  if (newType !== oldType && areSwappable(newType, oldType)) {
+    if (hotActive) {
+      const unwrapFactory = newType[UNWRAP_PROXY]
+      const oldProxy = unwrapFactory && getProxyByType(unwrapFactory())
+      if (oldProxy) {
+        oldProxy.dereference()
+        updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
+        updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())
+      } else {
+        setNewType(newType)
+      }
     }
     return true
   }
 
-  return false
+  return defaultResult
 }
 
 const shouldNotPatchComponent = type => isTypeBlacklisted(type)
@@ -142,14 +168,19 @@ const reactHotLoader = {
         // component got replaced. Need to reconcile
         incrementGeneration()
 
-        if (isTypeBlacklisted(type) || isTypeBlacklisted(proxy.getCurrent())) {
-          logger.error(
-            'React-hot-loader: Cold component',
-            uniqueLocalName,
-            'at',
-            fileName,
-            'has been updated',
-          )
+        if (!reactHotLoader.IS_REACT_MERGE_ENABLED) {
+          if (
+            isTypeBlacklisted(type) ||
+            isTypeBlacklisted(proxy.getCurrent())
+          ) {
+            logger.error(
+              'React-hot-loader: Cold component',
+              uniqueLocalName,
+              'at',
+              fileName,
+              'has been updated',
+            )
+          }
         }
       }
 
@@ -160,7 +191,7 @@ const reactHotLoader = {
         configuration.onComponentCreate(type, getComponentDisplayName(type))
       }
 
-      updateProxyById(id, type, options)
+      registerComponent(updateProxyById(id, type, options).get(), 2)
       registerComponent(type)
     }
     if (isLazyType({ type })) {
