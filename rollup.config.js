@@ -46,8 +46,7 @@ export default [
     'production'
   ),
 
-  getConfig('src/babel.dev.js', 'dist/babel.development.js', 'development'),
-  getConfig('src/babel.prod.js', 'dist/babel.production.min.js', 'production'),
+  getConfig('src/babel.js', 'dist/babel.js', 'production'),
 
   getConfig('src/webpack/index.js', 'dist/webpack.development.js', 'development'),
   getConfig('src/webpack/index.js', 'dist/webpack.production.min.js', 'production'),
