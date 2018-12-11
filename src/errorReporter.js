@@ -1,16 +1,11 @@
+/* global document */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/accessible-emoji */
+
 import React from 'react'
 import ReactDom from 'react-dom'
 
 let lastError = []
-export const clearExceptions = () => {
-  lastError = []
-  initErrorOverlay()
-}
-
-export const logException = (error, errorInfo) => {
-  lastError.push({ error, errorInfo })
-  initErrorOverlay()
-}
 
 const overlayStyle = {
   position: 'fixed',
@@ -40,7 +35,7 @@ const mapError = ({ error, errorInfo }) => (
         <ul style={{ color: 'red', marginTop: '10px' }}>
           {errorInfo.componentStack
             .split('\n')
-            .map((line, i) => <li key={i}>{line}</li>)}
+            .map((line, i) => <li key={String(i)}>{line}</li>)}
         </ul>
       </React.Fragment>
     )}
@@ -75,4 +70,14 @@ const initErrorOverlay = () => {
   } else {
     div.parentNode.removeChild(div)
   }
+}
+
+export const clearExceptions = () => {
+  lastError = []
+  initErrorOverlay()
+}
+
+export const logException = (error, errorInfo) => {
+  lastError.push({ error, errorInfo })
+  initErrorOverlay()
 }

@@ -6,7 +6,7 @@ import reactHotLoader from './reactHotLoader'
 import {
   isOpened as isModuleOpened,
   hotModule,
-  lastModuleOpened,
+  getLastModuleOpened,
 } from './global/modules'
 import logger from './logger'
 import { clearExceptions, logException } from './errorReporter'
@@ -18,11 +18,10 @@ const requireIndirect =
 
 const chargeFailbackTimer = id =>
   setTimeout(() => {
-    logger.error(
-      `hot update failed for module "${id}". Last file processed: "${lastModuleOpened}".`,
-    )
+    const error = `hot update failed for module "${id}". Last file processed: "${getLastModuleOpened}".`
+    logger.error(error)
     logException({
-      toString: () => `hot update failed for module "${id}"`,
+      toString: () => error,
     })
   }, 0)
 

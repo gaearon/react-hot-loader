@@ -227,6 +227,7 @@ const reactHotLoader = {
   },
 
   patch(React) {
+    /* eslint-disable no-console */
     if (ReactDOM.setHotElementComparator) {
       ReactDOM.setHotElementComparator(hotComponentCompare)
       configuration.disableHotRenderer =
@@ -241,6 +242,7 @@ const reactHotLoader = {
         'React-Hot-Loader: react-🔥-dom patch is not detected. React 16.6+ features may not work.',
       )
     }
+    /* eslint-enable */
     if (!React.createElement.isPatchedByReactHotLoader) {
       const originalCreateElement = React.createElement
       // Trick React into rendering a proxy so that

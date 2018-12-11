@@ -1,7 +1,8 @@
 import logger from '../logger'
 
 const openedModules = {}
-export let lastModuleOpened = ''
+let lastModuleOpened = ''
+export const getLastModuleOpened = () => lastModuleOpened
 
 const hotModules = {}
 
