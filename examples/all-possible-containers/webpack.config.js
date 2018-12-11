@@ -34,14 +34,14 @@ module.exports = {
   module: {
     strictExportPresence: true,
     rules: [
-      // {
-      //   test: /\.js$/,
-      //   use: ['jsx-compress-loader'],
-      // },
+      {
+        test: /\.js$/,
+        use: ['react-hot-loader/webpack'],
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['react-hot-loader/webpack', 'babel-loader'],
+        use: ['babel-loader'],
       },
     ],
   },
@@ -69,6 +69,9 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       react: path.resolve(path.join(__dirname, './node_modules/react')),
+      'react-dom': path.resolve(
+        path.join(__dirname, './node_modules/react-dom'),
+      ),
       'react-hot-loader': path.resolve(
         path.join(__dirname, './node_modules/react-hot-loader'),
       ),

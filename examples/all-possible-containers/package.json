@@ -19,8 +19,8 @@
     "start": "webpack-serve --port 8080 --host 0.0.0.0"
   },
   "dependencies": {
-    "react": "16.3.2",
-    "react-dom": "16.3.2"
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
