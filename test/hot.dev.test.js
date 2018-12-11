@@ -104,6 +104,7 @@ describe('hot (dev)', () => {
 
   it('should trigger error in unmount in opened state', () => {
     const sourceModule = { id: 'error42_unmount' }
+    logger.error.mockClear()
     enterModule(sourceModule)
     const Component = () => <div>123</div>
     const HotComponent = hot(sourceModule)(Component)

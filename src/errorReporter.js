@@ -25,21 +25,21 @@ const overlayStyle = {
 const listStyle = {}
 
 const mapError = ({ error, errorInfo }) => (
-  <React.Fragment>
+  <div>
     <p style={{ color: 'red' }}>
       {error.toString ? error.toString() : error.message || 'undefined error'}
     </p>
     {errorInfo && (
-      <React.Fragment>
+      <div>
         <div>Stacktrace:</div>
         <ul style={{ color: 'red', marginTop: '10px' }}>
           {errorInfo.componentStack
             .split('\n')
             .map((line, i) => <li key={String(i)}>{line}</li>)}
         </ul>
-      </React.Fragment>
+      </div>
     )}
-  </React.Fragment>
+  </div>
 )
 
 class ErrorOverlay extends React.Component {

@@ -19,8 +19,8 @@ export const isOpened = sourceModule =>
   sourceModule && !!openedModules[sourceModule.id]
 
 export const enter = sourceModule => {
-  lastModuleOpened = sourceModule.id
   if (sourceModule && sourceModule.id) {
+    lastModuleOpened = sourceModule.id
     openedModules[sourceModule.id] = true
   } else {
     logger.warn(
