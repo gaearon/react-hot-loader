@@ -51,7 +51,7 @@ class ErrorOverlay extends React.Component {
       <div style={overlayStyle}>
         <h2 style={{ margin: 0 }}>⚛️🔥: hot update was not successful</h2>
         <ul style={listStyle}>
-          {lastError.map(err => <li>{mapError(err)}</li>)}
+          {lastError.map((err, i) => <li key={i}>{mapError(err)}</li>)}
         </ul>
       </div>
     )

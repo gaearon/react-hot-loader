@@ -18,7 +18,7 @@ const requireIndirect =
 
 const chargeFailbackTimer = id =>
   setTimeout(() => {
-    const error = `hot update failed for module "${id}". Last file processed: "${getLastModuleOpened}".`
+    const error = `hot update failed for module "${id}". Last file processed: "${getLastModuleOpened()}".`
     logger.error(error)
     logException({
       toString: () => error,
@@ -36,14 +36,18 @@ const createHoc = (SourceComponent, TargetComponent) => {
 }
 
 const makeHotExport = sourceModule => {
-  const updateInstances = () => {
+  const updateInstances = possibleError => {
+    if (possibleError && possibleError instanceof Error) {
+      console.error(possibleError)
+      return
+    }
     const module = hotModule(sourceModule.id)
     clearTimeout(module.updateTimeout)
     module.updateTimeout = setTimeout(() => {
       try {
         requireIndirect(sourceModule.id)
       } catch (e) {
-        // just swallow
+        console.error(e)
       }
       module.instances.forEach(inst => inst.forceUpdate())
     })
