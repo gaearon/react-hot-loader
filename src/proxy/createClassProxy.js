@@ -16,6 +16,7 @@ import {
   isReactClass,
   isReactClassInstance,
 } from '../internal/reactUtils'
+import { getElementComparisonHook } from '../global/generation'
 
 const has = Object.prototype.hasOwnProperty
 
@@ -30,6 +31,7 @@ const blackListedClassMembers = [
   'render',
   'componentWillMount',
   'componentDidMount',
+  'componentDidCatch',
   'componentWillReceiveProps',
   'componentWillUnmount',
   'hotComponentRender',
@@ -101,6 +103,10 @@ const copyMethodDescriptors = (target, source) => {
 
   return target
 }
+
+const knownClassComponents = []
+
+export const forEachKnownClass = cb => knownClassComponents.forEach(cb)
 
 function createClassProxy(InitialComponent, proxyKey, options = {}) {
   const renderOptions = {
@@ -249,6 +255,8 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
 
     defineProxyMethods(ProxyComponent, InitialComponent.prototype)
+
+    knownClassComponents.push(ProxyComponent)
 
     ProxyFacade = ProxyComponent
   } else if (!proxyConfig.allowSFC) {
@@ -410,6 +418,7 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
         Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
         defineProxyMethods(ProxyComponent, NextComponent.prototype)
         if (proxyGeneration > 1) {
+          getElementComparisonHook()(ProxyComponent)
           injectedMembers = mergeComponents(
             ProxyComponent,
             NextComponent,

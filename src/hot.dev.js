@@ -88,7 +88,7 @@ const hot = sourceModule => {
 
   // TODO: Ensure that all exports from this file are react components.
 
-  return WrappedComponent => {
+  return (WrappedComponent, props) => {
     clearFailbackTimer(failbackTimer)
     // register proxy for wrapped component
     reactHotLoader.register(
@@ -119,7 +119,7 @@ const hot = sourceModule => {
 
         render() {
           return (
-            <AppContainer>
+            <AppContainer {...props}>
               <WrappedComponent {...this.props} />
             </AppContainer>
           )

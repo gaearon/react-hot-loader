@@ -18,18 +18,22 @@ const overlayStyle = {
 
   margin: 0,
   padding: '16px',
-  maxHeight: '100%',
+  maxHeight: '50%',
   overflow: 'auto',
 }
 
 const listStyle = {}
+
+export const EmptyErrorPlaceholder = () => (
+  <span style={{ backgroundColor: '#FEE' }}>⚛️🔥🤕</span>
+)
 
 const mapError = ({ error, errorInfo }) => (
   <div>
     <p style={{ color: 'red' }}>
       {error.toString ? error.toString() : error.message || 'undefined error'}
     </p>
-    {errorInfo && (
+    {errorInfo && errorInfo.componentStack ? (
       <div>
         <div>Stacktrace:</div>
         <ul style={{ color: 'red', marginTop: '10px' }}>
@@ -38,6 +42,17 @@ const mapError = ({ error, errorInfo }) => (
             .map((line, i) => <li key={String(i)}>{line}</li>)}
         </ul>
       </div>
+    ) : (
+      error.stack && (
+        <div>
+          <div>Stacktrace:</div>
+          <ul style={{ color: 'red', marginTop: '10px' }}>
+            {error.stack
+              .split('\n')
+              .map((line, i) => <li key={String(i)}>{line}</li>)}
+          </ul>
+        </div>
+      )
     )}
   </div>
 )
@@ -49,7 +64,7 @@ class ErrorOverlay extends React.Component {
     }
     return (
       <div style={overlayStyle}>
-        <h2 style={{ margin: 0 }}>⚛️🔥: hot update was not successful</h2>
+        <h2 style={{ margin: 0 }}>⚛️🔥😭: hot update was not successful</h2>
         <ul style={listStyle}>
           {lastError.map((err, i) => <li key={i}>{mapError(err)}</li>)}
         </ul>

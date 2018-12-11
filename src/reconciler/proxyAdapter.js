@@ -1,10 +1,18 @@
+import React from 'react'
 import reactHotLoader from '../reactHotLoader'
-import { enterHotUpdate, get as getGeneration } from '../global/generation'
+import {
+  enterHotUpdate,
+  get as getGeneration,
+  setComparisonHooks,
+} from '../global/generation'
 import { getProxyByType, setStandInOptions } from './proxies'
 import reconcileHotReplacement, {
   flushScheduledUpdates,
   unscheduleUpdate,
 } from './index'
+import configuration from '../configuration'
+import { forEachKnownClass } from '../proxy/createClassProxy'
+import { EmptyErrorPlaceholder, logException } from '../errorReporter'
 
 export const RENDERED_GENERATION = 'REACT_HOT_LOADER_RENDERED_GENERATION'
 
@@ -55,6 +63,86 @@ export function proxyWrapper(element) {
   }
   return element
 }
+
+const ERROR_STATE = 'react-hot-loader-catched-error'
+const OLD_RENDER = 'react-hot-loader-original-render'
+
+function componentDidCatch(error, errorInfo) {
+  this[ERROR_STATE] = {
+    error,
+    errorInfo,
+    generation: getGeneration(),
+  }
+  Object.getPrototypeOf(this)[ERROR_STATE] = this[ERROR_STATE]
+  if (!configuration.errorReporter) {
+    logException({
+      error,
+      errorInfo,
+    })
+  }
+  this.forceUpdate()
+}
+
+function componentRender() {
+  const { error, errorInfo, generation } = this[ERROR_STATE] || {}
+
+  if (error && generation === getGeneration()) {
+    return React.createElement(
+      configuration.errorReporter || EmptyErrorPlaceholder,
+      { error, errorInfo },
+    )
+  }
+  try {
+    return this[OLD_RENDER].render.call(this)
+  } catch (renderError) {
+    this[ERROR_STATE] = {
+      error: renderError,
+      generation: getGeneration(),
+    }
+    if (!configuration.errorReporter) {
+      logException(renderError)
+    }
+    return componentRender.call(this)
+  }
+}
+
+setComparisonHooks(
+  () => ({}),
+  ({ prototype }) => {
+    if (!prototype[OLD_RENDER]) {
+      const renderDescriptior = Object.getOwnPropertyDescriptor(
+        prototype,
+        'render',
+      )
+      prototype[OLD_RENDER] = {
+        descriptor: renderDescriptior ? renderDescriptior.value : undefined,
+        render: prototype.render,
+      }
+      prototype.componentDidCatch = componentDidCatch
+
+      prototype.render = componentRender
+    }
+  },
+  () =>
+    forEachKnownClass(({ prototype }) => {
+      if (prototype[OLD_RENDER]) {
+        const { generation } = prototype[ERROR_STATE] || {}
+
+        if (generation === getGeneration()) {
+          // still in error.
+          // keep render hooked
+        } else {
+          delete prototype.componentDidCatch
+          if (!prototype[OLD_RENDER].descriptor) {
+            delete prototype.render
+          } else {
+            prototype.render = prototype[OLD_RENDER].descriptor
+          }
+          delete prototype[OLD_RENDER]
+        }
+      }
+    }),
+)
 
 setStandInOptions({
   componentWillRender: asyncReconciledRender,

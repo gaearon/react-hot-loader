@@ -68,6 +68,10 @@ const updateForward = (target, { render }) => {
 export const hotComponentCompare = (oldType, newType, setNewType) => {
   let defaultResult = oldType === newType
 
+  if ((oldType && !newType) || (!oldType && newType)) {
+    return false
+  }
+
   if (isRegisteredComponent(oldType) || isRegisteredComponent(newType)) {
     if (resolveType(oldType) !== resolveType(newType)) {
       return false

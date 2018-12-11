@@ -4,7 +4,7 @@ import defaultPolyfill, { polyfill } from 'react-lifecycles-compat'
 import logger from './logger'
 import { get as getGeneration } from './global/generation'
 import configuration from './configuration'
-import { logException } from './errorReporter'
+import { EmptyErrorPlaceholder, logException } from './errorReporter'
 
 class AppContainer extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -52,10 +52,11 @@ class AppContainer extends React.Component {
     const { error, errorInfo } = this.state
 
     const {
-      errorReporter: ErrorReporter = configuration.errorReporter,
+      errorReporter: ErrorReporter = configuration.errorReporter ||
+        EmptyErrorPlaceholder,
     } = this.props
 
-    if (ErrorReporter && error) {
+    if (error && this.props.errorBoundary) {
       return <ErrorReporter error={error} errorInfo={errorInfo} />
     }
 
@@ -81,6 +82,11 @@ AppContainer.propTypes = {
     return undefined
   },
   errorReporter: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  errorBoundary: PropTypes.bool,
+}
+
+AppContainer.defaultProps = {
+  errorBoundary: true,
 }
 
 //  trying first react-lifecycles-compat.polyfill, then trying react-lifecycles-compat, which could be .default

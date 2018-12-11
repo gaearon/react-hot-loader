@@ -5,15 +5,16 @@ interface ErrorReporterProps {
 }
 
 export interface AppContainerProps {
+  errorBoundary?: boolean
+  errorReporter?: React.ComponentType<ErrorReporterProps>
+}
+
+export interface AppChildren {
   children?: React.ReactElement<any>
-  errorReporter?:
-    | React.ComponentClass<ErrorReporterProps>
-    | React.StatelessComponent<ErrorReporterProps>
 }
 
 export class AppContainer extends React.Component<
-  AppContainerProps,
-  React.ComponentState
+  AppContainerProps & AppChildren
 > {}
 
 /**
@@ -26,7 +27,7 @@ export class AppContainer extends React.Component<
  */
 export function hot(
   module: any,
-): <T = React.ComponentType<any>>(Component: T) => T
+): <T = React.ComponentType<any>>(Component: T, props?: AppContainerProps) => T
 
 /**
  * Marks component as `cold`, and making it invisible for React-Hot-Loader.

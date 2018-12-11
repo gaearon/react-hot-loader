@@ -546,12 +546,46 @@ describe('reconciler', () => {
         console.error.mockRestore()
       })
 
-      it('should catch error', () => {
+      it('should catch error to the boundary', () => {
         const App = () => <div>Normal application</div>
         reactHotLoader.register(App, 'App', 'test.js')
 
         const TestCase = () => (
           <AppContainer>
+            <App active />
+          </AppContainer>
+        )
+
+        const wrapper = mount(<TestCase />)
+
+        {
+          const errorFn = active => {
+            if (active) throw new Error()
+            return null
+          }
+          const App = ({ active }) => (
+            <div>
+              Normal application
+              <span>{errorFn(active)}</span>
+            </div>
+          )
+          reactHotLoader.register(App, 'App', 'test.js')
+
+          expect(() => wrapper.setProps({ children: <App /> })).not.toThrow()
+        }
+
+        expect(logger.warn).toHaveBeenCalledWith(
+          `React-hot-loader: run time error during reconciliation`,
+          expect.any(Error),
+        )
+      })
+
+      it('should catch error', () => {
+        const App = () => <div>Normal application</div>
+        reactHotLoader.register(App, 'App', 'test.js')
+
+        const TestCase = () => (
+          <AppContainer errorBoundary={false}>
             <App active />
           </AppContainer>
         )
@@ -586,7 +620,7 @@ describe('reconciler', () => {
         reactHotLoader.register(App, 'App', 'test.js')
 
         const TestCase = () => (
-          <AppContainer>
+          <AppContainer errorBoundary={false}>
             <App active />
           </AppContainer>
         )
