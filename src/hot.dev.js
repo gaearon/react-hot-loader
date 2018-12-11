@@ -3,13 +3,30 @@ import hoistNonReactStatic from 'hoist-non-react-statics'
 import { getComponentDisplayName } from './internal/reactUtils'
 import AppContainer from './AppContainer.dev'
 import reactHotLoader from './reactHotLoader'
-import { isOpened as isModuleOpened, hotModule } from './global/modules'
+import {
+  isOpened as isModuleOpened,
+  hotModule,
+  lastModuleOpened,
+} from './global/modules'
 import logger from './logger'
+import { clearExceptions, logException } from './errorReporter'
 
 /* eslint-disable camelcase, no-undef */
 const requireIndirect =
   typeof __webpack_require__ !== 'undefined' ? __webpack_require__ : require
 /* eslint-enable */
+
+const chargeFailbackTimer = id =>
+  setTimeout(() => {
+    logger.error(
+      `hot update failed for module "${id}". Last file processed: "${lastModuleOpened}".`,
+    )
+    logException({
+      toString: () => `hot update failed for module "${id}"`,
+    })
+  }, 0)
+
+const clearFailbackTimer = timerId => clearTimeout(timerId)
 
 const createHoc = (SourceComponent, TargetComponent) => {
   hoistNonReactStatic(TargetComponent, SourceComponent)
@@ -34,8 +51,8 @@ const makeHotExport = sourceModule => {
   }
 
   if (sourceModule.hot) {
-    // Mark as self-accepted for Webpack
-    // Update instances for Parcel
+    // Mark as self-accepted for Webpack (callback is an Error Handler)
+    // Update instances for Parcel (callback is an Accept Handler)
     sourceModule.hot.accept(updateInstances)
 
     // Webpack way
@@ -43,6 +60,7 @@ const makeHotExport = sourceModule => {
       if (sourceModule.hot.status() === 'idle') {
         sourceModule.hot.addStatusHandler(status => {
           if (status === 'apply') {
+            clearExceptions()
             updateInstances()
           }
         })
@@ -62,9 +80,13 @@ const hot = sourceModule => {
   const module = hotModule(moduleId)
   makeHotExport(sourceModule)
 
+  clearExceptions()
+  const failbackTimer = chargeFailbackTimer(sourceModule.id)
+
   // TODO: Ensure that all exports from this file are react components.
 
   return WrappedComponent => {
+    clearFailbackTimer(failbackTimer)
     // register proxy for wrapped component
     reactHotLoader.register(
       WrappedComponent,

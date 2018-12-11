@@ -30,9 +30,10 @@ npm install react-hot-loader
 
 Latest (4.5.0+, beta) version of React-Hot-Loader could be quite 🔥!
 
-> RHL will patch React, React-DOM and work with fiber directly
+> RHL will patch React, replace React-DOM by React-🔥-DOM and work with fiber directly
 
 * (required) [use webpack plugin](https://github.com/gaearon/react-hot-loader#webpack-plugin) to let RHL patch React-DOM for you.
+* (alternative) [use react-🔥-dom](https://github.com/gaearon/react-hot-loader#react-hot-dom) to use already patched React-DOM.
 * (optional) [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig) to `ignoreSFC:true` (this will fix `hook`)
 * (optional) [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig) to `pureRender:true` (this will remove side effect from Classes)
 
@@ -60,11 +61,17 @@ setConfig({
 
 ```js
 // App.js
-import React from 'react'
-import { hot } from 'react-hot-loader'
-
+import { hot } from 'react-hot-loader/root'
 const App = () => <div>Hello World!</div>
+export default hot(App)
+```
 
+There is also another version of `hot`, used prior version 4.5.4. Please use a new one,
+as long is it much more resilient to js errors you may make during development.
+
+```js
+import { hot } from 'react-hot-loader'
+const App = () => <div>Hello World!</div>
 export default hot(module)(App)
 ```
 
@@ -239,6 +246,35 @@ module.exports = {
     ],
   },
 }
+```
+
+Webpack plugin will also land a "hot" patch to react-dom, making React-Hot-Loader more compliant to [the principles](https://github.com/gaearon/react-hot-loader/issues/1118).
+
+## React-🔥-Dom
+
+Another way to make RHL more compliant is to use _our_ version of React-Dom - [hot-loader/react-dom](https://github.com/hot-loader/react-dom)
+
+It is the same React-Dom, with the same version, just with our patches already landed inside.
+
+There is 2 ways to install it:
+
+* Use **yarn** name resolution, so `@hot-loader/react-dom` would be installed instead of `react-dom`
+
+```
+yarn add @hot-loader/react-dom@npm:react-dom
+```
+
+* Use webpack **aliases**
+
+```js
+// webpack.conf
+...
+resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+}
+...
 ```
 
 ### Code Splitting

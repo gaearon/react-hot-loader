@@ -233,6 +233,13 @@ const reactHotLoader = {
         configuration.disableHotRendererWhenInjected
 
       reactHotLoader.IS_REACT_MERGE_ENABLED = true
+      console.info(
+        'React-Hot-Loader: react-🔥-dom patch detected. You may use all the features.',
+      )
+    } else {
+      console.warn(
+        'React-Hot-Loader: react-🔥-dom patch is not detected. React 16.6+ features may not work.',
+      )
     }
     if (!React.createElement.isPatchedByReactHotLoader) {
       const originalCreateElement = React.createElement

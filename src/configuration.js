@@ -28,6 +28,9 @@ const configuration = {
 
   // flag to completely disable RHL for Components
   ignoreComponents: false,
+
+  // default value for AppContainer errorOverlay
+  errorReporter: undefined,
 }
 
 export default configuration

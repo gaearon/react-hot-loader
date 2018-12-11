@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import defaultPolyfill, { polyfill } from 'react-lifecycles-compat'
 import logger from './logger'
 import { get as getGeneration } from './global/generation'
+import configuration from './configuration'
+import { logException } from './errorReporter'
 
 class AppContainer extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -18,6 +20,7 @@ class AppContainer extends React.Component {
 
   state = {
     error: null,
+    errorInfo: null,
     // eslint-disable-next-line react/no-unused-state
     generation: 0,
   }
@@ -33,16 +36,27 @@ class AppContainer extends React.Component {
     return true
   }
 
-  componentDidCatch(error) {
+  componentDidCatch(error, errorInfo) {
     logger.error(error)
-    this.setState({ error })
+    const { errorReporter = configuration.errorReporter } = this.props
+    if (!errorReporter) {
+      logException(error, errorInfo)
+    }
+    this.setState({
+      error,
+      errorInfo,
+    })
   }
 
   render() {
-    const { error } = this.state
+    const { error, errorInfo } = this.state
 
-    if (this.props.errorReporter && error) {
-      return <this.props.errorReporter error={error} />
+    const {
+      errorReporter: ErrorReporter = configuration.errorReporter,
+    } = this.props
+
+    if (ErrorReporter && error) {
+      return <ErrorReporter error={error} errorInfo={errorInfo} />
     }
 
     if (this.hotComponentUpdate) {
