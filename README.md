@@ -359,7 +359,7 @@ setConfig({
 
   // some components are not visible as top level variables,
   // thus its not known where they were created
-  onComponentCreate: (type, name) => file.indexOf('styled') > 0 && cold(type),
+  onComponentCreate: (type, name) => name.indexOf('styled') > 0 && cold(type),
 })
 ```
 
