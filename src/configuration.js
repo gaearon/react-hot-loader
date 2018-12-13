@@ -2,8 +2,8 @@ const configuration = {
   // Log level
   logLevel: 'error',
 
-  // Allows using SFC without changes. leading to some components not updated
-  pureSFC: false,
+  // Allows using SFC without changes
+  pureSFC: true,
 
   // keep render method unpatched, moving sideEffect to componentDidUpdate
   pureRender: false,
@@ -14,7 +14,7 @@ const configuration = {
   // Disable "hot-replacement-render"
   disableHotRenderer: false,
 
-  // Disable "hot-replacement-render" when injection into react-dom are made
+  // Disable "hot-replacement-render" when injection into react-dom is made
   disableHotRendererWhenInjected: false,
 
   // Hook on babel component register.
@@ -23,8 +23,11 @@ const configuration = {
   // Hook on React renders for a first time component
   onComponentCreate: false,
 
-  // flag to completely disable RHL for SFC
+  // flag to completely disable RHL for SFC. Probably don't use it without dom patch made.
   ignoreSFC: false,
+
+  // ignoreSFC when injection into react-dom is made
+  ignoreSFCWhenInjected: true,
 
   // flag to completely disable RHL for Components
   ignoreComponents: false,

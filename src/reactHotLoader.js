@@ -112,14 +112,17 @@ const reactHotLoader = {
       configuration.disableHotRenderer =
         configuration.disableHotRendererWhenInjected
 
+      configuration.ignoreSFC = configuration.ignoreSFCWhenInjected
+
       reactHotLoader.IS_REACT_MERGE_ENABLED = true
       console.info(
         'React-Hot-Loader: react-🔥-dom patch detected. You may use all the features.',
       )
     } else {
-      console.warn(
-        'React-Hot-Loader: react-🔥-dom patch is not detected. React 16.6+ features may not work.',
-      )
+      // Actually everything works...
+      // console.warn(
+      //   'React-Hot-Loader: react-🔥-dom patch is not detected. React 16.6+ features may not work.',
+      // )
     }
     /* eslint-enable */
     if (!React.createElement.isPatchedByReactHotLoader) {
