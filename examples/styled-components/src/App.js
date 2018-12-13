@@ -1,4 +1,5 @@
-import { hot, setConfig } from 'react-hot-loader'
+import { hot } from 'react-hot-loader/root'
+import { setConfig } from 'react-hot-loader'
 import * as React from 'react'
 import styled from 'styled-components'
 import emoStyled from 'react-emotion'
@@ -52,10 +53,22 @@ const Memo = React.memo(() => (
   </div>
 ))
 
+const TwinComponents = [
+  ({ children }) => <div data-twin="1">{children}</div>,
+  ({ children }) => <div data-twin="2">{children}</div>,
+]
+
+const TwinComponent = props => {
+  const Twin = TwinComponents[window.twinId || 0]
+  return <Twin {...props} />
+}
+
 const InApp = () => (
   <h1>
     <BigText>
-      1. Hello, world! {aNumber} <Counter />
+      <TwinComponent>
+        1. Hello, world! {aNumber} <Counter />
+      </TwinComponent>
     </BigText>
     hook:
     <Hook />
@@ -100,4 +113,4 @@ const App = () => (
 //
 // const App = genApp();
 
-export default hot(module)(App)
+export default hot(App)
