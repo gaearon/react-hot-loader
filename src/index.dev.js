@@ -1,4 +1,6 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
+
 import ReactHotLoader from './reactHotLoader'
 import './reconciler/proxyAdapter'
 
@@ -8,4 +10,4 @@ export { enter as enterModule, leave as leaveModule } from './global/modules'
 export * from './utils.dev'
 export default ReactHotLoader
 
-ReactHotLoader.patch(React)
+ReactHotLoader.patch(React, ReactDOM)

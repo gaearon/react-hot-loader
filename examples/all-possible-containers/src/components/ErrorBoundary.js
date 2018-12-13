@@ -22,9 +22,11 @@ const ErrorBoundary = ({
     <p style={{ color: 'red' }}>{error && error.toString()}</p>
     <div>Stacktrace:</div>
     <div style={{ color: 'red', marginTop: '10px' }}>
-      {errorInfo.componentStack
-        .split('\n')
-        .map((line, i) => <div key={i}>{line}</div>)}
+      {errorInfo &&
+        errorInfo.componentStack &&
+        errorInfo.componentStack
+          .split('\n')
+          .map((line, i) => <div key={i}>{line}</div>)}
     </div>
   </div>
 )

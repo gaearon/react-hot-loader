@@ -1,6 +1,4 @@
 /* eslint-disable no-use-before-define */
-import React from 'react'
-import ReactDOM from 'react-dom'
 import {
   isCompositeComponent,
   getComponentDisplayName,
@@ -8,147 +6,28 @@ import {
   isMemoType,
   isForwardType,
 } from './internal/reactUtils'
-import {
-  increment as incrementGeneration,
-  hotComparisonOpen,
-  enterHotUpdate,
-} from './global/generation'
+import { increment as incrementGeneration } from './global/generation'
 import {
   updateProxyById,
   resetProxies,
-  isProxyType,
-  getProxyByType,
   getProxyById,
-  createProxyForType,
   isTypeBlacklisted,
   registerComponent,
   updateFunctionProxyById,
-  isRegisteredComponent,
 } from './reconciler/proxies'
 import configuration from './configuration'
 import logger from './logger'
 
 import { preactAdapter } from './adapters/preact'
-import { areSwappable } from './reconciler/utils'
-import { PROXY_KEY, UNWRAP_PROXY } from './proxy'
-import AppContainer from './AppContainer.dev'
+import {
+  updateForward,
+  updateLazy,
+  updateMemo,
+} from './reconciler/fiberUpdater'
+import { resolveType } from './reconciler/resolver'
+import { hotComponentCompare } from './reconciler/componentComparator'
 
 const forceSimpleSFC = { proxy: { pureSFC: true } }
-const lazyConstructor = '_ctor'
-
-const updateLazy = (target, type) => {
-  const ctor = type[lazyConstructor]
-  if (target[lazyConstructor] !== type[lazyConstructor]) {
-    ctor()
-  }
-  if (!target[lazyConstructor].isPatchedByReactHotLoader) {
-    target[lazyConstructor] = () =>
-      ctor().then(m => {
-        const C = resolveType(m.default)
-        // chunks has been updated - new hot loader process is taking a place
-        enterHotUpdate()
-        return {
-          default: props => (
-            <AppContainer>
-              <C {...props} />
-            </AppContainer>
-          ),
-        }
-      })
-    target[lazyConstructor].isPatchedByReactHotLoader = true
-  }
-}
-const updateMemo = (target, { type }) => {
-  target.type = resolveType(type)
-}
-const updateForward = (target, { render }) => {
-  target.render = render
-}
-
-export const hotComponentCompare = (oldType, newType, setNewType) => {
-  let defaultResult = oldType === newType
-
-  if (isRegisteredComponent(oldType) || isRegisteredComponent(newType)) {
-    if (resolveType(oldType) !== resolveType(newType)) {
-      return false
-    }
-    defaultResult = true
-  }
-
-  const hotActive = hotComparisonOpen()
-
-  if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
-    if (
-      oldType.render === newType.render ||
-      areSwappable(oldType.render, newType.render)
-    ) {
-      if (hotActive) {
-        setNewType(newType)
-      }
-      return true
-    }
-    return defaultResult
-  }
-
-  if (isMemoType({ type: oldType }) && isMemoType({ type: newType })) {
-    if (
-      oldType.type === newType.type ||
-      areSwappable(oldType.type, newType.type)
-    ) {
-      if (hotActive) {
-        setNewType(newType.type)
-      }
-      return true
-    }
-    return defaultResult
-  }
-
-  if (newType !== oldType && areSwappable(newType, oldType)) {
-    if (hotActive) {
-      const unwrapFactory = newType[UNWRAP_PROXY]
-      const oldProxy = unwrapFactory && getProxyByType(unwrapFactory())
-      if (oldProxy) {
-        oldProxy.dereference()
-        updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
-        updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())
-      } else {
-        setNewType(newType)
-      }
-    }
-    return true
-  }
-
-  return defaultResult
-}
-
-const shouldNotPatchComponent = type => isTypeBlacklisted(type)
-
-function resolveType(type, options = {}) {
-  if (isLazyType({ type }) || isMemoType({ type }) || isForwardType({ type })) {
-    return getProxyByType(type) || type
-  }
-
-  if (!isCompositeComponent(type) || isProxyType(type)) {
-    return type
-  }
-
-  const existingProxy = getProxyByType(type)
-
-  if (shouldNotPatchComponent(type)) {
-    return existingProxy ? existingProxy.getCurrent() : type
-  }
-
-  if (!existingProxy && configuration.onComponentCreate) {
-    configuration.onComponentCreate(type, getComponentDisplayName(type))
-    if (shouldNotPatchComponent(type)) return type
-  }
-
-  const proxy = reactHotLoader.disableProxyCreation
-    ? existingProxy
-    : createProxyForType(type, options)
-
-  return proxy ? proxy.get() : type
-}
 
 const reactHotLoader = {
   IS_REACT_MERGE_ENABLED: false,
@@ -226,14 +105,26 @@ const reactHotLoader = {
     return resolveType(type)
   },
 
-  patch(React) {
-    if (ReactDOM.setHotElementComparator) {
+  patch(React, ReactDOM) {
+    /* eslint-disable no-console */
+    if (ReactDOM && ReactDOM.setHotElementComparator) {
       ReactDOM.setHotElementComparator(hotComponentCompare)
       configuration.disableHotRenderer =
         configuration.disableHotRendererWhenInjected
 
+      configuration.ignoreSFC = configuration.ignoreSFCWhenInjected
+
       reactHotLoader.IS_REACT_MERGE_ENABLED = true
+      console.info(
+        'React-Hot-Loader: react-🔥-dom patch detected. You may use all the features.',
+      )
+    } else {
+      // Actually everything works...
+      // console.warn(
+      //   'React-Hot-Loader: react-🔥-dom patch is not detected. React 16.6+ features may not work.',
+      // )
     }
+    /* eslint-enable */
     if (!React.createElement.isPatchedByReactHotLoader) {
       const originalCreateElement = React.createElement
       // Trick React into rendering a proxy so that
@@ -286,8 +177,6 @@ const reactHotLoader = {
 
     reactHotLoader.reset()
   },
-
-  disableProxyCreation: false,
 }
 
 export default reactHotLoader

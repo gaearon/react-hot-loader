@@ -1,4 +1,5 @@
 // @flow
+import { hot } from 'react-hot-loader/root'
 import React from 'react'
 
 import Context from '../context'
@@ -36,20 +37,11 @@ class App extends React.Component {
     open: false,
   }
 
-  componentDidCatch(error, errorInfo) {
-    this.setState({
-      error: error,
-      errorInfo: errorInfo,
-    })
-  }
-
   render() {
     const { open, error, errorInfo } = this.state
     const { A, B } = Secret
 
-    return error ? (
-      <ErrorBoundary error={error} errorInfo={errorInfo} />
-    ) : (
+    return (
       <div>
         <React.Fragment>
           <fieldset>
@@ -91,10 +83,12 @@ class App extends React.Component {
 let ExportedApp = App
 
 if (__DEV__) {
-  //const { hot }  = require('react-hot-loader');
-  const { hot, setConfig } = require('react-hot-loader')
-  setConfig({ logLevel: 'debug' })
-  ExportedApp = hot(module)(App)
+  const { setConfig } = require('react-hot-loader')
+  setConfig({
+    logLevel: 'debug',
+    errorReporter: ErrorBoundary,
+  })
+  ExportedApp = hot(App)
 }
 
 export default ExportedApp

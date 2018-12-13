@@ -1,6 +1,8 @@
 import logger from '../logger'
 
 const openedModules = {}
+let lastModuleOpened = ''
+export const getLastModuleOpened = () => lastModuleOpened
 
 const hotModules = {}
 
@@ -18,6 +20,7 @@ export const isOpened = sourceModule =>
 
 export const enter = sourceModule => {
   if (sourceModule && sourceModule.id) {
+    lastModuleOpened = sourceModule.id
     openedModules[sourceModule.id] = true
   } else {
     logger.warn(

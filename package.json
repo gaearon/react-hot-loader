@@ -1,9 +1,9 @@
 {
   "name": "react-hot-loader",
-  "version": "4.5.2",
+  "version": "4.5.3",
   "description": "Tweak React components in real time.",
   "main": "index.js",
-  "types": "react-hot-loader.d.ts",
+  "types": "index.d.ts",
   "homepage": "https://github.com/gaearon/react-hot-loader",
   "repository": "https://github.com/gaearon/react-hot-loader/",
   "license": "MIT",
@@ -33,7 +33,8 @@
     "babel.js",
     "webpack.js",
     "patch.js",
-    "react-hot-loader.d.ts"
+    "root.js",
+    "*.d.ts"
   ],
   "sideEffects": false,
   "keywords": [
@@ -49,6 +50,7 @@
     "reload"
   ],
   "devDependencies": {
+    "@types/react": "^16.7.13",
     "babel-cli": "^6.7.5",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",

@@ -2,6 +2,8 @@ import React from 'react'
 /* eslint-disable no-underscore-dangle */
 
 export const isCompositeComponent = type => typeof type === 'function'
+export const isReloadableComponent = type =>
+  typeof type === 'function' || typeof type === 'object'
 
 export const getComponentDisplayName = type => {
   const displayName = type.displayName || type.name

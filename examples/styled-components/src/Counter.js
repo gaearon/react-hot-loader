@@ -13,7 +13,7 @@ class Counter extends React.Component {
     // return;
     this.interval = setInterval(
       () => this.setState(prevState => ({ count: prevState.count + 1 })),
-      2000,
+      1000,
     )
   }
 

@@ -20,7 +20,7 @@ module.exports = {
     devtoolModuleFilenameTemplate: info =>
       path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
-  devtool: production ? false : 'cheap-module-source-map',
+  devtool: production ? false : 'eval-source-map',
   plugins: [
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(!production),
@@ -36,15 +36,12 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: ['jsx-compress-loader'],
+        use: ['react-hot-loader/webpack'],
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: [
-          //'react-hot-loader/webpack',
-          'babel-loader',
-        ],
+        use: ['babel-loader'],
       },
     ],
   },
@@ -72,6 +69,9 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       react: path.resolve(path.join(__dirname, './node_modules/react')),
+      'react-dom': path.resolve(
+        path.join(__dirname, './node_modules/react-dom'),
+      ),
       'react-hot-loader': path.resolve(
         path.join(__dirname, './node_modules/react-hot-loader'),
       ),

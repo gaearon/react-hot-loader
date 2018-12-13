@@ -3,13 +3,29 @@ import hoistNonReactStatic from 'hoist-non-react-statics'
 import { getComponentDisplayName } from './internal/reactUtils'
 import AppContainer from './AppContainer.dev'
 import reactHotLoader from './reactHotLoader'
-import { isOpened as isModuleOpened, hotModule } from './global/modules'
+import {
+  isOpened as isModuleOpened,
+  hotModule,
+  getLastModuleOpened,
+} from './global/modules'
 import logger from './logger'
+import { clearExceptions, logException } from './errorReporter'
 
 /* eslint-disable camelcase, no-undef */
 const requireIndirect =
   typeof __webpack_require__ !== 'undefined' ? __webpack_require__ : require
 /* eslint-enable */
+
+const chargeFailbackTimer = id =>
+  setTimeout(() => {
+    const error = `hot update failed for module "${id}". Last file processed: "${getLastModuleOpened()}".`
+    logger.error(error)
+    logException({
+      toString: () => error,
+    })
+  }, 0)
+
+const clearFailbackTimer = timerId => clearTimeout(timerId)
 
 const createHoc = (SourceComponent, TargetComponent) => {
   hoistNonReactStatic(TargetComponent, SourceComponent)
@@ -20,22 +36,26 @@ const createHoc = (SourceComponent, TargetComponent) => {
 }
 
 const makeHotExport = sourceModule => {
-  const updateInstances = () => {
+  const updateInstances = possibleError => {
+    if (possibleError && possibleError instanceof Error) {
+      console.error(possibleError)
+      return
+    }
     const module = hotModule(sourceModule.id)
     clearTimeout(module.updateTimeout)
     module.updateTimeout = setTimeout(() => {
       try {
         requireIndirect(sourceModule.id)
       } catch (e) {
-        // just swallow
+        console.error(e)
       }
       module.instances.forEach(inst => inst.forceUpdate())
     })
   }
 
   if (sourceModule.hot) {
-    // Mark as self-accepted for Webpack
-    // Update instances for Parcel
+    // Mark as self-accepted for Webpack (callback is an Error Handler)
+    // Update instances for Parcel (callback is an Accept Handler)
     sourceModule.hot.accept(updateInstances)
 
     // Webpack way
@@ -43,6 +63,7 @@ const makeHotExport = sourceModule => {
       if (sourceModule.hot.status() === 'idle') {
         sourceModule.hot.addStatusHandler(status => {
           if (status === 'apply') {
+            clearExceptions()
             updateInstances()
           }
         })
@@ -62,9 +83,13 @@ const hot = sourceModule => {
   const module = hotModule(moduleId)
   makeHotExport(sourceModule)
 
+  clearExceptions()
+  const failbackTimer = chargeFailbackTimer(sourceModule.id)
+
   // TODO: Ensure that all exports from this file are react components.
 
-  return WrappedComponent => {
+  return (WrappedComponent, props) => {
+    clearFailbackTimer(failbackTimer)
     // register proxy for wrapped component
     reactHotLoader.register(
       WrappedComponent,
@@ -94,7 +119,7 @@ const hot = sourceModule => {
 
         render() {
           return (
-            <AppContainer>
+            <AppContainer {...props}>
               <WrappedComponent {...this.props} />
             </AppContainer>
           )

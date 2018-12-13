@@ -4,7 +4,7 @@ import {
   setComponentOptions,
 } from './reconciler/proxies'
 import configuration from './configuration'
-import { hotComponentCompare } from './reactHotLoader'
+import { hotComponentCompare } from './reconciler/componentComparator'
 
 const getProxyOrType = type => {
   const proxy = getProxyByType(type)

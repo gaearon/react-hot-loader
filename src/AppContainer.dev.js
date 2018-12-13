@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import defaultPolyfill, { polyfill } from 'react-lifecycles-compat'
 import logger from './logger'
 import { get as getGeneration } from './global/generation'
+import configuration from './configuration'
+import { EmptyErrorPlaceholder, logException } from './errorReporter'
 
 class AppContainer extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -18,6 +20,7 @@ class AppContainer extends React.Component {
 
   state = {
     error: null,
+    errorInfo: null,
     // eslint-disable-next-line react/no-unused-state
     generation: 0,
   }
@@ -33,16 +36,28 @@ class AppContainer extends React.Component {
     return true
   }
 
-  componentDidCatch(error) {
+  componentDidCatch(error, errorInfo) {
     logger.error(error)
-    this.setState({ error })
+    const { errorReporter = configuration.errorReporter } = this.props
+    if (!errorReporter) {
+      logException(error, errorInfo)
+    }
+    this.setState({
+      error,
+      errorInfo,
+    })
   }
 
   render() {
-    const { error } = this.state
+    const { error, errorInfo } = this.state
 
-    if (this.props.errorReporter && error) {
-      return <this.props.errorReporter error={error} />
+    const {
+      errorReporter: ErrorReporter = configuration.errorReporter ||
+        EmptyErrorPlaceholder,
+    } = this.props
+
+    if (error && this.props.errorBoundary) {
+      return <ErrorReporter error={error} errorInfo={errorInfo} />
     }
 
     if (this.hotComponentUpdate) {
@@ -67,6 +82,11 @@ AppContainer.propTypes = {
     return undefined
   },
   errorReporter: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  errorBoundary: PropTypes.bool,
+}
+
+AppContainer.defaultProps = {
+  errorBoundary: true,
 }
 
 //  trying first react-lifecycles-compat.polyfill, then trying react-lifecycles-compat, which could be .default

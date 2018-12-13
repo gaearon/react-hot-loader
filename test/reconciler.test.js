@@ -6,7 +6,7 @@ import { increment as incrementGeneration } from '../src/global/generation'
 import { areComponentsEqual } from '../src/utils.dev'
 import logger from '../src/logger'
 import reactHotLoader from '../src/reactHotLoader'
-import configuration from '../src/configuration'
+import configuration, { internalConfiguration } from '../src/configuration'
 
 jest.mock('../src/logger')
 
@@ -546,7 +546,12 @@ describe('reconciler', () => {
         console.error.mockRestore()
       })
 
-      it('should catch error', () => {
+      it('should catch error to the boundary', () => {
+        if (!React.Suspense) {
+          // this test is unstable on React 15
+          expect(true).toBe(true)
+          return
+        }
         const App = () => <div>Normal application</div>
         reactHotLoader.register(App, 'App', 'test.js')
 
@@ -571,8 +576,42 @@ describe('reconciler', () => {
           )
           reactHotLoader.register(App, 'App', 'test.js')
 
+          expect(() => wrapper.setProps({ children: <App /> })).not.toThrow()
+        }
+
+        expect(logger.warn).toHaveBeenCalledWith(
+          `React-hot-loader: run time error during reconciliation`,
+          expect.any(Error),
+        )
+      })
+
+      it('should catch error', () => {
+        const App = () => <div>Normal application</div>
+        reactHotLoader.register(App, 'App', 'test.js')
+
+        const TestCase = () => (
+          <AppContainer errorBoundary={false}>
+            <App active />
+          </AppContainer>
+        )
+
+        const wrapper = mount(<TestCase />)
+
+        {
+          const errorFn = active => {
+            if (active) throw new Error()
+            return null
+          }
+          const App = ({ active }) => (
+            <div>
+              Normal application
+              <span>{errorFn(active)}</span>
+            </div>
+          )
+          reactHotLoader.register(App, 'App', 'test.js')
+
           expect(() => wrapper.setProps({ children: <App /> })).toThrow()
-          expect(reactHotLoader.disableProxyCreation).toBe(false)
+          expect(internalConfiguration.disableProxyCreation).toBe(false)
         }
 
         expect(logger.warn).toHaveBeenCalledWith(
@@ -586,7 +625,7 @@ describe('reconciler', () => {
         reactHotLoader.register(App, 'App', 'test.js')
 
         const TestCase = () => (
-          <AppContainer>
+          <AppContainer errorBoundary={false}>
             <App active />
           </AppContainer>
         )
@@ -607,7 +646,7 @@ describe('reconciler', () => {
           reactHotLoader.register(App, 'App', 'test.js')
 
           expect(() => wrapper.setProps({ children: <App /> })).toThrow()
-          expect(reactHotLoader.disableProxyCreation).toBe(false)
+          expect(internalConfiguration.disableProxyCreation).toBe(false)
         }
 
         // not stable across es5/modern build modes. Tested manually
