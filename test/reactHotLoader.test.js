@@ -3,6 +3,7 @@ import { mount } from 'enzyme'
 import { PROXY_KEY, UNWRAP_PROXY } from '../src/proxy/constants'
 import { get as getGeneration } from '../src/global/generation'
 import reactHotLoader from '../src/reactHotLoader'
+import { internalConfiguration } from '../src/configuration'
 
 describe('reactHotLoader', () => {
   let Div
@@ -89,18 +90,18 @@ describe('reactHotLoader', () => {
 
   describe('#disableProxyCreation', () => {
     afterEach(() => {
-      reactHotLoader.disableProxyCreation = false
+      internalConfiguration.disableProxyCreation = false
     })
 
     it('should disable the creation of proxy', () => {
-      reactHotLoader.disableProxyCreation = true
+      internalConfiguration.disableProxyCreation = true
       const proxyElement = React.createElement(Div, { foo: 'bar' })
       expect(proxyElement.type[PROXY_KEY]).not.toBeDefined()
     })
 
     it('should still be possible to get existing proxies', () => {
       React.createElement(Div, { foo: 'bar' })
-      reactHotLoader.disableProxyCreation = true
+      internalConfiguration.disableProxyCreation = true
       const proxyElement = React.createElement(Div, { foo: 'bar' })
       expect(proxyElement.type[PROXY_KEY]).toBeDefined()
     })

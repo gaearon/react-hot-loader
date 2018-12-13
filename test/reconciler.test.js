@@ -6,7 +6,7 @@ import { increment as incrementGeneration } from '../src/global/generation'
 import { areComponentsEqual } from '../src/utils.dev'
 import logger from '../src/logger'
 import reactHotLoader from '../src/reactHotLoader'
-import configuration from '../src/configuration'
+import configuration, { internalConfiguration } from '../src/configuration'
 
 jest.mock('../src/logger')
 
@@ -611,7 +611,7 @@ describe('reconciler', () => {
           reactHotLoader.register(App, 'App', 'test.js')
 
           expect(() => wrapper.setProps({ children: <App /> })).toThrow()
-          expect(reactHotLoader.disableProxyCreation).toBe(false)
+          expect(internalConfiguration.disableProxyCreation).toBe(false)
         }
 
         expect(logger.warn).toHaveBeenCalledWith(
@@ -646,7 +646,7 @@ describe('reconciler', () => {
           reactHotLoader.register(App, 'App', 'test.js')
 
           expect(() => wrapper.setProps({ children: <App /> })).toThrow()
-          expect(reactHotLoader.disableProxyCreation).toBe(false)
+          expect(internalConfiguration.disableProxyCreation).toBe(false)
         }
 
         // not stable across es5/modern build modes. Tested manually
