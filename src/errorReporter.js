@@ -5,6 +5,8 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 
+import configuration from './configuration'
+
 let lastError = []
 
 const overlayStyle = {
@@ -14,7 +16,10 @@ const overlayStyle = {
   right: 0,
 
   backgroundColor: 'rgba(255,200,200,0.9)',
+
   color: '#000',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
 
   margin: 0,
   padding: '16px',
@@ -22,10 +27,16 @@ const overlayStyle = {
   overflow: 'auto',
 }
 
+const inlineErrorStyle = {
+  backgroundColor: '#FEE',
+}
+
 const listStyle = {}
 
 export const EmptyErrorPlaceholder = () => (
-  <span style={{ backgroundColor: '#FEE' }}>⚛️🔥🤕</span>
+  <span style={inlineErrorStyle} role="img" aria-label="Rect-Hot-Loader Error">
+    ⚛️🔥🤕
+  </span>
 )
 
 const mapError = ({ error, errorInfo }) => (
@@ -35,17 +46,22 @@ const mapError = ({ error, errorInfo }) => (
     </p>
     {errorInfo && errorInfo.componentStack ? (
       <div>
-        <div>Stacktrace:</div>
+        <div>Stack trace:</div>
         <ul style={{ color: 'red', marginTop: '10px' }}>
+          {error.stack
+            .split('\n')
+            .slice(1, 2)
+            .map((line, i) => <li key={String(i)}>{line}</li>)}
           {errorInfo.componentStack
             .split('\n')
+            .filter(Boolean)
             .map((line, i) => <li key={String(i)}>{line}</li>)}
         </ul>
       </div>
     ) : (
       error.stack && (
         <div>
-          <div>Stacktrace:</div>
+          <div>Stack trace:</div>
           <ul style={{ color: 'red', marginTop: '10px' }}>
             {error.stack
               .split('\n')
@@ -58,16 +74,31 @@ const mapError = ({ error, errorInfo }) => (
 )
 
 class ErrorOverlay extends React.Component {
+  state = {
+    visible: true,
+  }
+
+  toggle = () => this.setState({ visible: !this.state.visible })
+
   render() {
-    if (!lastError.length) {
+    const { errors } = this.props
+    if (!errors.length) {
       return null
     }
+    const { visible } = this.state
     return (
       <div style={overlayStyle}>
-        <h2 style={{ margin: 0 }}>⚛️🔥😭: hot update was not successful</h2>
-        <ul style={listStyle}>
-          {lastError.map((err, i) => <li key={i}>{mapError(err)}</li>)}
-        </ul>
+        <h2 style={{ margin: 0 }}>
+          ⚛️🔥😭: hot update was not successful{' '}
+          <button onClick={this.toggle}>
+            {visible ? 'collapse' : 'expand'}
+          </button>
+        </h2>
+        {visible && (
+          <ul style={listStyle}>
+            {errors.map((err, i) => <li key={i}>{mapError(err)}</li>)}
+          </ul>
+        )}
       </div>
     )
   }
@@ -81,7 +112,8 @@ const initErrorOverlay = () => {
     document.body.appendChild(div)
   }
   if (lastError.length) {
-    ReactDom.render(<ErrorOverlay />, div)
+    const Overlay = configuration.ErrorOverlay || ErrorOverlay
+    ReactDom.render(<Overlay errors={lastError} />, div)
   } else {
     div.parentNode.removeChild(div)
   }

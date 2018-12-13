@@ -31,6 +31,14 @@ const configuration = {
 
   // default value for AppContainer errorOverlay
   errorReporter: undefined,
+
+  // Global error overlay
+  ErrorOverlay: undefined,
+}
+
+export const internalConfiguration = {
+  // control proxy creation
+  disableProxyCreation: false,
 }
 
 export default configuration
