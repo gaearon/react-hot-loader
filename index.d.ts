@@ -54,6 +54,11 @@ export function areComponentsEqual<T>(
   typeB: React.ComponentType<T>,
 ): boolean
 
+export interface HotError {
+  error: Error
+  errorInfo?: React.ErrorInfo
+}
+
 export interface Config {
   /**
    * Specify loglLevel, default to 'error', set it to false to disable logs.
@@ -119,10 +124,12 @@ export interface Config {
   /**
    * default value for AppContainer errorOverlay
    */
-  errorReporter: React.ComponentType<{
-    error: Error
-    errorInfo: React.ErrorInfo
-  }>
+  errorReporter: React.ComponentType<HotError>
+
+  /**
+   * Global error overlay
+   */
+  ErrorOverlay: React.ComponentType<{ errors: Array<HotError> }>
 }
 
 /**
