@@ -19,7 +19,7 @@ import {
 } from '../internal/reactUtils'
 import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
-import configuration from '../configuration'
+import configuration, { internalConfiguration } from '../configuration'
 import { areSwappable } from './utils'
 
 let renderStack = []
@@ -392,12 +392,12 @@ export default (instance, stack) => {
   }
   try {
     // disable reconciler to prevent upcoming components from proxying.
-    reactHotLoader.disableProxyCreation = true
+    internalConfiguration.disableProxyCreation = true
     renderStack = []
     hotReplacementRender(instance, stack)
   } catch (e) {
     logger.warn('React-hot-loader: reconcilation failed due to error', e)
   } finally {
-    reactHotLoader.disableProxyCreation = false
+    internalConfiguration.disableProxyCreation = false
   }
 }

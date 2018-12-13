@@ -1,5 +1,4 @@
 import React from 'react'
-import reactHotLoader from '../reactHotLoader'
 import {
   enterHotUpdate,
   get as getGeneration,
@@ -10,7 +9,7 @@ import reconcileHotReplacement, {
   flushScheduledUpdates,
   unscheduleUpdate,
 } from './index'
-import configuration from '../configuration'
+import configuration, { internalConfiguration } from '../configuration'
 import { forEachKnownClass } from '../proxy/createClassProxy'
 import { EmptyErrorPlaceholder, logException } from '../errorReporter'
 
@@ -23,7 +22,7 @@ export const renderReconciler = (target, force) => {
 
   target[RENDERED_GENERATION] = currentGeneration
 
-  if (!reactHotLoader.disableProxyCreation) {
+  if (!internalConfiguration.disableProxyCreation) {
     if (
       (componentGeneration || force) &&
       componentGeneration !== currentGeneration
@@ -42,7 +41,7 @@ function asyncReconciledRender(target) {
 
 export function proxyWrapper(element) {
   // post wrap on post render
-  if (!reactHotLoader.disableProxyCreation) {
+  if (!internalConfiguration.disableProxyCreation) {
     unscheduleUpdate(this)
   }
 
