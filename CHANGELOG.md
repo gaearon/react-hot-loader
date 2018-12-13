@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.6.0"></a>
+# [4.6.0](https://github.com/gaearon/react-hot-loader/compare/v4.5.3...v4.6.0) (2018-12-13)
+
+
+### Features
+
+* implement flexible error boundaries ([1846019](https://github.com/gaearon/react-hot-loader/commit/1846019))
+* new root/hot for better error management. Fixes [#1078](https://github.com/gaearon/react-hot-loader/issues/1078), [#1111](https://github.com/gaearon/react-hot-loader/issues/1111) ([3029428](https://github.com/gaearon/react-hot-loader/commit/3029428))
+
 <a name="4.5.3"></a>
 ## [4.5.3](https://github.com/gaearon/react-hot-loader/compare/v4.5.2...v4.5.3) (2018-12-07)
 
