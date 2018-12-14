@@ -227,9 +227,21 @@ Using React Hot Loader with React Native can cause unexpected issues (see #824) 
 
 ## Webpack plugin
 
-We recommend to use `babel` plugin, but there are situations when you are unable to use it.
-Then - try webpack loader (as seen in v3), but remember - it is **not compatible** with class-based components, but
-help with TypeScript or spreading "cold API" [to all node_modules](https://github.com/gaearon/react-hot-loader#disabling-a-type-change-for-all-node_modules).
+We recommend to use `babel` plugin, but there are situations when you are unable to use it, then - try webpack loader (as seen in v3)
+to have at least _something_.
+Remember - it is **not compatible** with class-based components - as long as babel plugin
+would inject a special methods to the every class, to make `class members`(like onClick) hot-updatable,
+while webpack-plugin would leave classes as is, without any _instrumentation_.
+
+```js
+class MyComponent extends React.Component {
+  onClick = () => this.setState() // COULD NOT UPDATE
+  variable = 1 // this is ok
+  render() {} // this is ok
+}
+```
+
+But webpack-loader could help with TypeScript or _spreading_ "cold API" [to all node_modules](https://github.com/gaearon/react-hot-loader#disabling-a-type-change-for-all-node_modules).
 
 > It is safe to enable this loader for all the files. But place it after babel-loader, if babel-loader is present.
 
@@ -406,11 +418,10 @@ You may add one more babel-loader, with only one React-Hot-Loader plugin inside 
 
 ##### React-Hooks
 
-> 🔥 HOT-LABS 🔥: You dont need this if you are using beta version of RHL,
-> and `ignoreSFC` configuration is set.
+* React-Hooks should work out of the box if you are using version 4.6.0 or above (`pureSFC` is enabled by default).
+* Having dom-patch enabled would solve any possible issue (`ignoreSFC` option is enabled)
 
-React-hot-loader does not support React 16.7 Hooks at all.
-You have to
+You can always `cold` component, but any update then would cause a state loss.
 
 * _cold_ components using hooks.
 
@@ -424,25 +435,43 @@ setConfig({
 })
 ```
 
-* _set a special flag_
-
-```js
-import { setConfig, cold } from 'react-hot-loader'
-setConfig({
-  onComponentCreate: (type, name) =>
-    (String(type).indexOf('useState') > 0 ||
-      String(type).indexOf('useEffect') > 0) &&
-    cold(type),
-})
-```
-
-PS: `react-emotion` would break due this operation.
-
 ## API
 
-### `hot(module, options)`
+### `hot(Component, options)`
 
 Mark a component as hot.
+
+#### Important
+
+**!!** Use `hot` only for module `exports`, not for module `imports`. **!!**
+
+```js
+import { hot } from 'react-hot-loader/root'
+
+const App = () => 'Hello World!'
+
+export default hot(App)
+```
+
+Keep in mind - by importing `react-hot-loader/root` you are setting up a boundary for update event propagation.
+
+The higher(in module hierarchy) you have it - the more stuff would be updated on Hot Module Replacement.
+
+To make RHL more reliable and safe, please place `hot` _below_ (ie somewhere in _imported_ modules):
+
+* react-dom
+* redux store creation
+* any data, you want to preserve between updates
+* big libraries
+
+You may(but it's not required) place `hot` to the every route/page/feature/lazy chunk, thus make updates more scoped.
+
+You don't need to wrap every component with `hot`, application work work fine with a single one.
+
+### (old)`hot(module, options)(Component, options)`
+
+Mark a component as hot. The "new" hot is just hidding the first part - `hot(module)`, giving you
+only the second `(App)`. The "new" hot is using old API.
 
 ```js
 import { hot } from 'react-hot-loader'
@@ -454,7 +483,9 @@ export default hot(module)(App)
 
 ### `AppContainer`
 
-Mark application as hot reloadable. Prefer using `hot` helper.
+Mark application as hot reloadable. (**Prefer** using `hot` helper)
+
+This low-level approach lets you make **hot **imports\_\_, not exports.
 
 ```js
 import React from 'react'
@@ -475,6 +506,8 @@ render(App)
 
 // webpack Hot Module Replacement API
 if (module.hot) {
+  // keep in mind - here you are configuring HMR to accept CHILDREN MODULE
+  // while `hot` would configure HMR for the CURRENT module
   module.hot.accept('./containers/App', () => {
     // if you are using harmony modules ({modules:false})
     render(App)
