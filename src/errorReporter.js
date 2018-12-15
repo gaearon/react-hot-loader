@@ -105,17 +105,27 @@ class ErrorOverlay extends React.Component {
 }
 
 const initErrorOverlay = () => {
-  let div = document.querySelector('.react-hot-loader-error-overlay')
-  if (!div) {
-    div = document.createElement('div')
-    div.className = 'react-hot-loader-error-overlay'
-    document.body.appendChild(div)
+  const doInit = () => {
+    let div = document.querySelector('.react-hot-loader-error-overlay')
+    if (!div) {
+      div = document.createElement('div')
+      div.className = 'react-hot-loader-error-overlay'
+      document.body.appendChild(div)
+    }
+    if (lastError.length) {
+      const Overlay = configuration.ErrorOverlay || ErrorOverlay
+      ReactDom.render(<Overlay errors={lastError} />, div)
+    } else {
+      div.parentNode.removeChild(div)
+    }
   }
-  if (lastError.length) {
-    const Overlay = configuration.ErrorOverlay || ErrorOverlay
-    ReactDom.render(<Overlay errors={lastError} />, div)
+
+  // document.body may not exist yet if the DOM is not fully loaded
+  // this can happen if this is loaded from a sync script in <head>
+  if (document.body) {
+    doInit()
   } else {
-    div.parentNode.removeChild(div)
+    document.addEventListener('DOMContentLoaded', doInit)
   }
 }
 
