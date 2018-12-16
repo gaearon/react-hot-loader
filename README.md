@@ -33,7 +33,7 @@ Latest (4.5.0+, beta) version of React-Hot-Loader could be quite 🔥!
 > RHL will patch React, replace React-DOM by React-🔥-DOM and work with fiber directly
 
 * (required) [use webpack plugin](https://github.com/gaearon/react-hot-loader#webpack-plugin) to let RHL patch React-DOM for you.
-* (alternative) [use react-🔥-dom](https://github.com/gaearon/react-hot-loader#react-hot-dom) to use already patched React-DOM.
+* (alternative) [use react-🔥-dom](https://github.com/gaearon/react-hot-loader#react--dom) to use already patched React-DOM.
 * (optional) [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig) to `ignoreSFC:true` (this will fix `hook`)
 * (optional) [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig) to `pureRender:true` (this will remove side effect from Classes)
 
