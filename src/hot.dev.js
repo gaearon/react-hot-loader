@@ -48,6 +48,10 @@ const makeHotExport = sourceModule => {
       try {
         requireIndirect(sourceModule.id)
       } catch (e) {
+        console.error(
+          'React-Hot-Loader: error detected while loading',
+          sourceModule.id,
+        )
         console.error(e)
       }
       module.instances.forEach(inst => inst.forceUpdate())
