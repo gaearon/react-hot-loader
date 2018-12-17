@@ -105,6 +105,9 @@ class ErrorOverlay extends React.Component {
 }
 
 const initErrorOverlay = () => {
+  if (!document) {
+    return
+  }
   let div = document.querySelector('.react-hot-loader-error-overlay')
   if (!div) {
     div = document.createElement('div')
