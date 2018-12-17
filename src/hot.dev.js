@@ -23,7 +23,8 @@ const chargeFailbackTimer = id =>
     logException({
       toString: () => error,
     })
-  }, 0)
+    // 100 ms more "code" tolerant that 0, and would catch error in any case
+  }, 100)
 
 const clearFailbackTimer = timerId => clearTimeout(timerId)
 
