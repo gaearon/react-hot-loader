@@ -52,7 +52,7 @@ const compareComponents = (oldType, newType, setNewType) => {
   if (
     newType !== oldType &&
     areSwappable(newType, oldType) &&
-    !!oldType[PROXY_KEY] == !!newType[PROXY_KEY]
+    !!oldType[PROXY_KEY] === !!newType[PROXY_KEY]
   ) {
     const unwrapFactory = newType[UNWRAP_PROXY]
     const oldProxy = unwrapFactory && getProxyByType(unwrapFactory())
