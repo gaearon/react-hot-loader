@@ -54,6 +54,7 @@ export default [
 
   {
     input: 'src/webpack/webpackTagCommonJSExports.js',
+    plugins: [babel()],
     output: {
       file: 'dist/webpackTagCommonJSExports.js',
       format: 'cjs'

@@ -81,6 +81,16 @@ export default hot(module)(App)
 webpack-dev-server --hot
 ```
 
+## Limitations
+
+* (that's the goal) React-Hot-Loader would not change the past, only update the present - no lifecycle event would be called on component update.
+  As a result - all the code changes, you may made among `componentWillUnmount` or `componentDidMount`, would be ignored for
+  already created components.
+* (that's the goal) React-Hot-Loader would not update any object, including component `state`.
+* (1%) React-Hot-Loader could not reply some changes you may made in components `constructors`. As long as
+  components would not be recreated - RHL have to _inject_ new data onto existing components, but there is no way to detect the actual change and the way reply it.
+  React-Hot-Loader knows what class method is, not how you created it. See #1001 for details.
+
 ## Recipes
 
 ### Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app)

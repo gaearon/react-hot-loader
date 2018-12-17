@@ -18,6 +18,7 @@ import ChildrenAsFunctionExample from './ChildrenAsFunctionExample'
 import ConsumerConnectedComponent from './ConsumerConnectedComponent'
 import ConnectedChildrenAFComponent from './ConnectedChildrenAFComponent'
 import FunctionConsumerPureClassComponent from './FunctionConsumerPureClassComponent'
+import HookedComponent from './Hook'
 import { EDIT_ME } from './_editMe'
 
 const Secret = (() => {
@@ -48,6 +49,7 @@ class App extends React.Component {
             <legend>App Content</legend>
             {EDIT_ME}
           </fieldset>
+          <HookedComponent />
           <ClassComponent />
           <FunctionComponent />
           <PureClassComponent />

@@ -23,7 +23,8 @@ const chargeFailbackTimer = id =>
     logException({
       toString: () => error,
     })
-  }, 0)
+    // 100 ms more "code" tolerant that 0, and would catch error in any case
+  }, 100)
 
 const clearFailbackTimer = timerId => clearTimeout(timerId)
 
@@ -47,6 +48,10 @@ const makeHotExport = sourceModule => {
       try {
         requireIndirect(sourceModule.id)
       } catch (e) {
+        console.error(
+          'React-Hot-Loader: error detected while loading',
+          sourceModule.id,
+        )
         console.error(e)
       }
       module.instances.forEach(inst => inst.forceUpdate())
