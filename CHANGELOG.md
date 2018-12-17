@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.6.1"></a>
+## [4.6.1](https://github.com/gaearon/react-hot-loader/compare/4.6.0...4.6.1) (2018-12-17)
+
+
+### Bug Fixes
+
+* display hmr errors as hmr errors, [#1131](https://github.com/gaearon/react-hot-loader/issues/1131) ([615790f](https://github.com/gaearon/react-hot-loader/commit/615790f))
+* error overlay is not server side friendly, [#1126](https://github.com/gaearon/react-hot-loader/issues/1126) ([40e3ff2](https://github.com/gaearon/react-hot-loader/commit/40e3ff2))
+* hmr error detection is flaky ([9d3a2c0](https://github.com/gaearon/react-hot-loader/commit/9d3a2c0))
+* secure wrapped/uwrapped comparison ([a62bacd](https://github.com/gaearon/react-hot-loader/commit/a62bacd))
+* webpack plugin outputs es2015 code ([8a66401](https://github.com/gaearon/react-hot-loader/commit/8a66401))
+
+
+
 <a name="4.6.0"></a>
 # [4.6.0](https://github.com/gaearon/react-hot-loader/compare/v4.5.3...v4.6.0) (2018-12-13)
 
