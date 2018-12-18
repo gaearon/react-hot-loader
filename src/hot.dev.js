@@ -90,17 +90,22 @@ const hot = sourceModule => {
 
   clearExceptions()
   const failbackTimer = chargeFailbackTimer(sourceModule.id)
+  let firstHotRegistered = false
 
   // TODO: Ensure that all exports from this file are react components.
 
   return (WrappedComponent, props) => {
     clearFailbackTimer(failbackTimer)
     // register proxy for wrapped component
-    reactHotLoader.register(
-      WrappedComponent,
-      getComponentDisplayName(WrappedComponent),
-      `RHL${moduleId}`,
-    )
+    // only one hot per file would use this registration
+    if (!firstHotRegistered) {
+      firstHotRegistered = true
+      reactHotLoader.register(
+        WrappedComponent,
+        getComponentDisplayName(WrappedComponent),
+        `RHL${moduleId}`,
+      )
+    }
 
     return createHoc(
       WrappedComponent,
