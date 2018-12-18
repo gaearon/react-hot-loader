@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.6.2"></a>
+## [4.6.2](https://github.com/gaearon/react-hot-loader/compare/v4.6.1...v4.6.2) (2018-12-18)
+
+
+### Bug Fixes
+
+* allow multiple 'hot' in one file, registering only the first one ([68c2a0a](https://github.com/gaearon/react-hot-loader/commit/68c2a0a))
+* error overlay initialization prior body, fixes [#1127](https://github.com/gaearon/react-hot-loader/issues/1127) ([9177aba](https://github.com/gaearon/react-hot-loader/commit/9177aba))
+
+
+
 <a name="4.6.1"></a>
 ## [4.6.1](https://github.com/gaearon/react-hot-loader/compare/4.6.0...4.6.1) (2018-12-17)
 
