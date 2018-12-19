@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.6.3"></a>
+## [4.6.3](https://github.com/gaearon/react-hot-loader/compare/v4.6.2...v4.6.3) (2018-12-19)
+
+
+### Bug Fixes
+
+* context information is not always properly emulated in hot-render, fixes [#1094](https://github.com/gaearon/react-hot-loader/issues/1094) ([100fc9c](https://github.com/gaearon/react-hot-loader/commit/100fc9c))
+* RHL could update non-relative components ([5d4f226](https://github.com/gaearon/react-hot-loader/commit/5d4f226))
+* update memo updater and comparator. fix [#1135](https://github.com/gaearon/react-hot-loader/issues/1135) ([826a57c](https://github.com/gaearon/react-hot-loader/commit/826a57c))
+
+
+
 <a name="4.6.2"></a>
 ## [4.6.2](https://github.com/gaearon/react-hot-loader/compare/v4.6.1...v4.6.2) (2018-12-18)
 
