@@ -1,4 +1,5 @@
 import {
+  getIdByType,
   getProxyByType,
   isRegisteredComponent,
   updateProxyById,
@@ -12,6 +13,11 @@ import {
 import { areSwappable } from './utils'
 import { PROXY_KEY, UNWRAP_PROXY } from '../proxy'
 import { resolveType } from './resolver'
+
+const getInnerComponentType = component => {
+  const unwrapper = component[UNWRAP_PROXY]
+  return unwrapper ? unwrapper() : component
+}
 
 const compareComponents = (oldType, newType, setNewType) => {
   let defaultResult = oldType === newType
@@ -49,17 +55,15 @@ const compareComponents = (oldType, newType, setNewType) => {
     return defaultResult
   }
 
-  if (
-    newType !== oldType &&
-    areSwappable(newType, oldType) &&
-    !!oldType[PROXY_KEY] === !!newType[PROXY_KEY]
-  ) {
+  if (newType !== oldType && areSwappable(newType, oldType)) {
     const unwrapFactory = newType[UNWRAP_PROXY]
     const oldProxy = unwrapFactory && getProxyByType(unwrapFactory())
     if (oldProxy) {
       oldProxy.dereference()
-      updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
-      updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())
+      updateProxyById(
+        oldType[PROXY_KEY] || getIdByType(oldType),
+        getInnerComponentType(newType),
+      )
     } else {
       setNewType(newType)
     }

@@ -44,6 +44,9 @@ export const updateFunctionProxyById = (id, type, updater) => {
 }
 
 export const updateProxyById = (id, type, options = {}) => {
+  if (!id) {
+    return null
+  }
   // Remember the ID.
   idsByType.set(type, id)
 
