@@ -285,7 +285,7 @@ const hotReplacementRender = (instance, stack) => {
         try {
           next({
             children: (child.props ? child.props.children : child.children[0])(
-              stackContext().get(child.type) ||
+              stackContext().get(getContextProvider(child.type)) ||
                 child.type[CONTEXT_CURRENT_VALUE],
             ),
           })
