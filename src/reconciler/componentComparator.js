@@ -8,6 +8,7 @@ import { hotComparisonOpen } from '../global/generation'
 import {
   isForwardType,
   isMemoType,
+  isReactClass,
   isReloadableComponent,
 } from '../internal/reactUtils'
 import { areSwappable } from './utils'
@@ -19,7 +20,7 @@ const getInnerComponentType = component => {
   return unwrapper ? unwrapper() : component
 }
 
-const compareComponents = (oldType, newType, setNewType) => {
+const compareComponents = (oldType, newType, setNewType, baseType) => {
   let defaultResult = oldType === newType
 
   if ((oldType && !newType) || (!oldType && newType)) {
@@ -49,7 +50,21 @@ const compareComponents = (oldType, newType, setNewType) => {
       oldType.type === newType.type ||
       areSwappable(oldType.type, newType.type)
     ) {
-      setNewType(newType.type)
+      if (baseType) {
+        // memo form different fibers, why?
+        if (oldType === baseType) {
+          setNewType(newType)
+        } else {
+          setNewType(newType.type)
+        }
+      } else {
+        if (isReactClass(newType.type)) {
+          setNewType(newType)
+        } else {
+          setNewType(newType.type)
+        }
+      }
+
       return true
     }
     return defaultResult
@@ -76,7 +91,7 @@ const compareComponents = (oldType, newType, setNewType) => {
 const knownPairs = new WeakMap()
 const emptyMap = new WeakMap()
 
-export const hotComponentCompare = (oldType, newType, setNewType) => {
+export const hotComponentCompare = (oldType, newType, setNewType, baseType) => {
   const hotActive = hotComparisonOpen()
   let result = oldType === newType
 
@@ -87,7 +102,7 @@ export const hotComponentCompare = (oldType, newType, setNewType) => {
   // comparison should be active only if hot update window
   // or it would merge components it shall not
   if (hotActive) {
-    result = compareComponents(oldType, newType, setNewType)
+    result = compareComponents(oldType, newType, setNewType, baseType)
     const pair = knownPairs.get(oldType) || new WeakMap()
     pair.set(newType, result)
     knownPairs.set(oldType, pair)
