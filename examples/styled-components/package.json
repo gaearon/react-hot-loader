@@ -7,7 +7,6 @@
     "start:prod": "NODE_ENV=production webpack-dev-server --hot"
   },
   "devDependencies": {
-    "@hot-loader/react-dom": "npm:react-dom",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -22,9 +21,9 @@
     "babel-polyfill": "^6.26.0",
     "emotion": "^8.0.12",
     "react": "^16.7.0-alpha.2",
-    "react-dom": "^16.7.0-alpha.2",
+    "react-dom": "npm:@hot-loader/react-dom",
     "react-emotion": "^9.2.12",
-    "react-hot-loader": "^4.5.1",
+    "react-hot-loader": "^4.6.2",
     "styled-components": "^4.0.3"
   }
 }

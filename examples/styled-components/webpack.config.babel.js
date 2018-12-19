@@ -16,21 +16,21 @@ module.exports = {
       {
         //exclude: /node_modules|packages/,  // should work without exclude
         test: /\.js$/,
-        use: [/*'react-hot-loader/webpack',*/ 'babel-loader'],
+        use: ['react-hot-loader/webpack', 'babel-loader'],
       },
     ],
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
-      'react-dom': '@hot-loader/react-dom',
-      react: path.resolve(path.join(__dirname, './node_modules/react')),
-      'react-hot-loader': path.resolve(
-        path.join(__dirname, './node_modules/react-hot-loader'),
-      ),
-      'babel-core': path.resolve(
-        path.join(__dirname, './node_modules/@babel/core'),
-      ),
+      // 'react-dom': '@hot-loader/react-dom',
+      // react: path.resolve(path.join(__dirname, './node_modules/react')),
+      // 'react-hot-loader': path.resolve(
+      //   path.join(__dirname, './node_modules/react-hot-loader'),
+      // ),
+      // 'babel-core': path.resolve(
+      //   path.join(__dirname, './node_modules/@babel/core'),
+      // ),
     },
   },
   plugins: [
