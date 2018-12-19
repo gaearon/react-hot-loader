@@ -14,6 +14,7 @@ import {
 import { areSwappable } from './utils'
 import { PROXY_KEY, UNWRAP_PROXY } from '../proxy'
 import { resolveType } from './resolver'
+import logger from '../logger'
 
 const getInnerComponentType = component => {
   const unwrapper = component[UNWRAP_PROXY]
@@ -58,6 +59,7 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
           setNewType(newType.type)
         }
       } else {
+        logger.warn('Please update hot-loader/react-dom')
         if (isReactClass(newType.type)) {
           setNewType(newType)
         } else {
