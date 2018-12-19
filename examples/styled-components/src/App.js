@@ -46,12 +46,24 @@ const Hook = () => {
   )
 }
 
-const Memo = React.memo(() => (
+const Memo1 = React.memo(() => (
   <div>
-    [mem <OtherComponent />
+    [mem1 <OtherComponent />
     <Counter /> memo]
   </div>
 ))
+
+const Memo2 = React.memo(
+  class extends React.Component {
+    render() {
+      return (
+        <div>
+          [mem2 <Counter /> memo]
+        </div>
+      )
+    }
+  },
+)
 
 const TwinComponents = [
   ({ children }) => <div data-twin="1">{children}</div>,
@@ -78,7 +90,8 @@ const InApp = () => (
     </SmallText>
     <br />
     <Counter />
-    <Memo a1 a2 />
+    <Memo1 a1 a2 />
+    <Memo2 a1 a2 />
     <div>
       <React.Suspense fallback="loading">
         <Async />

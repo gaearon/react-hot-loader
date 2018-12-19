@@ -1,34 +1,34 @@
 const injectionStart = {
   '16.6': [
     'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : child.elementType === element.type)',
-    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.elementType, element.type, updateChild(child)))'
+    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.elementType, element.type, updateChild(child), child.type))'
   ],
   '16.6-compact': [
     'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:child.elementType===element.type)',
-    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.elementType,element.type, updateChild(child)))'
+    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.elementType,element.type, updateChild(child), child.type))'
   ],
   '16.4': [
     'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : child.type === element.type) {',
-    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.type, element.type, updateChild(child))) {'
+    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.type, element.type, updateChild(child), child.type)) {'
   ],
   '16.4-compact': [
     'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:child.type===element.type)',
-    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.type,element.type, updateChild(child)))'
+    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.type,element.type, updateChild(child), child.type))'
   ],
 };
 
 const additional = {
   '16.6-update': [
     'if (current$$1 !== null && current$$1.elementType === element.type) {',
-    'if (current$$1 !== null && hotCompareElements(current$$1.elementType, element.type, updateChild(current$$1))) {'
+    'if (current$$1 !== null && hotCompareElements(current$$1.elementType, element.type, updateChild(current$$1),current$$1.type)) {'
   ],
   '16.6-update-compact': [
     'if(current$$1!==null&&current$$1.elementType===element.type)',
-    'if(current$$1!==null&&hotCompareElements(current$$1.elementType,element.type,updateChild(current$$1)))'
+    'if(current$$1!==null&&hotCompareElements(current$$1.elementType,element.type,updateChild(current$$1),current$$1.type))'
   ],
   '16.4-update': [
     'if (current !== null && current.type === element.type) {',
-    'if (current !== null && hotCompareElements(current.type, element.type, updateChild(current))) {'
+    'if (current !== null && hotCompareElements(current.type, element.type, updateChild(current),current.type)) {'
   ],
   '16.4-update-compact': [
     'if (current!== null&&current.type===element.type)',
@@ -72,6 +72,8 @@ const injectionEnd = {
   '16.4-compact': defaultEndCompact,
 };
 
+const sign = '/* 🔥 this is hot-loader/react-dom 🔥 */';
+
 function additionalTransform(source) {
   for (const key in additional) {
     source = source.split(additional[key][0]).join(additional[key][1])
@@ -89,11 +91,12 @@ function transform(source) {
       source.indexOf(injectionStart[key][0]) > 0 &&
       source.indexOf(injectionEnd[key][0]) > 0
     ) {
-      return additionalTransform(
+      const result = additionalTransform(
         source
           .replace(injectionStart[key][0], injectionStart[key][1])
           .replace(injectionEnd[key][0], injectionEnd[key][1])
-      ) + '/** react is now 🔥 */'
+      );
+      return `${sign}\n${result}\n${sign}`;
     }
   }
   return source;

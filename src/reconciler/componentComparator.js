@@ -1,4 +1,5 @@
 import {
+  getIdByType,
   getProxyByType,
   isRegisteredComponent,
   updateProxyById,
@@ -7,13 +8,20 @@ import { hotComparisonOpen } from '../global/generation'
 import {
   isForwardType,
   isMemoType,
+  isReactClass,
   isReloadableComponent,
 } from '../internal/reactUtils'
 import { areSwappable } from './utils'
 import { PROXY_KEY, UNWRAP_PROXY } from '../proxy'
 import { resolveType } from './resolver'
+import logger from '../logger'
 
-const compareComponents = (oldType, newType, setNewType) => {
+const getInnerComponentType = component => {
+  const unwrapper = component[UNWRAP_PROXY]
+  return unwrapper ? unwrapper() : component
+}
+
+const compareComponents = (oldType, newType, setNewType, baseType) => {
   let defaultResult = oldType === newType
 
   if ((oldType && !newType) || (!oldType && newType)) {
@@ -43,23 +51,36 @@ const compareComponents = (oldType, newType, setNewType) => {
       oldType.type === newType.type ||
       areSwappable(oldType.type, newType.type)
     ) {
-      setNewType(newType.type)
+      if (baseType) {
+        // memo form different fibers, why?
+        if (oldType === baseType) {
+          setNewType(newType)
+        } else {
+          setNewType(newType.type)
+        }
+      } else {
+        logger.warn('Please update hot-loader/react-dom')
+        if (isReactClass(newType.type)) {
+          setNewType(newType)
+        } else {
+          setNewType(newType.type)
+        }
+      }
+
       return true
     }
     return defaultResult
   }
 
-  if (
-    newType !== oldType &&
-    areSwappable(newType, oldType) &&
-    !!oldType[PROXY_KEY] === !!newType[PROXY_KEY]
-  ) {
+  if (newType !== oldType && areSwappable(newType, oldType)) {
     const unwrapFactory = newType[UNWRAP_PROXY]
     const oldProxy = unwrapFactory && getProxyByType(unwrapFactory())
     if (oldProxy) {
       oldProxy.dereference()
-      updateProxyById(oldType[PROXY_KEY], newType[UNWRAP_PROXY]())
-      updateProxyById(newType[PROXY_KEY], oldType[UNWRAP_PROXY]())
+      updateProxyById(
+        oldType[PROXY_KEY] || getIdByType(oldType),
+        getInnerComponentType(newType),
+      )
     } else {
       setNewType(newType)
     }
@@ -72,7 +93,7 @@ const compareComponents = (oldType, newType, setNewType) => {
 const knownPairs = new WeakMap()
 const emptyMap = new WeakMap()
 
-export const hotComponentCompare = (oldType, newType, setNewType) => {
+export const hotComponentCompare = (oldType, newType, setNewType, baseType) => {
   const hotActive = hotComparisonOpen()
   let result = oldType === newType
 
@@ -83,7 +104,7 @@ export const hotComponentCompare = (oldType, newType, setNewType) => {
   // comparison should be active only if hot update window
   // or it would merge components it shall not
   if (hotActive) {
-    result = compareComponents(oldType, newType, setNewType)
+    result = compareComponents(oldType, newType, setNewType, baseType)
     const pair = knownPairs.get(oldType) || new WeakMap()
     pair.set(newType, result)
     knownPairs.set(oldType, pair)

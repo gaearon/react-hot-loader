@@ -1,5 +1,6 @@
 import { PROXY_IS_MOUNTED, PROXY_KEY, UNWRAP_PROXY } from '../proxy'
 import {
+  getIdByType,
   isRegisteredComponent,
   isTypeBlacklisted,
   updateProxyById,
@@ -284,7 +285,7 @@ const hotReplacementRender = (instance, stack) => {
         try {
           next({
             children: (child.props ? child.props.children : child.children[0])(
-              stackContext().get(child.type) ||
+              stackContext().get(getContextProvider(child.type)) ||
                 child.type[CONTEXT_CURRENT_VALUE],
             ),
           })
@@ -354,7 +355,10 @@ const hotReplacementRender = (instance, stack) => {
             // they are both registered, or have equal code/displayname/signature
 
             // update proxy using internal PROXY_KEY
-            updateProxyById(stackChild.type[PROXY_KEY], childType)
+            updateProxyById(
+              stackChild.type[PROXY_KEY] || getIdByType(stackChild.type),
+              childType,
+            )
 
             next(stackChild.instance)
           } else {
