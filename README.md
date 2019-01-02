@@ -283,7 +283,7 @@ There is 2 ways to install it:
 * Use **yarn** name resolution, so `@hot-loader/react-dom` would be installed instead of `react-dom`
 
 ```
-yarn add @hot-loader/react-dom@npm:react-dom
+yarn add react-dom@npm:@hot-loader/react-dom
 ```
 
 * Use webpack **aliases**
