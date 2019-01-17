@@ -67,7 +67,7 @@ export default hot(App)
 ```
 
 There is also old version of `hot`, used prior version 4.5.4. **Please use a new one**,
-as long is it much more resilient to js errors you may make during development.
+as it is much more resilient to js errors you may make during development.
 
 ```js
 import { hot } from 'react-hot-loader'
