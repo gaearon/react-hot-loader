@@ -2,10 +2,8 @@
 
 import React from 'react'
 
-class AppContainer extends React.Component {
-  render() {
-    return React.Children.only(this.props.children)
-  }
+function AppContainer(props) {
+  return React.Children.only(props.children)
 }
 
 export default AppContainer
