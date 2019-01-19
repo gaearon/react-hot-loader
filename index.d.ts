@@ -1,5 +1,13 @@
 import * as React from 'react'
 
+declare global {
+  interface NodeModule {
+    hot?: {
+      accept(modulePath: string, reload: Function): void;
+    };
+  }
+}
+
 interface ErrorReporterProps {
   error: any
 }
