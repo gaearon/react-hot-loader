@@ -66,20 +66,31 @@ export const CONTEXT_CURRENT_VALUE = '_currentValue'
 export const isContextConsumer = ({ type }) =>
   type &&
   typeof type === 'object' &&
+  '$$typeof' in type &&
   type.$$typeof === ConsumerType &&
   ConsumerType
 export const isContextProvider = ({ type }) =>
   type &&
   typeof type === 'object' &&
+  '$$typeof' in type &&
   type.$$typeof === ProviderType &&
   ProviderType
 export const isMemoType = ({ type }) =>
-  type && typeof type === 'object' && type.$$typeof === MemoType && MemoType
+  type &&
+  typeof type === 'object' &&
+  '$$typeof' in type &&
+  type.$$typeof === MemoType &&
+  MemoType
 export const isLazyType = ({ type }) =>
-  type && typeof type === 'object' && type.$$typeof === LazyType && LazyType
+  type &&
+  typeof type === 'object' &&
+  '$$typeof' in type &&
+  type.$$typeof === LazyType &&
+  LazyType
 export const isForwardType = ({ type }) =>
   type &&
   typeof type === 'object' &&
+  '$$typeof' in type &&
   type.$$typeof === ForwardType &&
   ForwardType
 
