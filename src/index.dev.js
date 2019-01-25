@@ -10,4 +10,6 @@ export { enter as enterModule, leave as leaveModule } from './global/modules'
 export * from './utils.dev'
 export default ReactHotLoader
 
-ReactHotLoader.patch(React, ReactDOM)
+if (typeof React !== 'undefined' && typeof ReactDOM !== 'undefined') {
+  ReactHotLoader.patch(React, ReactDOM)
+}
