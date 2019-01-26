@@ -451,6 +451,28 @@ setConfig({
 
 Mark a component as hot.
 
+#### Babel plugin
+
+Right now babel plugin has only one option, enabled by default.
+
+* `safetyNet` - will help you properly setup ReactHotLoader.
+
+You may disable it to get more control on the module execution order.
+
+```js
+//.babelrc
+{
+    "plugins": [
+        [
+            "react-hot-loader/babel",
+            {
+            "safetyNet": false
+            }
+        ]
+    ]
+}
+```
+
 #### Important
 
 **!!** Use `hot` only for module `exports`, not for module `imports`. **!!**
