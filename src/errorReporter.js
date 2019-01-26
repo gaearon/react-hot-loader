@@ -6,6 +6,7 @@ import React from 'react'
 import ReactDom from 'react-dom'
 
 import configuration from './configuration'
+import { getComponentDisplayName } from './internal/reactUtils'
 
 let lastError = []
 
@@ -33,15 +34,24 @@ const inlineErrorStyle = {
 
 const listStyle = {}
 
-export const EmptyErrorPlaceholder = () => (
+export const EmptyErrorPlaceholder = ({ component }) => (
   <span style={inlineErrorStyle} role="img" aria-label="Rect-Hot-Loader Error">
-    ⚛️🔥🤕
+    ⚛️🔥🤕 ({component
+      ? getComponentDisplayName(component.constructor || component)
+      : 'Unknown location'})
   </span>
 )
 
-const mapError = ({ error, errorInfo }) => (
+const mapError = ({ error, errorInfo, component }) => (
   <div>
     <p style={{ color: 'red' }}>
+      {component && (
+        <span>
+          ({component
+            ? getComponentDisplayName(component.constructor || component)
+            : 'Unknown location'})
+        </span>
+      )}
       {error.toString ? error.toString() : error.message || 'undefined error'}
     </p>
     {errorInfo && errorInfo.componentStack ? (
@@ -129,7 +139,13 @@ export const clearExceptions = () => {
   }
 }
 
-export const logException = (error, errorInfo) => {
-  lastError.push({ error, errorInfo })
+export const logException = (error, errorInfo, component) => {
+  // do not suppress error
+
+  /* eslint-disable no-console */
+  console.error(error)
+  /* eslint-enable */
+
+  lastError.push({ error, errorInfo, component })
   initErrorOverlay()
 }

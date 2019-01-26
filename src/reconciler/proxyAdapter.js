@@ -88,7 +88,7 @@ function componentRender() {
   if (error && generation === getGeneration()) {
     return React.createElement(
       configuration.errorReporter || EmptyErrorPlaceholder,
-      { error, errorInfo },
+      { error, errorInfo, component: this },
     )
   }
   try {
@@ -99,7 +99,7 @@ function componentRender() {
       generation: getGeneration(),
     }
     if (!configuration.errorReporter) {
-      logException(renderError)
+      logException(renderError, undefined, this)
     }
     return componentRender.call(this)
   }
