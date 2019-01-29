@@ -9,6 +9,7 @@ const lazyConstructor = '_ctor'
 export const updateLazy = (target, type) => {
   const ctor = type[lazyConstructor]
   if (target[lazyConstructor] !== type[lazyConstructor]) {
+    // just execute `import` and RHL.register will do the job
     ctor()
   }
   if (!target[lazyConstructor].isPatchedByReactHotLoader) {
