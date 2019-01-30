@@ -6,8 +6,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -41,19 +40,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods arrow function in constructor.js 1`] = `
@@ -62,8 +63,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -93,19 +93,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods async functions expression body.js 1`] = `
@@ -114,8 +116,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -170,19 +171,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods async functions.js 1`] = `
@@ -191,8 +194,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -247,19 +249,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods block body.js 1`] = `
@@ -268,8 +272,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -299,19 +302,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods default params.js 1`] = `
@@ -320,8 +325,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -353,19 +357,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods destructured params.js 1`] = `
@@ -374,8 +380,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -408,19 +413,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods expression body.js 1`] = `
@@ -429,8 +436,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -460,19 +466,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods nested arguments.js 1`] = `
@@ -481,8 +489,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -518,19 +525,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods nested new.target.js 1`] = `
@@ -539,8 +548,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -574,19 +582,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods new.target.js 1`] = `
@@ -595,8 +605,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -628,19 +637,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods not a function.js 1`] = `
@@ -649,8 +660,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -678,19 +688,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods not an arrow function.js 1`] = `
@@ -699,8 +711,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -730,19 +741,21 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods same name as class method.js 1`] = `
@@ -751,8 +764,7 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\\"value\\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -787,27 +799,28 @@ var Foo = function () {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" copies arrow function body block onto hidden class methods static property.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -824,19 +837,21 @@ Foo.bar = function (a, b) {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" tags potential React components bindings.js 1`] = `
@@ -856,8 +871,7 @@ var _leftPad2 = _interopRequireDefault(_leftPad);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -917,9 +931,7 @@ exports.default = _default;
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
@@ -931,10 +943,14 @@ exports.default = _default;
   reactHotLoader.register(D, \\"D\\", __FILENAME__);
   reactHotLoader.register(E, \\"E\\", __FILENAME__);
   reactHotLoader.register(_default, \\"default\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" tags potential React components counter.js 1`] = `
@@ -945,8 +961,7 @@ Object.defineProperty(exports, \\"__esModule\\", {
 });
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -968,9 +983,7 @@ exports.default = _default;
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
@@ -978,10 +991,14 @@ exports.default = _default;
 
   reactHotLoader.register(Counter, \\"Counter\\", __FILENAME__);
   reactHotLoader.register(_default, \\"default\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" tags potential React components drop hot.prod.js 1`] = `
@@ -1046,8 +1063,7 @@ Object.defineProperty(exports, \\"__esModule\\", {
 exports.spread = spread;
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1061,19 +1077,21 @@ function spread() {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(spread, \\"spread\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "es2015" tags potential React components name clash.js 1`] = `
@@ -1084,8 +1102,7 @@ Object.defineProperty(exports, \\"__esModule\\", {
 });
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1095,9 +1112,7 @@ exports.default = _default2;
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
@@ -1105,18 +1120,21 @@ exports.default = _default2;
 
   reactHotLoader.register(_default, \\"_default\\", __FILENAME__);
   reactHotLoader.register(_default2, \\"default\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods arguments.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1139,27 +1157,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods arrow function in constructor.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1178,27 +1197,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods async functions expression body.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1217,27 +1237,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods async functions.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1258,27 +1279,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods block body.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1299,27 +1321,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods default params.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1340,27 +1363,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods destructured params.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1381,27 +1405,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods expression body.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1420,27 +1445,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods nested arguments.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1465,27 +1491,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods nested new.target.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1510,27 +1537,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods new.target.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1553,27 +1581,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods not a function.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1592,27 +1621,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods not an arrow function.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1633,27 +1663,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods same name as class method.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1678,27 +1709,28 @@ class Foo {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" copies arrow function body block onto hidden class methods static property.js 1`] = `
 "\\"use strict\\";
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1711,19 +1743,21 @@ Foo.bar = (a, b) => {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(Foo, \\"Foo\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" tags potential React components bindings.js 1`] = `
@@ -1741,8 +1775,7 @@ var _leftPad2 = _interopRequireDefault(_leftPad);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1780,9 +1813,7 @@ exports.default = _default;
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
@@ -1794,10 +1825,14 @@ exports.default = _default;
   reactHotLoader.register(D, \\"D\\", __FILENAME__);
   reactHotLoader.register(E, \\"E\\", __FILENAME__);
   reactHotLoader.register(_default, \\"default\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" tags potential React components counter.js 1`] = `
@@ -1808,8 +1843,7 @@ Object.defineProperty(exports, \\"__esModule\\", {
 });
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1825,9 +1859,7 @@ exports.default = _default;
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
@@ -1835,10 +1867,14 @@ exports.default = _default;
 
   reactHotLoader.register(Counter, \\"Counter\\", __FILENAME__);
   reactHotLoader.register(_default, \\"default\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" tags potential React components drop hot.prod.js 1`] = `
@@ -1901,8 +1937,7 @@ Object.defineProperty(exports, \\"__esModule\\", {
 exports.spread = spread;
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1912,19 +1947,21 @@ function spread(...args) {
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
   }
 
   reactHotLoader.register(spread, \\"spread\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;
 
 exports[`babel Targetting "modern" tags potential React components name clash.js 1`] = `
@@ -1935,8 +1972,7 @@ Object.defineProperty(exports, \\"__esModule\\", {
 });
 
 (function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
 
@@ -1946,9 +1982,7 @@ exports.default = _default2;
 ;
 
 (function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
 
   if (!reactHotLoader) {
     return;
@@ -1956,8 +1990,12 @@ exports.default = _default2;
 
   reactHotLoader.register(_default, \\"_default\\", __FILENAME__);
   reactHotLoader.register(_default2, \\"default\\", __FILENAME__);
-  leaveModule(module);
 })();
 
-;"
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule(module);
+})();"
 `;

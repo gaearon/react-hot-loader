@@ -12,7 +12,7 @@ const shouldIgnoreFile = file =>
     .match(/node_modules\/(react|react-hot-loader)([\/]|$)/)
 /* eslint-enable */
 
-module.exports = function plugin(args) {
+module.exports = function plugin(args, options = {}) {
   // This is a Babel plugin, but the user put it in the Webpack config.
   if (this && this.callback) {
     throw new Error(
@@ -27,14 +27,23 @@ module.exports = function plugin(args) {
   }
   const { types: t, template } = args
 
+  const { safetyNet = true } = options
+
   const buildRegistration = template(
     'reactHotLoader.register(ID, NAME, FILENAME);',
     templateOptions,
   )
   const headerTemplate = template(
     `(function () {
-       var enterModule = require('react-hot-loader').enterModule;
+       var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
        enterModule && enterModule(module);
+     }())`,
+    templateOptions,
+  )
+  const footerTemplate = template(
+    `(function () {
+       var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+       leaveModule(module);
      }())`,
     templateOptions,
   )
@@ -42,19 +51,18 @@ module.exports = function plugin(args) {
 
   // We're making the IIFE we insert at the end of the file an unused variable
   // because it otherwise breaks the output of the babel-node REPL (#359).
-  const buildTagger = template(
-    `
-(function () {
-  var reactHotLoader = require('react-hot-loader').default;
-  var leaveModule = require('react-hot-loader').leaveModule;
 
+  const buildTagger = template(
+    `    
+(function () {  
+  
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ?reactHotLoaderGlobal : require('react-hot-loader')).default;
+  
   if (!reactHotLoader) {
     return;
   }
 
-  REGISTRATIONS
-
-  leaveModule(module);
+  REGISTRATIONS  
 }());
   `,
     templateOptions,
@@ -151,12 +159,18 @@ module.exports = function plugin(args) {
             registrations.length &&
             !shouldIgnoreFile(file.opts.filename)
           ) {
-            node.body.unshift(headerTemplate())
+            if (safetyNet) {
+              node.body.unshift(headerTemplate())
+            }
             // Inject the generated tagging code at the very end
             // so that it is as minimally intrusive as possible.
             node.body.push(t.emptyStatement())
             node.body.push(buildTagger({ REGISTRATIONS: registrations }))
             node.body.push(t.emptyStatement())
+
+            if (safetyNet) {
+              node.body.push(footerTemplate())
+            }
           }
         },
       },

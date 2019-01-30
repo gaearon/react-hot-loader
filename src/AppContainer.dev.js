@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import defaultPolyfill, { polyfill } from 'react-lifecycles-compat'
 import logger from './logger'
-import { get as getGeneration } from './global/generation'
+import { get as getGeneration, hotComparisonOpen } from './global/generation'
 import configuration from './configuration'
 import { EmptyErrorPlaceholder, logException } from './errorReporter'
 
@@ -38,9 +38,14 @@ class AppContainer extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     logger.error(error)
+
+    if (!hotComparisonOpen()) {
+      // do not log error outside of HMR cycle
+      return
+    }
     const { errorReporter = configuration.errorReporter } = this.props
     if (!errorReporter) {
-      logException(error, errorInfo)
+      logException(error, errorInfo, this)
     }
     this.setState({
       error,

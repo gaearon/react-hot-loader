@@ -31,6 +31,7 @@ const markUpdate = ({ fiber }) => {
   fiber.expirationTime = 1
   if (fiber.alternate) {
     fiber.alternate.expirationTime = 1
+    fiber.alternate.type = fiber.type
   }
   fiber.memoizedProps = Object.assign(
     { cacheBusterProp: true },
