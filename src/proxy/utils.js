@@ -31,18 +31,17 @@ export const doesSupportClasses = (function() {
   }
 })()
 
-const ES6ProxyComponentFactory =
-  doesSupportClasses &&
+const ES6ProxyComponentFactory = (InitialParent, postConstructionAction) =>
   indirectEval(`
 (function(InitialParent, postConstructionAction) {
-  return class ProxyComponent extends InitialParent {
+  return class ${InitialParent.name || 'HotComponent'} extends InitialParent {
     constructor(props, context) {
       super(props, context)
       postConstructionAction.call(this)
     }
   }
 })
-`)
+`)(InitialParent, postConstructionAction)
 
 const ES5ProxyComponentFactory = function(
   InitialParent,
