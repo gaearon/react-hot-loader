@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.6.5"></a>
+## [4.6.5](https://github.com/gaearon/react-hot-loader/compare/v4.6.4...v4.6.5) (2019-01-31)
+
+
+### Bug Fixes
+
+* babel plugin produces a broken code ([6f8573f](https://github.com/gaearon/react-hot-loader/commit/6f8573f))
+
+
+
 <a name="4.6.4"></a>
 ## [4.6.4](https://github.com/gaearon/react-hot-loader/compare/v4.6.3...v4.6.4) (2019-01-31)
 
