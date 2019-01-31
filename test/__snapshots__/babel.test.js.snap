@@ -53,7 +53,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -106,7 +106,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -184,7 +184,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -262,7 +262,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -315,7 +315,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -370,7 +370,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -426,7 +426,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -479,7 +479,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -538,7 +538,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -595,7 +595,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -650,7 +650,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -701,7 +701,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -754,7 +754,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -812,7 +812,7 @@ var Foo = function () {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -850,7 +850,7 @@ Foo.bar = function (a, b) {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -949,7 +949,7 @@ exports.default = _default;
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -997,7 +997,7 @@ exports.default = _default;
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1090,7 +1090,7 @@ function spread() {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1126,7 +1126,7 @@ exports.default = _default2;
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1170,7 +1170,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1210,7 +1210,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1250,7 +1250,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1292,7 +1292,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1334,7 +1334,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1376,7 +1376,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1418,7 +1418,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1458,7 +1458,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1504,7 +1504,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1550,7 +1550,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1594,7 +1594,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1634,7 +1634,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1676,7 +1676,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1722,7 +1722,7 @@ class Foo {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1756,7 +1756,7 @@ Foo.bar = (a, b) => {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1831,7 +1831,7 @@ exports.default = _default;
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1873,7 +1873,7 @@ exports.default = _default;
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1960,7 +1960,7 @@ function spread(...args) {
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;
 
@@ -1996,6 +1996,6 @@ exports.default = _default2;
 
 (function () {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-  leaveModule(module);
+  leaveModule && leaveModule(module);
 })();"
 `;

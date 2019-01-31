@@ -43,7 +43,7 @@ module.exports = function plugin(args, options = {}) {
   const footerTemplate = template(
     `(function () {
        var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
-       leaveModule(module);
+       leaveModule && leaveModule(module);
      }())`,
     templateOptions,
   )
