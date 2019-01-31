@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.6.4"></a>
+## [4.6.4](https://github.com/gaearon/react-hot-loader/compare/v4.6.3...v4.6.4) (2019-01-31)
+
+
+### Bug Fixes
+
+* do not shadow component name ([4b02767](https://github.com/gaearon/react-hot-loader/commit/4b02767))
+* do not supress HMR errors ([be79d2f](https://github.com/gaearon/react-hot-loader/commit/be79d2f))
+* fix wrong react-dom name resolution installation ([6f829a0](https://github.com/gaearon/react-hot-loader/commit/6f829a0))
+* opt-out for module safety net, fixes [#1102](https://github.com/gaearon/react-hot-loader/issues/1102), [#1159](https://github.com/gaearon/react-hot-loader/issues/1159) ([93d0b1f](https://github.com/gaearon/react-hot-loader/commit/93d0b1f))
+* remove platform checks from production bundle, fixes [#1162](https://github.com/gaearon/react-hot-loader/issues/1162) ([24d0448](https://github.com/gaearon/react-hot-loader/commit/24d0448))
+* update fiber cached type, fixes [#1139](https://github.com/gaearon/react-hot-loader/issues/1139) ([35984ff](https://github.com/gaearon/react-hot-loader/commit/35984ff))
+
+
+
 <a name="4.6.3"></a>
 ## [4.6.3](https://github.com/gaearon/react-hot-loader/compare/v4.6.2...v4.6.3) (2018-12-19)
 
