@@ -22,6 +22,7 @@ import reactHotLoader from '../reactHotLoader'
 import logger from '../logger'
 import configuration, { internalConfiguration } from '../configuration'
 import { areSwappable } from './utils'
+import { resolveType } from './resolver'
 
 let renderStack = []
 
@@ -224,6 +225,7 @@ const hotReplacementRender = (instance, stack) => {
     const { children } = stack
 
     flow.forEach((child, index) => {
+      let childType = child.type
       const stackChild = children[index]
       const next = instance => {
         // copy over props as long new component may be hidden inside them
@@ -258,12 +260,13 @@ const hotReplacementRender = (instance, stack) => {
         return
       }
 
-      if (typeof child.type !== typeof stackChild.type) {
+      // comparing rendered type to fiber.ElementType
+      if (typeof childType !== typeof stackChild.elementType) {
         // Portals could generate undefined !== null
-        if (child.type && stackChild.type) {
+        if (childType && stackChild.type) {
           logger.warn(
             'React-hot-loader: got ',
-            child.type,
+            childType,
             'instead of',
             stackChild.type,
           )
@@ -277,6 +280,7 @@ const hotReplacementRender = (instance, stack) => {
         if (stackChild.children && stackChild.children[0]) {
           scheduleInstanceUpdate(stackChild.children[0].instance)
         }
+        childType = childType.type || childType
       }
 
       if (isForwardType(child)) {
@@ -285,24 +289,22 @@ const hotReplacementRender = (instance, stack) => {
         try {
           next({
             children: (child.props ? child.props.children : child.children[0])(
-              stackContext().get(getContextProvider(child.type)) ||
-                child.type[CONTEXT_CURRENT_VALUE],
+              stackContext().get(getContextProvider(childType)) ||
+                childType[CONTEXT_CURRENT_VALUE],
             ),
           })
         } catch (e) {
           // do nothing, yet
         }
-      } else if (typeof child.type !== 'function') {
+      } else if (typeof childType !== 'function') {
         // React
-        let childName = child.type
-          ? getComponentDisplayName(child.type)
-          : 'empty'
+        let childName = childType ? getComponentDisplayName(childType) : 'empty'
         let extraContext = stackContext()
 
         if (isContextProvider(child)) {
           extraContext = new Map(extraContext)
           extraContext.set(
-            getContextProvider(child.type),
+            getContextProvider(childType),
             {
               ...(child.nextProps || {}),
               ...(child.props || {}),
@@ -313,7 +315,7 @@ const hotReplacementRender = (instance, stack) => {
 
         renderStack.push({
           name: childName,
-          type: child.type,
+          type: childType,
           props: stack.instance.props,
           context: extraContext,
         })
@@ -330,11 +332,16 @@ const hotReplacementRender = (instance, stack) => {
         )
         renderStack.pop()
       } else {
-        if (child.type === stackChild.type) {
+        if (childType === stackChild.type) {
           next(stackChild.instance)
         } else {
           // unwrap proxy
-          const childType = getElementType(child)
+          let childType = getElementType(child)
+
+          if (isMemoType(child)) {
+            childType = childType.type || childType
+          }
+
           if (!stackChild.type[PROXY_KEY]) {
             if (!reactHotLoader.IS_REACT_MERGE_ENABLED) {
               if (isTypeBlacklisted(stackChild.type)) {
@@ -351,6 +358,11 @@ const hotReplacementRender = (instance, stack) => {
             isRegisteredComponent(stackChild.type)
           ) {
             // one of elements are registered via babel plugin, and should not be handled by hot swap
+            if (resolveType(childType) === resolveType(stackChild.type)) {
+              next(stackChild.instance)
+            } else {
+              // one component replace another. This is normal situation
+            }
           } else if (areSwappable(childType, stackChild.type)) {
             // they are both registered, or have equal code/displayname/signature
 

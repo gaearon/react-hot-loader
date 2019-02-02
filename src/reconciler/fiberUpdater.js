@@ -37,3 +37,7 @@ export const updateMemo = (target, { type }) => {
 export const updateForward = (target, { render }) => {
   target.render = render
 }
+
+export const updateContext = () => {
+  // nil
+}

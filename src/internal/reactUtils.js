@@ -93,5 +93,7 @@ export const isForwardType = ({ type }) =>
   '$$typeof' in type &&
   type.$$typeof === ForwardType &&
   ForwardType
+export const isContextType = type =>
+  isContextConsumer(type) || isContextProvider(type)
 
 export const getContextProvider = type => type && type._context

@@ -5,6 +5,7 @@ import {
   isLazyType,
   isMemoType,
   isForwardType,
+  isContextType,
 } from './internal/reactUtils'
 import { increment as incrementGeneration } from './global/generation'
 import {
@@ -20,6 +21,7 @@ import logger from './logger'
 
 import { preactAdapter } from './adapters/preact'
 import {
+  updateContext,
   updateForward,
   updateLazy,
   updateMemo,
@@ -72,6 +74,11 @@ const reactHotLoader = {
 
       registerComponent(updateProxyById(id, type, options).get(), 2)
       registerComponent(type)
+    }
+    if (isContextType({ type })) {
+      updateFunctionProxyById(id, type, updateContext)
+      updateFunctionProxyById(`${id}:provider`, type.Provider, updateContext)
+      incrementGeneration()
     }
     if (isLazyType({ type })) {
       updateFunctionProxyById(id, type, updateLazy)
