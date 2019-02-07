@@ -572,7 +572,7 @@ Available options are:
   Default value: false.
 * `ignoreSFC`: skip "patch" for SFC. "Hot loading" could still work, wit webpack-patch present
 * `pureRender`: do not amend `render` method of any component.
-* for the rest see [react-hot-loader.d.ts](https://github.com/gaearon/react-hot-loader/blob/master/react-hot-loader.d.ts#L57).
+* for the rest see [index.d.ts](https://github.com/gaearon/react-hot-loader/blob/master/index.d.ts#L62-L133).
 
 ```js
 // rhlConfig.js
