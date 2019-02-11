@@ -1,5 +1,6 @@
 let generation = 1
 let hotComparisonCounter = 0
+let hotComparisonRuns = 0
 const nullFunction = () => {}
 let onHotComparisonOpen = nullFunction
 let onHotComparisonElement = nullFunction
@@ -13,7 +14,8 @@ export const setComparisonHooks = (open, element, close) => {
 
 export const getElementComparisonHook = () => onHotComparisonElement
 
-export const hotComparisonOpen = () => hotComparisonCounter > 0
+export const hotComparisonOpen = () =>
+  hotComparisonCounter > 0 && hotComparisonRuns > 0
 
 const incrementHot = () => {
   if (!hotComparisonCounter) {
@@ -25,6 +27,7 @@ const decrementHot = () => {
   hotComparisonCounter--
   if (!hotComparisonCounter) {
     onHotComparisonClose()
+    hotComparisonRuns++
   }
 }
 
