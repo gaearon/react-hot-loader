@@ -52,7 +52,7 @@ var ReactDOM = {
   evalInReactContext: function (injection) {
     return eval(injection);
   },
-  initializeHooksForFiber: function (current) {
+  prepareRenderWithHooks: function (current) {
     firstCurrentHook = nextCurrentHook = current !== null ? current.memoizedState : null;
     ReactCurrentDispatcher$1.current = nextCurrentHook === null ? HooksDispatcherOnMountInDEV : HooksDispatcherOnUpdateInDEV;
   },

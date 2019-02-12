@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import ReactDOM from 'react-dom'
 
-const initializeHooksForFiber = ReactDOM.initializeHooksForFiber || (() => null)
+const prepareRenderWithHooks = ReactDOM.prepareRenderWithHooks || (() => null)
 
 function pushStack(stack, node) {
   stack.type = node.type
@@ -15,7 +15,7 @@ function pushStack(stack, node) {
       SFC_fake: stack.type,
       props: {},
       render: () => {
-        initializeHooksForFiber(node)
+        prepareRenderWithHooks(node)
         return stack.type(stack.instance.props)
       },
     }
