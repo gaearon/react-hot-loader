@@ -41,6 +41,9 @@ class AppContainer extends React.Component {
 
     if (!hotComparisonOpen()) {
       // do not log error outside of HMR cycle
+
+      // trigger update to kick error
+      this.setState({})
       return
     }
     const { errorReporter = configuration.errorReporter } = this.props

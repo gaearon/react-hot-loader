@@ -31,6 +31,11 @@ const decrementHot = () => {
   }
 }
 
+export const configureGeneration = (counter, runs) => {
+  hotComparisonCounter = counter
+  hotComparisonRuns = runs
+}
+
 export const enterHotUpdate = () => {
   Promise.resolve(incrementHot()).then(() => setTimeout(decrementHot, 0))
 }

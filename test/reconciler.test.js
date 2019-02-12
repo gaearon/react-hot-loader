@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { mount } from 'enzyme'
 import TestRenderer from 'react-test-renderer'
 import { AppContainer } from '../src/index.dev'
-import { increment as incrementGeneration } from '../src/global/generation'
+import {
+  configureGeneration,
+  increment as incrementGeneration,
+} from '../src/global/generation'
 import { areComponentsEqual } from '../src/utils.dev'
 import logger from '../src/logger'
 import reactHotLoader from '../src/reactHotLoader'
@@ -546,12 +549,13 @@ describe('reconciler', () => {
         console.error.mockRestore()
       })
 
-      it('should catch error to the boundary', () => {
+      it('should catch error to the boundary', async () => {
         if (!React.Suspense) {
           // this test is unstable on React 15
           expect(true).toBe(true)
           return
         }
+        configureGeneration(1, 1)
         const App = () => <div>Normal application</div>
         reactHotLoader.register(App, 'App', 'test.js')
 
