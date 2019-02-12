@@ -14,7 +14,7 @@ module.exports = {
   module: {
     rules: [
       {
-        //exclude: /node_modules|packages/,  // should work without exclude
+        exclude: /node_modules|packages/, // should work without exclude
         test: /\.js$/,
         use: ['react-hot-loader/webpack', 'babel-loader'],
       },

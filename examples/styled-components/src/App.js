@@ -36,6 +36,8 @@ const aNumber = 100500
 
 const OtherComponent = () => <span>test</span>
 
+const Context = React.createContext()
+
 const Hook = () => {
   const [state] = React.useState({ x: 2 })
   return (
@@ -48,7 +50,7 @@ const Hook = () => {
 
 const Memo1 = React.memo(() => (
   <div>
-    [mem1 <OtherComponent />
+    [mem <OtherComponent />
     <Counter /> memo]
   </div>
 ))
@@ -79,47 +81,49 @@ const InApp = () => (
   <h1>
     <BigText>
       <TwinComponent>
-        1. Hello, world! {aNumber} <Counter />
+        2. Hello, world! {aNumber} <Counter />
       </TwinComponent>
     </BigText>
-    hook:
-    <Hook />
-    <br />
-    <SmallText>
-      2.Hello, world! <Counter />.
-    </SmallText>
-    <br />
-    <Counter />
-    <Memo1 a1 a2 />
-    <Memo2 a1 a2 />
-    <div>
-      <React.Suspense fallback="loading">
-        <Async />
-      </React.Suspense>
-    </div>
-    <indirect.element />
-    <indirectStyled.DS>
-      {' '}
-      indirect DS <Counter />{' '}
-    </indirectStyled.DS>
-    <indirectStyled.DE>
-      {' '}
-      indirect DE <Counter />{' '}
-    </indirectStyled.DE>
-    <div>
-      {[
-        <span key={1}>depend on aNumber - </span>,
-        aNumber % 2 && <indirect.element key="2" />,
-      ]}
-    </div>
+    {/*hook:*/}
+    {/*<Hook/>*/}
+    {/*<br/>*/}
+    {/*<SmallText>*/}
+    {/*2.Hello, world! <Counter/>.*/}
+    {/*</SmallText>*/}
+    {/*<br/>*/}
+    {/*<Counter/>*/}
+    <Context.Provider>
+      <Memo1 a1 a2 />
+    </Context.Provider>
+    {/*<Memo2 a1 a2/>*/}
+    {/*<div>*/}
+    <React.Suspense fallback="loading">
+      <Async />
+    </React.Suspense>
+    {/*</div>*/}
+    {/*<indirect.element/>*/}
+    {/*<indirectStyled.DS>*/}
+    {/*{' '}*/}
+    {/*indirect DS <Counter/>{' '}*/}
+    {/*</indirectStyled.DS>*/}
+    {/*<indirectStyled.DE>*/}
+    {/*{' '}*/}
+    {/*indirect DE <Counter/>{' '}*/}
+    {/*</indirectStyled.DE>*/}
+    {/*<div>*/}
+    {/*{[*/}
+    {/*<span key={1}>depend on aNumber - </span>,*/}
+    {/*aNumber % 2 && <indirect.element key="2"/>,*/}
+    {/*]}*/}
+    {/*</div>*/}
   </h1>
 )
 
-const App = () => (
-  <Counter>
-    <InApp />
-  </Counter>
-)
+const App = () => <InApp />
+
+setConfig({
+  logLevel: 'debug',
+})
 
 //   return App;
 // }

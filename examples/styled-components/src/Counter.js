@@ -1,39 +1,48 @@
-import React from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 
-const ComponentA = () => <div>A</div>
-const ComponentB = () => <div>B</div>
+const TimerContext = React.createContext(0)
 
-class Counter extends React.Component {
-  state = { count: 0 }
+const ComponentA = () => {
+  const value = useContext(TimerContext)
+  const [state] = useState('A')
+  return (
+    <div>
+      {state}-{value}
+    </div>
+  )
+}
 
-  componentDidMount() {
-    if (!this.props.children) {
-      // return;
-    }
-    // return;
-    this.interval = setInterval(
-      () => this.setState(prevState => ({ count: prevState.count + 1 })),
-      1000,
-    )
-  }
+const ComponentB = () => {
+  const [state] = useState('B')
+  const value = useContext(TimerContext)
+  return (
+    <div>
+      {state}-{value}
+    </div>
+  )
+}
 
-  componentWillUnmount() {
-    clearInterval(this.interval)
-  }
+const Counter = ({ children }) => {
+  const [count, setState] = useState(0)
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = 0
+    const int = setInterval(() => setState(ref.current++), 1000)
+    return () => clearInterval(int)
+  }, [])
 
-  render() {
-    return (
-      <div>
-        #{this.state.count}
-        {this.props.children &&
-          React.cloneElement(this.props.children, {
-            counter: this.state.count,
+  return (
+    <div>
+      <TimerContext.Provider value={count}>
+        #{count}
+        {children &&
+          React.cloneElement(children, {
+            counter: count,
           })}
-        {this.state.count % 2 ? 'a' : 'b'}
-        {this.state.count % 2 ? <ComponentA /> : <ComponentB />}
-      </div>
-    )
-  }
+        {count % 2 ? <ComponentA /> : <ComponentB />}
+      </TimerContext.Provider>
+    </div>
+  )
 }
 
 export default Counter
