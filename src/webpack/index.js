@@ -84,4 +84,6 @@ function transform(source, map) {
   })
 }
 
+transform.patch = patch
+
 module.exports = transform;

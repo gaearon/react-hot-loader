@@ -36,32 +36,39 @@ const additional = {
   ]
 };
 
+const ReactHotLoaderInjection = `
+var updateChild = function (child) {
+  return function (newType) {
+    child.type = newType;
+    if (child.alternate) {
+      child.alternate.type = newType;
+    }
+  }
+};
+var hotCompareElements = function (oldType, newType) {
+  return oldType === newType
+};
+var ReactDOM = {
+  evalInReactContext: function (injection) {
+    return eval(injection);
+  },
+  initializeHooksForFiber: function (current) {
+    firstCurrentHook = nextCurrentHook = current !== null ? current.memoizedState : null;
+    ReactCurrentDispatcher$1.current = nextCurrentHook === null ? HooksDispatcherOnMountInDEV : HooksDispatcherOnUpdateInDEV;
+  },
+  setHotElementComparator: function (newComparator) {
+    hotCompareElements = newComparator
+  },
+`;
+
 const defaultEnd = [
   'var ReactDOM = {',
-  `var updateChild = function (child) { return function (newType) {
-       child.type = newType; 
-       if (child.alternate) {
-        child.alternate.type = newType;
-       }
-    }};
-    var hotCompareElements = function (oldType, newType) { return oldType === newType };
-    var ReactDOM = {
-      setHotElementComparator: function (newComparator) { hotCompareElements = newComparator }, 
-  `
+  ReactHotLoaderInjection
 ];
 
 const defaultEndCompact = [
   'var ReactDOM={',
-  `var updateChild = function (child) { return function (newType) {
-       child.type = newType; 
-       if (child.alternate) {
-        child.alternate.type = newType;
-       }
-    }};
-    var hotCompareElements = function (oldType, newType) { return oldType === newType };
-    var ReactDOM = {
-      setHotElementComparator: function (newComparator) { hotCompareElements = newComparator }, 
-  `
+  ReactHotLoaderInjection
 ];
 
 
