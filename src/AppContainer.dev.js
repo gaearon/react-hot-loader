@@ -18,6 +18,8 @@ class AppContainer extends React.Component {
     return null
   }
 
+  static reactHotLoadable = false
+
   state = {
     error: null,
     errorInfo: null,

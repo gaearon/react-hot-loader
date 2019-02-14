@@ -7,6 +7,7 @@ import {
   CACHED_RESULT,
   PROXY_IS_MOUNTED,
   PREFIX,
+  RENDERED_GENERATION,
 } from './constants'
 import { identity, safeDefineProperty, proxyClassCreator } from './utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
@@ -16,7 +17,11 @@ import {
   isReactClass,
   isReactClassInstance,
 } from '../internal/reactUtils'
-import { getElementComparisonHook } from '../global/generation'
+import {
+  get as getGeneration,
+  getElementCloseHook,
+  getElementComparisonHook,
+} from '../global/generation'
 
 const has = Object.prototype.hasOwnProperty
 
@@ -184,6 +189,7 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     'componentDidMount',
     target => {
       target[PROXY_IS_MOUNTED] = true
+      target[RENDERED_GENERATION] = getGeneration()
       instancesCount++
     },
   )
@@ -404,6 +410,7 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     if (isFunctionalComponent || !ProxyComponent) {
       // nothing
     } else {
+      getElementCloseHook(ProxyComponent)
       const classHotReplacement = () => {
         checkLifeCycleMethods(ProxyComponent, NextComponent)
         if (proxyGeneration > 1) {
@@ -418,7 +425,6 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
         Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
         defineProxyMethods(ProxyComponent, NextComponent.prototype)
         if (proxyGeneration > 1) {
-          getElementComparisonHook()(ProxyComponent)
           injectedMembers = mergeComponents(
             ProxyComponent,
             NextComponent,
@@ -427,6 +433,7 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
             injectedMembers,
           )
         }
+        getElementComparisonHook(ProxyComponent)
       }
 
       // Was constructed once

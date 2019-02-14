@@ -10,10 +10,8 @@ import reconcileHotReplacement, {
   unscheduleUpdate,
 } from './index'
 import configuration, { internalConfiguration } from '../configuration'
-import { forEachKnownClass } from '../proxy/createClassProxy'
 import { EmptyErrorPlaceholder, logException } from '../errorReporter'
-
-export const RENDERED_GENERATION = 'REACT_HOT_LOADER_RENDERED_GENERATION'
+import { RENDERED_GENERATION } from '../proxy'
 
 export const renderReconciler = (target, force) => {
   // we are not inside parent reconcilation
@@ -89,6 +87,10 @@ function componentRender() {
       { error, errorInfo, component: this },
     )
   }
+
+  if (this.hotComponentUpdate) {
+    this.hotComponentUpdate()
+  }
   try {
     return this[OLD_RENDER].render.call(this)
   } catch (renderError) {
@@ -111,7 +113,8 @@ function retryHotLoaderError() {
 
 setComparisonHooks(
   () => ({}),
-  ({ prototype }) => {
+  component => {
+    const { prototype } = component
     if (!prototype[OLD_RENDER]) {
       const renderDescriptior = Object.getOwnPropertyDescriptor(
         prototype,
@@ -128,31 +131,33 @@ setComparisonHooks(
     }
     delete prototype[ERROR_STATE]
   },
-  () =>
-    forEachKnownClass(({ prototype }) => {
-      if (prototype[OLD_RENDER]) {
-        const { generation } = prototype[ERROR_STATE] || {}
+  ({ prototype }) => {
+    if (prototype[OLD_RENDER]) {
+      const { generation } = prototype[ERROR_STATE] || {}
 
-        if (generation === getGeneration()) {
-          // still in error.
-          // keep render hooked
+      if (generation === getGeneration()) {
+        // still in error.
+        // keep render hooked
+      } else {
+        delete prototype.componentDidCatch
+        delete prototype.retryHotLoaderError
+        if (!prototype[OLD_RENDER].descriptor) {
+          delete prototype.render
         } else {
-          delete prototype.componentDidCatch
-          delete prototype.retryHotLoaderError
-          if (!prototype[OLD_RENDER].descriptor) {
-            delete prototype.render
-          } else {
-            prototype.render = prototype[OLD_RENDER].descriptor
-          }
-          delete prototype[ERROR_STATE]
-          delete prototype[OLD_RENDER]
+          prototype.render = prototype[OLD_RENDER].descriptor
         }
+        delete prototype[ERROR_STATE]
+        delete prototype[OLD_RENDER]
       }
-    }),
+    }
+  },
 )
 
 setStandInOptions({
   componentWillRender: asyncReconciledRender,
   componentDidRender: proxyWrapper,
-  componentDidUpdate: flushScheduledUpdates,
+  componentDidUpdate: component => {
+    component[RENDERED_GENERATION] = getGeneration()
+    flushScheduledUpdates()
+  },
 })

@@ -1,7 +1,9 @@
+import { forEachKnownClass } from '../proxy/createClassProxy'
+
 let generation = 1
 let hotComparisonCounter = 0
 let hotComparisonRuns = 0
-const nullFunction = () => {}
+const nullFunction = () => ({})
 let onHotComparisonOpen = nullFunction
 let onHotComparisonElement = nullFunction
 let onHotComparisonClose = nullFunction
@@ -12,13 +14,20 @@ export const setComparisonHooks = (open, element, close) => {
   onHotComparisonClose = close
 }
 
-export const getElementComparisonHook = () => onHotComparisonElement
+export const getElementComparisonHook = component =>
+  onHotComparisonElement(component)
+export const getElementCloseHook = component => onHotComparisonClose(component)
 
 export const hotComparisonOpen = () =>
   hotComparisonCounter > 0 && hotComparisonRuns > 0
 
+const openGeneration = () => forEachKnownClass(onHotComparisonElement)
+
+export const closeGeneration = () => forEachKnownClass(onHotComparisonClose)
+
 const incrementHot = () => {
   if (!hotComparisonCounter) {
+    openGeneration()
     onHotComparisonOpen()
   }
   hotComparisonCounter++
@@ -26,7 +35,7 @@ const incrementHot = () => {
 const decrementHot = () => {
   hotComparisonCounter--
   if (!hotComparisonCounter) {
-    onHotComparisonClose()
+    closeGeneration()
     hotComparisonRuns++
   }
 }

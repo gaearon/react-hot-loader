@@ -179,7 +179,7 @@ const reactHotLoader = {
       React.Children.only.isPatchedByReactHotLoader = true
     }
 
-    reactHotLoader.reset()
+    // reactHotLoader.reset()
   },
 }
 
