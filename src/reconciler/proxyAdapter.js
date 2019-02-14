@@ -78,7 +78,7 @@ function componentDidCatch(error, errorInfo) {
   this.forceUpdate()
 }
 
-function componentRender() {
+function componentRender(...args) {
   const { error, errorInfo, generation } = this[ERROR_STATE] || {}
 
   if (error && generation === getGeneration()) {
@@ -92,7 +92,7 @@ function componentRender() {
     this.hotComponentUpdate()
   }
   try {
-    return this[OLD_RENDER].render.call(this)
+    return this[OLD_RENDER].render.call(this, ...args)
   } catch (renderError) {
     this[ERROR_STATE] = {
       location: 'render',

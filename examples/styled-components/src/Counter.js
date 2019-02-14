@@ -24,7 +24,7 @@ const ComponentB = () => {
 
 const Counter = ({ children }) => {
   const [count, setState] = useState(0)
-  //useState(0);
+  useState(0)
   const ref = useRef()
   useEffect(() => {
     ref.current = 0

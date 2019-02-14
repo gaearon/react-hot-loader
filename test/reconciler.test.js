@@ -284,13 +284,16 @@ describe('reconciler', () => {
 
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
-      expect(First.rendered).toHaveBeenCalledTimes(3)
-      expect(Second.rendered).toHaveBeenCalledTimes(3)
+
+      const renderCompensation = configuration.pureRender ? 1 : 0
+
+      expect(First.rendered).toHaveBeenCalledTimes(3 + renderCompensation)
+      expect(Second.rendered).toHaveBeenCalledTimes(3 + renderCompensation)
 
       incrementGeneration()
       wrapper.setProps({ second: false })
-      expect(First.rendered).toHaveBeenCalledTimes(5)
-      expect(Second.rendered).toHaveBeenCalledTimes(3)
+      expect(First.rendered).toHaveBeenCalledTimes(5 + renderCompensation)
+      expect(Second.rendered).toHaveBeenCalledTimes(3 + renderCompensation)
 
       expect(First.unmounted).toHaveBeenCalledTimes(0)
       expect(Second.unmounted).toHaveBeenCalledTimes(1)
@@ -323,13 +326,21 @@ describe('reconciler', () => {
 
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
-      expect(First.rendered).toHaveBeenCalledTimes(3)
-      expect(Second.rendered).toHaveBeenCalledTimes(3)
+      expect(First.rendered).toHaveBeenCalledTimes(
+        configuration.pureRender ? 4 : 3,
+      )
+      expect(Second.rendered).toHaveBeenCalledTimes(
+        configuration.pureRender ? 4 : 3,
+      )
 
       incrementGeneration()
       wrapper.setProps({ second: false })
-      expect(First.rendered).toHaveBeenCalledTimes(5)
-      expect(Second.rendered).toHaveBeenCalledTimes(3)
+      expect(First.rendered).toHaveBeenCalledTimes(
+        configuration.pureRender ? 7 : 5,
+      )
+      expect(Second.rendered).toHaveBeenCalledTimes(
+        configuration.pureRender ? 4 : 3,
+      )
 
       expect(First.unmounted).toHaveBeenCalledTimes(0)
       expect(Second.unmounted).toHaveBeenCalledTimes(1)

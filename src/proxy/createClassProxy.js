@@ -410,8 +410,8 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     if (isFunctionalComponent || !ProxyComponent) {
       // nothing
     } else {
-      getElementCloseHook(ProxyComponent)
       const classHotReplacement = () => {
+        getElementCloseHook(ProxyComponent)
         checkLifeCycleMethods(ProxyComponent, NextComponent)
         if (proxyGeneration > 1) {
           filteredPrototypeMethods(ProxyComponent.prototype).forEach(

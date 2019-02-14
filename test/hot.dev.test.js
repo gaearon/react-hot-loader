@@ -9,6 +9,7 @@ import {
 import '../src/index.dev'
 import hot from '../src/hot.dev'
 import logger from '../src/logger'
+import configuration from '../src/configuration'
 import { increment as incrementGeneration } from '../src/global/generation'
 
 jest.mock('../src/logger')
@@ -96,7 +97,7 @@ describe('hot (dev)', () => {
     expect(spy).toHaveBeenCalledTimes(1)
     setTimeout(() => {
       setTimeout(() => {
-        expect(spy).toHaveBeenCalledTimes(3)
+        expect(spy).toHaveBeenCalledTimes(configuration.pureRender ? 4 : 3)
         done()
       }, 1)
     }, 1)

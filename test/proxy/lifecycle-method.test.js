@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { createMounter } from './helper'
 import createProxy from '../../src/proxy'
+import '../../src/index.dev'
 
 describe('lifecycle method', () => {
   const { mount } = createMounter()
