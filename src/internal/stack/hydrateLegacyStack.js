@@ -2,6 +2,7 @@
 
 function pushState(stack, type, instance) {
   stack.type = type
+  stack.elementType = type
   stack.children = []
   stack.instance = instance || stack
 

@@ -93,6 +93,10 @@ function transform(source) {
     // early reject
     return source;
   }
+  if (source.indexOf(sign) >= 0) {
+    // already patched
+    return;
+  }
   for (const key in injectionStart) {
     if (
       source.indexOf(injectionStart[key][0]) > 0 &&

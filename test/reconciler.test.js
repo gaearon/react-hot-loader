@@ -549,7 +549,7 @@ describe('reconciler', () => {
         console.error.mockRestore()
       })
 
-      it('should catch error to the boundary', async () => {
+      it('should catch error to the boundary', () => {
         if (!React.Suspense) {
           // this test is unstable on React 15
           expect(true).toBe(true)

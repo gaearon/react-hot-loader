@@ -56,6 +56,10 @@ class AppContainer extends React.Component {
     })
   }
 
+  retryHotLoaderError = () => {
+    this.setState({ error: null })
+  }
+
   render() {
     const { error, errorInfo } = this.state
 
@@ -65,7 +69,9 @@ class AppContainer extends React.Component {
     } = this.props
 
     if (error && this.props.errorBoundary) {
-      return <ErrorReporter error={error} errorInfo={errorInfo} />
+      return (
+        <ErrorReporter error={error} errorInfo={errorInfo} component={this} />
+      )
     }
 
     if (this.hotComponentUpdate) {

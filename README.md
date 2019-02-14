@@ -428,10 +428,17 @@ You may add one more babel-loader, with only one React-Hot-Loader plugin inside 
 
 ##### React-Hooks
 
-* React-Hooks should work out of the box if you are using version 4.6.0 or above (`pureSFC` is enabled by default).
-* Having dom-patch enabled would solve any possible issue (`ignoreSFC` option is enabled)
+React hooks are not _really_ supported by React-Hot-Loader. Mostly due to our internal
+processes of re-rendering React Tree, which is requited to reconcile the updated application
+before React will try to rerender it, and purge everything by the way.
 
-You can always `cold` component, but any update then would cause a state loss.
+* hooks **should work** for versions 4.6.0 and above (`pureSFC` is enabled by default).
+* hooks will produce **errors** on every hot-update without patches to `react-dom`.
+* hooks **may loss the state** without patches to `react-dom`.
+* hooks does not support adding new hooks on the fly
+
+The most safe way to use hooks - `cold` them, so make them not hot-reloadable, but they would work
+without pain (any update then would cause a state loss)
 
 * _cold_ components using hooks.
 

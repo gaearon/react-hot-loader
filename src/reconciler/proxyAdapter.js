@@ -68,16 +68,14 @@ const OLD_RENDER = 'react-hot-loader-original-render'
 
 function componentDidCatch(error, errorInfo) {
   this[ERROR_STATE] = {
+    location: 'boundary',
     error,
     errorInfo,
     generation: getGeneration(),
   }
   Object.getPrototypeOf(this)[ERROR_STATE] = this[ERROR_STATE]
   if (!configuration.errorReporter) {
-    logException({
-      error,
-      errorInfo,
-    })
+    logException(error, errorInfo, this)
   }
   this.forceUpdate()
 }
@@ -95,6 +93,7 @@ function componentRender() {
     return this[OLD_RENDER].render.call(this)
   } catch (renderError) {
     this[ERROR_STATE] = {
+      location: 'render',
       error: renderError,
       generation: getGeneration(),
     }
@@ -103,6 +102,11 @@ function componentRender() {
     }
     return componentRender.call(this)
   }
+}
+
+function retryHotLoaderError() {
+  delete this[ERROR_STATE]
+  this.forceUpdate()
 }
 
 setComparisonHooks(
@@ -118,9 +122,11 @@ setComparisonHooks(
         render: prototype.render,
       }
       prototype.componentDidCatch = componentDidCatch
+      prototype.retryHotLoaderError = retryHotLoaderError
 
       prototype.render = componentRender
     }
+    delete prototype[ERROR_STATE]
   },
   () =>
     forEachKnownClass(({ prototype }) => {
@@ -132,11 +138,13 @@ setComparisonHooks(
           // keep render hooked
         } else {
           delete prototype.componentDidCatch
+          delete prototype.retryHotLoaderError
           if (!prototype[OLD_RENDER].descriptor) {
             delete prototype.render
           } else {
             prototype.render = prototype[OLD_RENDER].descriptor
           }
+          delete prototype[ERROR_STATE]
           delete prototype[OLD_RENDER]
         }
       }
