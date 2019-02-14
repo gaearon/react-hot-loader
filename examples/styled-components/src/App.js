@@ -39,7 +39,7 @@ const OtherComponent = () => <span>test</span>
 const Context = React.createContext()
 
 const Hook = () => {
-  const [state] = React.useState({ x: 2 })
+  const [state] = React.useState({ x: 4 })
   return (
     <div>
       hook state: {state.x}
@@ -81,41 +81,41 @@ const InApp = () => (
   <h1>
     <BigText>
       <TwinComponent>
-        2. Hello, world! {aNumber} <Counter />
+        3. Hello, world! {aNumber} <Counter />
       </TwinComponent>
     </BigText>
-    {/*hook:*/}
-    {/*<Hook/>*/}
-    {/*<br/>*/}
-    {/*<SmallText>*/}
-    {/*2.Hello, world! <Counter/>.*/}
-    {/*</SmallText>*/}
-    {/*<br/>*/}
-    {/*<Counter/>*/}
+    hook:
+    <Hook />
+    <br />
+    <SmallText>
+      2.Hello, world! <Counter />.
+    </SmallText>
+    <br />
+    <Counter />
     <Context.Provider>
       <Memo1 a1 a2 />
     </Context.Provider>
-    {/*<Memo2 a1 a2/>*/}
-    {/*<div>*/}
-    <React.Suspense fallback="loading">
-      <Async />
-    </React.Suspense>
-    {/*</div>*/}
-    {/*<indirect.element/>*/}
-    {/*<indirectStyled.DS>*/}
-    {/*{' '}*/}
-    {/*indirect DS <Counter/>{' '}*/}
-    {/*</indirectStyled.DS>*/}
-    {/*<indirectStyled.DE>*/}
-    {/*{' '}*/}
-    {/*indirect DE <Counter/>{' '}*/}
-    {/*</indirectStyled.DE>*/}
-    {/*<div>*/}
-    {/*{[*/}
-    {/*<span key={1}>depend on aNumber - </span>,*/}
-    {/*aNumber % 2 && <indirect.element key="2"/>,*/}
-    {/*]}*/}
-    {/*</div>*/}
+    <Memo2 a1 a2 />
+    <div>
+      <React.Suspense fallback="loading">
+        <Async />
+      </React.Suspense>
+    </div>
+    <indirect.element />
+    <indirectStyled.DS>
+      {' '}
+      indirect DS <Counter />{' '}
+    </indirectStyled.DS>
+    <indirectStyled.DE>
+      {' '}
+      indirect DE <Counter />{' '}
+    </indirectStyled.DE>
+    <div>
+      {[
+        <span key={1}>depend on aNumber - </span>,
+        aNumber % 2 && <indirect.element key="2" />,
+      ]}
+    </div>
   </h1>
 )
 
