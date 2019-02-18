@@ -36,32 +36,59 @@ const additional = {
   ]
 };
 
+const ReactHotLoaderInjection = `
+var updateChild = function (child) {
+  return function (newType) {
+    child.type = newType;
+    if (child.alternate) {
+      child.alternate.type = newType;
+    }
+  }
+};
+var hotCompareElements = function (oldType, newType) {
+  return oldType === newType
+};
+var cleanupHooks = function () {
+  firstCurrentHook = null;
+  currentHook = null;
+  firstWorkInProgressHook = null;
+  workInProgressHook = null;
+  nextWorkInProgressHook = null;
+  
+  remainingExpirationTime = NoWork;
+  componentUpdateQueue = null;
+  sideEffectTag = 0;
+}
+var ReactDOM = {
+  evalInReactContext: function (injection) {
+    return eval(injection);
+  },
+  hotRenderWithHooks: function (current, render) {       
+    cleanupHooks();
+    
+    firstCurrentHook = nextCurrentHook = current !== null ? current.memoizedState : null;
+    
+    ReactCurrentDispatcher$1.current = nextCurrentHook === null ? HooksDispatcherOnMountInDEV : HooksDispatcherOnUpdateInDEV;
+    
+    var rendered = render();
+    
+    cleanupHooks();
+    
+    return rendered;
+  },
+  setHotElementComparator: function (newComparator) {
+    hotCompareElements = newComparator
+  },
+`;
+
 const defaultEnd = [
   'var ReactDOM = {',
-  `var updateChild = function (child) { return function (newType) {
-       child.type = newType; 
-       if (child.alternate) {
-        child.alternate.type = newType;
-       }
-    }};
-    var hotCompareElements = function (oldType, newType) { return oldType === newType };
-    var ReactDOM = {
-      setHotElementComparator: function (newComparator) { hotCompareElements = newComparator }, 
-  `
+  ReactHotLoaderInjection
 ];
 
 const defaultEndCompact = [
   'var ReactDOM={',
-  `var updateChild = function (child) { return function (newType) {
-       child.type = newType; 
-       if (child.alternate) {
-        child.alternate.type = newType;
-       }
-    }};
-    var hotCompareElements = function (oldType, newType) { return oldType === newType };
-    var ReactDOM = {
-      setHotElementComparator: function (newComparator) { hotCompareElements = newComparator }, 
-  `
+  ReactHotLoaderInjection
 ];
 
 
@@ -85,6 +112,10 @@ function transform(source) {
   if (source.indexOf('reconcileSingleElement') < 0) {
     // early reject
     return source;
+  }
+  if (source.indexOf(sign) >= 0) {
+    // already patched
+    return;
   }
   for (const key in injectionStart) {
     if (

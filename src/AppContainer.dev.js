@@ -5,6 +5,7 @@ import logger from './logger'
 import { get as getGeneration, hotComparisonOpen } from './global/generation'
 import configuration from './configuration'
 import { EmptyErrorPlaceholder, logException } from './errorReporter'
+import { retryHotLoaderError } from './reconciler/proxyAdapter'
 
 class AppContainer extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -17,6 +18,8 @@ class AppContainer extends React.Component {
     }
     return null
   }
+
+  static reactHotLoadable = false
 
   state = {
     error: null,
@@ -41,6 +44,9 @@ class AppContainer extends React.Component {
 
     if (!hotComparisonOpen()) {
       // do not log error outside of HMR cycle
+
+      // trigger update to kick error
+      this.setState({})
       return
     }
     const { errorReporter = configuration.errorReporter } = this.props
@@ -53,6 +59,12 @@ class AppContainer extends React.Component {
     })
   }
 
+  retryHotLoaderError() {
+    this.setState({ error: null }, () => {
+      retryHotLoaderError.call(this)
+    })
+  }
+
   render() {
     const { error, errorInfo } = this.state
 
@@ -62,7 +74,9 @@ class AppContainer extends React.Component {
     } = this.props
 
     if (error && this.props.errorBoundary) {
-      return <ErrorReporter error={error} errorInfo={errorInfo} />
+      return (
+        <ErrorReporter error={error} errorInfo={errorInfo} component={this} />
+      )
     }
 
     if (this.hotComponentUpdate) {

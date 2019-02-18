@@ -70,8 +70,10 @@ export const updateProxyById = (id, type, options = {}) => {
 export const createProxyForType = (type, options) =>
   getProxyByType(type) || updateProxyById(generateTypeId(), type, options)
 
+export const isColdType = type => blackListedProxies.has(type)
+
 export const isTypeBlacklisted = type =>
-  blackListedProxies.has(type) ||
+  isColdType(type) ||
   (isCompositeComponent(type) &&
     ((configuration.ignoreSFC && !isReactClass(type)) ||
       (configuration.ignoreComponents && isReactClass(type))))

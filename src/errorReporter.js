@@ -1,12 +1,14 @@
 /* global document */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/accessible-emoji */
+/* eslint-disable no-use-before-define */
 
 import React from 'react'
 import ReactDom from 'react-dom'
 
 import configuration from './configuration'
 import { getComponentDisplayName } from './internal/reactUtils'
+import { enterHotUpdate } from './global/generation'
 
 let lastError = []
 
@@ -21,7 +23,7 @@ const overlayStyle = {
   color: '#000',
   fontFamily:
     '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
-
+  fontSize: '12px',
   margin: 0,
   padding: '16px',
   maxHeight: '50%',
@@ -32,6 +34,11 @@ const inlineErrorStyle = {
   backgroundColor: '#FEE',
 }
 
+const liCounter = {
+  position: 'absolute',
+  left: '10px',
+}
+
 const listStyle = {}
 
 export const EmptyErrorPlaceholder = ({ component }) => (
@@ -39,19 +46,36 @@ export const EmptyErrorPlaceholder = ({ component }) => (
     ⚛️🔥🤕 ({component
       ? getComponentDisplayName(component.constructor || component)
       : 'Unknown location'})
+    {component &&
+      component.retryHotLoaderError && (
+        <button onClick={() => component.retryHotLoaderError()} title="Retry">
+          ⟳
+        </button>
+      )}
   </span>
 )
 
+const errorHeader = (component, componentStack) => {
+  if (component || componentStack) {
+    return (
+      <span>
+        (
+        {component
+          ? getComponentDisplayName(component.constructor || component)
+          : 'Unknown location'}
+        {component && ', '}
+        {componentStack && componentStack.split('\n').filter(Boolean)[0]}
+        )
+      </span>
+    )
+  }
+  return null
+}
+
 const mapError = ({ error, errorInfo, component }) => (
-  <div>
+  <React.Fragment>
     <p style={{ color: 'red' }}>
-      {component && (
-        <span>
-          ({component
-            ? getComponentDisplayName(component.constructor || component)
-            : 'Unknown location'})
-        </span>
-      )}
+      {errorHeader(component, errorInfo && errorInfo.componentStack)}{' '}
       {error.toString ? error.toString() : error.message || 'undefined error'}
     </p>
     {errorInfo && errorInfo.componentStack ? (
@@ -62,6 +86,7 @@ const mapError = ({ error, errorInfo, component }) => (
             .split('\n')
             .slice(1, 2)
             .map((line, i) => <li key={String(i)}>{line}</li>)}
+          <hr />
           {errorInfo.componentStack
             .split('\n')
             .filter(Boolean)
@@ -80,7 +105,7 @@ const mapError = ({ error, errorInfo, component }) => (
         </div>
       )
     )}
-  </div>
+  </React.Fragment>
 )
 
 class ErrorOverlay extends React.Component {
@@ -89,6 +114,20 @@ class ErrorOverlay extends React.Component {
   }
 
   toggle = () => this.setState({ visible: !this.state.visible })
+
+  retry = () =>
+    this.setState(() => {
+      const { errors } = this.props
+      enterHotUpdate()
+      clearExceptions()
+      errors
+        .map(({ component }) => component)
+        .filter(Boolean)
+        .filter(({ retryHotLoaderError }) => !!retryHotLoaderError)
+        .forEach(component => component.retryHotLoaderError())
+
+      return {}
+    })
 
   render() {
     const { errors } = this.props
@@ -103,10 +142,18 @@ class ErrorOverlay extends React.Component {
           <button onClick={this.toggle}>
             {visible ? 'collapse' : 'expand'}
           </button>
+          <button onClick={this.retry}>Retry</button>
         </h2>
         {visible && (
           <ul style={listStyle}>
-            {errors.map((err, i) => <li key={i}>{mapError(err)}</li>)}
+            {errors.map((err, i) => (
+              <li key={i}>
+                <span style={liCounter}>
+                  ({i + 1}/{errors.length})
+                </span>
+                {mapError(err)}
+              </li>
+            ))}
           </ul>
         )}
       </div>
@@ -132,14 +179,14 @@ const initErrorOverlay = () => {
   }
 }
 
-export const clearExceptions = () => {
+export function clearExceptions() {
   if (lastError.length) {
     lastError = []
     initErrorOverlay()
   }
 }
 
-export const logException = (error, errorInfo, component) => {
+export function logException(error, errorInfo, component) {
   // do not suppress error
 
   /* eslint-disable no-console */

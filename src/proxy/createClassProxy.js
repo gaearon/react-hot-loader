@@ -7,6 +7,7 @@ import {
   CACHED_RESULT,
   PROXY_IS_MOUNTED,
   PREFIX,
+  RENDERED_GENERATION,
 } from './constants'
 import { identity, safeDefineProperty, proxyClassCreator } from './utils'
 import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
@@ -16,7 +17,11 @@ import {
   isReactClass,
   isReactClassInstance,
 } from '../internal/reactUtils'
-import { getElementComparisonHook } from '../global/generation'
+import {
+  get as getGeneration,
+  getElementCloseHook,
+  getElementComparisonHook,
+} from '../global/generation'
 
 const has = Object.prototype.hasOwnProperty
 
@@ -184,6 +189,7 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     'componentDidMount',
     target => {
       target[PROXY_IS_MOUNTED] = true
+      target[RENDERED_GENERATION] = getGeneration()
       instancesCount++
     },
   )
@@ -213,7 +219,15 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     } else if (isFunctionalComponent) {
       result = CurrentComponent(this.props, this.context)
     } else {
-      result = (CurrentComponent.prototype.render || this.render).apply(
+      const renderMethod = CurrentComponent.prototype.render || this.render
+      /* eslint-disable no-use-before-define */
+      if (renderMethod === proxiedRender) {
+        throw new Error(
+          'React-Hot-Loader: you are trying to render Component without .render method',
+        )
+      }
+      /* eslint-enable */
+      result = renderMethod.apply(
         this,
         // eslint-disable-next-line prefer-rest-params
         arguments,
@@ -405,6 +419,7 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
       // nothing
     } else {
       const classHotReplacement = () => {
+        getElementCloseHook(ProxyComponent)
         checkLifeCycleMethods(ProxyComponent, NextComponent)
         if (proxyGeneration > 1) {
           filteredPrototypeMethods(ProxyComponent.prototype).forEach(
@@ -418,7 +433,6 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
         Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
         defineProxyMethods(ProxyComponent, NextComponent.prototype)
         if (proxyGeneration > 1) {
-          getElementComparisonHook()(ProxyComponent)
           injectedMembers = mergeComponents(
             ProxyComponent,
             NextComponent,
@@ -427,6 +441,7 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
             injectedMembers,
           )
         }
+        getElementComparisonHook(ProxyComponent)
       }
 
       // Was constructed once

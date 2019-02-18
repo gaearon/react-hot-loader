@@ -4,6 +4,7 @@ import React from 'react'
 import { createMounter, ensureNoWarnings } from './helper'
 import createProxy from '../../src/proxy'
 import configuration from '../../src/configuration'
+import '../../src/index.dev'
 
 const createFixtures = () => ({
   modern: {
@@ -93,18 +94,10 @@ describe('consistency', () => {
         const realBarWrapper = mount(<Bar />)
         const realBarInstance = realBarWrapper.instance()
 
-        // detecting babel envirorment
-        const baz = new Baz()
-        if (baz.thisIsES6.toString().indexOf('=>') >= 0) {
-          // this is ES6 class. Bar is still Bar.
-          expect(realBarWrapper.text()).toBe('Bar')
-        } else {
-          // this is ES5 class. Bar is now Baz!
-          expect(realBarWrapper.text()).toBe('Baz')
-        }
+        expect(realBarWrapper.text()).toBe('Baz')
 
-        expect(barInstance).not.toBe(realBarInstance)
-        expect(barInstance.didUnmount).toBe(true)
+        expect(barInstance).toBe(realBarInstance)
+        expect(barInstance.didUnmount).not.toBe(true)
       })
 
       it('returns an existing proxy when wrapped twice', () => {
@@ -285,11 +278,12 @@ describe('consistency', () => {
 
         proxy.update(Update1Class)
         new Proxy() // side effect
+        //closeGeneration();
         expect(instance.render()).toBe(43)
 
         proxy.update(Update2Class)
         new Proxy() // side effect
-
+        //closeGeneration();
         expect(instance.render()).toBe(42)
         /* eslint-enable */
       })

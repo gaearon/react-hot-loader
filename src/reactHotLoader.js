@@ -5,6 +5,7 @@ import {
   isLazyType,
   isMemoType,
   isForwardType,
+  isContextType,
 } from './internal/reactUtils'
 import { increment as incrementGeneration } from './global/generation'
 import {
@@ -20,6 +21,7 @@ import logger from './logger'
 
 import { preactAdapter } from './adapters/preact'
 import {
+  updateContext,
   updateForward,
   updateLazy,
   updateMemo,
@@ -73,6 +75,11 @@ const reactHotLoader = {
       registerComponent(updateProxyById(id, type, options).get(), 2)
       registerComponent(type)
     }
+    if (isContextType({ type })) {
+      updateFunctionProxyById(id, type, updateContext)
+      updateFunctionProxyById(`${id}:provider`, type.Provider, updateContext)
+      incrementGeneration()
+    }
     if (isLazyType({ type })) {
       updateFunctionProxyById(id, type, updateLazy)
       incrementGeneration()
@@ -115,14 +122,11 @@ const reactHotLoader = {
       configuration.ignoreSFC = configuration.ignoreSFCWhenInjected
 
       reactHotLoader.IS_REACT_MERGE_ENABLED = true
-      console.info(
-        'React-Hot-Loader: react-🔥-dom patch detected. You may use all the features.',
-      )
     } else {
       // Actually everything works...
-      // console.warn(
-      //   'React-Hot-Loader: react-🔥-dom patch is not detected. React 16.6+ features may not work.',
-      // )
+      console.warn(
+        'React-Hot-Loader: react-🔥-dom patch is not detected. React 16.6+ features may not work.',
+      )
     }
     /* eslint-enable */
     if (!React.createElement.isPatchedByReactHotLoader) {
@@ -175,7 +179,7 @@ const reactHotLoader = {
       React.Children.only.isPatchedByReactHotLoader = true
     }
 
-    reactHotLoader.reset()
+    // reactHotLoader.reset()
   },
 }
 

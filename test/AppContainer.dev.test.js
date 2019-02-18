@@ -8,7 +8,10 @@ import { mapProps } from 'recompose'
 import { polyfill } from 'react-lifecycles-compat'
 import { AppContainer } from '../src/index.dev'
 import RHL from '../src/reactHotLoader'
-import { increment as incrementGeneration } from '../src/global/generation'
+import {
+  closeGeneration,
+  increment as incrementGeneration,
+} from '../src/global/generation'
 import { configureComponent } from '../src/utils.dev'
 import configuration from '../src/configuration'
 
@@ -346,6 +349,8 @@ describe(`AppContainer (dev)`, () => {
 
       const wrapper = mount(<Indirect App={App} />)
       expect(wrapper.text()).toBe('works before')
+      expect(<App />.type.prototype.render).not.toBe(App.prototype.render)
+      closeGeneration()
       expect(<App />.type.prototype.render).toBe(App.prototype.render)
       const originalRender = App.prototype.render
 
@@ -1455,7 +1460,9 @@ describe(`AppContainer (dev)`, () => {
         wrapper.setProps({ children: <App /> })
       }
 
-      expect(spy).toHaveBeenCalledTimes(1 + 2)
+      expect(spy).toHaveBeenCalledTimes(
+        configuration.pureRender && !React.lazy ? 4 : 3,
+      )
       expect(wrapper.contains(<div>ho</div>)).toBe(true)
     })
 
@@ -1488,7 +1495,9 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(firstSpy).toHaveBeenCalledTimes(1)
-      expect(secondSpy).toHaveBeenCalledTimes(2)
+      expect(secondSpy).toHaveBeenCalledTimes(
+        configuration.pureRender && !React.lazy ? 3 : 2,
+      )
       expect(wrapper.contains(<div>second</div>)).toBe(true)
     })
 
@@ -2055,7 +2064,7 @@ describe(`AppContainer (dev)`, () => {
         wrapper.setProps({ children: <Enhanced n={3} /> })
       }
 
-      if (React.memo) {
+      if (React.memo && !configuration.pureRender) {
         expect(spy).toHaveBeenCalledTimes(1 + 2)
       }
       expect(wrapper.contains(<div>ho</div>)).toBe(true)
@@ -2094,7 +2103,9 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(firstSpy).toHaveBeenCalledTimes(1)
-      expect(secondSpy).toHaveBeenCalledTimes(2)
+      expect(secondSpy).toHaveBeenCalledTimes(
+        configuration.pureRender && !React.lazy ? 3 : 2,
+      )
       expect(wrapper.contains(<div>second</div>)).toBe(true)
     })
 
@@ -2274,7 +2285,9 @@ describe(`AppContainer (dev)`, () => {
         wrapper.setProps({ children: <MiddleApp /> })
       }
 
-      expect(wrapper.update().text()).toBe('PATCHED + 6 v2')
+      if (!configuration.pureRender) {
+        expect(wrapper.update().text()).toBe('PATCHED + 6 v2')
+      }
     })
 
     it('hot-reloads children inside simple Fragments', () => {

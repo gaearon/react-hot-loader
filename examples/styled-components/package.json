@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --hot",
-    "start:prod": "NODE_ENV=production webpack-dev-server --hot"
+    "start:prod": "NODE_ENV=production webpack-dev-server --hot",
+    "start:link": "cp -R ../../dist ./node_modules/react-hot-loader && cp -R ../../*.js ./node_modules/react-hot-loader",
+    "start:hot": "cp -R ../../../hot/react-dom/target/cjs ./node_modules/react-dom"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -20,10 +22,10 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "emotion": "^8.0.12",
-    "react": "^16.7.0-alpha.2",
+    "react": "^16.8.0-alpha.1",
     "react-dom": "npm:@hot-loader/react-dom",
     "react-emotion": "^9.2.12",
-    "react-hot-loader": "^4.6.2",
+    "react-hot-loader": "^4.6.5",
     "styled-components": "^4.0.3"
   }
 }

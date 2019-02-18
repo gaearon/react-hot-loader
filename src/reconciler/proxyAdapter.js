@@ -10,10 +10,8 @@ import reconcileHotReplacement, {
   unscheduleUpdate,
 } from './index'
 import configuration, { internalConfiguration } from '../configuration'
-import { forEachKnownClass } from '../proxy/createClassProxy'
 import { EmptyErrorPlaceholder, logException } from '../errorReporter'
-
-export const RENDERED_GENERATION = 'REACT_HOT_LOADER_RENDERED_GENERATION'
+import { RENDERED_GENERATION } from '../proxy'
 
 export const renderReconciler = (target, force) => {
   // we are not inside parent reconcilation
@@ -63,26 +61,25 @@ export function proxyWrapper(element) {
   return element
 }
 
-const ERROR_STATE = 'react-hot-loader-catched-error'
-const OLD_RENDER = 'react-hot-loader-original-render'
+const ERROR_STATE = 'react_hot_loader_catched_error'
+const ERROR_STATE_PROTO = 'react_hot_loader_catched_error-prototype'
+const OLD_RENDER = 'react_hot_loader_original_render'
 
 function componentDidCatch(error, errorInfo) {
   this[ERROR_STATE] = {
+    location: 'boundary',
     error,
     errorInfo,
     generation: getGeneration(),
   }
-  Object.getPrototypeOf(this)[ERROR_STATE] = this[ERROR_STATE]
+  Object.getPrototypeOf(this)[ERROR_STATE_PROTO] = this[ERROR_STATE]
   if (!configuration.errorReporter) {
-    logException({
-      error,
-      errorInfo,
-    })
+    logException(error, errorInfo, this)
   }
   this.forceUpdate()
 }
 
-function componentRender() {
+function componentRender(...args) {
   const { error, errorInfo, generation } = this[ERROR_STATE] || {}
 
   if (error && generation === getGeneration()) {
@@ -91,10 +88,15 @@ function componentRender() {
       { error, errorInfo, component: this },
     )
   }
+
+  if (this.hotComponentUpdate) {
+    this.hotComponentUpdate()
+  }
   try {
-    return this[OLD_RENDER].render.call(this)
+    return this[OLD_RENDER].render.call(this, ...args)
   } catch (renderError) {
     this[ERROR_STATE] = {
+      location: 'render',
       error: renderError,
       generation: getGeneration(),
     }
@@ -105,9 +107,15 @@ function componentRender() {
   }
 }
 
+export function retryHotLoaderError() {
+  delete this[ERROR_STATE]
+  this.forceUpdate()
+}
+
 setComparisonHooks(
   () => ({}),
-  ({ prototype }) => {
+  component => {
+    const { prototype } = component
     if (!prototype[OLD_RENDER]) {
       const renderDescriptior = Object.getOwnPropertyDescriptor(
         prototype,
@@ -118,33 +126,39 @@ setComparisonHooks(
         render: prototype.render,
       }
       prototype.componentDidCatch = componentDidCatch
+      prototype.retryHotLoaderError = retryHotLoaderError
 
       prototype.render = componentRender
     }
+    delete prototype[ERROR_STATE]
   },
-  () =>
-    forEachKnownClass(({ prototype }) => {
-      if (prototype[OLD_RENDER]) {
-        const { generation } = prototype[ERROR_STATE] || {}
+  ({ prototype }) => {
+    if (prototype[OLD_RENDER]) {
+      const { generation } = prototype[ERROR_STATE_PROTO] || {}
 
-        if (generation === getGeneration()) {
-          // still in error.
-          // keep render hooked
+      if (generation === getGeneration()) {
+        // still in error.
+        // keep render hooked
+      } else {
+        delete prototype.componentDidCatch
+        delete prototype.retryHotLoaderError
+        if (!prototype[OLD_RENDER].descriptor) {
+          delete prototype.render
         } else {
-          delete prototype.componentDidCatch
-          if (!prototype[OLD_RENDER].descriptor) {
-            delete prototype.render
-          } else {
-            prototype.render = prototype[OLD_RENDER].descriptor
-          }
-          delete prototype[OLD_RENDER]
+          prototype.render = prototype[OLD_RENDER].descriptor
         }
+        delete prototype[ERROR_STATE_PROTO]
+        delete prototype[OLD_RENDER]
       }
-    }),
+    }
+  },
 )
 
 setStandInOptions({
   componentWillRender: asyncReconciledRender,
   componentDidRender: proxyWrapper,
-  componentDidUpdate: flushScheduledUpdates,
+  componentDidUpdate: component => {
+    component[RENDERED_GENERATION] = getGeneration()
+    flushScheduledUpdates()
+  },
 })

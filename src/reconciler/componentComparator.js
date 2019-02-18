@@ -1,6 +1,7 @@
 import {
   getIdByType,
   getProxyByType,
+  isColdType,
   isRegisteredComponent,
   updateProxyById,
 } from './proxies'
@@ -97,7 +98,15 @@ export const hotComponentCompare = (oldType, newType, setNewType, baseType) => {
   const hotActive = hotComparisonOpen()
   let result = oldType === newType
 
-  if (!isReloadableComponent(oldType) || !isReloadableComponent(newType)) {
+  if (
+    !isReloadableComponent(oldType) ||
+    !isReloadableComponent(newType) ||
+    isColdType(oldType) ||
+    isColdType(oldType) ||
+    !oldType ||
+    !newType ||
+    0
+  ) {
     return result
   }
 

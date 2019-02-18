@@ -1,7 +1,12 @@
 /* eslint-disable no-underscore-dangle */
+import ReactDOM from 'react-dom'
+
+const hotRenderWithHooks =
+  ReactDOM.hotRenderWithHooks || ((fiber, render) => render())
 
 function pushStack(stack, node) {
   stack.type = node.type
+  stack.elementType = node.elementType || node.type
   stack.children = []
   stack.instance = typeof node.type === 'function' ? node.stateNode : stack
   stack.fiber = node
@@ -10,7 +15,8 @@ function pushStack(stack, node) {
     stack.instance = {
       SFC_fake: stack.type,
       props: {},
-      render: () => stack.type(stack.instance.props),
+      render: () =>
+        hotRenderWithHooks(node, () => stack.type(stack.instance.props)),
     }
   }
 }
