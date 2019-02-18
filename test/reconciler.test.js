@@ -120,7 +120,7 @@ describe('reconciler', () => {
       currentProps.newProp = true
       incrementGeneration()
       wrapper.setProps({ update: 'now' })
-      // not react-stand-in merge them together
+      // now react-stand-in merge them together
       expect(areComponentsEqual(first.Component, second.Component)).toBe(true)
       expect(wrapper.find(<first.Component />.type).length).toBe(1)
       expect(wrapper.find(<second.Component />.type).length).toBe(1)

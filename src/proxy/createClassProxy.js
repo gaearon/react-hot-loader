@@ -220,11 +220,13 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
       result = CurrentComponent(this.props, this.context)
     } else {
       const renderMethod = CurrentComponent.prototype.render || this.render
+      /* eslint-disable no-use-before-define */
       if (renderMethod === proxiedRender) {
         throw new Error(
           'React-Hot-Loader: you are trying to render Component without .render method',
         )
       }
+      /* eslint-enable */
       result = renderMethod.apply(
         this,
         // eslint-disable-next-line prefer-rest-params

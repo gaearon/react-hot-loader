@@ -1,7 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import ReactDOM from 'react-dom'
 
-const hotRenderWithHooks = ReactDOM.hotRenderWithHooks || (() => null)
+const hotRenderWithHooks =
+  ReactDOM.hotRenderWithHooks || ((fiber, render) => render())
 
 function pushStack(stack, node) {
   stack.type = node.type
@@ -14,9 +15,8 @@ function pushStack(stack, node) {
     stack.instance = {
       SFC_fake: stack.type,
       props: {},
-      render: () => {
-        hotRenderWithHooks(node, () => stack.type(stack.instance.props))
-      },
+      render: () =>
+        hotRenderWithHooks(node, () => stack.type(stack.instance.props)),
     }
   }
 }
