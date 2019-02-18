@@ -6,7 +6,7 @@ const configuration = {
   pureSFC: true,
 
   // keep render method unpatched, moving sideEffect to componentDidUpdate
-  pureRender: false,
+  pureRender: true,
 
   // Allows SFC to be used, enables "intermediate" components used by Relay, should be disabled for Preact
   allowSFC: true,
