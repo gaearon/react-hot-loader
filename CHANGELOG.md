@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.7.0"></a>
+# [4.7.0](https://github.com/gaearon/react-hot-loader/compare/v4.6.5...v4.7.0) (2019-02-18)
+
+
+### Bug Fixes
+
+* complain if hot patches not present, fixes [#1173](https://github.com/gaearon/react-hot-loader/issues/1173) ([efc3d6b](https://github.com/gaearon/react-hot-loader/commit/efc3d6b))
+* deactivate RHL in dev mode if eval not allowed ([f995b0d](https://github.com/gaearon/react-hot-loader/commit/f995b0d))
+* disable ErrorBoundaries for a first run, fixes [#1172](https://github.com/gaearon/react-hot-loader/issues/1172) ([2a834c2](https://github.com/gaearon/react-hot-loader/commit/2a834c2))
+* Support Context.Provider reload and React.memo, fixes [#1169](https://github.com/gaearon/react-hot-loader/issues/1169) ([09e48eb](https://github.com/gaearon/react-hot-loader/commit/09e48eb))
+
+
+### Features
+
+* activate pureRender by default ([4e971b5](https://github.com/gaearon/react-hot-loader/commit/4e971b5))
+* implement flexible hot injections ([b7e8f5e](https://github.com/gaearon/react-hot-loader/commit/b7e8f5e))
+* make errors retryable to mitigate hooks update ([9967fde](https://github.com/gaearon/react-hot-loader/commit/9967fde))
+
+
+
 <a name="4.6.5"></a>
 ## [4.6.5](https://github.com/gaearon/react-hot-loader/compare/v4.6.4...v4.6.5) (2019-01-31)
 
