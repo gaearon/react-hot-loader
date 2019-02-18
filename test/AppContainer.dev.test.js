@@ -1460,7 +1460,9 @@ describe(`AppContainer (dev)`, () => {
         wrapper.setProps({ children: <App /> })
       }
 
-      expect(spy).toHaveBeenCalledTimes(1 + 2)
+      expect(spy).toHaveBeenCalledTimes(
+        configuration.pureRender && !React.lazy ? 4 : 3,
+      )
       expect(wrapper.contains(<div>ho</div>)).toBe(true)
     })
 
@@ -1493,7 +1495,9 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(firstSpy).toHaveBeenCalledTimes(1)
-      expect(secondSpy).toHaveBeenCalledTimes(2)
+      expect(secondSpy).toHaveBeenCalledTimes(
+        configuration.pureRender && !React.lazy ? 3 : 2,
+      )
       expect(wrapper.contains(<div>second</div>)).toBe(true)
     })
 
@@ -2099,7 +2103,9 @@ describe(`AppContainer (dev)`, () => {
       }
 
       expect(firstSpy).toHaveBeenCalledTimes(1)
-      expect(secondSpy).toHaveBeenCalledTimes(2)
+      expect(secondSpy).toHaveBeenCalledTimes(
+        configuration.pureRender && !React.lazy ? 3 : 2,
+      )
       expect(wrapper.contains(<div>second</div>)).toBe(true)
     })
 
