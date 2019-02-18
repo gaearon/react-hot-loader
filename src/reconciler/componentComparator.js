@@ -103,6 +103,8 @@ export const hotComponentCompare = (oldType, newType, setNewType, baseType) => {
     !isReloadableComponent(newType) ||
     isColdType(oldType) ||
     isColdType(oldType) ||
+    !oldType ||
+    !newType ||
     0
   ) {
     return result

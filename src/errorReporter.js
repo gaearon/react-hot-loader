@@ -48,7 +48,7 @@ export const EmptyErrorPlaceholder = ({ component }) => (
       : 'Unknown location'})
     {component &&
       component.retryHotLoaderError && (
-        <button onClick={component.retryHotLoaderError} title="Retry">
+        <button onClick={() => component.retryHotLoaderError()} title="Retry">
           ⟳
         </button>
       )}

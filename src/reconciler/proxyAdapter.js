@@ -61,8 +61,9 @@ export function proxyWrapper(element) {
   return element
 }
 
-const ERROR_STATE = 'react-hot-loader-catched-error'
-const OLD_RENDER = 'react-hot-loader-original-render'
+const ERROR_STATE = 'react_hot_loader_catched_error'
+const ERROR_STATE_PROTO = 'react_hot_loader_catched_error-prototype'
+const OLD_RENDER = 'react_hot_loader_original_render'
 
 function componentDidCatch(error, errorInfo) {
   this[ERROR_STATE] = {
@@ -71,7 +72,7 @@ function componentDidCatch(error, errorInfo) {
     errorInfo,
     generation: getGeneration(),
   }
-  Object.getPrototypeOf(this)[ERROR_STATE] = this[ERROR_STATE]
+  Object.getPrototypeOf(this)[ERROR_STATE_PROTO] = this[ERROR_STATE]
   if (!configuration.errorReporter) {
     logException(error, errorInfo, this)
   }
@@ -106,7 +107,7 @@ function componentRender(...args) {
   }
 }
 
-function retryHotLoaderError() {
+export function retryHotLoaderError() {
   delete this[ERROR_STATE]
   this.forceUpdate()
 }
@@ -133,7 +134,7 @@ setComparisonHooks(
   },
   ({ prototype }) => {
     if (prototype[OLD_RENDER]) {
-      const { generation } = prototype[ERROR_STATE] || {}
+      const { generation } = prototype[ERROR_STATE_PROTO] || {}
 
       if (generation === getGeneration()) {
         // still in error.
@@ -146,7 +147,7 @@ setComparisonHooks(
         } else {
           prototype.render = prototype[OLD_RENDER].descriptor
         }
-        delete prototype[ERROR_STATE]
+        delete prototype[ERROR_STATE_PROTO]
         delete prototype[OLD_RENDER]
       }
     }

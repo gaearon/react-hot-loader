@@ -5,6 +5,7 @@ import logger from './logger'
 import { get as getGeneration, hotComparisonOpen } from './global/generation'
 import configuration from './configuration'
 import { EmptyErrorPlaceholder, logException } from './errorReporter'
+import { retryHotLoaderError } from './reconciler/proxyAdapter'
 
 class AppContainer extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -58,8 +59,10 @@ class AppContainer extends React.Component {
     })
   }
 
-  retryHotLoaderError = () => {
-    this.setState({ error: null })
+  retryHotLoaderError() {
+    this.setState({ error: null }, () => {
+      retryHotLoaderError.call(this)
+    })
   }
 
   render() {
