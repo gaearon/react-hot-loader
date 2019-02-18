@@ -219,7 +219,13 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     } else if (isFunctionalComponent) {
       result = CurrentComponent(this.props, this.context)
     } else {
-      result = (CurrentComponent.prototype.render || this.render).apply(
+      const renderMethod = CurrentComponent.prototype.render || this.render
+      if (renderMethod === proxiedRender) {
+        throw new Error(
+          'React-Hot-Loader: you are trying to render Component without .render method',
+        )
+      }
+      result = renderMethod.apply(
         this,
         // eslint-disable-next-line prefer-rest-params
         arguments,
