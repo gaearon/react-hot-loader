@@ -81,41 +81,41 @@ const InApp = () => (
   <h1>
     <BigText>
       <TwinComponent>
-        2. Hello, world! {aNumber} <Counter />
+        1. Hello, world! {aNumber} <Counter />
       </TwinComponent>
     </BigText>
     hook:
     <Hook />
-    {/*<br />*/}
-    {/*<SmallText>*/}
-    {/*2.Hello, world! <Counter />.*/}
-    {/*</SmallText>*/}
-    {/*<br />*/}
-    {/*<Counter />*/}
-    {/*<Context.Provider>*/}
-    {/*<Memo1 a1 a2 />*/}
-    {/*</Context.Provider>*/}
-    {/*<Memo2 a1 a2 />*/}
-    {/*<div>*/}
-    {/*<React.Suspense fallback="loading">*/}
-    {/*<Async />*/}
-    {/*</React.Suspense>*/}
-    {/*</div>*/}
-    {/*<indirect.element />*/}
-    {/*<indirectStyled.DS>*/}
-    {/*{' '}*/}
-    {/*indirect DS <Counter />{' '}*/}
-    {/*</indirectStyled.DS>*/}
-    {/*<indirectStyled.DE>*/}
-    {/*{' '}*/}
-    {/*indirect DE <Counter />{' '}*/}
-    {/*</indirectStyled.DE>*/}
-    {/*<div>*/}
-    {/*{[*/}
-    {/*<span key={1}>depend on aNumber - </span>,*/}
-    {/*aNumber % 2 && <indirect.element key="2" />,*/}
-    {/*]}*/}
-    {/*</div>*/}
+    <br />
+    <SmallText>
+      2.Hello, world! <Counter />.
+    </SmallText>
+    <br />
+    <Counter />
+    <Context.Provider>
+      <Memo1 a1 a2 />
+    </Context.Provider>
+    <Memo2 a1 a2 />
+    <div>
+      <React.Suspense fallback="loading">
+        <Async />
+      </React.Suspense>
+    </div>
+    <indirect.element />
+    <indirectStyled.DS>
+      {' '}
+      indirect DS <Counter />{' '}
+    </indirectStyled.DS>
+    <indirectStyled.DE>
+      {' '}
+      indirect DE <Counter />{' '}
+    </indirectStyled.DE>
+    <div>
+      {[
+        <span key={1}>depend on aNumber - </span>,
+        aNumber % 2 && <indirect.element key="2" />,
+      ]}
+    </div>
   </h1>
 )
 

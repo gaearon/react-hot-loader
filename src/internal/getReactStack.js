@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import ReactDOM from 'react-dom'
 
 import hydrateFiberStack from './stack/hydrateFiberStack'
 import hydrateLegacyStack from './stack/hydrateLegacyStack'
@@ -39,10 +40,16 @@ const markUpdate = ({ fiber }) => {
   )
 }
 
-export const deepMapUpdate = stack => {
+export const cleanupReact = () => {
+  if (ReactDOM.hotCleanup) {
+    ReactDOM.hotCleanup()
+  }
+}
+
+export const deepMarkUpdate = stack => {
   markUpdate(stack)
   if (stack.children) {
-    stack.children.forEach(deepMapUpdate)
+    stack.children.forEach(deepMarkUpdate)
   }
 }
 

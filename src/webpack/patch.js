@@ -1,43 +1,43 @@
 const injectionStart = {
   '16.6': [
     'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : child.elementType === element.type)',
-    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.elementType, element.type, updateChild(child), child.type))'
+    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.elementType, element.type, hotUpdateChild(child), child.type))'
   ],
   '16.6-compact': [
     'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:child.elementType===element.type)',
-    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.elementType,element.type, updateChild(child), child.type))'
+    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.elementType,element.type, hotUpdateChild(child), child.type))'
   ],
   '16.4': [
     'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : child.type === element.type) {',
-    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.type, element.type, updateChild(child), child.type)) {'
+    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.type, element.type, hotUpdateChild(child), child.type)) {'
   ],
   '16.4-compact': [
     'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:child.type===element.type)',
-    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.type,element.type, updateChild(child), child.type))'
+    'if(child.tag===Fragment?element.type===REACT_FRAGMENT_TYPE:hotCompareElements(child.type,element.type, hotUpdateChild(child), child.type))'
   ],
 };
 
 const additional = {
   '16.6-update': [
     'if (current$$1 !== null && current$$1.elementType === element.type) {',
-    'if (current$$1 !== null && hotCompareElements(current$$1.elementType, element.type, updateChild(current$$1),current$$1.type)) {'
+    'if (current$$1 !== null && hotCompareElements(current$$1.elementType, element.type, hotUpdateChild(current$$1),current$$1.type)) {'
   ],
   '16.6-update-compact': [
     'if(current$$1!==null&&current$$1.elementType===element.type)',
-    'if(current$$1!==null&&hotCompareElements(current$$1.elementType,element.type,updateChild(current$$1),current$$1.type))'
+    'if(current$$1!==null&&hotCompareElements(current$$1.elementType,element.type,hotUpdateChild(current$$1),current$$1.type))'
   ],
   '16.4-update': [
     'if (current !== null && current.type === element.type) {',
-    'if (current !== null && hotCompareElements(current.type, element.type, updateChild(current),current.type)) {'
+    'if (current !== null && hotCompareElements(current.type, element.type, hotUpdateChild(current),current.type)) {'
   ],
   '16.4-update-compact': [
     'if (current!== null&&current.type===element.type)',
-    'if (current!== null&&hotCompareElements(current.type,element.type,updateChild(current)))'
+    'if (current!== null&&hotCompareElements(current.type,element.type,hotUpdateChild(current)))'
   ]
 };
 
 const ReactHotLoaderInjection = `
-var updateChild = function (child) {
+var hotUpdateChild = function (child) {
   return function (newType) {
     child.type = newType;
     if (child.alternate) {
@@ -48,7 +48,7 @@ var updateChild = function (child) {
 var hotCompareElements = function (oldType, newType) {
   return oldType === newType
 };
-var cleanupHooks = function () {
+var hotCleanupHooks = function () {
   firstCurrentHook = null;
   currentHook = null;
   firstWorkInProgressHook = null;
@@ -63,8 +63,9 @@ var ReactDOM = {
   evalInReactContext: function (injection) {
     return eval(injection);
   },
+  hotCleanup: hotCleanupHooks,
   hotRenderWithHooks: function (current, render) {       
-    cleanupHooks();
+    hotCleanupHooks();
     
     firstCurrentHook = nextCurrentHook = current !== null ? current.memoizedState : null;
     
@@ -72,7 +73,7 @@ var ReactDOM = {
     
     var rendered = render();
     
-    cleanupHooks();
+    hotCleanupHooks();
     
     return rendered;
   },

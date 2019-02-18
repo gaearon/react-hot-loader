@@ -1,4 +1,4 @@
-import getReactStack, {deepMapUpdate} from '../internal/getReactStack'
+import getReactStack, {deepMarkUpdate, cleanupReact} from '../internal/getReactStack'
 import hotReplacementRender, {
   flushScheduledUpdates,
   unscheduleUpdate
@@ -7,7 +7,8 @@ import hotReplacementRender, {
 const reconcileHotReplacement = ReactInstance => {
   const stack = getReactStack(ReactInstance);
   hotReplacementRender(ReactInstance, stack)
-  deepMapUpdate(stack);
+  cleanupReact();
+  deepMarkUpdate(stack);
 }
 
 export { flushScheduledUpdates, unscheduleUpdate }
