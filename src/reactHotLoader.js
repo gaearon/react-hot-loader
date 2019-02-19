@@ -77,7 +77,9 @@ const reactHotLoader = {
     }
     if (isContextType({ type })) {
       updateFunctionProxyById(id, type, updateContext)
-      updateFunctionProxyById(`${id}:provider`, type.Provider, updateContext)
+      if (type.Provider) {
+        updateFunctionProxyById(`${id}:provider`, type.Provider, updateContext)
+      }
       incrementGeneration()
     }
     if (isLazyType({ type })) {
