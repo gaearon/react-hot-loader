@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.7.1"></a>
+## [4.7.1](https://github.com/gaearon/react-hot-loader/compare/v4.7.0...v4.7.1) (2019-02-20)
+
+
+### Bug Fixes
+
+* destructed Context.Provider breaking registrations. fixes [#1184](https://github.com/gaearon/react-hot-loader/issues/1184) ([8240111](https://github.com/gaearon/react-hot-loader/commit/8240111))
+* do not poison memoized props ([9f6ab6e](https://github.com/gaearon/react-hot-loader/commit/9f6ab6e))
+* rethrow an error is hot comparison is not open ([8befa5a](https://github.com/gaearon/react-hot-loader/commit/8befa5a))
+
+
+
 <a name="4.7.0"></a>
 # [4.7.0](https://github.com/gaearon/react-hot-loader/compare/v4.6.5...v4.7.0) (2019-02-18)
 
