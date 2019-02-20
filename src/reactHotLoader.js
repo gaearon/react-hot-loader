@@ -6,6 +6,7 @@ import {
   isMemoType,
   isForwardType,
   isContextType,
+  isContextConsumer,
 } from './internal/reactUtils'
 import { increment as incrementGeneration } from './global/generation'
 import {
@@ -77,8 +78,14 @@ const reactHotLoader = {
     }
     if (isContextType({ type })) {
       updateFunctionProxyById(id, type, updateContext)
-      if (type.Provider) {
-        updateFunctionProxyById(`${id}:provider`, type.Provider, updateContext)
+      // eslint-disable-next-line no-underscore-dangle
+      if (isContextConsumer({ type }) && type._context.Provider) {
+        updateFunctionProxyById(
+          `${id}:provider`,
+          // eslint-disable-next-line no-underscore-dangle
+          type._context.Provider,
+          updateContext,
+        )
       }
       incrementGeneration()
     }
