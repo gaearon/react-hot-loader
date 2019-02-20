@@ -2,6 +2,7 @@ import React from 'react'
 import {
   enterHotUpdate,
   get as getGeneration,
+  hotComparisonOpen,
   setComparisonHooks,
 } from '../global/generation'
 import { getProxyByType, setStandInOptions } from './proxies'
@@ -115,6 +116,9 @@ export function retryHotLoaderError() {
 setComparisonHooks(
   () => ({}),
   component => {
+    if (!hotComparisonOpen()) {
+      return
+    }
     const { prototype } = component
     if (!prototype[OLD_RENDER]) {
       const renderDescriptior = Object.getOwnPropertyDescriptor(
