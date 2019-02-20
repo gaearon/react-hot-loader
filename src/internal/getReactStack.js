@@ -34,10 +34,13 @@ const markUpdate = ({ fiber }) => {
     fiber.alternate.expirationTime = 1
     fiber.alternate.type = fiber.type
   }
-  fiber.memoizedProps = Object.assign(
-    { cacheBusterProp: true },
-    fiber.memoizedProps,
-  )
+
+  if (fiber.memoizedProps && typeof fiber.memoizedProps === 'object') {
+    fiber.memoizedProps = Object.assign(
+      { cacheBusterProp: true },
+      fiber.memoizedProps,
+    )
+  }
 }
 
 export const cleanupReact = () => {
