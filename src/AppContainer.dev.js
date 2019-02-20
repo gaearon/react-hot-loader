@@ -48,7 +48,6 @@ class AppContainer extends React.Component {
       // trigger update to kick error
       this.setState({})
       throw error
-      return
     }
     const { errorReporter = configuration.errorReporter } = this.props
     if (!errorReporter) {

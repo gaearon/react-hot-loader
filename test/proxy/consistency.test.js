@@ -5,6 +5,7 @@ import { createMounter, ensureNoWarnings } from './helper'
 import createProxy from '../../src/proxy'
 import configuration from '../../src/configuration'
 import '../../src/index.dev'
+import { configureGeneration } from '../../src/global/generation'
 
 const createFixtures = () => ({
   modern: {
@@ -68,6 +69,9 @@ const createFixtures = () => ({
 })
 
 describe('consistency', () => {
+  beforeEach(() => {
+    configureGeneration(1, 1)
+  })
   ensureNoWarnings()
   const { mount } = createMounter()
 

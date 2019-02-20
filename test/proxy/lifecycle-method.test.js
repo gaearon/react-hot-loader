@@ -3,8 +3,13 @@ import React, { Component } from 'react'
 import { createMounter } from './helper'
 import createProxy from '../../src/proxy'
 import '../../src/index.dev'
+import { configureGeneration } from '../../src/global/generation'
 
 describe('lifecycle method', () => {
+  beforeEach(() => {
+    configureGeneration(1, 1)
+  })
+
   const { mount } = createMounter()
 
   class Controller extends Component {

@@ -10,6 +10,7 @@ import { AppContainer } from '../src/index.dev'
 import RHL from '../src/reactHotLoader'
 import {
   closeGeneration,
+  configureGeneration,
   increment as incrementGeneration,
 } from '../src/global/generation'
 import { configureComponent } from '../src/utils.dev'
@@ -18,6 +19,7 @@ import configuration from '../src/configuration'
 describe(`AppContainer (dev)`, () => {
   beforeEach(() => {
     RHL.reset()
+    configureGeneration(1, 1)
   })
 
   describe('with class root', () => {

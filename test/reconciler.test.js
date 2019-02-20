@@ -62,6 +62,10 @@ const spyComponent = (render, displayName, key) => {
 
 describe('reconciler', () => {
   describe('Application', () => {
+    beforeEach(() => {
+      configureGeneration(1, 1)
+    })
+
     it('should regenerate internal component', () => {
       const root = spyComponent(
         ({ children }) => <div>{children}</div>,
