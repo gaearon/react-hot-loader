@@ -66,19 +66,21 @@ const App = () => <div>Hello World!</div>
 export default hot(App)
 ```
 
-There is also old version of `hot`, used prior version 4.5.4. **Please use a new one**,
-as it is much more resilient to js errors you may make during development.
+3.  [Run webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
+
+```sh
+webpack-dev-server --hot
+```
+
+### Old API
+
+**Note:** There is also an old version of `hot`, used prior to version 4.5.4. **Please use the new one**,
+as it is much more resilient to js errors that you may make during development.
 
 ```js
 import { hot } from 'react-hot-loader'
 const App = () => <div>Hello World!</div>
 export default hot(module)(App)
-```
-
-3.  [Run webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
-
-```sh
-webpack-dev-server --hot
 ```
 
 ## Limitations
@@ -237,11 +239,10 @@ Using React Hot Loader with React Native can cause unexpected issues (see #824) 
 
 ## Webpack plugin
 
-We recommend to use `babel` plugin, but there are situations when you are unable to use it, then - try webpack loader (as seen in v3)
-to have at least _something_.
-Remember - it is **not compatible** with class-based components - as long as babel plugin
-would inject a special methods to the every class, to make `class members`(like onClick) hot-updatable,
-while webpack-plugin would leave classes as is, without any _instrumentation_.
+We recommend using the `babel` plugin, but there are some situations where you are unable to. If so, try the `webpack` plugin / `webpack-loader` (as seen in v3).
+
+Remember - the `webpack` plugin is **not compatible** with class-based components. The `babel` plugin
+will inject special methods to every class, to make `class members` (like onClick) hot-updatable, while the `webpack` plugin would leave classes as is, without any _instrumentation_.
 
 ```js
 class MyComponent extends React.Component {
@@ -251,7 +252,7 @@ class MyComponent extends React.Component {
 }
 ```
 
-But webpack-loader could help with TypeScript or _spreading_ "cold API" [to all node_modules](https://github.com/gaearon/react-hot-loader#disabling-a-type-change-for-all-node_modules).
+But `webpack-loader` could help with TypeScript or _spreading_ "cold API" [to all node_modules](https://github.com/gaearon/react-hot-loader#disabling-a-type-change-for-all-node_modules).
 
 > It is safe to enable this loader for all the files. But place it after babel-loader, if babel-loader is present.
 
@@ -523,7 +524,7 @@ export default hot(module)(App)
 
 ### `AppContainer`
 
-Mark application as hot reloadable. (**Prefer** using `hot` helper)
+Mark application as hot reloadable. (**Prefer** using `hot` helper, see below for migration details).
 
 This low-level approach lets you make **hot **imports\_\_, not exports.
 
