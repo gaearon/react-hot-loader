@@ -72,6 +72,8 @@ export default hot(App)
 webpack-dev-server --hot
 ```
 
+### Old API
+
 **Note:** There is also an old version of `hot`, used prior to version 4.5.4. **Please use the new one**,
 as it is much more resilient to js errors that you may make during development.
 
