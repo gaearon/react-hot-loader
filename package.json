@@ -101,7 +101,7 @@
   "dependencies": {
     "fast-levenshtein": "^2.0.6",
     "global": "^4.3.0",
-    "hoist-non-react-statics": "^2.5.0",
+    "hoist-non-react-statics": "^3.3.0",
     "loader-utils": "^1.1.0",
     "lodash.merge": "^4.6.1",
     "prop-types": "^15.6.1",
