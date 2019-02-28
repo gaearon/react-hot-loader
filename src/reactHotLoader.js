@@ -76,10 +76,18 @@ const reactHotLoader = {
       registerComponent(type)
     }
     if (isContextType({ type })) {
+      // possible options - Context, Consumer, Provider.
+      ;['Provider', 'Consumer'].forEach(prop => {
+        const descriptor = Object.getOwnPropertyDescriptor(type, prop)
+        if (descriptor && descriptor.value) {
+          updateFunctionProxyById(
+            `${id}:${prop}`,
+            descriptor.value,
+            updateContext,
+          )
+        }
+      })
       updateFunctionProxyById(id, type, updateContext)
-      if (type.Provider) {
-        updateFunctionProxyById(`${id}:provider`, type.Provider, updateContext)
-      }
       incrementGeneration()
     }
     if (isLazyType({ type })) {
