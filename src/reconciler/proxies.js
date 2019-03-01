@@ -3,7 +3,7 @@ import { resetClassProxies } from '../proxy/createClassProxy'
 import { isCompositeComponent, isReactClass } from '../internal/reactUtils'
 import configuration from '../configuration'
 
-const merge = require('lodash.merge')
+const merge = require('lodash/merge')
 
 let proxiesByID
 let blackListedProxies
