@@ -1,6 +1,8 @@
 'use strict'
 
-if (!module.hot || process.env.NODE_ENV === 'production') {
+var hasWindow = typeof window !== 'undefined';
+
+if (!module.hot || process.env.NODE_ENV === 'production' || !hasWindow) {
   module.exports = require('./dist/react-hot-loader.production.min.js');
 } else {
   var evalAllowed = false;
@@ -11,7 +13,7 @@ if (!module.hot || process.env.NODE_ENV === 'production') {
   }
 
   // RHL needs setPrototypeOf to operate Component inheritance, and eval to patch methods
-  var jsFeaturesPresent = typeof window !== 'undefined' && !!Object.setPrototypeOf;
+  var jsFeaturesPresent = !!Object.setPrototypeOf;
 
   if (!jsFeaturesPresent || !evalAllowed) {
     // we are not in prod mode, but RHL could not be activated
