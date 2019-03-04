@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.7.2"></a>
+## [4.7.2](https://github.com/gaearon/react-hot-loader/compare/v4.7.1...v4.7.2) (2019-03-04)
+
+
+### Bug Fixes
+
+* safer reads from context consumer ([7942d26](https://github.com/gaearon/react-hot-loader/commit/7942d26))
+* suppress error message on a server side, fixes [#1188](https://github.com/gaearon/react-hot-loader/issues/1188) ([b12b430](https://github.com/gaearon/react-hot-loader/commit/b12b430))
+
+
+
 <a name="4.7.1"></a>
 ## [4.7.1](https://github.com/gaearon/react-hot-loader/compare/v4.7.0...v4.7.1) (2019-02-20)
 
