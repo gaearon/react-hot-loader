@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.8.0"></a>
+# [4.8.0](https://github.com/gaearon/react-hot-loader/compare/v4.7.2...v4.8.0) (2019-03-07)
+
+
+### Features
+
+* support 16.8.4 ([38b63cd](https://github.com/gaearon/react-hot-loader/commit/38b63cd))
+
+
+
 <a name="4.7.2"></a>
 ## [4.7.2](https://github.com/gaearon/react-hot-loader/compare/v4.7.1...v4.7.2) (2019-03-04)
 
