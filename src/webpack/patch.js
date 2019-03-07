@@ -49,15 +49,9 @@ var hotCompareElements = function (oldType, newType) {
   return oldType === newType
 };
 var hotCleanupHooks = function () {
-  firstCurrentHook = null;
-  currentHook = null;
-  firstWorkInProgressHook = null;
-  workInProgressHook = null;
-  nextWorkInProgressHook = null;
-  
-  remainingExpirationTime = NoWork;
-  componentUpdateQueue = null;
-  sideEffectTag = 0;
+  if (typeof resetHooks !== 'undefined') {
+     resetHooks();
+  }
 }
 var ReactDOM = {
   evalInReactContext: function (injection) {
@@ -67,9 +61,14 @@ var ReactDOM = {
   hotRenderWithHooks: function (current, render) {       
     hotCleanupHooks();
     
-    firstCurrentHook = nextCurrentHook = current !== null ? current.memoizedState : null;
-    
-    ReactCurrentDispatcher$1.current = nextCurrentHook === null ? HooksDispatcherOnMountInDEV : HooksDispatcherOnUpdateInDEV;
+    if (typeof nextCurrentHook !== 'undefined' && typeof ReactCurrentDispatcher$1 !== 'undefined') {    
+      nextCurrentHook = current !== null ? current.memoizedState : null;
+      if(typeof firstCurrentHook !== 'undefined') {
+        firstCurrentHook = nextCurrentHook;
+      }
+      
+      ReactCurrentDispatcher$1.current = nextCurrentHook === null ? HooksDispatcherOnMountInDEV : HooksDispatcherOnUpdateInDEV;
+    }
     
     var rendered = render();
     
