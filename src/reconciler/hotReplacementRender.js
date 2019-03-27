@@ -287,10 +287,12 @@ const hotReplacementRender = (instance, stack) => {
         next(stackChild.instance)
       } else if (isContextConsumer(child)) {
         try {
+          const contextValue = stackContext().get(getContextProvider(childType))
           next({
             children: (child.props ? child.props.children : child.children[0])(
-              stackContext().get(getContextProvider(childType)) ||
-                childType[CONTEXT_CURRENT_VALUE],
+              contextValue !== undefined
+                ? contextValue
+                : childType[CONTEXT_CURRENT_VALUE],
             ),
           })
         } catch (e) {
