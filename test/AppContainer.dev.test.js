@@ -1040,6 +1040,181 @@ describe(`AppContainer (dev)`, () => {
         expect(wrapper.text()).toBe('new render + old state')
       },
     )
+
+    it('passes a default context value', () => {
+      if (React.version.startsWith('16')) {
+        const spy = jest.fn()
+        const contextValue = 'value'
+        const { Consumer } = React.createContext('value')
+
+        class App extends Component {
+          render() {
+            return (
+              <Consumer>
+                {value => {
+                  spy()
+                  return <div>{value}</div>
+                }}
+              </Consumer>
+            )
+          }
+        }
+
+        RHL.register(App, 'App', 'test.js')
+
+        const wrapper = mount(
+          <AppContainer>
+            <App />
+          </AppContainer>,
+        )
+
+        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true)
+        expect(spy).toHaveBeenCalledTimes(1)
+      } else {
+        expect(true).toBe(true)
+      }
+    })
+
+    it('passes provider defined context value', () => {
+      if (React.version.startsWith('16')) {
+        const spy = jest.fn()
+        const contextValue = 'value'
+        const { Provider, Consumer } = React.createContext()
+
+        class App extends Component {
+          render() {
+            return (
+              <Provider value={contextValue}>
+                <Consumer>
+                  {value => {
+                    spy()
+                    return <div>{value}</div>
+                  }}
+                </Consumer>
+              </Provider>
+            )
+          }
+        }
+
+        RHL.register(App, 'App', 'test.js')
+
+        const wrapper = mount(
+          <AppContainer>
+            <App />
+          </AppContainer>,
+        )
+
+        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true)
+        expect(spy).toHaveBeenCalledTimes(1)
+      } else {
+        expect(true).toBe(true)
+      }
+    })
+
+    it('passes provider defined falsy context value', () => {
+      if (React.version.startsWith('16')) {
+        const spy = jest.fn()
+        const contextValue = 0
+        const { Provider, Consumer } = React.createContext()
+
+        class App extends Component {
+          render() {
+            return (
+              <Provider value={contextValue}>
+                <Consumer>
+                  {value => {
+                    spy(value)
+                    return <div>{value}</div>
+                  }}
+                </Consumer>
+              </Provider>
+            )
+          }
+        }
+
+        RHL.register(App, 'App', 'test.js')
+
+        const wrapper = mount(
+          <AppContainer>
+            <App />
+          </AppContainer>,
+        )
+
+        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true)
+        expect(spy).toHaveBeenCalledTimes(1)
+        expect(spy).toHaveBeenCalledWith(contextValue)
+      } else {
+        expect(true).toBe(true)
+      }
+    })
+
+    it('passes provider defined falsy context value on receiving new children', () => {
+      if (React.version.startsWith('16')) {
+        const spy = jest.fn()
+        const spy2 = jest.fn()
+        const contextValue = false
+        const { Provider, Consumer } = React.createContext()
+
+        class App extends Component {
+          render() {
+            return (
+              <Provider value={contextValue}>
+                <Consumer>
+                  {value => {
+                    spy(value)
+                    return <div>{value}</div>
+                  }}
+                </Consumer>
+              </Provider>
+            )
+          }
+        }
+
+        RHL.register(App, 'App', 'test.js')
+
+        const wrapper = mount(
+          <AppContainer>
+            <App />
+          </AppContainer>,
+        )
+
+        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true)
+        expect(spy).toHaveBeenCalledTimes(1)
+        expect(spy).toHaveBeenCalledWith(contextValue)
+
+        {
+          class App extends Component {
+            shouldComponentUpdate() {
+              return false
+            }
+
+            render() {
+              return (
+                <Provider value={contextValue}>
+                  <Consumer>
+                    {value => {
+                      spy2(value)
+                      return <div>{value}</div>
+                    }}
+                  </Consumer>
+                </Provider>
+              )
+            }
+          }
+
+          RHL.register(App, 'App', 'test.js')
+          wrapper.setProps({ children: <App /> })
+        }
+
+        const firstCallArg = spy2.mock.calls[0][0]
+
+        expect(spy2).toHaveBeenCalledTimes(2)
+        expect(firstCallArg).toBeDefined()
+        expect(firstCallArg).toBe(contextValue)
+      } else {
+        expect(true).toBe(true)
+      }
+    })
   })
 
   describe('with createClass root', () => {
