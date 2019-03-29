@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.8.1"></a>
+## [4.8.1](https://github.com/gaearon/react-hot-loader/compare/v4.8.0...v4.8.1) (2019-03-29)
+
+
+### Bug Fixes
+
+* root hot for parcel bundler, fixes [#1082](https://github.com/gaearon/react-hot-loader/issues/1082) ([a16679b](https://github.com/gaearon/react-hot-loader/commit/a16679b))
+
+
+
 <a name="4.8.0"></a>
 # [4.8.0](https://github.com/gaearon/react-hot-loader/compare/v4.7.2...v4.8.0) (2019-03-07)
 
