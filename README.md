@@ -28,23 +28,12 @@ npm install react-hot-loader
 
 ## 🔥 HOT-LABS 🔥
 
-Latest (4.5.0+, beta) version of React-Hot-Loader could be quite 🔥!
+Latest (4.5.0+) version of React-Hot-Loader could be quite 🔥!
 
 > RHL will patch React, replace React-DOM by React-🔥-DOM and work with fiber directly
 
 * (required) [use webpack plugin](https://github.com/gaearon/react-hot-loader#webpack-plugin) to let RHL patch React-DOM for you.
 * (alternative) [use react-🔥-dom](https://github.com/gaearon/react-hot-loader#react--dom) to use already patched React-DOM.
-* (optional) [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig) to `ignoreSFC:true` (this will fix `hook`)
-* (optional) [set configuration](https://github.com/gaearon/react-hot-loader#setconfigconfig) to `pureRender:true` (this will remove side effect from Classes)
-
-```js
-import { setConfig } from 'react-hot-loader'
-
-setConfig({
-  ignoreSFC: true, // RHL will be __completely__ disabled for SFC
-  pureRender: true, // RHL will not change render method
-})
-```
 
 ## Getting started
 
@@ -66,21 +55,26 @@ const App = () => <div>Hello World!</div>
 export default hot(App)
 ```
 
-3.  [Run webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
-
-```sh
-webpack-dev-server --hot
-```
-
 ### Old API
 
 **Note:** There is also an old version of `hot`, used prior to version 4.5.4. **Please use the new one**,
 as it is much more resilient to js errors that you may make during development.
 
+Meanwhile, not all the bundlers are compatible with new `/root` API, for example **[parcel](http://parceljs.org/) is not**.
+
+React-Hot-Load will throw an error, asking you to use the old API, if such incompatibility would be detected.
+It is almost the same, but you have to pass `module` inside `hot`.
+
 ```js
 import { hot } from 'react-hot-loader'
 const App = () => <div>Hello World!</div>
 export default hot(module)(App)
+```
+
+3.  [Run webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
+
+```sh
+webpack-dev-server --hot
 ```
 
 ## Limitations
