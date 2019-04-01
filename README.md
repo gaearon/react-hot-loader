@@ -127,6 +127,8 @@ export default hot(module)(App)
 
 Users [report](https://github.com/gaearon/react-hot-loader/pull/729#issuecomment-354097936), that it is possible to use [react-app-rewire-hot-loader](https://github.com/cdharris/react-app-rewire-hot-loader) to setup React-hot-loader without ejecting.
 
+Also, [react-hot-reload.macro](https://github.com/cometkim/react-hot-reload.macro) provides limited support of React Hot Loader in zero configuration.
+
 ### TypeScript
 
 As of version 4, React Hot Loader requires you to pass your code through [Babel](http://babeljs.io/) to transform it so that it can be hot-reloaded. This can be a pain point for TypeScript users, who usually do not need to integrate Babel as part of their build process.
