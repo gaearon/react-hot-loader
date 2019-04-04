@@ -28,7 +28,7 @@ if (anyModule.hot) {
 
 ```ts
 if ((module as any).hot) {
-  ;(module as any).hot.accept('./app', () => render(App))
+  (module as any).hot.accept('./app', () => render(App))
 }
 ```
 
