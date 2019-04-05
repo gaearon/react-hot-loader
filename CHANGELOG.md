@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.8.3"></a>
+## [4.8.3](https://github.com/gaearon/react-hot-loader/compare/v4.8.2...v4.8.3) (2019-04-05)
+
+
+### Bug Fixes
+
+* Allow refs on lazy components ([798e37f](https://github.com/gaearon/react-hot-loader/commit/798e37f))
+* invariant violation react 15 ([1351f2d](https://github.com/gaearon/react-hot-loader/commit/1351f2d))
+
+
+
 <a name="4.8.1"></a>
 ## [4.8.1](https://github.com/gaearon/react-hot-loader/compare/v4.8.0...v4.8.1) (2019-03-29)
 
