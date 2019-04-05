@@ -18,12 +18,21 @@ export const updateLazy = (target, type) => {
         const C = resolveType(m.default)
         // chunks has been updated - new hot loader process is taking a place
         enterHotUpdate()
+        if (!React.forwardRef) {
+          return {
+            default: props => (
+              <AppContainer>
+                <C {...props} />
+              </AppContainer>
+            ),
+          }
+        }
         return {
-          default: props => (
+          default: React.forwardRef((props, ref) => (
             <AppContainer>
-              <C {...props} />
+              <C {...props} ref={ref} />
             </AppContainer>
-          ),
+          )),
         }
       })
     target[lazyConstructor].isPatchedByReactHotLoader = true
