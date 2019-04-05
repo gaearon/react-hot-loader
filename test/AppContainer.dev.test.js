@@ -910,9 +910,10 @@ describe(`AppContainer (dev)`, () => {
       RHL.register(MountSpy, 'Pure', 'test.js')
       RHL.register(Lazy, 'Lazy', 'test.js')
 
+      const ref = jest.fn()
       class App extends Component {
         render() {
-          return <Lazy />
+          return <Lazy ref={ref} />
         }
       }
 
@@ -927,6 +928,7 @@ describe(`AppContainer (dev)`, () => {
       await Promise.resolve(1)
 
       expect(spy).not.toHaveBeenCalled()
+      expect(ref).toHaveBeenCalledTimes(1)
 
       expect(wrapper.root.findByProps({ children: 'I am old' })).toBeDefined()
 
