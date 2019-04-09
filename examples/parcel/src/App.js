@@ -1,5 +1,5 @@
 import React from 'react'
-import { hot } from 'react-hot-loader/root'
+import { hot } from 'react-hot-loader'
 import Counter from './Counter'
 
 const App = () => (
@@ -9,4 +9,4 @@ const App = () => (
   </h1>
 )
 
-export default hot(App)
+export default hot(module)(App)
