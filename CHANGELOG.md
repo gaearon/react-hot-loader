@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.8.4"></a>
+## [4.8.4](https://github.com/gaearon/react-hot-loader/compare/v4.8.3...v4.8.4) (2019-04-15)
+
+
+### Bug Fixes
+
+* document the importance of import order, fixes [#1209](https://github.com/gaearon/react-hot-loader/issues/1209) ([5f50ee4](https://github.com/gaearon/react-hot-loader/commit/5f50ee4))
+* dont skip first update or plain components ([432e0f8](https://github.com/gaearon/react-hot-loader/commit/432e0f8))
+* remove Object.assign, fixes [#1226](https://github.com/gaearon/react-hot-loader/issues/1226) ([c5af009](https://github.com/gaearon/react-hot-loader/commit/c5af009))
+
+
+
 <a name="4.8.3"></a>
 ## [4.8.3](https://github.com/gaearon/react-hot-loader/compare/v4.8.2...v4.8.3) (2019-04-05)
 
