@@ -3,7 +3,7 @@ import {
   getProxyByType,
   setComponentOptions,
 } from './reconciler/proxies'
-import configuration from './configuration'
+import { setConfiguration } from './configuration'
 import { hotComponentCompare } from './reconciler/componentComparator'
 
 const getProxyOrType = type => {
@@ -25,4 +25,4 @@ export const cold = type => {
 export const configureComponent = (component, options) =>
   setComponentOptions(component, options)
 
-export const setConfig = config => Object.assign(configuration, config)
+export const setConfig = config => setConfiguration(config)

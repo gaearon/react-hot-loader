@@ -55,6 +55,15 @@ const App = () => <div>Hello World!</div>
 export default hot(App)
 ```
 
+3.  Make sure `react-hot-loader` is required before `react`.
+
+* or `import 'react-hot-loader'` in your main file (before React)
+* or have at least one variable in the same file (babel/webpack plugin would import react-hot-loader then)
+* or prepend your webpack entry point with `react-hot-loader/patch`, which will `import 'react-hot-loader'`, and nothing more.
+
+Keep in mind - the same rule is applied to `react-dom`, as long as it would (since 16.8.6) import `react` internally.
+React-hot-loader, to prevent dependency cycles(#1209), caused by the code it injects, **should be imported first**.
+
 ### Old API
 
 **Note:** There is also an old version of `hot`, used prior to version 4.5.4. **Please use the new one**,
@@ -662,10 +671,12 @@ import App from './containers/App'
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
-### No patch required
+### Patch is optional
 
-Code is automatically patched, you can safely remove `react-hot-loader/patch`
-from your webpack config.
+> Since 4.0 till 4.8
+
+Code is automatically patched, you can safely remove `react-hot-loader/patch` from your webpack config,
+if react-hot-loader is required before React in any other way.
 
 ### Error Boundary is inside every component
 

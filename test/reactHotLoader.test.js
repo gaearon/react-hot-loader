@@ -112,16 +112,16 @@ describe('reactHotLoader', () => {
       const oldGeneration = getGeneration()
       reactHotLoader.register(Div, 'Div', 'reactHotLoader.test.js')
       // new thing, no change
-      expect(getGeneration()).toBe(oldGeneration + 0)
+      expect(getGeneration()).toBe(oldGeneration + 1)
 
       reactHotLoader.register(Div, 'Div', 'reactHotLoader.test.js')
       // no replacement
-      expect(getGeneration()).toBe(oldGeneration + 0)
+      expect(getGeneration()).toBe(oldGeneration + 2)
 
       const NewDiv = () => <div />
       reactHotLoader.register(NewDiv, 'Div', 'reactHotLoader.test.js')
       // replacement!
-      expect(getGeneration()).toBe(oldGeneration + 1)
+      expect(getGeneration()).toBe(oldGeneration + 3)
     })
 
     it('should ignore dom elements and incomplete signature', () => {

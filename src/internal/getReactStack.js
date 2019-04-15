@@ -36,10 +36,10 @@ const markUpdate = ({ fiber }) => {
   }
 
   if (fiber.memoizedProps && typeof fiber.memoizedProps === 'object') {
-    fiber.memoizedProps = Object.assign(
-      { cacheBusterProp: true },
-      fiber.memoizedProps,
-    )
+    fiber.memoizedProps = {
+      cacheBusterProp: true,
+      ...fiber.memoizedProps,
+    }
   }
 }
 

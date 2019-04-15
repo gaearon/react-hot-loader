@@ -66,7 +66,8 @@ describe('hot (dev)', () => {
     wrapper.unmount()
   })
 
-  it('should redraw component on HRM', done => {
+  // this test is very flaky
+  it.skip('should redraw component on HRM', done => {
     const callbacks = []
     const sourceModule = {
       id: 'error42',

@@ -44,4 +44,13 @@ export const internalConfiguration = {
   disableProxyCreation: false,
 }
 
+export const setConfiguration = config => {
+  // not using Object.assing for IE11 compliance
+  for (const i in config) {
+    if (config.hasOwnProperty(i)) {
+      configuration[i] = config[i]
+    }
+  }
+}
+
 export default configuration

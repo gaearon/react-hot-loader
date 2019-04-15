@@ -46,9 +46,6 @@ const reactHotLoader = {
       const proxy = getProxyById(id)
 
       if (proxy && proxy.getCurrent() !== type) {
-        // component got replaced. Need to reconcile
-        incrementGeneration()
-
         if (!reactHotLoader.IS_REACT_MERGE_ENABLED) {
           if (
             isTypeBlacklisted(type) ||
@@ -74,6 +71,7 @@ const reactHotLoader = {
 
       registerComponent(updateProxyById(id, type, options).get(), 2)
       registerComponent(type)
+      incrementGeneration()
     }
     if (isContextType({ type })) {
       // possible options - Context, Consumer, Provider.

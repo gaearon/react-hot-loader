@@ -1,4 +1,4 @@
-import configuration from '../configuration'
+import { setConfiguration } from '../configuration'
 
 const tune = {
   allowSFC: false,
@@ -7,7 +7,7 @@ const tune = {
 export const preactAdapter = (instance, resolveType) => {
   const oldHandler = instance.options.vnode
 
-  Object.assign(configuration, tune)
+  setConfiguration(tune)
 
   instance.options.vnode = vnode => {
     vnode.nodeName = resolveType(vnode.nodeName)
