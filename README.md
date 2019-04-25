@@ -26,15 +26,6 @@ npm install react-hot-loader
 > of a dev dependency as it automatically ensures it is not executed in
 > production and the footprint is minimal.
 
-## 🔥 HOT-LABS 🔥
-
-Latest (4.5.0+) version of React-Hot-Loader could be quite 🔥!
-
-> RHL will patch React, replace React-DOM by React-🔥-DOM and work with fiber directly
-
-* (required) [use webpack plugin](https://github.com/gaearon/react-hot-loader#webpack-plugin) to let RHL patch React-DOM for you.
-* (alternative) [use react-🔥-dom](https://github.com/gaearon/react-hot-loader#react--dom) to use already patched React-DOM.
-
 ## Getting started
 
 1.  Add `react-hot-loader/babel` to your `.babelrc`:
@@ -55,14 +46,42 @@ const App = () => <div>Hello World!</div>
 export default hot(App)
 ```
 
-3.  Make sure `react-hot-loader` is required before `react`.
+3.  Make sure `react-hot-loader` is required before `react` and `react-dom`:
 
 * or `import 'react-hot-loader'` in your main file (before React)
-* or have at least one variable in the same file (babel/webpack plugin would import react-hot-loader then)
-* or prepend your webpack entry point with `react-hot-loader/patch`, which will `import 'react-hot-loader'`, and nothing more.
+* or prepend your webpack entry point with `react-hot-loader/patch`
 
-Keep in mind - the same rule is applied to `react-dom`, as long as it would (since 16.8.6) import `react` internally.
-React-hot-loader, to prevent dependency cycles(#1209), caused by the code it injects, **should be imported first**.
+4.  If you need hooks support, use React-🔥-Dom
+
+## React-🔥-Dom
+
+React-🔥-Dom ([hot-loader/react-dom](https://github.com/hot-loader/react-dom)) replaces the "react-dom" package of the same version, but with additional patches to support hot reloading.
+
+There is 2 ways to install it:
+
+* Use **yarn** name resolution, so `@hot-loader/react-dom` would be installed instead of `react-dom`
+
+```
+yarn add react-dom@npm:@hot-loader/react-dom
+```
+
+* Use webpack **aliases**
+
+```
+yarn add @hot-loader/react-dom
+```
+
+```js
+// webpack.conf
+...
+resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+}
+...
+```
+
 
 ### Old API
 
@@ -275,33 +294,6 @@ module.exports = {
 ```
 
 Webpack plugin will also land a "hot" patch to react-dom, making React-Hot-Loader more compliant to [the principles](https://github.com/gaearon/react-hot-loader/issues/1118).
-
-## React-🔥-Dom
-
-Another way to make RHL more compliant is to use _our_ version of React-Dom - [hot-loader/react-dom](https://github.com/hot-loader/react-dom)
-
-It is the same React-Dom, with the same version, just with our patches already landed inside.
-
-There is 2 ways to install it:
-
-* Use **yarn** name resolution, so `@hot-loader/react-dom` would be installed instead of `react-dom`
-
-```
-yarn add react-dom@npm:@hot-loader/react-dom
-```
-
-* Use webpack **aliases**
-
-```js
-// webpack.conf
-...
-resolve: {
-    alias: {
-      'react-dom': '@hot-loader/react-dom'
-    }
-}
-...
-```
 
 ### Code Splitting
 
