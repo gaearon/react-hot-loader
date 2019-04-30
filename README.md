@@ -231,6 +231,41 @@ performance.
 Hot reloading code is just one line in the beginning and one line at the end of
 each module so you might not need source maps at all.
 
+### Linking
+
+If you are using `npm link` or `yarn link` for development purposes, there is a chance you will get error `Module not found: Error: Cannot resolve module 'react-hot-loader'` or the linked package is not hot reloaded.
+
+There are 2 ways to fix `Module not found`:
+
+- Use [`include` in loader configuration](https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js#L22) to only opt-in your app's files to processing.
+- Alternatively if you are using webpack, override the module resolution in your config:
+
+```js
+{
+  resolve: {
+    alias: {
+      'react-hot-loader': path.resolve(path.join(__dirname, './node_modules/react-hot-loader')),
+    }
+  }
+}
+```
+
+And to make your linked package to be hot reloaded, it will need to use the patched version of `react` and `react-dom`, if you're using webpack, add this options to the alias config
+
+```js
+{
+  resolve: {
+    alias: {
+      'react-hot-loader': path.resolve(path.join(__dirname, './node_modules/react-hot-loader')),
+      // add these 2 lines below so linked package will reference the patched version of `react` and `react-dom`
+      'react': path.resolve(path.join(__dirname, './node_modules/react')),
+      'react-dom': path.resolve(path.join(__dirname, './node_modules/react-dom')),
+      // or point react-dom above to './node_modules/@hot-loader/react-dom' if you are using React-🔥-Dom
+    }
+  }
+}
+```
+
 ## Preact
 
 React-hot-loader should work out of the box with `preact-compat`, but, in case of pure preact, you will need
