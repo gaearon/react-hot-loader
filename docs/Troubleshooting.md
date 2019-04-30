@@ -87,9 +87,9 @@ module.exports = {
 
 If you used WebpackDevServer CLI mode and after switching to Node it crashes with `Error: Invalid path ''`, you probably didn't have `path` specified in `output` at all. You can just put `path: __dirname` there, as it won't matter for development config.
 
-### Module not found: Error: Cannot resolve module 'react-hot'
+### Module not found: Error: Cannot resolve module 'react-hot-loader'
 
-Most likely you used `npm link` to use a development version of a package in a different folder, and React Hot Loader processed it by mistake. You should use [`include` in loader configuration](https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js#L22) to only opt-in your app's files to processing.
+Most likely you used `npm link` or `yarn link` to use a development version of a package in a different folder, and React Hot Loader processed it by mistake. Read the guide about linking package in [README linking section](../README.md#linking)
 
 ---
 
