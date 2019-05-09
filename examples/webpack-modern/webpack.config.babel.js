@@ -12,7 +12,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-        'react-dom': path.resolve( path.join( __dirname, '.', 'node_modules', '@hot-loader/react-dom' ) )
+        'react-dom': '@hot-loader/react-dom'
     }
   },
   module: {
