@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const {SourceNode, SourceMapConsumer} = require('source-map');
+const { SourceNode, SourceMapConsumer } = require('source-map');
 const loaderUtils = require('loader-utils');
 const makeIdentitySourceMap = require('./makeIdentitySourceMap');
 const patch = require('./patch');
@@ -18,12 +18,12 @@ function transform(source, map) {
   if (source && source.types && source.types.IfStatement) {
     throw new Error(
       'React Hot Loader: You are erroneously trying to use a Webpack loader ' +
-      'as a Babel plugin. Replace "react-hot-loader/webpack" with ' +
-      '"react-hot-loader/babel" in the "plugins" section of your .babelrc file. ' +
-      'While we recommend the above, if you prefer not to use Babel, ' +
-      'you may remove "react-hot-loader/webpack" from the "plugins" section of ' +
-      'your .babelrc file altogether, and instead add "react-hot-loader/webpack" ' +
-      'to the "loaders" section of your Webpack configuration.'
+        'as a Babel plugin. Replace "react-hot-loader/webpack" with ' +
+        '"react-hot-loader/babel" in the "plugins" section of your .babelrc file. ' +
+        'While we recommend the above, if you prefer not to use Babel, ' +
+        'you may remove "react-hot-loader/webpack" from the "plugins" section of ' +
+        'your .babelrc file altogether, and instead add "react-hot-loader/webpack" ' +
+        'to the "loaders" section of your Webpack configuration.',
     );
   }
 
@@ -31,7 +31,7 @@ function transform(source, map) {
     this.cacheable();
   }
 
-  const options = Object.assign({withPatch: true}, loaderUtils.getOptions(this));
+  const options = Object.assign({ withPatch: true }, loaderUtils.getOptions(this));
   if (options.withPatch) {
     source = patch(source);
   }
@@ -42,12 +42,10 @@ function transform(source, map) {
 
   // Read the helper once.
   if (!tagCommonJSExportsSource) {
-    tagCommonJSExportsSource = fs.readFileSync(
-      path.join(__dirname, 'webpackTagCommonJSExports.js'),
-      'utf8'
-    )
-    // Babel inserts these.
-    // Ideally we'd opt out for one file but this is simpler.
+    tagCommonJSExportsSource = fs
+      .readFileSync(path.join(__dirname, 'webpackTagCommonJSExports.js'), 'utf8')
+      // Babel inserts these.
+      // Ideally we'd opt out for one file but this is simpler.
       .replace(/['"]use strict['"];/, '')
       // eslint comments don't need to end up in the output
       .replace(/\/\/ eslint-disable-line .*\n/g, '\n')
@@ -58,16 +56,10 @@ function transform(source, map) {
 
   // Parameterize the helper with the current filename.
   const separator = '\n\n;';
-  const appendText = tagCommonJSExportsSource.replace(
-    /__FILENAME__/g,
-    JSON.stringify(this.resourcePath)
-  );
+  const appendText = tagCommonJSExportsSource.replace(/__FILENAME__/g, JSON.stringify(this.resourcePath));
 
   if (this.sourceMap === false) {
-    return callback(null, [
-      source,
-      appendText,
-    ].join(separator));
+    return callback(null, [source, appendText].join(separator));
   }
 
   if (!map) {
@@ -81,9 +73,9 @@ function transform(source, map) {
     ]).join(separator);
     const result = node.toStringWithSourceMap();
     callback(null, result.code, result.map.toJSON() || undefined);
-  })
+  });
 }
 
-transform.patch = patch
+transform.patch = patch;
 
 module.exports = transform;

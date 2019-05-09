@@ -1,5 +1,5 @@
-import React from 'react'
-import Counter from './Counter'
+import React from 'react';
+import Counter from './Counter';
 
 const hidden = function() {
   return {
@@ -8,7 +8,7 @@ const hidden = function() {
         this is hidden counter(<Counter />)
       </div>
     ),
-  }
-}
+  };
+};
 
-export default hidden
+export default hidden;

@@ -1,28 +1,21 @@
-import {
-  blacklistByType,
-  getProxyByType,
-  setComponentOptions,
-} from './reconciler/proxies'
-import { setConfiguration } from './configuration'
-import { hotComponentCompare } from './reconciler/componentComparator'
+import { blacklistByType, getProxyByType, setComponentOptions } from './reconciler/proxies';
+import { setConfiguration } from './configuration';
+import { hotComponentCompare } from './reconciler/componentComparator';
 
 const getProxyOrType = type => {
-  const proxy = getProxyByType(type)
-  return proxy ? proxy.get() : type
-}
+  const proxy = getProxyByType(type);
+  return proxy ? proxy.get() : type;
+};
 
-export const areComponentsEqual = (a, b) =>
-  getProxyOrType(a) === getProxyOrType(b)
+export const areComponentsEqual = (a, b) => getProxyOrType(a) === getProxyOrType(b);
 
-export const compareOrSwap = (oldType, newType) =>
-  hotComponentCompare(oldType, newType)
+export const compareOrSwap = (oldType, newType) => hotComponentCompare(oldType, newType);
 
 export const cold = type => {
-  blacklistByType(type)
-  return type
-}
+  blacklistByType(type);
+  return type;
+};
 
-export const configureComponent = (component, options) =>
-  setComponentOptions(component, options)
+export const configureComponent = (component, options) => setComponentOptions(component, options);
 
-export const setConfig = config => setConfiguration(config)
+export const setConfig = config => setConfiguration(config);

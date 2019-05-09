@@ -1,13 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import ReactHotLoader from './reactHotLoader'
-import './reconciler/proxyAdapter'
+import ReactHotLoader from './reactHotLoader';
+import './reconciler/proxyAdapter';
 
-export { default as AppContainer } from './AppContainer.dev'
-export { default as hot } from './hot.dev'
-export { enter as enterModule, leave as leaveModule } from './global/modules'
-export * from './utils.dev'
-export default ReactHotLoader
+export { default as AppContainer } from './AppContainer.dev';
+export { default as hot } from './hot.dev';
+export { enter as enterModule, leave as leaveModule } from './global/modules';
+export * from './utils.dev';
+export default ReactHotLoader;
 
-ReactHotLoader.patch(React, ReactDOM)
+ReactHotLoader.patch(React, ReactDOM);

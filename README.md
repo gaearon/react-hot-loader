@@ -41,9 +41,9 @@ npm install react-hot-loader
 
 ```js
 // App.js
-import { hot } from 'react-hot-loader/root'
-const App = () => <div>Hello World!</div>
-export default hot(App)
+import { hot } from 'react-hot-loader/root';
+const App = () => <div>Hello World!</div>;
+export default hot(App);
 ```
 
 3.  Make sure `react-hot-loader` is required before `react` and `react-dom`:
@@ -82,7 +82,6 @@ resolve: {
 ...
 ```
 
-
 ### Old API
 
 **Note:** There is also an old version of `hot`, used prior to version 4.5.4. **Please use the new one**,
@@ -94,9 +93,9 @@ React-Hot-Load will throw an error, asking you to use the old API, if such incom
 It is almost the same, but you have to pass `module` inside `hot`.
 
 ```js
-import { hot } from 'react-hot-loader'
-const App = () => <div>Hello World!</div>
-export default hot(module)(App)
+import { hot } from 'react-hot-loader';
+const App = () => <div>Hello World!</div>;
+export default hot(module)(App);
 ```
 
 3.  [Run webpack with Hot Module Replacement](https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr):
@@ -143,12 +142,12 @@ webpack-dev-server --hot
 
 ```js
 // ./containers/App.js
-import React from 'react'
-import { hot } from 'react-hot-loader'
+import React from 'react';
+import { hot } from 'react-hot-loader';
 
-const App = () => <div>Hello World!</div>
+const App = () => <div>Hello World!</div>;
 
-export default hot(module)(App)
+export default hot(module)(App);
 ```
 
 ### Migrating from [create-react-app](https://github.com/facebookincubator/create-react-app) without ejecting
@@ -237,8 +236,8 @@ If you are using `npm link` or `yarn link` for development purposes, there is a 
 
 There are 2 ways to fix `Module not found`:
 
-- Use [`include` in loader configuration](https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js#L22) to only opt-in your app's files to processing.
-- Alternatively if you are using webpack, override the module resolution in your config:
+* Use [`include` in loader configuration](https://github.com/gaearon/react-hot-boilerplate/blob/master/webpack.config.js#L22) to only opt-in your app's files to processing.
+* Alternatively if you are using webpack, override the module resolution in your config:
 
 ```js
 {
@@ -274,10 +273,10 @@ to configure it:
 * create configuration file (setupHotLoader.js)
 
 ```js
-import reactHotLoader from 'react-hot-loader'
-import preact from 'preact'
+import reactHotLoader from 'react-hot-loader';
+import preact from 'preact';
 
-reactHotLoader.preact(preact)
+reactHotLoader.preact(preact);
 ```
 
 * dont forget to import it
@@ -303,8 +302,8 @@ will inject special methods to every class, to make `class members` (like onClic
 
 ```js
 class MyComponent extends React.Component {
-  onClick = () => this.setState() // COULD NOT UPDATE
-  variable = 1 // this is ok
+  onClick = () => this.setState(); // COULD NOT UPDATE
+  variable = 1; // this is ok
   render() {} // this is ok
 }
 ```
@@ -325,7 +324,7 @@ module.exports = {
       },
     ],
   },
-}
+};
 ```
 
 Webpack plugin will also land a "hot" patch to react-dom, making React-Hot-Loader more compliant to [the principles](https://github.com/gaearon/react-hot-loader/issues/1118).
@@ -343,23 +342,23 @@ If you use a non-yet-friendly library, like [react-async-component](github.com/c
 
 ```js
 // AsyncHello.js
-import { asyncComponent } from 'react-async-component'
+import { asyncComponent } from 'react-async-component';
 
 // asyncComponent could not `hot-reload` itself.
 const AsyncHello = asyncComponent({
   resolve: () => import('./Hello'),
-})
+});
 
-export default AsyncHello
+export default AsyncHello;
 ```
 
 ```js
 // Hello.js
-import { hot } from 'react-hot-loader'
+import { hot } from 'react-hot-loader';
 
-const Hello = () => 'Hello'
+const Hello = () => 'Hello';
 
-export default hot(module)(Hello) // <-- module will reload itself
+export default hot(module)(Hello); // <-- module will reload itself
 ```
 
 ### Checking Element `type`s
@@ -368,28 +367,28 @@ Because React Hot Loader creates proxied versions of your components, comparing
 reference types of elements won't work:
 
 ```js
-const element = <Component />
-console.log(element.type === Component) // false
+const element = <Component />;
+console.log(element.type === Component); // false
 ```
 
 React Hot Loader exposes a function `areComponentsEqual` to make it possible:
 
 ```js
-import { areComponentsEqual } from 'react-hot-loader'
-const element = <Component />
-areComponentsEqual(element.type, Component) // true
+import { areComponentsEqual } from 'react-hot-loader';
+const element = <Component />;
+areComponentsEqual(element.type, Component); // true
 ```
 
 Another way - compare "rendered" element type
 
 ```js
-const element = <Component />
-console.log(element.type === <Component />.type) // true
+const element = <Component />;
+console.log(element.type === <Component />.type); // true
 
 // better - precache rendered type
-const element = <Component />
-const ComponentType = <Component />.type
-console.log(element.type === ComponentType) // true
+const element = <Component />;
+const ComponentType = <Component />.type;
+console.log(element.type === ComponentType); // true
 ```
 
 But you might have to provide all required props. See [original issue](https://github.com/gaearon/react-hot-loader/issues/304).
@@ -400,8 +399,8 @@ Another way - compare Component name.
 > Not all components has a name. **In production displayName could not exists.**
 
 ```js
-const element = <Component />
-console.log(element.displayName === 'Component') // true
+const element = <Component />;
+console.log(element.displayName === 'Component'); // true
 ```
 
 This is something we did not solve yet. Cold API could help keep original types.
@@ -414,7 +413,7 @@ webpack ExtractTextPlugin is not compatible with React Hot Loader. Please disabl
 new ExtractTextPlugin({
   filename: 'styles/[name].[contenthash].css',
   disable: NODE_ENV !== 'production',
-})
+});
 ```
 
 #### Disabling a type change (❄️)
@@ -441,15 +440,14 @@ You may _cold_ all components from node_modules. This will not work for HOC(like
 are not welcomed, and modules are not expected to change.
 
 ```js
-import { setConfig, cold } from 'react-hot-loader'
+import { setConfig, cold } from 'react-hot-loader';
 setConfig({
-  onComponentRegister: (type, name, file) =>
-    file.indexOf('node_modules') > 0 && cold(type),
+  onComponentRegister: (type, name, file) => file.indexOf('node_modules') > 0 && cold(type),
 
   // some components are not visible as top level variables,
   // thus its not known where they were created
   onComponentCreate: (type, name) => name.indexOf('styled') > 0 && cold(type),
-})
+});
 ```
 
 ! To be able to "cold" components from 'node_modules' you have to apply babel to node_modules, while this
@@ -475,13 +473,11 @@ To mitigate any hook-related issues (and disable their hot-reloadability) - `col
 * _cold_ components using hooks.
 
 ```js
-import { setConfig, cold } from 'react-hot-loader'
+import { setConfig, cold } from 'react-hot-loader';
 setConfig({
   onComponentCreate: (type, name) =>
-    (String(type).indexOf('useState') > 0 ||
-      String(type).indexOf('useEffect') > 0) &&
-    cold(type),
-})
+    (String(type).indexOf('useState') > 0 || String(type).indexOf('useEffect') > 0) && cold(type),
+});
 ```
 
 ## API
@@ -517,11 +513,11 @@ You may disable it to get more control on the module execution order.
 **!!** Use `hot` only for module `exports`, not for module `imports`. **!!**
 
 ```js
-import { hot } from 'react-hot-loader/root'
+import { hot } from 'react-hot-loader/root';
 
-const App = () => 'Hello World!'
+const App = () => 'Hello World!';
 
-export default hot(App)
+export default hot(App);
 ```
 
 Keep in mind - by importing `react-hot-loader/root` you are setting up a boundary for update event propagation.
@@ -545,11 +541,11 @@ Mark a component as hot. The "new" hot is just hidding the first part - `hot(mod
 only the second `(App)`. The "new" hot is using old API.
 
 ```js
-import { hot } from 'react-hot-loader'
+import { hot } from 'react-hot-loader';
 
-const App = () => 'Hello World!'
+const App = () => 'Hello World!';
 
-export default hot(module)(App)
+export default hot(module)(App);
 ```
 
 ### `AppContainer`
@@ -559,10 +555,10 @@ Mark application as hot reloadable. (**Prefer** using `hot` helper, see below fo
 This low-level approach lets you make **hot **imports\_\_, not exports.
 
 ```js
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { AppContainer } from 'react-hot-loader'
-import App from './containers/App'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
+import App from './containers/App';
 
 const render = Component => {
   ReactDOM.render(
@@ -570,10 +566,10 @@ const render = Component => {
       <Component />
     </AppContainer>,
     document.getElementById('root'),
-  )
-}
+  );
+};
 
-render(App)
+render(App);
 
 // webpack Hot Module Replacement API
 if (module.hot) {
@@ -581,10 +577,10 @@ if (module.hot) {
   // while `hot` would configure HMR for the CURRENT module
   module.hot.accept('./containers/App', () => {
     // if you are using harmony modules ({modules:false})
-    render(App)
+    render(App);
     // in all other cases - re-require App manually
-    render(require('./containers/App'))
-  })
+    render(require('./containers/App'));
+  });
 }
 ```
 
@@ -593,11 +589,11 @@ if (module.hot) {
 Test if two components have the same type.
 
 ```js
-import { areComponentsEqual } from 'react-hot-loader'
-import Component1 from './Component1'
-import Component2 from './Component2'
+import { areComponentsEqual } from 'react-hot-loader';
+import Component1 from './Component1';
+import Component2 from './Component2';
 
-areComponentsEqual(Component1, Component2) // true or false
+areComponentsEqual(Component1, Component2); // true or false
 ```
 
 ### setConfig(config)
@@ -615,9 +611,9 @@ Available options are:
 
 ```js
 // rhlConfig.js
-import { setConfig } from 'react-hot-loader'
+import { setConfig } from 'react-hot-loader';
 
-setConfig({ logLevel: 'debug' })
+setConfig({ logLevel: 'debug' });
 ```
 
 **It is important** to set configuration before any other action will take a place
@@ -641,19 +637,19 @@ still valid but only for advanced use cases, prefer using `hot` helper.
 
 ```js
 // App.js
-import React from 'react'
+import React from 'react';
 
-const App = () => <div>Hello world!</div>
+const App = () => <div>Hello world!</div>;
 
-export default App
+export default App;
 ```
 
 ```js
 // main.js
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { AppContainer } from 'react-hot-loader'
-import App from './containers/App'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
+import App from './containers/App';
 
 const render = Component => {
   ReactDOM.render(
@@ -661,19 +657,19 @@ const render = Component => {
       <Component />
     </AppContainer>,
     document.getElementById('root'),
-  )
-}
+  );
+};
 
-render(App)
+render(App);
 
 // webpack Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./containers/App', () => {
     // if you are using harmony modules ({modules:false})
-    render(App)
+    render(App);
     // in all other cases - re-require App manually
-    render(require('./containers/App'))
-  })
+    render(require('./containers/App'));
+  });
 }
 ```
 
@@ -681,21 +677,21 @@ if (module.hot) {
 
 ```js
 // App.js
-import React from 'react'
-import { hot } from 'react-hot-loader'
+import React from 'react';
+import { hot } from 'react-hot-loader';
 
-const App = () => <div>Hello world!</div>
+const App = () => <div>Hello world!</div>;
 
-export default hot(module)(App)
+export default hot(module)(App);
 ```
 
 ```js
 // main.js
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './containers/App'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './containers/App';
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 ### Patch is optional
@@ -719,11 +715,11 @@ root ErrorBoundaries setting `errorBoundary={false}` prop on `AppContainer` or `
 However - this option affects only SFC behavior, and any ClassComponent would boundary itself.
 
 ```js
-import { setConfig } from 'react-hot-loader'
-import ErrorBoundary from './ErrorBoundary'
+import { setConfig } from 'react-hot-loader';
+import ErrorBoundary from './ErrorBoundary';
 
 // ErrorBoundary will be given error and errorInfo prop.
-setConfig({ errorReporter: ErrorBoundary })
+setConfig({ errorReporter: ErrorBoundary });
 ```
 
 If `errorReporter` is not set - full screen error overlay would be shown.
@@ -738,10 +734,10 @@ You may change, or disable this global error overlay
 
 ```js
 // to disable
-setConfig({ ErrorOverlay: () => null })
+setConfig({ ErrorOverlay: () => null });
 
 // to change
-setConfig({ ErrorOverlay: MyErrorOverlay })
+setConfig({ ErrorOverlay: MyErrorOverlay });
 ```
 
 The UX of existing overlay is a subject to change, and we are open to any proposals.
@@ -786,8 +782,8 @@ Debug mode adds additional warnings and can tells you why React Hot Loader is
 not working properly in your application.
 
 ```js
-import { setConfig } from 'react-hot-loader'
-setConfig({ logLevel: 'debug' })
+import { setConfig } from 'react-hot-loader';
+setConfig({ logLevel: 'debug' });
 ```
 
 ## Contributors

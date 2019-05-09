@@ -1,21 +1,21 @@
-import { hot, setConfig } from 'react-hot-loader'
-import * as React from 'react'
-import styled from 'styled-components'
-import emoStyled from 'react-emotion'
+import { hot, setConfig } from 'react-hot-loader';
+import * as React from 'react';
+import styled from 'styled-components';
+import emoStyled from 'react-emotion';
 
 // import CAsync from './chunks/async-component'
 // import CLoadableComp from './chunks/loadable-components'
-import { RLoadable1, RLoadable2 } from './chunks/react-loadable'
+import { RLoadable1, RLoadable2 } from './chunks/react-loadable';
 // import CImp from './chunks/react-imported-component'
 // import CUni from './chunks/react-universal-component'
 
 const BigText = styled.div`
   font-size: 20px;
-`
+`;
 
 const SmallText = emoStyled('div')`
   font-size: 22px;
-`
+`;
 
 const indirect = {
   element: () => (
@@ -23,7 +23,7 @@ const indirect = {
       hidden <Counter />
     </SmallText>
   ),
-}
+};
 
 const App = () => (
   <div>
@@ -47,8 +47,8 @@ const App = () => (
       {/*</li>*/}
     </ul>
   </div>
-)
+);
 
-setConfig({ logLevel: 'debug' })
+setConfig({ logLevel: 'debug' });
 
-export default hot(module)(App)
+export default hot(module)(App);

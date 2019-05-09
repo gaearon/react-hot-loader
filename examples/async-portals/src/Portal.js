@@ -1,10 +1,10 @@
-import React from 'react'
-import { Portal } from 'react-portal'
-import hidden from './HiddenComponent'
+import React from 'react';
+import { Portal } from 'react-portal';
+import hidden from './HiddenComponent';
 
-const Hidden = hidden()
+const Hidden = hidden();
 
-const InPortal = ({ children }) => <div> + {children}</div>
+const InPortal = ({ children }) => <div> + {children}</div>;
 
 export default () => (
   <Portal>
@@ -13,4 +13,4 @@ export default () => (
       <Hidden.counter />
     </InPortal>
   </Portal>
-)
+);

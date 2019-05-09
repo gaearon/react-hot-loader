@@ -1,3 +1,3 @@
-import universal from 'react-universal-component'
+import universal from 'react-universal-component';
 
-export default universal(() => import('../Counter'))
+export default universal(() => import('../Counter'));

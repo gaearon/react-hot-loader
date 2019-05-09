@@ -1,12 +1,12 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const modalRootId = 'modal-root'
-let modalRoot = document.getElementById(modalRootId)
+const modalRootId = 'modal-root';
+let modalRoot = document.getElementById(modalRootId);
 if (!modalRoot) {
-  modalRoot = document.createElement('div')
-  modalRoot.id = modalRootId
-  document.body.appendChild(modalRoot)
+  modalRoot = document.createElement('div');
+  modalRoot.id = modalRootId;
+  document.body.appendChild(modalRoot);
 }
 
 const styles = {
@@ -51,15 +51,15 @@ const styles = {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     zIndex: '999',
   },
-}
+};
 
 class Modal extends React.Component {
   constructor(props) {
-    super(props)
-    this.el = document.createElement('div')
+    super(props);
+    this.el = document.createElement('div');
     Object.keys(styles.overlay).forEach(key => {
-      this.el.style[key] = styles.overlay[key]
-    })
+      this.el.style[key] = styles.overlay[key];
+    });
   }
 
   props: {
@@ -67,42 +67,33 @@ class Modal extends React.Component {
     title: string,
     children: Object,
     hideTitle?: boolean,
-  }
+  };
 
   componentDidMount() {
-    modalRoot.appendChild(this.el)
+    modalRoot.appendChild(this.el);
   }
 
   componentWillUnmount() {
-    modalRoot.removeChild(this.el)
+    modalRoot.removeChild(this.el);
   }
 
   render() {
-    const { onRequestClose, title, children, hideTitle } = this.props
+    const { onRequestClose, title, children, hideTitle } = this.props;
     return ReactDOM.createPortal(
-      <div
-        style={styles.modal}
-        role="dialog"
-        aria-labelledby="modal__title"
-        aria-describedby="modal__content"
-      >
+      <div style={styles.modal} role="dialog" aria-labelledby="modal__title" aria-describedby="modal__content">
         {!hideTitle && (
           <div id="modal__title" style={{ fontSize: '1.5em' }}>
             {title}
           </div>
         )}
-        <div
-          style={styles.closeButton}
-          onClick={onRequestClose}
-          title="Close"
-        />
+        <div style={styles.closeButton} onClick={onRequestClose} title="Close" />
         <div id="modal__content" style={styles.content}>
           {children}
         </div>
       </div>,
       this.el,
-    )
+    );
   }
 }
 
-export default Modal
+export default Modal;

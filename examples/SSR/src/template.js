@@ -11,5 +11,5 @@ export default ({ body }) => {
       
       <script src="/dist/bundle.js"></script>
     </html>
-  `
-}
+  `;
+};

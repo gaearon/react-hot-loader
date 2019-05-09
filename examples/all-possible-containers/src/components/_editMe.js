@@ -1,1 +1,1 @@
-export const EDIT_ME = 'Edit me'
+export const EDIT_ME = 'Edit me';

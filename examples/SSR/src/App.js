@@ -1,6 +1,6 @@
-import { hot, setConfig } from 'react-hot-loader'
-import * as React from 'react'
-import Counter from './Counter'
+import { hot, setConfig } from 'react-hot-loader';
+import * as React from 'react';
+import Counter from './Counter';
 // import hidden from './HiddenComponent';
 
 const App = () => (
@@ -12,8 +12,8 @@ const App = () => (
       SSR, and I work fine!
     </div>
   </h1>
-)
+);
 
-setConfig({ logLevel: 'debug' })
+setConfig({ logLevel: 'debug' });
 
-export default hot(module)(App)
+export default hot(module)(App);

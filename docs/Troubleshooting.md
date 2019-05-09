@@ -18,9 +18,9 @@ If you don't see some of the messages, or some of the requests, or if some of th
 If you're a TypeScript user then to get set up with HMR then it's not unusual to alias `module` as an `any` like so:
 
 ```ts
-const anyModule = module as any
+const anyModule = module as any;
 if (anyModule.hot) {
-  anyModule.hot.accept('./app', () => render(App))
+  anyModule.hot.accept('./app', () => render(App));
 }
 ```
 
@@ -28,16 +28,16 @@ if (anyModule.hot) {
 
 ```ts
 if ((module as any).hot) {
-  (module as any).hot.accept('./app', () => render(App))
+  (module as any).hot.accept('./app', () => render(App));
 }
 ```
 
 or this:
 
 ```ts
-declare const module: any
+declare const module: any;
 if (module.hot) {
-  module.hot.accept('./app', () => render(App))
+  module.hot.accept('./app', () => render(App));
 }
 ```
 
@@ -128,7 +128,7 @@ new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   hot: true,
   headers: { 'Access-Control-Allow-Origin': '*' },
-})
+});
 ```
 
 * Making sure that `webpack-dev-server` **client host and port** in `webpack.config.js` matches those of your development server:
@@ -138,7 +138,7 @@ entry: [
   'webpack-dev-server/client?http://localhost:3000', // WebpackDevServer host and port
   'webpack/hot/only-dev-server',
   './src/app',
-]
+];
 ```
 
 #### The following modules couldn't be hot updated: (They would need a full reload!)
@@ -230,7 +230,7 @@ new webpack.DefinePlugin({
     compressor: {
       warnings: false,
     },
-  })
+  });
 ```
 
 Oh, and don't forget to remove `devtool: 'eval'` from a production config. Otherwise Uglify won't uglify anything at all.
@@ -240,24 +240,24 @@ Oh, and don't forget to remove `devtool: 'eval'` from a production config. Other
 The problem is that by default **WebpackDevServer** doesn't deal with HTML5 History correctly and the server won't route the url as it should. You can fix this issue by setting `historyApiFallback: true`. Here's a full example:
 
 ```js
-var webpack = require('webpack')
-var WebpackDevServer = require('webpack-dev-server')
+var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
 
-var config = require('./webpack.config')
+var config = require('./webpack.config');
 
-var port = 4000
-var ip = '0.0.0.0'
+var port = 4000;
+var ip = '0.0.0.0';
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   historyApiFallback: true,
 }).listen(port, ip, function(err) {
   if (err) {
-    return console.log(err)
+    return console.log(err);
   }
 
-  console.log('Listening at ' + ip + ':' + port)
-})
+  console.log('Listening at ' + ip + ':' + port);
+});
 ```
 
 After this you should be able to access your SPA via any url that has been defined in it.
@@ -296,18 +296,18 @@ To fix this issue - just require RHL before React.
 Example of a wrong configuration:
 
 ```js
-import * as React from 'react'
-import { hot } from 'react-hot-loader' // React is not patched
+import * as React from 'react';
+import { hot } from 'react-hot-loader'; // React is not patched
 ```
 
 Example of correct configurations:
 
 ```js
-import { hot } from 'react-hot-loader'
-import * as React from 'react' // React is now patched
+import { hot } from 'react-hot-loader';
+import * as React from 'react'; // React is now patched
 ```
 
 ```js
-import React from 'react'
-import { hot } from 'react-hot-loader' // React is now patched
+import React from 'react';
+import { hot } from 'react-hot-loader'; // React is now patched
 ```

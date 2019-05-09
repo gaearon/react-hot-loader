@@ -1,23 +1,23 @@
-import React from 'react'
+import React from 'react';
 
-import { enterHotUpdate } from '../global/generation'
-import AppContainer from '../AppContainer.dev'
-import { resolveType } from './resolver'
+import { enterHotUpdate } from '../global/generation';
+import AppContainer from '../AppContainer.dev';
+import { resolveType } from './resolver';
 
-const lazyConstructor = '_ctor'
+const lazyConstructor = '_ctor';
 
 export const updateLazy = (target, type) => {
-  const ctor = type[lazyConstructor]
+  const ctor = type[lazyConstructor];
   if (target[lazyConstructor] !== type[lazyConstructor]) {
     // just execute `import` and RHL.register will do the job
-    ctor()
+    ctor();
   }
   if (!target[lazyConstructor].isPatchedByReactHotLoader) {
     target[lazyConstructor] = () =>
       ctor().then(m => {
-        const C = resolveType(m.default)
+        const C = resolveType(m.default);
         // chunks has been updated - new hot loader process is taking a place
-        enterHotUpdate()
+        enterHotUpdate();
         if (!React.forwardRef) {
           return {
             default: props => (
@@ -25,7 +25,7 @@ export const updateLazy = (target, type) => {
                 <C {...props} />
               </AppContainer>
             ),
-          }
+          };
         }
         return {
           default: React.forwardRef((props, ref) => (
@@ -33,20 +33,20 @@ export const updateLazy = (target, type) => {
               <C {...props} ref={ref} />
             </AppContainer>
           )),
-        }
-      })
-    target[lazyConstructor].isPatchedByReactHotLoader = true
+        };
+      });
+    target[lazyConstructor].isPatchedByReactHotLoader = true;
   }
-}
+};
 
 export const updateMemo = (target, { type }) => {
-  target.type = resolveType(type)
-}
+  target.type = resolveType(type);
+};
 
 export const updateForward = (target, { render }) => {
-  target.render = render
-}
+  target.render = render;
+};
 
 export const updateContext = () => {
   // nil
-}
+};

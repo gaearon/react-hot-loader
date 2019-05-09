@@ -1,5 +1,5 @@
-import { Component } from 'react'
-import transferStaticProps from './transferStaticProps'
+import { Component } from 'react';
+import transferStaticProps from './transferStaticProps';
 import {
   GENERATION,
   PROXY_KEY,
@@ -8,28 +8,20 @@ import {
   PROXY_IS_MOUNTED,
   PREFIX,
   RENDERED_GENERATION,
-} from './constants'
-import { identity, safeDefineProperty, proxyClassCreator } from './utils'
-import { inject, checkLifeCycleMethods, mergeComponents } from './inject'
-import config from '../configuration'
-import {
-  getComponentDisplayName,
-  isReactClass,
-  isReactClassInstance,
-} from '../internal/reactUtils'
-import {
-  get as getGeneration,
-  getElementCloseHook,
-  getElementComparisonHook,
-} from '../global/generation'
+} from './constants';
+import { identity, safeDefineProperty, proxyClassCreator } from './utils';
+import { inject, checkLifeCycleMethods, mergeComponents } from './inject';
+import config from '../configuration';
+import { getComponentDisplayName, isReactClass, isReactClassInstance } from '../internal/reactUtils';
+import { get as getGeneration, getElementCloseHook, getElementComparisonHook } from '../global/generation';
 
-const has = Object.prototype.hasOwnProperty
+const has = Object.prototype.hasOwnProperty;
 
-let proxies = new WeakMap()
+let proxies = new WeakMap();
 
 export const resetClassProxies = () => {
-  proxies = new WeakMap()
-}
+  proxies = new WeakMap();
+};
 
 const blackListedClassMembers = [
   'constructor',
@@ -43,24 +35,24 @@ const blackListedClassMembers = [
 
   'getInitialState',
   'getDefaultProps',
-]
+];
 
 const defaultRenderOptions = {
   componentWillRender: identity,
   componentDidUpdate: result => result,
   componentDidRender: result => result,
-}
+};
 
 const filteredPrototypeMethods = Proto =>
   Object.getOwnPropertyNames(Proto).filter(prop => {
-    const descriptor = Object.getOwnPropertyDescriptor(Proto, prop)
+    const descriptor = Object.getOwnPropertyDescriptor(Proto, prop);
     return (
       descriptor &&
       prop.indexOf(PREFIX) !== 0 &&
       blackListedClassMembers.indexOf(prop) < 0 &&
       typeof descriptor.value === 'function'
-    )
-  })
+    );
+  });
 
 const defineClassMember = (Class, methodName, methodBody) =>
   safeDefineProperty(Class.prototype, methodName, {
@@ -68,12 +60,10 @@ const defineClassMember = (Class, methodName, methodBody) =>
     writable: true,
     enumerable: false,
     value: methodBody,
-  })
+  });
 
 const defineClassMembers = (Class, methods) =>
-  Object.keys(methods).forEach(methodName =>
-    defineClassMember(Class, methodName, methods[methodName]),
-  )
+  Object.keys(methods).forEach(methodName => defineClassMember(Class, methodName, methods[methodName]));
 
 const setSFPFlag = (component, flag) =>
   safeDefineProperty(component, 'isStatelessFunctionalProxy', {
@@ -81,170 +71,153 @@ const setSFPFlag = (component, flag) =>
     writable: false,
     enumerable: false,
     value: flag,
-  })
+  });
 
 const copyMethodDescriptors = (target, source) => {
   if (source) {
     // it is possible to use `function-double` to construct an ideal clone, but does not make a sence
-    const keys = Object.getOwnPropertyNames(source)
+    const keys = Object.getOwnPropertyNames(source);
 
-    keys.forEach(key =>
-      safeDefineProperty(
-        target,
-        key,
-        Object.getOwnPropertyDescriptor(source, key),
-      ),
-    )
+    keys.forEach(key => safeDefineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)));
 
     safeDefineProperty(target, 'toString', {
       configurable: true,
       writable: false,
       enumerable: false,
       value: function toString() {
-        return String(source)
+        return String(source);
       },
-    })
+    });
   }
 
-  return target
-}
+  return target;
+};
 
-const knownClassComponents = []
+const knownClassComponents = [];
 
-export const forEachKnownClass = cb => knownClassComponents.forEach(cb)
+export const forEachKnownClass = cb => knownClassComponents.forEach(cb);
 
 function createClassProxy(InitialComponent, proxyKey, options = {}) {
   const renderOptions = {
     ...defaultRenderOptions,
     ...options,
-  }
+  };
   const proxyConfig = {
     ...config,
     ...options.proxy,
-  }
+  };
   // Prevent double wrapping.
   // Given a proxy class, return the existing proxy managing it.
-  const existingProxy = proxies.get(InitialComponent)
+  const existingProxy = proxies.get(InitialComponent);
 
   if (existingProxy) {
-    return existingProxy
+    return existingProxy;
   }
 
-  let CurrentComponent
-  let savedDescriptors = {}
-  let injectedMembers = {}
-  let proxyGeneration = 0
-  let classUpdatePostponed = null
-  let instancesCount = 0
-  let isFunctionalComponent = !isReactClass(InitialComponent)
+  let CurrentComponent;
+  let savedDescriptors = {};
+  let injectedMembers = {};
+  let proxyGeneration = 0;
+  let classUpdatePostponed = null;
+  let instancesCount = 0;
+  let isFunctionalComponent = !isReactClass(InitialComponent);
 
-  let lastInstance = null
+  let lastInstance = null;
 
   function postConstructionAction() {
-    this[GENERATION] = 0
+    this[GENERATION] = 0;
 
-    lastInstance = this
+    lastInstance = this;
     // is there is an update pending
     if (classUpdatePostponed) {
-      const callUpdate = classUpdatePostponed
-      classUpdatePostponed = null
-      callUpdate()
+      const callUpdate = classUpdatePostponed;
+      classUpdatePostponed = null;
+      callUpdate();
     }
     // As long we can't override constructor
     // every class shall evolve from a base class
-    inject(this, proxyGeneration, injectedMembers)
+    inject(this, proxyGeneration, injectedMembers);
   }
 
   function proxiedUpdate() {
     if (this) {
-      inject(this, proxyGeneration, injectedMembers)
+      inject(this, proxyGeneration, injectedMembers);
     }
   }
 
   function lifeCycleWrapperFactory(wrapperName, sideEffect = identity) {
     return copyMethodDescriptors(function wrappedMethod(...rest) {
-      proxiedUpdate.call(this)
-      sideEffect(this)
+      proxiedUpdate.call(this);
+      sideEffect(this);
       return (
         !isFunctionalComponent &&
         CurrentComponent.prototype[wrapperName] &&
         CurrentComponent.prototype[wrapperName].apply(this, rest)
-      )
-    }, InitialComponent.prototype && InitialComponent.prototype[wrapperName])
+      );
+    }, InitialComponent.prototype && InitialComponent.prototype[wrapperName]);
   }
 
   function methodWrapperFactory(wrapperName, realMethod) {
     return copyMethodDescriptors(function wrappedMethod(...rest) {
-      return realMethod.apply(this, rest)
-    }, realMethod)
+      return realMethod.apply(this, rest);
+    }, realMethod);
   }
 
   const fakeBasePrototype = Proto =>
     filteredPrototypeMethods(Proto).reduce((acc, key) => {
-      acc[key] = methodWrapperFactory(key, Proto[key])
-      return acc
-    }, {})
+      acc[key] = methodWrapperFactory(key, Proto[key]);
+      return acc;
+    }, {});
 
-  const componentDidMount = lifeCycleWrapperFactory(
-    'componentDidMount',
-    target => {
-      target[PROXY_IS_MOUNTED] = true
-      target[RENDERED_GENERATION] = getGeneration()
-      instancesCount++
-    },
-  )
-  const componentDidUpdate = lifeCycleWrapperFactory(
-    'componentDidUpdate',
-    renderOptions.componentDidUpdate,
-  )
-  const componentWillUnmount = lifeCycleWrapperFactory(
-    'componentWillUnmount',
-    target => {
-      target[PROXY_IS_MOUNTED] = false
-      instancesCount--
-    },
-  )
+  const componentDidMount = lifeCycleWrapperFactory('componentDidMount', target => {
+    target[PROXY_IS_MOUNTED] = true;
+    target[RENDERED_GENERATION] = getGeneration();
+    instancesCount++;
+  });
+  const componentDidUpdate = lifeCycleWrapperFactory('componentDidUpdate', renderOptions.componentDidUpdate);
+  const componentWillUnmount = lifeCycleWrapperFactory('componentWillUnmount', target => {
+    target[PROXY_IS_MOUNTED] = false;
+    instancesCount--;
+  });
 
   function hotComponentRender() {
     // repeating subrender call to keep RENDERED_GENERATION up to date
-    renderOptions.componentWillRender(this)
-    proxiedUpdate.call(this)
-    let result
+    renderOptions.componentWillRender(this);
+    proxiedUpdate.call(this);
+    let result;
 
     // We need to use hasOwnProperty here, as the cached result is a React node
     // and can be null or some other falsy value.
     if (has.call(this, CACHED_RESULT)) {
-      result = this[CACHED_RESULT]
-      delete this[CACHED_RESULT]
+      result = this[CACHED_RESULT];
+      delete this[CACHED_RESULT];
     } else if (isFunctionalComponent) {
-      result = CurrentComponent(this.props, this.context)
+      result = CurrentComponent(this.props, this.context);
     } else {
-      const renderMethod = CurrentComponent.prototype.render || this.render
+      const renderMethod = CurrentComponent.prototype.render || this.render;
       /* eslint-disable no-use-before-define */
       if (renderMethod === proxiedRender) {
-        throw new Error(
-          'React-Hot-Loader: you are trying to render Component without .render method',
-        )
+        throw new Error('React-Hot-Loader: you are trying to render Component without .render method');
       }
       /* eslint-enable */
       result = renderMethod.apply(
         this,
         // eslint-disable-next-line prefer-rest-params
         arguments,
-      )
+      );
     }
 
-    return renderOptions.componentDidRender.call(this, result)
+    return renderOptions.componentDidRender.call(this, result);
   }
 
   function hotComponentUpdate() {
-    renderOptions.componentWillRender(this)
-    proxiedUpdate.call(this)
+    renderOptions.componentWillRender(this);
+    proxiedUpdate.call(this);
   }
 
   function proxiedRender(...args) {
-    renderOptions.componentWillRender(this)
-    return hotComponentRender.call(this, ...args)
+    renderOptions.componentWillRender(this);
+    return hotComponentRender.call(this, ...args);
   }
 
   const defineProxyMethods = (Proxy, Base = {}) => {
@@ -257,29 +230,29 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
       componentDidMount,
       componentDidUpdate,
       componentWillUnmount,
-    })
-  }
+    });
+  };
 
-  let ProxyFacade
-  let ProxyComponent = null
-  let proxy
+  let ProxyFacade;
+  let ProxyComponent = null;
+  let proxy;
 
   if (!isFunctionalComponent) {
     // Component
-    ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction)
+    ProxyComponent = proxyClassCreator(InitialComponent, postConstructionAction);
 
-    defineProxyMethods(ProxyComponent, InitialComponent.prototype)
+    defineProxyMethods(ProxyComponent, InitialComponent.prototype);
 
-    knownClassComponents.push(ProxyComponent)
+    knownClassComponents.push(ProxyComponent);
 
-    ProxyFacade = ProxyComponent
+    ProxyFacade = ProxyComponent;
   } else if (!proxyConfig.allowSFC) {
-    proxyConfig.pureRender = false
+    proxyConfig.pureRender = false;
     // SFC Converted to component. Does not support returning precreated instances from render.
-    ProxyComponent = proxyClassCreator(Component, postConstructionAction)
+    ProxyComponent = proxyClassCreator(Component, postConstructionAction);
 
-    defineProxyMethods(ProxyComponent)
-    ProxyFacade = ProxyComponent
+    defineProxyMethods(ProxyComponent);
+    ProxyFacade = ProxyComponent;
   } else {
     // SFC
 
@@ -288,60 +261,55 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
 
     // eslint-disable-next-line func-names
     ProxyFacade = function(props, context) {
-      const result = CurrentComponent(props, context)
+      const result = CurrentComponent(props, context);
 
       // This is a Relay-style container constructor. We can't do the prototype-
       // style wrapping for this as we do elsewhere, so just we just pass it
       // through as-is.
       if (isReactClassInstance(result)) {
-        ProxyComponent = null
+        ProxyComponent = null;
 
         // Relay lazily sets statics like getDerivedStateFromProps on initial
         // render in lazy construction, so we need to do the same here.
-        transferStaticProps(
-          ProxyFacade,
-          savedDescriptors,
-          null,
-          CurrentComponent,
-        )
+        transferStaticProps(ProxyFacade, savedDescriptors, null, CurrentComponent);
 
-        return result
+        return result;
       }
 
       // simple SFC, could continue to be SFC
       if (proxyConfig.pureSFC) {
         if (!CurrentComponent.contextTypes) {
           if (!ProxyFacade.isStatelessFunctionalProxy) {
-            setSFPFlag(ProxyFacade, true)
+            setSFPFlag(ProxyFacade, true);
           }
 
-          return renderOptions.componentDidRender(result)
+          return renderOptions.componentDidRender(result);
         }
       }
-      setSFPFlag(ProxyFacade, false)
-      proxyConfig.pureRender = false
+      setSFPFlag(ProxyFacade, false);
+      proxyConfig.pureRender = false;
 
       // Otherwise, it's a normal functional component. Build the real proxy
       // and use it going forward.
-      ProxyComponent = proxyClassCreator(Component, postConstructionAction)
+      ProxyComponent = proxyClassCreator(Component, postConstructionAction);
 
-      defineProxyMethods(ProxyComponent)
+      defineProxyMethods(ProxyComponent);
 
-      const determinateResult = new ProxyComponent(props, context)
+      const determinateResult = new ProxyComponent(props, context);
 
       // Cache the initial render result so we don't call the component function
       // a second time for the initial render.
-      determinateResult[CACHED_RESULT] = result
-      return determinateResult
-    }
+      determinateResult[CACHED_RESULT] = result;
+      return determinateResult;
+    };
   }
 
   function get() {
-    return ProxyFacade
+    return ProxyFacade;
   }
 
   function getCurrent() {
-    return CurrentComponent
+    return CurrentComponent;
   }
 
   safeDefineProperty(ProxyFacade, UNWRAP_PROXY, {
@@ -349,89 +317,82 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     writable: false,
     enumerable: false,
     value: getCurrent,
-  })
+  });
 
   safeDefineProperty(ProxyFacade, PROXY_KEY, {
     configurable: false,
     writable: false,
     enumerable: false,
     value: proxyKey,
-  })
+  });
 
   safeDefineProperty(ProxyFacade, 'toString', {
     configurable: true,
     writable: false,
     enumerable: false,
     value: function toString() {
-      return String(CurrentComponent)
+      return String(CurrentComponent);
     },
-  })
+  });
 
   function update(NextComponent) {
     if (typeof NextComponent !== 'function') {
-      throw new Error('Expected a constructor.')
+      throw new Error('Expected a constructor.');
     }
 
     if (NextComponent === CurrentComponent) {
-      return
+      return;
     }
 
     // Prevent proxy cycles
-    const existingProxy = proxies.get(NextComponent)
+    const existingProxy = proxies.get(NextComponent);
     if (existingProxy) {
-      return
+      return;
     }
 
-    isFunctionalComponent = !isReactClass(NextComponent)
+    isFunctionalComponent = !isReactClass(NextComponent);
 
-    proxies.set(NextComponent, proxy)
+    proxies.set(NextComponent, proxy);
 
-    proxyGeneration++
+    proxyGeneration++;
 
     // Save the next constructor so we call it
-    const PreviousComponent = CurrentComponent
-    CurrentComponent = NextComponent
+    const PreviousComponent = CurrentComponent;
+    CurrentComponent = NextComponent;
 
     // Try to infer displayName
-    const displayName = getComponentDisplayName(CurrentComponent)
+    const displayName = getComponentDisplayName(CurrentComponent);
 
     safeDefineProperty(ProxyFacade, 'displayName', {
       configurable: true,
       writable: false,
       enumerable: true,
       value: displayName,
-    })
+    });
 
     if (ProxyComponent) {
       safeDefineProperty(ProxyComponent, 'name', {
         value: displayName,
-      })
+      });
     }
 
-    savedDescriptors = transferStaticProps(
-      ProxyFacade,
-      savedDescriptors,
-      PreviousComponent,
-      NextComponent,
-    )
+    savedDescriptors = transferStaticProps(ProxyFacade, savedDescriptors, PreviousComponent, NextComponent);
 
     if (isFunctionalComponent || !ProxyComponent) {
       // nothing
     } else {
       const classHotReplacement = () => {
-        getElementCloseHook(ProxyComponent)
-        checkLifeCycleMethods(ProxyComponent, NextComponent)
+        getElementCloseHook(ProxyComponent);
+        checkLifeCycleMethods(ProxyComponent, NextComponent);
         if (proxyGeneration > 1) {
-          filteredPrototypeMethods(ProxyComponent.prototype).forEach(
-            methodName => {
-              if (!has.call(NextComponent.prototype, methodName)) {
-                delete ProxyComponent.prototype[methodName]
-              }
-            },
-          )
+          filteredPrototypeMethods(ProxyComponent.prototype).forEach(methodName => {
+            if (!has.call(NextComponent.prototype, methodName)) {
+              delete ProxyComponent.prototype[methodName];
+            }
+          });
         }
-        Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype)
-        defineProxyMethods(ProxyComponent, NextComponent.prototype)
+        Object.setPrototypeOf(ProxyComponent.prototype, NextComponent.prototype);
+        defineProxyMethods(ProxyComponent, NextComponent.prototype);
         if (proxyGeneration > 1) {
           injectedMembers = mergeComponents(
             ProxyComponent,
@@ -439,41 +400,41 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
             InitialComponent,
             lastInstance,
             injectedMembers,
-          )
+          );
         }
-        getElementComparisonHook(ProxyComponent)
-      }
+        getElementComparisonHook(ProxyComponent);
+      };
 
       // Was constructed once
       if (instancesCount > 0) {
-        classHotReplacement()
+        classHotReplacement();
       } else {
-        classUpdatePostponed = classHotReplacement
+        classUpdatePostponed = classHotReplacement;
       }
     }
   }
 
-  update(InitialComponent)
+  update(InitialComponent);
 
   const dereference = () => {
-    proxies.delete(InitialComponent)
-    proxies.delete(ProxyFacade)
-    proxies.delete(CurrentComponent)
-  }
+    proxies.delete(InitialComponent);
+    proxies.delete(ProxyFacade);
+    proxies.delete(CurrentComponent);
+  };
 
-  proxy = { get, update, dereference, getCurrent: () => CurrentComponent }
+  proxy = { get, update, dereference, getCurrent: () => CurrentComponent };
 
-  proxies.set(InitialComponent, proxy)
-  proxies.set(ProxyFacade, proxy)
+  proxies.set(InitialComponent, proxy);
+  proxies.set(ProxyFacade, proxy);
 
   safeDefineProperty(proxy, UNWRAP_PROXY, {
     configurable: false,
     writable: false,
     enumerable: false,
     value: getCurrent,
-  })
+  });
 
-  return proxy
+  return proxy;
 }
 
-export default createClassProxy
+export default createClassProxy;

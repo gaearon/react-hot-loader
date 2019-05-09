@@ -1,5 +1,5 @@
-import React from 'react'
-import { EDIT_ME } from './_editMe'
+import React from 'react';
+import { EDIT_ME } from './_editMe';
 
 class ClassComponent extends React.Component {
   render() {
@@ -10,8 +10,8 @@ class ClassComponent extends React.Component {
           {EDIT_ME}
         </fieldset>
       </div>
-    )
+    );
   }
 }
 
-export default ClassComponent
+export default ClassComponent;

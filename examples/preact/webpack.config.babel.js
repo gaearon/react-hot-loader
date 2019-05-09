@@ -1,7 +1,7 @@
 /* eslint-disable */
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: ['./src/index'],
@@ -21,10 +21,8 @@ module.exports = {
   resolve: {
     alias: {
       react: path.resolve(path.join(__dirname, './node_modules/preact-compat')),
-      'react-dom': path.resolve(
-        path.join(__dirname, './node_modules/preact-compat'),
-      ),
+      'react-dom': path.resolve(path.join(__dirname, './node_modules/preact-compat')),
     },
   },
   plugins: [new HtmlWebpackPlugin(), new webpack.NamedModulesPlugin()],
-}
+};

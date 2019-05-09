@@ -1,15 +1,15 @@
-import React from 'react'
-import { Portal } from 'react-portal'
-import hidden from './HiddenComponent'
+import React from 'react';
+import { Portal } from 'react-portal';
+import hidden from './HiddenComponent';
 
-const Hidden = hidden()
+const Hidden = hidden();
 
 const APortal = () => (
   <Portal>
     This is a async portal
     <Hidden.counter />
   </Portal>
-)
+);
 
 export default () => (
   <div>
@@ -17,4 +17,4 @@ export default () => (
     <Hidden.counter />
     and <APortal />
   </div>
-)
+);

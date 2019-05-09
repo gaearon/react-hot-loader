@@ -3,10 +3,5 @@ __snapshots__/
 node_modules/
 dist/
 package.json
-babel.js
-index.js
-patch.js
-root.js
-rollup.config.js
 CHANGELOG.md
 .cache

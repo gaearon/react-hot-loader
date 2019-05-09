@@ -1,7 +1,7 @@
 /* eslint-disable */
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: ['./src/index'],
@@ -22,16 +22,10 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       react: path.resolve(path.join(__dirname, './node_modules/react')),
-      'react-dom': path.resolve(
-        path.join(__dirname, './node_modules/@hot-loader/react-dom'),
-      ),
-      'react-hot-loader': path.resolve(
-        path.join(__dirname, './node_modules/react-hot-loader'),
-      ),
-      'babel-core': path.resolve(
-        path.join(__dirname, './node_modules/@babel/core'),
-      ),
+      'react-dom': path.resolve(path.join(__dirname, './node_modules/@hot-loader/react-dom')),
+      'react-hot-loader': path.resolve(path.join(__dirname, './node_modules/react-hot-loader')),
+      'babel-core': path.resolve(path.join(__dirname, './node_modules/@babel/core')),
     },
   },
   plugins: [new HtmlWebpackPlugin(), new webpack.NamedModulesPlugin()],
-}
+};

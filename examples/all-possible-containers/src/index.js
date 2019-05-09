@@ -1,4 +1,4 @@
-import React, {StrictMode} from 'react';
+import React, { StrictMode } from 'react';
 import { render } from 'react-dom';
 import App from './components/App';
 import Context from './context';
@@ -10,7 +10,8 @@ document.body.appendChild(appElement);
 render(
   <Context.Provider value="dummy">
     <StrictMode>
-    <App />
+      <App />
     </StrictMode>
-  </Context.Provider>
-, appElement);
+  </Context.Provider>,
+  appElement,
+);

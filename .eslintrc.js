@@ -26,4 +26,4 @@ module.exports = {
   globals: {
     __REACT_HOT_LOADER__: true,
   },
-}
+};

@@ -1,6 +1,6 @@
-import React from 'react'
-import { EDIT_ME } from './_editMe'
-import Counter from './Counter'
+import React from 'react';
+import { EDIT_ME } from './_editMe';
+import Counter from './Counter';
 
 const LazyComponent = () => (
   <div>
@@ -10,6 +10,6 @@ const LazyComponent = () => (
       <Counter />
     </fieldset>
   </div>
-)
+);
 
-export default LazyComponent
+export default LazyComponent;

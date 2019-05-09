@@ -1,5 +1,5 @@
-import React from 'react'
-import { EDIT_ME } from './_editMe'
+import React from 'react';
+import { EDIT_ME } from './_editMe';
 
 class ClassComponent extends React.PureComponent {
   render() {
@@ -10,8 +10,8 @@ class ClassComponent extends React.PureComponent {
           {EDIT_ME}
         </fieldset>
       </div>
-    )
+    );
   }
 }
 
-export default ClassComponent
+export default ClassComponent;

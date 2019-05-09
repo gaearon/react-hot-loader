@@ -1,12 +1,9 @@
 /* eslint-disable */
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const babelPlugin = path.resolve(
-  __dirname,
-  './node_modules/react-hot-loader/babel',
-)
+const babelPlugin = path.resolve(__dirname, './node_modules/react-hot-loader/babel');
 
 module.exports = {
   entry: ['./src/index'],
@@ -50,13 +47,9 @@ module.exports = {
     alias: {
       // you don't need this
       react: path.resolve(path.join(__dirname, './node_modules/react')),
-      'react-hot-loader': path.resolve(
-        path.join(__dirname, './node_modules/react-hot-loader'),
-      ),
-      'babel-core': path.resolve(
-        path.join(__dirname, './node_modules/@babel/core'),
-      ),
+      'react-hot-loader': path.resolve(path.join(__dirname, './node_modules/react-hot-loader')),
+      'babel-core': path.resolve(path.join(__dirname, './node_modules/@babel/core')),
     },
   },
   plugins: [new HtmlWebpackPlugin(), new webpack.NamedModulesPlugin()],
-}
+};

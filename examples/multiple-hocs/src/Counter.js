@@ -1,5 +1,5 @@
-import React from 'react'
-import * as r from 'recompose'
+import React from 'react';
+import * as r from 'recompose';
 
 const Counter = r.compose(
   r.pure,
@@ -7,16 +7,13 @@ const Counter = r.compose(
   r.withState('count', 'setCount', 0),
   r.lifecycle({
     componentDidMount() {
-      this.interval = setInterval(
-        () => this.props.setCount(this.props.count + 1),
-        200,
-      )
+      this.interval = setInterval(() => this.props.setCount(this.props.count + 1), 200);
     },
 
     componentWillUnmount() {
-      clearInterval(this.interval)
+      clearInterval(this.interval);
     },
   }),
-)(({ style, count }) => <div style={style}>{count}</div>)
+)(({ style, count }) => <div style={style}>{count}</div>);
 
-export default Counter
+export default Counter;

@@ -1,6 +1,6 @@
-import React from 'react'
-import Context from '../context'
-import { EDIT_ME } from './_editMe'
+import React from 'react';
+import Context from '../context';
+import { EDIT_ME } from './_editMe';
 
 const ConsumerFunctionComponent = () => (
   <Context.Consumer>
@@ -13,6 +13,6 @@ const ConsumerFunctionComponent = () => (
       </div>
     )}
   </Context.Consumer>
-)
+);
 
-export default ConsumerFunctionComponent
+export default ConsumerFunctionComponent;

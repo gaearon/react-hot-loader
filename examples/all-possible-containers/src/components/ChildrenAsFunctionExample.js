@@ -1,6 +1,6 @@
-import React from 'react'
-import ChildrenAsFunctionComponent from './ChildrenAsFunctionComponent'
-import { EDIT_ME } from './_editMe'
+import React from 'react';
+import ChildrenAsFunctionComponent from './ChildrenAsFunctionComponent';
+import { EDIT_ME } from './_editMe';
 
 const ChildrenAsFunctionExample = () => (
   <ChildrenAsFunctionComponent>
@@ -11,6 +11,6 @@ const ChildrenAsFunctionExample = () => (
       </fieldset>
     )}
   </ChildrenAsFunctionComponent>
-)
+);
 
-export default ChildrenAsFunctionExample
+export default ChildrenAsFunctionExample;
