@@ -2,7 +2,7 @@
 
 var hasWindow = typeof window !== 'undefined';
 
-if (!module.hot || process.env.NODE_ENV === 'production' || !hasWindow) {
+if (process.env.NODE_ENV === 'production' || !module.hot || !hasWindow) {
   module.exports = require('./dist/react-hot-loader.production.min.js');
 } else {
   var evalAllowed = false;
