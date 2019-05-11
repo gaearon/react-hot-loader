@@ -1,7 +1,7 @@
 /* eslint-disable */
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -12,8 +12,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-        'react-dom': '@hot-loader/react-dom'
-    }
+      'react-dom': '@hot-loader/react-dom',
+    },
   },
   module: {
     rules: [
@@ -25,4 +25,4 @@ module.exports = {
     ],
   },
   plugins: [new HtmlWebpackPlugin(), new webpack.NamedModulesPlugin()],
-}
+};

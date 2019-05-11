@@ -1,13 +1,13 @@
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const exclude = absPath => /node_modules/.test(absPath)
-const mode = process.env.NODE_ENV || 'development'
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const exclude = absPath => /node_modules/.test(absPath);
+const mode = process.env.NODE_ENV || 'development';
 
-const production = mode === 'production'
+const production = mode === 'production';
 
-const wcl = require('./src/wcl')
+const wcl = require('./src/wcl');
 
 module.exports = {
   mode,
@@ -17,8 +17,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     chunkFilename: '[name].[chunkhash].js',
-    devtoolModuleFilenameTemplate: info =>
-      path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
+    devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   devtool: production ? false : 'eval-source-map',
   plugins: [
@@ -69,16 +68,10 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       react: path.resolve(path.join(__dirname, './node_modules/react')),
-      'react-dom': path.resolve(
-        path.join(__dirname, './node_modules/react-dom'),
-      ),
-      'react-hot-loader': path.resolve(
-        path.join(__dirname, './node_modules/react-hot-loader'),
-      ),
-      'babel-core': path.resolve(
-        path.join(__dirname, './node_modules/@babel/core'),
-      ),
+      'react-dom': path.resolve(path.join(__dirname, './node_modules/react-dom')),
+      'react-hot-loader': path.resolve(path.join(__dirname, './node_modules/react-hot-loader')),
+      'babel-core': path.resolve(path.join(__dirname, './node_modules/@babel/core')),
     },
   },
   bail: true, // Fail out on the first error instead of tolerating it
-}
+};

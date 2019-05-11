@@ -1,14 +1,14 @@
-import React from 'react'
-import { hot, setConfig } from 'react-hot-loader'
-import Counter from './Counter'
+import React from 'react';
+import { hot, setConfig } from 'react-hot-loader';
+import Counter from './Counter';
 
-const Element1 = ({ children }) => <div>Block1 {children}</div>
+const Element1 = ({ children }) => <div>Block1 {children}</div>;
 
 const Element2 = () => (
   <div>
     Block2 <Counter />
   </div>
-)
+);
 
 const App = () => (
   <h1>
@@ -19,8 +19,8 @@ const App = () => (
     </Element1>
     <Element2 />
   </h1>
-)
+);
 
-setConfig({ logLevel: 'debug' })
+setConfig({ logLevel: 'debug' });
 
-export default hot(module)(App)
+export default hot(module)(App);

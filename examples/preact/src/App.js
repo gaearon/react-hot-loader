@@ -1,7 +1,7 @@
-import React from 'react'
-import { hot } from 'react-hot-loader'
-import Counter from './Counter'
-import { Internal } from './Internal'
+import React from 'react';
+import { hot } from 'react-hot-loader';
+import Counter from './Counter';
+import { Internal } from './Internal';
 
 const App = () => (
   <h1>
@@ -10,6 +10,6 @@ const App = () => (
     <br />
     <Counter />
   </h1>
-)
+);
 
-export default hot(module)(App)
+export default hot(module)(App);

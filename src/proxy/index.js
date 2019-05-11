@@ -1,2 +1,2 @@
-export * from './constants'
-export { default } from './createClassProxy'
+export * from './constants';
+export { default } from './createClassProxy';

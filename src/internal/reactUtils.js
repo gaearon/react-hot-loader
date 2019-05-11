@@ -1,21 +1,15 @@
-import React from 'react'
+import React from 'react';
 /* eslint-disable no-underscore-dangle */
 
-export const isCompositeComponent = type => typeof type === 'function'
-export const isReloadableComponent = type =>
-  typeof type === 'function' || typeof type === 'object'
+export const isCompositeComponent = type => typeof type === 'function';
+export const isReloadableComponent = type => typeof type === 'function' || typeof type === 'object';
 
 export const getComponentDisplayName = type => {
-  const displayName = type.displayName || type.name
-  return displayName && displayName !== 'ReactComponent'
-    ? displayName
-    : 'Component'
-}
+  const displayName = type.displayName || type.name;
+  return displayName && displayName !== 'ReactComponent' ? displayName : 'Component';
+};
 
-export const reactLifeCycleMountMethods = [
-  'componentWillMount',
-  'componentDidMount',
-]
+export const reactLifeCycleMountMethods = ['componentWillMount', 'componentDidMount'];
 
 export function isReactClass(Component) {
   return !!(
@@ -28,72 +22,48 @@ export function isReactClass(Component) {
       Component.prototype.componentDidMount ||
       Component.prototype.componentDidUnmount ||
       Component.prototype.render)
-  )
+  );
 }
 
 export function isReactClassInstance(Component) {
-  return (
-    Component && isReactClass({ prototype: Object.getPrototypeOf(Component) })
-  )
+  return Component && isReactClass({ prototype: Object.getPrototypeOf(Component) });
 }
 
 export const getInternalInstance = instance =>
   instance._reactInternalFiber || // React 16
   instance._reactInternalInstance || // React 15
-  null
+  null;
 
 export const updateInstance = instance => {
-  const { updater, forceUpdate } = instance
+  const { updater, forceUpdate } = instance;
   if (typeof forceUpdate === 'function') {
-    instance.forceUpdate()
+    instance.forceUpdate();
   } else if (updater && typeof updater.enqueueForceUpdate === 'function') {
-    updater.enqueueForceUpdate(instance)
+    updater.enqueueForceUpdate(instance);
   }
-}
+};
 
-export const isFragmentNode = ({ type }) =>
-  React.Fragment && type === React.Fragment
+export const isFragmentNode = ({ type }) => React.Fragment && type === React.Fragment;
 
-const ContextType = React.createContext ? React.createContext() : null
-const ConsumerType = ContextType && ContextType.Consumer.$$typeof
-const ProviderType = ContextType && ContextType.Provider.$$typeof
-const MemoType = React.memo && React.memo(() => null).$$typeof
-const LazyType = React.lazy && React.lazy(() => null).$$typeof
-const ForwardType = React.forwardRef && React.forwardRef(() => null).$$typeof
+const ContextType = React.createContext ? React.createContext() : null;
+const ConsumerType = ContextType && ContextType.Consumer.$$typeof;
+const ProviderType = ContextType && ContextType.Provider.$$typeof;
+const MemoType = React.memo && React.memo(() => null).$$typeof;
+const LazyType = React.lazy && React.lazy(() => null).$$typeof;
+const ForwardType = React.forwardRef && React.forwardRef(() => null).$$typeof;
 
-export const CONTEXT_CURRENT_VALUE = '_currentValue'
+export const CONTEXT_CURRENT_VALUE = '_currentValue';
 
 export const isContextConsumer = ({ type }) =>
-  type &&
-  typeof type === 'object' &&
-  '$$typeof' in type &&
-  type.$$typeof === ConsumerType &&
-  ConsumerType
+  type && typeof type === 'object' && '$$typeof' in type && type.$$typeof === ConsumerType && ConsumerType;
 export const isContextProvider = ({ type }) =>
-  type &&
-  typeof type === 'object' &&
-  '$$typeof' in type &&
-  type.$$typeof === ProviderType &&
-  ProviderType
+  type && typeof type === 'object' && '$$typeof' in type && type.$$typeof === ProviderType && ProviderType;
 export const isMemoType = ({ type }) =>
-  type &&
-  typeof type === 'object' &&
-  '$$typeof' in type &&
-  type.$$typeof === MemoType &&
-  MemoType
+  type && typeof type === 'object' && '$$typeof' in type && type.$$typeof === MemoType && MemoType;
 export const isLazyType = ({ type }) =>
-  type &&
-  typeof type === 'object' &&
-  '$$typeof' in type &&
-  type.$$typeof === LazyType &&
-  LazyType
+  type && typeof type === 'object' && '$$typeof' in type && type.$$typeof === LazyType && LazyType;
 export const isForwardType = ({ type }) =>
-  type &&
-  typeof type === 'object' &&
-  '$$typeof' in type &&
-  type.$$typeof === ForwardType &&
-  ForwardType
-export const isContextType = type =>
-  isContextConsumer(type) || isContextProvider(type)
+  type && typeof type === 'object' && '$$typeof' in type && type.$$typeof === ForwardType && ForwardType;
+export const isContextType = type => isContextConsumer(type) || isContextProvider(type);
 
-export const getContextProvider = type => type && type._context
+export const getContextProvider = type => type && type._context;

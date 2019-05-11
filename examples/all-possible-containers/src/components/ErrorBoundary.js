@@ -1,13 +1,7 @@
 // @flow
-import React from 'react'
+import React from 'react';
 
-const ErrorBoundary = ({
-  error,
-  errorInfo,
-}: {
-  error: any,
-  errorInfo: Object,
-}) => (
+const ErrorBoundary = ({ error, errorInfo }: { error: any, errorInfo: Object }) => (
   <div
     style={{
       margin: '20px auto',
@@ -24,11 +18,9 @@ const ErrorBoundary = ({
     <div style={{ color: 'red', marginTop: '10px' }}>
       {errorInfo &&
         errorInfo.componentStack &&
-        errorInfo.componentStack
-          .split('\n')
-          .map((line, i) => <div key={i}>{line}</div>)}
+        errorInfo.componentStack.split('\n').map((line, i) => <div key={i}>{line}</div>)}
     </div>
   </div>
-)
+);
 
-export default ErrorBoundary
+export default ErrorBoundary;

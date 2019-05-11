@@ -3,14 +3,14 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 /* eslint-disable no-use-before-define */
 
-import React from 'react'
-import ReactDom from 'react-dom'
+import React from 'react';
+import ReactDom from 'react-dom';
 
-import configuration from './configuration'
-import { getComponentDisplayName } from './internal/reactUtils'
-import { enterHotUpdate } from './global/generation'
+import configuration from './configuration';
+import { getComponentDisplayName } from './internal/reactUtils';
+import { enterHotUpdate } from './global/generation';
 
-let lastError = []
+let lastError = [];
 
 const overlayStyle = {
   position: 'fixed',
@@ -28,24 +28,22 @@ const overlayStyle = {
   padding: '16px',
   maxHeight: '50%',
   overflow: 'auto',
-}
+};
 
 const inlineErrorStyle = {
   backgroundColor: '#FEE',
-}
+};
 
 const liCounter = {
   position: 'absolute',
   left: '10px',
-}
+};
 
-const listStyle = {}
+const listStyle = {};
 
 export const EmptyErrorPlaceholder = ({ component }) => (
   <span style={inlineErrorStyle} role="img" aria-label="Rect-Hot-Loader Error">
-    ⚛️🔥🤕 ({component
-      ? getComponentDisplayName(component.constructor || component)
-      : 'Unknown location'})
+    ⚛️🔥🤕 ({component ? getComponentDisplayName(component.constructor || component) : 'Unknown location'})
     {component &&
       component.retryHotLoaderError && (
         <button onClick={() => component.retryHotLoaderError()} title="Retry">
@@ -53,24 +51,22 @@ export const EmptyErrorPlaceholder = ({ component }) => (
         </button>
       )}
   </span>
-)
+);
 
 const errorHeader = (component, componentStack) => {
   if (component || componentStack) {
     return (
       <span>
         (
-        {component
-          ? getComponentDisplayName(component.constructor || component)
-          : 'Unknown location'}
+        {component ? getComponentDisplayName(component.constructor || component) : 'Unknown location'}
         {component && ', '}
         {componentStack && componentStack.split('\n').filter(Boolean)[0]}
         )
       </span>
-    )
+    );
   }
-  return null
-}
+  return null;
+};
 
 const mapError = ({ error, errorInfo, component }) => (
   <React.Fragment>
@@ -98,50 +94,45 @@ const mapError = ({ error, errorInfo, component }) => (
         <div>
           <div>Stack trace:</div>
           <ul style={{ color: 'red', marginTop: '10px' }}>
-            {error.stack
-              .split('\n')
-              .map((line, i) => <li key={String(i)}>{line}</li>)}
+            {error.stack.split('\n').map((line, i) => <li key={String(i)}>{line}</li>)}
           </ul>
         </div>
       )
     )}
   </React.Fragment>
-)
+);
 
 class ErrorOverlay extends React.Component {
   state = {
     visible: true,
-  }
+  };
 
-  toggle = () => this.setState({ visible: !this.state.visible })
+  toggle = () => this.setState({ visible: !this.state.visible });
 
   retry = () =>
     this.setState(() => {
-      const { errors } = this.props
-      enterHotUpdate()
-      clearExceptions()
+      const { errors } = this.props;
+      enterHotUpdate();
+      clearExceptions();
       errors
         .map(({ component }) => component)
         .filter(Boolean)
         .filter(({ retryHotLoaderError }) => !!retryHotLoaderError)
-        .forEach(component => component.retryHotLoaderError())
+        .forEach(component => component.retryHotLoaderError());
 
-      return {}
-    })
+      return {};
+    });
 
   render() {
-    const { errors } = this.props
+    const { errors } = this.props;
     if (!errors.length) {
-      return null
+      return null;
     }
-    const { visible } = this.state
+    const { visible } = this.state;
     return (
       <div style={overlayStyle}>
         <h2 style={{ margin: 0 }}>
-          ⚛️🔥😭: hot update was not successful{' '}
-          <button onClick={this.toggle}>
-            {visible ? 'collapse' : 'expand'}
-          </button>
+          ⚛️🔥😭: hot update was not successful <button onClick={this.toggle}>{visible ? 'collapse' : 'expand'}</button>
           <button onClick={this.retry}>Retry</button>
         </h2>
         {visible && (
@@ -157,32 +148,32 @@ class ErrorOverlay extends React.Component {
           </ul>
         )}
       </div>
-    )
+    );
   }
 }
 
 const initErrorOverlay = () => {
   if (typeof document === 'undefined' || !document.body) {
-    return
+    return;
   }
-  let div = document.querySelector('.react-hot-loader-error-overlay')
+  let div = document.querySelector('.react-hot-loader-error-overlay');
   if (!div) {
-    div = document.createElement('div')
-    div.className = 'react-hot-loader-error-overlay'
-    document.body.appendChild(div)
+    div = document.createElement('div');
+    div.className = 'react-hot-loader-error-overlay';
+    document.body.appendChild(div);
   }
   if (lastError.length) {
-    const Overlay = configuration.ErrorOverlay || ErrorOverlay
-    ReactDom.render(<Overlay errors={lastError} />, div)
+    const Overlay = configuration.ErrorOverlay || ErrorOverlay;
+    ReactDom.render(<Overlay errors={lastError} />, div);
   } else {
-    div.parentNode.removeChild(div)
+    div.parentNode.removeChild(div);
   }
-}
+};
 
 export function clearExceptions() {
   if (lastError.length) {
-    lastError = []
-    initErrorOverlay()
+    lastError = [];
+    initErrorOverlay();
   }
 }
 
@@ -190,9 +181,9 @@ export function logException(error, errorInfo, component) {
   // do not suppress error
 
   /* eslint-disable no-console */
-  console.error(error)
+  console.error(error);
   /* eslint-enable */
 
-  lastError.push({ error, errorInfo, component })
-  initErrorOverlay()
+  lastError.push({ error, errorInfo, component });
+  initErrorOverlay();
 }

@@ -1,245 +1,241 @@
 /* eslint-env browser */
-import 'babel-polyfill'
-import React, { Component, PureComponent } from 'react'
-import createReactClass from 'create-react-class'
-import { mount } from 'enzyme'
-import TestRenderer from 'react-test-renderer'
-import { mapProps } from 'recompose'
-import { polyfill } from 'react-lifecycles-compat'
-import { AppContainer } from '../src/index.dev'
-import RHL from '../src/reactHotLoader'
-import {
-  closeGeneration,
-  configureGeneration,
-  increment as incrementGeneration,
-} from '../src/global/generation'
-import { configureComponent } from '../src/utils.dev'
-import configuration from '../src/configuration'
+import 'babel-polyfill';
+import React, { Component, PureComponent } from 'react';
+import createReactClass from 'create-react-class';
+import { mount } from 'enzyme';
+import TestRenderer from 'react-test-renderer';
+import { mapProps } from 'recompose';
+import { polyfill } from 'react-lifecycles-compat';
+import { AppContainer } from '../src/index.dev';
+import RHL from '../src/reactHotLoader';
+import { closeGeneration, configureGeneration, increment as incrementGeneration } from '../src/global/generation';
+import { configureComponent } from '../src/utils.dev';
+import configuration from '../src/configuration';
 
 describe(`AppContainer (dev)`, () => {
   beforeEach(() => {
-    RHL.reset()
-    configureGeneration(1, 1)
-  })
+    RHL.reset();
+    configureGeneration(1, 1);
+  });
 
   describe('with class root', () => {
     it('renders children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class App extends Component {
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(wrapper.find('App').length).toBe(1)
-      expect(wrapper.contains(<div>hey</div>)).toBe(true)
-      expect(spy).toHaveBeenCalledTimes(1)
-    })
+      );
+      expect(wrapper.find('App').length).toBe(1);
+      expect(wrapper.contains(<div>hey</div>)).toBe(true);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
 
     it('force updates the tree on receiving new children', () => {
-      const spy = jest.fn()
-      const spy2 = jest.fn()
+      const spy = jest.fn();
+      const spy2 = jest.fn();
 
       class App extends Component {
         shouldComponentUpdate() {
-          return false
+          return false;
         }
 
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(spy).toHaveBeenCalledTimes(1)
+      );
+      expect(spy).toHaveBeenCalledTimes(1);
 
       {
         class App extends Component {
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
           render() {
-            spy()
-            spy2()
-            return <div>ho</div>
+            spy();
+            spy2();
+            return <div>ho</div>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: <App /> })
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: <App /> });
       }
 
-      expect(spy).toHaveBeenCalledTimes(3)
-      expect(spy2).toHaveBeenCalledTimes(2)
+      expect(spy).toHaveBeenCalledTimes(3);
+      expect(spy2).toHaveBeenCalledTimes(2);
 
-      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
-    })
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true);
+    });
 
     it('force updates the tree on receiving cached children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class App extends Component {
         shouldComponentUpdate() {
-          return false
+          return false;
         }
 
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
-      const element = <App />
-      const wrapper = mount(<AppContainer>{element}</AppContainer>)
-      expect(spy).toHaveBeenCalledTimes(1)
+      const element = <App />;
+      const wrapper = mount(<AppContainer>{element}</AppContainer>);
+      expect(spy).toHaveBeenCalledTimes(1);
 
       {
         class App extends Component {
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
           render() {
-            spy()
-            return <div>ho</div>
+            spy();
+            return <div>ho</div>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: element })
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: element });
       }
 
-      expect(spy).toHaveBeenCalledTimes(3)
-      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
-    })
+      expect(spy).toHaveBeenCalledTimes(3);
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true);
+    });
 
     it('renders latest children on receiving cached never-rendered children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class App extends Component {
         shouldComponentUpdate() {
-          return false
+          return false;
         }
 
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
-      const element = <App />
-      let wrapper
+      const element = <App />;
+      let wrapper;
 
       {
         class App extends Component {
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
           render() {
-            spy()
-            return <div>ho</div>
+            spy();
+            return <div>ho</div>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
-        wrapper = mount(<AppContainer>{element}</AppContainer>)
+        RHL.register(App, 'App', 'test.js');
+        wrapper = mount(<AppContainer>{element}</AppContainer>);
       }
 
-      expect(spy).toHaveBeenCalledTimes(1)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
-    })
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(wrapper.contains(<div>ho</div>)).toBe(true);
+    });
 
     it('hot-reloads children without losing state', () => {
       class App extends Component {
         constructor(props) {
-          super(props)
-          this.state = { value: 'old' }
+          super(props);
+          this.state = { value: 'old' };
         }
 
         shouldComponentUpdate() {
-          return false
+          return false;
         }
 
         render() {
-          return <div>old render + {this.state.value} state</div>
+          return <div>old render + {this.state.value} state</div>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(wrapper.text()).toBe('old render + old state')
+      );
+      expect(wrapper.text()).toBe('old render + old state');
 
       {
         class App extends Component {
           constructor(props) {
-            super(props)
-            this.state = { value: 'new' }
+            super(props);
+            this.state = { value: 'new' };
           }
 
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
           render() {
-            return <div>new render + {this.state.value} state</div>
+            return <div>new render + {this.state.value} state</div>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: <App /> })
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: <App /> });
       }
 
-      expect(wrapper.text()).toBe('new render + old state')
-    })
+      expect(wrapper.text()).toBe('new render + old state');
+    });
 
     it('Could handle render as a prop', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       /* eslint-disable */
       class SubApp extends Component {
         componentWillUnmount() {
-          spy('SubApp1')
+          spy('SubApp1');
         }
 
         render = function() {
-          return <span>works</span>
-        }
+          return <span>works</span>;
+        };
       }
 
       class App extends Component {
         componentWillUnmount() {
-          spy('App1')
+          spy('App1');
         }
 
         __reactstandin__regenerateByEval(key, code) {
-          this[key] = eval(code)
+          this[key] = eval(code);
         }
 
         render() {
@@ -247,7 +243,7 @@ describe(`AppContainer (dev)`, () => {
             <span>
               <SubApp /> before
             </span>
-          )
+          );
         }
       }
 
@@ -257,33 +253,33 @@ describe(`AppContainer (dev)`, () => {
         <AppContainer>
           <App />
         </AppContainer>
-      )
-      configureComponent(Indirect, { allowSFC: false })
+      );
+      configureComponent(Indirect, { allowSFC: false });
 
-      const wrapper = mount(<Indirect App={App} />)
-      expect(wrapper.text()).toBe('works before')
+      const wrapper = mount(<Indirect App={App} />);
+      expect(wrapper.text()).toBe('works before');
 
       {
         /* eslint-disable */
         class SubApp extends Component {
           componentWillUnmount() {
-            spy('SubApp2')
+            spy('SubApp2');
           }
 
           render = function() {
-            return <span>works</span>
-          }
+            return <span>works</span>;
+          };
         }
 
-        SubApp.displayName = 'SubApp'
+        SubApp.displayName = 'SubApp';
 
         class App extends Component {
           componentWillUnmount() {
-            spy('App2')
+            spy('App2');
           }
 
           __reactstandin__regenerateByEval(key, code) {
-            this[key] = eval(code)
+            this[key] = eval(code);
           }
 
           render = function() {
@@ -291,44 +287,44 @@ describe(`AppContainer (dev)`, () => {
               <span>
                 <SubApp /> after
               </span>
-            )
-          }
+            );
+          };
         }
 
-        App.displayName = 'App'
+        App.displayName = 'App';
         /* eslint-enable */
 
-        incrementGeneration()
-        wrapper.setProps({ App })
+        incrementGeneration();
+        wrapper.setProps({ App });
       }
 
-      expect(wrapper.text()).toBe('works after')
-      expect(spy).not.toHaveBeenCalled()
-    })
+      expect(wrapper.text()).toBe('works after');
+      expect(spy).not.toHaveBeenCalled();
+    });
 
     it('Could handle render as a prop with Pure Render', () => {
-      const { pureRender } = configuration
-      configuration.pureRender = true
-      const spy = jest.fn()
+      const { pureRender } = configuration;
+      configuration.pureRender = true;
+      const spy = jest.fn();
 
       /* eslint-disable */
       class SubApp extends Component {
         componentWillUnmount() {
-          spy('SubApp1')
+          spy('SubApp1');
         }
 
         render = function() {
-          return <span>works</span>
-        }
+          return <span>works</span>;
+        };
       }
 
       class App extends Component {
         componentWillUnmount() {
-          spy('App1')
+          spy('App1');
         }
 
         __reactstandin__regenerateByEval(key, code) {
-          this[key] = eval(code)
+          this[key] = eval(code);
         }
 
         render() {
@@ -336,7 +332,7 @@ describe(`AppContainer (dev)`, () => {
             <span>
               <SubApp /> before
             </span>
-          )
+          );
         }
       }
 
@@ -346,37 +342,37 @@ describe(`AppContainer (dev)`, () => {
         <AppContainer>
           <App />
         </AppContainer>
-      )
-      configureComponent(Indirect, { allowSFC: false })
+      );
+      configureComponent(Indirect, { allowSFC: false });
 
-      const wrapper = mount(<Indirect App={App} />)
-      expect(wrapper.text()).toBe('works before')
-      expect(<App />.type.prototype.render).not.toBe(App.prototype.render)
-      closeGeneration()
-      expect(<App />.type.prototype.render).toBe(App.prototype.render)
-      const originalRender = App.prototype.render
+      const wrapper = mount(<Indirect App={App} />);
+      expect(wrapper.text()).toBe('works before');
+      expect(<App />.type.prototype.render).not.toBe(App.prototype.render);
+      closeGeneration();
+      expect(<App />.type.prototype.render).toBe(App.prototype.render);
+      const originalRender = App.prototype.render;
 
       {
         /* eslint-disable */
         class SubApp extends Component {
           componentWillUnmount() {
-            spy('SubApp2')
+            spy('SubApp2');
           }
 
           render = function() {
-            return <span>works</span>
-          }
+            return <span>works</span>;
+          };
         }
 
-        SubApp.displayName = 'SubApp'
+        SubApp.displayName = 'SubApp';
 
         class App extends Component {
           componentWillUnmount() {
-            spy('App2')
+            spy('App2');
           }
 
           __reactstandin__regenerateByEval(key, code) {
-            this[key] = eval(code)
+            this[key] = eval(code);
           }
 
           render() {
@@ -384,358 +380,326 @@ describe(`AppContainer (dev)`, () => {
               <span>
                 <SubApp /> after
               </span>
-            )
+            );
           }
         }
 
-        App.displayName = 'App'
+        App.displayName = 'App';
         /* eslint-enable */
 
-        incrementGeneration()
-        wrapper.setProps({ App })
+        incrementGeneration();
+        wrapper.setProps({ App });
       }
 
-      expect(wrapper.text()).toBe('works after')
-      expect(spy).not.toHaveBeenCalled()
+      expect(wrapper.text()).toBe('works after');
+      expect(spy).not.toHaveBeenCalled();
       // render on App is changed by merge process. Compare with stored value
-      expect(<App />.type.prototype.render).not.toBe(originalRender)
+      expect(<App />.type.prototype.render).not.toBe(originalRender);
 
-      configuration.pureRender = pureRender
-    })
+      configuration.pureRender = pureRender;
+    });
 
     it('replaces children class methods', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class App extends Component {
         constructor(props) {
-          super(props)
-          this.state = { value: 'old' }
+          super(props);
+          this.state = { value: 'old' };
         }
 
         shouldComponentUpdate() {
-          return false
+          return false;
         }
 
         handleClick() {
-          spy('foo')
+          spy('foo');
         }
 
         render() {
-          return (
-            <span onClick={this.handleClick}>
-              old render + {this.state.value} state
-            </span>
-          )
+          return <span onClick={this.handleClick}>old render + {this.state.value} state</span>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      wrapper.find('span').simulate('click')
-      expect(spy).toHaveBeenCalledWith('foo')
-      expect(wrapper.text()).toBe('old render + old state')
+      );
+      wrapper.find('span').simulate('click');
+      expect(spy).toHaveBeenCalledWith('foo');
+      expect(wrapper.text()).toBe('old render + old state');
 
-      spy.mockReset()
+      spy.mockReset();
       {
         class App extends Component {
           constructor(props) {
-            super(props)
-            this.state = { value: 'new' }
+            super(props);
+            this.state = { value: 'new' };
           }
 
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
           handleClick() {
-            spy('bar')
+            spy('bar');
           }
 
           render() {
-            return (
-              <span onClick={this.handleClick}>
-                new render + {this.state.value} state
-              </span>
-            )
+            return <span onClick={this.handleClick}>new render + {this.state.value} state</span>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: <App /> })
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: <App /> });
       }
 
-      wrapper.find('span').simulate('click')
-      expect(spy).toHaveBeenCalledWith('bar')
-      expect(wrapper.text()).toBe('new render + old state')
-    })
+      wrapper.find('span').simulate('click');
+      expect(spy).toHaveBeenCalledWith('bar');
+      expect(wrapper.text()).toBe('new render + old state');
+    });
 
     it('replaces children class property arrow functions', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class App extends Component {
         constructor(props) {
-          super(props)
-          this.state = { value: 'old' }
+          super(props);
+          this.state = { value: 'old' };
         }
 
         shouldComponentUpdate() {
-          return false
+          return false;
         }
 
         handleClick = () => {
-          spy('foo')
-        }
+          spy('foo');
+        };
 
         render() {
-          return (
-            <span onClick={this.handleClick}>
-              old render + {this.state.value} state
-            </span>
-          )
+          return <span onClick={this.handleClick}>old render + {this.state.value} state</span>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      wrapper.find('span').simulate('click')
-      expect(spy).toHaveBeenCalledWith('foo')
-      expect(wrapper.text()).toBe('old render + old state')
+      );
+      wrapper.find('span').simulate('click');
+      expect(spy).toHaveBeenCalledWith('foo');
+      expect(wrapper.text()).toBe('old render + old state');
 
-      spy.mockReset()
-      window.spy = spy
+      spy.mockReset();
+      window.spy = spy;
 
       {
         class App extends Component {
           constructor(props) {
-            super(props)
-            this.state = { value: 'new' }
+            super(props);
+            this.state = { value: 'new' };
           }
 
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
           handleClick = () => {
-            window.spy('bar')
-          }
+            window.spy('bar');
+          };
 
           /* eslint-disable */
           __reactstandin__regenerateByEval(key, code) {
-            this[key] = eval(code)
+            this[key] = eval(code);
           }
 
           /* eslint-enable */
 
           render() {
-            return (
-              <span onClick={this.handleClick}>
-                new render + {this.state.value} state
-              </span>
-            )
+            return <span onClick={this.handleClick}>new render + {this.state.value} state</span>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: <App /> })
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: <App /> });
       }
 
-      wrapper.find('span').simulate('click')
-      expect(spy).toHaveBeenCalledWith('bar')
-      expect(wrapper.text()).toBe('new render + old state')
-    })
+      wrapper.find('span').simulate('click');
+      expect(spy).toHaveBeenCalledWith('bar');
+      expect(wrapper.text()).toBe('new render + old state');
+    });
 
     it('replaces children class arrow functions in constructor', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class App extends Component {
         constructor(props) {
-          super(props)
+          super(props);
 
           this.handleClick = () => {
-            spy('foo')
-          }
+            spy('foo');
+          };
 
-          this.state = { value: 'old' }
+          this.state = { value: 'old' };
         }
 
         shouldComponentUpdate() {
-          return false
+          return false;
         }
 
         render() {
-          return (
-            <span onClick={this.handleClick}>
-              old render + {this.state.value} state
-            </span>
-          )
+          return <span onClick={this.handleClick}>old render + {this.state.value} state</span>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      wrapper.find('span').simulate('click')
-      expect(spy).toHaveBeenCalledWith('foo')
-      expect(wrapper.text()).toBe('old render + old state')
+      );
+      wrapper.find('span').simulate('click');
+      expect(spy).toHaveBeenCalledWith('foo');
+      expect(wrapper.text()).toBe('old render + old state');
 
-      spy.mockReset()
-      window.spy = spy
+      spy.mockReset();
+      window.spy = spy;
 
       {
         class App extends Component {
           constructor(props) {
-            super(props)
-            this.state = { value: 'new' }
+            super(props);
+            this.state = { value: 'new' };
           }
 
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
           handleClick = () => {
-            window.spy('bar')
-          }
+            window.spy('bar');
+          };
 
           /* eslint-disable */
           __reactstandin__regenerateByEval(key, code) {
-            this[key] = eval(code)
+            this[key] = eval(code);
           }
 
           /* eslint-enable */
 
           render() {
-            return (
-              <span onClick={this.handleClick}>
-                new render + {this.state.value} state
-              </span>
-            )
+            return <span onClick={this.handleClick}>new render + {this.state.value} state</span>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: <App /> })
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: <App /> });
       }
 
-      wrapper.find('span').simulate('click')
-      expect(spy).toHaveBeenCalledWith('bar')
-      expect(wrapper.text()).toBe('new render + old state')
-    })
+      wrapper.find('span').simulate('click');
+      expect(spy).toHaveBeenCalledWith('bar');
+      expect(wrapper.text()).toBe('new render + old state');
+    });
 
     it('replaces children class property arrow functions without block statement bodies', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class App extends Component {
         constructor(props) {
-          super(props)
-          this.state = { value: 'old' }
+          super(props);
+          this.state = { value: 'old' };
         }
 
         shouldComponentUpdate() {
-          return false
+          return false;
         }
 
-        handleClick = () => spy('foo')
+        handleClick = () => spy('foo');
 
         render() {
-          return (
-            <span onClick={this.handleClick}>
-              old render + {this.state.value} state
-            </span>
-          )
+          return <span onClick={this.handleClick}>old render + {this.state.value} state</span>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      wrapper.find('span').simulate('click')
-      expect(spy).toHaveBeenCalledWith('foo')
-      expect(wrapper.text()).toBe('old render + old state')
+      );
+      wrapper.find('span').simulate('click');
+      expect(spy).toHaveBeenCalledWith('foo');
+      expect(wrapper.text()).toBe('old render + old state');
 
-      spy.mockReset()
+      spy.mockReset();
 
-      window.spy = spy
+      window.spy = spy;
 
       {
         class App extends Component {
           constructor(props) {
-            super(props)
-            this.state = { value: 'new' }
+            super(props);
+            this.state = { value: 'new' };
           }
 
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
-          handleClick = () => window.spy('bar')
+          handleClick = () => window.spy('bar');
 
           /* eslint-disable */
           __reactstandin__regenerateByEval(key, code) {
-            this[key] = eval(code)
+            this[key] = eval(code);
           }
 
           /* eslint-enable */
 
           render() {
-            return (
-              <span onClick={this.handleClick}>
-                new render + {this.state.value} state
-              </span>
-            )
+            return <span onClick={this.handleClick}>new render + {this.state.value} state</span>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: <App /> })
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: <App /> });
       }
 
-      wrapper.find('span').simulate('click')
-      expect(spy).toHaveBeenCalledWith('bar')
-      expect(wrapper.text()).toBe('new render + old state')
-    })
+      wrapper.find('span').simulate('click');
+      expect(spy).toHaveBeenCalledWith('bar');
+      expect(wrapper.text()).toBe('new render + old state');
+    });
 
     it('replaces PureComponent', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class Pure extends PureComponent {
         componentWillUnmount() {
-          spy()
+          spy();
         }
 
         render() {
-          return <span>I am old</span>
+          return <span>I am old</span>;
         }
       }
 
-      RHL.register(Pure, 'Pure', 'test.js')
+      RHL.register(Pure, 'Pure', 'test.js');
 
       class RenderFn extends PureComponent {
         render() {
-          const { _children, v } = this.props
-          return _children()(v)
+          const { _children, v } = this.props;
+          return _children()(v);
         }
       }
 
-      const innerRenderFn = v => <Pure v={v} />
-      const renderFn = () => innerRenderFn
+      const innerRenderFn = v => <Pure v={v} />;
+      const renderFn = () => innerRenderFn;
 
       class App extends PureComponent {
         render() {
@@ -743,7 +707,7 @@ describe(`AppContainer (dev)`, () => {
             <div>
               <RenderFn value={42} _children={renderFn} />
             </div>
-          )
+          );
         }
       }
 
@@ -751,87 +715,87 @@ describe(`AppContainer (dev)`, () => {
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(wrapper.text()).toBe('I am old')
+      );
+      expect(wrapper.text()).toBe('I am old');
 
       {
         class Pure extends PureComponent {
           componentWillUnmount() {
-            spy()
+            spy();
           }
 
           render() {
-            return <span>I am new</span>
+            return <span>I am new</span>;
           }
         }
 
-        RHL.register(Pure, 'Pure', 'test.js')
+        RHL.register(Pure, 'Pure', 'test.js');
 
-        wrapper.setProps({ children: <App /> })
+        wrapper.setProps({ children: <App /> });
       }
 
-      expect(wrapper.text()).toBe('I am new')
-      expect(spy).not.toHaveBeenCalled()
-    })
+      expect(wrapper.text()).toBe('I am new');
+      expect(spy).not.toHaveBeenCalled();
+    });
 
     it('replaces React.memo', done => {
       if (!React.memo) {
-        expect(1).toBe(1)
-        done()
-        return
+        expect(1).toBe(1);
+        done();
+        return;
       }
 
-      const Pure = React.memo(() => <span>I am old</span>)
-      RHL.register(Pure, 'Pure', 'test.js')
+      const Pure = React.memo(() => <span>I am old</span>);
+      RHL.register(Pure, 'Pure', 'test.js');
 
       const App = () => (
         <div>
           <Pure />
         </div>
-      )
+      );
 
       const wrapper = TestRenderer.create(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(wrapper.root.findByProps({ children: 'I am old' })).toBeDefined()
+      );
+      expect(wrapper.root.findByProps({ children: 'I am old' })).toBeDefined();
 
       {
-        const Pure = React.memo(() => <span>I am new</span>)
+        const Pure = React.memo(() => <span>I am new</span>);
 
-        RHL.register(Pure, 'Pure', 'test.js')
+        RHL.register(Pure, 'Pure', 'test.js');
 
         wrapper.update(
           <AppContainer update>
             <App />
           </AppContainer>,
-        )
+        );
       }
 
       setTimeout(() => {
-        expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined()
-        done()
-      }, 16)
-    })
+        expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined();
+        done();
+      }, 16);
+    });
 
     it('handles forwardRef', () => {
       if (!React.forwardRef) {
-        expect(1).toBe(1)
-        return
+        expect(1).toBe(1);
+        return;
       }
 
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class MountSpy extends PureComponent {
-        static displayName = 'MountSpy'
+        static displayName = 'MountSpy';
 
         componentWillUnmount() {
-          spy()
+          spy();
         }
 
         render() {
-          return <span>I am old</span>
+          return <span>I am old</span>;
         }
       }
 
@@ -839,8 +803,8 @@ describe(`AppContainer (dev)`, () => {
         <span>
           <MountSpy />
         </span>
-      ))
-      RHL.register(FRW, 'FRW', 'test.js')
+      ));
+      RHL.register(FRW, 'FRW', 'test.js');
 
       const App = () => (
         <div>
@@ -848,25 +812,25 @@ describe(`AppContainer (dev)`, () => {
             children
           </FRW>
         </div>
-      )
+      );
 
       const wrapper = TestRenderer.create(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(wrapper.root.findByProps({ children: 'I am old' })).toBeDefined()
+      );
+      expect(wrapper.root.findByProps({ children: 'I am old' })).toBeDefined();
 
       {
         class MountSpy extends PureComponent {
-          static displayName = 'MountSpy'
+          static displayName = 'MountSpy';
 
           componentWillUnmount() {
-            spy()
+            spy();
           }
 
           render() {
-            return <span>I am new</span>
+            return <span>I am new</span>;
           }
         }
 
@@ -874,46 +838,46 @@ describe(`AppContainer (dev)`, () => {
           <span>
             <MountSpy />
           </span>
-        ))
-        RHL.register(FRW, 'FRW', 'test.js')
+        ));
+        RHL.register(FRW, 'FRW', 'test.js');
 
         wrapper.update(
           <AppContainer update>
             <App update />
           </AppContainer>,
-        )
+        );
       }
 
-      expect(spy).not.toHaveBeenCalled()
-      expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined()
-    })
+      expect(spy).not.toHaveBeenCalled();
+      expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined();
+    });
 
     it.skip('handles react-lazy', async () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class MountSpy extends PureComponent {
-        static displayName = 'MountSpy'
+        static displayName = 'MountSpy';
 
         componentWillUnmount() {
-          spy()
+          spy();
         }
 
         render() {
-          return <span>I am old</span>
+          return <span>I am old</span>;
         }
       }
 
-      const Tmp = MountSpy
+      const Tmp = MountSpy;
 
-      const Lazy = React.lazy(() => Promise.resolve({ default: Tmp }))
+      const Lazy = React.lazy(() => Promise.resolve({ default: Tmp }));
 
-      RHL.register(MountSpy, 'Pure', 'test.js')
-      RHL.register(Lazy, 'Lazy', 'test.js')
+      RHL.register(MountSpy, 'Pure', 'test.js');
+      RHL.register(Lazy, 'Lazy', 'test.js');
 
-      const ref = jest.fn()
+      const ref = jest.fn();
       class App extends Component {
         render() {
-          return <Lazy ref={ref} />
+          return <Lazy ref={ref} />;
         }
       }
 
@@ -923,31 +887,31 @@ describe(`AppContainer (dev)`, () => {
             <App />
           </React.Suspense>
         </AppContainer>,
-      )
+      );
 
-      await Promise.resolve(1)
+      await Promise.resolve(1);
 
-      expect(spy).not.toHaveBeenCalled()
-      expect(ref).toHaveBeenCalledTimes(1)
+      expect(spy).not.toHaveBeenCalled();
+      expect(ref).toHaveBeenCalledTimes(1);
 
-      expect(wrapper.root.findByProps({ children: 'I am old' })).toBeDefined()
+      expect(wrapper.root.findByProps({ children: 'I am old' })).toBeDefined();
 
       {
         class MountSpy extends PureComponent {
-          static displayName = 'MountSpy'
+          static displayName = 'MountSpy';
 
           componentWillUnmount() {
-            spy()
+            spy();
           }
 
           render() {
-            return <span>I am new</span>
+            return <span>I am new</span>;
           }
         }
 
-        const Lazy = React.lazy(() => Promise.resolve({ default: Tmp }))
-        RHL.register(MountSpy, 'Pure', 'test.js')
-        RHL.register(Lazy, 'Lazy', 'test.js')
+        const Lazy = React.lazy(() => Promise.resolve({ default: Tmp }));
+        RHL.register(MountSpy, 'Pure', 'test.js');
+        RHL.register(Lazy, 'Lazy', 'test.js');
 
         wrapper.update(
           <AppContainer>
@@ -955,133 +919,121 @@ describe(`AppContainer (dev)`, () => {
               <App />
             </React.Suspense>
           </AppContainer>,
-        )
+        );
 
-        await Promise.resolve(1)
+        await Promise.resolve(1);
       }
 
-      expect(spy).not.toHaveBeenCalled()
-      expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined()
-    })
+      expect(spy).not.toHaveBeenCalled();
+      expect(wrapper.root.findByProps({ children: 'I am new' })).toBeDefined();
+    });
 
-    it(
-      'replaces children with class property arrow ' +
-        'functions with different numbers of arguments',
-      () => {
-        const spy = jest.fn()
+    it('replaces children with class property arrow functions with different numbers of arguments', () => {
+      const spy = jest.fn();
 
+      class App extends Component {
+        constructor(props) {
+          super(props);
+          this.state = { value: 'old' };
+        }
+
+        shouldComponentUpdate() {
+          return false;
+        }
+
+        handleClick = () => spy('foo');
+
+        render() {
+          return <span onClick={this.handleClick}>old render + {this.state.value} state</span>;
+        }
+      }
+
+      RHL.register(App, 'App', 'test.js');
+
+      const wrapper = mount(
+        <AppContainer>
+          <App />
+        </AppContainer>,
+      );
+      wrapper.find('span').simulate('click');
+      expect(spy).toHaveBeenCalledWith('foo');
+      expect(wrapper.text()).toBe('old render + old state');
+
+      spy.mockReset();
+      window.spy = spy;
+      {
         class App extends Component {
           constructor(props) {
-            super(props)
-            this.state = { value: 'old' }
+            super(props);
+            this.state = { value: 'new' };
           }
 
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
-          handleClick = () => spy('foo')
+          handleClick = ({ target }) => window.spy(target.value);
+
+          /* eslint-disable */
+          __reactstandin__regenerateByEval(key, code) {
+            this[key] = eval(code);
+          }
+
+          /* eslint-enable */
 
           render() {
-            return (
-              <span onClick={this.handleClick}>
-                old render + {this.state.value} state
-              </span>
-            )
+            return <span onClick={this.handleClick}>new render + {this.state.value} state</span>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: <App /> });
+      }
 
-        const wrapper = mount(
-          <AppContainer>
-            <App />
-          </AppContainer>,
-        )
-        wrapper.find('span').simulate('click')
-        expect(spy).toHaveBeenCalledWith('foo')
-        expect(wrapper.text()).toBe('old render + old state')
-
-        spy.mockReset()
-        window.spy = spy
-        {
-          class App extends Component {
-            constructor(props) {
-              super(props)
-              this.state = { value: 'new' }
-            }
-
-            shouldComponentUpdate() {
-              return false
-            }
-
-            handleClick = ({ target }) => window.spy(target.value)
-
-            /* eslint-disable */
-            __reactstandin__regenerateByEval(key, code) {
-              this[key] = eval(code)
-            }
-
-            /* eslint-enable */
-
-            render() {
-              return (
-                <span onClick={this.handleClick}>
-                  new render + {this.state.value} state
-                </span>
-              )
-            }
-          }
-
-          RHL.register(App, 'App', 'test.js')
-          wrapper.setProps({ children: <App /> })
-        }
-
-        wrapper.find('span').simulate('click', { target: { value: 'bar' } })
-        expect(spy).toHaveBeenCalledWith('bar')
-        expect(wrapper.text()).toBe('new render + old state')
-      },
-    )
+      wrapper.find('span').simulate('click', { target: { value: 'bar' } });
+      expect(spy).toHaveBeenCalledWith('bar');
+      expect(wrapper.text()).toBe('new render + old state');
+    });
 
     it('passes a default context value', () => {
       if (React.version.startsWith('16')) {
-        const spy = jest.fn()
-        const contextValue = 'value'
-        const { Consumer } = React.createContext('value')
+        const spy = jest.fn();
+        const contextValue = 'value';
+        const { Consumer } = React.createContext('value');
 
         class App extends Component {
           render() {
             return (
               <Consumer>
                 {value => {
-                  spy()
-                  return <div>{value}</div>
+                  spy();
+                  return <div>{value}</div>;
                 }}
               </Consumer>
-            )
+            );
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
         const wrapper = mount(
           <AppContainer>
             <App />
           </AppContainer>,
-        )
+        );
 
-        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true)
-        expect(spy).toHaveBeenCalledTimes(1)
+        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true);
+        expect(spy).toHaveBeenCalledTimes(1);
       } else {
-        expect(true).toBe(true)
+        expect(true).toBe(true);
       }
-    })
+    });
 
     it('passes provider defined context value', () => {
       if (React.version.startsWith('16')) {
-        const spy = jest.fn()
-        const contextValue = 'value'
-        const { Provider, Consumer } = React.createContext()
+        const spy = jest.fn();
+        const contextValue = 'value';
+        const { Provider, Consumer } = React.createContext();
 
         class App extends Component {
           render() {
@@ -1089,35 +1041,35 @@ describe(`AppContainer (dev)`, () => {
               <Provider value={contextValue}>
                 <Consumer>
                   {value => {
-                    spy()
-                    return <div>{value}</div>
+                    spy();
+                    return <div>{value}</div>;
                   }}
                 </Consumer>
               </Provider>
-            )
+            );
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
         const wrapper = mount(
           <AppContainer>
             <App />
           </AppContainer>,
-        )
+        );
 
-        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true)
-        expect(spy).toHaveBeenCalledTimes(1)
+        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true);
+        expect(spy).toHaveBeenCalledTimes(1);
       } else {
-        expect(true).toBe(true)
+        expect(true).toBe(true);
       }
-    })
+    });
 
     it('passes provider defined falsy context value', () => {
       if (React.version.startsWith('16')) {
-        const spy = jest.fn()
-        const contextValue = 0
-        const { Provider, Consumer } = React.createContext()
+        const spy = jest.fn();
+        const contextValue = 0;
+        const { Provider, Consumer } = React.createContext();
 
         class App extends Component {
           render() {
@@ -1125,37 +1077,37 @@ describe(`AppContainer (dev)`, () => {
               <Provider value={contextValue}>
                 <Consumer>
                   {value => {
-                    spy(value)
-                    return <div>{value}</div>
+                    spy(value);
+                    return <div>{value}</div>;
                   }}
                 </Consumer>
               </Provider>
-            )
+            );
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
         const wrapper = mount(
           <AppContainer>
             <App />
           </AppContainer>,
-        )
+        );
 
-        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true)
-        expect(spy).toHaveBeenCalledTimes(1)
-        expect(spy).toHaveBeenCalledWith(contextValue)
+        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true);
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledWith(contextValue);
       } else {
-        expect(true).toBe(true)
+        expect(true).toBe(true);
       }
-    })
+    });
 
     it('passes provider defined falsy context value on receiving new children', () => {
       if (React.version.startsWith('16')) {
-        const spy = jest.fn()
-        const spy2 = jest.fn()
-        const contextValue = false
-        const { Provider, Consumer } = React.createContext()
+        const spy = jest.fn();
+        const spy2 = jest.fn();
+        const contextValue = false;
+        const { Provider, Consumer } = React.createContext();
 
         class App extends Component {
           render() {
@@ -1163,31 +1115,31 @@ describe(`AppContainer (dev)`, () => {
               <Provider value={contextValue}>
                 <Consumer>
                   {value => {
-                    spy(value)
-                    return <div>{value}</div>
+                    spy(value);
+                    return <div>{value}</div>;
                   }}
                 </Consumer>
               </Provider>
-            )
+            );
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
         const wrapper = mount(
           <AppContainer>
             <App />
           </AppContainer>,
-        )
+        );
 
-        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true)
-        expect(spy).toHaveBeenCalledTimes(1)
-        expect(spy).toHaveBeenCalledWith(contextValue)
+        expect(wrapper.contains(<div>{contextValue}</div>)).toBe(true);
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledWith(contextValue);
 
         {
           class App extends Component {
             shouldComponentUpdate() {
-              return false
+              return false;
             }
 
             render() {
@@ -1195,586 +1147,582 @@ describe(`AppContainer (dev)`, () => {
                 <Provider value={contextValue}>
                   <Consumer>
                     {value => {
-                      spy2(value)
-                      return <div>{value}</div>
+                      spy2(value);
+                      return <div>{value}</div>;
                     }}
                   </Consumer>
                 </Provider>
-              )
+              );
             }
           }
 
-          RHL.register(App, 'App', 'test.js')
-          wrapper.setProps({ children: <App /> })
+          RHL.register(App, 'App', 'test.js');
+          wrapper.setProps({ children: <App /> });
         }
 
-        const firstCallArg = spy2.mock.calls[0][0]
+        const firstCallArg = spy2.mock.calls[0][0];
 
-        expect(spy2).toHaveBeenCalledTimes(2)
-        expect(firstCallArg).toBeDefined()
-        expect(firstCallArg).toBe(contextValue)
+        expect(spy2).toHaveBeenCalledTimes(2);
+        expect(firstCallArg).toBeDefined();
+        expect(firstCallArg).toBe(contextValue);
       } else {
-        expect(true).toBe(true)
+        expect(true).toBe(true);
       }
-    })
-  })
+    });
+  });
 
   describe('with createClass root', () => {
     it('renders children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
       const App = createReactClass({
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         },
-      })
-      RHL.register(App, 'App', 'test.js')
+      });
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(wrapper.find('App').length).toBe(1)
-      expect(wrapper.contains(<div>hey</div>)).toBe(true)
-      expect(spy).toHaveBeenCalledTimes(1)
-    })
+      );
+      expect(wrapper.find('App').length).toBe(1);
+      expect(wrapper.contains(<div>hey</div>)).toBe(true);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
 
     it('force updates the tree on receiving new children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       const App = createReactClass({
         shouldComponentUpdate() {
-          return false
+          return false;
         },
 
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         },
-      })
-      RHL.register(App, 'App', 'test.js')
+      });
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(spy).toHaveBeenCalledTimes(1)
+      );
+      expect(spy).toHaveBeenCalledTimes(1);
 
       {
         const App = createReactClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>ho</div>
+            spy();
+            return <div>ho</div>;
           },
-        })
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: <App /> })
+        });
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: <App /> });
       }
 
-      expect(spy).toHaveBeenCalledTimes(1 + 2)
-      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
-    })
+      expect(spy).toHaveBeenCalledTimes(1 + 2);
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true);
+    });
 
     it('force updates the tree on receiving cached children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       const App = createReactClass({
         shouldComponentUpdate() {
-          return false
+          return false;
         },
 
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         },
-      })
-      RHL.register(App, 'App', 'test.js')
+      });
+      RHL.register(App, 'App', 'test.js');
 
-      const element = <App />
-      const wrapper = mount(<AppContainer>{element}</AppContainer>)
-      expect(spy).toHaveBeenCalledTimes(1)
+      const element = <App />;
+      const wrapper = mount(<AppContainer>{element}</AppContainer>);
+      expect(spy).toHaveBeenCalledTimes(1);
 
       {
         const App = createReactClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>ho</div>
+            spy();
+            return <div>ho</div>;
           },
-        })
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: element })
+        });
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: element });
       }
 
-      expect(spy).toHaveBeenCalledTimes(1 + 2)
-      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
-    })
+      expect(spy).toHaveBeenCalledTimes(1 + 2);
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true);
+    });
 
     it('renders latest children on receiving cached never-rendered children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       const App = createReactClass({
         shouldComponentUpdate() {
-          return false
+          return false;
         },
 
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         },
-      })
-      RHL.register(App, 'App', 'test.js')
+      });
+      RHL.register(App, 'App', 'test.js');
 
-      const element = <App />
-      let wrapper
+      const element = <App />;
+      let wrapper;
 
       {
         const App = createReactClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>ho</div>
+            spy();
+            return <div>ho</div>;
           },
-        })
-        RHL.register(App, 'App', 'test.js')
-        wrapper = mount(<AppContainer>{element}</AppContainer>)
+        });
+        RHL.register(App, 'App', 'test.js');
+        wrapper = mount(<AppContainer>{element}</AppContainer>);
       }
 
-      expect(spy).toHaveBeenCalledTimes(1)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
-    })
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(wrapper.contains(<div>ho</div>)).toBe(true);
+    });
 
     it('hot-reloads children without losing state', () => {
       const App = createReactClass({
         getInitialState() {
-          return { value: 'old' }
+          return { value: 'old' };
         },
 
         shouldComponentUpdate() {
-          return false
+          return false;
         },
 
         render() {
-          return <div>old render + {this.state.value} state</div>
+          return <div>old render + {this.state.value} state</div>;
         },
-      })
-      RHL.register(App, 'App', 'test.js')
+      });
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(wrapper.text()).toBe('old render + old state')
+      );
+      expect(wrapper.text()).toBe('old render + old state');
 
       {
         const App = createReactClass({
           getInitialState() {
-            return { value: 'new' }
+            return { value: 'new' };
           },
 
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            return <div>new render + {this.state.value} state</div>
+            return <div>new render + {this.state.value} state</div>;
           },
-        })
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: <App /> })
+        });
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: <App /> });
       }
 
-      expect(wrapper.text()).toBe('new render + old state')
-    })
-  })
+      expect(wrapper.text()).toBe('new render + old state');
+    });
+  });
 
   describe('with createFactory root', () => {
     it('renders children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
       const App = createReactClass({
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         },
-      })
-      RHL.register(App, 'App', 'test.js')
-      const AppF = React.createFactory(App)
+      });
+      RHL.register(App, 'App', 'test.js');
+      const AppF = React.createFactory(App);
 
-      const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
-      expect(wrapper.find('App').length).toBe(1)
-      expect(wrapper.contains(<div>hey</div>)).toBe(true)
-      expect(spy).toHaveBeenCalledTimes(1)
-    })
+      const wrapper = mount(<AppContainer>{AppF()}</AppContainer>);
+      expect(wrapper.find('App').length).toBe(1);
+      expect(wrapper.contains(<div>hey</div>)).toBe(true);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
 
     it('force updates the tree on receiving new children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       const App = createReactClass({
         shouldComponentUpdate() {
-          return false
+          return false;
         },
 
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         },
-      })
-      RHL.register(App, 'App', 'test.js')
-      const AppF = React.createFactory(App)
+      });
+      RHL.register(App, 'App', 'test.js');
+      const AppF = React.createFactory(App);
 
-      const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
-      expect(spy).toHaveBeenCalledTimes(1)
+      const wrapper = mount(<AppContainer>{AppF()}</AppContainer>);
+      expect(spy).toHaveBeenCalledTimes(1);
 
       {
         const App = createReactClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>ho</div>
+            spy();
+            return <div>ho</div>;
           },
-        })
-        RHL.register(App, 'App', 'test.js')
-        const AppF = React.createFactory(App)
-        wrapper.setProps({ children: AppF() })
+        });
+        RHL.register(App, 'App', 'test.js');
+        const AppF = React.createFactory(App);
+        wrapper.setProps({ children: AppF() });
       }
 
-      expect(spy).toHaveBeenCalledTimes(1 + 2)
-      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
-    })
+      expect(spy).toHaveBeenCalledTimes(1 + 2);
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true);
+    });
 
     it('force updates the tree on receiving cached children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       const App = createReactClass({
         shouldComponentUpdate() {
-          return false
+          return false;
         },
 
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         },
-      })
-      RHL.register(App, 'App', 'test.js')
-      const AppF = React.createFactory(App)
+      });
+      RHL.register(App, 'App', 'test.js');
+      const AppF = React.createFactory(App);
 
-      const element = AppF()
-      const wrapper = mount(<AppContainer>{element}</AppContainer>)
-      expect(spy).toHaveBeenCalledTimes(1)
+      const element = AppF();
+      const wrapper = mount(<AppContainer>{element}</AppContainer>);
+      expect(spy).toHaveBeenCalledTimes(1);
 
       {
         const App = createReactClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>ho</div>
+            spy();
+            return <div>ho</div>;
           },
-        })
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: element })
+        });
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: element });
       }
 
-      expect(spy).toHaveBeenCalledTimes(1 + 2)
-      expect(wrapper.update().contains(<div>ho</div>)).toBe(true)
-    })
+      expect(spy).toHaveBeenCalledTimes(1 + 2);
+      expect(wrapper.update().contains(<div>ho</div>)).toBe(true);
+    });
 
     it('renders latest children on receiving cached never-rendered children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       const App = createReactClass({
         shouldComponentUpdate() {
-          return false
+          return false;
         },
 
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         },
-      })
-      RHL.register(App, 'App', 'test.js')
-      const AppF = React.createFactory(App)
+      });
+      RHL.register(App, 'App', 'test.js');
+      const AppF = React.createFactory(App);
 
-      const element = AppF()
-      let wrapper
+      const element = AppF();
+      let wrapper;
 
       {
         const App = createReactClass({
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            spy()
-            return <div>ho</div>
+            spy();
+            return <div>ho</div>;
           },
-        })
-        RHL.register(App, 'App', 'test.js')
-        wrapper = mount(<AppContainer>{element}</AppContainer>)
+        });
+        RHL.register(App, 'App', 'test.js');
+        wrapper = mount(<AppContainer>{element}</AppContainer>);
       }
 
-      expect(spy).toHaveBeenCalledTimes(1)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
-    })
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(wrapper.contains(<div>ho</div>)).toBe(true);
+    });
 
     it('hot-reloads children without losing state', () => {
       const App = createReactClass({
         getInitialState() {
-          return { value: 'old' }
+          return { value: 'old' };
         },
 
         shouldComponentUpdate() {
-          return false
+          return false;
         },
 
         render() {
-          return <div>old render + {this.state.value} state</div>
+          return <div>old render + {this.state.value} state</div>;
         },
-      })
-      RHL.register(App, 'App', 'test.js')
-      const AppF = React.createFactory(App)
+      });
+      RHL.register(App, 'App', 'test.js');
+      const AppF = React.createFactory(App);
 
-      const wrapper = mount(<AppContainer>{AppF()}</AppContainer>)
-      expect(wrapper.text()).toBe('old render + old state')
+      const wrapper = mount(<AppContainer>{AppF()}</AppContainer>);
+      expect(wrapper.text()).toBe('old render + old state');
 
       {
         const App = createReactClass({
           getInitialState() {
-            return { value: 'new' }
+            return { value: 'new' };
           },
 
           shouldComponentUpdate() {
-            return false
+            return false;
           },
 
           render() {
-            return <div>new render + {this.state.value} state</div>
+            return <div>new render + {this.state.value} state</div>;
           },
-        })
-        RHL.register(App, 'App', 'test.js')
-        const AppF = React.createFactory(App)
-        wrapper.setProps({ children: AppF() })
+        });
+        RHL.register(App, 'App', 'test.js');
+        const AppF = React.createFactory(App);
+        wrapper.setProps({ children: AppF() });
       }
 
-      expect(wrapper.text()).toBe('new render + old state')
-    })
-  })
+      expect(wrapper.text()).toBe('new render + old state');
+    });
+  });
 
   describe('with SFC root', () => {
     it('renders children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
       const App = () => {
-        spy()
-        return <div>hey</div>
-      }
-      RHL.register(App, 'App', 'test.js')
+        spy();
+        return <div>hey</div>;
+      };
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(wrapper.find('App').length).toBe(1)
-      expect(wrapper.contains(<div>hey</div>)).toBe(true)
-      expect(spy).toHaveBeenCalledTimes(1)
-    })
+      );
+      expect(wrapper.find('App').length).toBe(1);
+      expect(wrapper.contains(<div>hey</div>)).toBe(true);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
 
     it('renders falsy children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
       const App = () => {
-        spy()
-        return null
-      }
-      RHL.register(App, 'App', 'test.js')
+        spy();
+        return null;
+      };
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(wrapper.find('App').length).toBe(1)
-      expect(spy).toHaveBeenCalledTimes(1)
-    })
+      );
+      expect(wrapper.find('App').length).toBe(1);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
 
     it('force updates the tree on receiving new children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       const App = () => {
-        spy()
-        return <div>hey</div>
-      }
-      RHL.register(App, 'App', 'test.js')
+        spy();
+        return <div>hey</div>;
+      };
+      RHL.register(App, 'App', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(spy).toHaveBeenCalledTimes(1)
+      );
+      expect(spy).toHaveBeenCalledTimes(1);
 
       {
         const App = () => {
-          spy()
-          return <div>ho</div>
-        }
-        RHL.register(App, 'App', 'test.js')
-        wrapper.setProps({ children: <App /> })
+          spy();
+          return <div>ho</div>;
+        };
+        RHL.register(App, 'App', 'test.js');
+        wrapper.setProps({ children: <App /> });
       }
 
-      expect(spy).toHaveBeenCalledTimes(
-        configuration.pureRender && !React.lazy ? 4 : 3,
-      )
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
-    })
+      expect(spy).toHaveBeenCalledTimes(configuration.pureRender && !React.lazy ? 4 : 3);
+      expect(wrapper.contains(<div>ho</div>)).toBe(true);
+    });
 
     it('force updates the tree on receiving cached children', () => {
-      const firstSpy = jest.fn()
+      const firstSpy = jest.fn();
       const Dummy = () => {
-        firstSpy()
-        return <div>first</div>
-      }
+        firstSpy();
+        return <div>first</div>;
+      };
 
-      const App = () => <Dummy />
-      RHL.register(Dummy, 'Dummy', 'test.js')
+      const App = () => <Dummy />;
+      RHL.register(Dummy, 'Dummy', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <App />
         </AppContainer>,
-      )
-      expect(firstSpy).toHaveBeenCalledTimes(1)
+      );
+      expect(firstSpy).toHaveBeenCalledTimes(1);
 
-      const secondSpy = jest.fn()
+      const secondSpy = jest.fn();
 
       {
         const Dummy = () => {
-          secondSpy()
-          return <div>second</div>
-        }
-        RHL.register(Dummy, 'Dummy', 'test.js')
-        wrapper.setProps({ children: <App /> })
+          secondSpy();
+          return <div>second</div>;
+        };
+        RHL.register(Dummy, 'Dummy', 'test.js');
+        wrapper.setProps({ children: <App /> });
       }
 
-      expect(firstSpy).toHaveBeenCalledTimes(1)
-      expect(secondSpy).toHaveBeenCalledTimes(
-        configuration.pureRender && !React.lazy ? 3 : 2,
-      )
-      expect(wrapper.contains(<div>second</div>)).toBe(true)
-    })
+      expect(firstSpy).toHaveBeenCalledTimes(1);
+      expect(secondSpy).toHaveBeenCalledTimes(configuration.pureRender && !React.lazy ? 3 : 2);
+      expect(wrapper.contains(<div>second</div>)).toBe(true);
+    });
 
     it('renders latest children on receiving cached never-rendered children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       const App = () => {
-        spy()
-        return <div>hey</div>
-      }
-      RHL.register(App, 'App', 'test.js')
+        spy();
+        return <div>hey</div>;
+      };
+      RHL.register(App, 'App', 'test.js');
 
-      const element = <App />
-      let wrapper
+      const element = <App />;
+      let wrapper;
 
       {
         const App = () => {
-          spy()
-          return <div>ho</div>
-        }
-        RHL.register(App, 'App', 'test.js')
-        wrapper = mount(<AppContainer>{element}</AppContainer>)
+          spy();
+          return <div>ho</div>;
+        };
+        RHL.register(App, 'App', 'test.js');
+        wrapper = mount(<AppContainer>{element}</AppContainer>);
       }
 
-      expect(spy).toHaveBeenCalledTimes(1)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
-    })
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(wrapper.contains(<div>ho</div>)).toBe(true);
+    });
 
     it('hot-reloads children without losing state', () => {
       class App extends Component {
         constructor(props) {
-          super(props)
-          this.state = { value: 'old' }
+          super(props);
+          this.state = { value: 'old' };
         }
 
         shouldComponentUpdate() {
-          return false
+          return false;
         }
 
         render() {
-          return <div>old render + {this.state.value} state</div>
+          return <div>old render + {this.state.value} state</div>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
-      const Root = () => <App />
-      RHL.register(Root, 'Root', 'test.js')
+      const Root = () => <App />;
+      RHL.register(Root, 'Root', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <Root />
         </AppContainer>,
-      )
-      expect(wrapper.text()).toBe('old render + old state')
+      );
+      expect(wrapper.text()).toBe('old render + old state');
 
       {
         class App extends Component {
           constructor(props) {
-            super(props)
-            this.state = { value: 'new' }
+            super(props);
+            this.state = { value: 'new' };
           }
 
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
           render() {
-            return <div>new render + {this.state.value} state</div>
+            return <div>new render + {this.state.value} state</div>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
-        const Root = () => <App />
-        RHL.register(Root, 'Root', 'test.js')
-        wrapper.setProps({ children: <Root /> })
+        const Root = () => <App />;
+        RHL.register(Root, 'Root', 'test.js');
+        wrapper.setProps({ children: <Root /> });
       }
 
-      expect(wrapper.text()).toBe('new render + old state')
-    })
-  })
+      expect(wrapper.text()).toBe('new render + old state');
+    });
+  });
 
   it('hot-reloads nested children without losing state', () => {
-    const onUnmount = jest.fn()
-    let child = 1
+    const onUnmount = jest.fn();
+    let child = 1;
 
     function getChild() {
       if (child === 1) {
         return class Child extends Component {
           componentWillUnmount() {
-            onUnmount()
+            onUnmount();
           }
 
           render() {
-            return <div>old child</div>
+            return <div>old child</div>;
           }
-        }
+        };
       }
       return class Child extends Component {
         componentWillUnmount() {
@@ -1782,9 +1730,9 @@ describe(`AppContainer (dev)`, () => {
         }
 
         render() {
-          return <div>new child</div>
+          return <div>new child</div>;
         }
-      }
+      };
     }
 
     class Layout extends Component {
@@ -1794,76 +1742,76 @@ describe(`AppContainer (dev)`, () => {
             <h1>TEST</h1>
             {this.props.children}
           </div>
-        )
+        );
       }
     }
 
     class App extends Component {
       render() {
-        const Child = getChild()
+        const Child = getChild();
         return (
           <Layout>
             <Child />
             <Child />
           </Layout>
-        )
+        );
       }
     }
 
-    const Root = () => <App />
-    RHL.register(Root, 'Root', 'test.js')
-    RHL.register(App, 'App', 'test.js')
+    const Root = () => <App />;
+    RHL.register(Root, 'Root', 'test.js');
+    RHL.register(App, 'App', 'test.js');
 
     const wrapper = mount(
       <AppContainer>
         <Root />
       </AppContainer>,
-    )
+    );
 
-    expect(onUnmount).toHaveBeenCalledTimes(0)
+    expect(onUnmount).toHaveBeenCalledTimes(0);
 
-    child = 2
+    child = 2;
     // emulate HRM
-    incrementGeneration()
-    wrapper.setProps({ children: <Root /> })
-    expect(onUnmount).toHaveBeenCalledTimes(0)
+    incrementGeneration();
+    wrapper.setProps({ children: <Root /> });
+    expect(onUnmount).toHaveBeenCalledTimes(0);
 
-    expect(wrapper.text()).toBe('TESTnew childnew child')
-  })
+    expect(wrapper.text()).toBe('TESTnew childnew child');
+  });
 
   it('hot-reloads nested SFC children without losing state', () => {
-    const onUnmount = jest.fn()
+    const onUnmount = jest.fn();
 
     class MountSpy extends Component {
       componentWillUnmount() {
-        onUnmount()
+        onUnmount();
       }
 
       render() {
-        return <div>spy</div>
+        return <div>spy</div>;
       }
     }
 
-    let child = 1
+    let child = 1;
     const childs = [
       function Child() {
         return (
           <div>
             a <MountSpy />
           </div>
-        )
+        );
       },
       function Child() {
         return (
           <div>
             b <MountSpy />
           </div>
-        )
+        );
       },
-    ]
+    ];
 
     function getChild() {
-      return child === 1 ? childs[0] : childs[1]
+      return child === 1 ? childs[0] : childs[1];
     }
 
     class Layout extends Component {
@@ -1873,63 +1821,63 @@ describe(`AppContainer (dev)`, () => {
             <h1>TEST</h1>
             {this.props.children}
           </div>
-        )
+        );
       }
     }
 
     class App extends Component {
       render() {
-        const Child = getChild()
+        const Child = getChild();
         return (
           <Layout>
             <Child />
             <Child />
           </Layout>
-        )
+        );
       }
     }
 
-    const Root = () => <App />
-    RHL.register(Root, 'Root', 'test.js')
-    RHL.register(App, 'App', 'test.js')
+    const Root = () => <App />;
+    RHL.register(Root, 'Root', 'test.js');
+    RHL.register(App, 'App', 'test.js');
 
     const wrapper = mount(
       <AppContainer>
         <Root />
       </AppContainer>,
-    )
+    );
 
-    expect(onUnmount).toHaveBeenCalledTimes(0)
-    expect(wrapper.text()).toBe('TESTa spya spy')
+    expect(onUnmount).toHaveBeenCalledTimes(0);
+    expect(wrapper.text()).toBe('TESTa spya spy');
 
-    child = 2
+    child = 2;
     // emulate HRM
-    incrementGeneration()
-    wrapper.setProps({ children: <Root /> })
-    expect(onUnmount).toHaveBeenCalledTimes(0)
+    incrementGeneration();
+    wrapper.setProps({ children: <Root /> });
+    expect(onUnmount).toHaveBeenCalledTimes(0);
 
-    expect(wrapper.text()).toBe('TESTb spyb spy')
-  })
+    expect(wrapper.text()).toBe('TESTb spyb spy');
+  });
 
   it('unmounts nested in mixed condition', () => {
-    const onUnmount = jest.fn()
+    const onUnmount = jest.fn();
 
     class MountSpy extends Component {
       componentWillUnmount() {
-        onUnmount()
+        onUnmount();
       }
 
       render() {
-        return <div>spy</div>
+        return <div>spy</div>;
       }
     }
 
-    let child = 1
+    let child = 1;
     const childA = () => (
       <div>
         a <MountSpy />
       </div>
-    )
+    );
 
     class ChildB extends Component {
       render() {
@@ -1937,12 +1885,12 @@ describe(`AppContainer (dev)`, () => {
           <div>
             b <MountSpy />
           </div>
-        )
+        );
       }
     }
 
     function getChild() {
-      return child === 1 ? childA : ChildB
+      return child === 1 ? childA : ChildB;
     }
 
     class Layout extends Component {
@@ -1952,110 +1900,110 @@ describe(`AppContainer (dev)`, () => {
             <h1>TEST</h1>
             {this.props.children}
           </div>
-        )
+        );
       }
     }
 
     class App extends Component {
       render() {
-        const Child = getChild()
+        const Child = getChild();
         return (
           <Layout>
             <Child />
             <Child />
           </Layout>
-        )
+        );
       }
     }
 
-    const Root = () => <App />
-    RHL.register(Root, 'Root', 'test.js')
-    RHL.register(App, 'App', 'test.js')
+    const Root = () => <App />;
+    RHL.register(Root, 'Root', 'test.js');
+    RHL.register(App, 'App', 'test.js');
 
     const wrapper = mount(
       <AppContainer>
         <Root />
       </AppContainer>,
-    )
+    );
 
-    expect(onUnmount).toHaveBeenCalledTimes(0)
-    expect(wrapper.text()).toBe('TESTa spya spy')
+    expect(onUnmount).toHaveBeenCalledTimes(0);
+    expect(wrapper.text()).toBe('TESTa spya spy');
 
-    child = 2
+    child = 2;
     // emulate HRM
-    incrementGeneration()
-    wrapper.setProps({ children: <Root /> })
-    expect(onUnmount).toHaveBeenCalledTimes(2)
+    incrementGeneration();
+    wrapper.setProps({ children: <Root /> });
+    expect(onUnmount).toHaveBeenCalledTimes(2);
 
-    expect(wrapper.text()).toBe('TESTb spyb spy')
-  })
+    expect(wrapper.text()).toBe('TESTb spyb spy');
+  });
 
   it('renders children with chunked re-register', () => {
-    const spy = jest.fn()
+    const spy = jest.fn();
 
     class App extends Component {
       componentWillUnmount() {
-        spy()
+        spy();
       }
 
       render() {
-        return <div>I AM CHILD</div>
+        return <div>I AM CHILD</div>;
       }
     }
 
-    RHL.reset()
-    RHL.register(App, 'App1', 'test.js')
-    RHL.register(App, 'App2', 'test.js')
+    RHL.reset();
+    RHL.register(App, 'App1', 'test.js');
+    RHL.register(App, 'App2', 'test.js');
 
     const wrapper = mount(
       <AppContainer>
         <App />
       </AppContainer>,
-    )
-    expect(spy).not.toHaveBeenCalled()
-    wrapper.setProps({ children: <App /> })
-    expect(spy).not.toHaveBeenCalled()
-    RHL.register(App, 'App3', 'test.js')
-    wrapper.setProps({ children: <App /> })
-    expect(spy).not.toHaveBeenCalled()
+    );
+    expect(spy).not.toHaveBeenCalled();
+    wrapper.setProps({ children: <App /> });
+    expect(spy).not.toHaveBeenCalled();
+    RHL.register(App, 'App3', 'test.js');
+    wrapper.setProps({ children: <App /> });
+    expect(spy).not.toHaveBeenCalled();
 
     {
       class App extends Component {
         componentWillUnmount() {
-          spy()
+          spy();
         }
 
         render() {
-          return <div>I AM NEW CHILD</div>
+          return <div>I AM NEW CHILD</div>;
         }
       }
 
-      RHL.register(App, 'App3', 'test.js')
-      wrapper.setProps({ children: <App /> })
-      expect(spy).not.toHaveBeenCalled()
+      RHL.register(App, 'App3', 'test.js');
+      wrapper.setProps({ children: <App /> });
+      expect(spy).not.toHaveBeenCalled();
 
-      RHL.register(App, 'App4', 'test.js')
-      wrapper.setProps({ children: <App /> })
-      expect(spy).not.toHaveBeenCalled()
+      RHL.register(App, 'App4', 'test.js');
+      wrapper.setProps({ children: <App /> });
+      expect(spy).not.toHaveBeenCalled();
     }
-  })
+  });
 
   describe('test similarity', () => {
     describe('unmounts nested in mixed condition', () => {
       /* eslint-disable */
-      let onUnmount = jest.fn()
+      let onUnmount = jest.fn();
 
       class MountSpy extends Component {
         componentWillUnmount() {
-          onUnmount()
+          onUnmount();
         }
 
         render() {
-          return <div>spy</div>
+          return <div>spy</div>;
         }
       }
 
-      let ChildBase, ChildB, ChildC, ChildD, ChildE, ChildF
+      let ChildBase, ChildB, ChildC, ChildD, ChildE, ChildF;
 
       const generateChilds = () => {
         ChildBase = class ChildA extends Component {
@@ -2064,9 +2012,9 @@ describe(`AppContainer (dev)`, () => {
               <div>
                 b <MountSpy />
               </div>
-            )
+            );
           }
-        }
+        };
 
         {
           ChildB = class ChildA extends Component {
@@ -2075,9 +2023,9 @@ describe(`AppContainer (dev)`, () => {
                 <div>
                   NOT A BIG CHANGE! <MountSpy />
                 </div>
-              )
+              );
             }
-          }
+          };
         }
 
         {
@@ -2091,9 +2039,9 @@ describe(`AppContainer (dev)`, () => {
                 <div>
                   b <MountSpy />
                 </div>
-              )
+              );
             }
-          }
+          };
         }
 
         {
@@ -2111,9 +2059,9 @@ describe(`AppContainer (dev)`, () => {
                 <div>
                   BIG CHANGE! <MountSpy />
                 </div>
-              )
+              );
             }
-          }
+          };
         }
 
         {
@@ -2123,9 +2071,9 @@ describe(`AppContainer (dev)`, () => {
                 <div>
                   SUPER <b>MEGA</b> <i>UBER</i> PUPER BIG CHANGE! <MountSpy />
                 </div>
-              )
+              );
             }
-          }
+          };
         }
 
         {
@@ -2134,21 +2082,21 @@ describe(`AppContainer (dev)`, () => {
               <div>
                 b <MountSpy />
               </div>
-            )
-          }
+            );
+          };
         }
-      }
+      };
 
       /* eslint-enable */
 
-      const expectUnmounts = [false, false, true, true, true]
-      generateChilds()
-      ;[ChildB, ChildC, ChildD, ChildE, ChildF].forEach((Replace, index) => {
-        const expectUnmount = expectUnmounts[index]
+      const expectUnmounts = [false, false, true, true, true];
+      generateChilds();
+      [ChildB, ChildC, ChildD, ChildE, ChildF].forEach((Replace, index) => {
+        const expectUnmount = expectUnmounts[index];
         it(`${expectUnmount ? 'expect unmount' : 'keep'} for ${index}`, () => {
-          generateChilds() // renegerate base
-          onUnmount = jest.fn()
-          let Child = ChildBase
+          generateChilds(); // renegerate base
+          onUnmount = jest.fn();
+          let Child = ChildBase;
 
           class App extends Component {
             render() {
@@ -2156,7 +2104,7 @@ describe(`AppContainer (dev)`, () => {
                 <div>
                   <Child />
                 </div>
-              )
+              );
             }
           }
 
@@ -2164,139 +2112,137 @@ describe(`AppContainer (dev)`, () => {
             <AppContainer>
               <App />
             </AppContainer>,
-          )
-          expect(onUnmount).toHaveBeenCalledTimes(0)
+          );
+          expect(onUnmount).toHaveBeenCalledTimes(0);
 
           // Replace.name=Child.name;
-          Child = Replace
+          Child = Replace;
 
-          incrementGeneration()
-          wrapper.setProps({ children: <App /> })
+          incrementGeneration();
+          wrapper.setProps({ children: <App /> });
 
-          expect(onUnmount).toHaveBeenCalledTimes(expectUnmount ? 1 : 0)
-        })
-      })
-    })
-  })
+          expect(onUnmount).toHaveBeenCalledTimes(expectUnmount ? 1 : 0);
+        });
+      });
+    });
+  });
 
   describe('with HOC-wrapped root', () => {
     it('renders children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class App extends React.Component {
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
-      const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-      RHL.register(Enhanced, 'Enhanced', 'test.js')
+      const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+      RHL.register(Enhanced, 'Enhanced', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <Enhanced n={3} />
         </AppContainer>,
-      )
-      expect(wrapper.find('App').length).toBe(1)
-      expect(wrapper.contains(<div>hey</div>)).toBe(true)
-      expect(wrapper.find('App').prop('n')).toBe(15)
-      expect(spy).toHaveBeenCalledTimes(1)
-    })
+      );
+      expect(wrapper.find('App').length).toBe(1);
+      expect(wrapper.contains(<div>hey</div>)).toBe(true);
+      expect(wrapper.find('App').prop('n')).toBe(15);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
 
     it('force updates the tree on receiving new children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class App extends React.Component {
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
-      const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-      RHL.register(Enhanced, 'Enhanced', 'test.js')
+      const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+      RHL.register(Enhanced, 'Enhanced', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <Enhanced n={3} />
         </AppContainer>,
-      )
-      expect(spy).toHaveBeenCalledTimes(1)
+      );
+      expect(spy).toHaveBeenCalledTimes(1);
 
       {
         class App extends React.Component {
           render() {
-            spy()
-            return <div>ho</div>
+            spy();
+            return <div>ho</div>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
-        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-        RHL.register(Enhanced, 'Enhanced', 'test.js')
-        wrapper.setProps({ children: <Enhanced n={3} /> })
+        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+        RHL.register(Enhanced, 'Enhanced', 'test.js');
+        wrapper.setProps({ children: <Enhanced n={3} /> });
       }
 
       if (React.memo && !configuration.pureRender) {
-        expect(spy).toHaveBeenCalledTimes(1 + 2)
+        expect(spy).toHaveBeenCalledTimes(1 + 2);
       }
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
-    })
+      expect(wrapper.contains(<div>ho</div>)).toBe(true);
+    });
 
     it('force updates the tree on receiving cached children', () => {
-      const firstSpy = jest.fn()
+      const firstSpy = jest.fn();
       const Dummy = () => {
-        firstSpy()
-        return <div>first</div>
-      }
-      const App = () => <Dummy />
-      RHL.register(Dummy, 'Dummy', 'test.js')
+        firstSpy();
+        return <div>first</div>;
+      };
+      const App = () => <Dummy />;
+      RHL.register(Dummy, 'Dummy', 'test.js');
 
-      const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-      RHL.register(Enhanced, 'Enhanced', 'test.js')
+      const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+      RHL.register(Enhanced, 'Enhanced', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <Enhanced n={3} />
         </AppContainer>,
-      )
-      expect(firstSpy).toHaveBeenCalledTimes(1)
+      );
+      expect(firstSpy).toHaveBeenCalledTimes(1);
 
-      const secondSpy = jest.fn()
+      const secondSpy = jest.fn();
       {
         const Dummy = () => {
-          secondSpy()
-          return <div>second</div>
-        }
-        RHL.register(Dummy, 'Dummy', 'test.js')
+          secondSpy();
+          return <div>second</div>;
+        };
+        RHL.register(Dummy, 'Dummy', 'test.js');
 
-        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-        RHL.register(Enhanced, 'Enhanced', 'test.js')
-        wrapper.setProps({ children: <Enhanced n={3} /> })
+        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+        RHL.register(Enhanced, 'Enhanced', 'test.js');
+        wrapper.setProps({ children: <Enhanced n={3} /> });
       }
 
-      expect(firstSpy).toHaveBeenCalledTimes(1)
-      expect(secondSpy).toHaveBeenCalledTimes(
-        configuration.pureRender && !React.lazy ? 3 : 2,
-      )
-      expect(wrapper.contains(<div>second</div>)).toBe(true)
-    })
+      expect(firstSpy).toHaveBeenCalledTimes(1);
+      expect(secondSpy).toHaveBeenCalledTimes(configuration.pureRender && !React.lazy ? 3 : 2);
+      expect(wrapper.contains(<div>second</div>)).toBe(true);
+    });
 
     it('support indeterminateComponent', () => {
-      ;[false, true].forEach(withContext => {
-        const spy = jest.fn()
+      [false, true].forEach(withContext => {
+        const spy = jest.fn();
 
-        const AnotherComponent = () => <div>old</div>
+        const AnotherComponent = () => <div>old</div>;
 
         class App extends React.Component {
           static getDerivedStateFromProps({ n }) {
-            return { n }
+            return { n };
           }
 
           render() {
@@ -2304,186 +2250,185 @@ describe(`AppContainer (dev)`, () => {
               <div>
                 hey {this.state.n} <AnotherComponent />
               </div>
-            )
+            );
           }
         }
 
         // Can't always run polyfill, as running polyfill in React 16 will make
         // this test case pass even without the fix.
         if (React.version.startsWith('15')) {
-          polyfill(App)
+          polyfill(App);
         }
 
-        let CurrentApp = App
+        let CurrentApp = App;
 
-        RHL.register(AnotherComponent, 'AnotherComponent', 'test.js')
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(AnotherComponent, 'AnotherComponent', 'test.js');
+        RHL.register(App, 'App', 'test.js');
 
         // return rendered component from a stateless
         const IndeterminateComponent = (props, context) => {
-          const instance = new CurrentApp(props, context)
-          IndeterminateComponent.getDerivedStateFromProps =
-            CurrentApp.getDerivedStateFromProps
-          return instance
-        }
+          const instance = new CurrentApp(props, context);
+          IndeterminateComponent.getDerivedStateFromProps = CurrentApp.getDerivedStateFromProps;
+          return instance;
+        };
 
         if (withContext) {
-          IndeterminateComponent.contextTypes = {}
+          IndeterminateComponent.contextTypes = {};
         }
 
-        const RootApp = props => <IndeterminateComponent {...props} />
+        const RootApp = props => <IndeterminateComponent {...props} />;
 
         const wrapper = mount(
           <AppContainer>
             <RootApp n={42} />
           </AppContainer>,
-        )
-        expect(wrapper.text()).toBe('hey 42 old')
+        );
+        expect(wrapper.text()).toBe('hey 42 old');
         {
           class App2 extends React.Component {
             static getDerivedStateFromProps({ n }) {
-              return { n }
+              return { n };
             }
 
             render() {
-              spy()
-              return <div>ho {this.state.n + 1}</div>
+              spy();
+              return <div>ho {this.state.n + 1}</div>;
             }
           }
 
           if (React.version.startsWith('15')) {
-            polyfill(App2)
+            polyfill(App2);
           }
 
-          RHL.register(App2, 'App', 'test.js')
-          CurrentApp = App2
+          RHL.register(App2, 'App', 'test.js');
+          CurrentApp = App2;
 
-          const AnotherComponent = () => <div>new</div>
-          RHL.register(AnotherComponent, 'AnotherComponent', 'test.js')
+          const AnotherComponent = () => <div>new</div>;
+          RHL.register(AnotherComponent, 'AnotherComponent', 'test.js');
 
-          wrapper.setProps({ update: true, children: <RootApp n={44} /> })
+          wrapper.setProps({ update: true, children: <RootApp n={44} /> });
 
           // How it works. IndeterminateComponent calculates return value once.
-          expect(wrapper.text()).toBe('hey 44 new')
-          expect(spy).toHaveBeenCalledTimes(0) // never gets called
+          expect(wrapper.text()).toBe('hey 44 new');
+          expect(spy).toHaveBeenCalledTimes(0); // never gets called
 
           // How it should work
           // expect(wrapper.text()).toBe('ho 45 new');
           // expect(spy).toHaveBeenCalledTimes(2);
         }
-      })
-    })
+      });
+    });
 
     it('renders latest children on receiving cached never-rendered children', () => {
-      const spy = jest.fn()
+      const spy = jest.fn();
 
       class App extends React.Component {
         render() {
-          spy()
-          return <div>hey</div>
+          spy();
+          return <div>hey</div>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
-      const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-      RHL.register(Enhanced, 'Enhanced', 'test.js')
+      const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+      RHL.register(Enhanced, 'Enhanced', 'test.js');
 
-      const element = <Enhanced n={3} />
-      let wrapper
+      const element = <Enhanced n={3} />;
+      let wrapper;
 
       {
         class App extends React.Component {
           render() {
-            spy()
-            return <div>ho</div>
+            spy();
+            return <div>ho</div>;
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
-        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-        RHL.register(Enhanced, 'Enhanced', 'test.js')
-        wrapper = mount(<AppContainer>{element}</AppContainer>)
+        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+        RHL.register(Enhanced, 'Enhanced', 'test.js');
+        wrapper = mount(<AppContainer>{element}</AppContainer>);
       }
 
-      expect(spy).toHaveBeenCalledTimes(1)
-      expect(wrapper.contains(<div>ho</div>)).toBe(true)
-    })
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(wrapper.contains(<div>ho</div>)).toBe(true);
+    });
 
     it('hot-reloads children with overriden render', () => {
       class App extends Component {
         constructor() {
-          super()
-          this.secret = 1
-          this.superSecret = 42
+          super();
+          this.secret = 1;
+          this.superSecret = 42;
         }
 
         componentWillMount() {
-          const oldRender = this.render.bind(this)
+          const oldRender = this.render.bind(this);
           this.render = () => {
-            this.superSecret = this.secret + 1
-            return <div>PATCHED + {oldRender()}</div>
-          }
+            this.superSecret = this.secret + 1;
+            return <div>PATCHED + {oldRender()}</div>;
+          };
         }
 
         render() {
-          return <div>{this.superSecret}</div>
+          return <div>{this.superSecret}</div>;
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
       const MiddleApp = () => (
         <div>
           <App />
         </div>
-      )
+      );
 
       const wrapper = mount(
         <AppContainer>
           <MiddleApp />
         </AppContainer>,
-      )
-      expect(wrapper.text()).toBe('PATCHED + 2')
+      );
+      expect(wrapper.text()).toBe('PATCHED + 2');
 
       {
         class App2 extends Component {
           constructor() {
-            super()
-            this.secret = 2
+            super();
+            this.secret = 2;
           }
 
           render() {
-            return <div>{this.superSecret * 2} v2</div>
+            return <div>{this.superSecret * 2} v2</div>;
           }
         }
 
-        RHL.register(App2, 'App', 'test.js')
+        RHL.register(App2, 'App', 'test.js');
 
-        wrapper.setProps({ children: <MiddleApp /> })
+        wrapper.setProps({ children: <MiddleApp /> });
       }
 
       if (!configuration.pureRender) {
-        expect(wrapper.update().text()).toBe('PATCHED + 6 v2')
+        expect(wrapper.update().text()).toBe('PATCHED + 6 v2');
       }
-    })
+    });
 
     it('hot-reloads children inside simple Fragments', () => {
       if (React.version.startsWith('16')) {
-        const unmount = jest.fn()
+        const unmount = jest.fn();
 
         class InnerComponent extends Component {
           componentWillUnmount() {
-            unmount()
+            unmount();
           }
 
           render() {
-            return <span>internal</span>
+            return <span>internal</span>;
           }
         }
 
-        InnerComponent.displayName = 'InnerComponent'
+        InnerComponent.displayName = 'InnerComponent';
 
         const App = () => (
           <React.Fragment>
@@ -2497,28 +2442,28 @@ describe(`AppContainer (dev)`, () => {
               </React.Fragment>
             </button>
           </React.Fragment>
-        )
+        );
 
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
         const wrapper = mount(
           <AppContainer>
             <App />
           </AppContainer>,
-        )
+        );
 
         {
           class InnerComponent extends Component {
             componentWillUnmount() {
-              unmount()
+              unmount();
             }
 
             render() {
-              return <span>internal</span>
+              return <span>internal</span>;
             }
           }
 
-          InnerComponent.displayName = 'InnerComponent'
+          InnerComponent.displayName = 'InnerComponent';
 
           const App = () => (
             <React.Fragment>
@@ -2532,35 +2477,35 @@ describe(`AppContainer (dev)`, () => {
                 </React.Fragment>
               </button>
             </React.Fragment>
-          )
-          RHL.register(App, 'App', 'test.js')
+          );
+          RHL.register(App, 'App', 'test.js');
 
-          wrapper.setProps({ children: <App /> })
+          wrapper.setProps({ children: <App /> });
         }
 
-        expect(unmount).toHaveBeenCalledTimes(0)
-        expect(wrapper.update().text()).toBe('another text internal')
+        expect(unmount).toHaveBeenCalledTimes(0);
+        expect(wrapper.update().text()).toBe('another text internal');
       } else {
         // React 15 is always ok
-        expect(true).toBe(true)
+        expect(true).toBe(true);
       }
-    })
+    });
 
     it('hot-reloads children inside Fragments', () => {
       if (React.version.startsWith('16')) {
-        const unmount = jest.fn()
+        const unmount = jest.fn();
 
         class InnerComponent extends Component {
           componentWillUnmount() {
-            unmount()
+            unmount();
           }
 
           render() {
-            return <div>OldInnerComponent</div>
+            return <div>OldInnerComponent</div>;
           }
         }
 
-        InnerComponent.displayName = 'InnerComponent'
+        InnerComponent.displayName = 'InnerComponent';
 
         const InnerItem = () => (
           <React.Fragment>
@@ -2569,8 +2514,8 @@ describe(`AppContainer (dev)`, () => {
             {false && <div>hole</div>}
             -3-<InnerComponent />
           </React.Fragment>
-        )
-        RHL.register(InnerItem, 'InnerItem', 'test.js')
+        );
+        RHL.register(InnerItem, 'InnerItem', 'test.js');
 
         const Item = () => (
           <React.Fragment>
@@ -2583,35 +2528,33 @@ describe(`AppContainer (dev)`, () => {
               <span>F</span>
             </React.Fragment>
           </React.Fragment>
-        )
+        );
         //
         const App = () => (
           <ul>
             <Item />
           </ul>
-        )
+        );
 
         const wrapper = mount(
           <AppContainer>
             <App />
           </AppContainer>,
-        )
+        );
 
-        expect(wrapper.update().text()).toBe(
-          '1-1-OldInnerComponent-3-OldInnerComponent3F',
-        )
+        expect(wrapper.update().text()).toBe('1-1-OldInnerComponent-3-OldInnerComponent3F');
         {
           class InnerComponent extends Component {
             componentWillUnmount() {
-              unmount()
+              unmount();
             }
 
             render() {
-              return <div>NewInnerComponent</div>
+              return <div>NewInnerComponent</div>;
             }
           }
 
-          InnerComponent.displayName = 'InnerComponent'
+          InnerComponent.displayName = 'InnerComponent';
 
           const InnerItem = () => (
             <React.Fragment>
@@ -2623,30 +2566,30 @@ describe(`AppContainer (dev)`, () => {
                 <span>*</span>
               </React.Fragment>
             </React.Fragment>
-          )
-          RHL.register(InnerItem, 'InnerItem', 'test.js')
+          );
+          RHL.register(InnerItem, 'InnerItem', 'test.js');
 
-          wrapper.setProps({ children: <App /> })
+          wrapper.setProps({ children: <App /> });
         }
-        expect(unmount).toHaveBeenCalledTimes(0)
+        expect(unmount).toHaveBeenCalledTimes(0);
         expect(wrapper.update().text()).toBe(
           '1-2-NewInnerComponent-3-NewInnerComponent*3F', // it should not be so!
-        )
+        );
       } else {
         // React 15 is always ok
-        expect(true).toBe(true)
+        expect(true).toBe(true);
       }
-    })
+    });
 
     it('hot-reloads children without losing state', () => {
       class App extends Component {
         constructor(props) {
-          super(props)
-          this.state = { value: 'old' }
+          super(props);
+          this.state = { value: 'old' };
         }
 
         shouldComponentUpdate() {
-          return false
+          return false;
         }
 
         render() {
@@ -2654,31 +2597,31 @@ describe(`AppContainer (dev)`, () => {
             <div>
               old render + {this.state.value} state + {this.props.n}
             </div>
-          )
+          );
         }
       }
 
-      RHL.register(App, 'App', 'test.js')
+      RHL.register(App, 'App', 'test.js');
 
-      const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-      RHL.register(Enhanced, 'Enhanced', 'test.js')
+      const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+      RHL.register(Enhanced, 'Enhanced', 'test.js');
 
       const wrapper = mount(
         <AppContainer>
           <Enhanced n={3} />
         </AppContainer>,
-      )
-      expect(wrapper.text()).toBe('old render + old state + 15')
+      );
+      expect(wrapper.text()).toBe('old render + old state + 15');
 
       {
         class App extends Component {
           constructor(props) {
-            super(props)
-            this.state = { value: 'new' }
+            super(props);
+            this.state = { value: 'new' };
           }
 
           shouldComponentUpdate() {
-            return false
+            return false;
           }
 
           render() {
@@ -2686,40 +2629,35 @@ describe(`AppContainer (dev)`, () => {
               <div>
                 new render + {this.state.value} state + {this.props.n}
               </div>
-            )
+            );
           }
         }
 
-        RHL.register(App, 'App', 'test.js')
+        RHL.register(App, 'App', 'test.js');
 
-        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App)
-        RHL.register(Enhanced, 'Enhanced', 'test.js')
-        wrapper.setProps({ children: <Enhanced n={4} /> })
+        const Enhanced = mapProps(props => ({ n: props.n * 5 }))(App);
+        RHL.register(Enhanced, 'Enhanced', 'test.js');
+        wrapper.setProps({ children: <Enhanced n={4} /> });
       }
 
-      expect(wrapper.text()).toBe('new render + old state + 20')
-    })
+      expect(wrapper.text()).toBe('new render + old state + 20');
+    });
 
     it('should work with react-lifecycle-compact', () => {
       class Component extends React.Component {
         static getDerivedStateFromProps() {
-          return {}
+          return {};
         }
       }
 
       /* eslint-disable no-underscore-dangle */
-      polyfill(Component)
-      expect(
-        Component.prototype.componentWillReceiveProps
-          .__suppressDeprecationWarning,
-      ).toBe(true)
+      polyfill(Component);
+      expect(Component.prototype.componentWillReceiveProps.__suppressDeprecationWarning).toBe(true);
 
-      const Proxy = <Component />.type
-      expect(
-        Proxy.prototype.componentWillReceiveProps.__suppressDeprecationWarning,
-      ).toBe(true)
+      const Proxy = <Component />.type;
+      expect(Proxy.prototype.componentWillReceiveProps.__suppressDeprecationWarning).toBe(true);
 
       /* eslint-enable */
-    })
-  })
-})
+    });
+  });
+});

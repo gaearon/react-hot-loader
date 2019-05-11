@@ -1,5 +1,5 @@
-import React from 'react'
-import { EDIT_ME } from './_editMe'
+import React from 'react';
+import { EDIT_ME } from './_editMe';
 
 const FunctionComponent = () => (
   <div>
@@ -8,6 +8,6 @@ const FunctionComponent = () => (
       {EDIT_ME}
     </fieldset>
   </div>
-)
+);
 
-export default FunctionComponent
+export default FunctionComponent;

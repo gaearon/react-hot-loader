@@ -1,18 +1,18 @@
-import { setConfiguration } from '../configuration'
+import { setConfiguration } from '../configuration';
 
 const tune = {
   allowSFC: false,
-}
+};
 
 export const preactAdapter = (instance, resolveType) => {
-  const oldHandler = instance.options.vnode
+  const oldHandler = instance.options.vnode;
 
-  setConfiguration(tune)
+  setConfiguration(tune);
 
   instance.options.vnode = vnode => {
-    vnode.nodeName = resolveType(vnode.nodeName)
+    vnode.nodeName = resolveType(vnode.nodeName);
     if (oldHandler) {
-      oldHandler(vnode)
+      oldHandler(vnode);
     }
-  }
-}
+  };
+};

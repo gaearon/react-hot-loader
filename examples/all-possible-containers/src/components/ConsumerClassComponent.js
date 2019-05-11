@@ -1,6 +1,6 @@
-import React from 'react'
-import Context from '../context'
-import { EDIT_ME } from './_editMe'
+import React from 'react';
+import Context from '../context';
+import { EDIT_ME } from './_editMe';
 
 class ConsumerClassComponent extends React.Component {
   render() {
@@ -15,8 +15,8 @@ class ConsumerClassComponent extends React.Component {
           </div>
         )}
       </Context.Consumer>
-    )
+    );
   }
 }
 
-export default ConsumerClassComponent
+export default ConsumerClassComponent;

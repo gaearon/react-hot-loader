@@ -1,6 +1,6 @@
-import React from 'react'
-import { hot } from 'react-hot-loader'
-import FormControl from 'react-bootstrap/lib/FormControl'
+import React from 'react';
+import { hot } from 'react-hot-loader';
+import FormControl from 'react-bootstrap/lib/FormControl';
 
 class App extends React.Component {
   render() {
@@ -9,8 +9,8 @@ class App extends React.Component {
         Hello, world.<br />
         <FormControl inputRef={console.log} defaultValue="Write me" />
       </h1>
-    )
+    );
   }
 }
 
-export default hot(module)(App)
+export default hot(module)(App);

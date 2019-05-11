@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { hot } from 'react-hot-loader/root'
+import React, { useState, useEffect } from 'react';
+import { hot } from 'react-hot-loader/root';
 
-const SomeComponent = ac(() => import('./Counter'))
+const SomeComponent = ac(() => import('./Counter'));
 const App = () => (
   <div>
     <fieldset>
@@ -9,16 +9,16 @@ const App = () => (
       <SomeComponent />
     </fieldset>
   </div>
-)
-export default hot(App)
+);
+export default hot(App);
 
 //
 function ac(importComponent) {
   return function Component(props) {
-    const [C, setComponent] = useState()
+    const [C, setComponent] = useState();
     useEffect(() => {
-      importComponent().then(setComponent)
-    }, [])
-    return C ? <C.default {...props} /> : null
-  }
+      importComponent().then(setComponent);
+    }, []);
+    return C ? <C.default {...props} /> : null;
+  };
 }

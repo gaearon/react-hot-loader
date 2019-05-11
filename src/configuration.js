@@ -37,20 +37,20 @@ const configuration = {
 
   // Global error overlay
   ErrorOverlay: undefined,
-}
+};
 
 export const internalConfiguration = {
   // control proxy creation
   disableProxyCreation: false,
-}
+};
 
 export const setConfiguration = config => {
   // not using Object.assing for IE11 compliance
   for (const i in config) {
     if (config.hasOwnProperty(i)) {
-      configuration[i] = config[i]
+      configuration[i] = config[i];
     }
   }
-}
+};
 
-export default configuration
+export default configuration;

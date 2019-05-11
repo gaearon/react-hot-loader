@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var hasWindow = typeof window !== 'undefined';
 
