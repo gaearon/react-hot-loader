@@ -67,6 +67,15 @@ const Memo2 = React.memo(
   },
 );
 
+const Memo3 = React.memo(
+  React.forwardRef(() => (
+    <div>
+      [double memo 3 <OtherComponent />
+      <Counter /> memo]
+    </div>
+  )),
+);
+
 const TwinComponents = [
   ({ children }) => <div data-twin="1">{children}</div>,
   ({ children }) => <div data-twin="2">{children}</div>,
@@ -96,6 +105,7 @@ const InApp = () => (
       <Memo1 a1 a2 />
     </Context.Provider>
     <Memo2 a1 a2 />
+    <Memo3 a1 a2 />
     <div>
       <React.Suspense fallback="loading">
         <Async />
