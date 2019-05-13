@@ -57,7 +57,7 @@ export default hot(App);
 
 React-🔥-Dom ([hot-loader/react-dom](https://github.com/hot-loader/react-dom)) replaces the "react-dom" package of the same version, but with additional patches to support hot reloading.
 
-There is 2 ways to install it:
+There are 2 ways to install it:
 
 * Use **yarn** name resolution, so `@hot-loader/react-dom` would be installed instead of `react-dom`
 
