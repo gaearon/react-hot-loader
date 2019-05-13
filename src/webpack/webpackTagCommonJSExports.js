@@ -3,6 +3,9 @@
 
 (function register() {
   // eslint-disable-line no-extra-semi
+  if (typeof require === 'undefined') {
+     return;
+  }
   /* react-hot-loader/webpack */
   const reactHotLoader = require('react-hot-loader').default;
 
