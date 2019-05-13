@@ -5,6 +5,8 @@ import TestRenderer from 'react-test-renderer';
 import ReactHotLoader, { AppContainer } from '../../../src/index.dev';
 import { configureGeneration } from '../../../src/global/generation';
 
+// jest.mock('react-dom', () => require('@hot-loader/react-dom'));
+
 describe(`React.memo`, () => {
   beforeEach(() => {
     ReactHotLoader.reset();
@@ -33,7 +35,7 @@ describe(`React.memo`, () => {
         ReactHotLoader.register(Memo, 'memo', 'memo-test');
         wrapper.update(
           <AppContainer update>
-            <Memo />
+            <Memo test />
           </AppContainer>,
         );
 
