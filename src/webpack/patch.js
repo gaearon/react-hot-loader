@@ -108,7 +108,7 @@ function transform(source) {
   }
   if (source.indexOf(sign) >= 0) {
     // already patched
-    return;
+    return source;
   }
   for (const key in injectionStart) {
     if (source.indexOf(injectionStart[key][0]) > 0 && source.indexOf(injectionEnd[key][0]) > 0) {

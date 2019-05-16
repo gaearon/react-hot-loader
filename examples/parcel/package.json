@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel index.html",
+    "start:prod": "parcel build index.html",
+    "start:link": "cp -R ../../dist ./node_modules/react-hot-loader && cp -R ../../*.js ./node_modules/react-hot-loader"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

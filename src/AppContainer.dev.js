@@ -21,12 +21,20 @@ class AppContainer extends React.Component {
 
   static reactHotLoadable = false;
 
-  state = {
-    error: null,
-    errorInfo: null,
-    // eslint-disable-next-line react/no-unused-state
-    generation: 0,
-  };
+  constructor(props) {
+    super(props);
+    if (configuration.showReactDomPatchNotification) {
+      configuration.showReactDomPatchNotification = false;
+      console.warn('React-Hot-Loader: react-🔥-dom patch is not detected. React 16.6+ features may not work.');
+    }
+
+    this.state = {
+      error: null,
+      errorInfo: null,
+      // eslint-disable-next-line react/no-unused-state
+      generation: 0,
+    };
+  }
 
   shouldComponentUpdate(prevProps, prevState) {
     // Don't update the component if the state had an error and still has one.

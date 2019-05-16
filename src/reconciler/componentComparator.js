@@ -37,7 +37,7 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
     if (oldType.type === newType.type || areSwappable(oldType.type, newType.type)) {
       if (baseType) {
         // memo form different fibers, why?
-        if (oldType === baseType) {
+        if (baseType.$$typeof === newType.$$typeof) {
           setNewType(newType);
         } else {
           setNewType(newType.type);

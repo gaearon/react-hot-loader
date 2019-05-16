@@ -29,19 +29,19 @@ const createHoc = (SourceComponent, TargetComponent) => {
   return TargetComponent;
 };
 
-const makeHotExport = sourceModule => {
+const makeHotExport = (sourceModule, moduleId) => {
   const updateInstances = possibleError => {
     if (possibleError && possibleError instanceof Error) {
       console.error(possibleError);
       return;
     }
-    const module = hotModule(sourceModule.id);
+    const module = hotModule(moduleId);
     clearTimeout(module.updateTimeout);
     module.updateTimeout = setTimeout(() => {
       try {
-        requireIndirect(sourceModule.id);
+        requireIndirect(moduleId);
       } catch (e) {
-        console.error('React-Hot-Loader: error detected while loading', sourceModule.id);
+        console.error('React-Hot-Loader: error detected while loading', moduleId);
         console.error(e);
       }
       module.instances.forEach(inst => inst.forceUpdate());
@@ -68,16 +68,19 @@ const makeHotExport = sourceModule => {
 };
 
 const hot = sourceModule => {
-  if (!sourceModule || !sourceModule.id) {
+  if (!sourceModule || !sourceModule.hot) {
     // this is fatal
-    throw new Error('React-hot-loader: `hot` could not find the `id` property in the `module` you have provided');
+    throw new Error('React-hot-loader: `hot` could not find the `hot` method in the `module` you have provided');
   }
-  const moduleId = sourceModule.id;
+  const moduleId = sourceModule.id || sourceModule.i || sourceModule.filename;
+  if (!moduleId) {
+    throw new Error('React-hot-loader: `hot` could not find the `name` of the the `module` you have provided');
+  }
   const module = hotModule(moduleId);
-  makeHotExport(sourceModule);
+  makeHotExport(sourceModule, moduleId);
 
   clearExceptions();
-  const failbackTimer = chargeFailbackTimer(sourceModule.id);
+  const failbackTimer = chargeFailbackTimer(moduleId);
   let firstHotRegistered = false;
 
   // TODO: Ensure that all exports from this file are react components.

@@ -41,6 +41,11 @@ const markUpdate = ({ fiber }) => {
       ...fiber.memoizedProps,
     };
   }
+
+  if (fiber.stateNode) {
+    // TODO: this might work better React 16, but breaking tests for React 15 changing "updates" counts.
+    // updateInstance(fiber.stateNode);
+  }
 };
 
 export const cleanupReact = () => {

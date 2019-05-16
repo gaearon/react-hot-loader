@@ -54,7 +54,12 @@ describe('hot (dev)', () => {
   });
 
   it('should stand mount/unmount in normal situation', () => {
-    const sourceModule = { id: 42 };
+    const sourceModule = {
+      id: 42,
+      hot: {
+        accept: jest.fn(),
+      },
+    };
     const Component = () => <div>123</div>;
     const HotComponent = hot(sourceModule)(Component);
     const wrapper = mount(<HotComponent />);
@@ -100,7 +105,12 @@ describe('hot (dev)', () => {
   });
 
   it('should trigger error in unmount in opened state', () => {
-    const sourceModule = { id: 'error42_unmount' };
+    const sourceModule = {
+      id: 'error42_unmount',
+      hot: {
+        accept: jest.fn(),
+      },
+    };
     logger.error.mockClear();
     enterModule(sourceModule);
     const Component = () => <div>123</div>;
