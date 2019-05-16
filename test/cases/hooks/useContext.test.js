@@ -1,11 +1,12 @@
 /* eslint-env browser */
+/* eslint-disable no-lone-blocks,  global-require */
 import 'babel-polyfill';
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import ReactHotLoader, { AppContainer, setConfig } from '../../../src/index.dev';
 import { configureGeneration } from '../../../src/global/generation';
 
-jest.mock('react-dom', () => require('@hot-loader/react-dom'));
+// jest.mock('react-dom', () => require('@hot-loader/react-dom'));
 
 describe(`Hooks: useContext`, () => {
   beforeEach(() => {
@@ -15,12 +16,6 @@ describe(`Hooks: useContext`, () => {
     });
     configureGeneration(1, 1);
   });
-
-  const snapShot = {
-    children: ['this is component 2'],
-    props: {},
-    type: 'div',
-  };
 
   if (React.useContext) {
     it('use', () => {

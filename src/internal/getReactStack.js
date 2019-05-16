@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import hydrateFiberStack from './stack/hydrateFiberStack';
 import hydrateLegacyStack from './stack/hydrateLegacyStack';
-import { getInternalInstance, updateInstance } from './reactUtils';
+import { getInternalInstance } from './reactUtils';
 
 function getReactStack(instance) {
   const rootNode = getInternalInstance(instance);
@@ -43,7 +43,8 @@ const markUpdate = ({ fiber }) => {
   }
 
   if (fiber.stateNode) {
-    updateInstance(fiber.stateNode);
+    // TODO: this might work better React 16, but breaking tests for React 15 changing "updates" counts.
+    // updateInstance(fiber.stateNode);
   }
 };
 
