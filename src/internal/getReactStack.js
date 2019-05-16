@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import hydrateFiberStack from './stack/hydrateFiberStack';
 import hydrateLegacyStack from './stack/hydrateLegacyStack';
-import { getInternalInstance } from './reactUtils';
+import { getInternalInstance, updateInstance } from './reactUtils';
 
 function getReactStack(instance) {
   const rootNode = getInternalInstance(instance);
@@ -40,6 +40,10 @@ const markUpdate = ({ fiber }) => {
       cacheBusterProp: true,
       ...fiber.memoizedProps,
     };
+  }
+
+  if (fiber.stateNode) {
+    updateInstance(fiber.stateNode);
   }
 };
 
