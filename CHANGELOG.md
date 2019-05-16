@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.8.5"></a>
+## [4.8.5](https://github.com/gaearon/react-hot-loader/compare/v4.8.4...v4.8.5) (2019-05-16)
+
+
+### Bug Fixes
+
+* correct memo fiber updater, fixes [#1230](https://github.com/gaearon/react-hot-loader/issues/1230) ([a185494](https://github.com/gaearon/react-hot-loader/commit/a185494))
+* make  API more error prone, fixes [#1228](https://github.com/gaearon/react-hot-loader/issues/1228) ([a6ba488](https://github.com/gaearon/react-hot-loader/commit/a6ba488))
+* move react-dom notification to AppContainer, fixes [#1227](https://github.com/gaearon/react-hot-loader/issues/1227) ([28bfdd4](https://github.com/gaearon/react-hot-loader/commit/28bfdd4))
+* update root endpoint, fixes [#1226](https://github.com/gaearon/react-hot-loader/issues/1226), [#1240](https://github.com/gaearon/react-hot-loader/issues/1240) ([608805a](https://github.com/gaearon/react-hot-loader/commit/608805a))
+* use simpler conditions for index.js, implements [#1244](https://github.com/gaearon/react-hot-loader/issues/1244) ([4811d57](https://github.com/gaearon/react-hot-loader/commit/4811d57))
+* webpack plugin fails on hot-loader/react-dom, fixes #[#1234](https://github.com/gaearon/react-hot-loader/issues/1234) ([826eee3](https://github.com/gaearon/react-hot-loader/commit/826eee3))
+* webpack-plugin - use RHL global variable, fixes [#1251](https://github.com/gaearon/react-hot-loader/issues/1251) ([f036d36](https://github.com/gaearon/react-hot-loader/commit/f036d36))
+
+
+
 <a name="4.8.4"></a>
 ## [4.8.4](https://github.com/gaearon/react-hot-loader/compare/v4.8.3...v4.8.4) (2019-04-15)
 
