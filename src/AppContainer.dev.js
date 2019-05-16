@@ -28,6 +28,14 @@ class AppContainer extends React.Component {
     generation: 0,
   };
 
+  constructor(props) {
+    super(props);
+    if (configuration.showReactDomPatchNotification) {
+      configuration.showReactDomPatchNotification = false;
+      console.warn('React-Hot-Loader: react-🔥-dom patch is not detected. React 16.6+ features may not work.');
+    }
+  }
+
   shouldComponentUpdate(prevProps, prevState) {
     // Don't update the component if the state had an error and still has one.
     // This allows to break an infinite loop of error -> render -> error -> render
