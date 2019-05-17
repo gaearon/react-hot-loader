@@ -2,11 +2,11 @@
 
 if (process.env.NODE_ENV === 'production') {
   module.exports = require('./dist/react-hot-loader.production.min.js');
-} else if (!module.hot) {
-  console.error('React-Hot-Loader: Hot Module Replacement is not enabled');
-  module.exports = require('./dist/react-hot-loader.production.min.js');
 } else if (typeof window === 'undefined') {
   // this is just server environment
+  module.exports = require('./dist/react-hot-loader.production.min.js');
+} else if (!module.hot) {
+  console.error('React-Hot-Loader: Hot Module Replacement is not enabled');
   module.exports = require('./dist/react-hot-loader.production.min.js');
 } else {
   var evalAllowed = false;
