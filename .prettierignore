@@ -5,3 +5,7 @@ dist/
 package.json
 CHANGELOG.md
 .cache
+babel.js
+index.js
+patch.js
+root.js

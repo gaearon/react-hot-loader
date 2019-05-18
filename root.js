@@ -5,7 +5,7 @@ if (module.hot) {
   if (!module.parents || module.parents.length === 0) {
     throw new Error(
       'React-Hot-Loader: `react-hot-loader/root` is not supported on your system. ' +
-        'Please use `import {hot} from "react-hot-loader"` instead',
+        'Please use `import {hot} from "react-hot-loader"` instead'
     );
   }
   // access parent
@@ -13,7 +13,7 @@ if (module.hot) {
   if (!parent) {
     throw new Error(
       'React-Hot-Loader: `react-hot-loader/root` is not supported on your system. ' +
-        'Please use `import {hot} from "react-hot-loader"` instead',
+        'Please use `import {hot} from "react-hot-loader"` instead'
     );
   }
   // remove self from a cache
