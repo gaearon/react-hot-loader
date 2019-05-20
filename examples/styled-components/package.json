@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --hot",
+    "start:cold": "NODE_ENV=development webpack-dev-server",
     "start:prod": "NODE_ENV=production webpack-dev-server --hot",
     "start:link": "cp -R ../../dist ./node_modules/react-hot-loader && cp -R ../../*.js ./node_modules/react-hot-loader",
     "start:hot": "cp -R ../../../hot/react-dom/target/cjs ./node_modules/react-dom"
