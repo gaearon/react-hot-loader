@@ -2,6 +2,8 @@
 
 if (process.env.NODE_ENV === 'production') {
   module.exports = require('./dist/react-hot-loader.production.min.js');
+} else if (process.env.NODE_ENV === 'test') {
+  module.exports = require('./dist/react-hot-loader.production.min.js');
 } else if (typeof window === 'undefined') {
   // this is just server environment
   module.exports = require('./dist/react-hot-loader.production.min.js');
