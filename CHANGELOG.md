@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.8.8"></a>
+## [4.8.8](https://github.com/gaearon/react-hot-loader/compare/v4.8.7...v4.8.8) (2019-05-23)
+
+
+### Bug Fixes
+
+* disable RHL when NODE_ENV == test, fixes [#1252](https://github.com/gaearon/react-hot-loader/issues/1252) ([6f56d87](https://github.com/gaearon/react-hot-loader/commit/6f56d87))
+
+
+
 <a name="4.8.7"></a>
 ## [4.8.7](https://github.com/gaearon/react-hot-loader/compare/v4.8.6...v4.8.7) (2019-05-20)
 
