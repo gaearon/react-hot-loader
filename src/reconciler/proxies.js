@@ -2,6 +2,7 @@ import createProxy, { PROXY_KEY } from '../proxy';
 import { resetClassProxies } from '../proxy/createClassProxy';
 import { isCompositeComponent, isReactClass } from '../internal/reactUtils';
 import configuration from '../configuration';
+import { incrementHotGeneration } from '../global/generation';
 
 const merge = require('lodash/merge');
 
@@ -58,6 +59,8 @@ export const updateProxyById = (id, type, options = {}) => {
     );
   } else {
     proxiesByID[id].update(type);
+    // proxy could be registered again only in case of HMR
+    incrementHotGeneration();
   }
   return proxiesByID[id];
 };
