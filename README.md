@@ -53,6 +53,22 @@ export default hot(App);
 
 4.  If you need hooks support, use React-🔥-Dom
 
+### Hook support
+
+To enable hot hook update you have to enable it (not setting by default for now):
+
+```js
+import { setConfig } from 'react-hot-loader';
+
+setConfig({
+  hotHooks: true,
+});
+```
+
+With this option set **all** `useEffects`, `useCallbacks` and `useMemo` would be updated on Hot Module Replacement.
+
+Please try it so we can enable it by default. (or not)
+
 ## React-🔥-Dom
 
 React-🔥-Dom ([hot-loader/react-dom](https://github.com/hot-loader/react-dom)) replaces the "react-dom" package of the same version, but with additional patches to support hot reloading.

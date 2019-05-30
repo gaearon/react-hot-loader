@@ -11,6 +11,15 @@ const getInnerComponentType = component => {
   return unwrapper ? unwrapper() : component;
 };
 
+const compareRegistered = (a, b) => {
+  if (isRegisteredComponent(a) || isRegisteredComponent(b)) {
+    if (resolveType(a) !== resolveType(b)) {
+      return false;
+    }
+  }
+  return true;
+};
+
 const compareComponents = (oldType, newType, setNewType, baseType) => {
   let defaultResult = oldType === newType;
 
@@ -19,13 +28,16 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
   }
 
   if (isRegisteredComponent(oldType) || isRegisteredComponent(newType)) {
-    if (resolveType(oldType) !== resolveType(newType)) {
+    if (!compareRegistered(oldType, newType)) {
       return false;
     }
     defaultResult = true;
   }
 
   if (isForwardType({ type: oldType }) && isForwardType({ type: newType })) {
+    if (!compareRegistered(oldType.render, newType.render)) {
+      return false;
+    }
     if (oldType.render === newType.render || areSwappable(oldType.render, newType.render)) {
       setNewType(newType);
       return true;
@@ -34,6 +46,9 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
   }
 
   if (isMemoType({ type: oldType }) && isMemoType({ type: newType })) {
+    if (!compareRegistered(oldType.type, newType.type)) {
+      return false;
+    }
     if (oldType.type === newType.type || areSwappable(oldType.type, newType.type)) {
       if (baseType) {
         // memo form different fibers, why?

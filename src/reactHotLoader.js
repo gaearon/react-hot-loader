@@ -7,7 +7,7 @@ import {
   isForwardType,
   isContextType,
 } from './internal/reactUtils';
-import { increment as incrementGeneration } from './global/generation';
+import { increment as incrementGeneration, getHotGeneration } from './global/generation';
 import {
   updateProxyById,
   resetProxies,
@@ -25,6 +25,13 @@ import { resolveType } from './reconciler/resolver';
 import { hotComponentCompare } from './reconciler/componentComparator';
 
 const forceSimpleSFC = { proxy: { pureSFC: true } };
+
+const hookWrapper = hook => (cb, deps) => {
+  if (configuration.hotHooks) {
+    return hook(cb, deps ? [...deps, getHotGeneration()] : deps);
+  }
+  return hook(cb, deps);
+};
 
 const reactHotLoader = {
   IS_REACT_MERGE_ENABLED: false,
@@ -75,6 +82,7 @@ const reactHotLoader = {
       incrementGeneration();
     }
     if (isForwardType({ type })) {
+      reactHotLoader.register(type.render, `${uniqueLocalName}:render`, fileName, forceSimpleSFC);
       updateFunctionProxyById(id, type, updateForward);
       incrementGeneration();
     }
@@ -156,6 +164,13 @@ const reactHotLoader = {
       // Use the same trick as React.createElement
       React.Children.only = children => originalChildrenOnly({ ...children, type: resolveType(children.type) });
       React.Children.only.isPatchedByReactHotLoader = true;
+    }
+
+    if (React.useEffect && !React.useState.isPatchedByReactHotLoader) {
+      React.useEffect = hookWrapper(React.useEffect);
+      React.useLayoutEffect = hookWrapper(React.useLayoutEffect);
+      React.useCallback = hookWrapper(React.useCallback);
+      React.useMemo = hookWrapper(React.useMemo);
     }
 
     // reactHotLoader.reset()
