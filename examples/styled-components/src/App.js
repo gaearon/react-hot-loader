@@ -25,7 +25,7 @@ const indirect = {
 
 const indirectStyled = {
   DS: styled.div`
-    border: px solid #f00;
+    border: 2px solid #f00;
   `,
   DE: emoStyled('div')`border: 1px solid #F00`,
 };
@@ -39,10 +39,17 @@ const OtherComponent = () => <span>test</span>;
 const Context = React.createContext();
 
 const Hook = () => {
-  const [state] = React.useState({ x: 4 });
+  const [state, setState] = React.useState({ x: 2 });
+  React.useEffect(
+    () =>
+      setState(state => ({
+        x: state.x + 1,
+      })),
+    [],
+  );
   return (
     <div>
-      hook state: {state.x}
+      hook state 1: {state.x}
       <Counter />
     </div>
   );
@@ -128,6 +135,7 @@ const App = () => <InApp />;
 
 setConfig({
   logLevel: 'debug',
+  hotHooks: true,
 });
 
 //   return App;
