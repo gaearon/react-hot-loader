@@ -5,6 +5,7 @@ import { areSwappable } from './utils';
 import { PROXY_KEY, UNWRAP_PROXY } from '../proxy';
 import { resolveType } from './resolver';
 import logger from '../logger';
+import configuration from '../configuration';
 
 const getInnerComponentType = component => {
   const unwrapper = component[UNWRAP_PROXY];
@@ -89,8 +90,9 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
 const knownPairs = new WeakMap();
 const emptyMap = new WeakMap();
 
-export const hotComponentCompare = (oldType, newType, setNewType, baseType) => {
+export const hotComponentCompare = (oldType, preNewType, setNewType, baseType) => {
   const hotActive = hotComparisonOpen();
+  const newType = configuration.intergratedResolver ? resolveType(preNewType) : preNewType;
   let result = oldType === newType;
 
   if (
