@@ -1,4 +1,6 @@
 const RHLPackage = 'react-hot-loader';
+const RHLRootPackage = 'react-hot-loader/root';
+const RHLPackages = [RHLPackage, RHLRootPackage];
 
 function isImportedFromRHL(path, name) {
   const binding = path.scope.getBinding(name);
@@ -6,7 +8,7 @@ function isImportedFromRHL(path, name) {
 
   if (bindingType === 'ImportSpecifier' || bindingType === 'ImportNamespaceSpecifier') {
     const bindingParent = binding.path.parent;
-    return bindingParent.source.value === RHLPackage;
+    return RHLPackages.includes(bindingParent.source.value);
   }
 
   return false;
@@ -20,7 +22,7 @@ function getRHLContext(file) {
     const bodyItem = body[i];
     const { source, specifiers } = bodyItem;
 
-    if (bodyItem.type !== 'ImportDeclaration' || source.value !== RHLPackage) {
+    if (bodyItem.type !== 'ImportDeclaration' || !RHLPackages.includes(source.value)) {
       continue;
     }
 
@@ -58,6 +60,7 @@ export default function plugin() {
       const specifier = this.rhlContext[i];
 
       if (specifier.kind === 'named') {
+        // replaces hot(module)(App)
         if (
           path.node.callee.name === specifier.local &&
           // ensure that this is `hot` from RHL
@@ -69,7 +72,21 @@ export default function plugin() {
           path.parentPath.replaceWith(path.parent.arguments[0]);
           break;
         }
+
+        // replaces hot(App)
+        if (
+          path.node.callee.name === specifier.local &&
+          // ensure that this is `hot` from RHL
+          isImportedFromRHL(path, specifier.local) &&
+          path.type === 'CallExpression' &&
+          path.node.arguments[0] &&
+          path.node.arguments[0].type === 'Identifier'
+        ) {
+          path.replaceWith(path.node.arguments[0]);
+          break;
+        }
       } else if (specifier.kind === 'namespace') {
+        // replaces RHL.hot(module)(App)
         if (
           path.node.callee.callee &&
           path.node.callee.callee.type === 'MemberExpression' &&

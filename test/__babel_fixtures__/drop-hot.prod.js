@@ -1,6 +1,7 @@
 import React from 'react'
 import { hot, foo } from 'react-hot-loader'
 import { hot as namedHot, foo as namedFoo } from 'react-hot-loader'
+import { hot as rootHot } from 'react-hot-loader/root'
 import { hot as namedHot2 } from 'react-hot-loader'
 import { hot as notRHLHot } from 'not-react-hot-loader'
 import * as RHL from 'react-hot-loader'
@@ -10,6 +11,7 @@ import * as NOTRHL from 'not-react-hot-loader'
 const App = () => <div>Hello World!</div>
 
 const a = hot(module)(App);
+const z = rootHot(App);
 const b = namedHot(module)(App);
 const c = namedHot2(module)(App);
 const d = RHL.hot(module)(App);
@@ -21,4 +23,4 @@ namedFoo(module)(App);
 RHL.foo(module)(App);
 NOTRHL.hot(module)(App);
 
-export { a, b, c, d, e };
+export { a, b, c, d, e, z };

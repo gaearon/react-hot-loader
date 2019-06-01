@@ -1007,7 +1007,7 @@ exports[`babel Targetting "es2015" tags potential React components drop hot.prod
 Object.defineProperty(exports, \\"__esModule\\", {
   value: true
 });
-exports.e = exports.d = exports.c = exports.b = exports.a = undefined;
+exports.z = exports.e = exports.d = exports.c = exports.b = exports.a = undefined;
 
 var _react = require('react');
 
@@ -1018,6 +1018,8 @@ var _reactHotLoader = require('react-hot-loader');
 var RHL = _interopRequireWildcard(_reactHotLoader);
 
 var RHL2 = _interopRequireWildcard(_reactHotLoader);
+
+var _root = require('react-hot-loader/root');
 
 var _notReactHotLoader = require('not-react-hot-loader');
 
@@ -1036,6 +1038,7 @@ var App = function App() {
 };
 
 var a = App;
+var z = App;
 var b = App;
 var c = App;
 var d = App;
@@ -1051,7 +1054,8 @@ exports.a = a;
 exports.b = b;
 exports.c = c;
 exports.d = d;
-exports.e = e;"
+exports.e = e;
+exports.z = z;"
 `;
 
 exports[`babel Targetting "es2015" tags potential React components issue 246.js 1`] = `
@@ -1883,7 +1887,7 @@ exports[`babel Targetting "modern" tags potential React components drop hot.prod
 Object.defineProperty(exports, \\"__esModule\\", {
   value: true
 });
-exports.e = exports.d = exports.c = exports.b = exports.a = undefined;
+exports.z = exports.e = exports.d = exports.c = exports.b = exports.a = undefined;
 
 var _react = require('react');
 
@@ -1894,6 +1898,8 @@ var _reactHotLoader = require('react-hot-loader');
 var RHL = _interopRequireWildcard(_reactHotLoader);
 
 var RHL2 = _interopRequireWildcard(_reactHotLoader);
+
+var _root = require('react-hot-loader/root');
 
 var _notReactHotLoader = require('not-react-hot-loader');
 
@@ -1910,6 +1916,7 @@ const App = () => _react2.default.createElement(
 );
 
 const a = App;
+const z = App;
 const b = App;
 const c = App;
 const d = App;
@@ -1925,7 +1932,8 @@ exports.a = a;
 exports.b = b;
 exports.c = c;
 exports.d = d;
-exports.e = e;"
+exports.e = e;
+exports.z = z;"
 `;
 
 exports[`babel Targetting "modern" tags potential React components issue 246.js 1`] = `

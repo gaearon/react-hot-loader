@@ -8,8 +8,9 @@ if (process.env.NODE_ENV === 'production') {
   // this is just server environment
   module.exports = require('./dist/react-hot-loader.production.min.js');
 } else if (!module.hot) {
-  console.error('React-Hot-Loader: Hot Module Replacement is not enabled');
   module.exports = require('./dist/react-hot-loader.production.min.js');
+  module.exports.AppContainer.warnAboutHMRDisabled = true;
+  module.exports.hot.shouldWrapWithAppContainer = true;
 } else {
   var evalAllowed = false;
   try {
