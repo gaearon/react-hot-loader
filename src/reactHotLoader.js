@@ -115,12 +115,11 @@ const reactHotLoader = {
 
       reactHotLoader.IS_REACT_MERGE_ENABLED = true;
       configuration.showReactDomPatchNotification = false;
-      // console.warn('react-🔥-loader activated.');
-    }
-    if (ReactDOM && ReactDOM.setHotTypeResolver) {
-      console.log('Types 2');
-      configuration.intergratedResolver = true;
-      ReactDOM.setHotTypeResolver(resolveType);
+
+      if (ReactDOM.setHotTypeResolver) {
+        configuration.intergratedResolver = true;
+        ReactDOM.setHotTypeResolver(resolveType);
+      }
     }
 
     if (!configuration.intergratedResolver) {
