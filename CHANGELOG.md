@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.9.0"></a>
+# [4.9.0](https://github.com/gaearon/react-hot-loader/compare/v4.8.8...v4.9.0) (2019-06-02)
+
+
+### Bug Fixes
+
+* false positive hot merge for forwardRef and Memo components, fixes [#1257](https://github.com/gaearon/react-hot-loader/issues/1257) ([dbf1047](https://github.com/gaearon/react-hot-loader/commit/dbf1047))
+* improve hot api for production mode - error reporting and babel plugin ([6b29911](https://github.com/gaearon/react-hot-loader/commit/6b29911))
+
+
+### Features
+
+* support hooks update on HMR, fixes [#1256](https://github.com/gaearon/react-hot-loader/issues/1256) ([7ab076c](https://github.com/gaearon/react-hot-loader/commit/7ab076c))
+
+
+
 <a name="4.8.8"></a>
 ## [4.8.8](https://github.com/gaearon/react-hot-loader/compare/v4.8.7...v4.8.8) (2019-05-23)
 
