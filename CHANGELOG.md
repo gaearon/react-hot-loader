@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.10.0"></a>
+# [4.10.0](https://github.com/gaearon/react-hot-loader/compare/v4.9.0...v4.10.0) (2019-06-02)
+
+
+### Features
+
+* transparent class wrapping, fixes [#304](https://github.com/gaearon/react-hot-loader/issues/304) ([9fe4cad](https://github.com/gaearon/react-hot-loader/commit/9fe4cad))
+
+
+
 <a name="4.9.0"></a>
 # [4.9.0](https://github.com/gaearon/react-hot-loader/compare/v4.8.8...v4.9.0) (2019-06-02)
 
