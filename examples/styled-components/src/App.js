@@ -49,7 +49,7 @@ const Hook = () => {
 
   React.useEffect(
     () => {
-      console.log('hot effected 0');
+      console.log('hot effected');
       setState(state => ({
         x: state.x + 0.1,
       }));
@@ -140,16 +140,20 @@ const InApp = () => (
   </h1>
 );
 
-const App = () => <InApp />;
+class App extends React.Component {
+  render() {
+    return <InApp />;
+  }
+}
 
 setConfig({
   logLevel: 'debug',
   hotHooks: true,
 });
 
-//   return App;
-// }
-//
-// const App = genApp();
+console.log('type comparison:', {
+  Component: <App />.type === App,
+  FC: <InApp />.type === InApp,
+});
 
 export default hot(App);
