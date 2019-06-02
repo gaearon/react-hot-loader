@@ -40,12 +40,21 @@ const Context = React.createContext();
 
 const Hook = () => {
   const [state, setState] = React.useState({ x: 2 });
+  React.useEffect(() => {
+    console.log('mount effected');
+    setState(state => ({
+      x: state.x + 1,
+    }));
+  }, []);
+
   React.useEffect(
-    () =>
+    () => {
+      console.log('hot effected 0');
       setState(state => ({
-        x: state.x + 1,
-      })),
-    [],
+        x: state.x + 0.1,
+      }));
+    },
+    ['hot'],
   );
   return (
     <div>
