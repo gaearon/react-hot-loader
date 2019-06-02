@@ -111,6 +111,11 @@ export interface Config {
   ignoreComponents: boolean;
 
   /**
+   * enables or disables hooks treatment
+   */
+  reloadHooks: boolean;
+
+  /**
    * default value for AppContainer errorOverlay
    */
   errorReporter: React.ComponentType<HotError>;

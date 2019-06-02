@@ -27,8 +27,8 @@ import { hotComponentCompare } from './reconciler/componentComparator';
 const forceSimpleSFC = { proxy: { pureSFC: true } };
 
 const hookWrapper = hook => (cb, deps) => {
-  if (configuration.hotHooks) {
-    return hook(cb, deps ? [...deps, getHotGeneration()] : deps);
+  if (configuration.reloadHooks) {
+    return hook(cb, deps && deps.length > 0 ? [...deps, getHotGeneration()] : deps);
   }
   return hook(cb, deps);
 };

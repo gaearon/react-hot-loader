@@ -55,19 +55,29 @@ export default hot(App);
 
 ### Hook support
 
-To enable hot hook update you have to enable it (not setting by default for now):
+Hooks would be auto updated on HMR if they _should_ be.
+There is only one condition for it - a non zero dependencies list.
+
+```js
+❄️ useState(initialState); // will never updated (preserve state)
+❄️ useEffect(effect); // no need to update, updated on every render
+❄️ useEffect(effect, []); // "on mount" hook. "Not changing the past"
+🔥 useEffect(effect, [anyDep]); // would be updated
+
+🔥 useEffect(effect, ["hot"]); // the simplest way to make hook reloadable
+```
+
+**To disable hooks reloading** - set configuration option:
 
 ```js
 import { setConfig } from 'react-hot-loader';
 
 setConfig({
-  hotHooks: true,
+  reloadHooks: false,
 });
 ```
 
 With this option set **all** `useEffects`, `useCallbacks` and `useMemo` would be updated on Hot Module Replacement.
-
-Please try it so we can enable it by default. (or not)
 
 ## React-🔥-Dom
 

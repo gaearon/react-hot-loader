@@ -12,7 +12,7 @@ const configuration = {
   allowSFC: true,
 
   // Allow hot reload of effect hooks
-  hotHooks: false,
+  reloadHooks: true,
 
   // Disable "hot-replacement-render"
   disableHotRenderer: false,
