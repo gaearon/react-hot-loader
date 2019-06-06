@@ -6,7 +6,7 @@ function AppContainer(props) {
   if (AppContainer.warnAboutHMRDisabled) {
     AppContainer.warnAboutHMRDisabled = true;
     console.error(
-      'React-Hot-Loader: misconfiguration detected, using production version in not production environment.',
+      'React-Hot-Loader: misconfiguration detected, using production version in non-production environment.',
     );
     console.error('React-Hot-Loader: Hot Module Replacement is not enabled.');
   }
