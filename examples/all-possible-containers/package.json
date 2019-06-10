@@ -16,11 +16,12 @@
   "main": "src/index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack -p",
-    "start": "webpack-serve --port 8080 --host 0.0.0.0"
+    "start": "webpack-serve --port 8080 --host 0.0.0.0",
+    "start:link": "cp -R ../../dist ./node_modules/react-hot-loader && cp -R ../../*.js ./node_modules/react-hot-loader"
   },
   "dependencies": {
-    "react": "^16.7.0-alpha.2",
-    "react-dom": "^16.7.0-alpha.2"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

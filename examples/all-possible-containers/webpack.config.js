@@ -67,10 +67,10 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
-      react: path.resolve(path.join(__dirname, './node_modules/react')),
-      'react-dom': path.resolve(path.join(__dirname, './node_modules/react-dom')),
-      'react-hot-loader': path.resolve(path.join(__dirname, './node_modules/react-hot-loader')),
-      'babel-core': path.resolve(path.join(__dirname, './node_modules/@babel/core')),
+      // react: path.resolve(path.join(__dirname, './node_modules/react')),
+      // 'react-dom': path.resolve(path.join(__dirname, './node_modules/react-dom')),
+      // 'react-hot-loader': path.resolve(path.join(__dirname, './node_modules/react-hot-loader')),
+      // 'babel-core': path.resolve(path.join(__dirname, './node_modules/@babel/core')),
     },
   },
   bail: true, // Fail out on the first error instead of tolerating it

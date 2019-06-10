@@ -49,7 +49,7 @@ const Hook = () => {
 
   React.useEffect(
     () => {
-      console.log('hot effected 0');
+      console.log('hot effected');
       setState(state => ({
         x: state.x + 0.5,
       }));
