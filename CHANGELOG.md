@@ -8,30 +8,12 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* source map consumer could be synchronious ([05a6c8e](https://github.com/gaearon/react-hot-loader/commit/05a6c8e))
+* source map consumer could be synchronous ([05a6c8e](https://github.com/gaearon/react-hot-loader/commit/05a6c8e))
 
 
 ### Features
 
-* backport React.Fresh ([e5c4bb4](https://github.com/gaearon/react-hot-loader/commit/e5c4bb4))
-* transparent class wrapping, fixes [#304](https://github.com/gaearon/react-hot-loader/issues/304) ([9fe4cad](https://github.com/gaearon/react-hot-loader/commit/9fe4cad))
-
-
-
-<a name="4.10.0"></a>
-# [4.10.0](https://github.com/gaearon/react-hot-loader/compare/v4.9.0...v4.10.0) (2019-06-10)
-
-
-### Bug Fixes
-
-* source map consumer could be synchronious ([05a6c8e](https://github.com/gaearon/react-hot-loader/commit/05a6c8e))
-
-
-### Features
-
-* backport React.Fresh ([e5c4bb4](https://github.com/gaearon/react-hot-loader/commit/e5c4bb4))
-* transparent class wrapping, fixes [#304](https://github.com/gaearon/react-hot-loader/issues/304) ([9fe4cad](https://github.com/gaearon/react-hot-loader/commit/9fe4cad))
-
+* backport React.Fresh to handle hooks order change ([e5c4bb4](https://github.com/gaearon/react-hot-loader/commit/e5c4bb4))
 
 
 <a name="4.10.0"></a>
