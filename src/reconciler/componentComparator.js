@@ -63,7 +63,7 @@ const compareRegistered = (a, b) => {
   // - fulfill it, but set `_debugNeedsRemount` on a fiber to drop only local state
   // the second way is not published yet, so going with the first one
   if (!haveEqualSignatures(a, b)) {
-    logger.warn('Hook order change detected:', a, 'state has been reset');
+    logger.warn('⚛️🔥🎣 Hook order change detected: component', a, 'has been remounted');
     return false;
   }
   return true;
