@@ -140,7 +140,7 @@ const mergeInject = (a, b, instance) => {
   }
   if (flatB.length === 0 && flatA.length === 1 && typeof flatA[0] !== 'object') {
     // terminal node
-  } else {
+  } else if (!reactHotLoader.IS_REACT_MERGE_ENABLED) {
     logger.warn(`React-hot-loader: unable to merge `, a, 'and children of ', instance);
     stackReport();
   }

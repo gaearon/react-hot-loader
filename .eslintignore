@@ -8,3 +8,4 @@ index.js
 patch.js
 webpack.js
 root.js
+test/hot/react-dom

@@ -79,6 +79,14 @@ setConfig({
 
 With this option set **all** `useEffects`, `useCallbacks` and `useMemo` would be updated on Hot Module Replacement.
 
+### Hooks reset
+
+Hooks would be reset if their order changes. Adding, removing or moving around would
+cause a local tree remount.
+
+**Babel plugin is required** for this operation. Without it changing hook order would throw an error
+which would be propagated till the nearest class-based component.
+
 ## React-🔥-Dom
 
 React-🔥-Dom ([hot-loader/react-dom](https://github.com/hot-loader/react-dom)) replaces the "react-dom" package of the same version, but with additional patches to support hot reloading.
@@ -354,6 +362,17 @@ module.exports = {
 ```
 
 Webpack plugin will also land a "hot" patch to react-dom, making React-Hot-Loader more compliant to [the principles](https://github.com/gaearon/react-hot-loader/issues/1118).
+
+If you are using `babel-plugin` you might not need to apply `webpack-loader` to all the files, scoping it to `react-dom`
+
+```js
+// would only land a "hot-patch" to react-dom
+{
+    test: /\.js$/,
+    include: /node_modules\/react-dom/,
+    use: ['react-hot-loader/webpack']
+},
+```
 
 ### Code Splitting
 

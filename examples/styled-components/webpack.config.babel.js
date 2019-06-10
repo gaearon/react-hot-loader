@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: ['./src/index'],
   mode: process.env.NODE_ENV || 'development',
-  devtool: false,
+  //devtool: false,
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -14,7 +14,7 @@ module.exports = {
   module: {
     rules: [
       {
-        exclude: /node_modules|packages/, // should work without exclude
+        exclude: /packages/, // should work without exclude
         test: /\.js$/,
         use: ['react-hot-loader/webpack', 'babel-loader'],
       },

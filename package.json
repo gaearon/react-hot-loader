@@ -19,7 +19,8 @@
     "release": "standard-version && conventional-github-releaser -p angular",
     "test": "yarn test:es2015 && yarn test:modern",
     "test:es2015": "cross-env BABEL_TARGET=es2015 jest --no-cache",
-    "test:modern": "cross-env BABEL_TARGET=modern jest --no-cache"
+    "test:modern": "cross-env BABEL_TARGET=modern jest --no-cache",
+    "test:react-dom:prepare": "rm -Rf ./test/hot/react-dom && node ./test/hot/createPatchedReact.js"
   },
   "lint-staged": {
     "*.{js,md,ts,json}": [
