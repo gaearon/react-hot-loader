@@ -27,11 +27,15 @@ import { hotComponentCompare } from './reconciler/componentComparator';
 
 const forceSimpleSFC = { proxy: { pureSFC: true } };
 
-const hookWrapper = hook => (cb, deps) => {
-  if (configuration.reloadHooks) {
-    return hook(cb, deps && deps.length > 0 ? [...deps, getHotGeneration()] : deps);
-  }
-  return hook(cb, deps);
+const hookWrapper = hook => {
+  const wrappedHook = function(cb, deps) {
+    if (configuration.reloadHooks) {
+      return hook(cb, deps && deps.length > 0 ? [...deps, getHotGeneration()] : deps);
+    }
+    return hook(cb, deps);
+  };
+  wrappedHook.isPatchedByReactHotLoader = true;
+  return wrappedHook;
 };
 
 const noDeps = () => [];
@@ -180,7 +184,7 @@ const reactHotLoader = {
       }
     }
 
-    if (React.useEffect && !React.useState.isPatchedByReactHotLoader) {
+    if (React.useEffect && !React.useEffect.isPatchedByReactHotLoader) {
       React.useEffect = hookWrapper(React.useEffect);
       React.useLayoutEffect = hookWrapper(React.useLayoutEffect);
       React.useCallback = hookWrapper(React.useCallback);

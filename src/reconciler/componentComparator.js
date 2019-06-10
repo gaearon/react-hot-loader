@@ -50,13 +50,7 @@ function haveEqualSignatures(prevType, nextType) {
   return true;
 }
 
-const compareRegistered = (a, b) => {
-  if (isRegisteredComponent(a) || isRegisteredComponent(b)) {
-    if (resolveType(a) !== resolveType(b)) {
-      return false;
-    }
-  }
-
+const areSignaturesCompatible = (a, b) => {
   // compare signatures of two components
   // non-equal component have to remount and there is two options to do it
   // - fail the comparison, remounting all tree below
@@ -67,6 +61,16 @@ const compareRegistered = (a, b) => {
     return false;
   }
   return true;
+};
+
+const compareRegistered = (a, b) => {
+  if (isRegisteredComponent(a) || isRegisteredComponent(b)) {
+    if (resolveType(a) !== resolveType(b)) {
+      return false;
+    }
+  }
+
+  return areSignaturesCompatible(a, b);
 };
 
 const compareComponents = (oldType, newType, setNewType, baseType) => {
@@ -120,7 +124,7 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
     return defaultResult;
   }
 
-  if (newType !== oldType && areSwappable(newType, oldType)) {
+  if (newType !== oldType && areSignaturesCompatible(newType, oldType) && areSwappable(newType, oldType)) {
     const unwrapFactory = newType[UNWRAP_PROXY];
     const oldProxy = unwrapFactory && getProxyByType(unwrapFactory());
     if (oldProxy) {

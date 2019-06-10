@@ -167,6 +167,8 @@ describe('reconciler', () => {
       {
         const A = () => <div>A</div>;
         const B = () => <div>A</div>;
+        A.displayName = 'A';
+        B.displayName = 'B';
         App = () => (
           <div>
             <A />
@@ -186,6 +188,8 @@ describe('reconciler', () => {
       {
         const A = () => <div>A</div>;
         const B = () => <div>A</div>;
+        A.displayName = 'A';
+        B.displayName = 'B';
         App = () => (
           <div>
             <A />
