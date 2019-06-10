@@ -34,6 +34,16 @@ const additional = {
     'if (current!== null&&current.type===element.type)',
     'if (current!== null&&hotCompareElements(current.type,element.type,hotUpdateChild(current)))',
   ],
+
+  '16.8-type': [
+    'function createFiberFromTypeAndProps(type, // React$ElementType\nkey, pendingProps, owner, mode, expirationTime) {',
+    'function createFiberFromTypeAndProps(type, // React$ElementType\nkey, pendingProps, owner, mode, expirationTime) {type = hotResolveType(type);',
+  ],
+
+  '16.8-type-compact': [
+    'function createFiberFromTypeAndProps(type,// React$ElementType\nkey,pendingProps,owner,mode,expirationTime){',
+    'function createFiberFromTypeAndProps(type,// React$ElementType\nkey,pendingProps,owner,mode,expirationTime){type = hotResolveType(type);',
+  ]
 };
 
 const ReactHotLoaderInjection = `
@@ -44,6 +54,9 @@ var hotUpdateChild = function (child) {
       child.alternate.type = newType;
     }
   }
+};
+var hotResolveType = function (type) {
+  return type;
 };
 var hotCompareElements = function (oldType, newType) {
   return oldType === newType
@@ -79,6 +92,9 @@ var ReactDOM = {
   setHotElementComparator: function (newComparator) {
     hotCompareElements = newComparator
   },
+  setHotTypeResolver: function (newResolver) {
+    hotResolveType = newResolver;
+  },
 `;
 
 const defaultEnd = ['var ReactDOM = {', ReactHotLoaderInjection];
@@ -92,7 +108,7 @@ const injectionEnd = {
   '16.4-compact': defaultEndCompact,
 };
 
-const sign = '/* 🔥 this is hot-loader/react-dom 🔥 */';
+const sign = '/* 🔥 this is hot-loader/react-dom 4.8+ 🔥 */';
 
 function additionalTransform(source) {
   for (const key in additional) {
