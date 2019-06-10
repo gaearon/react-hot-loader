@@ -51,11 +51,13 @@ const Hook = () => {
     () => {
       console.log('hot effected 0');
       setState(state => ({
-        x: state.x + 0.1,
+        x: state.x + 0.5,
       }));
     },
     ['hot'],
   );
+
+  //React.useState(0);
   return (
     <div>
       hook state 1: {state.x}

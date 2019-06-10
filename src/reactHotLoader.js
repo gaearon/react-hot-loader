@@ -15,6 +15,7 @@ import {
   isTypeBlacklisted,
   registerComponent,
   updateFunctionProxyById,
+  addSignature,
 } from './reconciler/proxies';
 import configuration from './configuration';
 import logger from './logger';
@@ -33,8 +34,14 @@ const hookWrapper = hook => (cb, deps) => {
   return hook(cb, deps);
 };
 
+const noDeps = () => [];
+
 const reactHotLoader = {
   IS_REACT_MERGE_ENABLED: false,
+  signature(type, key, getCustomHooks = noDeps) {
+    addSignature(type, { key, getCustomHooks });
+    return type;
+  },
   register(type, uniqueLocalName, fileName, options = {}) {
     const id = `${fileName}#${uniqueLocalName}`;
 

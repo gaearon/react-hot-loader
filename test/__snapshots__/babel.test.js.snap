@@ -12,6 +12,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 var Foo = function () {
   function Foo() {
     var _arguments = arguments;
@@ -69,6 +73,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
@@ -123,6 +131,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step(\\"next\\", value); }, function (err) { step(\\"throw\\", err); }); } } return step(\\"next\\"); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 var Foo = function () {
   function Foo() {
@@ -202,6 +214,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 var Foo = function () {
   function Foo() {
     var _this = this;
@@ -278,6 +294,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
@@ -330,6 +350,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 var Foo = function () {
   function Foo() {
@@ -385,6 +409,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 var Foo = function () {
   function Foo() {
@@ -442,6 +470,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
@@ -494,6 +526,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 var Foo = function () {
   function Foo() {
@@ -554,6 +590,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
@@ -611,6 +651,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
@@ -666,6 +710,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
@@ -716,6 +764,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 var Foo = function () {
   function Foo() {
@@ -769,6 +821,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 var Foo = function () {
   function Foo() {
@@ -826,6 +882,10 @@ exports[`babel Targetting "es2015" copies arrow function body block onto hidden 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 var Foo = function Foo() {
   _classCallCheck(this, Foo);
 };
@@ -876,6 +936,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 var A = 42;
 function B() {
@@ -966,6 +1030,10 @@ Object.defineProperty(exports, \\"__esModule\\", {
 })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\\"Cannot call a class as a function\\"); } }
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 var Counter = function Counter() {
   _classCallCheck(this, Counter);
@@ -1058,6 +1126,116 @@ exports.e = e;
 exports.z = z;"
 `;
 
+exports[`babel Targetting "es2015" tags potential React components hooks.js 1`] = `
+"'use strict';
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
+var NoHooks = function NoHooks() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    'no hooks'
+  );
+};
+
+var UseStateHook = function UseStateHook() {
+  (0, _react.useState)(42);
+};
+
+__signature__(UseStateHook, 'useState{}');
+
+var UseStateHooks = function UseStateHooks() {
+  (0, _react.useState)(42);
+  (0, _react.useState)(24);
+};
+
+__signature__(UseStateHooks, 'useState{}\\\\nuseState{}');
+
+var useEffectHook = function useEffectHook() {
+  _react2.default.useEffect(function () {
+    return {};
+  });
+  (0, _react.useState)(24);
+  _react2.default.useState(42);
+};
+
+__signature__(useEffectHook, 'useEffect{}\\\\nuseState{}\\\\nuseState{}');
+
+var useForwardRefHook = _react2.default.forwardRef(__signature__(function () {
+  _react2.default.useEffect(function () {
+    return {};
+  });
+  (0, _react.useState)(24);
+  _react2.default.useState(42);
+}, 'useEffect{}\\\\nuseState{}\\\\nuseState{}'));
+
+var useForwardRefFunctionHook = _react2.default.forwardRef(__signature__(function () {
+  _react2.default.useEffect(function () {
+    return {};
+  });
+  (0, _react.useState)(24);
+  _react2.default.useState(42);
+}, 'useEffect{}\\\\nuseState{}\\\\nuseState{}'));
+
+var useCustomHook = function useCustomHook() {
+  (0, _react.useState)(42);
+  useEffectHook();
+};
+
+__signature__(useCustomHook, 'useState{}\\\\nuseEffectHook{}', function () {
+  return [useEffectHook];
+});
+
+function useFunc() {
+  (0, _react.useState)(42);
+  useEffectHook();
+}
+__signature__(useFunc, 'useState{}\\\\nuseEffectHook{}', function () {
+  return [useEffectHook];
+});
+
+;
+;
+
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(NoHooks, 'NoHooks', __FILENAME__);
+  reactHotLoader.register(UseStateHook, 'UseStateHook', __FILENAME__);
+  reactHotLoader.register(UseStateHooks, 'UseStateHooks', __FILENAME__);
+  reactHotLoader.register(useEffectHook, 'useEffectHook', __FILENAME__);
+  reactHotLoader.register(useForwardRefHook, 'useForwardRefHook', __FILENAME__);
+  reactHotLoader.register(useForwardRefFunctionHook, 'useForwardRefFunctionHook', __FILENAME__);
+  reactHotLoader.register(useCustomHook, 'useCustomHook', __FILENAME__);
+  reactHotLoader.register(useFunc, 'useFunc', __FILENAME__);
+})();
+
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();"
+`;
+
 exports[`babel Targetting "es2015" tags potential React components issue 246.js 1`] = `
 "\\"use strict\\";
 
@@ -1070,6 +1248,10 @@ exports.spread = spread;
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 function spread() {
   for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -1110,6 +1292,10 @@ Object.defineProperty(exports, \\"__esModule\\", {
   enterModule && enterModule(module);
 })();
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 var _default = 10;
 var _default2 = 42;
 exports.default = _default2;
@@ -1141,6 +1327,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 class Foo {
   constructor() {
@@ -1186,6 +1376,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   enterModule && enterModule(module);
 })();
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 class Foo {
   constructor() {
     this.onClick = e => e.target.value;
@@ -1226,6 +1420,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   enterModule && enterModule(module);
 })();
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 class Foo {
   constructor() {
     this.bar = async (a, b) => await b(a);
@@ -1265,6 +1463,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 class Foo {
   constructor() {
@@ -1308,6 +1510,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   enterModule && enterModule(module);
 })();
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 class Foo {
   constructor() {
     this.bar = (a, b) => {
@@ -1349,6 +1555,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 class Foo {
   constructor() {
@@ -1392,6 +1602,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   enterModule && enterModule(module);
 })();
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 class Foo {
   constructor() {
     this.bar = ({ a }, { b }) => {
@@ -1434,6 +1648,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   enterModule && enterModule(module);
 })();
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 class Foo {
   constructor() {
     this.onClick = e => e.target.value;
@@ -1473,6 +1691,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 class Foo {
   constructor() {
@@ -1520,6 +1742,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   enterModule && enterModule(module);
 })();
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 class Foo {
   constructor() {
     this.bar = (a, b) => {
@@ -1566,6 +1792,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   enterModule && enterModule(module);
 })();
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 class Foo {
   constructor() {
     this.bar = (a, b) => {
@@ -1610,6 +1840,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   enterModule && enterModule(module);
 })();
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 class Foo {
   constructor() {
     this.bar = 2;
@@ -1649,6 +1883,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 class Foo {
   constructor() {
@@ -1691,6 +1929,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 class Foo {
   constructor() {
@@ -1738,6 +1980,10 @@ exports[`babel Targetting "modern" copies arrow function body block onto hidden 
   enterModule && enterModule(module);
 })();
 
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
 class Foo {}
 
 Foo.bar = (a, b) => {
@@ -1782,6 +2028,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 const A = 42;
 function B() {
@@ -1850,6 +2100,10 @@ Object.defineProperty(exports, \\"__esModule\\", {
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 class Counter {}
 
@@ -1936,6 +2190,104 @@ exports.e = e;
 exports.z = z;"
 `;
 
+exports[`babel Targetting "modern" tags potential React components hooks.js 1`] = `
+"'use strict';
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
+const NoHooks = () => _react2.default.createElement(
+  'div',
+  null,
+  'no hooks'
+);
+
+const UseStateHook = () => {
+  (0, _react.useState)(42);
+};
+
+__signature__(UseStateHook, 'useState{}');
+
+const UseStateHooks = () => {
+  (0, _react.useState)(42);
+  (0, _react.useState)(24);
+};
+
+__signature__(UseStateHooks, 'useState{}\\\\nuseState{}');
+
+const useEffectHook = () => {
+  _react2.default.useEffect(() => ({}));
+  (0, _react.useState)(24);
+  _react2.default.useState(42);
+};
+
+__signature__(useEffectHook, 'useEffect{}\\\\nuseState{}\\\\nuseState{}');
+
+const useForwardRefHook = _react2.default.forwardRef(__signature__(() => {
+  _react2.default.useEffect(() => ({}));
+  (0, _react.useState)(24);
+  _react2.default.useState(42);
+}, 'useEffect{}\\\\nuseState{}\\\\nuseState{}'));
+
+const useForwardRefFunctionHook = _react2.default.forwardRef(__signature__(function () {
+  _react2.default.useEffect(() => ({}));
+  (0, _react.useState)(24);
+  _react2.default.useState(42);
+}, 'useEffect{}\\\\nuseState{}\\\\nuseState{}'));
+
+const useCustomHook = () => {
+  (0, _react.useState)(42);
+  useEffectHook();
+};
+
+__signature__(useCustomHook, 'useState{}\\\\nuseEffectHook{}', () => [useEffectHook]);
+
+function useFunc() {
+  (0, _react.useState)(42);
+  useEffectHook();
+}
+__signature__(useFunc, 'useState{}\\\\nuseEffectHook{}', () => [useEffectHook]);
+
+;
+;
+
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(NoHooks, 'NoHooks', __FILENAME__);
+  reactHotLoader.register(UseStateHook, 'UseStateHook', __FILENAME__);
+  reactHotLoader.register(UseStateHooks, 'UseStateHooks', __FILENAME__);
+  reactHotLoader.register(useEffectHook, 'useEffectHook', __FILENAME__);
+  reactHotLoader.register(useForwardRefHook, 'useForwardRefHook', __FILENAME__);
+  reactHotLoader.register(useForwardRefFunctionHook, 'useForwardRefFunctionHook', __FILENAME__);
+  reactHotLoader.register(useCustomHook, 'useCustomHook', __FILENAME__);
+  reactHotLoader.register(useFunc, 'useFunc', __FILENAME__);
+})();
+
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();"
+`;
+
 exports[`babel Targetting "modern" tags potential React components issue 246.js 1`] = `
 "\\"use strict\\";
 
@@ -1948,6 +2300,10 @@ exports.spread = spread;
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 function spread(...args) {
   return args.push(1);
@@ -1983,6 +2339,10 @@ Object.defineProperty(exports, \\"__esModule\\", {
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
   enterModule && enterModule(module);
 })();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
 
 const _default = 10;
 const _default2 = 42;

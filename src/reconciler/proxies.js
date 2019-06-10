@@ -6,6 +6,7 @@ import { incrementHotGeneration } from '../global/generation';
 
 const merge = require('lodash/merge');
 
+let signatures;
 let proxiesByID;
 let blackListedProxies;
 let registeredComponents;
@@ -78,12 +79,16 @@ export const blacklistByType = type => blackListedProxies.set(type, true);
 
 export const setComponentOptions = (component, options) => componentOptions.set(component, options);
 
+export const addSignature = (type, signature) => signatures.set(type, signature);
+export const getSignature = type => signatures.get(type);
+
 export const resetProxies = () => {
   proxiesByID = {};
   idsByType = new WeakMap();
   blackListedProxies = new WeakMap();
   registeredComponents = new WeakMap();
   componentOptions = new WeakMap();
+  signatures = new WeakMap();
   resetClassProxies();
 };
 

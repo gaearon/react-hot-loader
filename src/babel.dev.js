@@ -1,4 +1,5 @@
 import { REGENERATE_METHOD } from './internal/constants';
+import fresh from './fresh/babel';
 
 const templateOptions = {
   placeholderPattern: /^([A-Z0-9]+)([A-Z0-9_]+)$/,
@@ -10,9 +11,10 @@ const shouldIgnoreFile = file =>
     .split('\\')
     .join('/')
     .match(/node_modules\/(react|react-hot-loader)([\/]|$)/);
+
 /* eslint-enable */
 
-module.exports = function plugin(args, options = {}) {
+function plugin(args, options = {}) {
   // This is a Babel plugin, but the user put it in the Webpack config.
   if (this && this.callback) {
     throw new Error(
@@ -30,6 +32,12 @@ module.exports = function plugin(args, options = {}) {
   const { safetyNet = true } = options;
 
   const buildRegistration = template('reactHotLoader.register(ID, NAME, FILENAME);', templateOptions);
+
+  const signatureHeader = template(
+    `var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {return a;}`,
+    templateOptions,
+  );
+
   const headerTemplate = template(
     `(function () {
        var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
@@ -53,7 +61,7 @@ module.exports = function plugin(args, options = {}) {
     `    
 (function () {  
   
-  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ?reactHotLoaderGlobal : require('react-hot-loader')).default;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
   
   if (!reactHotLoader) {
     return;
@@ -119,9 +127,11 @@ module.exports = function plugin(args, options = {}) {
       },
 
       Program: {
-        enter({ scope }, state) {
+        enter({ scope, node }, state) {
           const { file } = state;
           state[REGISTRATIONS] = []; // eslint-disable-line no-param-reassign
+
+          node.body.unshift(signatureHeader());
 
           // Everything in the top level scope, when reasonable,
           // is going to get tagged with __source.
@@ -208,6 +218,54 @@ module.exports = function plugin(args, options = {}) {
       },
     },
   };
+}
+
+const mergeRecord = (sourceRecord, newRecord) => {
+  Object.keys(newRecord).forEach(key => {
+    const action = newRecord[key];
+    if (typeof action === 'function') {
+      if (!sourceRecord[key]) {
+        sourceRecord[key] = () => ({});
+      }
+      const prev = sourceRecord[key];
+      sourceRecord[key] = (...args) => {
+        prev(...args);
+        action(...args);
+      };
+    } else if (typeof action === 'object') {
+      if (!sourceRecord[key]) {
+        sourceRecord[key] = {};
+      }
+      mergeRecord(sourceRecord[key], action);
+    }
+  });
 };
+
+const composePlugins = plugins => (...args) => {
+  const result = {};
+  plugins.forEach(creator => {
+    const plugin = creator(...args);
+    mergeRecord(result, plugin);
+  });
+  return result;
+};
+
+module.exports = composePlugins([
+  plugin,
+  (...args) => {
+    const p = fresh(...args);
+    // removing everything we dont want right now
+
+    // registration
+    delete p.visitor.Program;
+
+    // registrations
+    delete p.visitor.FunctionDeclaration.enter;
+    delete p.visitor.FunctionDeclaration.leave;
+    delete p.visitor.VariableDeclaration;
+
+    return p;
+  },
+]);
 
 module.exports.shouldIgnoreFile = shouldIgnoreFile;

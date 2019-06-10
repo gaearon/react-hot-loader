@@ -1,4 +1,11 @@
-import { getIdByType, getProxyByType, isColdType, isRegisteredComponent, updateProxyById } from './proxies';
+import {
+  getIdByType,
+  getProxyByType,
+  getSignature,
+  isColdType,
+  isRegisteredComponent,
+  updateProxyById,
+} from './proxies';
 import { hotComparisonOpen } from '../global/generation';
 import { isForwardType, isMemoType, isReactClass, isReloadableComponent } from '../internal/reactUtils';
 import { areSwappable } from './utils';
@@ -11,11 +18,52 @@ const getInnerComponentType = component => {
   return unwrapper ? unwrapper() : component;
 };
 
+function haveEqualSignatures(prevType, nextType) {
+  const prevSignature = getSignature(prevType);
+  const nextSignature = getSignature(nextType);
+
+  if (prevSignature === undefined && nextSignature === undefined) {
+    return true;
+  }
+  if (prevSignature === undefined || nextSignature === undefined) {
+    return false;
+  }
+  if (prevSignature.key !== nextSignature.key) {
+    return false;
+  }
+
+  // TODO: we might need to calculate previous signature earlier in practice,
+  // such as during the first time a component is resolved. We'll revisit this.
+  const prevCustomHooks = prevSignature.getCustomHooks();
+  const nextCustomHooks = nextSignature.getCustomHooks();
+  if (prevCustomHooks.length !== nextCustomHooks.length) {
+    return false;
+  }
+
+  for (let i = 0; i < nextCustomHooks.length; i++) {
+    if (!haveEqualSignatures(prevCustomHooks[i], nextCustomHooks[i])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 const compareRegistered = (a, b) => {
   if (isRegisteredComponent(a) || isRegisteredComponent(b)) {
     if (resolveType(a) !== resolveType(b)) {
       return false;
     }
+  }
+
+  // compare signatures of two components
+  // non-equal component have to remount and there is two options to do it
+  // - fail the comparison, remounting all tree below
+  // - fulfill it, but set `_debugNeedsRemount` on a fiber to drop only local state
+  // the second way is not published yet, so going with the first one
+  if (!haveEqualSignatures(a, b)) {
+    logger.warn('Hook order change detected:', a, 'state has been reset');
+    return false;
   }
   return true;
 };
