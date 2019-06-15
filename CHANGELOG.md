@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.11.1"></a>
+## [4.11.1](https://github.com/gaearon/react-hot-loader/compare/v4.11.0...v4.11.1) (2019-06-15)
+
+
+### Bug Fixes
+
+* hot render of forward props component ([4ba7530](https://github.com/gaearon/react-hot-loader/commit/4ba7530))
+* regression in hidden components reconcilation ([3f8efc4](https://github.com/gaearon/react-hot-loader/commit/3f8efc4))
+* update react-fresh babel plugin ([2fafd44](https://github.com/gaearon/react-hot-loader/commit/2fafd44))
+
+
+
 <a name="4.11.0"></a>
 # [4.11.0](https://github.com/gaearon/react-hot-loader/compare/v4.9.0...v4.11.0) (2019-06-10)
 
