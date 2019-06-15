@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useExternalHook} from 'external-hook'
 
 const NoHooks = () => <div>no hooks</div>;
 
@@ -32,6 +33,7 @@ const useForwardRefFunctionHook = React.forwardRef(function () {
 const useCustomHook = () => {
   useState(42);
   useEffectHook();
+  useExternalHook();
 };
 
 function useFunc () {

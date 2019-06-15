@@ -257,12 +257,13 @@ module.exports = composePlugins([
     // removing everything we dont want right now
 
     // registration
-    delete p.visitor.Program;
+    // delete p.visitor.Program;
+    // delete p.visitor.Program.exit;
 
     // registrations
-    delete p.visitor.FunctionDeclaration.enter;
-    delete p.visitor.FunctionDeclaration.leave;
-    delete p.visitor.VariableDeclaration;
+    // delete p.visitor.FunctionDeclaration.enter;
+    // delete p.visitor.FunctionDeclaration.leave;
+    // delete p.visitor.VariableDeclaration;
 
     return p;
   },
