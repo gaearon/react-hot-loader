@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import emoStyled from 'react-emotion';
 import './config';
 import Counter from './Counter';
+import { SpringTest } from './Spring';
 
 // const genApp = () => {
 const BigText = styled.div`
@@ -25,23 +26,23 @@ const indirect = {
 
 const indirectStyled = {
   DS: styled.div`
-    border: 2px solid #f00;
+    border: 20px solid #f00;
   `,
   DE: emoStyled('div')`border: 1px solid #F00`,
 };
 
 const Async = React.lazy(() => import('./Async'));
 
-const aNumber = 100500;
+const aNumber = 200500;
 
 const OtherComponent = () => <span>test</span>;
 
 const Context = React.createContext();
 
 const Hook = () => {
-  const [state, setState] = React.useState({ x: 2 });
+  const [state, setState] = React.useState({ x: 4 });
   React.useEffect(() => {
-    console.log('mount effected');
+    console.log('mount effected 1');
     setState(state => ({
       x: state.x + 1,
     }));
@@ -106,6 +107,7 @@ const TwinComponent = props => {
 
 const InApp = () => (
   <h1>
+    <SpringTest />
     <BigText>
       <TwinComponent>
         1. Hello, world! {aNumber} <Counter />
