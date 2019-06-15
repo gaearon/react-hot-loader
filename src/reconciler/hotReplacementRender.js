@@ -18,6 +18,7 @@ import logger from '../logger';
 import configuration, { internalConfiguration } from '../configuration';
 import { areSwappable } from './utils';
 import { resolveType } from './resolver';
+import { hotRenderWithHooks } from '../internal/stack/hydrateFiberStack';
 
 let renderStack = [];
 
@@ -51,7 +52,7 @@ const unflatten = a =>
 const isArray = fn => Array.isArray(fn);
 const asArray = a => (isArray(a) ? a : [a]);
 
-const render = component => {
+const render = (component, stack) => {
   if (!component) {
     return [];
   }
@@ -64,7 +65,8 @@ const render = component => {
     return component.hotComponentRender ? component.hotComponentRender() : component.render();
   }
   if (isForwardType(component)) {
-    return component.type.render(component.props, null);
+    // render forward type in a sandbox
+    return hotRenderWithHooks(stack.fiber, () => component.type.render(component.props, null));
   }
   if (isArray(component)) {
     return component.map(render);
@@ -194,7 +196,7 @@ const hotReplacementRender = (instance, stack) => {
   }
 
   try {
-    const flow = transformFlowNode(filterNullArray(asArray(render(instance))));
+    const flow = transformFlowNode(filterNullArray(asArray(render(instance, stack))));
 
     const { children } = stack;
 
