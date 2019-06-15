@@ -124,7 +124,10 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
     return defaultResult;
   }
 
-  if (newType !== oldType && areSignaturesCompatible(newType, oldType) && areSwappable(newType, oldType)) {
+  if (
+    defaultResult ||
+    (newType !== oldType && areSignaturesCompatible(newType, oldType) && areSwappable(newType, oldType))
+  ) {
     const unwrapFactory = newType[UNWRAP_PROXY];
     const oldProxy = unwrapFactory && getProxyByType(unwrapFactory());
     if (oldProxy) {
