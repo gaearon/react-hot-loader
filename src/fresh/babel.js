@@ -202,7 +202,7 @@ export default function(babel) {
       key: fnHookCalls.map(call => call.name + '{' + call.key + '}').join('\n'),
       customHooks: fnHookCalls
         .filter(call => !isBuiltinHook(call.name))
-        .map(call => call.callee),
+        .map(call => t.clone(call.callee)),
     };
   }
 
@@ -217,7 +217,6 @@ export default function(babel) {
 
   let seenForRegistration = new WeakSet();
   let seenForSignature = new WeakSet();
-  let seenForOutro = new WeakSet();
 
   let hookCalls = new WeakMap();
   const HookCallsVisitor = {
@@ -291,7 +290,7 @@ export default function(babel) {
 
         // Make sure we're not mutating the same tree twice.
         // This can happen if another Babel plugin replaces parents.
-        if (seenForRegistration.has(node)) {
+          if (seenForRegistration.has(node)) {
           return;
         }
         seenForRegistration.add(node);
@@ -556,38 +555,6 @@ export default function(babel) {
           // transform mangles them. This extra traversal is not ideal for perf,
           // but it's the best we can do until we stop transpiling destructuring.
           path.traverse(HookCallsVisitor);
-        },
-        exit(path) {
-          return;
-          const registrations = registrationsByProgramPath.get(path);
-          if (registrations === undefined) {
-            return;
-          }
-
-          // Make sure we're not mutating the same tree twice.
-          // This can happen if another Babel plugin replaces parents.
-          const node = path.node;
-          if (seenForOutro.has(node)) {
-            return;
-          }
-          seenForOutro.add(node);
-          // Don't mutate the tree above this point.
-
-          registrationsByProgramPath.delete(path);
-          const declarators = [];
-          path.pushContainer('body', t.variableDeclaration('var', declarators));
-          registrations.forEach(({handle, persistentID}) => {
-            path.pushContainer(
-              'body',
-              t.expressionStatement(
-                t.callExpression(t.identifier('__register__'), [
-                  handle,
-                  t.stringLiteral(persistentID),
-                ]),
-              ),
-            );
-            declarators.push(t.variableDeclarator(handle));
-          });
         },
       },
     },
