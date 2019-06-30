@@ -15,7 +15,9 @@ All notable changes to this project will be documented in this file. See [standa
 <a name="4.11.2"></a>
 ## [4.11.2](https://github.com/gaearon/react-hot-loader/compare/v4.11.1...v4.11.2) (2019-06-30)
 
+### Bug Fixes
 
+* babel-plugin is not compatible with commonjs module output if babel 7 is used #1268.
 
 <a name="4.11.1"></a>
 ## [4.11.1](https://github.com/gaearon/react-hot-loader/compare/v4.11.0...v4.11.1) (2019-06-15)
