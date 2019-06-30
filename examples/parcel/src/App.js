@@ -7,7 +7,7 @@ const App = () => {
   return (
     <h1>
       <Problem />
-      Hello, world<br />
+      Hello, world.<br />
       <Counter />
     </h1>
   );

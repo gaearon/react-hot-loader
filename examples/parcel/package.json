@@ -8,15 +8,19 @@
     "start:link": "cp -R ../../dist ./node_modules/react-hot-loader && cp -R ../../*.js ./node_modules/react-hot-loader"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
     "parcel-bundler": "^1.12.3"
   },
   "dependencies": {
+    "@hot-loader/react-dom": "^16.8.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-hot-loader": "^4.8.0"
+    "react-hot-loader": "^4.11.1"
+  },
+  "alias": {
+    "react-dom": "@hot-loader/react-dom"
   }
 }

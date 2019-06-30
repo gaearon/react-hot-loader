@@ -36,6 +36,12 @@ const useCustomHook = () => {
   useExternalHook();
 };
 
+const useCustomHookAgain = () => {
+  useState(42);
+  useEffectHook();
+  useExternalHook();
+};
+
 function useFunc () {
   useState(42);
   useEffectHook();

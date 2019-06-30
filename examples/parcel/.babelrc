@@ -1,4 +1,4 @@
 {
-  "presets": ["env", "react"],
+  "presets": ["env"],
   "plugins": ["react-hot-loader/babel", "transform-class-properties"]
 }

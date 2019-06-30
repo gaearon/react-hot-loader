@@ -1203,6 +1203,16 @@ __signature__(useCustomHook, 'useState{(42)}\\\\nuseEffectHook{}\\\\nuseExternal
   return [useEffectHook, _externalHook.useExternalHook];
 });
 
+var useCustomHookAgain = function useCustomHookAgain() {
+  (0, _react.useState)(42);
+  useEffectHook();
+  (0, _externalHook.useExternalHook)();
+};
+
+__signature__(useCustomHookAgain, 'useState{(42)}\\\\nuseEffectHook{}\\\\nuseExternalHook{}', function () {
+  return [useEffectHook, _externalHook.useExternalHook];
+});
+
 function useFunc() {
   (0, _react.useState)(42);
   useEffectHook();
@@ -1228,6 +1238,7 @@ __signature__(useFunc, 'useState{(42)}\\\\nuseEffectHook{}', function () {
   reactHotLoader.register(useForwardRefHook, 'useForwardRefHook', __FILENAME__);
   reactHotLoader.register(useForwardRefFunctionHook, 'useForwardRefFunctionHook', __FILENAME__);
   reactHotLoader.register(useCustomHook, 'useCustomHook', __FILENAME__);
+  reactHotLoader.register(useCustomHookAgain, 'useCustomHookAgain', __FILENAME__);
   reactHotLoader.register(useFunc, 'useFunc', __FILENAME__);
 })();
 
@@ -2260,6 +2271,14 @@ const useCustomHook = () => {
 
 __signature__(useCustomHook, 'useState{(42)}\\\\nuseEffectHook{}\\\\nuseExternalHook{}', () => [useEffectHook, _externalHook.useExternalHook]);
 
+const useCustomHookAgain = () => {
+  (0, _react.useState)(42);
+  useEffectHook();
+  (0, _externalHook.useExternalHook)();
+};
+
+__signature__(useCustomHookAgain, 'useState{(42)}\\\\nuseEffectHook{}\\\\nuseExternalHook{}', () => [useEffectHook, _externalHook.useExternalHook]);
+
 function useFunc() {
   (0, _react.useState)(42);
   useEffectHook();
@@ -2283,6 +2302,7 @@ __signature__(useFunc, 'useState{(42)}\\\\nuseEffectHook{}', () => [useEffectHoo
   reactHotLoader.register(useForwardRefHook, 'useForwardRefHook', __FILENAME__);
   reactHotLoader.register(useForwardRefFunctionHook, 'useForwardRefFunctionHook', __FILENAME__);
   reactHotLoader.register(useCustomHook, 'useCustomHook', __FILENAME__);
+  reactHotLoader.register(useCustomHookAgain, 'useCustomHookAgain', __FILENAME__);
   reactHotLoader.register(useFunc, 'useFunc', __FILENAME__);
 })();
 

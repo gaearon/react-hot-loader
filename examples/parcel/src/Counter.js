@@ -17,3 +17,7 @@ class Counter extends React.Component {
 }
 
 export default Counter;
+
+export function useExternalHook() {
+  React.useEffect(() => {});
+}
