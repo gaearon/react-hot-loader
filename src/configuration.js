@@ -18,7 +18,7 @@ const configuration = {
   disableHotRenderer: false,
 
   // Disable "hot-replacement-render" when injection into react-dom is made
-  disableHotRendererWhenInjected: false,
+  disableHotRendererWhenInjected: true,
 
   // Controls `react-🔥-dom patch` notification
   showReactDomPatchNotification: true,
