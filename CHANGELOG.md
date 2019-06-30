@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.0"></a>
+# [4.12.0](https://github.com/gaearon/react-hot-loader/compare/v4.11.2...v4.12.0) (2019-06-30)
+
+
+### Features
+
+* disable hot replacement render if react-dom is patched, see [#1274](https://github.com/gaearon/react-hot-loader/issues/1274) ([b93eb1d](https://github.com/gaearon/react-hot-loader/commit/b93eb1d))
+
+
+
 <a name="4.11.2"></a>
 ## [4.11.2](https://github.com/gaearon/react-hot-loader/compare/v4.11.1...v4.11.2) (2019-06-30)
 
