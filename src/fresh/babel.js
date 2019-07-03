@@ -202,7 +202,7 @@ export default function(babel) {
       key: fnHookCalls.map(call => call.name + '{' + call.key + '}').join('\n'),
       customHooks: fnHookCalls
         .filter(call => !isBuiltinHook(call.name))
-        .map(call => t.clone(call.callee)),
+        .map(call => t.cloneDeep(call.callee)),
     };
   }
 
