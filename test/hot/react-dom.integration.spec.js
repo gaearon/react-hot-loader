@@ -1,12 +1,13 @@
 /* eslint-env browser */
 /* eslint-disable no-lone-blocks,  global-require, prefer-template, import/no-unresolved */
 import 'babel-polyfill';
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDom from 'react-dom';
 // import TestRenderer from 'react-test-renderer';
 import ReactHotLoader, { setConfig } from '../../src/index.dev';
 import { configureGeneration, incrementHotGeneration } from '../../src/global/generation';
 import configuration from '../../src/configuration';
+import { AppContainer } from '../../index';
 
 jest.mock('react-dom', () => require('./react-dom'));
 
@@ -21,7 +22,7 @@ describe(`🔥-dom`, () => {
 
   const tick = () => new Promise(resolve => setTimeout(resolve, 10));
 
-  if (React.useContext) {
+  if (React.useContext && String(() => 42).indexOf('=>') > 0) {
     it('shall integrate with React', () => {
       expect(ReactHotLoader.IS_REACT_MERGE_ENABLED).toBe(true);
       expect(configuration.intergratedResolver).toBe(true);
@@ -64,7 +65,7 @@ describe(`🔥-dom`, () => {
       expect(unmount).not.toHaveBeenCalled();
     });
 
-    it.only('should fail component comparator', async () => {
+    it('should fail component comparator', async () => {
       const mount = jest.fn();
       const unmount = jest.fn();
       const Fun1 = () => {
@@ -197,13 +198,16 @@ describe(`🔥-dom`, () => {
           return 'test1' + this.state.x;
         }
       }
+
       Comp1.displayName = 'Comp1';
 
       const el = document.createElement('div');
       ReactDom.render(<Comp1 />, el);
 
       expect(el.innerHTML).toEqual('test11');
-      expect(<Comp1 />.type).toBe(Comp1);
+      if (configuration.intergratedResolver) {
+        expect(<Comp1 />.type).toBe(Comp1);
+      }
 
       incrementHotGeneration();
       {
@@ -216,6 +220,7 @@ describe(`🔥-dom`, () => {
             return 'test2' + this.state.x;
           }
         }
+
         Comp1.displayName = 'Comp1';
 
         ReactDom.render(<Comp1 />, el);
@@ -242,7 +247,9 @@ describe(`🔥-dom`, () => {
       ReactDom.render(<Comp1 />, el);
 
       expect(el.innerHTML).toEqual('test11');
-      expect(<Comp1 />.type).toBe(Comp1);
+      if (configuration.intergratedResolver) {
+        expect(<Comp1 />.type).toBe(Comp1);
+      }
 
       incrementHotGeneration();
       {
@@ -262,6 +269,61 @@ describe(`🔥-dom`, () => {
       await tick();
 
       expect(el.innerHTML).toEqual('test21');
+    });
+
+    it('support lazy memo forward', () => {
+      const spy = jest.fn();
+      const sandbox = x => {
+        const Comp = () => {
+          React.useEffect(() => () => spy(), []);
+          return <div>lazy {x}</div>;
+        };
+        ReactHotLoader.register(Comp, 'S1Comp', 'test');
+        // use sync importer
+        const importer = {
+          then(x) {
+            const result = x({ default: Comp });
+            return {
+              then(cb) {
+                cb(result);
+              },
+            };
+          },
+        };
+
+        const Lazy = React.lazy(() => importer);
+        ReactHotLoader.register(Lazy, 'S1Lazy', 'test');
+        const Forward = React.forwardRef(() => (
+          <Suspense fallback="loading">
+            <Lazy />
+          </Suspense>
+        ));
+        const Memo = Forward; // React.memo(Forward);
+        ReactHotLoader.register(Memo, 'S1Memo', 'test');
+        return () => (
+          <AppContainer>
+            <Memo />
+          </AppContainer>
+        );
+      };
+
+      const S1 = sandbox(1);
+      ReactHotLoader.register(S1, 'S1', 'test');
+
+      const el = document.createElement('div');
+      ReactDom.render(<S1 />, el);
+      expect(el.innerHTML).toEqual('<div>lazy 1</div>');
+      expect(spy).not.toHaveBeenCalled();
+
+      incrementHotGeneration();
+
+      const S2 = sandbox(2);
+      ReactHotLoader.register(S2, 'S1', 'test');
+
+      ReactDom.render(<S2 />, el);
+
+      expect(el.innerHTML).toEqual('<div>lazy 2</div>');
+      expect(spy).not.toHaveBeenCalled();
     });
   } else {
     it('target platform does not support useContext', () => {

@@ -37,10 +37,10 @@ export const updateFunctionProxyById = (id, type, updater) => {
   idsByType.set(type, id);
   const proxy = proxiesByID[id];
   if (!proxy) {
-    idsByType.set(type, id);
     proxiesByID[id] = type;
   }
   updater(proxiesByID[id], type);
+  // proxiesByID[id] = type; // keep the first ref
 
   return proxiesByID[id];
 };

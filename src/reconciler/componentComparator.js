@@ -1,11 +1,4 @@
-import {
-  getIdByType,
-  getProxyByType,
-  getSignature,
-  isColdType,
-  isRegisteredComponent,
-  updateProxyById,
-} from './proxies';
+import { getIdByType, getProxyByType, getSignature, isColdType, updateProxyById } from './proxies';
 import { hotComparisonOpen } from '../global/generation';
 import { isForwardType, isMemoType, isReactClass, isReloadableComponent } from '../internal/reactUtils';
 import { areSwappable } from './utils';
@@ -64,13 +57,36 @@ const areSignaturesCompatible = (a, b) => {
 };
 
 const compareRegistered = (a, b) => {
-  if (isRegisteredComponent(a) || isRegisteredComponent(b)) {
-    if (resolveType(a) !== resolveType(b)) {
+  if (getIdByType(a) === getIdByType(b)) {
+    if (getProxyByType(a) !== getProxyByType(b)) {
       return false;
     }
   }
 
   return areSignaturesCompatible(a, b);
+};
+
+const areDeepSwappable = (oldType, newType) => {
+  const type = { type: oldType };
+
+  if (typeof oldType === 'function') {
+    return areSwappable(oldType, newType);
+  }
+
+  if (isForwardType(type)) {
+    return areDeepSwappable(oldType.render, newType.render);
+  }
+
+  if (isMemoType(type)) {
+    return areDeepSwappable(oldType.type, newType.type);
+  }
+
+  // that's not safe
+  // if (isLazyType(type)) {
+  //   return areDeepSwappable(oldType._ctor, newType._ctor)
+  // }
+
+  return false;
 };
 
 const compareComponents = (oldType, newType, setNewType, baseType) => {
@@ -80,7 +96,7 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
     return false;
   }
 
-  if (isRegisteredComponent(oldType) || isRegisteredComponent(newType)) {
+  if (getIdByType(oldType)) {
     if (!compareRegistered(oldType, newType)) {
       return false;
     }
@@ -91,7 +107,7 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
     if (!compareRegistered(oldType.render, newType.render)) {
       return false;
     }
-    if (oldType.render === newType.render || areSwappable(oldType.render, newType.render)) {
+    if (oldType.render === newType.render || areDeepSwappable(oldType, newType)) {
       setNewType(newType);
       return true;
     }
@@ -102,7 +118,7 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
     if (!compareRegistered(oldType.type, newType.type)) {
       return false;
     }
-    if (oldType.type === newType.type || areSwappable(oldType.type, newType.type)) {
+    if (oldType.type === newType.type || areDeepSwappable(oldType, newType)) {
       if (baseType) {
         // memo form different fibers, why?
         if (baseType.$$typeof === newType.$$typeof) {
@@ -125,8 +141,9 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
   }
 
   if (
-    defaultResult ||
-    (newType !== oldType && areSignaturesCompatible(newType, oldType) && areSwappable(newType, oldType))
+    typeof newType === 'function' &&
+    (defaultResult ||
+      (newType !== oldType && areSignaturesCompatible(newType, oldType) && areSwappable(newType, oldType)))
   ) {
     const unwrapFactory = newType[UNWRAP_PROXY];
     const oldProxy = unwrapFactory && getProxyByType(unwrapFactory());
@@ -150,8 +167,11 @@ export const hotComponentCompare = (oldType, preNewType, setNewType, baseType) =
   const newType = configuration.intergratedResolver ? resolveType(preNewType) : preNewType;
   let result = oldType === newType;
 
+  if (!hotActive) {
+    return result;
+  }
+
   if (
-    result ||
     !isReloadableComponent(oldType) ||
     !isReloadableComponent(newType) ||
     isColdType(oldType) ||
