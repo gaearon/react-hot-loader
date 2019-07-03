@@ -2,16 +2,24 @@ const RHLPackage = 'react-hot-loader';
 const RHLRootPackage = 'react-hot-loader/root';
 const RHLPackages = [RHLPackage, RHLRootPackage];
 
-function isImportedFromRHL(path, name) {
+function isImportedFromPackages(path, name, packages) {
   const binding = path.scope.getBinding(name);
   const bindingType = binding && binding.path.node.type;
 
   if (bindingType === 'ImportSpecifier' || bindingType === 'ImportNamespaceSpecifier') {
     const bindingParent = binding.path.parent;
-    return RHLPackages.includes(bindingParent.source.value);
+    return packages.includes(bindingParent.source.value);
   }
 
   return false;
+}
+
+function isImportedFromRHL(path, name) {
+  return isImportedFromPackages(path, name, [RHLPackage]);
+}
+
+function isImportedFromRHLRoot(path, name) {
+  return isImportedFromPackages(path, name, [RHLRootPackage]);
 }
 
 function getRHLContext(file) {
@@ -77,7 +85,7 @@ export default function plugin() {
         if (
           path.node.callee.name === specifier.local &&
           // ensure that this is `hot` from RHL
-          isImportedFromRHL(path, specifier.local) &&
+          isImportedFromRHLRoot(path, specifier.local) &&
           path.type === 'CallExpression' &&
           path.node.arguments[0] &&
           path.node.arguments[0].type === 'Identifier'

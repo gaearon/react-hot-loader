@@ -1118,6 +1118,9 @@ var e = App;
 RHL.foo(module)(App);
 NOTRHL.hot(module)(App);
 
+// should not drop incomplete reference
+(0, _reactHotLoader.foo)(module);
+
 exports.a = a;
 exports.b = b;
 exports.c = c;
@@ -2195,6 +2198,9 @@ const e = App;
 (0, _reactHotLoader.foo)(module)(App);
 RHL.foo(module)(App);
 NOTRHL.hot(module)(App);
+
+// should not drop incomplete reference
+(0, _reactHotLoader.foo)(module);
 
 exports.a = a;
 exports.b = b;

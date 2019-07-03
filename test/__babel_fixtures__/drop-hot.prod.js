@@ -23,4 +23,7 @@ namedFoo(module)(App);
 RHL.foo(module)(App);
 NOTRHL.hot(module)(App);
 
+// should not drop incomplete reference
+namedFoo(module);
+
 export { a, b, c, d, e, z };
