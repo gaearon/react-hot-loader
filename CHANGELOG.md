@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.1"></a>
+## [4.12.1](https://github.com/gaearon/react-hot-loader/compare/v4.12.0...v4.12.1) (2019-07-03)
+
+
+### Bug Fixes
+
+* clone node for signature, fixes [#1268](https://github.com/gaearon/react-hot-loader/issues/1268) ([ed3e1d9](https://github.com/gaearon/react-hot-loader/commit/ed3e1d9))
+* memo components are not updated ([5bca98c](https://github.com/gaearon/react-hot-loader/commit/5bca98c))
+* use deep clone for fresh signature, fixes [#1280](https://github.com/gaearon/react-hot-loader/issues/1280) ([d796af8](https://github.com/gaearon/react-hot-loader/commit/d796af8))
+
+
+
 <a name="4.12.0"></a>
 # [4.12.0](https://github.com/gaearon/react-hot-loader/compare/v4.11.2...v4.12.0) (2019-06-30)
 
