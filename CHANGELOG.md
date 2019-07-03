@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.2"></a>
+## [4.12.2](https://github.com/gaearon/react-hot-loader/compare/v4.12.1...v4.12.2) (2019-07-03)
+
+
+### Bug Fixes
+
+* [babel][prod] separate default and root 'hot' detection, fixes [#1283](https://github.com/gaearon/react-hot-loader/issues/1283) ([c6d29c9](https://github.com/gaearon/react-hot-loader/commit/c6d29c9))
+
+
+
 <a name="4.12.1"></a>
 ## [4.12.1](https://github.com/gaearon/react-hot-loader/compare/v4.12.0...v4.12.1) (2019-07-03)
 
