@@ -9,8 +9,6 @@ import { configureGeneration, incrementHotGeneration } from '../../src/global/ge
 import configuration from '../../src/configuration';
 import { AppContainer } from '../../index';
 
-jest.mock('react-dom', () => require('./react-dom'));
-
 describe(`🔥-dom`, () => {
   beforeEach(() => {
     ReactHotLoader.reset();
@@ -23,13 +21,13 @@ describe(`🔥-dom`, () => {
   const tick = () => new Promise(resolve => setTimeout(resolve, 10));
 
   if (React.useContext && String(() => 42).indexOf('=>') > 0) {
-    it('shall integrate with React', () => {
-      expect(ReactHotLoader.IS_REACT_MERGE_ENABLED).toBe(true);
-      expect(configuration.integratedResolver).toBe(true);
+    it('shall (not) integrate with React', () => {
+      expect(ReactHotLoader.IS_REACT_MERGE_ENABLED).toBe(false);
+      expect(configuration.integratedResolver).toBe(false);
       expect(React.useEffect.isPatchedByReactHotLoader).toBe(true);
     });
 
-    it('should use component comparator', async () => {
+    it('should (not) use component comparator', async () => {
       const mount = jest.fn();
       const unmount = jest.fn();
       const Fun1 = () => {
@@ -61,8 +59,8 @@ describe(`🔥-dom`, () => {
       expect(el.innerHTML).toEqual('fun2');
 
       expect(mount).toHaveBeenCalledWith('test1');
-      expect(mount).not.toHaveBeenCalledWith('test2');
-      expect(unmount).not.toHaveBeenCalled();
+      expect(mount).toHaveBeenCalledWith('test2');
+      expect(unmount).toHaveBeenCalled();
     });
 
     it('should fail component comparator', async () => {
@@ -169,7 +167,7 @@ describe(`🔥-dom`, () => {
       }
 
       await tick();
-      expect(el.innerHTML).toEqual('test1');
+      expect(el.innerHTML).toEqual('test2');
 
       incrementHotGeneration();
       {
@@ -227,7 +225,7 @@ describe(`🔥-dom`, () => {
       }
       await tick();
 
-      expect(el.innerHTML).toEqual('test21');
+      expect(el.innerHTML).toEqual('test22');
     });
 
     it('should support registered classes', async () => {
@@ -271,7 +269,7 @@ describe(`🔥-dom`, () => {
       expect(el.innerHTML).toEqual('test21');
     });
 
-    it('support lazy memo forward in Provider', () => {
+    it('support lazy memo forward', () => {
       const spy = jest.fn();
       const sandbox = x => {
         const Comp = () => {
@@ -304,6 +302,7 @@ describe(`🔥-dom`, () => {
             </Context.Provider>
           </Suspense>
         ));
+
         const Memo = Forward; // React.memo(Forward);
         ReactHotLoader.register(Memo, 'S1Memo', 'test');
         return () => (
@@ -329,7 +328,7 @@ describe(`🔥-dom`, () => {
       ReactDom.render(<S2 />, el);
 
       expect(el.innerHTML).toEqual('<div>lazy 2</div>');
-      expect(spy).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
   } else {
     it('target platform does not support useContext', () => {
