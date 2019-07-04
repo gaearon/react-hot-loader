@@ -9,10 +9,11 @@
 
 const SIGNATURE = '__signature__';
 
-export default function(babel) {
+export default function (babel) {
   const {types: t} = babel;
 
   const registrationsByProgramPath = new Map();
+
   function createRegistration(programPath, persistentID) {
     const handle = programPath.scope.generateUidIdentifier('c');
     if (!registrationsByProgramPath.has(programPath)) {
@@ -193,6 +194,14 @@ export default function(babel) {
     }
   }
 
+  function getCalleeName(callee) {
+    if (callee.type === 'MemberExpression' && callee.object.type === 'Identifier') {
+      return callee.object.name;
+    }
+
+    return callee.name;
+  }
+
   function getHookCallsSignature(functionNode, scope) {
     const fnHookCalls = hookCalls.get(functionNode);
     if (fnHookCalls === undefined) {
@@ -202,16 +211,16 @@ export default function(babel) {
       key: fnHookCalls.map(call => call.name + '{' + call.key + '}').join('\n'),
       customHooks: fnHookCalls
         .filter(call => !isBuiltinHook(call.name))
-        .filter(call => scope.parent.hasBinding(call.name))
         .map(call => t.cloneDeep(call.callee)),
     };
   }
 
-  function createArgumentsForSignature(node, signature) {
+  function createArgumentsForSignature(node, signature, scope) {
     const {key, customHooks} = signature;
     const args = [node, t.stringLiteral(key)];
-    if (customHooks.length > 0) {
-      args.push(t.arrowFunctionExpression([], t.arrayExpression(customHooks)));
+    const hooksInScope = customHooks.filter(call => scope.hasBinding(getCalleeName(call)));
+    if (hooksInScope.length > 0) {
+      args.push(t.arrowFunctionExpression([], t.arrayExpression(hooksInScope)));
     }
     return args;
   }
@@ -293,7 +302,7 @@ export default function(babel) {
 
         // Make sure we're not mutating the same tree twice.
         // This can happen if another Babel plugin replaces parents.
-          if (seenForRegistration.has(node)) {
+        if (seenForRegistration.has(node)) {
           return;
         }
         seenForRegistration.add(node);
@@ -418,7 +427,7 @@ export default function(babel) {
             t.expressionStatement(
               t.callExpression(
                 t.identifier(SIGNATURE),
-                createArgumentsForSignature(id, signature),
+                createArgumentsForSignature(id, signature, insertAfterPath.scope),
               ),
             ),
           );
@@ -460,7 +469,7 @@ export default function(babel) {
               t.expressionStatement(
                 t.callExpression(
                   t.identifier(SIGNATURE),
-                  createArgumentsForSignature(path.parent.id, signature),
+                  createArgumentsForSignature(path.parent.id, signature, insertAfterPath.scope),
                 ),
               ),
             );
@@ -470,7 +479,7 @@ export default function(babel) {
             path.replaceWith(
               t.callExpression(
                 t.identifier(SIGNATURE),
-                createArgumentsForSignature(node, signature),
+                createArgumentsForSignature(node, signature, path.scope),
               ),
             );
             // Result: let Foo = hoc(__signature(() => {}, ...))
