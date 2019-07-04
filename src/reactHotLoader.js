@@ -128,12 +128,12 @@ const reactHotLoader = {
       configuration.showReactDomPatchNotification = false;
 
       if (ReactDOM.setHotTypeResolver) {
-        configuration.intergratedResolver = true;
+        configuration.integratedResolver = true;
         ReactDOM.setHotTypeResolver(resolveType);
       }
     }
 
-    if (!configuration.intergratedResolver) {
+    if (!configuration.integratedResolver) {
       /* eslint-enable */
       if (!React.createElement.isPatchedByReactHotLoader) {
         const originalCreateElement = React.createElement;

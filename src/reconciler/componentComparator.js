@@ -1,6 +1,13 @@
 import { getIdByType, getProxyByType, getSignature, isColdType, updateProxyById } from './proxies';
 import { hotComparisonOpen } from '../global/generation';
-import { isForwardType, isMemoType, isReactClass, isReloadableComponent } from '../internal/reactUtils';
+import {
+  isContextType,
+  isForwardType,
+  isLazyType,
+  isMemoType,
+  isReactClass,
+  isReloadableComponent,
+} from '../internal/reactUtils';
 import { areSwappable } from './utils';
 import { PROXY_KEY, UNWRAP_PROXY } from '../proxy';
 import { resolveType } from './resolver';
@@ -140,6 +147,14 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
     return defaultResult;
   }
 
+  if (isLazyType({ type: oldType })) {
+    return defaultResult;
+  }
+
+  if (isContextType({ type: oldType })) {
+    return defaultResult;
+  }
+
   if (
     typeof newType === 'function' &&
     (defaultResult ||
@@ -164,7 +179,7 @@ const emptyMap = new WeakMap();
 
 export const hotComponentCompare = (oldType, preNewType, setNewType, baseType) => {
   const hotActive = hotComparisonOpen();
-  const newType = configuration.intergratedResolver ? resolveType(preNewType) : preNewType;
+  const newType = configuration.integratedResolver ? resolveType(preNewType) : preNewType;
   let result = oldType === newType;
 
   if (!hotActive) {
