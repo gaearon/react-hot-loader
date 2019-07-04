@@ -69,15 +69,8 @@ const areSignaturesCompatible = (a, b) => {
   return true;
 };
 
-const compareRegistered = (a, b) => {
-  if (getIdByType(a) === getIdByType(b)) {
-    if (getProxyByType(a) !== getProxyByType(b)) {
-      return false;
-    }
-  }
-
-  return areSignaturesCompatible(a, b);
-};
+const compareRegistered = (a, b) =>
+  getIdByType(a) === getIdByType(b) && getProxyByType(a) === getProxyByType(b) && areSignaturesCompatible(a, b);
 
 const areDeepSwappable = (oldType, newType) => {
   const type = { type: oldType };
@@ -109,12 +102,13 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
     (oldType && !newType) ||
     (!oldType && newType) ||
     typeof oldType !== typeof newType ||
-    getElementType(oldType) !== getElementType(newType)
+    getElementType(oldType) !== getElementType(newType) ||
+    0
   ) {
     return defaultResult;
   }
 
-  if (getIdByType(oldType)) {
+  if (getIdByType(newType) || getIdByType(oldType)) {
     if (!compareRegistered(oldType, newType)) {
       return false;
     }
