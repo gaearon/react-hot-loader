@@ -99,8 +99,8 @@ const areDeepSwappable = (oldType, newType) => {
 const compareComponents = (oldType, newType, setNewType, baseType) => {
   let defaultResult = oldType === newType;
 
-  if ((oldType && !newType) || (!oldType && newType)) {
-    return false;
+  if ((oldType && !newType) || (!oldType && newType) || typeof oldType !== typeof newType) {
+    return defaultResult;
   }
 
   if (getIdByType(oldType)) {
