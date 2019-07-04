@@ -193,7 +193,7 @@ export default function(babel) {
     }
   }
 
-  function getHookCallsSignature(functionNode) {
+  function getHookCallsSignature(functionNode, scope) {
     const fnHookCalls = hookCalls.get(functionNode);
     if (fnHookCalls === undefined) {
       return null;
@@ -202,6 +202,7 @@ export default function(babel) {
       key: fnHookCalls.map(call => call.name + '{' + call.key + '}').join('\n'),
       customHooks: fnHookCalls
         .filter(call => !isBuiltinHook(call.name))
+        .filter(call => scope.parent.hasBinding(call.name))
         .map(call => t.cloneDeep(call.callee)),
     };
   }
@@ -240,6 +241,7 @@ export default function(babel) {
         return;
       }
       const fnScope = path.scope.getFunctionParent();
+
       if (fnScope === null) {
         return;
       }
@@ -249,6 +251,7 @@ export default function(babel) {
       if (!hookCalls.has(fnNode)) {
         hookCalls.set(fnNode, []);
       }
+
       let hookCallsForFn = hookCalls.get(fnNode);
       let key = '';
       if (path.parent.type === 'VariableDeclarator') {
@@ -384,7 +387,7 @@ export default function(babel) {
           if (id === null) {
             return;
           }
-          const signature = getHookCallsSignature(node);
+          const signature = getHookCallsSignature(node, path.scope);
           if (signature === null) {
             return;
           }
@@ -424,7 +427,7 @@ export default function(babel) {
       'ArrowFunctionExpression|FunctionExpression': {
         exit(path) {
           const node = path.node;
-          const signature = getHookCallsSignature(node);
+          const signature = getHookCallsSignature(node, path.scope);
           if (signature === null) {
             return;
           }
@@ -473,80 +476,6 @@ export default function(babel) {
             // Result: let Foo = hoc(__signature(() => {}, ...))
           }
         },
-      },
-      VariableDeclaration(path) {
-        return;
-        const node = path.node;
-        let programPath;
-        let insertAfterPath;
-        switch (path.parent.type) {
-          case 'Program':
-            insertAfterPath = path;
-            programPath = path.parentPath;
-            break;
-          case 'ExportNamedDeclaration':
-            insertAfterPath = path.parentPath;
-            programPath = insertAfterPath.parentPath;
-            break;
-          case 'ExportDefaultDeclaration':
-            insertAfterPath = path.parentPath;
-            programPath = insertAfterPath.parentPath;
-            break;
-          default:
-            return;
-        }
-
-        // Make sure we're not mutating the same tree twice.
-        // This can happen if another Babel plugin replaces parents.
-        if (seenForRegistration.has(node)) {
-          return;
-        }
-        seenForRegistration.add(node);
-        // Don't mutate the tree above this point.
-
-        const declPaths = path.get('declarations');
-        if (declPaths.length !== 1) {
-          return;
-        }
-        const declPath = declPaths[0];
-        const inferredName = declPath.node.id.name;
-        findInnerComponents(
-          inferredName,
-          declPath,
-          (persistentID, targetExpr, targetPath) => {
-            if (targetPath === null) {
-              // For case like:
-              // export const Something = hoc(Foo)
-              // we don't want to wrap Foo inside the call.
-              // Instead we assume it's registered at definition.
-              return;
-            }
-            const handle = createRegistration(programPath, persistentID);
-            if (
-              (targetExpr.type === 'ArrowFunctionExpression' ||
-                targetExpr.type === 'FunctionExpression') &&
-              targetPath.parent.type === 'VariableDeclarator'
-            ) {
-              // Special case when a function would get an inferred name:
-              // let Foo = () => {}
-              // let Foo = function() {}
-              // We'll register it on next line so that
-              // we don't mess up the inferred 'Foo' function name.
-              insertAfterPath.insertAfter(
-                t.expressionStatement(
-                  t.assignmentExpression('=', handle, declPath.node.id),
-                ),
-              );
-              // Result: let Foo = () => {}; _c1 = Foo;
-            } else {
-              // let Foo = hoc(() => {})
-              targetPath.replaceWith(
-                t.assignmentExpression('=', handle, targetExpr),
-              );
-              // Result: let Foo = _c1 = hoc(() => {})
-            }
-          },
-        );
       },
       Program: {
         enter(path) {

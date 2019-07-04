@@ -42,6 +42,16 @@ const useCustomHookAgain = () => {
   useExternalHook();
 };
 
+const useInnerHook = ({useHookFromProps}) => {
+  const useHookBase = () => useState();
+  const useHook = () => useState(useHookFromProps(useHookBase()));
+  useHookFromProps();
+  {
+    // sub scope
+    useHook();
+  }
+};
+
 function useFunc () {
   useState(42);
   useEffectHook();
