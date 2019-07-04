@@ -1,6 +1,7 @@
 import { getIdByType, getProxyByType, getSignature, isColdType, updateProxyById } from './proxies';
 import { hotComparisonOpen } from '../global/generation';
 import {
+  getElementType,
   isContextType,
   isForwardType,
   isLazyType,
@@ -20,31 +21,36 @@ const getInnerComponentType = component => {
 };
 
 function haveEqualSignatures(prevType, nextType) {
-  const prevSignature = getSignature(prevType);
-  const nextSignature = getSignature(nextType);
+  try {
+    const prevSignature = getSignature(prevType);
+    const nextSignature = getSignature(nextType);
 
-  if (prevSignature === undefined && nextSignature === undefined) {
-    return true;
-  }
-  if (prevSignature === undefined || nextSignature === undefined) {
-    return false;
-  }
-  if (prevSignature.key !== nextSignature.key) {
-    return false;
-  }
-
-  // TODO: we might need to calculate previous signature earlier in practice,
-  // such as during the first time a component is resolved. We'll revisit this.
-  const prevCustomHooks = prevSignature.getCustomHooks();
-  const nextCustomHooks = nextSignature.getCustomHooks();
-  if (prevCustomHooks.length !== nextCustomHooks.length) {
-    return false;
-  }
-
-  for (let i = 0; i < nextCustomHooks.length; i++) {
-    if (!haveEqualSignatures(prevCustomHooks[i], nextCustomHooks[i])) {
+    if (prevSignature === undefined && nextSignature === undefined) {
+      return true;
+    }
+    if (prevSignature === undefined || nextSignature === undefined) {
       return false;
     }
+    if (prevSignature.key !== nextSignature.key) {
+      return false;
+    }
+
+    // TODO: we might need to calculate previous signature earlier in practice,
+    // such as during the first time a component is resolved. We'll revisit this.
+    const prevCustomHooks = prevSignature.getCustomHooks();
+    const nextCustomHooks = nextSignature.getCustomHooks();
+    if (prevCustomHooks.length !== nextCustomHooks.length) {
+      return false;
+    }
+
+    for (let i = 0; i < nextCustomHooks.length; i++) {
+      if (!haveEqualSignatures(prevCustomHooks[i], nextCustomHooks[i])) {
+        return false;
+      }
+    }
+  } catch (e) {
+    logger.error('React-Hot-Loader: error occurred while comparing hook signature', e);
+    return false;
   }
 
   return true;
@@ -99,7 +105,12 @@ const areDeepSwappable = (oldType, newType) => {
 const compareComponents = (oldType, newType, setNewType, baseType) => {
   let defaultResult = oldType === newType;
 
-  if ((oldType && !newType) || (!oldType && newType) || typeof oldType !== typeof newType) {
+  if (
+    (oldType && !newType) ||
+    (!oldType && newType) ||
+    typeof oldType !== typeof newType ||
+    getElementType(oldType) !== getElementType(newType)
+  ) {
     return defaultResult;
   }
 
