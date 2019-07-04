@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.3"></a>
+## [4.12.3](https://github.com/gaearon/react-hot-loader/compare/v4.12.2...v4.12.3) (2019-07-04)
+
+
+### Bug Fixes
+
+* babel plugin should use only extrernals hooks, fixes [#1285](https://github.com/gaearon/react-hot-loader/issues/1285) ([c435eaa](https://github.com/gaearon/react-hot-loader/commit/c435eaa))
+* make type comparison stronger ([1b9f2da](https://github.com/gaearon/react-hot-loader/commit/1b9f2da))
+* prevent different typeof of components to be merged ([357249c](https://github.com/gaearon/react-hot-loader/commit/357249c))
+* regression of registered type comparison, fixes [#1284](https://github.com/gaearon/react-hot-loader/issues/1284) ([49851be](https://github.com/gaearon/react-hot-loader/commit/49851be))
+
+
+
 <a name="4.12.2"></a>
 ## [4.12.2](https://github.com/gaearon/react-hot-loader/compare/v4.12.1...v4.12.2) (2019-07-03)
 
