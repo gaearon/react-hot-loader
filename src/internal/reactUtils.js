@@ -66,4 +66,34 @@ export const isForwardType = ({ type }) =>
   type && typeof type === 'object' && '$$typeof' in type && type.$$typeof === ForwardType && ForwardType;
 export const isContextType = type => isContextConsumer(type) || isContextProvider(type);
 
+export const getElementType = type => {
+  const element = { type };
+
+  if (isContextConsumer(element)) {
+    return 'Consumer';
+  }
+  if (isContextProvider(element)) {
+    return 'Provider';
+  }
+  if (isLazyType(element)) {
+    return 'Lazy';
+  }
+  if (isMemoType(element)) {
+    return 'Memo';
+  }
+  if (isForwardType(element)) {
+    return 'Forward';
+  }
+
+  if (isReactClass(type)) {
+    return 'Class';
+  }
+
+  if (typeof element === 'function') {
+    return 'FC';
+  }
+
+  return 'unknown';
+};
+
 export const getContextProvider = type => type && type._context;

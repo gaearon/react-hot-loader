@@ -2,6 +2,7 @@ import { createProxyForType, getProxyByType, isProxyType, isTypeBlacklisted } fr
 import {
   getComponentDisplayName,
   isCompositeComponent,
+  isContextType,
   isForwardType,
   isLazyType,
   isMemoType,
@@ -11,7 +12,8 @@ import configuration, { internalConfiguration } from '../configuration';
 const shouldNotPatchComponent = type => isTypeBlacklisted(type);
 
 export function resolveType(type, options = {}) {
-  if (isLazyType({ type }) || isMemoType({ type }) || isForwardType({ type })) {
+  const element = { type };
+  if (isLazyType(element) || isMemoType(element) || isForwardType(element) || isContextType(element)) {
     return getProxyByType(type) || type;
   }
 

@@ -1,6 +1,14 @@
 import { getIdByType, getProxyByType, getSignature, isColdType, updateProxyById } from './proxies';
 import { hotComparisonOpen } from '../global/generation';
-import { isForwardType, isMemoType, isReactClass, isReloadableComponent } from '../internal/reactUtils';
+import {
+  getElementType,
+  isContextType,
+  isForwardType,
+  isLazyType,
+  isMemoType,
+  isReactClass,
+  isReloadableComponent,
+} from '../internal/reactUtils';
 import { areSwappable } from './utils';
 import { PROXY_KEY, UNWRAP_PROXY } from '../proxy';
 import { resolveType } from './resolver';
@@ -13,31 +21,36 @@ const getInnerComponentType = component => {
 };
 
 function haveEqualSignatures(prevType, nextType) {
-  const prevSignature = getSignature(prevType);
-  const nextSignature = getSignature(nextType);
+  try {
+    const prevSignature = getSignature(prevType);
+    const nextSignature = getSignature(nextType);
 
-  if (prevSignature === undefined && nextSignature === undefined) {
-    return true;
-  }
-  if (prevSignature === undefined || nextSignature === undefined) {
-    return false;
-  }
-  if (prevSignature.key !== nextSignature.key) {
-    return false;
-  }
-
-  // TODO: we might need to calculate previous signature earlier in practice,
-  // such as during the first time a component is resolved. We'll revisit this.
-  const prevCustomHooks = prevSignature.getCustomHooks();
-  const nextCustomHooks = nextSignature.getCustomHooks();
-  if (prevCustomHooks.length !== nextCustomHooks.length) {
-    return false;
-  }
-
-  for (let i = 0; i < nextCustomHooks.length; i++) {
-    if (!haveEqualSignatures(prevCustomHooks[i], nextCustomHooks[i])) {
+    if (prevSignature === undefined && nextSignature === undefined) {
+      return true;
+    }
+    if (prevSignature === undefined || nextSignature === undefined) {
       return false;
     }
+    if (prevSignature.key !== nextSignature.key) {
+      return false;
+    }
+
+    // TODO: we might need to calculate previous signature earlier in practice,
+    // such as during the first time a component is resolved. We'll revisit this.
+    const prevCustomHooks = prevSignature.getCustomHooks();
+    const nextCustomHooks = nextSignature.getCustomHooks();
+    if (prevCustomHooks.length !== nextCustomHooks.length) {
+      return false;
+    }
+
+    for (let i = 0; i < nextCustomHooks.length; i++) {
+      if (!haveEqualSignatures(prevCustomHooks[i], nextCustomHooks[i])) {
+        return false;
+      }
+    }
+  } catch (e) {
+    logger.error('React-Hot-Loader: error occurred while comparing hook signature', e);
+    return false;
   }
 
   return true;
@@ -56,15 +69,8 @@ const areSignaturesCompatible = (a, b) => {
   return true;
 };
 
-const compareRegistered = (a, b) => {
-  if (getIdByType(a) === getIdByType(b)) {
-    if (getProxyByType(a) !== getProxyByType(b)) {
-      return false;
-    }
-  }
-
-  return areSignaturesCompatible(a, b);
-};
+const compareRegistered = (a, b) =>
+  getIdByType(a) === getIdByType(b) && getProxyByType(a) === getProxyByType(b) && areSignaturesCompatible(a, b);
 
 const areDeepSwappable = (oldType, newType) => {
   const type = { type: oldType };
@@ -92,11 +98,17 @@ const areDeepSwappable = (oldType, newType) => {
 const compareComponents = (oldType, newType, setNewType, baseType) => {
   let defaultResult = oldType === newType;
 
-  if ((oldType && !newType) || (!oldType && newType)) {
-    return false;
+  if (
+    (oldType && !newType) ||
+    (!oldType && newType) ||
+    typeof oldType !== typeof newType ||
+    getElementType(oldType) !== getElementType(newType) ||
+    0
+  ) {
+    return defaultResult;
   }
 
-  if (getIdByType(oldType)) {
+  if (getIdByType(newType) || getIdByType(oldType)) {
     if (!compareRegistered(oldType, newType)) {
       return false;
     }
@@ -140,6 +152,14 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
     return defaultResult;
   }
 
+  if (isLazyType({ type: oldType })) {
+    return defaultResult;
+  }
+
+  if (isContextType({ type: oldType })) {
+    return defaultResult;
+  }
+
   if (
     typeof newType === 'function' &&
     (defaultResult ||
@@ -164,7 +184,7 @@ const emptyMap = new WeakMap();
 
 export const hotComponentCompare = (oldType, preNewType, setNewType, baseType) => {
   const hotActive = hotComparisonOpen();
-  const newType = configuration.intergratedResolver ? resolveType(preNewType) : preNewType;
+  const newType = configuration.integratedResolver ? resolveType(preNewType) : preNewType;
   let result = oldType === newType;
 
   if (!hotActive) {

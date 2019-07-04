@@ -1216,6 +1216,32 @@ __signature__(useCustomHookAgain, 'useState{(42)}\\\\nuseEffectHook{}\\\\nuseExt
   return [useEffectHook, _externalHook.useExternalHook];
 });
 
+var useInnerHook = function useInnerHook(_ref) {
+  var useHookFromProps = _ref.useHookFromProps;
+
+  var useHookBase = function useHookBase() {
+    return (0, _react.useState)();
+  };
+
+  __signature__(useHookBase, 'useState{}');
+
+  var useHook = function useHook() {
+    return (0, _react.useState)(useHookFromProps(useHookBase()));
+  };
+
+  __signature__(useHook, 'useState{(useHookFromProps(useHookBase()))}\\\\nuseHookFromProps{}\\\\nuseHookBase{}', function () {
+    return [useHookFromProps, useHookBase];
+  });
+
+  useHookFromProps();
+  {
+    // sub scope
+    useHook();
+  }
+};
+
+__signature__(useInnerHook, 'useHookFromProps{}\\\\nuseHook{}');
+
 function useFunc() {
   (0, _react.useState)(42);
   useEffectHook();
@@ -1242,6 +1268,7 @@ __signature__(useFunc, 'useState{(42)}\\\\nuseEffectHook{}', function () {
   reactHotLoader.register(useForwardRefFunctionHook, 'useForwardRefFunctionHook', __FILENAME__);
   reactHotLoader.register(useCustomHook, 'useCustomHook', __FILENAME__);
   reactHotLoader.register(useCustomHookAgain, 'useCustomHookAgain', __FILENAME__);
+  reactHotLoader.register(useInnerHook, 'useInnerHook', __FILENAME__);
   reactHotLoader.register(useFunc, 'useFunc', __FILENAME__);
 })();
 
@@ -2285,6 +2312,24 @@ const useCustomHookAgain = () => {
 
 __signature__(useCustomHookAgain, 'useState{(42)}\\\\nuseEffectHook{}\\\\nuseExternalHook{}', () => [useEffectHook, _externalHook.useExternalHook]);
 
+const useInnerHook = ({ useHookFromProps }) => {
+  const useHookBase = () => (0, _react.useState)();
+
+  __signature__(useHookBase, 'useState{}');
+
+  const useHook = () => (0, _react.useState)(useHookFromProps(useHookBase()));
+
+  __signature__(useHook, 'useState{(useHookFromProps(useHookBase()))}\\\\nuseHookFromProps{}\\\\nuseHookBase{}', () => [useHookFromProps, useHookBase]);
+
+  useHookFromProps();
+  {
+    // sub scope
+    useHook();
+  }
+};
+
+__signature__(useInnerHook, 'useHookFromProps{}\\\\nuseHook{}');
+
 function useFunc() {
   (0, _react.useState)(42);
   useEffectHook();
@@ -2309,6 +2354,7 @@ __signature__(useFunc, 'useState{(42)}\\\\nuseEffectHook{}', () => [useEffectHoo
   reactHotLoader.register(useForwardRefFunctionHook, 'useForwardRefFunctionHook', __FILENAME__);
   reactHotLoader.register(useCustomHook, 'useCustomHook', __FILENAME__);
   reactHotLoader.register(useCustomHookAgain, 'useCustomHookAgain', __FILENAME__);
+  reactHotLoader.register(useInnerHook, 'useInnerHook', __FILENAME__);
   reactHotLoader.register(useFunc, 'useFunc', __FILENAME__);
 })();
 
