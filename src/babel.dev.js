@@ -77,7 +77,7 @@ function plugin(args, options = {}) {
   // Try our best to avoid variables from require().
   // Ideally we only want to find components defined by the user.
   function shouldRegisterBinding(binding) {
-    const { type, node } = binding.path;
+    const { type, node, parent } = binding.path;
     switch (type) {
       case 'FunctionDeclaration':
       case 'ClassDeclaration':
@@ -86,6 +86,9 @@ function plugin(args, options = {}) {
       case 'VariableDeclarator': {
         const { init } = node;
         if (t.isCallExpression(init) && init.callee.name === 'require') {
+          return false;
+        }
+        if (parent.declare) {
           return false;
         }
         return true;
