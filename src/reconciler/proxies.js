@@ -3,8 +3,7 @@ import { resetClassProxies } from '../proxy/createClassProxy';
 import { isCompositeComponent, isReactClass } from '../internal/reactUtils';
 import configuration from '../configuration';
 import { incrementHotGeneration } from '../global/generation';
-
-const merge = require('lodash/merge');
+import { merge } from './utils';
 
 let signatures;
 let proxiesByID;

@@ -74,3 +74,25 @@ export const areSwappable = (a, b) => {
   }
   return false;
 };
+
+export function merge(...sources) {
+  let acc = {};
+  for (const source of sources) {
+    if (source instanceof Array) {
+      if (!(acc instanceof Array)) {
+        acc = [];
+      }
+      acc = [...acc, ...source];
+    } else if (source instanceof Object) {
+      for (const entry of Object.entries(source)) {
+        const key = entry[0];
+        let value = entry[1];
+        if (value instanceof Object && key in acc) {
+          value = merge(acc[key], value);
+        }
+        acc = { ...acc, [key]: value };
+      }
+    }
+  }
+  return acc;
+}
