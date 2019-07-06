@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.4"></a>
+## [4.12.4](https://github.com/gaearon/react-hot-loader/compare/v4.12.3...v4.12.4) (2019-07-06)
+
+
+### Bug Fixes
+
+* remove lodash, [#1269](https://github.com/gaearon/react-hot-loader/issues/1269) ([8ad1b46](https://github.com/gaearon/react-hot-loader/commit/8ad1b46))
+
+
+
 <a name="4.12.3"></a>
 ## [4.12.3](https://github.com/gaearon/react-hot-loader/compare/v4.12.2...v4.12.3) (2019-07-04)
 
