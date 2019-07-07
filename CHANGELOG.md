@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.5"></a>
+## [4.12.5](https://github.com/gaearon/react-hot-loader/compare/v4.12.4...v4.12.5) (2019-07-07)
+
+
+### Bug Fixes
+
+* babel 7.5, fixes [#1292](https://github.com/gaearon/react-hot-loader/issues/1292) ([4441d6d](https://github.com/gaearon/react-hot-loader/commit/4441d6d))
+
+
+
 <a name="4.12.4"></a>
 ## [4.12.4](https://github.com/gaearon/react-hot-loader/compare/v4.12.3...v4.12.4) (2019-07-06)
 
