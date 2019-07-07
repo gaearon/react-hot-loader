@@ -115,7 +115,9 @@ function plugin(args, options = {}) {
         const expression = t.isExpression(path.node.declaration)
           ? path.node.declaration
           : t.toExpression(path.node.declaration);
-        path.insertBefore(t.variableDeclaration('const', [t.variableDeclarator(id, expression)]));
+        path.scope.registerDeclaration(
+          path.insertBefore(t.variableDeclaration('const', [t.variableDeclarator(id, expression)]))[0],
+        );
         path.node.declaration = id; // eslint-disable-line no-param-reassign
 
         // It won't appear in scope.bindings
