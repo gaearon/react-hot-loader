@@ -650,7 +650,7 @@ Available options are:
 * `logLevel`: specify log level, default to `"error"`, available values are: `['debug', 'log', 'warn', 'error']`
 * `pureSFC`: enable Stateless Functional Component. If disabled they will be converted to React Components.
   Default value: false.
-* `ignoreSFC`: skip "patch" for SFC. "Hot loading" could still work, wit webpack-patch present
+* `ignoreSFC`: skip "patch" for SFC. "Hot loading" could still work, with webpack-patch present
 * `pureRender`: do not amend `render` method of any component.
 * for the rest see [index.d.ts](https://github.com/gaearon/react-hot-loader/blob/master/index.d.ts#L62-L133).
 
