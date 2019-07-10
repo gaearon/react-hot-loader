@@ -341,13 +341,13 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
     }
 
     if (NextComponent === CurrentComponent) {
-      return;
+      return false;
     }
 
     // Prevent proxy cycles
     const existingProxy = proxies.get(NextComponent);
     if (existingProxy) {
-      return;
+      return false;
     }
 
     isFunctionalComponent = !isReactClass(NextComponent);
@@ -412,6 +412,8 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
         classUpdatePostponed = classHotReplacement;
       }
     }
+
+    return true;
   }
 
   update(InitialComponent);

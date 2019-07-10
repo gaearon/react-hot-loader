@@ -57,8 +57,7 @@ export const updateProxyById = (id, type, options = {}) => {
       id,
       merge({}, renderOptions, { proxy: componentOptions.get(type) || {} }, options),
     );
-  } else {
-    proxiesByID[id].update(type);
+  } else if (proxiesByID[id].update(type)) {
     // proxy could be registered again only in case of HMR
     incrementHotGeneration();
   }
