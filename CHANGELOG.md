@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.6"></a>
+## [4.12.6](https://github.com/gaearon/react-hot-loader/compare/v4.12.5...v4.12.6) (2019-07-10)
+
+
+### Bug Fixes
+
+* do not update hooks while updating hooks, fixes [#1294](https://github.com/gaearon/react-hot-loader/issues/1294) ([afa8ed4](https://github.com/gaearon/react-hot-loader/commit/afa8ed4))
+
+
+
 <a name="4.12.5"></a>
 ## [4.12.5](https://github.com/gaearon/react-hot-loader/compare/v4.12.4...v4.12.5) (2019-07-07)
 
