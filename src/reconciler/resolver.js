@@ -12,17 +12,23 @@ import configuration, { internalConfiguration } from '../configuration';
 const shouldNotPatchComponent = type => isTypeBlacklisted(type);
 
 export function resolveType(type, options = {}) {
-  const element = { type };
-  if (isLazyType(element) || isMemoType(element) || isForwardType(element) || isContextType(element)) {
-    return getProxyByType(type) || type;
-  }
-
+  // fast return
   if (!isCompositeComponent(type) || isProxyType(type)) {
     return type;
   }
 
+  const element = { type };
+
+  // fast meta
+  if (typeof element === 'object') {
+    if (isLazyType(element) || isMemoType(element) || isForwardType(element) || isContextType(element)) {
+      return getProxyByType(type) || type;
+    }
+  }
+
   const existingProxy = getProxyByType(type);
 
+  // cold API
   if (shouldNotPatchComponent(type)) {
     return existingProxy ? existingProxy.getCurrent() : type;
   }

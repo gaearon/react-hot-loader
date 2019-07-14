@@ -182,30 +182,38 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
 const knownPairs = new WeakMap();
 const emptyMap = new WeakMap();
 
+const getKnownPair = (oldType, newType) => {
+  const pair = knownPairs.get(oldType) || emptyMap;
+  return pair.get(newType);
+};
+
 export const hotComponentCompare = (oldType, preNewType, setNewType, baseType) => {
   const hotActive = hotComparisonOpen();
   const newType = configuration.integratedResolver ? resolveType(preNewType) : preNewType;
+
+  // TODO: find out the root cause
+  // we could not use "fast result" here - go a full part to update a fiber.
+  // const knownType = getKnownPair(oldType, newType);
+  // if (knownType !== undefined) {
+  //   return knownType;
+  // }
+
   let result = oldType === newType;
 
-  if (!hotActive) {
-    return result;
-  }
-
-  if (
-    !isReloadableComponent(oldType) ||
-    !isReloadableComponent(newType) ||
-    isColdType(oldType) ||
-    isColdType(oldType) ||
-    !oldType ||
-    !newType ||
-    0
-  ) {
-    return result;
-  }
-
-  // comparison should be active only if hot update window
-  // or it would merge components it shall not
   if (hotActive) {
+    // pre fail components which could not be merged
+    if (
+      !isReloadableComponent(oldType) ||
+      !isReloadableComponent(newType) ||
+      isColdType(oldType) ||
+      isColdType(oldType) ||
+      !oldType ||
+      !newType ||
+      0
+    ) {
+      return result;
+    }
+
     result = compareComponents(oldType, newType, setNewType, baseType);
     const pair = knownPairs.get(oldType) || new WeakMap();
     pair.set(newType, result);
@@ -213,10 +221,6 @@ export const hotComponentCompare = (oldType, preNewType, setNewType, baseType) =
     return result;
   }
 
-  if (result) {
-    return result;
-  }
-
-  const pair = knownPairs.get(oldType) || emptyMap;
-  return pair.get(newType) || false;
+  // result - true if components are equal, or were "equal" at any point in the past
+  return result || getKnownPair(oldType, newType) || false;
 };

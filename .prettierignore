@@ -10,3 +10,4 @@ index.js
 patch.js
 root.js
 test/hot/react-dom
+coverage
