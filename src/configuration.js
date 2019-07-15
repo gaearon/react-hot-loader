@@ -11,8 +11,14 @@ const configuration = {
   // Allows SFC to be used, enables "intermediate" components used by Relay, should be disabled for Preact
   allowSFC: true,
 
-  // Allow hot reload of effect hooks
+  // Allow reload of effect hooks with non zero dependency list
   reloadHooks: true,
+
+  // Allow reload of mount effect hooks - zero deps
+  reloadLifeCycleHooks: false,
+
+  // Enables hook reload on hook body change
+  reloadHooksOnBodyChange: true,
 
   // Disable "hot-replacement-render"
   disableHotRenderer: false,

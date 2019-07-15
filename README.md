@@ -67,6 +67,11 @@ There is only one condition for it - a non zero dependencies list.
 🔥 useEffect(effect, ["hot"]); // the simplest way to make hook reloadable
 ```
 
+**Plus**
+
+* any hook would be reloaded on a function body change. Enabled by default, controlled by `reloadHooksOnBodyChange` option.
+* you may configure RHL to reload any hook by setting `reloadLifeCycleHooks` option to true.
+
 **To disable hooks reloading** - set configuration option:
 
 ```js

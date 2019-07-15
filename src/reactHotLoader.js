@@ -29,8 +29,24 @@ const forceSimpleSFC = { proxy: { pureSFC: true } };
 
 const hookWrapper = hook => {
   const wrappedHook = function(cb, deps) {
-    if (configuration.reloadHooks) {
-      return hook(cb, deps && deps.length > 0 ? [...deps, getHotGeneration()] : deps);
+    if (configuration.reloadHooks && deps) {
+      const inputs = [...deps];
+
+      // reload hooks which have changed string representation
+      if (configuration.reloadHooksOnBodyChange) {
+        inputs.push(String(cb));
+      }
+
+      if (
+        // reload hooks with dependencies
+        deps.length > 0 ||
+        // reload all hooks of option is set
+        (configuration.reloadLifeCycleHooks && deps.length === 0)
+      ) {
+        inputs.push(getHotGeneration());
+      }
+
+      return hook(cb, inputs);
     }
     return hook(cb, deps);
   };
