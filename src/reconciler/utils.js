@@ -84,9 +84,8 @@ export function merge(...sources) {
       }
       acc = [...acc, ...source];
     } else if (source instanceof Object) {
-      for (const entry of Object.entries(source)) {
-        const key = entry[0];
-        let value = entry[1];
+      for (const key of Object.keys(source)) {
+        let value = source[key];
         if (value instanceof Object && key in acc) {
           value = merge(acc[key], value);
         }
