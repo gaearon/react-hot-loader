@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.8"></a>
+## [4.12.8](https://github.com/gaearon/react-hot-loader/compare/v4.12.7...v4.12.8) (2019-07-18)
+
+
+### Bug Fixes
+
+* script error on IE11 due to lack of Object.entries ([6672b26](https://github.com/gaearon/react-hot-loader/commit/6672b26))
+
+
+
 <a name="4.12.7"></a>
 ## [4.12.7](https://github.com/gaearon/react-hot-loader/compare/v4.12.6...v4.12.7) (2019-07-16)
 
