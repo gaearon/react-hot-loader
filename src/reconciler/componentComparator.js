@@ -153,10 +153,14 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
   }
 
   if (isLazyType({ type: oldType })) {
+    // no need to update
+    // setNewType(newType);
     return defaultResult;
   }
 
   if (isContextType({ type: oldType })) {
+    // update provider
+    setNewType(newType);
     return defaultResult;
   }
 

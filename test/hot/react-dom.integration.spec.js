@@ -101,6 +101,64 @@ describe(`🔥-dom`, () => {
       expect(unmount).toHaveBeenCalled();
     });
 
+    it('should reload context', async () => {
+      const mount = jest.fn();
+      const unmount = jest.fn();
+
+      const genApp = contextValue => {
+        const context = React.createContext(contextValue);
+
+        const RenderContext = () => {
+          const v = React.useContext(context);
+
+          return <span>contextValue={v}</span>;
+        };
+
+        const MountCheck = () => {
+          React.useEffect(() => {
+            mount('test1');
+            return unmount;
+          }, []);
+          return 'fun1';
+        };
+
+        const App = () => (
+          <div>
+            <RenderContext />
+            <context.Provider value={`~${contextValue}~`}>
+              <RenderContext />
+              <MountCheck />
+            </context.Provider>
+          </div>
+        );
+
+        ReactHotLoader.register(context, 'context', 'test');
+
+        return App;
+      };
+
+      const el = document.createElement('div');
+      const App1 = genApp('1-test-1');
+      ReactDom.render(<App1 />, el);
+
+      expect(el.innerHTML).toMatch(/1-test-1/);
+      expect(el.innerHTML).toMatch(/~1-test-1~/);
+
+      incrementHotGeneration();
+      {
+        const App1 = genApp('2-hot-2');
+        ReactDom.render(<App1 />, el);
+      }
+
+      await tick();
+
+      expect(el.innerHTML).toMatch(/2-hot-2/);
+      expect(el.innerHTML).toMatch(/~2-hot-2~/);
+
+      expect(mount).toHaveBeenCalledTimes(1);
+      expect(unmount).toHaveBeenCalledTimes(0);
+    });
+
     it('should reload hook effect', async () => {
       const mount = jest.fn();
       const unmount = jest.fn();
