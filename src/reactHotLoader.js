@@ -22,7 +22,7 @@ import logger from './logger';
 
 import { preactAdapter } from './adapters/preact';
 import { updateContext, updateForward, updateLazy, updateMemo } from './reconciler/fiberUpdater';
-import { resolveType } from './reconciler/resolver';
+import { resolveSimpleType, resolveType } from './reconciler/resolver';
 import { hotComponentCompare } from './reconciler/componentComparator';
 
 const forceSimpleSFC = { proxy: { pureSFC: true } };
@@ -133,6 +133,7 @@ const reactHotLoader = {
   },
 
   patch(React, ReactDOM) {
+    let typeResolver = resolveType;
     /* eslint-disable no-console */
     if (ReactDOM && ReactDOM.setHotElementComparator) {
       ReactDOM.setHotElementComparator(hotComponentCompare);
@@ -145,18 +146,21 @@ const reactHotLoader = {
 
       if (ReactDOM.setHotTypeResolver) {
         configuration.integratedResolver = true;
+        typeResolver = resolveSimpleType;
         ReactDOM.setHotTypeResolver(resolveType);
       }
     }
 
     if (!configuration.integratedResolver) {
+      // PATCH REACT METHODS
+
       /* eslint-enable */
       if (!React.createElement.isPatchedByReactHotLoader) {
         const originalCreateElement = React.createElement;
         // Trick React into rendering a proxy so that
         // its state is preserved when the class changes.
         // This will update the proxy if it's for a known type.
-        React.createElement = (type, ...args) => originalCreateElement(resolveType(type), ...args);
+        React.createElement = (type, ...args) => originalCreateElement(typeResolver(type), ...args);
         React.createElement.isPatchedByReactHotLoader = true;
       }
 
@@ -164,7 +168,7 @@ const reactHotLoader = {
         const originalCloneElement = React.cloneElement;
 
         React.cloneElement = (element, ...args) => {
-          const newType = element.type && resolveType(element.type);
+          const newType = element.type && typeResolver(element.type);
           if (newType && newType !== element.type) {
             return originalCloneElement(
               {
@@ -195,16 +199,26 @@ const reactHotLoader = {
       if (!React.Children.only.isPatchedByReactHotLoader) {
         const originalChildrenOnly = React.Children.only;
         // Use the same trick as React.createElement
-        React.Children.only = children => originalChildrenOnly({ ...children, type: resolveType(children.type) });
+        React.Children.only = children =>
+          originalChildrenOnly({
+            ...children,
+            type: typeResolver(children.type),
+          });
         React.Children.only.isPatchedByReactHotLoader = true;
       }
     }
+
+    // PATCH REACT HOOKS
 
     if (React.useEffect && !React.useEffect.isPatchedByReactHotLoader) {
       React.useEffect = hookWrapper(React.useEffect);
       React.useLayoutEffect = hookWrapper(React.useLayoutEffect);
       React.useCallback = hookWrapper(React.useCallback);
       React.useMemo = hookWrapper(React.useMemo);
+
+      // transform context for useContext
+      const { useContext } = React;
+      React.useContext = (context, ...args) => useContext(typeResolver(context), ...args);
     }
 
     // reactHotLoader.reset()

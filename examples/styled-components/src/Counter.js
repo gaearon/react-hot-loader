@@ -7,7 +7,8 @@ const ComponentA = () => {
   const [state] = useState('A');
   return (
     <div>
-      {state}-{value}
+      {state}-{value}-
+      <TimerContext.Consumer>{v => v}</TimerContext.Consumer>
     </div>
   );
 };
@@ -17,7 +18,8 @@ const ComponentB = () => {
   const value = useContext(TimerContext);
   return (
     <div>
-      {state}-{value}
+      {state}-{value}-
+      <TimerContext.Consumer>{v => v}</TimerContext.Consumer>
     </div>
   );
 };

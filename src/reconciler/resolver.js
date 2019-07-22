@@ -11,12 +11,7 @@ import configuration, { internalConfiguration } from '../configuration';
 
 const shouldNotPatchComponent = type => isTypeBlacklisted(type);
 
-export function resolveType(type, options = {}) {
-  // fast return
-  if (!isCompositeComponent(type) || isProxyType(type)) {
-    return type;
-  }
-
+export function resolveUtility(type) {
   const element = { type };
 
   // fast meta
@@ -26,6 +21,10 @@ export function resolveType(type, options = {}) {
     }
   }
 
+  return undefined;
+}
+
+export function resolveComponent(type, options = {}) {
   const existingProxy = getProxyByType(type);
 
   // cold API
@@ -35,10 +34,34 @@ export function resolveType(type, options = {}) {
 
   if (!existingProxy && configuration.onComponentCreate) {
     configuration.onComponentCreate(type, getComponentDisplayName(type));
-    if (shouldNotPatchComponent(type)) return type;
+    if (shouldNotPatchComponent(type)) {
+      return type;
+    }
   }
 
   const proxy = internalConfiguration.disableProxyCreation ? existingProxy : createProxyForType(type, options);
 
-  return proxy ? proxy.get() : type;
+  return proxy ? proxy.get() : undefined;
 }
+
+export function resolveProxy(type) {
+  if (isProxyType(type)) {
+    return type;
+  }
+
+  return undefined;
+}
+
+export function resolveNotComponent(type) {
+  if (!isCompositeComponent(type)) {
+    return type;
+  }
+
+  return undefined;
+}
+
+export const resolveSimpleType = type =>
+  resolveProxy(type) || resolveUtility(type) || resolveNotComponent(type) || type;
+
+export const resolveType = (type, options = {}) =>
+  resolveProxy(type) || resolveUtility(type) || resolveNotComponent(type) || resolveComponent(type, options) || type;

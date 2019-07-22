@@ -111,7 +111,12 @@ describe(`🔥-dom`, () => {
         const RenderContext = () => {
           const v = React.useContext(context);
 
-          return <span>contextValue={v}</span>;
+          return (
+            <span>
+              contextValue={v}
+              <context.Consumer>{v => `~${v}~`}</context.Consumer>
+            </span>
+          );
         };
 
         const MountCheck = () => {
@@ -143,6 +148,7 @@ describe(`🔥-dom`, () => {
 
       expect(el.innerHTML).toMatch(/1-test-1/);
       expect(el.innerHTML).toMatch(/~1-test-1~/);
+      expect(el.innerHTML).toMatch(/~~1-test-1~~/);
 
       incrementHotGeneration();
       {
@@ -154,6 +160,7 @@ describe(`🔥-dom`, () => {
 
       expect(el.innerHTML).toMatch(/2-hot-2/);
       expect(el.innerHTML).toMatch(/~2-hot-2~/);
+      expect(el.innerHTML).toMatch(/~~2-hot-2~~/);
 
       expect(mount).toHaveBeenCalledTimes(1);
       expect(unmount).toHaveBeenCalledTimes(0);
