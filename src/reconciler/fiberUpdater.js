@@ -6,13 +6,9 @@ import { resolveType } from './resolver';
 
 const lazyConstructor = '_ctor';
 
-export const updateLazy = (target, type) => {
-  const ctor = type[lazyConstructor];
-  if (target[lazyConstructor] !== type[lazyConstructor]) {
-    // just execute `import` and RHL.register will do the job
-    ctor();
-  }
+const patchLazyContructor = target => {
   if (!target[lazyConstructor].isPatchedByReactHotLoader) {
+    const ctor = target[lazyConstructor];
     target[lazyConstructor] = () =>
       ctor().then(m => {
         const C = resolveType(m.default);
@@ -37,6 +33,16 @@ export const updateLazy = (target, type) => {
       });
     target[lazyConstructor].isPatchedByReactHotLoader = true;
   }
+};
+
+export const updateLazy = (target, type) => {
+  const ctor = type[lazyConstructor];
+  if (target[lazyConstructor] !== type[lazyConstructor]) {
+    // just execute `import` and RHL.register will do the job
+    ctor();
+  }
+  patchLazyContructor(target);
+  patchLazyContructor(type);
 };
 
 export const updateMemo = (target, { type }) => {

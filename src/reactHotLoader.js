@@ -143,6 +143,7 @@ const reactHotLoader = {
 
       reactHotLoader.IS_REACT_MERGE_ENABLED = true;
       configuration.showReactDomPatchNotification = false;
+      configuration.integratedComparator = true;
 
       if (ReactDOM.setHotTypeResolver) {
         configuration.integratedResolver = true;
@@ -151,61 +152,59 @@ const reactHotLoader = {
       }
     }
 
-    if (!configuration.integratedResolver) {
-      // PATCH REACT METHODS
+    // PATCH REACT METHODS
 
-      /* eslint-enable */
-      if (!React.createElement.isPatchedByReactHotLoader) {
-        const originalCreateElement = React.createElement;
-        // Trick React into rendering a proxy so that
-        // its state is preserved when the class changes.
-        // This will update the proxy if it's for a known type.
-        React.createElement = (type, ...args) => originalCreateElement(typeResolver(type), ...args);
-        React.createElement.isPatchedByReactHotLoader = true;
-      }
+    /* eslint-enable */
+    if (!React.createElement.isPatchedByReactHotLoader) {
+      const originalCreateElement = React.createElement;
+      // Trick React into rendering a proxy so that
+      // its state is preserved when the class changes.
+      // This will update the proxy if it's for a known type.
+      React.createElement = (type, ...args) => originalCreateElement(typeResolver(type), ...args);
+      React.createElement.isPatchedByReactHotLoader = true;
+    }
 
-      if (!React.cloneElement.isPatchedByReactHotLoader) {
-        const originalCloneElement = React.cloneElement;
+    if (!React.cloneElement.isPatchedByReactHotLoader) {
+      const originalCloneElement = React.cloneElement;
 
-        React.cloneElement = (element, ...args) => {
-          const newType = element.type && typeResolver(element.type);
-          if (newType && newType !== element.type) {
-            return originalCloneElement(
-              {
-                ...element,
-                type: newType,
-              },
-              ...args,
-            );
-          }
-          return originalCloneElement(element, ...args);
-        };
+      React.cloneElement = (element, ...args) => {
+        const newType = element.type && typeResolver(element.type);
+        if (newType && newType !== element.type) {
+          return originalCloneElement(
+            {
+              ...element,
+              type: newType,
+            },
+            ...args,
+          );
+        }
+        return originalCloneElement(element, ...args);
+      };
 
-        React.cloneElement.isPatchedByReactHotLoader = true;
-      }
+      React.cloneElement.isPatchedByReactHotLoader = true;
+    }
 
-      if (!React.createFactory.isPatchedByReactHotLoader) {
-        // Patch React.createFactory to use patched createElement
-        // because the original implementation uses the internal,
-        // unpatched ReactElement.createElement
-        React.createFactory = type => {
-          const factory = React.createElement.bind(null, type);
-          factory.type = type;
-          return factory;
-        };
-        React.createFactory.isPatchedByReactHotLoader = true;
-      }
+    if (!React.createFactory.isPatchedByReactHotLoader) {
+      // Patch React.createFactory to use patched createElement
+      // because the original implementation uses the internal,
+      // unpatched ReactElement.createElement
+      React.createFactory = type => {
+        const factory = React.createElement.bind(null, type);
+        factory.type = type;
+        return factory;
+      };
+      React.createFactory.isPatchedByReactHotLoader = true;
+    }
 
-      if (!React.Children.only.isPatchedByReactHotLoader) {
-        const originalChildrenOnly = React.Children.only;
-        // Use the same trick as React.createElement
-        React.Children.only = children =>
-          originalChildrenOnly({
-            ...children,
-            type: typeResolver(children.type),
-          });
-        React.Children.only.isPatchedByReactHotLoader = true;
-      }
+    if (!React.Children.only.isPatchedByReactHotLoader) {
+      const originalChildrenOnly = React.Children.only;
+      // Use the same trick as React.createElement
+      React.Children.only = children =>
+        originalChildrenOnly({
+          ...children,
+          type: typeResolver(children.type),
+        });
+      React.Children.only.isPatchedByReactHotLoader = true;
     }
 
     // PATCH REACT HOOKS
