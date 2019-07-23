@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.9"></a>
+## [4.12.9](https://github.com/gaearon/react-hot-loader/compare/v4.12.8...v4.12.9) (2019-07-23)
+
+
+### Bug Fixes
+
+* forcely update Context Provider, fixes [#1207](https://github.com/gaearon/react-hot-loader/issues/1207) ([897a68d](https://github.com/gaearon/react-hot-loader/commit/897a68d))
+* updating shallowequal dependency ([9269580](https://github.com/gaearon/react-hot-loader/commit/9269580))
+
+
+
 <a name="4.12.8"></a>
 ## [4.12.8](https://github.com/gaearon/react-hot-loader/compare/v4.12.7...v4.12.8) (2019-07-18)
 
