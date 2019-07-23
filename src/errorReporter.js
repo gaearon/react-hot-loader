@@ -72,7 +72,7 @@ const mapError = ({ error, errorInfo, component }) => (
   <React.Fragment>
     <p style={{ color: 'red' }}>
       {errorHeader(component, errorInfo && errorInfo.componentStack)}{' '}
-      {error.toString ? error.toString() : error.message || 'undefined error'}
+      {error.toString ? error.toString() : (error && error.message) || 'undefined error'}
     </p>
     {errorInfo && errorInfo.componentStack ? (
       <div>

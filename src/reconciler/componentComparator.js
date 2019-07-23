@@ -14,6 +14,7 @@ import { PROXY_KEY, UNWRAP_PROXY } from '../proxy';
 import { resolveType } from './resolver';
 import logger from '../logger';
 import configuration from '../configuration';
+import { updateLazy } from './fiberUpdater';
 
 const getInnerComponentType = component => {
   const unwrapper = component[UNWRAP_PROXY];
@@ -153,10 +154,15 @@ const compareComponents = (oldType, newType, setNewType, baseType) => {
   }
 
   if (isLazyType({ type: oldType })) {
+    updateLazy(oldType, newType);
+    // no need to update
+    // setNewType(newType);
     return defaultResult;
   }
 
   if (isContextType({ type: oldType })) {
+    // update provider
+    setNewType(newType);
     return defaultResult;
   }
 

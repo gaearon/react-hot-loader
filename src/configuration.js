@@ -24,6 +24,8 @@ const configuration = {
   disableHotRenderer: false,
 
   // @private
+  integratedComparator: false,
+  // @private
   integratedResolver: false,
 
   // Disable "hot-replacement-render" when injection into react-dom is made
