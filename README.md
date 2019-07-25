@@ -404,11 +404,11 @@ export default AsyncHello;
 
 ```js
 // Hello.js
-import { hot } from 'react-hot-loader';
+import { hot } from 'react-hot-loader/root';
 
 const Hello = () => 'Hello';
 
-export default hot(module)(Hello); // <-- module will reload itself
+export default hot(Hello); // <-- module will reload itself
 ```
 
 ### Checking Element `type`s
