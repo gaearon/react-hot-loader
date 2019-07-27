@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.10"></a>
+## [4.12.10](https://github.com/gaearon/react-hot-loader/compare/v4.12.9...v4.12.10) (2019-07-27)
+
+
+### Bug Fixes
+
+* apend react-hot-dom patch note to the ProxyFacade, fixes [#1311](https://github.com/gaearon/react-hot-loader/issues/1311) ([81bbb6a](https://github.com/gaearon/react-hot-loader/commit/81bbb6a))
+* use void IIFE for webpack plugin, fixes [#1309](https://github.com/gaearon/react-hot-loader/issues/1309) ([6089822](https://github.com/gaearon/react-hot-loader/commit/6089822))
+
+
+
 <a name="4.12.9"></a>
 ## [4.12.9](https://github.com/gaearon/react-hot-loader/compare/v4.12.8...v4.12.9) (2019-07-23)
 
