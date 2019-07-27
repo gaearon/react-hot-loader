@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* apend react-hot-dom patch note to the ProxyFacade, fixes [#1311](https://github.com/gaearon/react-hot-loader/issues/1311) ([81bbb6a](https://github.com/gaearon/react-hot-loader/commit/81bbb6a))
+* append react-hot-dom patch note to the ProxyFacade, fixes [#1311](https://github.com/gaearon/react-hot-loader/issues/1311) ([81bbb6a](https://github.com/gaearon/react-hot-loader/commit/81bbb6a))
 * use void IIFE for webpack plugin, fixes [#1309](https://github.com/gaearon/react-hot-loader/issues/1309) ([6089822](https://github.com/gaearon/react-hot-loader/commit/6089822))
 
 
