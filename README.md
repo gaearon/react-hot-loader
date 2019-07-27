@@ -49,7 +49,14 @@ export default hot(App);
 3.  Make sure `react-hot-loader` is required before `react` and `react-dom`:
 
 * or `import 'react-hot-loader'` in your main file (before React)
-* or prepend your webpack entry point with `react-hot-loader/patch`
+* or prepend your webpack entry point with `react-hot-loader/patch`, for example:
+  ```js
+  // webpack.config.js
+  module.exports = {
+    entry: ['react-hot-loader/patch', './src'],
+    // ...
+  }
+  ```
 
 4.  If you need hooks support, use React-🔥-Dom
 
