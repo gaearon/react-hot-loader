@@ -266,8 +266,8 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
         ! THIS IS NOT YOUR COMPONENT !
         !  THIS IS REACT-HOT-LOADER  !
 
-        And you probably looking for a function component of yours
-        Easy - just reconfigure your application a bit
+        And you are probably looking for a function component of yours
+        It's hidden, but there is a way to fix this - just reconfigure your application a bit
         see https://github.com/gaearon/react-hot-loader/issues/1311
 
        */

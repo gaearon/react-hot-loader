@@ -1,4 +1,4 @@
-/* eslint-disable global-require, import/no-unresolved, no-var, camelcase, func-names */
+/* eslint-disable global-require, import/no-unresolved, no-var, camelcase, func-names, no-void */
 /* global __FILENAME__, reactHotLoaderGlobal */
 
 void (function register() {
