@@ -261,6 +261,17 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
 
     // eslint-disable-next-line func-names
     ProxyFacade = function(props, context) {
+      /*
+
+        ! THIS IS NOT YOUR COMPONENT !
+        !  THIS IS REACT-HOT-LOADER  !
+
+        And you are probably looking for a function component of yours
+        It's hidden, but there is a way to fix this - just reconfigure your application a bit
+        see https://github.com/gaearon/react-hot-loader/issues/1311
+
+       */
+
       const result = CurrentComponent(props, context);
 
       // This is a Relay-style container constructor. We can't do the prototype-

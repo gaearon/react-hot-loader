@@ -1,7 +1,7 @@
-/* eslint-disable global-require, import/no-unresolved, no-var, camelcase, func-names */
+/* eslint-disable global-require, import/no-unresolved, no-var, camelcase, func-names, no-void */
 /* global __FILENAME__, reactHotLoaderGlobal */
 
-;(function register() {
+void (function register() {
   // eslint-disable-line no-extra-semi
   /* react-hot-loader/webpack */
   var safe_require = function() {
