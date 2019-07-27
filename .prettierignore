@@ -11,4 +11,3 @@ patch.js
 root.js
 test/hot/react-dom
 coverage
-src/webpack/webpackTagCommonJSExports.js

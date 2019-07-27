@@ -49,6 +49,7 @@ function transform(source, map) {
       // Ideally we'd opt out for one file but this is simpler.
       .replace(/['"]use strict['"];/, '')
       // eslint comments don't need to end up in the output
+      .replace(/\/\* (.*) \*\//, '')
       .replace(/\/\/ eslint-disable-line .*\n/g, '\n')
       .replace(/\/\* global.*\*\//, '')
       .split(/\n\s*/)
@@ -56,7 +57,7 @@ function transform(source, map) {
   }
 
   // Parameterize the helper with the current filename.
-  const separator = '\n\n;';
+  const separator = '\n';
   const appendText = tagCommonJSExportsSource.replace(/__FILENAME__/g, JSON.stringify(resourcePath));
 
   if (this.sourceMap === false) {
