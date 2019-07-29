@@ -58,7 +58,7 @@ export default hot(App);
   }
   ```
 
-4.  If you need hooks support, use React-🔥-Dom
+4.  If you need hooks support, use [`@hot-loader/react-dom`](#hot-loaderreact-dom)
 
 ### Hook support
 
@@ -99,9 +99,9 @@ cause a local tree remount.
 **Babel plugin is required** for this operation. Without it changing hook order would throw an error
 which would be propagated till the nearest class-based component.
 
-## React-🔥-Dom
+## `@hot-loader/react-dom`
 
-React-🔥-Dom ([hot-loader/react-dom](https://github.com/hot-loader/react-dom)) replaces the "react-dom" package of the same version, but with additional patches to support hot reloading.
+[`@hot-loader/react-dom`](https://github.com/hot-loader/react-dom) replaces the "react-dom" package of the same version, but with additional patches to support hot reloading.
 
 There are 2 ways to install it:
 
@@ -111,21 +111,22 @@ There are 2 ways to install it:
 yarn add react-dom@npm:@hot-loader/react-dom
 ```
 
-* Use webpack **aliases**
+* Use [webpack aliases](https://webpack.js.org/configuration/resolve/#resolvealias)
 
 ```
 yarn add @hot-loader/react-dom
 ```
 
 ```js
-// webpack.conf
-...
-resolve: {
+// webpack.config.js
+module.exports = {
+  // ...
+  resolve: {
     alias: {
       'react-dom': '@hot-loader/react-dom'
     }
+  }
 }
-...
 ```
 
 ### Old API
@@ -305,7 +306,7 @@ And to make your linked package to be hot reloaded, it will need to use the patc
       // add these 2 lines below so linked package will reference the patched version of `react` and `react-dom`
       'react': path.resolve(path.join(__dirname, './node_modules/react')),
       'react-dom': path.resolve(path.join(__dirname, './node_modules/react-dom')),
-      // or point react-dom above to './node_modules/@hot-loader/react-dom' if you are using React-🔥-Dom
+      // or point react-dom above to './node_modules/@hot-loader/react-dom' if you are using it
     }
   }
 }
