@@ -101,6 +101,11 @@ export interface Config {
   disableHotRendererWhenInjected: boolean;
 
   /**
+   * Show "hot-loader/react-dom" warning
+   */
+  showReactDomPatchNotification: boolean;
+
+  /**
    * flag to completely disable RHL for SFC
    */
   ignoreSFC: boolean;
