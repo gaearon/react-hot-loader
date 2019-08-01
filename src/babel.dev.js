@@ -10,7 +10,7 @@ const shouldIgnoreFile = file =>
   !!file
     .split('\\')
     .join('/')
-    .match(/node_modules\/(react|react-hot-loader)([\/]|$)/);
+    .match(/node_modules\/(react|react-dom|react-hot-loader)([\/]|$)/);
 
 /* eslint-enable */
 
