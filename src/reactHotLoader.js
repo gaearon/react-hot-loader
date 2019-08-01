@@ -135,6 +135,11 @@ const reactHotLoader = {
   patch(React, ReactDOM) {
     let typeResolver = resolveType;
     /* eslint-disable no-console */
+    if (ReactDOM && !ReactDOM.render) {
+      logger.error(
+        'React-Hot-Loader: broken state detected, please import React-Hot-Loader before react-dom, see https://github.com/gaearon/react-hot-loader/issues/1315',
+      );
+    }
     if (ReactDOM && ReactDOM.setHotElementComparator) {
       ReactDOM.setHotElementComparator(hotComponentCompare);
       configuration.disableHotRenderer = configuration.disableHotRendererWhenInjected;
