@@ -40,14 +40,14 @@ function plugin(args, options = {}) {
 
   const headerTemplate = template(
     `(function () {
-       var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+       var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined);
        enterModule && enterModule(module);
      }())`,
     templateOptions,
   );
   const footerTemplate = template(
     `(function () {
-       var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+       var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined);
        leaveModule && leaveModule(module);
      }())`,
     templateOptions,
@@ -61,7 +61,7 @@ function plugin(args, options = {}) {
     `    
 (function () {  
   
-  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined);
   
   if (!reactHotLoader) {
     return;
