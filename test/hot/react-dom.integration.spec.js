@@ -9,7 +9,10 @@ import { configureGeneration, incrementHotGeneration } from '../../src/global/ge
 import configuration from '../../src/configuration';
 import { AppContainer } from '../../index';
 
-jest.mock('react-dom', () => require('./react-dom'));
+jest.mock('react-dom', () => {
+  const reactDom = require('./react-dom');
+  return reactDom;
+});
 
 describe(`🔥-dom`, () => {
   beforeEach(() => {

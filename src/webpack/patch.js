@@ -1,4 +1,8 @@
 const injectionStart = {
+  '16.9': [
+    'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : child.elementType === element.type || (\n        // Keep this check inline so it only runs on the false path:\n        isCompatibleFamilyForHotReloading(child, element)))',
+    '/* HERE */if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.elementType, element.type, hotUpdateChild(child), child.type))/* HERE */'
+  ],
   '16.6': [
     'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : child.elementType === element.type)',
     'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.elementType, element.type, hotUpdateChild(child), child.type))',
@@ -18,6 +22,10 @@ const injectionStart = {
 };
 
 const additional = {
+  '16.9-update': [
+    '(\n    // Keep this check inline so it only runs on the false path:\n    isCompatibleFamilyForHotReloading(current$$1, element)))',
+    '/* HERE */(hotCompareElements(current$$1.elementType, element.type, hotUpdateChild(current$$1), current$$1.type)))/* HERE */'
+  ],
   '16.6-update': [
     'if (current$$1 !== null && current$$1.elementType === element.type) {',
     'if (current$$1 !== null && hotCompareElements(current$$1.elementType, element.type, hotUpdateChild(current$$1),current$$1.type)) {',
@@ -102,6 +110,8 @@ const defaultEnd = ['var ReactDOM = {', ReactHotLoaderInjection];
 const defaultEndCompact = ['var ReactDOM={', ReactHotLoaderInjection];
 
 const injectionEnd = {
+  '16.9-another': defaultEnd,
+  '16.9': defaultEnd,
   '16.6': defaultEnd,
   '16.4': defaultEnd,
   '16.6-compact': defaultEndCompact,
