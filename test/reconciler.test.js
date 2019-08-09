@@ -585,7 +585,7 @@ describe('reconciler', () => {
           </AppContainer>
         );
 
-        const wrapper = mount(<TestCase />);
+        mount(<TestCase />);
 
         {
           const errorFn = active => {
@@ -623,7 +623,8 @@ describe('reconciler', () => {
           </AppContainer>
         );
 
-        const wrapper = mount(<TestCase />);
+        // const wrapper = mount(<TestCase />);
+        mount(<TestCase />);
 
         {
           const errorFn = active => {
