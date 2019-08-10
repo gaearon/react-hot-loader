@@ -10,7 +10,11 @@ export const preactAdapter = (instance, resolveType) => {
   setConfiguration(tune);
 
   instance.options.vnode = vnode => {
-    vnode.nodeName = resolveType(vnode.nodeName);
+    if (vnode.type) {
+      vnode.type = resolveType(vnode.type);
+    } else if (vnode.nodeName) {
+      vnode.nodeName = resolveType(vnode.nodeName);
+    }
     if (oldHandler) {
       oldHandler(vnode);
     }
