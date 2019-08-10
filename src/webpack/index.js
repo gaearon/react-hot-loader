@@ -36,7 +36,8 @@ function transform(source, map) {
   if (options.withPatch) {
     source = patch(source);
   }
-  if (source.indexOf('reactHotLoader.register') > 0) {
+
+  if (source.indexOf('reactHotLoader.register') > 0 || options.noRegister) {
     return callback(null, source, map);
   }
   // This is a Webpack loader, but the user put it in the Babel config.

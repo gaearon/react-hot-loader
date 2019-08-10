@@ -4,11 +4,7 @@
 void (function register() {
   // eslint-disable-line no-extra-semi
   /* react-hot-loader/webpack */
-  var safe_require = function() {
-    return typeof require === 'undefined' ? undefined : require('react-hot-loader');
-  };
-
-  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : safe_require()).default;
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
 
   if (!reactHotLoader) {
     return;
