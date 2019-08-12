@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file. See [standa
 <a name="4.12.11"></a>
 ## [4.12.11](https://github.com/gaearon/react-hot-loader/compare/v4.12.10...v4.12.11) (2019-08-12)
 
+### Features
+
+* react 16.9 support, [1320](https://github.com/gaearon/react-hot-loader/pull/1320) by @Bnaya
 
 ### Bug Fixes
 
