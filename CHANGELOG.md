@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.11"></a>
+## [4.12.11](https://github.com/gaearon/react-hot-loader/compare/v4.12.10...v4.12.11) (2019-08-12)
+
+
+### Bug Fixes
+
+* add noRegister option to webpack, [#1315](https://github.com/gaearon/react-hot-loader/issues/1315) ([e562375](https://github.com/gaearon/react-hot-loader/commit/e562375))
+* remove circular deps from hot-loader ([2cb544d](https://github.com/gaearon/react-hot-loader/commit/2cb544d))
+
+
+
 <a name="4.12.10"></a>
 ## [4.12.10](https://github.com/gaearon/react-hot-loader/compare/v4.12.9...v4.12.10) (2019-07-27)
 
