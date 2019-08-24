@@ -76,7 +76,7 @@ const hot = sourceModule => {
   }
   const moduleId = sourceModule.id || sourceModule.i || sourceModule.filename;
   if (!moduleId) {
-    console.error('`module` prodived', sourceModule);
+    console.error('`module` provided', sourceModule);
     throw new Error('React-hot-loader: `hot` could not find the `name` of the the `module` you have provided');
   }
   const module = hotModule(moduleId);
