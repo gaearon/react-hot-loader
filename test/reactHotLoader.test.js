@@ -47,6 +47,13 @@ describe('reactHotLoader', () => {
         const DivProxy = OriginalReactMock.createElement.mock.calls[0][0];
         expect(DivProxy[PROXY_KEY]).toBeDefined();
       });
+
+      it('null case', () => {
+        reactHotLoader.patch(ReactMock);
+        const result = React.createElement(undefined);
+
+        expect(result.type).toBeUndefined();
+      });
     });
 
     describe('#createFactory', () => {
