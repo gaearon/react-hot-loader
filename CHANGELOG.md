@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.12"></a>
+## [4.12.12](https://github.com/gaearon/react-hot-loader/compare/v4.12.11...v4.12.12) (2019-08-27)
+
+
+### Bug Fixes
+
+* error overlay could fail by itself ([da50985](https://github.com/gaearon/react-hot-loader/commit/da50985))
+* resolve undefined types to undefined, fixes [#1324](https://github.com/gaearon/react-hot-loader/issues/1324) ([73eeb4e](https://github.com/gaearon/react-hot-loader/commit/73eeb4e))
+* speedup levenshtein comparison, fixes [#1087](https://github.com/gaearon/react-hot-loader/issues/1087) ([b81dcb0](https://github.com/gaearon/react-hot-loader/commit/b81dcb0))
+
+
+
 <a name="4.12.11"></a>
 ## [4.12.11](https://github.com/gaearon/react-hot-loader/compare/v4.12.10...v4.12.11) (2019-08-12)
 
