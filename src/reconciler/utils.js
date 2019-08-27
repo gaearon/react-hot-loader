@@ -17,9 +17,13 @@ const getTypeOf = type => {
   return 'Fragment'; // ?
 };
 
+function clearStringFast(str) {
+  return str.length < 12 ? str : ` ${str}`.slice(1);
+}
+
 const haveTextSimilarity = (a, b) =>
   // equal or slight changed
-  a === b || levenshtein.get(a, b) < a.length * 0.2;
+  a === b || levenshtein.get(clearStringFast(a), clearStringFast(b)) < a.length * 0.2;
 
 const getBaseProto = source =>
   source.prototype.hotComponentRender ? Object.getPrototypeOf(source.prototype) : source.prototype;
