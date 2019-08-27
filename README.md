@@ -55,7 +55,7 @@ export default hot(App);
   module.exports = {
     entry: ['react-hot-loader/patch', './src'],
     // ...
-  }
+  };
   ```
 
 4.  If you need hooks support, use [`@hot-loader/react-dom`](#hot-loaderreact-dom)
@@ -123,10 +123,10 @@ module.exports = {
   // ...
   resolve: {
     alias: {
-      'react-dom': '@hot-loader/react-dom'
-    }
-  }
-}
+      'react-dom': '@hot-loader/react-dom',
+    },
+  },
+};
 ```
 
 ### Old API

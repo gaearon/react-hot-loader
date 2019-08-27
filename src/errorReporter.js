@@ -68,39 +68,45 @@ const errorHeader = (component, componentStack) => {
   return null;
 };
 
-const mapError = ({ error, errorInfo, component }) => (
-  <React.Fragment>
-    <p style={{ color: 'red' }}>
-      {errorHeader(component, errorInfo && errorInfo.componentStack)}{' '}
-      {error.toString ? error.toString() : (error && error.message) || 'undefined error'}
-    </p>
-    {errorInfo && errorInfo.componentStack ? (
-      <div>
-        <div>Stack trace:</div>
-        <ul style={{ color: 'red', marginTop: '10px' }}>
-          {error.stack
-            .split('\n')
-            .slice(1, 2)
-            .map((line, i) => <li key={String(i)}>{line}</li>)}
-          <hr />
-          {errorInfo.componentStack
-            .split('\n')
-            .filter(Boolean)
-            .map((line, i) => <li key={String(i)}>{line}</li>)}
-        </ul>
-      </div>
-    ) : (
-      error.stack && (
+const mapError = ({ error, errorInfo, component }) => {
+  if (!error) {
+    error = { message: 'undefined error' };
+  }
+
+  return (
+    <React.Fragment>
+      <p style={{ color: 'red' }}>
+        {errorHeader(component, errorInfo && errorInfo.componentStack)}{' '}
+        {error.toString ? error.toString() : (error && error.message) || 'undefined error'}
+      </p>
+      {errorInfo && errorInfo.componentStack ? (
         <div>
           <div>Stack trace:</div>
           <ul style={{ color: 'red', marginTop: '10px' }}>
-            {error.stack.split('\n').map((line, i) => <li key={String(i)}>{line}</li>)}
+            {error.stack
+              .split('\n')
+              .slice(1, 2)
+              .map((line, i) => <li key={String(i)}>{line}</li>)}
+            <hr />
+            {errorInfo.componentStack
+              .split('\n')
+              .filter(Boolean)
+              .map((line, i) => <li key={String(i)}>{line}</li>)}
           </ul>
         </div>
-      )
-    )}
-  </React.Fragment>
-);
+      ) : (
+        error.stack && (
+          <div>
+            <div>Stack trace:</div>
+            <ul style={{ color: 'red', marginTop: '10px' }}>
+              {error.stack.split('\n').map((line, i) => <li key={String(i)}>{line}</li>)}
+            </ul>
+          </div>
+        )
+      )}
+    </React.Fragment>
+  );
+};
 
 class ErrorOverlay extends React.Component {
   state = {
