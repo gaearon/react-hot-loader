@@ -66,7 +66,13 @@ export function resolveNotComponent(type) {
   return undefined;
 }
 
-export const resolveSimpleType = type => resolveProxy(type) || resolveUtility(type) || type;
+export const resolveSimpleType = type => {
+  if (!type) {
+    return type;
+  }
+
+  return resolveProxy(type) || resolveUtility(type) || type;
+};
 
 export const resolveType = (type, options = {}) => {
   if (!type) {
