@@ -393,9 +393,9 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
       // nothing
     } else {
       const classHotReplacement = () => {
-        getElementCloseHook(ProxyComponent);
         checkLifeCycleMethods(ProxyComponent, NextComponent);
         if (proxyGeneration > 1) {
+          getElementCloseHook(ProxyComponent);
           filteredPrototypeMethods(ProxyComponent.prototype).forEach(methodName => {
             if (!has.call(NextComponent.prototype, methodName)) {
               delete ProxyComponent.prototype[methodName];
@@ -412,8 +412,8 @@ function createClassProxy(InitialComponent, proxyKey, options = {}) {
             lastInstance,
             injectedMembers,
           );
+          getElementComparisonHook(ProxyComponent);
         }
-        getElementComparisonHook(ProxyComponent);
       };
 
       // Was constructed once

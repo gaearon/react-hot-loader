@@ -29,7 +29,7 @@ export const getElementCloseHook = component => onHotComparisonClose(component);
 export const hotComparisonOpen = () =>
   hotComparisonCounter > 0 && hotComparisonRuns > 0 && hotReplacementGeneration > 0;
 
-const openGeneration = () => forEachKnownClass(onHotComparisonElement);
+export const openGeneration = () => forEachKnownClass(onHotComparisonElement);
 
 export const closeGeneration = () => forEachKnownClass(onHotComparisonClose);
 

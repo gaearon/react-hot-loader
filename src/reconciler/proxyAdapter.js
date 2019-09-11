@@ -133,10 +133,16 @@ setComparisonHooks(
       } else {
         delete prototype.componentDidCatch;
         delete prototype.retryHotLoaderError;
-        if (!prototype[OLD_RENDER].descriptor) {
-          delete prototype.render;
+
+        // undo only what we did
+        if (prototype.render === componentRender) {
+          if (!prototype[OLD_RENDER].descriptor) {
+            delete prototype.render;
+          } else {
+            prototype.render = prototype[OLD_RENDER].descriptor;
+          }
         } else {
-          prototype.render = prototype[OLD_RENDER].descriptor;
+          console.error('React-Hot-Loader: something unexpectedly mutated Component', prototype);
         }
         delete prototype[ERROR_STATE_PROTO];
         delete prototype[OLD_RENDER];
