@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import { getComponentDisplayName } from './internal/reactUtils';
 import AppContainer from './AppContainer.dev';
@@ -6,6 +7,7 @@ import reactHotLoader from './reactHotLoader';
 import { isOpened as isModuleOpened, hotModule, getLastModuleOpened } from './global/modules';
 import logger from './logger';
 import { clearExceptions, logException } from './errorReporter';
+import { createQueue } from './utils/runQueue';
 
 /* eslint-disable camelcase, no-undef */
 const requireIndirect = typeof __webpack_require__ !== 'undefined' ? __webpack_require__ : require;
@@ -29,6 +31,15 @@ const createHoc = (SourceComponent, TargetComponent) => {
   return TargetComponent;
 };
 
+const runInRequireQueue = createQueue();
+const runInRenderQueue = createQueue(cb => {
+  if (ReactDOM.unstable_batchedUpdates) {
+    ReactDOM.unstable_batchedUpdates(cb);
+  } else {
+    cb();
+  }
+});
+
 const makeHotExport = (sourceModule, moduleId) => {
   const updateInstances = possibleError => {
     if (possibleError && possibleError instanceof Error) {
@@ -36,15 +47,20 @@ const makeHotExport = (sourceModule, moduleId) => {
       return;
     }
     const module = hotModule(moduleId);
-    clearTimeout(module.updateTimeout);
-    module.updateTimeout = setTimeout(() => {
+
+    // require all modules
+    runInRequireQueue(() => {
       try {
         requireIndirect(moduleId);
       } catch (e) {
         console.error('React-Hot-Loader: error detected while loading', moduleId);
         console.error(e);
       }
-      module.instances.forEach(inst => inst.forceUpdate());
+    }).then(() => {
+      // force flush all updates
+      runInRenderQueue(() => {
+        module.instances.forEach(inst => inst.forceUpdate());
+      });
     });
   };
 
