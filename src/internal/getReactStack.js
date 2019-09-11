@@ -26,7 +26,8 @@ function getReactStack(instance) {
 }
 
 const markUpdate = ({ fiber }) => {
-  if (!fiber) {
+  // do not update what we should not
+  if (!fiber || typeof fiber.type === 'string') {
     return;
   }
   fiber.expirationTime = 1;

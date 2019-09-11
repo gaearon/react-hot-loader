@@ -51,6 +51,8 @@ const makeHotExport = (sourceModule, moduleId) => {
     // require all modules
     runInRequireQueue(() => {
       try {
+        // webpack will require everything by this time
+        // but let's double check...
         requireIndirect(moduleId);
       } catch (e) {
         console.error('React-Hot-Loader: error detected while loading', moduleId);

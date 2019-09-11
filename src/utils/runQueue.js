@@ -10,7 +10,7 @@ export const createQueue = (runner = a => a()) => {
 
   const add = cb => {
     if (queue.length === 0) {
-      promise = Promise.resolve().then(() => runner(runAll()));
+      promise = Promise.resolve().then(() => runner(runAll));
     }
     queue.push(cb);
 
