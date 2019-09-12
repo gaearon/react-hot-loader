@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.13"></a>
+## [4.12.13](https://github.com/gaearon/react-hot-loader/compare/v4.12.12...v4.12.13) (2019-09-12)
+
+
+### Bug Fixes
+
+* error overlay should not be injected into the first instance, fixes [#1337](https://github.com/gaearon/react-hot-loader/issues/1337) ([c019663](https://github.com/gaearon/react-hot-loader/commit/c019663))
+* return null for null types, fixes [#1324](https://github.com/gaearon/react-hot-loader/issues/1324) ([08d7ed1](https://github.com/gaearon/react-hot-loader/commit/08d7ed1))
+* run hot in batched mode, fixes [#1332](https://github.com/gaearon/react-hot-loader/issues/1332) ([e801daf](https://github.com/gaearon/react-hot-loader/commit/e801daf))
+
+
+
 <a name="4.12.12"></a>
 ## [4.12.12](https://github.com/gaearon/react-hot-loader/compare/v4.12.11...v4.12.12) (2019-08-27)
 
