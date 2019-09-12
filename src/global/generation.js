@@ -7,6 +7,8 @@ let generation = 1;
 // these counters are aimed to mitigate the "first render"
 let hotComparisonCounter = 0;
 let hotComparisonRuns = 0;
+let hotReplacementGeneration = 0;
+
 const nullFunction = () => ({});
 
 // these callbacks would be called on component update
@@ -24,9 +26,10 @@ export const setComparisonHooks = (open, element, close) => {
 export const getElementComparisonHook = component => onHotComparisonElement(component);
 export const getElementCloseHook = component => onHotComparisonClose(component);
 
-export const hotComparisonOpen = () => hotComparisonCounter > 0 && hotComparisonRuns > 0;
+export const hotComparisonOpen = () =>
+  hotComparisonCounter > 0 && hotComparisonRuns > 0 && hotReplacementGeneration > 0;
 
-const openGeneration = () => forEachKnownClass(onHotComparisonElement);
+export const openGeneration = () => forEachKnownClass(onHotComparisonElement);
 
 export const closeGeneration = () => forEachKnownClass(onHotComparisonClose);
 
@@ -48,6 +51,7 @@ const decrementHot = () => {
 export const configureGeneration = (counter, runs) => {
   hotComparisonCounter = counter;
   hotComparisonRuns = runs;
+  hotReplacementGeneration = runs;
 };
 
 // TODO: shall it be called from incrementHotGeneration?
@@ -63,6 +67,5 @@ export const increment = () => {
 export const get = () => generation;
 
 // These counters tracks HMR generations, and probably should be used instead of the old one
-let hotReplacementGeneration = 0;
 export const incrementHotGeneration = () => hotReplacementGeneration++;
 export const getHotGeneration = () => hotReplacementGeneration;

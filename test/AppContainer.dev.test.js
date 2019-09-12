@@ -347,11 +347,10 @@ describe(`AppContainer (dev)`, () => {
 
       const wrapper = mount(<Indirect App={App} />);
       expect(wrapper.text()).toBe('works before');
-      expect(<App />.type.prototype.render).not.toBe(App.prototype.render);
-      closeGeneration();
       expect(<App />.type.prototype.render).toBe(App.prototype.render);
       const originalRender = App.prototype.render;
 
+      let newRender;
       {
         /* eslint-disable */
         class SubApp extends Component {
@@ -389,12 +388,16 @@ describe(`AppContainer (dev)`, () => {
 
         incrementGeneration();
         wrapper.setProps({ App });
+        newRender = App.prototype.render;
       }
 
       expect(wrapper.text()).toBe('works after');
       expect(spy).not.toHaveBeenCalled();
       // render on App is changed by merge process. Compare with stored value
       expect(<App />.type.prototype.render).not.toBe(originalRender);
+      expect(<App />.type.prototype.render).not.toBe(newRender);
+      closeGeneration();
+      expect(<App />.type.prototype.render).toBe(newRender);
 
       configuration.pureRender = pureRender;
     });

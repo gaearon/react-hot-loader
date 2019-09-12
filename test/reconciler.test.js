@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { mount } from 'enzyme';
 import TestRenderer from 'react-test-renderer';
 import { AppContainer } from '../src/index.dev';
-import { closeGeneration, configureGeneration, increment as incrementGeneration } from '../src/global/generation';
+import {
+  openGeneration,
+  closeGeneration,
+  configureGeneration,
+  increment as incrementGeneration,
+} from '../src/global/generation';
 import { areComponentsEqual } from '../src/utils.dev';
 import logger from '../src/logger';
 import reactHotLoader from '../src/reactHotLoader';
@@ -243,9 +248,11 @@ describe('reconciler', () => {
 
       expect(wrapper.html()).not.toContain('REPLACED');
 
+      openGeneration();
       currentComponent = second;
       incrementGeneration();
       wrapper.setProps({ update: 'now' });
+      closeGeneration();
 
       expect(wrapper.html()).toContain('REPLACED');
 
@@ -282,8 +289,10 @@ describe('reconciler', () => {
       expect(First.rendered).toHaveBeenCalledTimes(3 + renderCompensation);
       expect(Second.rendered).toHaveBeenCalledTimes(3 + renderCompensation);
 
+      openGeneration();
       incrementGeneration();
       wrapper.setProps({ second: false });
+      closeGeneration();
       expect(First.rendered).toHaveBeenCalledTimes(5 + renderCompensation);
       expect(Second.rendered).toHaveBeenCalledTimes(3 + renderCompensation);
 
@@ -351,12 +360,16 @@ describe('reconciler', () => {
       const wrapper = mount(<App />);
       expect(First.rendered).toHaveBeenCalledTimes(0);
 
+      openGeneration();
       incrementGeneration();
       wrapper.setProps({ first: true });
+      closeGeneration();
       expect(First.rendered).toHaveBeenCalledTimes(1); // 1. prev state was empty == no need to reconcile
 
+      openGeneration();
       incrementGeneration();
       wrapper.setProps({ second: true });
+      closeGeneration();
       expect(First.rendered).toHaveBeenCalledTimes(3); // +3 (reconcile + update + render)
       expect(Second.rendered).toHaveBeenCalledTimes(1); // (update from first + render)
 
