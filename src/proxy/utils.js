@@ -33,10 +33,14 @@ const ES6ProxyComponentFactory = (InitialParent, postConstructionAction) =>
   indirectEval(`
 (function(InitialParent, postConstructionAction) {
   return class ${InitialParent.name || 'HotComponent'} extends InitialParent {
+    /*
+     ! THIS IS NOT YOUR COMPONENT !
+     !  THIS IS REACT-HOT-LOADER  !
   
-    // this is a "${InitialParent.name}" component, patched by React-Hot-Loader
-    // Sorry, but the real class code was hidden behind this facade
-    // Please refer to https://github.com/gaearon/react-hot-loader for details...   
+     this is a "${InitialParent.name}" component, patched by React-Hot-Loader
+     Sorry, but the real class code was hidden behind this facade
+     Please refer to https://github.com/gaearon/react-hot-loader for details...
+    */    
     
     constructor(props, context) {
       super(props, context)
