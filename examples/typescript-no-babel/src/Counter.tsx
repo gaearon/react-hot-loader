@@ -1,9 +1,9 @@
 import * as React from 'react'
 
 class Counter extends React.Component<{}, { count: number }> {
-  interval: number;
+  interval: number
 
-  constructor(props : any) {
+  constructor(props: any) {
     super(props)
     this.state = { count: 0 }
   }
@@ -17,12 +17,12 @@ class Counter extends React.Component<{}, { count: number }> {
 
   generateString1() {
     // you can update this method, and it will work
-    return "1";
+    return "1"
   }
 
   generateString2 = ()  => {
     // this one will not
-    return "1";
+    return "1"
   }
 
   componentWillUnmount() {
