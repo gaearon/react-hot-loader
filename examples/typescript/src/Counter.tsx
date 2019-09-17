@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 class Counter extends React.Component<{}, { count: number }> {
-  interval: number;
+  interval: number
 
   constructor(props : any) {
     super(props)
@@ -16,11 +16,11 @@ class Counter extends React.Component<{}, { count: number }> {
   }
 
   generateString1() {
-    return "1";
+    return "1"
   }
 
   generateString2 = ()  => {
-    return "1";
+    return "1"
   }
 
   componentWillUnmount() {

@@ -1,4 +1,3 @@
-/* eslint-disable */
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -6,29 +5,22 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: {
-    vendor: [
-      // Required to support async/await
-      '@babel/polyfill',
-    ],
-    main: ['./src/index'],
-  },
+  entry: ['./src/index'],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].js',
+    filename: 'bundle.js',
   },
-  devtool: false,
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    modules: ['node_modules'],
     alias: {
-      'react-hot-loader': path.resolve(path.join(__dirname, './../../')),
-      react: path.resolve(path.join(__dirname, './node_modules/react')),
+      'react-dom': '@hot-loader/react-dom',
     },
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
   module: {
     rules: [
       {
-        test: /\.(j|t)sx?$/,
+        test: /\.(j|t)s(x)?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -54,5 +46,6 @@ module.exports = {
       },
     ],
   },
+  devtool: 'eval-source-map',
   plugins: [new ForkTsCheckerWebpackPlugin(), new webpack.NamedModulesPlugin(), new HtmlWebpackPlugin()],
 };
