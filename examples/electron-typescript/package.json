@@ -1,0 +1,34 @@
+{
+  "name": "electron-typescript",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "watch": "rm -rf ./dist && mkdir ./dist && cp ./app/development.html ./dist/index.html && NODE_ENV=development webpack-dev-server --hot",
+    "build": "rm -rf ./dist && mkdir ./dist && cp ./app/production.html ./dist/index.html && NODE_ENV=development webpack",
+    "start": "electron main.js"
+  },
+  "main": "main.js",
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "babel-loader": "^8.0.6",
+    "core-js": "^3.2.1",
+    "electron": "^6.0.8",
+    "fork-ts-checker-webpack-plugin": "^1.5.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-hot-loader": "^4.12.13",
+    "regenerator-runtime": "^0.13.3",
+    "typescript": "^3.6.3",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.8",
+    "webpack-dev-server": "^3.8.1",
+    "webpack-merge": "^4.2.2"
+  }
+}
