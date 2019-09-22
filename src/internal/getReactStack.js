@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import hydrateFiberStack from './stack/hydrateFiberStack';
 import hydrateLegacyStack from './stack/hydrateLegacyStack';
 import { getInternalInstance } from './reactUtils';
+import { resolveType } from '../reconciler/resolver';
 
 function getReactStack(instance) {
   const rootNode = getInternalInstance(instance);
@@ -30,10 +31,18 @@ const markUpdate = ({ fiber }) => {
   if (!fiber || typeof fiber.type === 'string') {
     return;
   }
+
+  const mostResentType = resolveType(fiber.type) || fiber.type;
+  if (fiber.elementType === fiber.type) {
+    fiber.elementType = mostResentType;
+  }
+  fiber.type = mostResentType;
+
   fiber.expirationTime = 1;
   if (fiber.alternate) {
     fiber.alternate.expirationTime = 1;
     fiber.alternate.type = fiber.type;
+    fiber.alternate.elementType = fiber.elementType;
   }
 
   if (fiber.memoizedProps && typeof fiber.memoizedProps === 'object') {
