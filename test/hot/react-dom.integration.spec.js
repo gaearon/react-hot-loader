@@ -64,6 +64,7 @@ describe(`🔥-dom`, () => {
       expect(el.innerHTML).toEqual('fun2');
 
       expect(mount).toHaveBeenCalledWith('test1');
+      // THIS TEST IS EXPECTED TO FAIL ON LOCAL MACHINE (have no idea why)!!
       expect(mount).not.toHaveBeenCalledWith('test2');
       expect(unmount).not.toHaveBeenCalled();
     });
@@ -237,6 +238,7 @@ describe(`🔥-dom`, () => {
       }
 
       await tick();
+      // THIS TEST IS EXPECTED TO FAIL ON LOCAL MACHINE (have no idea why)!!
       expect(el.innerHTML).toEqual('test1');
 
       incrementHotGeneration();
@@ -340,6 +342,10 @@ describe(`🔥-dom`, () => {
     });
 
     it('support lazy memo forward in Provider', () => {
+      setConfig({
+        trackTailUpdates: false,
+      });
+
       const spy = jest.fn();
       const sandbox = x => {
         const Comp = () => {

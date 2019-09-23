@@ -43,9 +43,6 @@ const configuration = {
   // flag to completely disable RHL for SFC. Probably don't use it without dom patch made.
   ignoreSFC: false,
 
-  // flag to disable special treatment for React.lazy
-  ignoreLazy: false,
-
   // ignoreSFC when injection into react-dom is made
   ignoreSFCWhenInjected: true,
 

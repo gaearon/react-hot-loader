@@ -7,7 +7,7 @@ import { resolveType } from './resolver';
 const lazyConstructor = '_ctor';
 
 const patchLazyConstructor = target => {
-  if (!configuration.ignoreLazy && !target[lazyConstructor].isPatchedByReactHotLoader) {
+  if (!configuration.trackTailUpdates && !target[lazyConstructor].isPatchedByReactHotLoader) {
     const ctor = target[lazyConstructor];
     target[lazyConstructor] = () =>
       ctor().then(m => {

@@ -419,6 +419,13 @@ const Hello = () => 'Hello';
 export default hot(Hello); // <-- module will reload itself
 ```
 
+To support any code splitting library RHL uses a special _tail update detection_ logic -
+if some components would be requested after initial HMR event - Application would be updated yet again to
+apply possible change.
+In this case you will see a message `React-Hot-Loader: some components were updated out-of-bound. Updating your app to reconcile the changes.`.
+
+If this is not something you want or need - you might disable this behavior by setting `setConfiguration({trackTailUpdates:false})` to disable it.
+
 ### Checking Element `type`s
 
 Because React Hot Loader creates proxied versions of your components, comparing

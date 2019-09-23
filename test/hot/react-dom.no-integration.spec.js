@@ -270,6 +270,10 @@ describe(`🔥-dom`, () => {
     });
 
     it('support lazy memo forward', () => {
+      setConfig({
+        trackTailUpdates: false,
+      });
+
       const spy = jest.fn();
       const sandbox = x => {
         const Comp = () => {
