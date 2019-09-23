@@ -66,12 +66,30 @@ export function resolveNotComponent(type) {
   return undefined;
 }
 
+export const getLatestTypeVersion = type => {
+  const existingProxy = getProxyByType(type);
+  return existingProxy && existingProxy.getCurrent && existingProxy.getCurrent();
+};
+
 export const resolveSimpleType = type => {
   if (!type) {
     return type;
   }
 
-  return resolveProxy(type) || resolveUtility(type) || type;
+  const simpleResult = resolveProxy(type) || resolveUtility(type) || resolveNotComponent(type);
+  if (simpleResult) {
+    return simpleResult;
+  }
+
+  const lastType = getLatestTypeVersion(type);
+
+  // only lazy loaded components any now failing into this branch
+
+  // if (lastType && lastType !== type) {
+  //   console.warn('RHL: used type', type, 'is obsolete. Something is wrong with HMR.');
+  // }
+
+  return lastType || type;
 };
 
 export const resolveType = (type, options = {}) => {

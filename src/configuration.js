@@ -54,6 +54,9 @@ const configuration = {
 
   // Global error overlay
   ErrorOverlay: undefined,
+
+  // react hot dom features enabled
+  IS_REACT_MERGE_ENABLED: false,
 };
 
 export const internalConfiguration = {
