@@ -57,7 +57,6 @@ const hookWrapper = hook => {
 const noDeps = () => [];
 
 const reactHotLoader = {
-  IS_REACT_MERGE_ENABLED: false,
   signature(type, key, getCustomHooks = noDeps) {
     addSignature(type, { key, getCustomHooks });
     return type;
@@ -75,7 +74,7 @@ const reactHotLoader = {
       const proxy = getProxyById(id);
 
       if (proxy && proxy.getCurrent() !== type) {
-        if (!reactHotLoader.IS_REACT_MERGE_ENABLED) {
+        if (!configuration.IS_REACT_MERGE_ENABLED) {
           if (isTypeBlacklisted(type) || isTypeBlacklisted(proxy.getCurrent())) {
             logger.error('React-hot-loader: Cold component', uniqueLocalName, 'at', fileName, 'has been updated');
           }
@@ -146,7 +145,7 @@ const reactHotLoader = {
 
       configuration.ignoreSFC = configuration.ignoreSFCWhenInjected;
 
-      reactHotLoader.IS_REACT_MERGE_ENABLED = true;
+      configuration.IS_REACT_MERGE_ENABLED = true;
       configuration.showReactDomPatchNotification = false;
       configuration.integratedComparator = true;
 

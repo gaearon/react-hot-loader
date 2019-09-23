@@ -8,6 +8,7 @@ import { isOpened as isModuleOpened, hotModule, getLastModuleOpened } from './gl
 import logger from './logger';
 import { clearExceptions, logException } from './errorReporter';
 import { createQueue } from './utils/runQueue';
+import { enterHotUpdate, getHotGeneration } from './global/generation';
 
 /* eslint-disable camelcase, no-undef */
 const requireIndirect = typeof __webpack_require__ !== 'undefined' ? __webpack_require__ : require;
@@ -48,6 +49,29 @@ const makeHotExport = (sourceModule, moduleId) => {
     }
     const module = hotModule(moduleId);
 
+    const deepUpdate = () => {
+      // force flush all updates
+      runInRenderQueue(() => {
+        enterHotUpdate();
+        const gen = getHotGeneration();
+        module.instances.forEach(inst => inst.forceUpdate());
+
+        let runLimit = 0;
+        const checkTailUpdates = () => {
+          setTimeout(() => {
+            if (getHotGeneration() !== gen) {
+              console.warn('React-Hot-Loader has detected a stale state. Updating...');
+              deepUpdate();
+            } else if (++runLimit < 5) {
+              checkTailUpdates();
+            }
+          }, 16);
+        };
+
+        checkTailUpdates();
+      });
+    };
+
     // require all modules
     runInRequireQueue(() => {
       try {
@@ -58,12 +82,7 @@ const makeHotExport = (sourceModule, moduleId) => {
         console.error('React-Hot-Loader: error detected while loading', moduleId);
         console.error(e);
       }
-    }).then(() => {
-      // force flush all updates
-      runInRenderQueue(() => {
-        module.instances.forEach(inst => inst.forceUpdate());
-      });
-    });
+    }).then(deepUpdate);
   };
 
   if (sourceModule.hot) {

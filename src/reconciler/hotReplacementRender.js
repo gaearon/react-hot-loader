@@ -13,7 +13,6 @@ import {
   isLazyType,
   isForwardType,
 } from '../internal/reactUtils';
-import reactHotLoader from '../reactHotLoader';
 import logger from '../logger';
 import configuration, { internalConfiguration } from '../configuration';
 import { areSwappable } from './utils';
@@ -142,7 +141,7 @@ const mergeInject = (a, b, instance) => {
   }
   if (flatB.length === 0 && flatA.length === 1 && typeof flatA[0] !== 'object') {
     // terminal node
-  } else if (!reactHotLoader.IS_REACT_MERGE_ENABLED) {
+  } else if (!configuration.IS_REACT_MERGE_ENABLED) {
     logger.warn(`React-hot-loader: unable to merge `, a, 'and children of ', instance);
     stackReport();
   }
@@ -312,7 +311,7 @@ const hotReplacementRender = (instance, stack) => {
           }
 
           if (!stackChild.type[PROXY_KEY]) {
-            if (!reactHotLoader.IS_REACT_MERGE_ENABLED) {
+            if (!configuration.IS_REACT_MERGE_ENABLED) {
               if (isTypeBlacklisted(stackChild.type)) {
                 logger.warn('React-hot-loader: cold element got updated ', stackChild.type);
               }
