@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.14"></a>
+## [4.12.14](https://github.com/gaearon/react-hot-loader/compare/v4.12.13...v4.12.14) (2019-09-23)
+
+
+### Bug Fixes
+
+* autodetect underupdated state and trigger an automatic update, fixes [#1342](https://github.com/gaearon/react-hot-loader/issues/1342) ([33c54f5](https://github.com/gaearon/react-hot-loader/commit/33c54f5))
+* resolve all components to their last versions, [#1342](https://github.com/gaearon/react-hot-loader/issues/1342) ([62bc67e](https://github.com/gaearon/react-hot-loader/commit/62bc67e))
+
+
+
 <a name="4.12.13"></a>
 ## [4.12.13](https://github.com/gaearon/react-hot-loader/compare/v4.12.12...v4.12.13) (2019-09-12)
 
