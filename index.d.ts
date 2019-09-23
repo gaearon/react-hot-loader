@@ -129,6 +129,11 @@ export interface Config {
    * Global error overlay
    */
   ErrorOverlay: React.ComponentType<{ errors: Array<HotError> }>;
+
+  /**
+   * Controls tail(deferred) update checking
+   */
+  trackTailUpdates: boolean;
 }
 
 /**

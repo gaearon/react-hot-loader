@@ -1,13 +1,13 @@
 import React from 'react';
-
+import configuration from '../configuration';
 import { enterHotUpdate } from '../global/generation';
 import AppContainer from '../AppContainer.dev';
 import { resolveType } from './resolver';
 
 const lazyConstructor = '_ctor';
 
-const patchLazyContructor = target => {
-  if (!target[lazyConstructor].isPatchedByReactHotLoader) {
+const patchLazyConstructor = target => {
+  if (!configuration.ignoreLazy && !target[lazyConstructor].isPatchedByReactHotLoader) {
     const ctor = target[lazyConstructor];
     target[lazyConstructor] = () =>
       ctor().then(m => {
@@ -41,8 +41,8 @@ export const updateLazy = (target, type) => {
     // just execute `import` and RHL.register will do the job
     ctor();
   }
-  patchLazyContructor(target);
-  patchLazyContructor(type);
+  patchLazyConstructor(target);
+  patchLazyConstructor(type);
 };
 
 export const updateMemo = (target, { type }) => {

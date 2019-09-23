@@ -43,6 +43,9 @@ const configuration = {
   // flag to completely disable RHL for SFC. Probably don't use it without dom patch made.
   ignoreSFC: false,
 
+  // flag to disable special treatment for React.lazy
+  ignoreLazy: false,
+
   // ignoreSFC when injection into react-dom is made
   ignoreSFCWhenInjected: true,
 
@@ -54,6 +57,9 @@ const configuration = {
 
   // Global error overlay
   ErrorOverlay: undefined,
+
+  // Actively track lazy loaded components
+  trackTailUpdates: true,
 
   // react hot dom features enabled
   IS_REACT_MERGE_ENABLED: false,

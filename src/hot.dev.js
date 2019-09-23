@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
+
 import { getComponentDisplayName } from './internal/reactUtils';
+import configuration from './configuration';
 import AppContainer from './AppContainer.dev';
 import reactHotLoader from './reactHotLoader';
 import { isOpened as isModuleOpened, hotModule, getLastModuleOpened } from './global/modules';
@@ -56,19 +58,26 @@ const makeHotExport = (sourceModule, moduleId) => {
         const gen = getHotGeneration();
         module.instances.forEach(inst => inst.forceUpdate());
 
-        let runLimit = 0;
-        const checkTailUpdates = () => {
-          setTimeout(() => {
-            if (getHotGeneration() !== gen) {
-              console.warn('React-Hot-Loader has detected a stale state. Updating...');
-              deepUpdate();
-            } else if (++runLimit < 5) {
-              checkTailUpdates();
-            }
-          }, 16);
-        };
+        if (configuration.trackTailUpdates) {
+          let runLimit = 0;
+          const checkTailUpdates = () => {
+            setTimeout(() => {
+              if (getHotGeneration() !== gen) {
+                // we know that some components were updated, but not tracking which ones
+                // even if their updates might be incorporated automatically (like lazy)
+                // we dont know which one should be tracked, and which updates are important
+                console.warn(
+                  'React-Hot-Loader: some components were updated out-of-bound. Updating your app to reconcile the changes.',
+                );
+                deepUpdate();
+              } else if (++runLimit < 5) {
+                checkTailUpdates();
+              }
+            }, 16);
+          };
 
-        checkTailUpdates();
+          checkTailUpdates();
+        }
       });
     };
 

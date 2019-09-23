@@ -22,7 +22,7 @@ describe(`🔥-dom`, () => {
 
   if (React.useContext && String(() => 42).indexOf('=>') > 0) {
     it('shall (not) integrate with React', () => {
-      expect(ReactHotLoader.IS_REACT_MERGE_ENABLED).toBe(false);
+      expect(configuration.IS_REACT_MERGE_ENABLED).toBe(false);
       expect(configuration.integratedResolver).toBe(false);
       expect(React.useEffect.isPatchedByReactHotLoader).toBe(true);
     });
