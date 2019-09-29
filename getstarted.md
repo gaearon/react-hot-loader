@@ -93,7 +93,31 @@ Check out the boilerplate's [`webpack.config.js`](https://github.com/gaearon/rea
 
 If you are using server-side rendering, the WebpackDevServer above is not enough. Instead, we have to use an Express server with the `webpack-dev-middleware`.  This is a bit more work, but also gives us more control. We need to add this middleware and it's entry point.
 
-XXX TODO
+```js
+const express = require('express');
+const webpack = require('webpack');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+
+const config = {
+  /* webpack options, including: */
+  entry: [
+    'react-hot-loader/patch',
+    'webpack-hot-middleware/client',
+    '/path/to/your/app.js'
+  ]
+};
+const compiler = webpack(config);
+const app = express();
+
+app.use(
+  webpackDevMiddleware(compiler, { /* webpack middleware options */ })
+).use(
+  webpackHotMiddleware(compiler)
+).listen(3000, () => {
+  console.log('Listening at http://localhost:3000/');
+});
+```
 
 #### Meteor
 
