@@ -323,7 +323,7 @@ small code,li code,p code {
 .highlight {
     position: relative;
     margin-bottom: 14px;
-    padding: 30px 14px 14px;
+    padding: 14px;
     border: none;
     border-radius: 0;
     overflow: auto;
@@ -362,5 +362,4 @@ small code,li code,p code {
     font-weight: bold;
     color: #c2c0bc;
     background-color: #f1ede4;
-    content: "Code";
 }
