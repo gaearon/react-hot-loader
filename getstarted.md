@@ -77,4 +77,6 @@ module.exports = {
 
 ## More documentation
 
-For more detailed documentation, see [README on GitHub](https://github.com/gaearon/react-hot-loader/blob/master/README.md).
+For more detailed documentation, see [README on GitHub](https://github.com/gaearon/react-hot-loader/blob/master/README.md). A troubleshooting guide documenting common setup issues [can be found here](https://github.com/gaearon/react-hot-loader/blob/master/docs/Troubleshooting.md).
+
+Contributions to the project [are also welcome](https://github.com/gaearon/react-hot-loader/blob/master/CONTRIBUTING.md)!
