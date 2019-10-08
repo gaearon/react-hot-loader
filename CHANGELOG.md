@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.12.15"></a>
+## [4.12.15](https://github.com/gaearon/react-hot-loader/compare/v4.12.14...v4.12.15) (2019-10-08)
+
+
+### Bug Fixes
+
+* React 16.10 support ([b7ed82a](https://github.com/gaearon/react-hot-loader/commit/b7ed82a))
+
+
+
 <a name="4.12.14"></a>
 ## [4.12.14](https://github.com/gaearon/react-hot-loader/compare/v4.12.13...v4.12.14) (2019-09-23)
 
