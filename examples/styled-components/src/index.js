@@ -1,5 +1,6 @@
 import 'react-lifecycles-compat';
-import 'babel-polyfill';
+import 'core-js/modules/es6.promise';
+// import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import App from './App';

@@ -23,8 +23,8 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "emotion": "^8.0.12",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
     "react-emotion": "^9.2.12",
     "react-hot-loader": "^4.6.5",
     "react-spring": "^8.0.25",
