@@ -113,6 +113,17 @@ Generally, the best way to fix this class of errors is to compare your setup to 
 
 WebpackDevServer CLI mode [behaves slightly differently](https://github.com/webpack/webpack-dev-server/issues/106) from its Node API. When in doubt, I suggest you use Node API like [React Hot Boilerplate does](https://github.com/gaearon/react-hot-boilerplate/blob/master/server.js).
 
+#### Check your NODE_ENV value
+
+If you are seeing an error like this:
+
+```
+[HMR] The following modules couldn't be hot updated: (Full reload needed)
+This is usually because the modules which have changed (and their parents) do not know how to hot reload themselves.
+```
+
+You may have `NODE_ENV` set to either `production` or `test`. Setting `NODE_ENV` to either of these will cause `react-hot-loader` to compile in production mode. Try setting `NODE_ENV` to something like `development`.
+
 #### Uncaught RangeError: Maximum call stack size exceeded
 
 When using WebpackDevServer CLI flag `--hot`, the plugin `new HotModuleReplacementPlugin()` should not be used and vice versa, they are mutually exclusive but the desired effect will work with any of them.
