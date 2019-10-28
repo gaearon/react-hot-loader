@@ -392,7 +392,7 @@ If you are using `babel-plugin` you might not need to apply `webpack-loader` to 
 If you want to use Code Splitting + React Hot Loader, the simplest solution is to pick a library compatible with this one:
 
 <!-- TODO: make sure that these are all currently compatible -->
-* [Loadable Components](https://github.com/smooth-code/loadable-components/)
+* [React Lazy](https://reactjs.org/docs/code-splitting.html#reactlazy)
 * [Imported Component](https://github.com/theKashey/react-imported-component)
 * [React Universal Component](https://github.com/faceyspacey/react-universal-component)
 * [React-Loadable](https://github.com/jamiebuilds/react-loadable)
