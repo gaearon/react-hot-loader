@@ -399,7 +399,7 @@ If you want to use Code Splitting + React Hot Loader, the simplest solution is t
 
 If you use a not-yet-friendly library, like [react-async-component](github.com/ctrlplusb/react-async-component),
 or are having problems with hot reloading failing to reload code-split components,
-you can manually mark the components at the code-split boundaries.
+you can manually mark the components below the code-split boundaries.
 
 ```js
 // AsyncHello.js
