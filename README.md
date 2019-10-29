@@ -389,14 +389,16 @@ If you are using `babel-plugin` you might not need to apply `webpack-loader` to 
 
 ### Code Splitting
 
-If you want to use Code Splitting + React Hot Loader, the simplest solution is to pick one of our compatible library:
+If you want to use Code Splitting + React Hot Loader, the simplest solution is to pick a library compatible with this one:
 
-* [Loadable Components](https://github.com/smooth-code/loadable-components/)
+* [React Lazy](https://reactjs.org/docs/code-splitting.html#reactlazy)
 * [Imported Component](https://github.com/theKashey/react-imported-component)
 * [React Universal Component](https://github.com/faceyspacey/react-universal-component)
 * [React-Loadable](https://github.com/jamiebuilds/react-loadable)
 
-If you use a non-yet-friendly library, like [react-async-component](github.com/ctrlplusb/react-async-component) you have to mark all your "loaded components" as _hot-exported_:
+If you use a not-yet-friendly library, like [react-async-component](github.com/ctrlplusb/react-async-component),
+or are having problems with hot reloading failing to reload code-split components,
+you can manually mark the components below the code-split boundaries.
 
 ```js
 // AsyncHello.js
@@ -410,6 +412,9 @@ const AsyncHello = asyncComponent({
 export default AsyncHello;
 ```
 
+Note that `Hello` is the component at the root of this particular
+code-split chunk.
+
 ```js
 // Hello.js
 import { hot } from 'react-hot-loader/root';
@@ -419,12 +424,28 @@ const Hello = () => 'Hello';
 export default hot(Hello); // <-- module will reload itself
 ```
 
-To support any code splitting library RHL uses a special _tail update detection_ logic -
-if some components would be requested after initial HMR event - Application would be updated yet again to
-apply possible change.
-In this case you will see a message `React-Hot-Loader: some components were updated out-of-bound. Updating your app to reconcile the changes.`.
+Wrapping this root component with `hot()` will ensure that it is hot reloaded correctly.
 
-If this is not something you want or need - you might disable this behavior by setting `setConfiguration({trackTailUpdates:false})` to disable it.
+### Out-of-bound warning
+You may see the following warning when code-split components are updated:
+```console
+React-Hot-Loader: some components were updated out-of-bound. Updating your app to reconcile the changes.
+```
+
+This is because the hot reloading of code-split components happens asynchronously. If you had an `App.js` that implemented
+the `AsyncHello` component above and you modified `AsyncHello`, it would be bundled and reloaded at the same time as
+`App.js`. However, the core hot reloading logic is synchronous, meaning that it's possible for the hot reload to run before
+the updates to the split component have landed.
+
+In this case, RHL uses a special _tail update detection_ logic, where it notes that an an update to a split component
+has happened after the core hot reloading logic has already finished, and it triggers another update cycle to ensure
+that all changes are applied.
+
+The warning is informational - it is a notice that this tail update logic is triggered, and does not indicate a problem
+in the configuration or useage of `react-hot-loader`.
+
+If the tail update detection is not something you want or need, you can disable this behavior by setting
+`setConfig({ trackTailUpdates:false })`.
 
 ### Checking Element `type`s
 
