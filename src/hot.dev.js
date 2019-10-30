@@ -66,9 +66,12 @@ const makeHotExport = (sourceModule, moduleId) => {
                 // we know that some components were updated, but not tracking which ones
                 // even if their updates might be incorporated automatically (like lazy)
                 // we dont know which one should be tracked, and which updates are important
-                console.warn(
-                  'React-Hot-Loader: some components were updated out-of-bound. Updating your app to reconcile the changes.',
-                );
+                if (typeof configuration.trackTailUpdates === 'boolean' && configuration.trackTailUpdates) {
+                  // Disable logging because user passed 'true'... they are aware they should be tracked.
+                  console.warn(
+                    'React-Hot-Loader: some components were updated out-of-bound. Updating your app to reconcile the changes.',
+                  );
+                }
                 deepUpdate();
               } else if (++runLimit < 5) {
                 checkTailUpdates();

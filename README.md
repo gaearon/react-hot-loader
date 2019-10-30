@@ -427,7 +427,9 @@ export default hot(Hello); // <-- module will reload itself
 Wrapping this root component with `hot()` will ensure that it is hot reloaded correctly.
 
 ### Out-of-bound warning
+
 You may see the following warning when code-split components are updated:
+
 ```console
 React-Hot-Loader: some components were updated out-of-bound. Updating your app to reconcile the changes.
 ```
@@ -446,6 +448,9 @@ in the configuration or useage of `react-hot-loader`.
 
 If the tail update detection is not something you want or need, you can disable this behavior by setting
 `setConfig({ trackTailUpdates:false })`.
+
+Alternatively, if you want trail detection but don't want the logging, you can pass `setConfig({ trackTailUpdates:false })`.
+This will keep it enabled but suppress the warnings.
 
 ### Checking Element `type`s
 
