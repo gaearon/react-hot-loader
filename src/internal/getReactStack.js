@@ -42,7 +42,10 @@ const markUpdate = ({ fiber }) => {
   if (fiber.alternate) {
     fiber.alternate.expirationTime = 1;
     fiber.alternate.type = fiber.type;
-    fiber.alternate.elementType = fiber.elementType;
+    // elementType might not exists in older react versions
+    if ('elementType' in fiber.alternate) {
+      fiber.alternate.elementType = fiber.elementType;
+    }
   }
 
   if (fiber.memoizedProps && typeof fiber.memoizedProps === 'object') {
