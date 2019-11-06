@@ -1,6 +1,16 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [4.12.16](https://github.com/gaearon/react-hot-loader/compare/v4.12.15...v4.12.16) (2019-11-06)
+
+
+### Bug Fixes
+
+* dont write to elementType if it is not defined, fixes [#1357](https://github.com/gaearon/react-hot-loader/issues/1357) ([1072303](https://github.com/gaearon/react-hot-loader/commit/1072303))
+* explain why RHL could not be activated, fixes [#1362](https://github.com/gaearon/react-hot-loader/issues/1362) ([9561d66](https://github.com/gaearon/react-hot-loader/commit/9561d66))
+* more @types/react to dependencies, fixes [#1359](https://github.com/gaearon/react-hot-loader/issues/1359) ([af42c1a](https://github.com/gaearon/react-hot-loader/commit/af42c1a))
+* use logger.warn instead of console to report tail update, fixes [#1386](https://github.com/gaearon/react-hot-loader/issues/1386) ([fbc890a](https://github.com/gaearon/react-hot-loader/commit/fbc890a))
 
 <a name="4.12.15"></a>
 ## [4.12.15](https://github.com/gaearon/react-hot-loader/compare/v4.12.14...v4.12.15) (2019-10-08)
