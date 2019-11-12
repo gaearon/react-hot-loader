@@ -53,6 +53,7 @@
   ],
   "devDependencies": {
     "@hot-loader/react-dom": "^16.8.6",
+    "@types/react": "16",
     "babel-cli": "^6.7.5",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
@@ -98,11 +99,11 @@
     "yarn-deduplicate": "^1.1.1"
   },
   "peerDependencies": {
+    "@types/react": "^15.0.0 || ^16.0.0",
     "react": "^15.0.0 || ^16.0.0",
     "react-dom": "^15.0.0 || ^16.0.0"
   },
   "dependencies": {
-    "@types/react": "^15.0.0 || ^16.0.0",
     "fast-levenshtein": "^2.0.6",
     "global": "^4.3.0",
     "hoist-non-react-statics": "^3.3.0",
