@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.12.17](https://github.com/gaearon/react-hot-loader/compare/v4.12.16...v4.12.17) (2019-11-12)
+
+
+### Bug Fixes
+
+* move @types/react from to peer dependencies, fixes [#1391](https://github.com/gaearon/react-hot-loader/issues/1391) ([5ab2cab](https://github.com/gaearon/react-hot-loader/commit/5ab2cab))
+
 ### [4.12.16](https://github.com/gaearon/react-hot-loader/compare/v4.12.15...v4.12.16) (2019-11-06)
 
 
