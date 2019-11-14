@@ -34,7 +34,8 @@ const markUpdate = ({ fiber }) => {
 
   const mostResentType = resolveType(fiber.type) || fiber.type;
   if (fiber.elementType === fiber.type) {
-    fiber.elementType = mostResentType;
+    // DO NOT update elementType - or will not be able to catch un update
+    // fiber.elementType = mostResentType;
   }
   fiber.type = mostResentType;
 
@@ -44,7 +45,7 @@ const markUpdate = ({ fiber }) => {
     fiber.alternate.type = fiber.type;
     // elementType might not exists in older react versions
     if ('elementType' in fiber.alternate) {
-      fiber.alternate.elementType = fiber.elementType;
+      // fiber.alternate.elementType = fiber.elementType;
     }
   }
 
