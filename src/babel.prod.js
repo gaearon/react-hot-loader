@@ -74,6 +74,7 @@ export default function plugin() {
           // ensure that this is `hot` from RHL
           isImportedFromRHL(path, specifier.local) &&
           path.parent.type === 'CallExpression' &&
+          path.parent.arguments.length === 1 &&
           path.parent.arguments[0] &&
           path.parent.arguments[0].type === 'Identifier'
         ) {
