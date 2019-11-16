@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.12.18](https://github.com/gaearon/react-hot-loader/compare/v4.12.17...v4.12.18) (2019-11-16)
+
+
+### Bug Fixes
+
+* (regression) hook order change is causing React error, fixes [#1393](https://github.com/gaearon/react-hot-loader/issues/1393) ([6707b4b](https://github.com/gaearon/react-hot-loader/commit/6707b4b))
+* production babel plugin might perform eager replacement, fixes [#1388](https://github.com/gaearon/react-hot-loader/issues/1388) ([b94adb3](https://github.com/gaearon/react-hot-loader/commit/b94adb3))
+
 ### [4.12.17](https://github.com/gaearon/react-hot-loader/compare/v4.12.16...v4.12.17) (2019-11-12)
 
 
