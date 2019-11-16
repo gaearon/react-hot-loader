@@ -5,9 +5,11 @@ import React, { Suspense } from 'react';
 import ReactDom from 'react-dom';
 // import TestRenderer from 'react-test-renderer';
 import ReactHotLoader, { setConfig } from '../../src/index.dev';
-import { configureGeneration, incrementHotGeneration } from '../../src/global/generation';
+import { configureGeneration, enterHotUpdate, incrementHotGeneration } from '../../src/global/generation';
 import configuration from '../../src/configuration';
-import { AppContainer } from '../../index';
+import AppContainer from '../../src/AppContainer.dev';
+import reactHotLoader from '../../src/reactHotLoader';
+import reconcileHotReplacement from '../../src/reconciler';
 
 jest.mock('react-dom', () => {
   const reactDom = require('./react-dom');
@@ -21,6 +23,7 @@ describe(`🔥-dom`, () => {
       ignoreSFC: true,
     });
     configureGeneration(1, 1);
+    reactHotLoader.register(AppContainer, 'AppContainer', 'test');
   });
 
   const tick = () => new Promise(resolve => setTimeout(resolve, 10));
@@ -211,6 +214,92 @@ describe(`🔥-dom`, () => {
       expect(unmount).toHaveBeenCalled();
 
       expect(mount).toHaveBeenCalledWith('test2');
+    });
+
+    it('should fail on hook order change', async () => {
+      const Fun1 = () => {
+        const [state, setState] = React.useState('test0');
+        React.useEffect(() => setState('test1'), []);
+        return state;
+      };
+
+      const el = document.createElement('div');
+      ReactDom.render(<Fun1 />, el);
+
+      expect(el.innerHTML).toEqual('test0');
+
+      incrementHotGeneration();
+      {
+        const Fun1 = () => {
+          React.useState('anotherstate');
+          const [state, setState] = React.useState('test0');
+          React.useEffect(() => setState('test1'), []);
+          return state;
+        };
+        expect(() => ReactDom.render(<Fun1 />, el)).toThrow();
+      }
+    });
+
+    it('should set on hook order change if signature provided', async () => {
+      const ref = React.createRef();
+      const App = ({ children }) => (
+        <AppContainer ref={ref}>
+          <React.Fragment>{children}</React.Fragment>
+        </AppContainer>
+      );
+      const Fun1 = () => {
+        const [state, setState] = React.useState('test0');
+        React.useEffect(() => setState('test1'), []);
+        return state;
+      };
+
+      const Fun2 = () => {
+        const [state, setState] = React.useState('step1');
+        React.useEffect(() => setState('step2'), []);
+        return state;
+      };
+
+      reactHotLoader.signature(Fun1, 'fun1-key1');
+      reactHotLoader.register(Fun1, 'Fun1', 'test');
+
+      const el = document.createElement('div');
+      ReactDom.render(
+        <App>
+          <Fun1 />
+          <Fun2 />
+        </App>,
+        el,
+      );
+
+      expect(el.innerHTML).toEqual('test0step1');
+      await tick();
+      expect(el.innerHTML).toEqual('test1step2');
+
+      {
+        const Fun1 = () => {
+          React.useState('anotherstate');
+          const [state, setState] = React.useState('test-new');
+          React.useEffect(() => setState('test1'), []);
+          return state;
+        };
+        reactHotLoader.signature(Fun1, 'fun1-key2');
+        reactHotLoader.register(Fun1, 'Fun1', 'test');
+
+        incrementHotGeneration();
+        enterHotUpdate();
+        reconcileHotReplacement(ref.current);
+
+        expect(() =>
+          ReactDom.render(
+            <App>
+              <Fun1 />
+              <Fun2 />
+            </App>,
+            el,
+          ),
+        ).not.toThrow();
+        expect(el.innerHTML).toEqual('test-newstep2');
+      }
     });
 
     it('should reset hook comparator', async () => {

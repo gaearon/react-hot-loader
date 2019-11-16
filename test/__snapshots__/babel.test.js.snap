@@ -1069,6 +1069,24 @@ exports.default = _default;
 })();"
 `;
 
+exports[`babel Targetting "es2015" tags potential React components drop hot half.prod.js 1`] = `
+"'use strict';
+
+var _reactHotLoader = require('react-hot-loader');
+
+var _root = require('react-hot-loader/root');
+
+var control = compose(withDebug, withDebug)(App);
+
+var targetCase1 = compose(withDebug, withDebug, (0, _reactHotLoader.hot)(module))(App);
+
+var targetCase2 = compose(withDebug, withDebug, _root.hot)(App);
+
+var removeHot1 = (0, _reactHotLoader.hot)(control);
+var removeHot2 = control;
+var removeHot3 = control;"
+`;
+
 exports[`babel Targetting "es2015" tags potential React components drop hot.prod.js 1`] = `
 "'use strict';
 
@@ -2177,6 +2195,24 @@ exports.default = _default;
   var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
   leaveModule && leaveModule(module);
 })();"
+`;
+
+exports[`babel Targetting "modern" tags potential React components drop hot half.prod.js 1`] = `
+"'use strict';
+
+var _reactHotLoader = require('react-hot-loader');
+
+var _root = require('react-hot-loader/root');
+
+const control = compose(withDebug, withDebug)(App);
+
+const targetCase1 = compose(withDebug, withDebug, (0, _reactHotLoader.hot)(module))(App);
+
+const targetCase2 = compose(withDebug, withDebug, _root.hot)(App);
+
+const removeHot1 = (0, _reactHotLoader.hot)(control);
+const removeHot2 = control;
+const removeHot3 = control;"
 `;
 
 exports[`babel Targetting "modern" tags potential React components drop hot.prod.js 1`] = `

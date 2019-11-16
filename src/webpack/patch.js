@@ -26,12 +26,13 @@ const injectionStart = {
 };
 
 const additional = {
+
   '16.10-update': [
-    '( // Keep this check inline so it only runs on the false path:\n    isCompatibleFamilyForHotReloading(current$$1, element)))',
+    'current$$1.elementType === element.type || ( // Keep this check inline so it only runs on the false path:\n    isCompatibleFamilyForHotReloading(current$$1, element)))',
     '(hotCompareElements(current$$1.elementType, element.type, hotUpdateChild(current$$1), current$$1.type)))'
   ],
   '16.9-update': [
-    '(\n    // Keep this check inline so it only runs on the false path:\n    isCompatibleFamilyForHotReloading(current$$1, element)))',
+    'current$$1.elementType === element.type || (\n    // Keep this check inline so it only runs on the false path:\n    isCompatibleFamilyForHotReloading(current$$1, element)))',
     '(hotCompareElements(current$$1.elementType, element.type, hotUpdateChild(current$$1), current$$1.type)))'
   ],
   '16.6-update': [

@@ -33,19 +33,13 @@ const markUpdate = ({ fiber }) => {
   }
 
   const mostResentType = resolveType(fiber.type) || fiber.type;
-  if (fiber.elementType === fiber.type) {
-    fiber.elementType = mostResentType;
-  }
   fiber.type = mostResentType;
+  // do not change fiber.elementType to keep old information for the hot-update
 
   fiber.expirationTime = 1;
   if (fiber.alternate) {
     fiber.alternate.expirationTime = 1;
     fiber.alternate.type = fiber.type;
-    // elementType might not exists in older react versions
-    if ('elementType' in fiber.alternate) {
-      fiber.alternate.elementType = fiber.elementType;
-    }
   }
 
   if (fiber.memoizedProps && typeof fiber.memoizedProps === 'object') {
