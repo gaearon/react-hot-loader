@@ -41,6 +41,9 @@ const Context = React.createContext();
 
 const Hook = () => {
   const [state, setState] = React.useState({ x: 4 });
+
+  React.useState(0);
+
   React.useEffect(() => {
     console.log('mount effected 1');
     setState(state => ({

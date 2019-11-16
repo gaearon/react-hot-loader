@@ -242,12 +242,23 @@ describe(`🔥-dom`, () => {
 
     it('should set on hook order change if signature provided', async () => {
       const ref = React.createRef();
-      const App = ({ children }) => <AppContainer ref={ref}>{children}</AppContainer>;
+      const App = ({ children }) => (
+        <AppContainer ref={ref}>
+          <React.Fragment>{children}</React.Fragment>
+        </AppContainer>
+      );
       const Fun1 = () => {
         const [state, setState] = React.useState('test0');
         React.useEffect(() => setState('test1'), []);
         return state;
       };
+
+      const Fun2 = () => {
+        const [state, setState] = React.useState('step1');
+        React.useEffect(() => setState('step2'), []);
+        return state;
+      };
+
       reactHotLoader.signature(Fun1, 'fun1-key1');
       reactHotLoader.register(Fun1, 'Fun1', 'test');
 
@@ -255,11 +266,14 @@ describe(`🔥-dom`, () => {
       ReactDom.render(
         <App>
           <Fun1 />
+          <Fun2 />
         </App>,
         el,
       );
 
-      expect(el.innerHTML).toEqual('test0');
+      expect(el.innerHTML).toEqual('test0step1');
+      await tick();
+      expect(el.innerHTML).toEqual('test1step2');
 
       {
         const Fun1 = () => {
@@ -279,11 +293,12 @@ describe(`🔥-dom`, () => {
           ReactDom.render(
             <App>
               <Fun1 />
+              <Fun2 />
             </App>,
             el,
           ),
         ).not.toThrow();
-        expect(el.innerHTML).toEqual('test-new');
+        expect(el.innerHTML).toEqual('test-newstep2');
       }
     });
 
