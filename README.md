@@ -16,6 +16,15 @@ Tweak React components in real time ⚛️⚡️
 Watch
 **[Dan Abramov's talk on Hot Reloading with Time Travel](https://www.youtube.com/watch?v=xsSnOQynTHs).**
 
+# Deprecation note
+React-Hot-Loader was your friendly neightbour, living outside of React. But it was limiting it's powers and causing not the greatest experience. It's time to make a next step.
+
+__React-Hot-Loader is expected to be replaced by [React Fast Refresh](https://github.com/facebook/react/issues/16604)__.
+
+- `parcel 2` - [supports Fast Refresh](https://github.com/facebook/react/issues/16604#issuecomment-556082893) since alpha 3.
+- `webpack` - no support yet, use React-Hot-Loader
+- `other bundler` - no support yet, use React-Hot-Loader
+
 ## Install
 
 ```
