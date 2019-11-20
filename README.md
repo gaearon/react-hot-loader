@@ -19,8 +19,9 @@ Watch
 # Deprecation note
 React-Hot-Loader was your friendly neightbour, living outside of React. But it was limiting it's powers and causing not the greatest experience. It's time to make a next step.
 
-__React-Hot-Loader is expected to be replaced by [React Fast Refresh](https://github.com/facebook/react/issues/16604)__.
+__React-Hot-Loader is expected to be replaced by [React Fast Refresh](https://github.com/facebook/react/issues/16604)__. Please remove React-Hot-Loader is Fast Refresh is supported at your environment.
 
+- `React Native` - [supports Fast Refresh](https://facebook.github.io/react-native/docs/fast-refresh) since 0.61.
 - `parcel 2` - [supports Fast Refresh](https://github.com/facebook/react/issues/16604#issuecomment-556082893) since alpha 3.
 - `webpack` - no support yet, use React-Hot-Loader
 - `other bundler` - no support yet, use React-Hot-Loader
