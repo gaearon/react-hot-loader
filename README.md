@@ -17,14 +17,15 @@ Watch
 **[Dan Abramov's talk on Hot Reloading with Time Travel](https://www.youtube.com/watch?v=xsSnOQynTHs).**
 
 # Deprecation note
+
 React-Hot-Loader was your friendly neightbour, living outside of React. But it was limiting it's powers and causing not the greatest experience. It's time to make a next step.
 
-__React-Hot-Loader is expected to be replaced by [React Fast Refresh](https://github.com/facebook/react/issues/16604)__. Please remove React-Hot-Loader is Fast Refresh is supported at your environment.
+**React-Hot-Loader is expected to be replaced by [React Fast Refresh](https://github.com/facebook/react/issues/16604)**. Please remove React-Hot-Loader is Fast Refresh is supported at your environment.
 
-- `React Native` - [supports Fast Refresh](https://facebook.github.io/react-native/docs/fast-refresh) since 0.61.
-- `parcel 2` - [supports Fast Refresh](https://github.com/facebook/react/issues/16604#issuecomment-556082893) since alpha 3.
-- `webpack` - no support yet, use React-Hot-Loader
-- `other bundler` - no support yet, use React-Hot-Loader
+* `React Native` - [supports Fast Refresh](https://facebook.github.io/react-native/docs/fast-refresh) since 0.61.
+* `parcel 2` - [supports Fast Refresh](https://github.com/facebook/react/issues/16604#issuecomment-556082893) since alpha 3.
+* `webpack` - no support yet, use React-Hot-Loader
+* `other bundler` - no support yet, use React-Hot-Loader
 
 ## Install
 
@@ -437,7 +438,9 @@ export default hot(Hello); // <-- module will reload itself
 Wrapping this root component with `hot()` will ensure that it is hot reloaded correctly.
 
 ### Out-of-bound warning
+
 You may see the following warning when code-split components are updated:
+
 ```console
 React-Hot-Loader: some components were updated out-of-bound. Updating your app to reconcile the changes.
 ```
