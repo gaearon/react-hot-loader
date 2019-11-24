@@ -162,6 +162,20 @@ export default hot(module)(App);
 webpack-dev-server --hot
 ```
 
+## What about production?
+
+The webpack patch, `hot`, Babel plugin, `@hot-loader/react-dom` etc. are all safe to use in production; they leave a minimal footprint, so there is no need to complicate your configuration based on the environment. Using the Babel plugin in production is even recommended because it switches to cleanup mode.
+
+Just ensure that the production mode has been properly set, both as an environment variable and in your bundler. E.g. with webpack you would build your code by running something like:
+
+```
+NODE_ENV=production webpack --mode production
+```
+
+`NODE_ENV=production` is needed for the Babel plugin, while `--mode production` uses [`webpack.DefinePlugin`](https://webpack.js.org/plugins/define-plugin/) to set `process.env.NODE_ENV` inside the compiled code itself, which is used by `hot` and `@hot-loader/react-dom`.
+
+Make sure to watch your bundle size when implementing react-hot-loader to ensure that you did it correctly.
+
 ## Limitations
 
 * (that's the goal) React-Hot-Loader would not change the past, only update the present - no lifecycle event would be called on component update.
