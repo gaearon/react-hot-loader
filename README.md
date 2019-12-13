@@ -421,7 +421,7 @@ If you want to use Code Splitting + React Hot Loader, the simplest solution is t
 * [React Universal Component](https://github.com/faceyspacey/react-universal-component)
 * [React-Loadable](https://github.com/jamiebuilds/react-loadable)
 
-If you use a not-yet-friendly library, like [react-async-component](github.com/ctrlplusb/react-async-component),
+If you use a not-yet-friendly library, like [react-async-component](https://github.com/ctrlplusb/react-async-component),
 or are having problems with hot reloading failing to reload code-split components,
 you can manually mark the components below the code-split boundaries.
 
