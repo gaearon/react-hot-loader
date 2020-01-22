@@ -24,8 +24,23 @@ const ComponentB = () => {
   );
 };
 
+const useSomeHandler = function() {
+  return 43;
+};
+
+function RippleComponent() {
+  function useRippleHandler() {}
+  useRippleHandler();
+  useRippleHandler();
+
+  return false;
+}
+
 const Counter = ({ children }) => {
   const [count, setState] = useState(0);
+  const useRippleHandler = function() {};
+  useRippleHandler();
+  useSomeHandler();
   useState(0);
   const ref = useRef();
   useEffect(() => {
@@ -43,6 +58,7 @@ const Counter = ({ children }) => {
             counter: count,
           })}
         {count % 2 ? <ComponentA /> : <ComponentB />}
+        <RippleComponent />
       </TimerContext.Provider>
     </div>
   );
