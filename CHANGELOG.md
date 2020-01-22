@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.12.19](https://github.com/gaearon/react-hot-loader/compare/v4.12.18...v4.12.19) (2020-01-22)
+
+
+### Bug Fixes
+
+* don't record signatures of local hooks, fixes [#1412](https://github.com/gaearon/react-hot-loader/issues/1412) ([#1413](https://github.com/gaearon/react-hot-loader/issues/1413)) ([c159844](https://github.com/gaearon/react-hot-loader/commit/c159844))
+
 ### [4.12.18](https://github.com/gaearon/react-hot-loader/compare/v4.12.17...v4.12.18) (2019-11-16)
 
 
