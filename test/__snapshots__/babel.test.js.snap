@@ -1342,6 +1342,105 @@ function spread() {
 })();"
 `;
 
+exports[`babel Targetting "es2015" tags potential React components local hooks.js 1`] = `
+"\\"use strict\\";
+
+var _react = require(\\"react\\");
+
+(function () {
+  var enterModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
+function Component1() {
+  function useRippleHandler() {}
+  useRippleHandler();
+  useRippleHandler();
+}
+
+__signature__(Component1, \\"useRippleHandler{}\\\\nuseRippleHandler{}\\");
+
+function Component2() {
+  var useRippleHandler = function useRippleHandler() {};
+  useRippleHandler();
+  useRippleHandler();
+}
+
+__signature__(Component2, \\"useRippleHandler{}\\\\nuseRippleHandler{}\\");
+
+function Component3() {
+  var useRippleHandler = function useRippleHandler() {};
+  useRippleHandler();
+  useRippleHandler();
+}
+
+__signature__(Component3, \\"useRippleHandler{}\\\\nuseRippleHandler{}\\");
+
+var useInnerHook = function useInnerHook(_ref) {
+  var useHookFromProps = _ref.useHookFromProps;
+
+  var useHookBase = function useHookBase() {
+    return (0, _react.useState)();
+  };
+
+  __signature__(useHookBase, \\"useState{}\\");
+
+  var useHook = function useHook() {
+    return (0, _react.useState)(useHookFromProps(useHookBase()));
+  };
+
+  __signature__(useHook, \\"useState{(useHookFromProps(useHookBase()))}\\\\nuseHookFromProps{}\\\\nuseHookBase{}\\", function () {
+    return [useHookFromProps, useHookBase];
+  });
+
+  useHookFromProps();
+  {
+    // sub scope
+    useHook();
+  }
+};
+
+__signature__(useInnerHook, \\"useHookFromProps{}\\\\nuseHook{}\\");
+
+var OnlyThisOneUsesExternalHook = function OnlyThisOneUsesExternalHook() {
+  useInnerHook();
+  (0, _react.useState)();
+};
+
+// check for \\"return [\\"
+
+__signature__(OnlyThisOneUsesExternalHook, \\"useInnerHook{}\\\\nuseState{}\\", function () {
+  return [useInnerHook];
+});
+
+;
+
+(function () {
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(Component1, \\"Component1\\", __FILENAME__);
+  reactHotLoader.register(Component2, \\"Component2\\", __FILENAME__);
+  reactHotLoader.register(Component3, \\"Component3\\", __FILENAME__);
+  reactHotLoader.register(useInnerHook, \\"useInnerHook\\", __FILENAME__);
+  reactHotLoader.register(OnlyThisOneUsesExternalHook, \\"OnlyThisOneUsesExternalHook\\", __FILENAME__);
+})();
+
+;
+
+(function () {
+  var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
+  leaveModule && leaveModule(module);
+})();"
+`;
+
 exports[`babel Targetting "es2015" tags potential React components name clash.js 1`] = `
 "\\"use strict\\";
 
@@ -2432,6 +2531,95 @@ function spread(...args) {
   }
 
   reactHotLoader.register(spread, \\"spread\\", __FILENAME__);
+})();
+
+;
+
+(function () {
+  var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
+  leaveModule && leaveModule(module);
+})();"
+`;
+
+exports[`babel Targetting "modern" tags potential React components local hooks.js 1`] = `
+"\\"use strict\\";
+
+var _react = require(\\"react\\");
+
+(function () {
+  var enterModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
+function Component1() {
+  function useRippleHandler() {}
+  useRippleHandler();
+  useRippleHandler();
+}
+
+__signature__(Component1, \\"useRippleHandler{}\\\\nuseRippleHandler{}\\");
+
+function Component2() {
+  const useRippleHandler = () => {};
+  useRippleHandler();
+  useRippleHandler();
+}
+
+__signature__(Component2, \\"useRippleHandler{}\\\\nuseRippleHandler{}\\");
+
+function Component3() {
+  const useRippleHandler = function () {};
+  useRippleHandler();
+  useRippleHandler();
+}
+
+__signature__(Component3, \\"useRippleHandler{}\\\\nuseRippleHandler{}\\");
+
+const useInnerHook = ({ useHookFromProps }) => {
+  const useHookBase = () => (0, _react.useState)();
+
+  __signature__(useHookBase, \\"useState{}\\");
+
+  const useHook = () => (0, _react.useState)(useHookFromProps(useHookBase()));
+
+  __signature__(useHook, \\"useState{(useHookFromProps(useHookBase()))}\\\\nuseHookFromProps{}\\\\nuseHookBase{}\\", () => [useHookFromProps, useHookBase]);
+
+  useHookFromProps();
+  {
+    // sub scope
+    useHook();
+  }
+};
+
+__signature__(useInnerHook, \\"useHookFromProps{}\\\\nuseHook{}\\");
+
+const OnlyThisOneUsesExternalHook = () => {
+  useInnerHook();
+  (0, _react.useState)();
+};
+
+// check for \\"return [\\"
+
+__signature__(OnlyThisOneUsesExternalHook, \\"useInnerHook{}\\\\nuseState{}\\", () => [useInnerHook]);
+
+;
+
+(function () {
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(Component1, \\"Component1\\", __FILENAME__);
+  reactHotLoader.register(Component2, \\"Component2\\", __FILENAME__);
+  reactHotLoader.register(Component3, \\"Component3\\", __FILENAME__);
+  reactHotLoader.register(useInnerHook, \\"useInnerHook\\", __FILENAME__);
+  reactHotLoader.register(OnlyThisOneUsesExternalHook, \\"OnlyThisOneUsesExternalHook\\", __FILENAME__);
 })();
 
 ;
