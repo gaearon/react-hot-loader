@@ -211,6 +211,7 @@ export default function (babel) {
       key: fnHookCalls.map(call => call.name + '{' + call.key + '}').join('\n'),
       customHooks: fnHookCalls
         .filter(call => !isBuiltinHook(call.name))
+        .filter(call => scope.parent.hasBinding(call.name))
         .map(call => t.cloneDeep(call.callee)),
     };
   }
