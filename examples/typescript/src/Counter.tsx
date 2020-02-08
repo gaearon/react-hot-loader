@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { observer } from "mobx-react"
 
 class Counter extends React.Component<{}, { count: number }> {
   interval: number
@@ -28,8 +29,10 @@ class Counter extends React.Component<{}, { count: number }> {
   }
 
   render() {
-    return <span>{this.state.count} - {this.generateString1()} - {this.generateString2()}</span>
+    return <span>
+      ********** Modify this line **********
+      {this.state.count} - {this.generateString1()} - {this.generateString2()}</span>
   }
 }
 
-export default Counter
+export default observer(Counter)

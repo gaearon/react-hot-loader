@@ -25,6 +25,8 @@
   "dependencies": {
     "@hot-loader/react-dom": "^16.10.2",
     "core-js": "^3.2.1",
+    "mobx": "^5.15.4",
+    "mobx-react": "^6.1.7",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-hot-loader": "^4.12.13",
