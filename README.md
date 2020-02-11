@@ -184,7 +184,7 @@ Make sure to watch your bundle size when implementing react-hot-loader to ensure
 * (that's the goal) React-Hot-Loader would not update any object, including component `state`.
 * (1%) React-Hot-Loader could not reply some changes you may made in components `constructors`. As long as
   components would not be recreated - RHL have to _inject_ new data onto existing components, but there is no way to detect the actual change and the way reply it.
-  React-Hot-Loader knows what class method is, not how you created it. See #1001 for details.
+  React-Hot-Loader knows what class method is, not how you created it. See [#1001](https://github.com/gaearon/react-hot-loader/issues/1001) for details.
 
 ## Recipes
 
