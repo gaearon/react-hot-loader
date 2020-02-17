@@ -352,7 +352,7 @@ small code,li code,p code {
     text-align: right;
 }
 
-.highlight:after {
+div.highlight:after {
     position: absolute;
     top: 0;
     right: 0;
