@@ -30,6 +30,7 @@ module.exports = {
           loader: 'react-hot-loader/webpack',
           options: {
             noRegister: true,
+            cacheBreaker: 1,
           },
         },
       },
