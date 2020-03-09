@@ -1,4 +1,8 @@
 const injectionStart = {
+  '16.13': [
+    'isCompatibleFamilyForHotReloading(child, element)',
+    'hotCompareElements(child.elementType, element.type, hotUpdateChild(child), child.type)'
+  ],
   '16.10': [
     'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : child.elementType === element.type || ( // Keep this check inline so it only runs on the false path:\n        isCompatibleFamilyForHotReloading(child, element)))',
     'if (child.tag === Fragment ? element.type === REACT_FRAGMENT_TYPE : hotCompareElements(child.elementType, element.type, hotUpdateChild(child), child.type))'
@@ -26,7 +30,10 @@ const injectionStart = {
 };
 
 const additional = {
-
+  '16.13-update': [
+    'isCompatibleFamilyForHotReloading(current, element)',
+    'hotCompareElements(current.elementType, element.type, hotUpdateChild(current), current.type)'
+  ],
   '16.10-update': [
     'current$$1.elementType === element.type || ( // Keep this check inline so it only runs on the false path:\n    isCompatibleFamilyForHotReloading(current$$1, element)))',
     '(hotCompareElements(current$$1.elementType, element.type, hotUpdateChild(current$$1), current$$1.type)))'
@@ -63,7 +70,8 @@ const additional = {
   ]
 };
 
-const ReactHotLoaderInjection = `
+
+const reactHotLoaderCode = `
 var hotUpdateChild = function (child) {
   return function (newType) {
     child.type = newType;
@@ -80,54 +88,79 @@ var hotCompareElements = function (oldType, newType) {
 };
 var hotCleanupHooks = function () {
   if (typeof resetHooks !== 'undefined') {
-     resetHooks();
+    resetHooks();
   }
 }
-var ReactDOM = {
-  evalInReactContext: function (injection) {
-    return eval(injection);
-  },
-  hotCleanup: hotCleanupHooks,
-  hotRenderWithHooks: function (current, render) {       
-    hotCleanupHooks();
-    
-    if (typeof nextCurrentHook !== 'undefined' && typeof ReactCurrentDispatcher$1 !== 'undefined') {    
-      nextCurrentHook = current !== null ? current.memoizedState : null;
-      if(typeof firstCurrentHook !== 'undefined') {
-        firstCurrentHook = nextCurrentHook;
-      }
-      
-      ReactCurrentDispatcher$1.current = nextCurrentHook === null ? HooksDispatcherOnMountInDEV : HooksDispatcherOnUpdateInDEV;
+
+var evalInReactContext = function (injection) {
+  return eval(injection);
+};
+var hotCleanup = hotCleanupHooks;
+var hotRenderWithHooks = function (current, render) {
+  hotCleanupHooks();
+
+  if (typeof nextCurrentHook !== 'undefined' && typeof ReactCurrentDispatcher$1 !== 'undefined') {
+    nextCurrentHook = current !== null ? current.memoizedState : null;
+    if (typeof firstCurrentHook !== 'undefined') {
+      firstCurrentHook = nextCurrentHook;
     }
-    
-    var rendered = render();
-    
-    hotCleanupHooks();
-    
-    return rendered;
-  },
-  setHotElementComparator: function (newComparator) {
-    hotCompareElements = newComparator
-  },
-  setHotTypeResolver: function (newResolver) {
-    hotResolveType = newResolver;
-  },
+
+    ReactCurrentDispatcher$1.current = nextCurrentHook === null ? HooksDispatcherOnMountInDEV : HooksDispatcherOnUpdateInDEV;
+  }
+
+  var rendered = render();
+
+  hotCleanupHooks();
+
+  return rendered;
+}
+var setHotElementComparator = function (newComparator) {
+  hotCompareElements = newComparator
+};
+var setHotTypeResolver = function (newResolver) {
+  hotResolveType = newResolver;
+};
 `;
 
-const defaultEnd = ['var ReactDOM = {', ReactHotLoaderInjection];
+const CJS = `
+${reactHotLoaderCode};
 
-const defaultEndCompact = ['var ReactDOM={', ReactHotLoaderInjection];
+var ReactDOM = {
+  evalInReactContext: evalInReactContext,
+  hotCleanup: hotCleanup,
+  hotRenderWithHooks: hotRenderWithHooks,
+  setHotElementComparator: setHotElementComparator,
+  setHotTypeResolver: setHotTypeResolver,
+`;
+
+const commonJSEnd = ['var ReactDOM = {', CJS];
+const commonJSEndCompact = ['var ReactDOM={', CJS];
+
+const ESM = `
+${reactHotLoaderCode};
+
+exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = Internals;
+
+exports.evalInReactContext= evalInReactContext,
+exports.hotCleanup= hotCleanup,
+exports.hotRenderWithHooks= hotRenderWithHooks,
+exports.setHotElementComparator= setHotElementComparator,
+exports.setHotTypeResolver= setHotTypeResolver,
+`;
+
+const esmEnd = ['exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = Internals;', ESM];
 
 const injectionEnd = {
-  '16.10': defaultEnd,
-  '16.9': defaultEnd,
-  '16.6': defaultEnd,
-  '16.4': defaultEnd,
-  '16.6-compact': defaultEndCompact,
-  '16.4-compact': defaultEndCompact,
+  '16.13': esmEnd,
+  '16.10': commonJSEnd,
+  '16.9': commonJSEnd,
+  '16.6': commonJSEnd,
+  '16.4': commonJSEnd,
+  '16.6-compact': commonJSEndCompact,
+  '16.4-compact': commonJSEndCompact,
 };
 
-const sign = '/* 🔥 this is hot-loader/react-dom 4.8+ 🔥 */';
+const sign = '/* 🔥 this is hot-loader/react-dom 🔥 */';
 
 function additionalTransform(source) {
   for (const key in additional) {
