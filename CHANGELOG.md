@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.12.20](https://github.com/gaearon/react-hot-loader/compare/v4.12.19...v4.12.20) (2020-03-14)
+
+
+### Bug Fixes
+
+* patch support for react-dom 16.13 ([#1428](https://github.com/gaearon/react-hot-loader/issues/1428)) ([5475fe7](https://github.com/gaearon/react-hot-loader/commit/5475fe7))
+
 ### [4.12.19](https://github.com/gaearon/react-hot-loader/compare/v4.12.18...v4.12.19) (2020-01-22)
 
 
