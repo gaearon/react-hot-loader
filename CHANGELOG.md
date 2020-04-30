@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [4.12.21](https://github.com/gaearon/react-hot-loader/compare/v4.12.20...v4.12.21) (2020-04-30)
 
+### Bug Fixes
+
+* add peerDependenciesMeta in package.json (#1433)
+
+
 ### [4.12.20](https://github.com/gaearon/react-hot-loader/compare/v4.12.19...v4.12.20) (2020-03-14)
 
 
