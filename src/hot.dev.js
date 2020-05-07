@@ -10,7 +10,7 @@ import { isOpened as isModuleOpened, hotModule, getLastModuleOpened } from './gl
 import logger from './logger';
 import { clearExceptions, logException } from './errorReporter';
 import { createQueue } from './utils/runQueue';
-import { enterHotUpdate, getHotGeneration } from './global/generation';
+import { enterHotUpdate, getHotGeneration, increment } from './global/generation';
 
 /* eslint-disable camelcase, no-undef */
 const requireIndirect = typeof __webpack_require__ !== 'undefined' ? __webpack_require__ : require;
@@ -69,6 +69,8 @@ const makeHotExport = (sourceModule, moduleId) => {
                 logger.warn(
                   'React-Hot-Loader: some components were updated out-of-bound. Updating your app to reconcile the changes.',
                 );
+                // increment generator for cache-busting existing tree
+                increment();
                 deepUpdate();
               } else if (++runLimit < 5) {
                 checkTailUpdates();
