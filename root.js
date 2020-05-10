@@ -17,13 +17,21 @@ if (process.env.NODE_ENV !== 'production') {
         'Please use `import {hot} from "react-hot-loader"` instead'
       );
     }
+
     // remove self from a cache
     delete cache[module.id];
+
+    // setup hot for caller
+    exports.hot = hot(parent);
+  } else {
+    fallbackHot();
   }
-  // setup hot for caller
-  exports.hot = hot(parent);
 } else {
   // prod mode
+  fallbackHot();
+}
+
+function fallbackHot() {
   exports.hot = function (a) {
     return a;
   };
