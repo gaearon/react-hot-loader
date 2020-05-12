@@ -382,16 +382,17 @@ class MyComponent extends React.Component {
 
 But `webpack-loader` could help with TypeScript or _spreading_ "cold API" [to all node_modules](https://github.com/gaearon/react-hot-loader#disabling-a-type-change-for-all-node_modules).
 
-> It is safe to enable this loader for all the files. But place it after babel-loader, if babel-loader is present.
+> It is possible to enable this loader for all the files, but if you use `babel` plugin, you need to enable this loader for `react-dom` only. Place it after babel-loader, if babel-loader is present.
 
 ```js
 // webpack.config.js
 module.exports = {
   module: {
     rules: [
+      // would only land a "hot-patch" to react-dom
       {
-        test: /\.jsx?$/,
-        include: /node_modules/,
+        test: /\.js$/,
+        include: /node_modules\/react-dom/,
         use: ['react-hot-loader/webpack'],
       },
     ],
@@ -401,14 +402,13 @@ module.exports = {
 
 Webpack plugin will also land a "hot" patch to react-dom, making React-Hot-Loader more compliant to [the principles](https://github.com/gaearon/react-hot-loader/issues/1118).
 
-If you are using `babel-plugin` you might not need to apply `webpack-loader` to all the files, scoping it to `react-dom`
+If you are not using `babel` plugin you might need to apply `webpack-loader` to all the files.
 
 ```js
-// would only land a "hot-patch" to react-dom
 {
-    test: /\.js$/,
-    include: /node_modules\/react-dom/,
-    use: ['react-hot-loader/webpack']
+  test: /\.jsx?$/,
+  include: /node_modules/,
+  use: ['react-hot-loader/webpack']
 },
 ```
 
