@@ -160,7 +160,7 @@ To preserve *internal component state*, you now need to add `react-hot-loader` t
 1.  Install the package:
 
     ```sh
-    $ npm install --save-dev react-hot-loader@next
+    $ npm install --save-dev react-hot-loader
     ```
 1.  Add the package to your config:
 
