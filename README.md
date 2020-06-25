@@ -509,7 +509,7 @@ This is most reliable way to compare components, but it will not work with requi
 
 Another way - compare Component name.
 
-> Not all components has a name. **In production displayName could not exists.**
+> Not all components have a name. **In production displayName could not exists.**
 
 ```js
 const element = <Component />;
