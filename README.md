@@ -24,7 +24,7 @@ React-Hot-Loader has been your friendly neighbour, living outside of React. But 
 
 * `React Native` - [supports Fast Refresh](https://facebook.github.io/react-native/docs/fast-refresh) since 0.61.
 * `parcel 2` - [supports Fast Refresh](https://github.com/facebook/react/issues/16604#issuecomment-556082893) since alpha 3.
-* `webpack` - no support yet, use React-Hot-Loader
+* `webpack` - [supports Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin/) using a plugin.
 * `other bundler` - no support yet, use React-Hot-Loader
 
 ## Install
