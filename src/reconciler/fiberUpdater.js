@@ -59,8 +59,8 @@ const patchLazyConstructor = target => {
           };
         }
         return {
-          // eslint-disable-next-line prefer-arrow-callback
           default: patched(
+            // eslint-disable-next-line prefer-arrow-callback
             React.forwardRef(function HotLoaderLazyWrapper(props, ref) {
               return (
                 <AppContainer>
