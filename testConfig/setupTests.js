@@ -7,9 +7,11 @@ function getAdapter() {
     return require('enzyme-adapter-react-15');
   } else if (React.version.startsWith('16')) {
     return require('enzyme-adapter-react-16');
+  } else if (React.version.startsWith('17')) {
+    return require('@wojtekmaj/enzyme-adapter-react-17');
   }
 
-  return null;
+  throw new Error('this version of React is not supported by Enzyme');
 }
 
 const Adapter = getAdapter();
