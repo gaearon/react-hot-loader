@@ -271,7 +271,7 @@ describe(`🔥-dom`, () => {
 
     it('support lazy memo forward', () => {
       setConfig({
-        trackTailUpdates: false,
+        wrapLazy: false,
       });
 
       const spy = jest.fn();

@@ -36,6 +36,11 @@ const setLazyConstructor = (target, replacement) => {
   }
 };
 
+const patched = fn => {
+  fn.isPatchedByReactHotLoader = true;
+  return fn;
+};
+
 const patchLazyConstructor = target => {
   if (!configuration.wrapLazy && !getLazyConstructor(target).isPatchedByReactHotLoader) {
     const ctor = getLazyConstructor(target);
@@ -46,22 +51,24 @@ const patchLazyConstructor = target => {
         enterHotUpdate();
         if (!React.forwardRef) {
           return {
-            default: props => (
+            default: patched(props => (
               <AppContainer>
                 <C {...props} />
               </AppContainer>
-            ),
+            )),
           };
         }
         return {
           // eslint-disable-next-line prefer-arrow-callback
-          default: React.forwardRef(function HotLoaderLazyWrapper(props, ref) {
-            return (
-              <AppContainer>
-                <C {...props} ref={ref} />
-              </AppContainer>
-            );
-          }),
+          default: patched(
+            React.forwardRef(function HotLoaderLazyWrapper(props, ref) {
+              return (
+                <AppContainer>
+                  <C {...props} ref={ref} />
+                </AppContainer>
+              );
+            }),
+          ),
         };
       }),
     );

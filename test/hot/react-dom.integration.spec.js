@@ -432,7 +432,7 @@ describe(`🔥-dom`, () => {
 
     it('support lazy memo forward in Provider', () => {
       setConfig({
-        trackTailUpdates: false,
+        wrapLazy: false,
       });
 
       const spy = jest.fn();
