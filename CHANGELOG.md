@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.13.0](https://github.com/gaearon/react-hot-loader/compare/v4.12.20...v4.13.0) (2020-09-22)
+
+
+### Bug Fixes
+
+* tailUpdate might be blocked by a PureComponent ([#1448](https://github.com/gaearon/react-hot-loader/issues/1448)) ([e44103a](https://github.com/gaearon/react-hot-loader/commit/e44103a))
+* when module.hot is not truthy ([#1451](https://github.com/gaearon/react-hot-loader/issues/1451)) ([ec3447f](https://github.com/gaearon/react-hot-loader/commit/ec3447f))
+
+
+### Features
+
+* support React 17 ([#1557](https://github.com/gaearon/react-hot-loader/issues/1557)) ([c05396b](https://github.com/gaearon/react-hot-loader/commit/c05396b)), closes [#1425](https://github.com/gaearon/react-hot-loader/issues/1425)
+
 ### [4.12.21](https://github.com/gaearon/react-hot-loader/compare/v4.12.20...v4.12.21) (2020-04-30)
 
 ### Bug Fixes
