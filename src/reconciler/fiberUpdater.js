@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import configuration from '../configuration';
 import { enterHotUpdate } from '../global/generation';
@@ -6,10 +7,36 @@ import { resolveType } from './resolver';
 
 const lazyConstructor = '_ctor';
 
+const getLazyConstructor = target => {
+  // React 16
+  if (target[lazyConstructor]) {
+    return target[lazyConstructor];
+  }
+
+  // React 17
+  if (target._payload) {
+    return target._payload._result;
+  }
+  return null;
+};
+
+const setLazyConstructor = (target, replacement) => {
+  replacement.isPatchedByReactHotLoader = true;
+
+  // React 16
+  if (target[lazyConstructor]) {
+    target[lazyConstructor] = replacement;
+  }
+  // React 17
+  if (target._payload) {
+    target._payload._result = replacement;
+  }
+};
+
 const patchLazyConstructor = target => {
-  if (!configuration.trackTailUpdates && !target[lazyConstructor].isPatchedByReactHotLoader) {
-    const ctor = target[lazyConstructor];
-    target[lazyConstructor] = () =>
+  if (!configuration.trackTailUpdates && !getLazyConstructor(target).isPatchedByReactHotLoader) {
+    const ctor = getLazyConstructor(target);
+    setLazyConstructor(target, () =>
       ctor().then(m => {
         const C = resolveType(m.default);
         // chunks has been updated - new hot loader process is taking a place
@@ -30,14 +57,14 @@ const patchLazyConstructor = target => {
             </AppContainer>
           )),
         };
-      });
-    target[lazyConstructor].isPatchedByReactHotLoader = true;
+      }),
+    );
   }
 };
 
 export const updateLazy = (target, type) => {
-  const ctor = type[lazyConstructor];
-  if (target[lazyConstructor] !== type[lazyConstructor]) {
+  const ctor = getLazyConstructor(type);
+  if (getLazyConstructor(target) !== ctor) {
     // just execute `import` and RHL.register will do the job
     ctor();
   }
