@@ -42,7 +42,7 @@ const patched = fn => {
 };
 
 const patchLazyConstructor = target => {
-  if (!configuration.wrapLazy && !getLazyConstructor(target).isPatchedByReactHotLoader) {
+  if (configuration.wrapLazy && !getLazyConstructor(target).isPatchedByReactHotLoader) {
     const ctor = getLazyConstructor(target);
     setLazyConstructor(target, () =>
       ctor().then(m => {
