@@ -59,6 +59,20 @@ const additional = {
     'if (current!== null&&hotCompareElements(current.type,element.type,hotUpdateChild(current)))',
   ],
 
+  '17.0.0-rc1': [
+    'function createFiberFromTypeAndProps(type, // React$ElementType\n' +
+    'key, pendingProps, owner, mode, lanes) {',
+    'function createFiberFromTypeAndProps(type, // React$ElementType\n' +
+    'key, pendingProps, owner, mode, lanes) {type = hotResolveType(type);',
+  ],
+
+  '17.0.0-rc1-compact': [
+    'function createFiberFromTypeAndProps(type,// React$ElementType\n' +
+    'key,pendingProps,owner,mode,lanes){',
+    'function createFiberFromTypeAndProps(type,// React$ElementType\n' +
+    'key,pendingProps,owner,mode,lanes){type = hotResolveType(type);',
+  ],
+
   '16.8-type': [
     'function createFiberFromTypeAndProps(type, // React$ElementType\nkey, pendingProps, owner, mode, expirationTime) {',
     'function createFiberFromTypeAndProps(type, // React$ElementType\nkey, pendingProps, owner, mode, expirationTime) {type = hotResolveType(type);',

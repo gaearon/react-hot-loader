@@ -177,4 +177,6 @@ const hot = sourceModule => {
   };
 };
 
+reactHotLoader.register(AppContainer, 'AppContainer', 'hot-dev');
+
 export default hot;
