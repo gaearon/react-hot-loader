@@ -28,13 +28,16 @@ const setLazyConstructor = (target, replacement) => {
     target[lazyConstructor] = replacement;
   }
   // React 17
-  if (target._payload) {
+  else if (target._payload) {
+    target._payload._hotUpdated = true;
     target._payload._result = replacement;
+  } else {
+    console.error('could not update lazy component');
   }
 };
 
 const patchLazyConstructor = target => {
-  if (!configuration.trackTailUpdates && !getLazyConstructor(target).isPatchedByReactHotLoader) {
+  if (!configuration.wrapLazy && !getLazyConstructor(target).isPatchedByReactHotLoader) {
     const ctor = getLazyConstructor(target);
     setLazyConstructor(target, () =>
       ctor().then(m => {
@@ -51,11 +54,14 @@ const patchLazyConstructor = target => {
           };
         }
         return {
-          default: React.forwardRef((props, ref) => (
-            <AppContainer>
-              <C {...props} ref={ref} />
-            </AppContainer>
-          )),
+          // eslint-disable-next-line prefer-arrow-callback
+          default: React.forwardRef(function HotLoaderLazyWrapper(props, ref) {
+            return (
+              <AppContainer>
+                <C {...props} ref={ref} />
+              </AppContainer>
+            );
+          }),
         };
       }),
     );

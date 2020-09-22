@@ -58,6 +58,9 @@ const configuration = {
   // Actively track lazy loaded components
   trackTailUpdates: true,
 
+  // wrap lazy with AppProvider to allow independent updates
+  wrapLazy: true,
+
   // react hot dom features enabled
   IS_REACT_MERGE_ENABLED: false,
 };
