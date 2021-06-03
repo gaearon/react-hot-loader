@@ -19,7 +19,7 @@
     "@types/react-dom": "^16.9.0",
     "babel-loader": "^8.0.6",
     "core-js": "^3.2.1",
-    "electron": "^6.0.8",
+    "electron": "^9.4.0",
     "fork-ts-checker-webpack-plugin": "^1.5.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
