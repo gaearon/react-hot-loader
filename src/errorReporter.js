@@ -28,7 +28,7 @@ const overlayStyle = {
   padding: '16px',
   maxHeight: '50%',
   overflow: 'auto',
-  zIndex: 10000
+  zIndex: 10000,
 };
 
 const inlineErrorStyle = {
