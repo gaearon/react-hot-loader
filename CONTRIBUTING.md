@@ -21,7 +21,8 @@ Here is a quick guide to doing code contributions to the library.
 
 4.  Make your changes and commit: `git add` and `git commit`
 
-5.  Make sure that the tests still pass: `yarn test:es2015 --watch` and `yarn test:modern --watch`
+5.  Make sure that the tests still pass: run `yarn build`, `yarn test:react-dom:prepare`, then `yarn test:es2015 --watch` and `yarn test:modern --watch`
+    a. Alternatively, run the ci scripts: [/scripts/ci.sh](/scripts/ci.sh)
 
 6.  Push your branch: `git push -u origin your-branch-name`
 
