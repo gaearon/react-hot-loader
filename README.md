@@ -644,7 +644,7 @@ To make RHL more reliable and safe, please place `hot` _below_ (ie somewhere in 
 
 You may(but it's not required) place `hot` to the every route/page/feature/lazy chunk, thus make updates more scoped.
 
-You don't need to wrap every component with `hot`, application work work fine with a single one.
+You don't need to wrap every component with `hot`, application works fine with a single one.
 
 ### (old)`hot(module, options)(Component, options)`
 
