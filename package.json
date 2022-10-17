@@ -100,9 +100,9 @@
     "yarn-deduplicate": "^1.1.1"
   },
   "peerDependencies": {
-    "@types/react": "^15.0.0 || ^16.0.0 || ^17.0.0 ",
-    "react": "^15.0.0 || ^16.0.0 || ^17.0.0 ",
-    "react-dom": "^15.0.0 || ^16.0.0 || ^17.0.0 "
+    "@types/react": "^15.0.0 || ^16.0.0 || ^17.0.0",
+    "react": "^15.0.0 || ^16.0.0 || ^17.0.0",
+    "react-dom": "^15.0.0 || ^16.0.0 || ^17.0.0"
   },
   "peerDependenciesMeta": {
     "@types/react": {
