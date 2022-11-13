@@ -1,3 +1,19 @@
+# ⚠️ So Long, and Thanks for All the Fish ⚠️ 
+
+
+
+React-Hot-Loader was our dear friend for quite a while, but everything should have the end.
+
+It's time to migrate to [Fast Refresh](https://www.npmjs.com/package/react-refresh). 
+See [#1453](https://github.com/gaearon/react-hot-loader/issues/1453) in order to find a guide for your platform.
+
+
+
+🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+
+
+
 # React Hot Loader
 
 [![Build Status][build-badge]][build] [![version][version-badge]][package]
