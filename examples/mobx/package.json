@@ -21,7 +21,7 @@
     "mobx": "^5.0.3",
     "mobx-react": "^5.2.3",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react-dom": "^16.2.1",
     "react-hot-loader": "next"
   }
 }
